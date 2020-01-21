@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/topMenu/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/menu/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/menu/style.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/img/bg.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/img/bg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/login/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/login/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/admin/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/admin/index.jsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,7 +30,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/server" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components/topMenu" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -37,15 +40,16 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\data-wwy\src\components" />
       <recent name="E:\data-wwy\src\assets\img" />
       <recent name="E:\data-wwy\src" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\data-wwy\src\components\topMenu" />
+      <recent name="E:\data-wwy\src\menu" />
       <recent name="E:\data-wwy\src\server" />
       <recent name="E:\data-wwy\src\assets\img" />
       <recent name="E:\data-wwy\src\login" />
-      <recent name="E:\data-wwy\src\admin" />
-      <recent name="E:\data-wwy\src\check" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -88,7 +92,7 @@
       <workItem from="1574653243278" duration="9300000" />
       <workItem from="1579507539269" duration="89000" />
       <workItem from="1579568172625" duration="1578000" />
-      <workItem from="1579569861456" duration="24091000" />
+      <workItem from="1579569861456" duration="25788000" />
     </task>
     <task id="LOCAL-00001" summary="-feat:登录页">
       <created>1579596786288</created>
@@ -104,7 +108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579596822918</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="-feat:server 配置(not yet)">
+      <created>1579598260523</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1579598260524</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
