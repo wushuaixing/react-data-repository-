@@ -1,29 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="-feat:登录页">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config-env.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/admin/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/bg.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/logo_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/check/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/login/form.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/login/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/login/style.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/api.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logo.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/img/bg.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/img/bg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/login/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/login/style.scss" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,8 +37,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\data-wwy\src" />
       <recent name="E:\data-wwy\src\assets\img" />
+      <recent name="E:\data-wwy\src" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\data-wwy\src\server" />
@@ -107,8 +88,23 @@
       <workItem from="1574653243278" duration="9300000" />
       <workItem from="1579507539269" duration="89000" />
       <workItem from="1579568172625" duration="1578000" />
-      <workItem from="1579569861456" duration="22825000" />
+      <workItem from="1579569861456" duration="24091000" />
     </task>
+    <task id="LOCAL-00001" summary="-feat:登录页">
+      <created>1579596786288</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1579596786288</updated>
+    </task>
+    <task id="LOCAL-00002" summary="-feat:server 配置(not yet)">
+      <created>1579596822918</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1579596822918</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -129,7 +125,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="-feat:登录页" />
-    <option name="LAST_COMMIT_MESSAGE" value="-feat:登录页" />
+    <MESSAGE value="-feat:server 配置(not yet)" />
+    <option name="LAST_COMMIT_MESSAGE" value="-feat:server 配置(not yet)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
