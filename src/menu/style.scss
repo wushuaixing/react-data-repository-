@@ -1,0 +1,19 @@
+.whole-menu{
+  width: 180px;
+  height: 800px;
+  background-color: #293038;
+  .main-menu{
+    color: #ffffff;
+    font-size:14px;
+    background-color: #37424F;
+    .sec-menu{
+      color: #ffffff;
+      font-size: 12px;
+      background-color: #293038;
+      :hover{
+        background-color: #0099CC;
+      }
+    }
+  }
+}
+
