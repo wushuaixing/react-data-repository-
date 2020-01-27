@@ -1,10 +1,12 @@
 /** Login * */
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import box from '../assets/img/box.png';
-import logo from '../assets/img/logo.png';
-import miniLogo from '../assets/img/logo_blue.png';
-import {login} from '../server/api';
+import { Link } from "react-router-dom";
+import box from '../../assets/img/box.png';
+import logo from '../../assets/img/logo.png';
+import { navigate } from '@reach/router';
+import miniLogo from '../../assets/img/logo_blue.png';
+import { login } from '../../server/api';
 import 'antd/dist/antd.css';
 import './style.scss';
 /*import Header from './header';
@@ -55,12 +57,16 @@ class Login extends React.Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				console.log('Received values of form: ', values);
+				// navigate('/adminList');
+				`<Link to="/adminList"/>`;
 			}
-			login(values).then(res => {
+
+		/*	login(values).then(res => {
 				if(res.data.code === 200){
-					console.log('success')
+					// console.log('success');
 				}
-			});
+			});*/
+
 		});
 	};
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Menu, Icon } from 'antd';
-import account from '../assets/img/account.png';
-import check from '../assets/img/check.png';
-import box from "../assets/img/box.png";
+import account from '../../assets/img/account.png';
+import check from '../../assets/img/check.png';
+import box from "../../assets/img/box.png";
 import 'antd/dist/antd.css';
 import './style.scss';
 
@@ -34,7 +34,6 @@ const myMenu=[
   { path:"/7",title:"破产重组结构化",icon:"issues-close", index:'13', },
 
   ];
-
 
 //从接口得到menu的数组
 const createMenuTemp = () =>{
