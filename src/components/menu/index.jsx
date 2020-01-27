@@ -118,13 +118,6 @@ class Sider extends React.Component {
     return menu;
   };
 
-  toggleCollapsed = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
-
-
   render() {
     const { menuList } = this.state;
     return (
