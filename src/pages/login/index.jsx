@@ -52,21 +52,43 @@ class Login extends React.Component {
 		});
 	}*/
 
+
+	handleValidator = (rule, val, callback) => {
+		// console.log('111',rule);
+/*		if (!val) {
+			callback();
+		}*/
+		if(rule.field === "username"){
+			if(!val){
+				callback('账号不能为空');
+			}
+			else if(!val.match(/[0-9]{11}/)){
+				callback('账号长度为11位数字');
+			}
+		}
+		if(rule.field === "password"){
+			if(!val){
+				callback('密码不能为空');
+			}
+			else if(val.length>20 || val.length<6){
+				callback('密码长度为6-20位');
+			}
+		}
+	};
+
 	handleSubmit = e =>{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
+			// console.log(err);
 			if (!err) {
-				console.log('Received values of form: ', values);
 				// navigate('/adminList');
-				`<Link to="/adminList"/>`;
-			}
-
-		/*	login(values).then(res => {
-				if(res.data.code === 200){
+				// `<Link to="/adminList"/>`;
+				login(values).then(res => {
+				  if(res.data.code === 200){
 					// console.log('success');
 				}
-			});*/
-
+			});
+			}
 		});
 	};
 
@@ -93,7 +115,11 @@ class Login extends React.Component {
 						<Form onSubmit={this.handleSubmit} className="login-form">
 							<Form.Item>
 								{getFieldDecorator('username', {
-									rules: [{ required: true, message: 'Please input your username!' }],
+									rules:[
+										// { require: true, message: "请输入账号", },
+										{ validator: this.handleValidator }
+										   ],
+									validateTrigger:'onBlur',
 								})(
 									<Input
 										className="yc-input"
@@ -104,7 +130,11 @@ class Login extends React.Component {
 							</Form.Item>
 							<Form.Item>
 								{getFieldDecorator('password', {
-									rules: [{ required: true, message: 'Please input your Password!' }],
+									rules:[
+										// { required: true, message: '请输入密码', },
+										{ validator: this.handleValidator }
+										],
+									validateTrigger:'onBlur',
 								})(
 									<Input
 										className="yc-input"
