@@ -1,5 +1,5 @@
 import axios from 'axios';
-const apiUrl="http://172.18.255.251:8260";
+const apiUrl="http://data.java.yczcjk.com";
 axios.processData = false;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
