@@ -16,14 +16,34 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			type: 1,
-			phoneNum: '',
-			btnColor: '#1C80E1',
-			imgUrl: undefined,
-			imgLoading: false,
+			display_login:'',
+			display_find:'none',
+			findPsw: false,
 		};
 	}
+	componentDidMount() {
 
+	}
+	//切换登录和找回密码
+	ifFindPsw=()=>{
+		const {findPsw}=this.state;
+		if(!findPsw){
+			this.setState({
+				display_login: 'none',
+				display_find: '',
+				findPsw: true,
+			})
+		}
+		else{
+			this.setState({
+				display_login:'',
+				display_find:'none',
+				findPsw: false,
+			})
+		}
+	};
+
+//验证账号密码-输入框格式
 	handleValidator = (rule, val, callback) => {
 		if(rule.field === "username"){
 			if(!val){
@@ -67,7 +87,6 @@ class Login extends React.Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { errMes } = this.state;
 		return (
 		<div className="yc-login">
 			<div style={{ opacity: 0, height: 0, display: 'none' }}>
@@ -84,9 +103,9 @@ class Login extends React.Component {
 					<div className="yc-left">
 						<img src={box} width="650" height="600" alt="" />
 					</div>
-					<div className="yc-right">
+					<div className="yc-right-login" style={{ display: this.state.display_login }}>
 						<p className="yc-form-title">用户登录</p>
-						<Form onSubmit={this.handleCorrect} className="login-form">
+						<Form onSubmit={this.handleCorrect} className="login-form" >
 							<Form.Item>
 								{getFieldDecorator('username', {
 									rules:[
@@ -123,11 +142,105 @@ class Login extends React.Component {
 									valuePropName: 'checked',
 									initialValue: true,
 								})(<Checkbox className="yc-forget" style={{marginLeft:6, fontSize:12}}>下次自动登录</Checkbox>)}
-								<a className="yc-forget" href="" style={{marginLeft:145}}>
+								<a className="yc-forget" href="#" onClick={this.ifFindPsw} style={{marginLeft:145}}>
 									忘记密码
 								</a>
 								<Button type="primary" htmlType="submit" className="yc-login-button">
-									{/*<Link to='/adminList' >登录</Link>*/}登录
+									登录
+								</Button>
+							</Form.Item>
+						</Form>
+					</div>
+					<div className="yc-right-login" style={{ display: this.state.display_find, height:500, marginTop: -10 }}>
+						<p className="yc-form-title">找回密码</p>
+						<Form onSubmit={this.handleCorrect} className="login-form" style={{ marginTop: -10 }} >
+							<Form.Item>
+								{getFieldDecorator('username', {
+									rules:[
+										// { require: true, message: "请输入账号", },
+										{ validator: this.handleValidator }
+									],
+									validateTrigger:'onBlur',
+								})(
+									<Input
+										className="yc-input"
+										prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+										placeholder="请输入手机号"
+									/>,
+								)}
+							</Form.Item>
+							<Form.Item>
+								{getFieldDecorator('password', {
+									rules:[
+										// { required: true, message: '请输入密码', },
+										{ validator: this.handleValidator }
+									],
+									validateTrigger:'onBlur',
+								})(
+									<Input
+										className="yc-input"
+										prefix={<Icon type="code" style={{ color: 'rgba(0,0,0,.25)' }} />}
+										type="password"
+										placeholder="请输入验证码"
+									/>,
+									<Button type="primary" class="yc-get-code" onClick={this.getMobileCode} style={{marginTop:-10}}>获取验证码
+									</Button>
+								)}
+							</Form.Item>
+							<Form.Item>
+								{getFieldDecorator('password', {
+									rules:[
+										// { required: true, message: '请输入密码', },
+										{ validator: this.handleValidator }
+									],
+									validateTrigger:'onBlur',
+								})(
+									<Input
+										className="yc-input"
+										prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+										type="password"
+										placeholder="请输入手机验证码"
+									/>,
+								)}
+							</Form.Item>
+							<Form.Item>
+								{getFieldDecorator('password', {
+									rules:[
+										// { required: true, message: '请输入密码', },
+										{ validator: this.handleValidator }
+									],
+									validateTrigger:'onBlur',
+								})(
+									<Input
+										className="yc-input"
+										prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+										type="password"
+										placeholder="请输入新密码"
+									/>,
+								)}
+							</Form.Item>
+							<Form.Item>
+								{getFieldDecorator('password', {
+									rules:[
+										// { required: true, message: '请输入密码', },
+										{ validator: this.handleValidator }
+									],
+									validateTrigger:'onBlur',
+								})(
+									<Input
+										className="yc-input"
+										prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+										type="password"
+										placeholder="请输入新密码验证"
+									/>,
+								)}
+							</Form.Item>
+							<Form.Item style={{marginTop:-25}}>
+								<a className="yc-forget" href="#" onClick={this.ifFindPsw} style={{marginLeft:270}}>
+									返回登录
+								</a>
+								<Button type="primary" htmlType="submit" className="yc-login-button" style={{marginTop:-20}}>
+									提交
 								</Button>
 							</Form.Item>
 						</Form>
