@@ -123,15 +123,19 @@ const data = [
     role: '结构化',
   },
 ];
-
+let storage = window.localStorage;
 class  AdminList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  componentWillMount() {
+    console.log(storage);
+  }
+
   callback = key =>{
-    console.log(key);
+    // console.log(key);
   };
 //  账号管理-结构化账号列表接口  /api/asset/admin/userView  get
 //  账号管理-检查账号列表接口   /api/asset/admin/check/getCheckList  get

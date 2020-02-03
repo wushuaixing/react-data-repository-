@@ -1,30 +1,17 @@
 /** Login * */
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import { Link } from "react-router-dom";
 import box from '../../assets/img/box.png';
 import logo from '../../assets/img/logo.png';
-import { navigate } from '@reach/router';
 import miniLogo from '../../assets/img/logo_blue.png';
 import { login } from '../../server/api';
 import 'antd/dist/antd.css';
 import './style.scss';
-/*import Header from './header';
-import Footer from './footer';
-import Register from './register';
-import VerifyAccount from './forgetPassword/verifyAccount';
-import WriteCode from './forgetPassword/writeCode';
-import ChangePassword from './forgetPassword/changePassword';
-/!*import {
-	bankConf, // 个性配置
-} from '@/utils/api/user';*!/
-// import rsaEncrypt from '@/utils/encryp';
-// import { Button } from '@/components';*/
-
 // ==================
 // 所需的所有组件
 // ==================
 const loginForm = Form.create;
+let storage = window.localStorage;
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
@@ -36,28 +23,8 @@ class Login extends React.Component {
 			imgLoading: false,
 		};
 	}
-/*
-	componentDidMount() {
-		bankConf().then((_res) => {
-			if (_res.code === 200) {
-				this.setState({
-					btnColor: _res.data.btnColor,
-					imgUrl: _res.data.url,
-				});
-			} else {
-				this.setState({
-					imgLoading: true,
-				});
-			}
-		});
-	}*/
-
 
 	handleValidator = (rule, val, callback) => {
-		// console.log('111',rule);
-/*		if (!val) {
-			callback();
-		}*/
 		if(rule.field === "username"){
 			if(!val){
 				callback('账号不能为空');
@@ -76,24 +43,31 @@ class Login extends React.Component {
 		}
 	};
 
-	handleSubmit = e =>{
+	static async handleSubmit(info){
+		const res= await login(info);
+		if (res.data.code === 200) {
+			storage.setItem("userState", res.data.data.ROLE);
+			storage.setItem("userName", res.data.data.NAME);
+		} else {
+			console.log('wrong');
+		}
+	}
+
+	handleCorrect = e => {
 		e.preventDefault();
-		this.props.form.validateFields((err, values) => {
-			// console.log(err);
-			if (!err) {
-				// navigate('/adminList');
-				// `<Link to="/adminList"/>`;
-				login(values).then(res => {
-				  if(res.data.code === 200){
-					// console.log('success');
-				}
-			});
-			}
-		});
+		const values={
+			username: this.props.form.getFieldValue('username'),
+			password: this.props.form.getFieldValue('password'),
+			rememberMe: true,
+		};
+		Login.handleSubmit(values);
+		// console.log(this.props.history);
+		this.props.history.push('/adminList');
 	};
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
+		const { errMes } = this.state;
 		return (
 		<div className="yc-login">
 			<div style={{ opacity: 0, height: 0, display: 'none' }}>
@@ -112,12 +86,12 @@ class Login extends React.Component {
 					</div>
 					<div className="yc-right">
 						<p className="yc-form-title">用户登录</p>
-						<Form onSubmit={this.handleSubmit} className="login-form">
+						<Form onSubmit={this.handleCorrect} className="login-form">
 							<Form.Item>
 								{getFieldDecorator('username', {
 									rules:[
 										// { require: true, message: "请输入账号", },
-										{ validator: this.handleValidator }
+													{ validator: this.handleValidator }
 										   ],
 									validateTrigger:'onBlur',
 								})(
@@ -153,7 +127,7 @@ class Login extends React.Component {
 									忘记密码
 								</a>
 								<Button type="primary" htmlType="submit" className="yc-login-button">
-									登录
+									{/*<Link to='/adminList' >登录</Link>*/}登录
 								</Button>
 							</Form.Item>
 						</Form>

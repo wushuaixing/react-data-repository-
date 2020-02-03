@@ -14,6 +14,7 @@ class App extends React.Component {
 		return(
 			<Router  history={this.browserHistory} >
 				<div>
+					{/*<IndexRoute component={Login} />*/}
 					<Route exact path="/" component={Login} />
 					<Route path="/adminList" component={AdminList} />
 					<Route path="/check" component={CheckList} />
