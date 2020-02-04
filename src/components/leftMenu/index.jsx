@@ -1,11 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Menu, Icon } from 'antd';
-import account from '../../assets/img/account.png';
-import check from '../../assets/img/check.png';
-import box from "../../assets/img/box.png";
 import 'antd/dist/antd.css';
 import './style.scss';
+import {getAvailableNav} from "../../server/api";
 
 const { SubMenu } = Menu;
 
@@ -48,6 +45,16 @@ class Sider extends React.Component {
       openKeys: ['sub1'],
       menuList: myMenu,
     };
+  }
+
+  componentWillMount() {
+    getAvailableNav().then(res=>{
+        if(res.data.code === 200){
+            console.log(res.data.data);
+        }
+    }).catch(()=>{
+        // 异常处理
+    })
   }
 
   createMenu =  (menuData) =>{  //创建菜单
@@ -120,6 +127,7 @@ class Sider extends React.Component {
 
   render() {
     const { menuList } = this.state;
+    const {role} =this.props;
     return (
       <div>
         <Menu
