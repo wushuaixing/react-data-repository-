@@ -1,10 +1,10 @@
 /** Login * */
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Tooltip } from 'antd';
 import box from '../../assets/img/box.png';
 import logo from '../../assets/img/logo.png';
 import miniLogo from '../../assets/img/logo_blue.png';
-import { login } from '../../server/api';
+import { login, codeImage, validateImgCode, resetPassword } from '../../server/api';
 import 'antd/dist/antd.css';
 import './style.scss';
 // ==================
@@ -18,12 +18,21 @@ class Login extends React.Component {
 		this.state = {
 			display_login:'',
 			display_find:'none',
+			display_button:'',
+			display_disabled:'none',
 			findPsw: false,
+			imgSrc:'',
+			wait: 60,
 		};
 	}
-	componentDidMount() {
+
+	componentWillMount() {
+
+		//获取图形验证码
+		this.toRefreshImg();
 
 	}
+
 	//切换登录和找回密码
 	ifFindPsw=()=>{
 		const {findPsw}=this.state;
@@ -43,7 +52,7 @@ class Login extends React.Component {
 		}
 	};
 
-//验证账号密码-输入框格式
+	//验证账号密码-输入框格式
 	handleValidator = (rule, val, callback) => {
 		if(rule.field === "username"){
 			if(!val){
@@ -61,8 +70,18 @@ class Login extends React.Component {
 				callback('密码长度为6-20位');
 			}
 		}
+		//找回密码的格式验证
+		if(rule.field === "psw"){
+			if(!val){
+				callback('密码不能为空');
+			}
+			else if(val.length>20 || val.length<6){
+				callback('密码长度为6-20位');
+			}
+		}
 	};
 
+	//接口异步 验证账号密码
 	static async handleSubmit(info){
 		const res= await login(info);
 		if (res.data.code === 200) {
@@ -71,8 +90,9 @@ class Login extends React.Component {
 		} else {
 			console.log('wrong');
 		}
-	}
+	};
 
+  //提交账号密码
 	handleCorrect = e => {
 		e.preventDefault();
 		const values={
@@ -85,8 +105,102 @@ class Login extends React.Component {
 		this.props.history.push('/adminList');
 	};
 
+	//点击刷新图形验证码
+	toRefreshImg = () => {
+		codeImage().then(res => {
+			if (res.data.code === 200) {
+				this.setState({
+					imgSrc: res.data.data
+				});
+			} else {
+				// this.$Message.error(res.data.message);
+			}
+		});
+	};
+
+	//点击按钮验证图形验证码，若成功则获取手机验证码
+	validateImgAndSendMobileCode = () =>{
+		let params={
+			imageCode: this.props.form.getFieldValue('imgCode'),
+			username: this.props.form.getFieldValue('phone'),
+		};
+		if(params.username && params.imageCode){
+			validateImgCode(params).then(res => {
+				if (res.data.code === 200) {
+					// this.$Message.info("验证码发送成功，请查收短信");
+					this.setState({
+						display_button:'none',
+						display_disabled:'',
+					});
+					setTimeout(this.newSend,1000);
+				} else {
+					if(res.data.message==="非法请求,请获取图形验证码"){
+						res.data.message="请点击刷新图形验证码";
+						// this.$Message.error(res.data.message);
+						this.setState({
+							display_button:'',
+							display_disabled:'none',
+						});
+						// clearTimeout(7);
+					}
+					// this.$Message.error(res.data.message);
+				}
+			});
+		}
+
+	};
+
+	//60秒后重新获取验证码
+	newSend = () => {
+		if(this.state.wait === 0) {
+			this.setState({
+				wait: 60,
+				display_button:'',
+				display_disabled:'none',
+			});
+		}
+		else{
+			this.state.wait--;
+			this.setState({
+				wait: this.state.wait,
+				display_button:'none',
+				display_disabled:'',
+			});
+			setTimeout(this.newSend,1000);
+		}
+	};
+
+	//提交 找回密码
+	toSubmitFindPsw=()=>{
+		let findPsw={
+			imageCode: this.props.form.getFieldValue('imgCode'),
+			username: this.props.form.getFieldValue('phone'),
+			smsCode: this.props.form.getFieldValue('mobileCode'),
+			password: this.props.form.getFieldValue('psw'),
+			confirmPassword: this.props.form.getFieldValue('pswConfirm'),
+		};
+		resetPassword(findPsw).then(res => {
+			// this.loading = false;
+			if (res.data.code === 200) {
+				// this.$Message.info("修改成功");
+				// this.loading = false;
+				// this.forgetPsw = false;
+				findPsw=Object.assign({},{
+					username: "",
+					imageCode: "",
+					smsCode: "",
+					password: "",
+					confirmPassword: ""
+				});
+			} else {
+				// this.$Message.error(res.data.message);
+			}
+		});
+	};
+
 	render() {
 		const { getFieldDecorator } = this.props.form;
+		const { imgSrc, wait } = this.state;
 		return (
 		<div className="yc-login">
 			<div style={{ opacity: 0, height: 0, display: 'none' }}>
@@ -153,15 +267,9 @@ class Login extends React.Component {
 					</div>
 					<div className="yc-right-login" style={{ display: this.state.display_find, height:500, marginTop: -10 }}>
 						<p className="yc-form-title">找回密码</p>
-						<Form onSubmit={this.handleCorrect} className="login-form" style={{ marginTop: -10 }} >
+						<Form onSubmit={this.toSubmitFindPsw} className="login-form" style={{ marginTop: -10 }} >
 							<Form.Item>
-								{getFieldDecorator('username', {
-									rules:[
-										// { require: true, message: "请输入账号", },
-										{ validator: this.handleValidator }
-									],
-									validateTrigger:'onBlur',
-								})(
+								{getFieldDecorator('phone', {})(
 									<Input
 										className="yc-input"
 										prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -170,41 +278,50 @@ class Login extends React.Component {
 								)}
 							</Form.Item>
 							<Form.Item>
-								{getFieldDecorator('password', {
-									rules:[
-										// { required: true, message: '请输入密码', },
-										{ validator: this.handleValidator }
-									],
-									validateTrigger:'onBlur',
-								})(
+								{getFieldDecorator('imgCode',)(
 									<Input
 										className="yc-input"
 										prefix={<Icon type="code" style={{ color: 'rgba(0,0,0,.25)' }} />}
 										type="password"
-										placeholder="请输入验证码"
-									/>,
-									<Button type="primary" class="yc-get-code" onClick={this.getMobileCode} style={{marginTop:-10}}>获取验证码
-									</Button>
+										placeholder="请输入图形验证码"
+										suffix={
+											<Tooltip title="点击刷新图形验证码">
+												<img src={imgSrc} alt="" onClick={this.toRefreshImg} />
+											</Tooltip>
+										}
+									/>
 								)}
 							</Form.Item>
 							<Form.Item>
-								{getFieldDecorator('password', {
-									rules:[
-										// { required: true, message: '请输入密码', },
-										{ validator: this.handleValidator }
-									],
-									validateTrigger:'onBlur',
-								})(
+								{getFieldDecorator('mobileCode',)(
 									<Input
 										className="yc-input"
 										prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
 										type="password"
 										placeholder="请输入手机验证码"
+										suffix={
+											<div>
+											<Button type="default"
+															className="yc-get-code"
+															onClick={this.validateImgAndSendMobileCode}
+															style={{ display: this.state.display_button}}
+											>
+												获取验证码
+											</Button>
+											<Button type="default"
+															className="yc-get-code"
+															disabled
+															style={{ display: this.state.display_disabled}}
+											>
+											重新获取验证码{wait}s
+											</Button>
+											</div>
+										}
 									/>,
 								)}
 							</Form.Item>
 							<Form.Item>
-								{getFieldDecorator('password', {
+								{getFieldDecorator('psw', {
 									rules:[
 										// { required: true, message: '请输入密码', },
 										{ validator: this.handleValidator }
@@ -220,12 +337,12 @@ class Login extends React.Component {
 								)}
 							</Form.Item>
 							<Form.Item>
-								{getFieldDecorator('password', {
+								{getFieldDecorator('pswConfirm', {
 									rules:[
 										// { required: true, message: '请输入密码', },
-										{ validator: this.handleValidator }
+										// { validator: this.handleValidator }
 									],
-									validateTrigger:'onBlur',
+									// validateTrigger:'onBlur',
 								})(
 									<Input
 										className="yc-input"
