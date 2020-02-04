@@ -15,8 +15,9 @@ class App extends React.Component {
 			<Router  history={this.browserHistory} >
 				<div>
 					{/*<IndexRoute component={Login} />*/}
-					<Route exact path="/" component={Login} />
+					<Route exact path="/" component={Login} history={this.props.history} />
 					<Route path="/adminList" component={AdminList} />
+
 					<Route path="/check" component={CheckList} />
 					{/*<Route path="/Page3" component={Page3} />*/}
 				</div>

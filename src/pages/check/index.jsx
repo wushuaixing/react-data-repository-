@@ -1,7 +1,7 @@
 /** check * */
 import React from 'react';
 import TopMenu from "../../components/topMenu";
-import LeftMenu from '../../components/menu';
+import LeftMenu from '../../components/leftMenu';
 // ==================
 // 所需的所有组件
 // ==================

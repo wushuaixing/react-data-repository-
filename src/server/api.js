@@ -23,3 +23,8 @@ export function validateImgCode(params) {
 export function resetPassword(params) {
     return axios.post(`${apiUrl}／api/resetPassword`, params);
 }
+
+//获取可用侧边栏
+export function getAvailableNav() {
+	return axios.get(`${apiUrl}/api/common/getAvailableNav`);
+}
