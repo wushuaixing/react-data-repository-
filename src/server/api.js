@@ -33,3 +33,8 @@ export function getAvailableNav() {
 export function changePassword(params) {
     return axios.post(`${apiUrl}/api/changePassword`, params);
 }
+
+//退出登录
+export function logout() {
+    return axios.get(`${apiUrl}/api/logout`);
+}

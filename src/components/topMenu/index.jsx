@@ -5,7 +5,7 @@ import './style.scss';
 import logo from "../../assets/img/top_logo.png";
 import Input from "antd/es/input";
 import Button from "antd/es/button";
-import {changePassword} from "../../server/api";
+import {changePassword, logout} from "../../server/api";
 
 
 
@@ -54,6 +54,17 @@ class topMenu extends React.Component {
 		});
 	};
 
+	logOut =() => {
+		logout().then(res => {
+			if (res.data.code === 200) {
+				this.props.history.push('/');
+				window.localStorage.removeItem("userState");
+			} else {
+				// this.$Message.error(res.data.message);
+			}
+		});
+	};
+
 	render() {
 		const { user } = this.props;
 		const { visible }=this.state;
@@ -63,7 +74,7 @@ class topMenu extends React.Component {
 					<p onClick={this.showModal}>修改密码</p>
 				</Menu.Item>
 				<Menu.Item key="1">
-					<p>退出登录</p>
+					<p onClick={this.logOut}>退出登录</p>
 				</Menu.Item>
 			</Menu>
 		);
