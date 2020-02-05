@@ -38,3 +38,13 @@ export function changePassword(params) {
 export function logout() {
     return axios.get(`${apiUrl}/api/logout`);
 }
+
+//查看（正常和已删除）结构化账号列表
+export function userView(params) {
+    let urlPlus = "";
+    for (let key in params) {
+        urlPlus = urlPlus + key + "=" + params[key] + "&";
+    }
+    urlPlus = urlPlus.substring(0, urlPlus.length - 1);
+    return axios.get(`${apiUrl}/api/asset/admin/userView?`+ urlPlus);
+}
