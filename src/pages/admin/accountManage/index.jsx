@@ -145,7 +145,6 @@ class  AccountManage extends React.Component {
 //  账号管理-检查账号列表接口   /api/asset/admin/check/getCheckList  get
   render() {
       const { }=this.props;
-      const { user, role }=this.state;
         return(
           <div>
               <div style={{ margin:10, fontSize:16, color:'#293038' }}>账号管理 > 结构化账号</div>

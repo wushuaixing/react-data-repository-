@@ -28,3 +28,8 @@ export function resetPassword(params) {
 export function getAvailableNav() {
 	return axios.get(`${apiUrl}/api/common/getAvailableNav`);
 }
+
+//修改密码
+export function changePassword(params) {
+    return axios.post(`${apiUrl}/api/changePassword`, params);
+}

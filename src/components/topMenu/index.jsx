@@ -4,6 +4,8 @@ import { Dropdown, Menu, Icon, Modal  } from "antd";
 import './style.scss';
 import logo from "../../assets/img/top_logo.png";
 import Input from "antd/es/input";
+import Button from "antd/es/button";
+import {changePassword} from "../../server/api";
 
 
 
@@ -21,15 +23,32 @@ class topMenu extends React.Component {
 		});
 	};
 
-	handleOk = e => {
-		console.log(e);
+	handleOk = () => {
+		const original = this.refs.originPsw.state.value;
+		const newPsw = this.refs.newPsw.state.value;
+		const confirm = this.refs.confirmPsw.state.value;
+		console.log(this.refs.confirmPsw.state.value);
+		const params={
+			oldPassword: original,
+		  newPassword: newPsw,
+		  confirmNewPassword: confirm,
+		};
+		changePassword(params).then(res => {
+			if (res.data.code === 200) {
+				// this.$Message.info("密码修改成功");
+				/*this.$router.push({
+					name: "login"
+				});*/
+			} else {
+				// this.$Message.error(res.data.message);
+			}
+		});
 		this.setState({
 			visible: false,
 		});
 	};
 
-	handleCancel = e => {
-		console.log(e);
+	handleCancel = () => {
 		this.setState({
 			visible: false,
 		});
@@ -37,6 +56,7 @@ class topMenu extends React.Component {
 
 	render() {
 		const { user } = this.props;
+		const { visible }=this.state;
 		const menu = (
 			<Menu className="user-menu" style={{marginTop: 8,}}>
 				<Menu.Item key="0">
@@ -56,6 +76,10 @@ class topMenu extends React.Component {
 						源诚数据资产平台
 					</p>
 					<div className="user-message">
+						<form style={{display:'none'}}>
+							<input type="text" />
+							<input type="password" />
+						</form>
 						<Dropdown className="user-drop" overlay={menu} trigger={['click']}>
 							<a className="dropdown-link" href="#" >
 								Hi, {user} <Icon type="down" />
@@ -64,13 +88,16 @@ class topMenu extends React.Component {
 						<Modal
 							style={{width:500, height:340}}
 							title="修改密码"
-							visible={!this.state.visible}
-							onOk={this.handleOk}
-							onCancel={this.handleCancel}
-							destroyOnClose='true'
-							closable='true'
-							cancelText='取消'
-							okText='确定'
+							visible={visible}
+							destroyOnClose={true}
+							closable={true}
+							footer={[
+								// 定义右下角 按钮的地方 可根据需要使用 一个或者 2个按钮
+								<Button key="back" onClick={this.handleCancel} style={{width: 120,height: 36, marginLeft: -20 }}>取消</Button>,
+								<Button key="submit" type="primary" onClick={this.handleOk} style={{backgroundColor:'#0099CC',width: 120,height: 36}}>
+									确定
+								</Button>
+									]}
 						>
 							<div style={{marginBottom: 20,fontSize: 14}}>
 								<p
@@ -82,6 +109,7 @@ class topMenu extends React.Component {
 									type="password"
 									style={{width: 320,display: 'inline-block'}}
 									placeholder="请输入原密码"
+									ref="originPsw"
 								/>
 							</div>
 							<div style={{marginBottom: 20,fontSize: 14}}>
@@ -94,6 +122,7 @@ class topMenu extends React.Component {
 									type="password"
 									style={{width: 320,display: 'inline-block'}}
 									placeholder="请输入新密码，长度为6-20位，不允许有空格"
+									ref="newPsw"
 								/>
 							</div>
 							<div style={{marginBottom: 20,fontSize: 14}}>
@@ -106,8 +135,10 @@ class topMenu extends React.Component {
 									type="password"
 									style={{width: 320,display: 'inline-block'}}
 									placeholder="请确认新密码，长度为6-20位，不允许有空格"
+									ref="confirmPsw"
 								/>
 							</div>
+
 							</Modal>
 					</div>
 				</div>
