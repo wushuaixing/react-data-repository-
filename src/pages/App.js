@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Login from "./login";
 import AdminList from './admin/index';
 import CheckList from './check/index';
+import StructureDetail from './structure/index';
 
 import './App.css';
 
@@ -19,6 +20,8 @@ class App extends React.Component {
 					<Route path="/adminList" component={AdminList} />
 
 					<Route path="/check" component={CheckList} />
+					<Route path="/detail" component={StructureDetail} />
+
 					{/*<Route path="/Page3" component={Page3} />*/}
 				</div>
 			</Router>
