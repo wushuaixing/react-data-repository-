@@ -2,14 +2,11 @@
 import React from 'react';
 import TopMenu from "../../components/topMenu";
 import LeftMenu from '../../components/leftMenu';
-import { Tabs, Tag, Table, Select, Input } from "antd";
-import flex from "antd/es/tag";
 import AccountManage from "./accountManage";
 // ==================
 // 所需的所有组件
 // ==================
-const { Search } = Input;
-let storage = window.localStorage;
+
 
 class  AdminList extends React.Component {
   constructor(props) {
@@ -21,18 +18,20 @@ class  AdminList extends React.Component {
   }
 
   componentWillMount() {
-    console.log(storage);
-    this.setState({
-			user: storage.userName,
-			role: storage.userState,
-		})
+    // this.setState({
+		// 	user: storage.userName,
+		// 	role: storage.userState,
+		// })
   }
 
 //  账号管理-结构化账号列表接口  /api/asset/admin/userView  get
 //  账号管理-检查账号列表接口   /api/asset/admin/check/getCheckList  get
   render() {
       const { }=this.props;
-      const { user, role }=this.state;
+      // const { user, role }=this.state;
+      let storage = window.localStorage;
+      const user = storage.userName;
+      const role = storage.userState;
         return(
           <div>
               <TopMenu user={user}/>

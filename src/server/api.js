@@ -48,3 +48,20 @@ export function userView(params) {
     urlPlus = urlPlus.substring(0, urlPlus.length - 1);
     return axios.get(`${apiUrl}/api/asset/admin/userView?`+ urlPlus);
 }
+
+// 获取资产结构化数据详情
+//资产结构化列表
+export function structuredList(params) {
+	let urlPlus = "";
+	for (let key in params) {
+		urlPlus = urlPlus + key + "=" + params[key] + "&";
+	}
+	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
+	return axios.get("/api/asset/structured/control/structuredList?" + urlPlus);
+}
+
+//获取检察人员结构化列表详情
+export function getCheckDetail(id) {
+	return axios.get("/api/asset/inspector/control/getCheckDetail/" + id);
+}
+

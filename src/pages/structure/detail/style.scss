@@ -1,4 +1,4 @@
-.yc-right-detail{
+.yc-detail-title{
   border-bottom: 1px solid #e2e4e9;
   padding: 16px 0 0 20px;
   .yc-button-goback {
@@ -16,6 +16,14 @@
     div {
       display: inline-block;
     }
+  }
+}
+.yc-detail-content{
+
+  .yc-action{
+    padding: 10px 0;
+    position: absolute;
+    right: 20px;
   }
 }
 
