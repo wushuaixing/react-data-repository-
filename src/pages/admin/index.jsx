@@ -41,11 +41,12 @@ class  AdminList extends React.Component {
                   </div>
                   <div className="right-content" style={{marginLeft:180, marginTop:-800}}>
                     <AccountManage />
-                    <Search
+                    {/*<Search
                       placeholder="input search text"
                       onSearch={value => console.log(value)}
                       style={{ width: 200 }}
                     />
+                  */}
                   </div>
               </div>
           </div>

@@ -34,15 +34,16 @@ class  StructureDetail extends React.Component {
   }
 
   render() {
-    const { }=this.props;
+    const { recordsForCheck }=this.props;
     // const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
         return(
           <div>
             <div className="line">
               <p style="float: left">结构化记录:</p>
               <div style="display: inline-block">
+
                 {/*forEach*/}
-                {/*<div v-for="(item, index) in data.records">
+               {/* <div>
                   <p style="display: inline-block">
                     {{item.time}}
                   </p>

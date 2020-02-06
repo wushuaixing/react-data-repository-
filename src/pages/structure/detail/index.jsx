@@ -5,7 +5,7 @@ import Icon from "antd/es/icon";
 import Checkbox from "antd/es/checkbox";
 import {structuredList, getCheckDetail} from '../../../server/api';
 import './style.scss';
-import WrongReason from "../../../components/rongReason";
+import WrongReason from "../../../components/wrongReason";
 // ==================
 // 所需的所有组件
 // ==================
@@ -51,7 +51,9 @@ const strucData={
 		"houseType":1,
 		"id":1521703,
 		"obligors":[
-			{"birthday":null,"gender":"","labelType":"","name":"","notes":"","number":"","type":""},		{"birthday":null,"gender":"","labelType":"","name":"","notes":"","number":"","type":""},{"birthday":null,"gender":"0","labelType":"5","name":"张燕芬","notes":"","number":"","type":"5"}
+			{"birthday":null,"gender":"","labelType":"","name":"","notes":"","number":"","type":""},
+			{"birthday":null,"gender":"","labelType":"","name":"","notes":"","number":"","type":""},
+			{"birthday":null,"gender":"0","labelType":"5","name":"张燕芬","notes":"","number":"","type":"5"}
 			],
 		"reasonForWithdrawal":"",
 		"status":2,
@@ -78,14 +80,19 @@ class  StructureDetail extends React.Component {
       dataTotal:50,
 			buttonText:'保存',
 			buttonStyle:{backgroundColor:'#0099CC', color:'white'},
-			reason:{},
+			errorReason:{
+				reasonStruc:{},
+				reasonCheck:{},
+				reasonAdmin:[],
+			},
+			recordsForCheck:[],
 		};
   }
 
   componentWillMount() {
 		const id=1111;
 		//结构化数据详情
-		structuredList(id).then(res => {
+		/*structuredList(id).then(res => {
 			// this.loading = false;
 			if (res.data.code === 200) {
 				this.data = res.data.data[0];
@@ -95,7 +102,7 @@ class  StructureDetail extends React.Component {
 			} else {
 				// this.$Message.error(res.data.message);
 			}
-		});
+		});*/
 		//检查／管理员数据详情
 		/*async getDetailData(id){
 			this.loading = true;
@@ -131,12 +138,13 @@ class  StructureDetail extends React.Component {
 		const role = storage.userState;
 		if(role === "结构化人员"){
 			this.setState({
-				reason:strucData.data[0].wrongReason,
+				errorReason:{
+					reasonStruc:strucData.data[0].wrongReason
+				},
 			});
 			if('tagged'){
 				this.setState({
 					buttonText:'保存',
-					reason:
 				});
 			}
 			if('waitTag'){
@@ -154,16 +162,39 @@ class  StructureDetail extends React.Component {
 				});
 			}
 		}
-		if(role === "检查人员"){
-			this.setState({
-				reason:strucData.data[0].wrongReason,
+		else{
+			let tempList = checkData.data.records.filter(item => item.error && item.desc !== '结构化');
+			if(role === "管理员"){
+				this.setState({
+					errorReason: {
+						reasonAdmin: tempList,
+					}
+				});
+			}
+			//检查人员的错误原因，展示最新一次的记录
+			tempList=tempList.sort(function(a,b){
+				return a.time < b.time ? 1 : -1
 			});
-		}
-		if(role === "管理员"){
+			if(tempList){
+				this.setState({
+					errorReason: {
+						reasonCheck: tempList[0],
+					}
+			  })
+			}
+			this.setState({
+				recordsForCheck:checkData.data.records,
+			});
+
+			if(role === "检查人员"){
+
+			}
 
 		}
+
 
 	}
+
 
 	toSave=()=>{
 
@@ -174,6 +205,7 @@ class  StructureDetail extends React.Component {
   render() {
     const { }=this.props;
     const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
+    const { errorReason,recordsForCheck }=this.state;
         return(
           <div>
             <div className="yc-detail-title">
@@ -191,7 +223,7 @@ class  StructureDetail extends React.Component {
 								>{buttonText}
 							  </Button>
 	            </div>
-							<WrongReason reasonList=strucData />
+							<WrongReason errorList={errorReason} />
 
 						</div>
           </div>
