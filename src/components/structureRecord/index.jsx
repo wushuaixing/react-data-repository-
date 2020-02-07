@@ -1,20 +1,15 @@
-/** right content for Account manage* */
+/**基本信息--结构化记录  */
 import React from 'react';
-import './style.scss';
 // ==================
 // 所需的所有组件
 // ==================
 
 
-class  StructureDetail extends React.Component {
+class  StructureRecord extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      detailText:'错误详情',
-      detailList:[],
-      levelText:'错误等级',
-      errorLevel:'',
-
+      strucRecords:[],
 		};
   }
 
@@ -28,60 +23,81 @@ class  StructureDetail extends React.Component {
 
     }
     if(role === "管理员"){
-
+      this.setState({
+        strucRecords:this.props.records,
+      });
     }
 
   }
 
+  toSetText=(desc,error,index)=>{
+    let result={};
+    if(index === 0 && desc ==='结构化'){
+      result={
+        styleText:{marginLeft:8},
+        text:'初次结构化',
+      };
+      return result;
+    }
+    else if(error){
+      result={
+        styleText:{color:'red',marginLeft:8},
+        text:'有误',
+      };
+      return result;
+    }
+     else if(!error && desc !=='结构化' ){
+      result={
+        styleText:{color:'green',marginLeft:8},
+        text:'无误',
+      };
+      return result;
+    }
+    else{
+      result={
+        styleText:{marginLeft:8},
+        text:'修改',
+      };
+      return result;
+    }
+  };
+
   render() {
-    const { recordsForCheck }=this.props;
+    const { recordsForCheck }=this.state;
     // const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
         return(
           <div>
-            <div className="line">
-              <p style="float: left">结构化记录:</p>
-              <div style="display: inline-block">
-
-                {/*forEach*/}
-               {/* <div>
-                  <p style="display: inline-block">
-                    {{item.time}}
-                  </p>
-                  <p style="display: inline-block;margin-left: 5px"
-                  >
-                    {{item.user}}
-                  </p>
-                  <!--<p style="display: inline-block;margin-left: 5px"
-                  >
-                      {{item.desc}}
-                  </p>-->
-                  <p
-                    style="display: inline-block;margin-left: 10px"
-                    v-if="index == 0 && item.desc =='结构化'">
-                    <!--                        v-if=" 'index == 0' && 'item.desc==结构化' "-->
-
-                    初次结构化
-                  </p>
-                  <p
-                    style="color: red;display: inline-block;margin-left: 10px"
-                    v-else-if="item.error"
-                  >
-                    有误
-                  </p>
-                  <p
-                    style="color: green;display: inline-block;margin-left: 5px"
-                    v-else-if="!item.error && item.desc !='结构化' "
-                  >
-                    无误
-                  </p>
-                  <p style="display:  inline-block;margin-left: 5px" v-else>
-                    修改
-                  </p>
-                </div>*/}
+            <div className="yc-wrong-part">
+              <p className="yc-sec-title">结构化记录:</p>
+              <div style={{display: 'inline-block'}}>
+                {
+                  recordsForCheck && recordsForCheck.map((item,index)=>{
+                    const desc=this.toSetText(item.desc,item.error,index);
+                    return (
+                      <div
+                      style={{marginBottom: 10}} key={index}
+                      >
+                      <div >
+                        <p className="yc-sec-title">
+                          { item.time &&  item.time }
+                        </p>
+                        <p className="yc-sec-title" style={{marginLeft:5}}>
+                          { item.user &&  item.user }
+                        </p>
+                        <p className="yc-sec-title">
+                          { item.time &&  item.time }
+                        </p>
+                        <p className="yc-sec-title" style={desc.styleText}>
+                          {desc.text}
+                        </p>
+                      </div>
+                    </div>)
+                  })
+                }
               </div>
             </div>
           </div>
         );
     }
 }
-export default StructureDetail;
+export default StructureRecord;

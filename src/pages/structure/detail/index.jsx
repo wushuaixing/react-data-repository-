@@ -6,6 +6,7 @@ import Checkbox from "antd/es/checkbox";
 import {structuredList, getCheckDetail} from '../../../server/api';
 import './style.scss';
 import WrongReason from "../../../components/wrongReason";
+import StructureRecord from "../../../components/structureRecord";
 // ==================
 // 所需的所有组件
 // ==================
@@ -233,7 +234,7 @@ class  StructureDetail extends React.Component {
 							  </Button>
 	            </div>
 							<WrongReason errorList={errorReason} />
-
+							<StructureRecord records={recordsForCheck} />
 						</div>
           </div>
         );

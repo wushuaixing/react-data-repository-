@@ -10,11 +10,6 @@ class  WrongReason extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      detailText:'错误详情',
-      detailList:[],
-      levelText:'错误等级',
-      errorLevel:'',
-      data:{},
       errorList:{},
 		};
   }
@@ -138,7 +133,7 @@ class  WrongReason extends React.Component {
                       style={{marginBottom: 10}} key={index}
                     >
                       <div>
-                        <p style={{display: 'inline-block'}}>
+                        <p className="yc-sec-title">
                           { item.time && item.user && item.time +" "+ item.user}
                         </p>
                         <p className="yc-error">有误</p>
