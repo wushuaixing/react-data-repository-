@@ -1,17 +1,10 @@
-/** right content for Account manage* */
+/** 错误原因展示* */
 import React from 'react';
 import './style.scss';
 // ==================
 // 所需的所有组件
 // ==================
 
-
-/*const errorList=[
-  {"desc":"结构化","error":false,"errorLevel":0,"time":"2019-03-18 17:10:25","user":"邵颖结构化"},
-  {"desc":"事实上多填所有人:\n债权人错误：\n","error":true,"errorLevel":4,"time":"2020-01-06 17:00:20","user":"检察人员"},
-  {"desc":"结构化","error":false,"errorLevel":0,"time":"2019-01-18 17:10:25","user":"邵颖结构化"},
-  {"desc":"多填所有人:\n债权人错误：\n","error":true,"errorLevel":4,"time":"2020-02-06 17:00:20","user":"检察人员"},
-];*/
 
 class  WrongReason extends React.Component {
   constructor(props) {
@@ -22,14 +15,18 @@ class  WrongReason extends React.Component {
       levelText:'错误等级',
       errorLevel:'',
       data:{},
-      errorList:[],
+      errorList:{},
 		};
   }
 
   componentWillMount() {
+    const _list=this.props.errorList;
+    this.setState({
+      errorList:_list,
+    });
+
     let storage = window.localStorage;
     const role = storage.userState;
-console.log(role);
 
     if(role === "结构化人员"){
 
@@ -43,8 +40,9 @@ console.log(role);
 
   }
 
-  //filterLevel
+  //filterLevel 错误等级
   filterLevel=(level)=>{
+    // console.log('level',level);
       if (level === 1) {
         return "严重";
       } else if (level === 4) {
@@ -54,74 +52,109 @@ console.log(role);
       }
   };
 
+  //检查人员错误原因渲染文本
+  setWrongText=(reasonCheck)=>{
+    const _level=this.filterLevel(reasonCheck.errorLevel);
+    return(<div>
+      <div>
+        <p style={{display: 'inline-block'}}>错误等级:</p>
+        <p className="error">{_level && _level}</p>
+      </div>
+      <div>
+      <p style={{display: 'inline-block'}}>错误详情:</p>
+      <p className="error">{reasonCheck && reasonCheck.desc}</p>
+     </div>
+    </div>)
+  };
+
+  //管理员错误原因渲染文本
+  setAdmin=(reasonAdmin)=>{
+    reasonAdmin && reasonAdmin.map((item,index)=>{
+      console.log(item.errorLevel);
+      item.errorLevel=this.filterLevel(item.errorLevel);
+      return (<div
+        style={{marginBottom: 10}} key={index}
+      >
+        <div>
+          <p style={{display: 'inline-block'}}>
+            { item.time && item.user && item.time +" "+ item.user}
+          </p>
+          <p className="yc-error">有误</p>
+        </div>
+        <div>
+          <p style={{display: 'inline-block'}}>错误等级:</p>
+          <p className="yc-error">{item.errorLevel && item.errorLevel}</p>
+        </div>
+        <div>
+          <p style={{display: 'inline-block'}}>错误详情:</p>
+          <p className="yc-error">{item.desc && item.desc}</p>
+        </div>
+      </div>)
+    })
+  };
+
   render() {
-    const { errorList }=this.props;
-    // const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
+    const { errorList }=this.state;
+    const {reasonStruc,reasonCheck,reasonAdmin}= errorList;
         return(
           <div>
             <div className="yc-wrong-part">
-              <div className="part-title">
+              <div className="yc-part-title">
                 <p>错误原因</p>
               </div>
               {/*//待修改*/}
-              <div className="yc-wrong-detail" style={{marginBottom:16}}>
-                <p
-                  style="color: red;display: block"
-                >
-                  {errorList.reasonStruc}
+              <div className="yc-wrong-detail">
+                <p className="yc-struc-text">
+                  {reasonStruc && reasonStruc}
                 </p>
               </div>
-              <div className="yc-wrong-detail" style={{marginBottom:16}}>
-                <div
-                  style="margin-bottom: 10px;"
-                >
-                  <div>
-                    <p style={{display: 'inline-block'}}>错误等级:</p>
-                    <p className="error">{this.filterLevel(errorList.reasonCheck.errorLevel)}</p>
-                  </div>
-                  <div>
-                    <p style={{display: 'inline-block'}}>错误详情:</p>
-                    <p className="error">{errorList.reasonCheck.desc}</p>
-                  </div>
-                </div>
-                <p
-                  style="color: red;display: block"
-                >
-                  {errorList.reasonCheck}
-                </p>
-              </div>
-              <div className="yc-wrong-detail" style={{marginBottom:16}}>
+              {/*//检查*/}
+              <div className="yc-wrong-detail">
+                <div>
                   {
-                    errorList.reasonAdmin && errorList.reasonAdmin.map((item,index)=>{
-                      return (<div
-                        style={{marginBottom: 10}}
-                      >
-                        <div>
-                          <p style={{display: 'inline-block'}}>
-                            {item.time +" "+ item.user}
-                          </p>
-                          <p className="yc-error">有误</p>
-                        </div>
-                        <div>
-                          <p style={{display: 'inline-block'}}>错误等级:</p>
-                          <p className="yc-error">{this.filterLevel(item.errorLevel)}</p>
-                        </div>
-                        <div>
-                          <p style={{display: 'inline-block'}}>错误详情:</p>
-                          <p className="yc-error">{item.desc}</p>
-                        </div>
-                      </div>)
-                  })
+                    reasonCheck && reasonCheck.map((item,index)=>{
+                      item.errorLevel=this.filterLevel(item.errorLevel);
+                      return(
+                        <div key={index}>
+                          <div>
+                            <p className="yc-sec-title">错误等级:</p>
+                            <p className="yc-error">{item && this.filterLevel(item.errorLevel)}</p>
+                          </div>
+                          <div>
+                            <p className="yc-sec-title">错误详情:</p>
+                            <p className="yc-error">{item && item.desc}</p>
+                          </div>
+                        </div>)
+                    })
                   }
+                </div>
               </div>
-              {/*管理员／检查
-
+              {/*//管理员*/}
+              <div className="yc-wrong-detail">
                 {
-                  source.map((item, index) => [
-                    <PartyCrosswiseDetail {...item} id={row.id} key={row.id} width={maxWidth} max={9999} />,
-                    index !== source.length - 1 ? <span className="yc-split-line yc-split-line-info" /> : null,
-                  ])
-                }*/}
+                  reasonAdmin && reasonAdmin.map((item,index)=>{
+                    item.errorLevel=this.filterLevel(item.errorLevel);
+                    return (<div
+                      style={{marginBottom: 10}} key={index}
+                    >
+                      <div>
+                        <p style={{display: 'inline-block'}}>
+                          { item.time && item.user && item.time +" "+ item.user}
+                        </p>
+                        <p className="yc-error">有误</p>
+                      </div>
+                      <div>
+                        <p className="yc-sec-title">错误等级:</p>
+                        <p className="yc-error">{item.errorLevel && item.errorLevel}</p>
+                      </div>
+                      <div>
+                        <p className="yc-sec-title">错误详情:</p>
+                        <p className="yc-error">{item.desc && item.desc}</p>
+                      </div>
+                    </div>)
+                  })
+                }
+              </div>
             </div>
           </div>
         );

@@ -81,8 +81,8 @@ class  StructureDetail extends React.Component {
 			buttonText:'保存',
 			buttonStyle:{backgroundColor:'#0099CC', color:'white'},
 			errorReason:{
-				reasonStruc:{},
-				reasonCheck:{},
+				reasonStruc:[],
+				reasonCheck:[],
 				reasonAdmin:[],
 			},
 			recordsForCheck:[],
@@ -139,7 +139,9 @@ class  StructureDetail extends React.Component {
 		if(role === "结构化人员"){
 			this.setState({
 				errorReason:{
-					reasonStruc:strucData.data[0].wrongReason
+					reasonStruc:strucData.data[0].wrongReason,
+					reasonCheck:[],
+					reasonAdmin:[],
 				},
 			});
 			if('tagged'){
@@ -163,30 +165,37 @@ class  StructureDetail extends React.Component {
 			}
 		}
 		else{
-			let tempList = checkData.data.records.filter(item => item.error && item.desc !== '结构化');
-			if(role === "管理员"){
-				this.setState({
-					errorReason: {
-						reasonAdmin: tempList,
-					}
-				});
-			}
-			//检查人员的错误原因，展示最新一次的记录
-			tempList=tempList.sort(function(a,b){
-				return a.time < b.time ? 1 : -1
-			});
-			if(tempList){
-				this.setState({
-					errorReason: {
-						reasonCheck: tempList[0],
-					}
-			  })
-			}
+			//结构化记录
 			this.setState({
 				recordsForCheck:checkData.data.records,
 			});
 
+			const tempList = checkData.data.records.filter(item => item.error && item.desc !== '结构化');
+
+			if(role === "管理员"){
+				this.setState({
+					errorReason: {
+						reasonAdmin: tempList,
+						reasonStruc:[],
+						reasonCheck:[],
+					}
+				});
+			}
+
 			if(role === "检查人员"){
+			//检查人员的错误原因，展示最新一次的记录
+				let _tempList=tempList.sort(function(a,b){
+					return a.time < b.time ? 1 : -1
+				});
+				if(_tempList){
+					this.setState({
+						errorReason: {
+							reasonCheck: _tempList[0],
+							reasonAdmin:[],
+							reasonStruc:[],
+						}
+					})
+				}
 
 			}
 
@@ -195,7 +204,7 @@ class  StructureDetail extends React.Component {
 
 	}
 
-
+	goBack=()=>{};
 	toSave=()=>{
 
 	};
@@ -212,7 +221,7 @@ class  StructureDetail extends React.Component {
               <div style={{ margin:10, fontSize:16, color:'#293038' }}>资产结构化／详情</div>
               <div className="yc-button-goback">
                 <p>{ dataMark}/{ dataTotal }</p>
-                <Button type="default" onClick="goBack"><Icon type="left" />返回上一条</Button>
+                <Button type="default" onClick={this.goBack}><Icon type="left" />返回上一条</Button>
               </div>
             </div>
 						<div className="yc-detail-content">
