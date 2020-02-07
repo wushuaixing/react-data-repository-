@@ -63,38 +63,32 @@ class  StructureRecord extends React.Component {
   };
 
   render() {
-    const { recordsForCheck }=this.state;
-    // const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
+    const { strucRecords }=this.state;
+    // console.log(strucRecords);
         return(
           <div>
-            <div className="yc-wrong-part">
-              <p className="yc-sec-title">结构化记录:</p>
-              <div style={{display: 'inline-block'}}>
+              <p className="yc-sec-title" style={{float: 'left'}}>结构化记录:</p>
+            <div style={{display:'inline-block'}}>
                 {
-                  recordsForCheck && recordsForCheck.map((item,index)=>{
+                  strucRecords && strucRecords.map((item,index)=>{
                     const desc=this.toSetText(item.desc,item.error,index);
                     return (
                       <div
-                      style={{marginBottom: 10}} key={index}
+                           style={{marginBottom: 5}}
+                           key={index}
                       >
-                      <div >
-                        <p className="yc-sec-title">
+                        <p className="yc-sec-title" style={{marginLeft:8}}>
                           { item.time &&  item.time }
                         </p>
-                        <p className="yc-sec-title" style={{marginLeft:5}}>
+                        <p className="yc-sec-title" style={{marginLeft:8}}>
                           { item.user &&  item.user }
-                        </p>
-                        <p className="yc-sec-title">
-                          { item.time &&  item.time }
                         </p>
                         <p className="yc-sec-title" style={desc.styleText}>
                           {desc.text}
                         </p>
-                      </div>
                     </div>)
                   })
                 }
-              </div>
             </div>
           </div>
         );

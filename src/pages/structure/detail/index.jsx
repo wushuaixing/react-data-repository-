@@ -277,25 +277,25 @@ class  StructureDetail extends React.Component {
 										<p className="yc-sec-title">拍卖状态:</p>
 										<p className="yc-sec-title" style={{ marginLeft:5}}>{ this.filterAuctionStatus(basic.auctionStatus) }</p>
 									</div>
-									{/*//什么数据是有撤回原因和关联标注的 条件：!character && status !== 0*/}
-								<div >
-									<p className="yc-sec-title">撤回原因:</p>
-									<p className="yc-sec-title" style={{ marginLeft:5}}>{ basic.reasonForWithdrawal }</p>
-								</div>
-								<div >
-									<p className="yc-sec-title">关联标注:</p>
-									<p
-										className="yc-link-title"
-										style={{ marginLeft:5}}
-									  onClick={this.associated(basic.associatedAnnotationId)}
-								>
-									{basic.associatedAnnotationId }
-								</p>
-							</div>
+									<StructureRecord records={recordsForCheck} />
+										{/*//什么数据是有撤回原因和关联标注的 条件：!character && status !== 0*/}
+									<div >
+										<p className="yc-sec-title">撤回原因:</p>
+										<p className="yc-sec-title" style={{ marginLeft:5}}>{ basic.reasonForWithdrawal }</p>
+									</div>
+									<div >
+										<p className="yc-sec-title">关联标注:</p>
+										<p
+											className="yc-link-title"
+											style={{ marginLeft:5}}
+											onClick={this.associated(basic.associatedAnnotationId)}
+									  >
+											{basic.associatedAnnotationId }
+									  </p>
+								  </div>
 						</div>
 					</div>
 							<WrongReason errorList={errorReason} />
-							<StructureRecord records={recordsForCheck} />
 						</div>
           </div>
         );
