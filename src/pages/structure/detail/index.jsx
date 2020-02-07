@@ -294,10 +294,32 @@ class  StructureDetail extends React.Component {
 									  </p>
 								  </div>
 						</div>
-					</div>
-							<WrongReason errorList={errorReason} />
+					  </div>
+							<div className="yc-wrong-part">
+								<div className="yc-part-title">
+									<p>房产／土地信息</p>
+								</div>
+								<div className="yc-wrong-detail">
+									<div>
+										<p className="yc-sec-title">抵押情况:</p>
+										<p className="yc-link-title" onClick={this.openLink} style={{ marginLeft:5 }} >{ basic.title }</p>
+									</div>
+									<div>
+										<p className="yc-sec-title">房产／土地类型:</p>
+										<p className="yc-link-title" onClick={this.openLink} style={{ marginLeft:5 }} >{ basic.title }</p>
+									</div>
+									<div>
+										<p className="yc-sec-title">建筑面积:</p>
+										<p className="yc-link-title" onClick={this.openLink} style={{ marginLeft:5 }} >{ basic.title }</p>
+									</div>
+									<div>
+								</div>
+							</div>
+
 						</div>
-          </div>
+							<WrongReason errorList={errorReason} />
+            </div>
+					</div>
         );
     }
 }
