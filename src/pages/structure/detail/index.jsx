@@ -89,9 +89,13 @@ class  StructureDetail extends React.Component {
 				reasonAdmin:[],
 			},
 			recordsForCheck:[],
-			checked:true,
+			checkedCollateral:true,
 			valueHouse:0,
+			valueWenshu:0,
 			area:'',
+			ifAttach:true,
+			wenshuNum:[],
+			wenshuUrl:[],
 		};
   }
 
@@ -145,16 +149,19 @@ class  StructureDetail extends React.Component {
 
 		this.setState({
 			value: strucData.data[0].houseType,
+			ifAttach: strucData.data[0].wsInAttach,
+			wenshuNum: strucData.data[0].ah,
+			wenshuUrl: strucData.data[0].wsUrl,
 		});
 
 		if(strucData.data[0].collateral === 0){
 			this.setState({
-				checked:true,
+				checkedCollateral:true,
 			});
 		}
 		if(strucData.data[0].collateral === 1){
 			this.setState({
-				checked:false,
+				checkedCollateral:false,
 			});
 		}
 
@@ -260,9 +267,8 @@ class  StructureDetail extends React.Component {
 		// 	href + "#/check/" + id + "/" + strucData.data[0].auctionStatus
 		// );
 	};
- //仅标记本条
+ //抵押情况
 	onChangeCheckBox = e =>{
-
 		// console.log(e.target.checked);
 	};
 
@@ -282,12 +288,44 @@ class  StructureDetail extends React.Component {
 		});
 	};
 
+	//文书信息
+	onChangeRadioWenshu = e =>{
+		console.log('radio checked', e.target.value);
+		this.setState({
+			valueWenshu: e.target.value,
+		});
+	};
+  //文书案号
+	getWenshuNum=e=>{
+		let temp=[];
+		temp.push(e.target.value);
+		this.setState({
+			wenshuNum: temp,
+		});
+	};
+
+	//文书链接
+	getWenshuUrl=e=>{
+		let temp=[];
+		temp.push(e.target.value);
+		this.setState({
+			wenshuUrl: temp,
+		});
+	};
+
+	//详情见附件
+	onChangeAttach=e=>{
+		this.setState({
+			ifAttach: e.target.checked,
+		});
+	};
 
 //待标记--》详情页
   render() {
     const { }=this.props;
     const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
-    const { errorReason,recordsForCheck }=this.state;
+    const { errorReason, recordsForCheck }=this.state;
+    const { wenshuNum, wenshuUrl }=this.state;
     const basic=strucData.data[0];
         return(
           <div>
@@ -346,7 +384,7 @@ class  StructureDetail extends React.Component {
 									<div>
 										<p className="yc-sec-title">抵押情况:</p>
 										<Checkbox
-											defaultChecked='true'
+											defaultChecked={this.state.checkedCollateral}
 											onChange={this.onChangeCheckBox}
 											style={{marginLeft:5}}
 										>未抵押</Checkbox>
@@ -398,24 +436,43 @@ class  StructureDetail extends React.Component {
 									</div>
 									<div>
 										<p className="yc-sec-title">相关文书案号:</p>
-										<Input className="yc-sec-title"
-													 placeholder="请输入相关文书案号"
-													 style={{width:225,margin:5}}
-													 onChange={this.getWenshuNum}
-										/>
+										{ wenshuNum && wenshuNum.map((item,index)=>{
+											return(
+													<div>
+														<Input className="yc-sec-title"
+																	 placeholder="请输入相关文书案号"
+																	 style={{width:225,margin:5}}
+																	 value={item}
+																	 onChange={this.getWenshuNum}
+																	 key={index}
+														/>
+													</div>
+												)
+										})
+										}
+
 									</div>
 
 									<div>
 										<p className="yc-sec-title">文书链接地址:</p>
-										<Input className="yc-sec-title"
-													 placeholder="请输入文书链接地址"
-													 style={{width:225,margin:5}}
-													 onChange={this.getWenshuUrl}
-										/>
+										{ wenshuUrl && wenshuUrl.map((item,index)=>{
+											return(
+												<div>
+													<Input className="yc-sec-title"
+																 placeholder="请输入文书链接地址"
+																 style={{width:225,margin:5}}
+																 value={item}
+																 onChange={this.getWenshuUrl}
+																 key={index}
+													/>
+												</div>
+											)
+										})
+										}
 									</div>
 									<div>
 										<Checkbox
-											defaultChecked='true'
+											defaultChecked={this.state.ifAttach}
 											onChange={this.onChangeAttach}
 											style={{marginLeft:5}}
 										>详情见资产拍卖附件</Checkbox>
