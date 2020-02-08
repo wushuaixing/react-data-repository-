@@ -38,7 +38,7 @@
 
     .yc-wrong-detail {
       margin-bottom: 16px;
-
+      font-size:12px;
       .yc-struc-text {
         color: red;
         display: block;
@@ -46,12 +46,13 @@
 
       .yc-sec-title {
         display: inline-block;
+        font-size:12px;
       }
 
       .yc-link-title {
         display: inline-block;
         color: #0099cc;
-
+        font-size:12px;
       }
 
       .yc-link-title:hover {
@@ -64,6 +65,18 @@
         margin-left: 5px;
       }
     }
+
+    .left-part{
+      width: 50%;
+      display: inline-block;
+      float: left;
+
+    }
+    .right-part{
+      width: 49%;
+      display: inline-block;
+    }
   }
+
 }
 

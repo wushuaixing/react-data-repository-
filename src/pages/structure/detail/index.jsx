@@ -7,6 +7,8 @@ import {structuredList, getCheckDetail} from '../../../server/api';
 import './style.scss';
 import WrongReason from "../../../components/wrongReason";
 import StructureRecord from "../../../components/structureRecord";
+import Input from "antd/es/input";
+import Radio from "antd/es/radio";
 // ==================
 // 所需的所有组件
 // ==================
@@ -87,6 +89,9 @@ class  StructureDetail extends React.Component {
 				reasonAdmin:[],
 			},
 			recordsForCheck:[],
+			checked:true,
+			valueHouse:0,
+			area:'',
 		};
   }
 
@@ -137,6 +142,22 @@ class  StructureDetail extends React.Component {
 
 		let storage = window.localStorage;
 		const role = storage.userState;
+
+		this.setState({
+			value: strucData.data[0].houseType,
+		});
+
+		if(strucData.data[0].collateral === 0){
+			this.setState({
+				checked:true,
+			});
+		}
+		if(strucData.data[0].collateral === 1){
+			this.setState({
+				checked:false,
+			});
+		}
+
 		if(role === "结构化人员"){
 			this.setState({
 				errorReason:{
@@ -235,9 +256,30 @@ class  StructureDetail extends React.Component {
 	//
 	associated=(id) =>{
 		let href = window.location.href.split("#")[0];
-		window.open(
-			href + "#/check/" + id + "/" + strucData.data[0].auctionStatus
-		);
+		// window.open(
+		// 	href + "#/check/" + id + "/" + strucData.data[0].auctionStatus
+		// );
+	};
+ //仅标记本条
+	onChangeCheckBox = e =>{
+
+		// console.log(e.target.checked);
+	};
+
+	//房产／土地类型
+	onChangeRadioHouse = e =>{
+		// console.log('radio checked', e.target.value);
+		this.setState({
+			valueHouse: e.target.value,
+		});
+	};
+
+	//建筑面积
+	getArea = e =>{
+		// console.log(e.target.value);
+		this.setState({
+			area: e.target.value,
+		});
 	};
 
 
@@ -294,30 +336,96 @@ class  StructureDetail extends React.Component {
 									  </p>
 								  </div>
 						</div>
-					  </div>
+					    </div>
 							<div className="yc-wrong-part">
+							<div className="left-part">
 								<div className="yc-part-title">
 									<p>房产／土地信息</p>
 								</div>
 								<div className="yc-wrong-detail">
 									<div>
 										<p className="yc-sec-title">抵押情况:</p>
-										<p className="yc-link-title" onClick={this.openLink} style={{ marginLeft:5 }} >{ basic.title }</p>
+										<Checkbox
+											defaultChecked='true'
+											onChange={this.onChangeCheckBox}
+											style={{marginLeft:5}}
+										>未抵押</Checkbox>
 									</div>
 									<div>
 										<p className="yc-sec-title">房产／土地类型:</p>
-										<p className="yc-link-title" onClick={this.openLink} style={{ marginLeft:5 }} >{ basic.title }</p>
+										<Radio.Group
+											onChange={this.onChangeRadioHouse}
+											value={this.state.valueHouse}
+											className="yc-link-title"
+											style={{marginLeft:5}}
+										>
+											<Radio value={0}>未知</Radio>
+											<Radio value={1}>商用</Radio>
+											<Radio value={2}>住宅</Radio>
+											<Radio value={4}>工业</Radio>
+										</Radio.Group>
 									</div>
 									<div>
 										<p className="yc-sec-title">建筑面积:</p>
-										<p className="yc-link-title" onClick={this.openLink} style={{ marginLeft:5 }} >{ basic.title }</p>
+										<Input className="yc-sec-title"
+													 placeholder="请输入建筑面积"
+													 style={{width:225,margin:5}}
+													 onChange={this.getArea}
+										/>
+										<p className="yc-sec-title">m²</p>
 									</div>
 									<div>
 								</div>
 							</div>
 
 						</div>
+							<div className="right-part">
+								<div className="yc-part-title">
+									<p>文书信息</p>
+								</div>
+								<div className="yc-wrong-detail">
+									<div>
+										<p className="yc-sec-title">查找文书:</p>
+										<Radio.Group
+											onChange={this.onChangeRadioWenshu}
+											value={this.state.valueWenshu}
+											className="yc-link-title"
+											style={{marginLeft:5}}
+										>
+											<Radio value={0}>找到文书</Radio>
+											<Radio value={1}>未找到文书</Radio>
+										</Radio.Group>
+									</div>
+									<div>
+										<p className="yc-sec-title">相关文书案号:</p>
+										<Input className="yc-sec-title"
+													 placeholder="请输入相关文书案号"
+													 style={{width:225,margin:5}}
+													 onChange={this.getWenshuNum}
+										/>
+									</div>
+
+									<div>
+										<p className="yc-sec-title">文书链接地址:</p>
+										<Input className="yc-sec-title"
+													 placeholder="请输入文书链接地址"
+													 style={{width:225,margin:5}}
+													 onChange={this.getWenshuUrl}
+										/>
+									</div>
+									<div>
+										<Checkbox
+											defaultChecked='true'
+											onChange={this.onChangeAttach}
+											style={{marginLeft:5}}
+										>详情见资产拍卖附件</Checkbox>
+									</div>
+								</div>
+							</div>
+							</div>
+							<div>
 							<WrongReason errorList={errorReason} />
+							</div>
             </div>
 					</div>
         );

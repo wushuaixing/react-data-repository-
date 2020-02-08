@@ -18,10 +18,8 @@ class App extends React.Component {
 					{/*<IndexRoute component={Login} />*/}
 					<Route exact path="/" component={Login} history={this.props.history} />
 					<Route path="/adminList" component={AdminList} />
-
 					<Route path="/check" component={CheckList} />
 					<Route path="/detail" component={StructureDetail} />
-
 					{/*<Route path="/Page3" component={Page3} />*/}
 				</div>
 			</Router>
@@ -57,7 +55,6 @@ const routeConfig = [
 React.render(<Router routes={routeConfig} />, document.body)*/
 
 export default App;
-
 // const App = () =>(
 //           <Login />
 // );
