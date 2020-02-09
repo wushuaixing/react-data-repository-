@@ -3,11 +3,10 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Login from "./login";
-import AdminList from './admin/index';
-import CheckList from './check/index';
-import StructureDetail from './structure/index';
+
 
 import './App.css';
+import Home from "./home";
 
 class App extends React.Component {
 	browserHistory;
@@ -15,12 +14,12 @@ class App extends React.Component {
 		return(
 			<Router  history={this.browserHistory}>
 				<div>
+					{/*<Switch>*/}
 					{/*<IndexRoute component={Login} />*/}
 					<Route exact path="/" component={Login} history={this.props.history} />
-					<Route path="/adminList" component={AdminList} />
-					<Route path="/check" component={CheckList} />
-					<Route path="/detail" component={StructureDetail} />
-					{/*<Route path="/Page3" component={Page3} />*/}
+
+					<Route path="/home" component={Home} />
+					{/*</Switch>*/}
 				</div>
 			</Router>
 		)

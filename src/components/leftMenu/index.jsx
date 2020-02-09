@@ -3,19 +3,66 @@ import { Menu, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import './style.scss';
 import {getAvailableNav} from "../../server/api";
+import {Link} from "react-router-dom";
 
 const { SubMenu } = Menu;
 
+const menuRoute= {
+  7: "/UserList",
+  18: "/UserCheck",
+  8: "/AssetStructure",
+  15: "/CheckAssetStrure",
+  20: "/CheckAssetStrure",
+  17: "/DocumentSearch",
+  16: "/DocumentSearch",
+  9: "/DocumentSearch",
+  21:"/syncMonitor",
+  22:"/structureMonitor",
+};
+
+const menu={"code":200,
+  "data":{
+  "账号管理":[
+    {"id":7,"title":"结构化账号"},
+    {"id":18,"title":"检查账号"}
+    ],
+    "资产结构化":[
+      {"id":16,"title":"文书搜索"},
+      {"id":19,"title":"检查详情"},
+      {"id":20,"title":"资产结构化列表"}
+      ],
+    "数据抓取与同步监控":[
+      {"id":21,"title":"数据抓取与同步监控"}
+      ],
+    "结构化情况数据监控":[
+      {"id":22,"title":"结构化情况数据监控"}
+      ]
+  },
+  "message":"成功"};
+
 const myMenu=[
+/*  {
+    title: '首页',
+    // icon: 'page',
+    path: '/'
+  },
+  {
+    title: '其它',
+    // icon: 'bulb',
+    path: '/page/Other',
+    subs: [
+      {key: '/page/AlertDemo', title: '弹出框', icon: ''},
+    ]
+  },*/
   { path:"/1",title:"账号管理",icon:"book", index:'1',
     children:[
-      { title:"结构化账号",path:"/3",icon:"info-circle", index:'2', },
-      { title:"检查账号",path:"/8",icon:"branches", index:'3', },
+      { title:"结构化账号",path:"/page/adminList",icon:"info-circle", index:'2', },
+      { title:"检查账号",path:"/page/check",icon:"branches", index:'3', },
     ]
   },
   { path:"/2",title:"资产结构化情况",icon:"issues-close", index:'4',
     children:[
-      { title:"资产结构化",path:"/3",icon:"info-circle", index:'5',},
+      { title:"资产结构化",path:"/page/structure",icon:"info-circle", index:'5',},
       { title:"文书搜索",path:"/8",icon:"branches", index:'6', },
     ]
   },
@@ -73,9 +120,12 @@ class Sider extends React.Component {
                 key={`sub${item.index}`}
                 title={(
                   <span>
-                  <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
-                  <span>{item.title}</span>
+                    <Link to={item.page}>
+                      <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
+                      <span>{item.title}</span>
+                    </Link>
                 </span>
+
                 )}
               >
                 { _children }
@@ -85,8 +135,10 @@ class Sider extends React.Component {
         } else {
           el.push(
             <Menu.Item key={item.index}>
-              <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
-              <span>{item.title}</span>
+              <Link to={item.page}>
+                <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
+                <span>{item.title}</span>
+              </Link>
             </Menu.Item>
           )
         }

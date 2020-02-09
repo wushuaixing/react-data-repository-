@@ -1,8 +1,7 @@
-/** admin * */
+/** home * */
 import React from 'react';
 import TopMenu from "../../components/topMenu";
 import LeftMenu from '../../components/leftMenu';
-import AccountManage from "./accountManage";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import ContentMain from "../content";
 
@@ -11,7 +10,7 @@ import ContentMain from "../content";
 // ==================
 
 
-class  AdminList extends React.Component {
+class  Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,32 +34,23 @@ class  AdminList extends React.Component {
       let storage = window.localStorage;
       const user = storage.userName;
       const role = storage.userState;
+// console.log(storage);
         return(
           <div>
             <Router>
-              {/*<TopMenu user={user}/>*/}
-              {/*<div className="main-body" >*/}
-                {/*<div className="left-menu" >*/}
-                  {/*<LeftMenu role={role} />*/}
-                  {/*/!*<CustomMenu/>*!/*/}
-                {/*</div>*/}
-                {/*<div className="right-content" style={{marginLeft:180, marginTop:-800}}>*/}
-                  {/*<ContentMain />*/}
-                  <AccountManage />
-                  {/*/!*<ContentMain/>*!/*/}
-
-
-                  {/*/!*<Search*/}
-                      {/*placeholder="input search text"*/}
-                      {/*onSearch={value => console.log(value)}*/}
-                      {/*style={{ width: 200 }}*/}
-                    {/*/>*/}
-                  {/**!/*/}
-                {/*</div>*/}
-              {/*</div>*/}
+              <TopMenu user={user}/>
+              <div className="main-body" >
+                <div className="left-menu" >
+                  <LeftMenu role={role} />
+                </div>
+                <div className="right-content" style={{marginLeft:180, marginTop:-800}}>
+                  <p>ppp</p>
+                  <ContentMain />
+                </div>
+              </div>
             </Router>
           </div>
         );
     }
 }
-export default AdminList;
+export default Home;

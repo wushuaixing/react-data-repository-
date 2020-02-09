@@ -102,7 +102,7 @@ class Login extends React.Component {
 		};
 		Login.handleSubmit(values);
 		// console.log(this.props.history);
-		this.props.history.push('/adminList');
+		this.props.history.push('/home');
 	};
 
 	//点击刷新图形验证码
