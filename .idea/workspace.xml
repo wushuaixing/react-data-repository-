@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="-feat:[结／检／管]-基本信息-房产／土地信息">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,8 +191,8 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="449" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="489" />
     <option name="y" value="23" />
     <option name="width" value="927" />
     <option name="height" value="797" />
@@ -569,14 +567,21 @@
       <option name="project" value="LOCAL" />
       <updated>1581066548515</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="-feat:workspace.xml">
+      <created>1581219423999</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1581219423999</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="147087000" />
+    <option name="totallyTimeSpent" value="147856000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="495" y="23" width="927" height="797" extended-state="0" />
+    <frame x="489" y="23" width="927" height="797" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23068433" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -662,7 +667,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-feat:侧边栏" />
     <MESSAGE value="-feat:顶部栏" />
     <MESSAGE value="-feat:路由跳转（not yet" />
     <MESSAGE value="-feat:路由跳转,原生 route 数组对象（not yet" />
@@ -687,7 +691,8 @@
     <MESSAGE value="-feat:[结／检／管]-基本信息;" />
     <MESSAGE value="-feat:[结／检／管]-基本信息-结构化记录" />
     <MESSAGE value="-feat:[结／检／管]-基本信息-房产／土地信息" />
-    <option name="LAST_COMMIT_MESSAGE" value="-feat:[结／检／管]-基本信息-房产／土地信息" />
+    <MESSAGE value="-feat:workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="-feat:workspace.xml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
