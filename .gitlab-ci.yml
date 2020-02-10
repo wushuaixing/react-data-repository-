@@ -18,7 +18,7 @@ install_deps:
     - wwy-data
     - master
   script:
-    - npm install
+    - yarn install
 
 # 编译
 build_step:
@@ -29,7 +29,7 @@ build_step:
         - wwy-data
         - master
     script:
-        - npm build
+        - yarn build
         
 # 拷贝
 deploy_step:
