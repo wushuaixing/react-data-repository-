@@ -15,7 +15,7 @@ install_deps:
   tags:
     - front-group-runner
   only:
-    - develop
+    - wwy-data
     - master
   script:
     - npm install
@@ -26,6 +26,7 @@ build_step:
     tags:
         - front-group-runner
     only:
+        - wwy-data
         - master
     script:
         - npm build
@@ -36,6 +37,7 @@ deploy_step:
   tags:
     - front-group-runner
   only:
+    - wwy-data
     - master
   script:
     - eval $(ssh-agent -s)
