@@ -3,20 +3,20 @@ import React from 'react';
 import Button from "antd/es/button";
 import Icon from "antd/es/icon";
 import Checkbox from "antd/es/checkbox";
-import {structuredList, getCheckDetail} from '../../../server/api';
+import {structuredList, getCheckDetail,structuredObligorTypeList} from '../../../server/api';
 import './style.scss';
 import WrongReason from "../../../components/wrongReason";
 import StructureRecord from "../../../components/structureRecord";
 import WsDetail from "../../../components/wsDetail";
 import Input from "antd/es/input";
 import Radio from "antd/es/radio";
-import deleteIcon from "../../../assets/img/delete_wenshu.png";
-import addIcon from "../../../assets/img/add_wenshu.png";
-import clone from "../../../util/util";
+import RoleDetail from "../../../components/roleDetail";
 
 // ==================
 // 所需的所有组件
 // ==================
+
+const list={"code":200,"data":{"资产所有人":1,"债权人":2,"资产线索":3,"竞买人":5},"message":"成功"};
 
 const checkData={
 	"code":200,
@@ -101,6 +101,8 @@ class  StructureDetail extends React.Component {
 			ifAttach:true,
 			wenshuNum:[],
 			wenshuUrl:[],
+			obligors:[],
+			obligorList:[],
 		};
   }
 
@@ -149,6 +151,18 @@ class  StructureDetail extends React.Component {
 			}
 		},*/
 
+		// structuredObligorTypeList().then(res => {
+		// 	if (res.data.code === 200) {
+		// 		for (let key in res.data.data) {
+		// 			this.labelTypeList.push({
+		// 				value: res.data.data[key] + "",
+		// 				label: key
+		// 			});
+		// 		}
+		// 	} else {
+		// 		this.$Message.error(res.data.message);
+		// 	}
+		// });
 		let storage = window.localStorage;
 		const role = storage.userState;
 
@@ -158,6 +172,8 @@ class  StructureDetail extends React.Component {
 			wenshuNum: strucData.data[0].ah,
 			wenshuUrl: strucData.data[0].wsUrl,
 			valueWenshu: strucData.data[0].wsFindStatus,
+			obligors:strucData.data[0].obligors,
+			obligorList:list.data,
 		});
 
 		if(strucData.data[0].collateral === 0){
@@ -300,6 +316,7 @@ class  StructureDetail extends React.Component {
     const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
     const { errorReason, recordsForCheck }=this.state;
     const { wenshuNum, wenshuUrl,valueWenshu }=this.state;
+    const { obligors,obligorList }=this.state;
     const basic=strucData.data[0];
         return(
           <div>
@@ -398,6 +415,9 @@ class  StructureDetail extends React.Component {
 							</div>
 							<div>
 							<WrongReason errorList={errorReason} />
+							</div>
+							<div>
+								<RoleDetail info={obligors} list={obligorList} />
 							</div>
             </div>
 					</div>

@@ -65,4 +65,8 @@ export function structuredList(params) {
 export function getCheckDetail(id) {
 	return axios.get("/api/asset/inspector/control/getCheckDetail/" + id);
 }
+//资产结构化列表
+export function structuredObligorTypeList() {
+	return axios.get("/api/common/structuredObligorTypeList");
+}
 
