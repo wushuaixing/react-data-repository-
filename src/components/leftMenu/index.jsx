@@ -54,28 +54,28 @@ const myMenu=[
       {key: '/page/AlertDemo', title: '弹出框', icon: ''},
     ]
   },*/
-  { path:"/1",title:"账号管理",icon:"book", index:'1',
+  { path:"/home",title:"账号管理",icon:"book", index:'1',
     children:[
       { title:"结构化账号",path:"/page/adminList",icon:"info-circle", index:'2', },
       { title:"检查账号",path:"/page/check",icon:"branches", index:'3', },
     ]
   },
-  { path:"/2",title:"资产结构化情况",icon:"issues-close", index:'4',
+  { path:"/home",title:"资产结构化情况",icon:"issues-close", index:'4',
     children:[
       { title:"资产结构化",path:"/page/structure",icon:"info-circle", index:'5',},
-      { title:"文书搜索",path:"/8",icon:"branches", index:'6', },
+      { title:"文书搜索",path:"/home",icon:"branches", index:'6', },
     ]
   },
-  { path:"/3",title:"资产结构化情况检查",icon:"issues-close", index:'7',
+  { path:"/home",title:"资产结构化情况检查",icon:"issues-close", index:'7',
     children:[
-      { title:"资产结构化",path:"/3",icon:"info-circle", index:'8', },
-      { title:"文书搜索",path:"/8",icon:"branches", index:'9', },
+      { title:"资产结构化",path:"/home",icon:"info-circle", index:'8', },
+      { title:"文书搜索",path:"/home",icon:"branches", index:'9', },
     ]
   },
-  { path:"/4",title:"数据抓取与同步监控",icon:"issues-close", index:'10',},
-  { path:"/5",title:"结构化情况数据监控",icon:"issues-close", index:'11', },
-  { path:"/6",title:"招投标结构化",icon:"issues-close", index:'12', },
-  { path:"/7",title:"破产重组结构化",icon:"issues-close", index:'13', },
+  { path:"/home",title:"数据抓取与同步监控",icon:"issues-close", index:'10',},
+  { path:"/home",title:"结构化情况数据监控",icon:"issues-close", index:'11', },
+  { path:"/home",title:"招投标结构化",icon:"issues-close", index:'12', },
+  { path:"/home",title:"破产重组结构化",icon:"issues-close", index:'13', },
 
   ];
 

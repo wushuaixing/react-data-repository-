@@ -1,3 +1,4 @@
+/*
 module.exports = {
     pluginOptions: {
         env: {
@@ -10,19 +11,20 @@ module.exports = {
     productionSourceMap: false,
     devServer: {
         port: 8081, // 端口号
-        host: "http://172.18.255.112",
+        host: "http://192.168.0.255",
         https: false, // https:{type:Boolean}
         open: true, //配置自动启动浏览器
         proxy: {
             "/": {
-                target: "http://172.18.255.251:18081", // 需要请求的地址
+                target: "http://data.java.yczcjk.com", // 需要请求的地址
                 // target :"http://172.18.255.74:8080",
                 ws: false
-                /*   changeOrigin: true, // 是否跨域
+                /!*   changeOrigin: true, // 是否跨域
                 pathRewrite: {
                   "^/sell": "/" // 替换target中的请求地址，也就是说，在请求的时候，url用'/proxy'代替'http://ip.taobao.com'
-                }*/
+                }*!/
             }
         } // 配置多个代理
     }
 };
+*/
