@@ -10,13 +10,9 @@ class  CheckList extends React.Component {
 	render() {
 		return(
 			<div>
-				<TopMenu />
-				<div className="main-body">
-					<div className="left-menu">
-						<LeftMenu />
+					<div className="right-content">
+						check
 					</div>
-					<div className="right-content"/>
-				</div>
 			</div>
 		);
 	}

@@ -44,7 +44,6 @@ class  Home extends React.Component {
                   <LeftMenu role={role} />
                 </div>
                 <div className="right-content" style={{marginLeft:180, marginTop:-800}}>
-                  <p>ppp</p>
                   <ContentMain />
                 </div>
               </div>

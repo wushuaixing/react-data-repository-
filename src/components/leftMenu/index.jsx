@@ -54,19 +54,19 @@ const myMenu=[
       {key: '/page/AlertDemo', title: '弹出框', icon: ''},
     ]
   },*/
-  { path:"/home",title:"账号管理",icon:"book", index:'1',
+  { title:"账号管理",icon:"book", index:'1',
     children:[
-      { title:"结构化账号",path:"/page/adminList",icon:"info-circle", index:'2', },
+      { title:"结构化账号",path:"/home",icon:"info-circle", index:'2', subs:'1'},
       { title:"检查账号",path:"/page/check",icon:"branches", index:'3', },
     ]
   },
-  { path:"/home",title:"资产结构化情况",icon:"issues-close", index:'4',
+  { title:"资产结构化情况",icon:"issues-close", index:'4',
     children:[
       { title:"资产结构化",path:"/page/structure",icon:"info-circle", index:'5',},
       { title:"文书搜索",path:"/home",icon:"branches", index:'6', },
     ]
   },
-  { path:"/home",title:"资产结构化情况检查",icon:"issues-close", index:'7',
+  { title:"资产结构化情况检查",icon:"issues-close", index:'7',
     children:[
       { title:"资产结构化",path:"/home",icon:"info-circle", index:'8', },
       { title:"文书搜索",path:"/home",icon:"branches", index:'9', },
@@ -120,7 +120,7 @@ class Sider extends React.Component {
                 key={`sub${item.index}`}
                 title={(
                   <span>
-                    <Link to={item.page}>
+                    <Link to={item.path}>
                       <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
                       <span>{item.title}</span>
                     </Link>
@@ -135,7 +135,7 @@ class Sider extends React.Component {
         } else {
           el.push(
             <Menu.Item key={item.index}>
-              <Link to={item.page}>
+              <Link to={item.path}>
                 <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
                 <span>{item.title}</span>
               </Link>
