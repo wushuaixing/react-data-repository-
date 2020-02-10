@@ -1,6 +1,7 @@
 /** admin * */
 import React from 'react';
 import StructureDetail from './detail';
+import {BrowserRouter as Router} from "react-router-dom";
 // ==================
 // 所需的所有组件
 // ==================
@@ -24,7 +25,9 @@ class  AdminList extends React.Component {
       const { }=this.props;
         return(
           <div>
+            <Router>
             <StructureDetail />
+            </Router>
           </div>
         );
     }

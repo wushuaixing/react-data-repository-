@@ -10,7 +10,9 @@ class ContentMain extends React.Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/home" component={AdminList} />
+          {/*<Route exact path="/home" component={AdminList} />*/}
+          <Route exact path="/home" component={StructureDetail} />
+
           <Route exact path="/page/check" component={CheckList} />
           <Route exact path="/page/structure" component={StructureDetail} />
         </Switch>

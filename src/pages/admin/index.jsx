@@ -38,26 +38,7 @@ class  AdminList extends React.Component {
         return(
           <div>
             <Router>
-              {/*<TopMenu user={user}/>*/}
-              {/*<div className="main-body" >*/}
-                {/*<div className="left-menu" >*/}
-                  {/*<LeftMenu role={role} />*/}
-                  {/*/!*<CustomMenu/>*!/*/}
-                {/*</div>*/}
-                {/*<div className="right-content" style={{marginLeft:180, marginTop:-800}}>*/}
-                  {/*<ContentMain />*/}
                   <AccountManage />
-                  {/*/!*<ContentMain/>*!/*/}
-
-
-                  {/*/!*<Search*/}
-                      {/*placeholder="input search text"*/}
-                      {/*onSearch={value => console.log(value)}*/}
-                      {/*style={{ width: 200 }}*/}
-                    {/*/>*/}
-                  {/**!/*/}
-                {/*</div>*/}
-              {/*</div>*/}
             </Router>
           </div>
         );

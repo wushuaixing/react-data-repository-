@@ -7,8 +7,13 @@ import {structuredList, getCheckDetail} from '../../../server/api';
 import './style.scss';
 import WrongReason from "../../../components/wrongReason";
 import StructureRecord from "../../../components/structureRecord";
+import WsDetail from "../../../components/wsDetail";
 import Input from "antd/es/input";
 import Radio from "antd/es/radio";
+import deleteIcon from "../../../assets/img/delete_wenshu.png";
+import addIcon from "../../../assets/img/add_wenshu.png";
+import clone from "../../../util/util";
+
 // ==================
 // 所需的所有组件
 // ==================
@@ -45,7 +50,7 @@ const checkData={
 const strucData={
 	"code":200,
 	"data":[{
-			"ah":[],
+			"ah":[88888,99999],
 		"associatedAnnotationId":"",
 		"auctionStatus":5,
 		"buildingArea":123456.0,
@@ -66,7 +71,7 @@ const strucData={
 		"wrongReason":["事实上多填所有人:\n债权人错误：\n"],
 		"wsFindStatus":0,
 		"wsInAttach":1,
-		"wsUrl":[]
+		"wsUrl":["//sf-item.taobao.com/sf_item/582189191779.htm","//sf-item.taobao.com/sf_item/582189191779.htm"]
 	}],
 	"hasNext":false,
 	"message":"成功",
@@ -152,6 +157,7 @@ class  StructureDetail extends React.Component {
 			ifAttach: strucData.data[0].wsInAttach,
 			wenshuNum: strucData.data[0].ah,
 			wenshuUrl: strucData.data[0].wsUrl,
+			valueWenshu: strucData.data[0].wsFindStatus,
 		});
 
 		if(strucData.data[0].collateral === 0){
@@ -288,44 +294,12 @@ class  StructureDetail extends React.Component {
 		});
 	};
 
-	//文书信息
-	onChangeRadioWenshu = e =>{
-		console.log('radio checked', e.target.value);
-		this.setState({
-			valueWenshu: e.target.value,
-		});
-	};
-  //文书案号
-	getWenshuNum=e=>{
-		let temp=[];
-		temp.push(e.target.value);
-		this.setState({
-			wenshuNum: temp,
-		});
-	};
-
-	//文书链接
-	getWenshuUrl=e=>{
-		let temp=[];
-		temp.push(e.target.value);
-		this.setState({
-			wenshuUrl: temp,
-		});
-	};
-
-	//详情见附件
-	onChangeAttach=e=>{
-		this.setState({
-			ifAttach: e.target.checked,
-		});
-	};
-
 //待标记--》详情页
   render() {
     const { }=this.props;
     const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
     const { errorReason, recordsForCheck }=this.state;
-    const { wenshuNum, wenshuUrl }=this.state;
+    const { wenshuNum, wenshuUrl,valueWenshu }=this.state;
     const basic=strucData.data[0];
         return(
           <div>
@@ -417,68 +391,10 @@ class  StructureDetail extends React.Component {
 							</div>
 
 						</div>
-							<div className="right-part">
-								<div className="yc-part-title">
-									<p>文书信息</p>
-								</div>
-								<div className="yc-wrong-detail">
-									<div>
-										<p className="yc-sec-title">查找文书:</p>
-										<Radio.Group
-											onChange={this.onChangeRadioWenshu}
-											value={this.state.valueWenshu}
-											className="yc-link-title"
-											style={{marginLeft:5}}
-										>
-											<Radio value={0}>找到文书</Radio>
-											<Radio value={1}>未找到文书</Radio>
-										</Radio.Group>
-									</div>
-									<div>
-										<p className="yc-sec-title">相关文书案号:</p>
-										{ wenshuNum && wenshuNum.map((item,index)=>{
-											return(
-													<div>
-														<Input className="yc-sec-title"
-																	 placeholder="请输入相关文书案号"
-																	 style={{width:225,margin:5}}
-																	 value={item}
-																	 onChange={this.getWenshuNum}
-																	 key={index}
-														/>
-													</div>
-												)
-										})
-										}
+								<div className="right-part">
 
-									</div>
-
-									<div>
-										<p className="yc-sec-title">文书链接地址:</p>
-										{ wenshuUrl && wenshuUrl.map((item,index)=>{
-											return(
-												<div>
-													<Input className="yc-sec-title"
-																 placeholder="请输入文书链接地址"
-																 style={{width:225,margin:5}}
-																 value={item}
-																 onChange={this.getWenshuUrl}
-																 key={index}
-													/>
-												</div>
-											)
-										})
-										}
-									</div>
-									<div>
-										<Checkbox
-											defaultChecked={this.state.ifAttach}
-											onChange={this.onChangeAttach}
-											style={{marginLeft:5}}
-										>详情见资产拍卖附件</Checkbox>
-									</div>
+								<WsDetail num={wenshuNum} url={wenshuUrl} ifWs={valueWenshu}/>
 								</div>
-							</div>
 							</div>
 							<div>
 							<WrongReason errorList={errorReason} />
