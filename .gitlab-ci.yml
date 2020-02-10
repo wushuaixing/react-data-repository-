@@ -13,7 +13,7 @@ cache:
 install_deps:
   stage: install_deps
   tags:
-    - front-group-runner
+    - font-group-runner
   only:
     - wwy-data
     - master
@@ -24,7 +24,7 @@ install_deps:
 build_step:
     stage: build
     tags:
-        - front-group-runner
+        - font-group-runner
     only:
         - wwy-data
         - master
@@ -35,7 +35,7 @@ build_step:
 deploy_step:
   stage: deploy
   tags:
-    - front-group-runner
+    - font-group-runner
   only:
     - wwy-data
     - master
