@@ -51,6 +51,11 @@ class  WsDetail extends React.Component {
 				style: 'none',
 			});
 		}
+		if(e.target.value === 0){
+			this.setState({
+				style: '',
+			});
+		}
 		this.setState({
 			valueWenshu: e.target.value,
 		});
@@ -89,8 +94,9 @@ class  WsDetail extends React.Component {
 				id: new Date().getTime(),
 				value: ""
 			});
-			console.log(temp);
-
+			this.setState({
+				wenshuNum:ws,
+			});
 			// this.$set(this.data, "ah", ws);
 		}
 	};
@@ -103,7 +109,9 @@ class  WsDetail extends React.Component {
 				id: new Date().getTime(),
 				value: ""
 			});
-
+			this.setState({
+				wenshuUrl:ws,
+			});
 			// this.$set(this.data, "wsUrl", ws);
 		}
 	};
@@ -125,10 +133,11 @@ class  WsDetail extends React.Component {
 //待标记--》详情页
   render() {
 		const { wenshuNum, wenshuUrl }=this.state;
+		const { strucStyle,checkStyle}=this.state;
 
 		return(
 
-							<div>
+							<div style={{height:200}}>
 								<div className="yc-part-title">
 									<p>文书信息</p>
 								</div>
@@ -145,15 +154,15 @@ class  WsDetail extends React.Component {
 											<Radio value={1}>未找到文书</Radio>
 										</Radio.Group>
 									</div>
-									<div style={{display:this.state.style}} >
+									<div style={{display:this.state.style, }} >
 										<p style={{float:'left'}}>相关文书案号:</p>
-										<div className="range" style={{display:this.state.strucStyle}}>
+										<div className="range" style={{display:checkStyle}}>
 										{ wenshuNum && wenshuNum.map((item,index)=>{
 											return(
-													<div className="range-item" key={index}>
+													<div className="range-item" key={item.id}>
 														<Input placeholder="请输入相关文书案号"
 																	 style={{width:225,margin:5}}
-																	 value={item}
+																	 value={item.value}
 																	 onChange={this.getWenshuNum}
 																	 key={index}
 														/>
@@ -174,11 +183,11 @@ class  WsDetail extends React.Component {
 										})
 										}
 										</div>
-										<div className="range" style={{display:this.state.checkStyle}}>
+										<div className="range" style={{display:strucStyle}}>
 											{ wenshuNum && wenshuNum.map((item,index)=>{
 												return(
-													<div className="range-item" key={index} style={{display:'inline-block'}}>
-														<p style={{marginLeft:5,fontSize:12,}}>{item}</p>
+													<div className="range-item" key={item.id} style={{display:'inline-block'}}>
+														<p style={{marginLeft:5,fontSize:12,}}>{item.value}</p>
 													</div>
 												)
 											})
@@ -188,14 +197,14 @@ class  WsDetail extends React.Component {
 
 									<div style={{display:this.state.style}}>
 										<p style={{float:'left'}}>文书链接地址:</p>
-										<div className="range" style={{display:this.state.strucStyle}}>
+										<div className="range" style={{display:checkStyle}}>
 										{ wenshuUrl && wenshuUrl.map((item,index)=>{
 											return(
-												<div key={index} className="range-item" >
+												<div key={item.id} className="range-item" >
 													<Input
 														     placeholder="请输入文书链接地址"
 																 style={{width:225,margin:5,display:'inline-block'}}
-																 value={item}
+																 value={item.url}
 																 onChange={this.getWenshuUrl}
 																 key={index}
 													/>
@@ -216,11 +225,11 @@ class  WsDetail extends React.Component {
 										})
 										}
 										</div>
-										<div className="range" style={{display:this.state.checkStyle}}>
+										<div className="range" style={{display:strucStyle}}>
 											{ wenshuUrl && wenshuUrl.map((item,index)=>{
 												return(
-													<div className="range-item" key={index} style={{display:'inline-block'}}>
-														<p style={{marginLeft:5,fontSize:12,}}>{item}</p>
+													<div className="range-item" key={item.id} style={{display:'inline-block'}}>
+														<p style={{marginLeft:5,fontSize:12,}}>{item.url}</p>
 													</div>
 												)
 											})

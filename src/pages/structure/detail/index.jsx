@@ -50,7 +50,7 @@ const checkData={
 const strucData={
 	"code":200,
 	"data":[{
-			"ah":[88888,99999],
+			"ah":[{id:12133,value:88888},{id:2131434,value:99999}],
 		"associatedAnnotationId":"",
 		"auctionStatus":5,
 		"buildingArea":123456.0,
@@ -71,7 +71,8 @@ const strucData={
 		"wrongReason":["事实上多填所有人:\n债权人错误：\n"],
 		"wsFindStatus":0,
 		"wsInAttach":1,
-		"wsUrl":["//sf-item.taobao.com/sf_item/582189191779.htm","//sf-item.taobao.com/sf_item/582189191779.htm"]
+		"wsUrl":[{id:12133,url:"//sf-item.taobao.com/sf_item/582189191779.htm"},
+			{id:2131434,url:"//sf-item.taobao.com/sf_item/582189191779.htm"}]
 	}],
 	"hasNext":false,
 	"message":"成功",
