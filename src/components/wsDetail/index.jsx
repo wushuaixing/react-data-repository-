@@ -18,13 +18,20 @@ class  WsDetail extends React.Component {
 			valueWenshu:0,
 			wenshuNum:[],
 			wenshuUrl:[],
+			strucStyle:'',
+			checkStyle:'none',
 		};
   }
 
   componentWillMount() {
 		let storage = window.localStorage;
 		const role = storage.userState;
-
+		if(role !== '结构化人员'){
+			this.setState({
+				strucStyle:'none',
+				checkStyle:'',
+			});
+		}
 		const { num, url, ifWs }=this.props;
 
 		this.setState({
@@ -118,6 +125,7 @@ class  WsDetail extends React.Component {
 //待标记--》详情页
   render() {
 		const { wenshuNum, wenshuUrl }=this.state;
+
 		return(
 
 							<div>
@@ -139,7 +147,7 @@ class  WsDetail extends React.Component {
 									</div>
 									<div style={{display:this.state.style}} >
 										<p style={{float:'left'}}>相关文书案号:</p>
-										<div className="range" >
+										<div className="range" style={{display:this.state.strucStyle}}>
 										{ wenshuNum && wenshuNum.map((item,index)=>{
 											return(
 													<div className="range-item" key={index}>
@@ -166,11 +174,21 @@ class  WsDetail extends React.Component {
 										})
 										}
 										</div>
+										<div className="range" style={{display:this.state.checkStyle}}>
+											{ wenshuNum && wenshuNum.map((item,index)=>{
+												return(
+													<div className="range-item" key={index} style={{display:'inline-block'}}>
+														<p style={{marginLeft:5,fontSize:12,}}>{item}</p>
+													</div>
+												)
+											})
+											}
+										</div>
 									</div>
 
 									<div style={{display:this.state.style}}>
 										<p style={{float:'left'}}>文书链接地址:</p>
-										<div className="range" >
+										<div className="range" style={{display:this.state.strucStyle}}>
 										{ wenshuUrl && wenshuUrl.map((item,index)=>{
 											return(
 												<div key={index} className="range-item" >
@@ -197,6 +215,16 @@ class  WsDetail extends React.Component {
 											)
 										})
 										}
+										</div>
+										<div className="range" style={{display:this.state.checkStyle}}>
+											{ wenshuUrl && wenshuUrl.map((item,index)=>{
+												return(
+													<div className="range-item" key={index} style={{display:'inline-block'}}>
+														<p style={{marginLeft:5,fontSize:12,}}>{item}</p>
+													</div>
+												)
+											})
+											}
 										</div>
 									</div>
 									<div style={{display:this.state.style}}>
