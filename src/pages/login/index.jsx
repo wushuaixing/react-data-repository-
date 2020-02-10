@@ -82,11 +82,13 @@ class Login extends React.Component {
 	};
 
 	//接口异步 验证账号密码
-	static async handleSubmit(info){
+	static async handleSubmit(info,history){
 		const res= await login(info);
 		if (res.data.code === 200) {
 			storage.setItem("userState", res.data.data.ROLE);
 			storage.setItem("userName", res.data.data.NAME);
+			history.push('/home');
+
 		} else {
 			console.log('wrong');
 		}
@@ -100,9 +102,9 @@ class Login extends React.Component {
 			password: this.props.form.getFieldValue('password'),
 			rememberMe: true,
 		};
-		Login.handleSubmit(values);
+		const history=this.props.history;
+		Login.handleSubmit(values,history);
 		// console.log(this.props.history);
-		this.props.history.push('/home');
 	};
 
 	//点击刷新图形验证码
