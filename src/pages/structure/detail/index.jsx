@@ -4,13 +4,12 @@ import Button from "antd/es/button";
 import Icon from "antd/es/icon";
 import Checkbox from "antd/es/checkbox";
 import {structuredList, getCheckDetail,structuredObligorTypeList} from '../../../server/api';
-import './style.scss';
+import BasicDetail from "../../../components/basicDetail";
 import WrongReason from "../../../components/wrongReason";
-import StructureRecord from "../../../components/structureRecord";
 import WsDetail from "../../../components/wsDetail";
-import Input from "antd/es/input";
-import Radio from "antd/es/radio";
 import RoleDetail from "../../../components/roleDetail";
+import HouseDetail from "../../../components/houseDetail";
+import './style.scss';
 
 // ==================
 // 所需的所有组件
@@ -96,7 +95,7 @@ class  StructureDetail extends React.Component {
 			},
 			recordsForCheck:[],
 			checkedCollateral:true,
-			valueHouse:0,
+			houseType:0,
 			valueWenshu:0,
 			area:'',
 			ifAttach:true,
@@ -173,8 +172,9 @@ class  StructureDetail extends React.Component {
 			wenshuNum: strucData.data[0].ah,
 			wenshuUrl: strucData.data[0].wsUrl,
 			valueWenshu: strucData.data[0].wsFindStatus,
-			obligors:strucData.data[0].obligors,
-			obligorList:list.data,
+			obligors: strucData.data[0].obligors,
+			obligorList: list.data,
+			area: strucData.data[0].buildingArea,
 		});
 
 		if(strucData.data[0].collateral === 0){
@@ -260,22 +260,7 @@ class  StructureDetail extends React.Component {
 	toSave=()=>{};
 
 	// const date_format = date => {/* your code */}
-	//拍卖状态
-	filterAuctionStatus=(value) =>{
-		if (value === 1) {
-			return "即将开始";
-		} else if (value === 3) {
-			return "拍卖中";
-		} else if (value === 5) {
-			return "成功交易";
-		} else if (value === 7) {
-			return "失败";
-		} else if (value === 9) {
-			return "终止";
-		} else if (value === 11) {
-			return "撤回";
-		}
-	};
+
 
 	//打开标题链接
 	openLink=()=>{
@@ -283,41 +268,16 @@ class  StructureDetail extends React.Component {
 		// window.open(href + "#/SourcePage/"+this.$route.params.id);
 	};
 
-	//
-	associated=(id) =>{
-		let href = window.location.href.split("#")[0];
-		// window.open(
-		// 	href + "#/check/" + id + "/" + strucData.data[0].auctionStatus
-		// );
-	};
- //抵押情况
-	onChangeCheckBox = e =>{
-		// console.log(e.target.checked);
-	};
 
-	//房产／土地类型
-	onChangeRadioHouse = e =>{
-		// console.log('radio checked', e.target.value);
-		this.setState({
-			valueHouse: e.target.value,
-		});
-	};
 
-	//建筑面积
-	getArea = e =>{
-		// console.log(e.target.value);
-		this.setState({
-			area: e.target.value,
-		});
-	};
 
 //待标记--》详情页
   render() {
     const { }=this.props;
     const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
     const { errorReason, recordsForCheck }=this.state;
-    const { wenshuNum, wenshuUrl,valueWenshu }=this.state;
-    const { obligors,obligorList }=this.state;
+    const { wenshuNum, wenshuUrl,valueWenshu,wsInAttach }=this.state;
+    const { obligors,obligorList,checkedCollateral,houseType,area }=this.state;
     const basic=strucData.data[0];
         return(
           <div>
@@ -339,82 +299,15 @@ class  StructureDetail extends React.Component {
 							<div>
 								<WrongReason errorList={errorReason} />
 							</div>
-							<div className="yc-wrong-part">
-								<div className="yc-part-title">
-									<p>基本信息</p>
-								</div>
-								<div className="yc-wrong-detail">
-									<div>
-										<p className="yc-sec-title">标题:</p>
-										<p className="yc-link-title" onClick={this.openLink} style={{ marginLeft:5 }} >{ basic.title }</p>
-								  </div>
-									<div>
-										<p className="yc-sec-title">拍卖状态:</p>
-										<p className="yc-sec-title" style={{ marginLeft:5}}>{ this.filterAuctionStatus(basic.auctionStatus) }</p>
-									</div>
-									<StructureRecord records={recordsForCheck} />
-										{/*//什么数据是有撤回原因和关联标注的 条件：!character && status !== 0*/}
-									<div >
-										<p className="yc-sec-title">撤回原因:</p>
-										<p className="yc-sec-title" style={{ marginLeft:5}}>{ basic.reasonForWithdrawal }</p>
-									</div>
-									<div >
-										<p className="yc-sec-title">关联标注:</p>
-										<p
-											className="yc-link-title"
-											style={{ marginLeft:5}}
-											onClick={this.associated(basic.associatedAnnotationId)}
-									  >
-											{basic.associatedAnnotationId }
-									  </p>
-								  </div>
-						</div>
-					    </div>
+							<div>
+								<BasicDetail info={basic} records={recordsForCheck} />
+							</div>
 							<div className="yc-wrong-part">
 							<div className="left-part">
-								<div className="yc-part-title">
-									<p>房产／土地信息</p>
-								</div>
-								<div className="yc-wrong-detail">
-									<div>
-										<p className="yc-sec-title">抵押情况:</p>
-										<Checkbox
-											defaultChecked={this.state.checkedCollateral}
-											onChange={this.onChangeCheckBox}
-											style={{marginLeft:5}}
-										>未抵押</Checkbox>
-									</div>
-									<div>
-										<p className="yc-sec-title">房产／土地类型:</p>
-										<Radio.Group
-											onChange={this.onChangeRadioHouse}
-											value={this.state.valueHouse}
-											className="yc-link-title"
-											style={{marginLeft:5}}
-										>
-											<Radio value={0}>未知</Radio>
-											<Radio value={1}>商用</Radio>
-											<Radio value={2}>住宅</Radio>
-											<Radio value={4}>工业</Radio>
-										</Radio.Group>
-									</div>
-									<div>
-										<p className="yc-sec-title">建筑面积:</p>
-										<Input className="yc-sec-title"
-													 placeholder="请输入建筑面积"
-													 style={{width:225,margin:5}}
-													 onChange={this.getArea}
-										/>
-										<p className="yc-sec-title">m²</p>
-									</div>
-									<div>
-								</div>
+								<HouseDetail  collateral={checkedCollateral} house={houseType} area={area} />
 							</div>
-
-						</div>
 								<div className="right-part">
-
-								<WsDetail num={wenshuNum} url={wenshuUrl} ifWs={valueWenshu}/>
+								<WsDetail num={wenshuNum} url={wenshuUrl} ifWs={valueWenshu} attach={wsInAttach} />
 								</div>
 							</div>
 							<div>

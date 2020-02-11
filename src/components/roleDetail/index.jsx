@@ -83,6 +83,7 @@ class  RoleDetail extends React.Component {
     if (!data) {
       return;
     }
+    let info=this.state.tableList[index];
     let year, month, day;
     let changeTime;
     let dateNum=`${data}`.match(/^\d{8}$/);
@@ -91,16 +92,16 @@ class  RoleDetail extends React.Component {
     // let checkTime = `${data}`.match(/(\d{1,}).(\d{1,}).(\d{1,}).(.*).*/);
     let checkTime = `${data}`.match(/^(\d{4})年(\d{1,2})月(\d{1,2})(日|号|)$/);
     if(dateNum){
-      this.state.tableList[index].birthday =data;
+			info.birthday =data;
     }
     else if(!checkTime){
       // this.$Message.error("输入格式错误");
       // this.error.birthday = "输入格式错误";
-      this.state.tableList[index].birthday =data;
+			info.birthday =data;
     }
     else if(checkTime){
       if(Number(checkTime[2])>12 || Number(checkTime[2]) <0 || Number(checkTime[3])>31 || Number(checkTime[3])<0){
-        this.state.tableList[index].birthday = checkTime[1] + checkTime[2] + checkTime[3];
+				info.birthday = checkTime[1] + checkTime[2] + checkTime[3];
       }
       else{
         changeTime = new Date(checkTime[1], checkTime[2]-1, checkTime[3]);
@@ -119,11 +120,11 @@ class  RoleDetail extends React.Component {
           else{
             day = changeTime.getDate();
           }
-          this.state.tableList[index].birthday = year + month + day;
+					info.birthday = year + month + day;
         } else {
           // this.$Message.error("输入格式错误");
           // this.error.birthday = "输入格式错误";
-          this.state.tableList[index].birthday = "";
+					info.birthday = "";
         }
       }
     }

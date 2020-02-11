@@ -20,6 +20,7 @@ class  WsDetail extends React.Component {
 			wenshuUrl:[],
 			strucStyle:'',
 			checkStyle:'none',
+			wsAttach:true,
 		};
   }
 
@@ -32,12 +33,13 @@ class  WsDetail extends React.Component {
 				checkStyle:'',
 			});
 		}
-		const { num, url, ifWs }=this.props;
+		const { num, url, ifWs, attach }=this.props;
 
 		this.setState({
 			wenshuNum: num,
 			wenshuUrl: url,
 			valueWenshu:ifWs,
+			wsAttach:attach,
 		});
 
 
@@ -56,33 +58,25 @@ class  WsDetail extends React.Component {
 				style: '',
 			});
 		}
-		this.setState({
-			valueWenshu: e.target.value,
-		});
+		this.props.ifWs=e.target.value;
 	};
   //文书案号
 	getWenshuNum=e=>{
 		let temp=[];
 		temp.push(e.target.value);
-		this.setState({
-			wenshuNum: temp,
-		});
+		// this.props.num=temp;
 	};
 
 	//文书链接
 	getWenshuUrl=e=>{
 		let temp=[];
 		temp.push(e.target.value);
-		this.setState({
-			wenshuUrl: temp,
-		});
+		// this.props.url=temp;
 	};
 
 	//详情见附件
 	onChangeAttach=e=>{
-		this.setState({
-			ifAttach: e.target.checked,
-		});
+		// this.props.attach=e.target.checked;
 	};
 
 	//添加文书号
@@ -94,9 +88,7 @@ class  WsDetail extends React.Component {
 				id: new Date().getTime(),
 				value: ""
 			});
-			this.setState({
-				wenshuNum:ws,
-			});
+			// this.props.num=ws;
 			// this.$set(this.data, "ah", ws);
 		}
 	};
@@ -109,9 +101,7 @@ class  WsDetail extends React.Component {
 				id: new Date().getTime(),
 				value: ""
 			});
-			this.setState({
-				wenshuUrl:ws,
-			});
+			// this.props.url=ws;
 			// this.$set(this.data, "wsUrl", ws);
 		}
 	};
@@ -119,22 +109,18 @@ class  WsDetail extends React.Component {
 	deleteWS=(index) =>{
 		let temp=this.state.wenshuNum;
 		temp.splice(index,1);
-		this.setState({
-			wenshuNum:temp,
-		});
+		// this.props.num=temp;
 	};
 	//删除文书链接地址
 	deleteWSUrl=(index)=> {
-		let temp=this.state.wenshuUrl
+		let temp=this.state.wenshuUrl;
 		temp.splice(index,1);
-		this.setState({
-			wenshuUrl:temp,
-		});
+		// this.props.url=temp;
 	};
 
 //待标记--》详情页
   render() {
-		const { wenshuNum, wenshuUrl }=this.state;
+		const { wenshuNum, wenshuUrl, wsAttach }=this.state;
 		const { strucStyle,checkStyle}=this.state;
 
 		return(
@@ -240,7 +226,7 @@ class  WsDetail extends React.Component {
 									</div>
 									<div style={{display:this.state.style}}>
 										<Checkbox
-											defaultChecked={this.state.ifAttach}
+											defaultChecked={wsAttach}
 											onChange={this.onChangeAttach}
 											style={{marginLeft:5}}
 										>详情见资产拍卖附件</Checkbox>

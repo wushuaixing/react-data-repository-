@@ -26,7 +26,7 @@ class  AdminList extends React.Component {
         return(
           <div>
             <Router>
-            <StructureDetail />
+              <StructureDetail />
             </Router>
           </div>
         );

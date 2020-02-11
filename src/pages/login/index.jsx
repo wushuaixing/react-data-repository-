@@ -162,9 +162,9 @@ class Login extends React.Component {
 			});
 		}
 		else{
-			this.state.wait--;
+			let temp=this.state.wait--;
 			this.setState({
-				wait: this.state.wait,
+				wait: temp,
 				display_button:'none',
 				display_disabled:'',
 			});

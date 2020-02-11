@@ -47,46 +47,6 @@ class  WrongReason extends React.Component {
       }
   };
 
-  //检查人员错误原因渲染文本
-  setWrongText=(reasonCheck)=>{
-    const _level=this.filterLevel(reasonCheck.errorLevel);
-    return(<div>
-      <div>
-        <p style={{display: 'inline-block'}}>错误等级:</p>
-        <p className="error">{_level && _level}</p>
-      </div>
-      <div>
-      <p style={{display: 'inline-block'}}>错误详情:</p>
-      <p className="error">{reasonCheck && reasonCheck.desc}</p>
-     </div>
-    </div>)
-  };
-
-  //管理员错误原因渲染文本
-  setAdmin=(reasonAdmin)=>{
-    reasonAdmin && reasonAdmin.map((item,index)=>{
-      console.log(item.errorLevel);
-      item.errorLevel=this.filterLevel(item.errorLevel);
-      return (<div
-        style={{marginBottom: 10}} key={index}
-      >
-        <div>
-          <p style={{display: 'inline-block'}}>
-            { item.time && item.user && item.time +" "+ item.user}
-          </p>
-          <p className="yc-error">有误</p>
-        </div>
-        <div>
-          <p style={{display: 'inline-block'}}>错误等级:</p>
-          <p className="yc-error">{item.errorLevel && item.errorLevel}</p>
-        </div>
-        <div>
-          <p style={{display: 'inline-block'}}>错误详情:</p>
-          <p className="yc-error">{item.desc && item.desc}</p>
-        </div>
-      </div>)
-    })
-  };
 
   render() {
     const { errorList }=this.state;

@@ -54,28 +54,28 @@ const myMenu=[
       {key: '/page/AlertDemo', title: '弹出框', icon: ''},
     ]
   },*/
-  { title:"账号管理",icon:"book", index:'1',
+  { title:"账号管理",icon:"book",index:'2',
     children:[
-      { title:"结构化账号",key:"/home",icon:"info-circle", index:'2', subs:'1'},
+      { title:"结构化账号",key:"/page/admin",icon:"info-circle", index:'1'},
       { title:"检查账号",key:"/page/check",icon:"branches", index:'3', },
     ]
   },
   { title:"资产结构化情况",icon:"issues-close", index:'4',
     children:[
       { title:"资产结构化",key:"/page/structure",icon:"info-circle", index:'5',},
-      { title:"文书搜索",key:"/home",icon:"branches", index:'6', },
+      { title:"文书搜索",key:"/page/1",icon:"branches", index:'6', },
     ]
   },
-  { title:"资产结构化情况检查",icon:"issues-close", index:'7',
+  { title:"资产结构化情况检查",icon:"issues-close",index:'7',
     children:[
-      { title:"资产结构化",key:"/home",icon:"info-circle", index:'8', },
-      { title:"文书搜索",key:"/home",icon:"branches", index:'9', },
+      { title:"资产结构化",key:"/page/2",icon:"info-circle", index:'8', },
+      { title:"文书搜索",key:"/page/3",icon:"branches", index:'9', },
     ]
   },
-  { key:"/home",title:"数据抓取与同步监控",icon:"issues-close", index:'10',},
-  { key:"/home",title:"结构化情况数据监控",icon:"issues-close", index:'11', },
-  { key:"/home",title:"招投标结构化",icon:"issues-close", index:'12', },
-  { key:"/home",title:"破产重组结构化",icon:"issues-close", index:'13', },
+  { key:"/page/4",title:"数据抓取与同步监控",icon:"issues-close", index:'10',},
+  { key:"/page/5",title:"结构化情况数据监控",icon:"issues-close", index:'11', },
+  { key:"/page/6",title:"招投标结构化",icon:"issues-close", index:'12', },
+  { key:"/page/7",title:"破产重组结构化",icon:"issues-close", index:'13', },
 
   ];
 
@@ -152,7 +152,7 @@ class Sider extends React.Component {
     return (
       <div>
         <Menu
-          defaultSelectedKeys={['/home']}
+          defaultSelectedKeys={['/page/admin']}
           defaultOpenKeys={['sub1']}
           mode="inline"
           theme="dark"
