@@ -52,7 +52,8 @@ class  RoleDetail extends React.Component {
 
   addToTable=()=>{
     //添加角色信息
-      const temp=this.state.tableList.unshift({
+    let temp=this.state.tableList;
+    temp.unshift({
         name: "",
         labelType: "",
         number: "",
@@ -60,7 +61,8 @@ class  RoleDetail extends React.Component {
         gender: "",
         notes: "",
         type:"",
-      });
+    });
+      console.log(temp);
     this.setState({
       tableList:temp,
     });
@@ -68,7 +70,8 @@ class  RoleDetail extends React.Component {
 
 
   deleteLine=(index)=>{
-    const temp=this.state.tableList.splice(index, 1);
+    let temp=this.state.tableList;
+    temp.splice(index, 1);
     this.setState({
       tableList:temp,
     });
@@ -159,9 +162,8 @@ class  RoleDetail extends React.Component {
                     <p>性别</p>
                     <p>备注</p>
                     <p>操作</p>
-                    <div className="add-btn" onClick={this.addToTable}>+ 添加</div>
-
                   </li>
+                  <div className="add-btn" onClick={this.addToTable}>+ 添加</div>
                   {
                     tableList && tableList.map((row, index)=>{
                       return (<li key={index} className="t-body">

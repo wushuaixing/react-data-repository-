@@ -4,8 +4,6 @@
     <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/roleDetail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/roleDetail/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/structure/detail/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/structure/detail/style.scss" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/roleDetail/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="63" column="22" selection-start-line="63" selection-start-column="22" selection-end-line="63" selection-end-column="22" />
+            <state relative-caret-position="288">
+              <caret line="58" column="19" lean-forward="true" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
               <folding>
                 <element signature="e#41#67#0" expanded="true" />
               </folding>
@@ -66,11 +64,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/wsDetail/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="162" column="58" lean-forward="true" selection-start-line="162" selection-start-column="58" selection-end-line="162" selection-end-column="58" />
+            <state relative-caret-position="314">
+              <caret line="98" column="9" lean-forward="true" selection-start-line="98" selection-start-column="9" selection-end-line="98" selection-end-column="9" />
               <folding>
                 <element signature="e#41#67#0" expanded="true" />
               </folding>
@@ -150,9 +148,9 @@
       <find>valueWenshu</find>
       <find>wenshuNum</find>
       <find>structuredList</find>
-      <find>tableList</find>
       <find>obligors</find>
       <find>add-btn</find>
+      <find>tableList</find>
     </findStrings>
     <replaceStrings>
       <replace>className=</replace>
@@ -215,8 +213,8 @@
         <option value="$PROJECT_DIR$/src/pages/login/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/structure/detail/style.scss" />
-        <option value="$PROJECT_DIR$/src/components/wsDetail/index.jsx" />
         <option value="$PROJECT_DIR$/src/components/roleDetail/index.jsx" />
+        <option value="$PROJECT_DIR$/src/components/wsDetail/index.jsx" />
       </list>
     </option>
   </component>
@@ -419,7 +417,7 @@
       <workItem from="1581079203024" duration="965000" />
       <workItem from="1581138863506" duration="9811000" />
       <workItem from="1581299230345" duration="3406000" />
-      <workItem from="1581384004436" duration="1789000" />
+      <workItem from="1581384004436" duration="2060000" />
     </task>
     <task id="LOCAL-00001" summary="-feat:登录页">
       <created>1579596786288</created>
@@ -680,11 +678,18 @@
       <option name="project" value="LOCAL" />
       <updated>1581346519475</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="-feat:文书信息删除输入框">
+      <created>1581387116219</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1581387116219</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="184823000" />
+    <option name="totallyTimeSpent" value="185094000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -754,7 +759,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-feat:根据账号权限获取可用侧边栏(not yet)" />
     <MESSAGE value="-feat:修改密码弹窗(not yet)" />
     <MESSAGE value="-feat:账号管理列表拆分组件" />
     <MESSAGE value="-feat:登陆页面拆分组件(this.props.history.push拆分后有问题)" />
@@ -779,7 +783,8 @@
     <MESSAGE value="-feat:temp setuoProxy" />
     <MESSAGE value="-feat:setupProxy 配置转发" />
     <MESSAGE value="-feat:登录成功后再请求接口" />
-    <option name="LAST_COMMIT_MESSAGE" value="-feat:登录成功后再请求接口" />
+    <MESSAGE value="-feat:文书信息删除输入框" />
+    <option name="LAST_COMMIT_MESSAGE" value="-feat:文书信息删除输入框" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1082,16 +1087,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/wsDetail/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="162" column="58" lean-forward="true" selection-start-line="162" selection-start-column="58" selection-end-line="162" selection-end-column="58" />
-          <folding>
-            <element signature="e#41#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
@@ -1115,8 +1110,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/roleDetail/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="63" column="22" selection-start-line="63" selection-start-column="22" selection-end-line="63" selection-end-column="22" />
+        <state relative-caret-position="288">
+          <caret line="58" column="19" lean-forward="true" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
+          <folding>
+            <element signature="e#41#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/wsDetail/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="98" column="9" lean-forward="true" selection-start-line="98" selection-start-column="9" selection-end-line="98" selection-end-column="9" />
           <folding>
             <element signature="e#41#67#0" expanded="true" />
           </folding>
