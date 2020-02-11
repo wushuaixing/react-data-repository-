@@ -336,6 +336,9 @@ class  StructureDetail extends React.Component {
 								>{buttonText}
 							  </Button>
 	            </div>
+							<div>
+								<WrongReason errorList={errorReason} />
+							</div>
 							<div className="yc-wrong-part">
 								<div className="yc-part-title">
 									<p>基本信息</p>
@@ -413,9 +416,6 @@ class  StructureDetail extends React.Component {
 
 								<WsDetail num={wenshuNum} url={wenshuUrl} ifWs={valueWenshu}/>
 								</div>
-							</div>
-							<div>
-							<WrongReason errorList={errorReason} />
 							</div>
 							<div>
 								<RoleDetail info={obligors} list={obligorList} />

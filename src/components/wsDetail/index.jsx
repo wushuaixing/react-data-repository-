@@ -117,14 +117,16 @@ class  WsDetail extends React.Component {
 	};
 	//删除文书号
 	deleteWS=(index) =>{
-		let temp=this.state.wenshuNum.splice(index,1);
+		let temp=this.state.wenshuNum;
+		temp.splice(index,1);
 		this.setState({
 			wenshuNum:temp,
 		});
 	};
 	//删除文书链接地址
 	deleteWSUrl=(index)=> {
-		let temp=this.state.wenshuUrl.splice(index,1);
+		let temp=this.state.wenshuUrl
+		temp.splice(index,1);
 		this.setState({
 			wenshuUrl:temp,
 		});

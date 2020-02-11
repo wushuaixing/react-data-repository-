@@ -31,6 +31,7 @@
     color: #293038;
     font-size: 12px;
 
+
     .yc-part-title {
       font-size: 14px;
       font-weight: 700;
@@ -39,6 +40,7 @@
     .yc-wrong-detail {
       margin-bottom: 16px;
       font-size:12px;
+
       .yc-struc-text {
         color: red;
         display: block;
@@ -65,6 +67,21 @@
         color: red;
         margin-left: 5px;
       }
+
+
+      .add-btn {
+        height: 40px;
+        margin-top: 21px;
+        margin-left: 10px;
+        text-align: center;
+        border: 1px dashed #808387;
+        border-radius: 2px;
+        padding-top: 10px;
+        font-size: 14px;
+        color: #293038;
+        width:90%;
+      }
+
       .range {
         display: inline-block;
 
@@ -109,7 +126,9 @@
           }
         }
       }
+
     }
+
 
     .table-detail {
       .table {
@@ -154,7 +173,7 @@
 
     }
     .right-part{
-      width: 49%;
+      width: 45%;
       display: inline-block;
 
     }
