@@ -158,7 +158,7 @@ class Sider extends React.Component {
           theme="dark"
           selectedKeys={selectedKeys}
           inlineCollapsed={this.state.collapsed}
-          style={{ width: 180, height:800 }}
+          style={{ width: 180, height:1200 }}
           onClick={({key}) => this.setState({selectedKeys: [key]})}
         >
           {this.createMenu(myMenu)}
