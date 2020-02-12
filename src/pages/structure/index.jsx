@@ -2,12 +2,13 @@
 import React from 'react';
 import StructureDetail from './detail';
 import {BrowserRouter as Router} from "react-router-dom";
+import Asset from "./assetStruc";
 // ==================
 // 所需的所有组件
 // ==================
 
 
-class  AdminList extends React.Component {
+class  Structure extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,10 +27,11 @@ class  AdminList extends React.Component {
         return(
           <div>
             <Router>
-              <StructureDetail />
+              <Asset />
+              {/*<StructureDetail />*/}
             </Router>
           </div>
         );
     }
 }
-export default AdminList;
+export default Structure;

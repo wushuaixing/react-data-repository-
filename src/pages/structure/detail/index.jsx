@@ -103,6 +103,7 @@ class  StructureDetail extends React.Component {
 			wenshuUrl:[],
 			obligors:[],
 			obligorList:[],
+			status:'',
 		};
   }
 
@@ -175,6 +176,7 @@ class  StructureDetail extends React.Component {
 			obligors: strucData.data[0].obligors,
 			obligorList: list.data,
 			area: strucData.data[0].buildingArea,
+
 		});
 
 		if(strucData.data[0].collateral === 0){
@@ -187,6 +189,34 @@ class  StructureDetail extends React.Component {
 				checkedCollateral:false,
 			});
 		}
+		//拍卖状态
+		const _status=strucData.data[0].auctionStatus;
+		if(_status ===1 ){
+			this.setState({
+				status:"即将开始",
+			});
+		}else if (_status === 3) {
+			this.setState({
+				status:"拍卖中",
+			});
+		} else if (_status === 5) {
+			this.setState({
+				status:"成功交易",
+			});
+		} else if (_status === 7) {
+			this.setState({
+				status:"失败",
+			});
+		} else if (_status === 9) {
+			this.setState({
+				status:"终止",
+			});
+		} else if (_status === 11) {
+			this.setState({
+				status:"撤回",
+			});
+		}
+
 
 		if(role === "结构化人员"){
 			this.setState({
@@ -262,11 +292,6 @@ class  StructureDetail extends React.Component {
 	// const date_format = date => {/* your code */}
 
 
-	//打开标题链接
-	openLink=()=>{
-		let href = window.location.href.split("#")[0];
-		// window.open(href + "#/SourcePage/"+this.$route.params.id);
-	};
 
 
 
@@ -275,7 +300,7 @@ class  StructureDetail extends React.Component {
   render() {
     const { }=this.props;
     const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
-    const { errorReason, recordsForCheck }=this.state;
+    const { errorReason, recordsForCheck,status }=this.state;
     const { wenshuNum, wenshuUrl,valueWenshu,wsInAttach }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType,area }=this.state;
     const basic=strucData.data[0];
@@ -300,7 +325,7 @@ class  StructureDetail extends React.Component {
 								<WrongReason errorList={errorReason} />
 							</div>
 							<div>
-								<BasicDetail info={basic} records={recordsForCheck} />
+								<BasicDetail info={basic} records={recordsForCheck} status={status} />
 							</div>
 							<div className="yc-wrong-part">
 							<div className="left-part">

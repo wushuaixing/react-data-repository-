@@ -100,7 +100,7 @@ class Login extends React.Component {
 		const values={
 			username: this.props.form.getFieldValue('username'),
 			password: this.props.form.getFieldValue('password'),
-			rememberMe: true,
+			rememberMe: false,
 		};
 		const history=this.props.history;
 		Login.handleSubmit(values,history);

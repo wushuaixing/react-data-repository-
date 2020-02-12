@@ -1,6 +1,6 @@
 /** 错误原因展示* */
 import React from 'react';
-import StructureRecord from "../../pages/structure/detail";
+import StructureRecord from "../../components/structureRecord";
 // ==================
 // 所需的所有组件
 // ==================
@@ -12,17 +12,27 @@ class  BasicDetail extends React.Component {
     this.state = {
       basic:{},
       records:[],
+      auctionStatus:'',
 		};
   }
 
   componentWillMount() {
-    const {info,records}=this.props;
+    const {info,records,status}=this.props;
     this.setState({
       basic:info,
       records:records,
+      auctionStatus:status,
     });
 
   }
+  //打开标题链接
+  openLink=()=>{
+    let href = window.location.href.split("#")[0];
+    // window.open(href + "#/SourcePage/"+this.$route.params.id);
+  };
+
+
+
   //
   associated=(id) =>{
     let href = window.location.href.split("#")[0];
@@ -31,8 +41,7 @@ class  BasicDetail extends React.Component {
     // );
   };
 
-  //拍卖状态
-  filterAuctionStatus=(value) =>{
+ /* filterAuctionStatus=(value) =>{
     if (value === 1) {
       return "即将开始";
     } else if (value === 3) {
@@ -46,10 +55,11 @@ class  BasicDetail extends React.Component {
     } else if (value === 11) {
       return "撤回";
     }
-  };
-
+  };*/
   render() {
-    const { basic,records }=this.state;
+    const { basic,records,auctionStatus }=this.state;
+    // const auctionStatus=this.filterAuctionStatus.bind(basic.auctionStatus);
+    // console.log(auctionStatus);
         return(
           <div>
             <div className="yc-wrong-part">
@@ -63,11 +73,11 @@ class  BasicDetail extends React.Component {
                 </div>
                 <div>
                   <p className="yc-sec-title">拍卖状态:</p>
-                  <p className="yc-sec-title" style={{ marginLeft:5}}>{this.filterAuctionStatus(basic.auctionStatus) }</p>
+                  <p className="yc-sec-title" style={{ marginLeft:5}}>{auctionStatus}</p>
                 </div>
                 <StructureRecord records={records} />
                 {/*//什么数据是有撤回原因和关联标注的 条件：!character && status !== 0*/}
-                <div >
+                <div>
                   <p className="yc-sec-title">撤回原因:</p>
                   <p className="yc-sec-title" style={{ marginLeft:5}}>{ basic.reasonForWithdrawal }</p>
                 </div>
@@ -76,7 +86,7 @@ class  BasicDetail extends React.Component {
                   <p
                     className="yc-link-title"
                     style={{ marginLeft:5}}
-                    onClick={this.associated(basic.associatedAnnotationId)}
+                    onClick={()=>this.associated(basic.associatedAnnotationId)}
                   >
                     {basic.associatedAnnotationId }
                   </p>
