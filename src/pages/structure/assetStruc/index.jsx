@@ -4,8 +4,7 @@ import {Form, Input, Button, DatePicker, Tabs, Table,Badge} from 'antd';
 import 'antd/dist/antd.css';
 import Pagination from "../../admin/accountManage";
 import {structuredList} from "../../../server/api";
-import {Route,Link,withRouter} from "react-router-dom";
-import StructureDetail from "../detail";
+import {Link} from "react-router-dom";
 
 // ==================
 // 所需的所有组件
@@ -188,10 +187,6 @@ class  Asset extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
 		const {tableList,total,waitNum}=this.state;
-		var state = {
-			pathname: '/state',
-			state: {}
-		};
 		return(
           <div>
             <div className="yc-detail-title">
@@ -253,13 +248,9 @@ class  Asset extends React.Component {
 								<Pagination showQuickJumper={true} defaultCurrent={1} pageSize={10} total={total} onChange={this.onChangePage} />
 							</div>
             </div>
-
-						{/*<Route path='/state' component={StructureDetail}/>*/}
-
           </div>
 
         );
 	}
 }
-// export default withRouter(searchForm()(Asset));
 export default searchForm()(Asset);
