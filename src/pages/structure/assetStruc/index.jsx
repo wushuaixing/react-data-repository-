@@ -20,16 +20,40 @@ const columns = [
 		title: "结构化状态",
 		dataIndex: "status",
 		width: 285,
+		render: (status) => (
+			<span>
+        {status.map((item,index) => {
+					let color='default';
+					let text='待标记';
+					if (item === 0) {
+						color = 'default';
+						text='待标记';
+					}
+					else if (item === 1) {
+						color = 'success';
+						text='已标记';
+					}else if(item === 2){
+						color = 'error';
+						text='待修改';
+					}
+					return (
+						<Badge status={color} text={text} key={index} />
+					);
+				})}
+      </span>
+		),
 	},
 	{
 		title: "操作",
 		dataIndex: "action",
 		align: "center",
 		width: 180,
-		render: () => (
-			<Button onClick={()=>this.onChangePage}>
-				标注
-			</Button>
+		render: (record) => (
+			<span>
+						<Button onClick={()=>this.toDetailPage(record.id,record.status)}>
+							标注
+						</Button>
+      </span>
 		),
 	}
 ];
@@ -71,10 +95,12 @@ const columnsRevise = [
 		dataIndex: "action",
 		align: "center",
 		width: 180,
-		render: () => (
-			<Button onClick={()=>this.onChangePage}>
-				修改标注
-			</Button>
+		render: (record) => (
+			<span>
+						<Button onClick={()=>this.toDetailPage(record.id,record.status)}>
+							修改标注
+						</Button>
+      </span>
 		),
 	}
 ];
@@ -99,6 +125,9 @@ class  Asset extends React.Component {
 		this.getTableList(0,1);
   };
 
+	toDetailPage=(id,status)=>{
+		
+	};
 	//get table dataSource
 	getTableList=(approveStatus,page,ifWait)=>{
 		let params = {
@@ -114,7 +143,7 @@ class  Asset extends React.Component {
 				_list.map((item,index)=>{
 						_temp.push(item.status);
 						item.status=_temp;
-						item=Object.assign(item,{key:index})
+						// item=Object.assign(item,{key:index})
 				});
 				this.setState({
 					tableList:_list,
@@ -203,13 +232,16 @@ class  Asset extends React.Component {
 							<div className="yc-tab">
 								<Tabs defaultActiveKey="1"  onChange={this.changeTab}>
 									<TabPane tab="待标记" key="1">
-										<Table className="table-list" columns={columns} dataSource={tableList} style={{margin:10,width:1240}} />
+										<Table className="table-list" columns={columns} dataSource={tableList} style={{margin:10,width:1240}}
+													 rowKey={record => record.id} />
 									</TabPane>
 									<TabPane tab="已标记" key="2">
-										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10,width:1240}} />
+										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10,width:1240}}
+													 rowKey={record => record.id} />
 									</TabPane>
 									<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>} key="3">
-										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10,width:1240}} />
+										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10,width:1240}}
+													 rowKey={record => record.id} />
 									</TabPane>
 								</Tabs>
 								<Pagination showQuickJumper={true} defaultCurrent={1} pageSize={10} total={total} onChange={this.onChangePage} />
