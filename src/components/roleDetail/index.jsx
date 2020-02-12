@@ -6,16 +6,6 @@ import { Select } from 'antd';
 
 
 const { Option } = Select;
-// ==================
-// 所需的所有组件
-// ==================
-
-
-const data = [
-  {"birthday":null,"gender":"","labelType":"","name":"","notes":"","number":"","type":""},
-  {"birthday":null,"gender":"","labelType":"","name":"","notes":"","number":"","type":""},
-  {"birthday":null,"gender":"0","labelType":"5","name":"张燕芬","notes":"","number":"","type":"5"},
-];
 
 
 class  RoleDetail extends React.Component {
@@ -41,8 +31,8 @@ class  RoleDetail extends React.Component {
 		};
   }
 
-  componentWillMount() {
-    const {info,list}=this.props;
+  componentWillReceiveProps(nextProps){
+    const {info,list}=nextProps;
 
     this.setState({
       tableList:info,

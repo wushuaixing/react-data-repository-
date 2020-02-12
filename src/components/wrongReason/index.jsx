@@ -14,16 +14,14 @@ class  WrongReason extends React.Component {
 		};
   }
 
-  componentWillMount() {
-    const _list=this.props.errorList;
+  componentWillReceiveProps(nextProps){
+    const _list=nextProps.errorList;
     this.setState({
       errorList:_list,
     });
 
-    let storage = window.localStorage;
-    const role = storage.userState;
 
-    if(role === "结构化人员"){
+/*    if(role === "结构化人员"){
 
     }
     if(role === "检查人员"){
@@ -31,7 +29,7 @@ class  WrongReason extends React.Component {
     }
     if(role === "管理员"){
 
-    }
+    }*/
 
   }
 
@@ -49,8 +47,23 @@ class  WrongReason extends React.Component {
 
 
   render() {
+    let storage = window.localStorage;
+    const role = storage.userState;
     const { errorList }=this.state;
-    const {reasonStruc,reasonCheck,reasonAdmin}= errorList;
+    let reasonStruc,reasonCheck,reasonAdmin;
+    if(role === "结构化人员"){
+      reasonStruc=errorList;
+    }
+    if(role === "检查人员"){
+      reasonCheck=errorList;
+
+    }
+    if(role === "管理员"){
+      reasonAdmin=errorList;
+
+    }
+    // const {reasonStruc,reasonCheck,reasonAdmin}= errorList;
+
         return(
           <div>
             <div className="yc-wrong-part">

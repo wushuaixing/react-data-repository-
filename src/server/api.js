@@ -73,5 +73,17 @@ export function structuredObligorTypeList() {
 	return axios.get("/api/common/structuredObligorTypeList");
 }
 
+// 保存结构化对象
+export function saveDetail(id, params) {
+	return axios.post(
+		"/api/asset/structured/control/" + id + "/saveDetail",
+		params
+	);
+}
+
+//获取新数据 id
+export function getNewStructureData() {
+	return axios.get("/api/asset/structured/control/getNewStructuredDataId")
+}
 
 

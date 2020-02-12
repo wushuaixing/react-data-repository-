@@ -3,7 +3,13 @@ import React from 'react';
 import Button from "antd/es/button";
 import Icon from "antd/es/icon";
 import Checkbox from "antd/es/checkbox";
-import {structuredList, getCheckDetail,structuredObligorTypeList} from '../../../server/api';
+import {
+	structuredList,
+	getCheckDetail,
+	structuredObligorTypeList,
+	saveDetail,
+	getNewStructureData
+} from '../../../server/api';
 import BasicDetail from "../../../components/basicDetail";
 import WrongReason from "../../../components/wrongReason";
 import WsDetail from "../../../components/wsDetail";
@@ -15,70 +21,8 @@ import './style.scss';
 // 所需的所有组件
 // ==================
 
-const list={"code":200,"data":{"资产所有人":1,"债权人":2,"资产线索":3,"竞买人":5},"message":"成功"};
-
-const checkData={
-	"code":200,
-	"data":{
-		"ah":[],
-		"associatedAnnotationId":"",
-		"auctionStatus":1,
-		"buildingArea":123456.0,
-		"collateral":0,
-		"detailStatus":3,
-		"houseType":1,
-		"obligors":[
-			{"birthday":null,"gender":"","labelType":"","name":"","notes":"","number":"","type":""},{"birthday":null,"gender":"","labelType":"","name":"","notes":"","number":"","type":""},{"birthday":null,"gender":"0","labelType":"5","name":"张燕芬","notes":"","number":"","type":"5"}
-			],
-		"reasonForWithdrawal":"",
-		"records":[
-			{"desc":"结构化","error":false,"errorLevel":0,"time":"2019-03-18 17:10:25","user":"邵颖结构化"},
-			{"desc":"事实上多填所有人:\n债权人错误：\n","error":true,"errorLevel":4,"time":"2020-01-06 17:00:20","user":"检察人员"},
-			{"desc":"结构化","error":false,"errorLevel":0,"time":"2019-01-18 17:10:25","user":"邵颖结构化"},
-			{"desc":"多填所有人:\n债权人错误：\n","error":true,"errorLevel":4,"time":"2020-02-06 17:00:20","user":"检察人员"},
-			],
-		"status":5,
-		"title":"【第一次拍卖】中山市沙溪镇云汉村青云东路1号401房的房地产【带租拍卖】",
-		"url":"//sf-item.taobao.com/sf_item/582189191779.htm",
-		"wsFindStatus":0,
-		"wsInAttach":1,
-		"wsUrl":[]},
-	"message":"成功"
-};
-
-const strucData={
-	"code":200,
-	"data":[{
-			"ah":[{id:12133,value:88888},{id:2131434,value:99999}],
-		"associatedAnnotationId":"",
-		"auctionStatus":5,
-		"buildingArea":123456.0,
-		"collateral":0,
-		"completeTime":"2019-12-24 09:19:44",
-		"houseType":1,
-		"id":1521703,
-		"obligors":[
-			{"birthday":null,"gender":"","labelType":"","name":"","notes":"","number":"","type":""},
-			{"birthday":null,"gender":"","labelType":"","name":"","notes":"","number":"","type":""},
-			{"birthday":null,"gender":"0","labelType":"5","name":"张燕芬","notes":"","number":"","type":"5"}
-			],
-		"reasonForWithdrawal":"",
-		"status":2,
-		"title":"【第一次拍卖】中山市沙溪镇云汉村青云东路1号401房的房地产【带租拍卖】",
-		"type":0,
-		"url":"//sf-item.taobao.com/sf_item/582189191779.htm",
-		"wrongReason":["事实上多填所有人:\n债权人错误：\n"],
-		"wsFindStatus":0,
-		"wsInAttach":1,
-		"wsUrl":[{id:12133,url:"//sf-item.taobao.com/sf_item/582189191779.htm"},
-			{id:2131434,url:"//sf-item.taobao.com/sf_item/582189191779.htm"}]
-	}],
-	"hasNext":false,
-	"message":"成功",
-	"page":1,
-	"pages":1,
-	"size":20,
-	"total":1,};
+let storage = window.localStorage;
+const role = storage.userState;
 
 class  StructureDetail extends React.Component {
   constructor(props) {
@@ -88,11 +32,7 @@ class  StructureDetail extends React.Component {
       dataTotal:50,
 			buttonText:'保存',
 			buttonStyle:{backgroundColor:'#0099CC', color:'white'},
-			errorReason:{
-				reasonStruc:[],
-				reasonCheck:[],
-				reasonAdmin:[],
-			},
+			errorReason:[],
 			recordsForCheck:[],
 			checkedCollateral:true,
 			houseType:0,
@@ -103,192 +43,279 @@ class  StructureDetail extends React.Component {
 			wenshuUrl:[],
 			obligors:[],
 			obligorList:[],
-			status:'',
+			autionStatus:'',
+			data:{},
+			needWrongReason:false,
+			needRecord:false,
 		};
   }
 
-  componentWillMount() {
-  	const {Id,status}=this.props.match.params;
-  	console.log(Id,status);
-		//结构化数据详情
-		structuredList(Id).then(res => {
-			// this.loading = false;
-			if (res.data.code === 200) {
-				let data = res.data.data[0];
+	componentDidMount() {
+  	console.log('didmount');
+		const {Id, status} = this.props.match.params;
+		// console.log(Id, status);
+		if (role === "结构化人员") {
+			//按钮
+			if (status === 0) {
 				this.setState({
+					buttonText: '保存',
+				});
+			}
+			if (status === 1) {
+				this.setState({
+					buttonText: '保存并标记下一条',
+					buttonStyle: {},
 
+				});
+			}
+			if (status === 2) {
+				this.setState({
+					buttonText: '保存并修改下一条',
+					buttonStyle: {},
+					needWrongReason:true,
+				});
+			}
+
+			this.getStrucData(Id,role);
+
+
+
+		} else {
+			this.setState({
+				needWrongReason:true,
+				needRecord:true,
+			});
+			//检查／管理员数据详情
+			this.getDetailData(Id, role);
+		}
+
+		structuredObligorTypeList().then(res => {
+			if (res.data.code === 200) {
+				let list = [];
+				for (let key in res.data.data) {
+					list.push({
+						value: res.data.data[key] + "",
+						label: key
+					});
+				}
+				this.setState({
+					obligorList: list.data,
 				});
 			} else {
 				// this.$Message.error(res.data.message);
 			}
 		});
-		//检查／管理员数据详情
-		/*async getDetailData(id){
-			this.loading = true;
-			const res= await getCheckDetail(id);
-			if (res.data.code == 200) {
-				this.loading = false;
-				this.data = res.data.data;
-				this.checkErrorList=this.data.records.filter(item => item.error && item.desc !='结构化');
-				this.checkErrorList=this.checkErrorList.sort(function(a,b){
-					return a.time < b.time ? 1 : -1
-				});
-				if(this.checkErrorList){
-					this.checkError=this.checkErrorList[0];
-				}
-				if(this.data.obligors){
-					const _data=[];
-					this.data.obligors.forEach((item)=>{
-						let itemValue=Object.values(item);
-						let roleValue=itemValue.filter(_item=> _item != null && _item != undefined && _item != "");
-						if(roleValue.length){
-							_data.push(item);
-						}
-					});
-					this.data.obligors=_data;
-				}
-				this.initData();
-			} else {
-				this.$Message.error(res.data.message);
-			}
-		},*/
+	}
 
-		// structuredObligorTypeList().then(res => {
-		// 	if (res.data.code === 200) {
-		// 		for (let key in res.data.data) {
-		// 			this.labelTypeList.push({
-		// 				value: res.data.data[key] + "",
-		// 				label: key
-		// 			});
-		// 		}
-		// 	} else {
-		// 		this.$Message.error(res.data.message);
-		// 	}
-		// });
-		let storage = window.localStorage;
-		const role = storage.userState;
+	shouldComponentUpdate () {
+		console.log('shouldComponentUpdate');
+		return true;
+	}
+	componentWillUpdate(){
+		console.log('componentWillUpdate');
+	}
 
+
+		//initData
+	initData=(data)=>{
+		let initData=data;
 		this.setState({
-			value: strucData.data[0].houseType,
-			ifAttach: strucData.data[0].wsInAttach,
-			wenshuNum: strucData.data[0].ah,
-			wenshuUrl: strucData.data[0].wsUrl,
-			valueWenshu: strucData.data[0].wsFindStatus,
-			obligors: strucData.data[0].obligors,
-			obligorList: list.data,
-			area: strucData.data[0].buildingArea,
-
+			data:initData,
+			id:initData.id,
+			value: initData.houseType,
+			wenshuNum: initData.ah,
+			wenshuUrl: initData.wsUrl,
+			wsFindStatus: initData.wsFindStatus,
+			obligors:initData.obligors,
 		});
+		//拍卖状态
+		const _autionStatus=initData.auctionStatus;
+		if(_autionStatus === 1 ){
+			this.setState({
+				autionStatus:"即将开始",
+			});
+		}else if (_autionStatus === 3) {
+			this.setState({
+				autionStatus:"拍卖中",
+			});
+		} else if (_autionStatus === 5) {
+			this.setState({
+				autionStatus:"成功交易",
+			});
+		} else if (_autionStatus === 7) {
+			this.setState({
+				autionStatus:"失败",
+			});
+		} else if (_autionStatus === 9) {
+			this.setState({
+				autionStatus:"终止",
+			});
+		} else if (_autionStatus === 11) {
+			this.setState({
+				autionStatus:"撤回",
+			});
+		}
+		// 文书是否在附件
+		if(initData.wsInAttach === 0){
+			this.setState({
+				ifAttach:false,
+			});
+		}
+		if(initData.wsInAttach === 1){
+			this.setState({
+				ifAttach:true,
+			});
+		}
 
-		if(strucData.data[0].collateral === 0){
+		if(initData.collateral === 0){
 			this.setState({
 				checkedCollateral:true,
 			});
 		}
-		if(strucData.data[0].collateral === 1){
+		if(initData.collateral === 1){
 			this.setState({
 				checkedCollateral:false,
 			});
 		}
-		//拍卖状态
-		const _status=strucData.data[0].auctionStatus;
-		if(_status ===1 ){
-			this.setState({
-				status:"即将开始",
-			});
-		}else if (_status === 3) {
-			this.setState({
-				status:"拍卖中",
-			});
-		} else if (_status === 5) {
-			this.setState({
-				status:"成功交易",
-			});
-		} else if (_status === 7) {
-			this.setState({
-				status:"失败",
-			});
-		} else if (_status === 9) {
-			this.setState({
-				status:"终止",
-			});
-		} else if (_status === 11) {
-			this.setState({
-				status:"撤回",
-			});
-		}
+		return this.state;
+	};
 
 
-		if(role === "结构化人员"){
-			this.setState({
-				errorReason:{
-					reasonStruc:strucData.data[0].wrongReason,
-					reasonCheck:[],
-					reasonAdmin:[],
-				},
-			});
-			if('tagged'){
+	async getStrucData(id,role){
+		//结构化数据详情
+		let params = {
+			id: id
+		};
+		const res=await structuredList(params);
+			if (res.data.code === 200) {
+				console.log('getdata');
+				const strucData = res.data.data[0];
+				this.initData(strucData);
+				const _error=strucData.wrongReason;
 				this.setState({
-					buttonText:'保存',
+					errorReason: _error,
 				});
+			} else {
+				// this.$Message.error(res.data.message);
 			}
-			if('waitTag'){
-				this.setState({
-					buttonText:'保存并标记下一条',
-					buttonStyle:{},
-
-				});
-			}
-			if('waitChange'){
-				this.setState({
-					buttonText:'保存并修改下一条',
-					buttonStyle:{},
-
-				});
-			}
-		}
-		else{
-			//结构化记录
-			this.setState({
-				recordsForCheck:checkData.data.records,
-			});
-
-			const tempList = checkData.data.records.filter(item => item.error && item.desc !== '结构化');
-
-			if(role === "管理员"){
-				this.setState({
-					errorReason: {
-						reasonAdmin: tempList,
-						reasonStruc:[],
-						reasonCheck:[],
-					}
-				});
-			}
-
-			if(role === "检查人员"){
-			//检查人员的错误原因，展示最新一次的记录
-				let _tempList=tempList.sort(function(a,b){
-					return a.time < b.time ? 1 : -1
-				});
-				if(_tempList){
-					this.setState({
-						errorReason: {
-							reasonCheck: _tempList[0],
-							reasonAdmin:[],
-							reasonStruc:[],
-						}
-					})
-				}
-
-			}
-
-		}
-
-
 	}
 
+	async getDetailData(id,role){
+		this.loading = true;
+		const res= await getCheckDetail(id);
+		if (res.data.code === 200) {
+			this.loading = false;
+			let checkData = res.data.data;
+			this.initData(checkData);
+			//结构化记录
+			this.setState({
+				recordsForCheck: checkData.records,
+			});
+			//结构化记录
+			const tempList = checkData.data.records.filter(item => item.error && item.desc !== '结构化');
+			if(role === "管理员"){
+				this.setState({
+					errorReason: tempList,
+				});
+			}
+			if(role === "检查人员") {
+				//检查人员的错误原因，展示最新一次的记录
+				let _tempList = tempList.sort(function (a, b) {
+					return a.time < b.time ? 1 : -1
+				});
+				if (_tempList) {
+					this.setState({
+						errorReason: _tempList[0],
+					});
+				}
+			} else {
+				// this.$Message.error(res.data.message);
+			}
+		}
+	};
+
+	toSave=()=> {
+		const {id,data,wsFindStatus,ifAttach,
+			wenshuUrl,wenshuNum,obligors,area,
+			valueHouse,}=this.state;
+		let _data=data;
+		_data.ah=wenshuNum;
+		_data.wenshuUrl=wenshuUrl;
+		_data.obligors=obligors;
+		_data.buildingArea=area;
+		_data.houseType=valueHouse;
+
+		if(wsFindStatus === 1 && ifAttach === true){
+			_data.wsInAttach=1;
+		}
+		else if(wsFindStatus === 1 && ifAttach === false){
+			_data.wsInAttach=0;
+		}
+		else if(wsFindStatus === 0) {
+			_data.wsInAttach=0;
+
+			if(_data.wenshuUrl){
+				_data.wenshuUrl.forEach(item => {
+					item.value="";
+				});
+			}
+			if(_data.wenshuNum){
+				_data.wenshuNum.forEach(item => {
+					item.value="";
+				});
+			}
+			//console.log(this.data.wsUrl);
+			// this.data.ah.push("");this.data.wsUrl.push("");
+		}
+		this.setState({
+			data:_data,
+		});
+
+		saveDetail(id, this.state.data).then(res => {
+			if (res.data.code === 200) {
+				alert('200');
+				if(this.state.buttonText === '保存并标记下一条'){
+					getNewStructureData().then(res=>{
+						if (res.data.code === 200) {
+							if(res.data.data === 0){
+								// this.$Message.info("暂无新数据");
+								// this.$router.push({
+								// 	name: "AssetStructure",
+								// });
+							}
+							this.getData({id: res.data.data});
+						}else {
+							// this.$Message.error(res.data.message);
+						}
+					});
+				}
+				else if(this.state.buttonText === '保存并修改下一条'){
+					let params = {
+						approveStatus: 2
+					};
+					structuredList(params).then(res => {
+						if (res.data.code === 200) {
+							if(res.data.data.length===0){
+								// this.$router.push({
+								// 	name: "AssetStructure",
+								// 	query:{
+								// 		id:'waitTag'
+								// 	}
+								// });
+							}
+							this.getData({id: res.data.data[0]["id"]});
+						} else {
+							// this.$Message.error(res.data.message);
+						}
+					});
+				}
+
+			} else {
+				// this.$Message.error(res.data.message);
+			}});
+	};
+
 	goBack=()=>{};
-	toSave=()=>{};
 
 	// const date_format = date => {/* your code */}
 
@@ -299,12 +326,12 @@ class  StructureDetail extends React.Component {
 
 //待标记--》详情页
   render() {
-    const { }=this.props;
-    const { dataMark, dataTotal, buttonText, buttonStyle }=this.state;
-    const { errorReason, recordsForCheck,status }=this.state;
-    const { wenshuNum, wenshuUrl,valueWenshu,wsInAttach }=this.state;
-    const { obligors,obligorList,checkedCollateral,houseType,area }=this.state;
-    const basic=strucData.data[0];
+		const { dataMark, dataTotal, buttonText, buttonStyle,data }=this.state;
+		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach }=this.state;
+		const basic=data;
+
+    const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
+    const { obligors,obligorList,checkedCollateral,houseType }=this.state;
         return(
           <div>
             <div className="yc-detail-title">
@@ -323,17 +350,48 @@ class  StructureDetail extends React.Component {
 							  </Button>
 	            </div>
 							<div>
-								<WrongReason errorList={errorReason} />
+								{	needWrongReason && <WrongReason errorList={errorReason} /> }
 							</div>
 							<div>
-								<BasicDetail info={basic} records={recordsForCheck} status={status} />
+								{/*<div className="yc-wrong-part">
+									<div className="yc-part-title">
+										<p>基本信息</p>
+									</div>
+									<div className="yc-wrong-detail">
+										<div>
+											<p className="yc-sec-title">标题:</p>
+											<p className="yc-link-title" onClick={this.openLink} style={{ marginLeft:5 }} >{ basic.title }</p>
+										</div>
+										<div>
+											<p className="yc-sec-title">拍卖状态:</p>
+											<p className="yc-sec-title" style={{ marginLeft:5}}>basic.auctionStatus</p>
+										</div>
+										{	needWrongReason && <StructureRecord records={recordsForCheck} />}
+										//什么数据是有撤回原因和关联标注的 条件：!character && status !== 0
+										<div >
+											<p className="yc-sec-title">撤回原因:</p>
+											<p className="yc-sec-title" style={{ marginLeft:5}}>{ basic.reasonForWithdrawal }</p>
+										</div>
+										<div >
+											<p className="yc-sec-title">关联标注:</p>
+											<p
+												className="yc-link-title"
+												style={{ marginLeft:5}}
+												onClick={()=>this.associated(basic.associatedAnnotationId)}
+											>
+												{basic.associatedAnnotationId }
+											</p>
+										</div>
+									</div>
+								</div>*/}
+								<BasicDetail info={basic} records={recordsForCheck} status={autionStatus} need={needRecord}/>
 							</div>
 							<div className="yc-wrong-part">
 							<div className="left-part">
-								<HouseDetail  collateral={checkedCollateral} house={houseType} area={area} />
+								<HouseDetail  collateral={checkedCollateral} house={houseType} area={data.buildingArea} />
 							</div>
 								<div className="right-part">
-								<WsDetail num={wenshuNum} url={wenshuUrl} ifWs={valueWenshu} attach={wsInAttach} />
+								<WsDetail num={wenshuNum} url={wenshuUrl} ifWs={wsFindStatus} attach={ifAttach} />
 								</div>
 							</div>
 							<div>

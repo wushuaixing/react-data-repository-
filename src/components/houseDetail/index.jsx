@@ -19,8 +19,9 @@ class  HouseDetail extends React.Component {
 		};
   }
 
-  componentWillMount() {
-    const {collateral,house,area}=this.props;
+  componentWillReceiveProps(nextProps){
+    const {collateral,house,area}=nextProps;
+    console.log(area);
     this.setState({
       checkedCollateral:collateral,
       houseType:house,
@@ -49,6 +50,7 @@ class  HouseDetail extends React.Component {
 
   render() {
     const { checkedCollateral,houseType,area }=this.state;
+    // let _area=area.toString();
         return(
           <div>
             <div className="yc-part-title">
@@ -82,7 +84,7 @@ class  HouseDetail extends React.Component {
                 <Input className="yc-sec-title"
                        placeholder="请输入建筑面积"
                        style={{width:225,margin:5}}
-                       value={area}
+                       defaultValue={area}
                        onChange={this.getArea}
                 />
                 <p className="yc-sec-title">m²</p>

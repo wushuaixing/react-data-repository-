@@ -13,7 +13,7 @@ class  StructureRecord extends React.Component {
 		};
   }
 
-  componentWillMount() {
+  componentWillReceiveProps(nextProps){
     let storage = window.localStorage;
     const role = storage.userState;
     if(role === "结构化人员"){
@@ -24,7 +24,7 @@ class  StructureRecord extends React.Component {
     }
     if(role === "管理员"){
       this.setState({
-        strucRecords:this.props.records,
+        strucRecords:nextProps.records,
       });
     }
 

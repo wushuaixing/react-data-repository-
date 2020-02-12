@@ -16,14 +16,25 @@ class  BasicDetail extends React.Component {
 		};
   }
 
-  componentWillMount() {
-    const {info,records,status}=this.props;
+  componentDidMount() {
+ /*   const {info,records,status}=this.props;
+    console.log(info,records);
     this.setState({
       basic:info,
       records:records,
       auctionStatus:status,
-    });
+    });*/
 
+  }
+  componentWillReceiveProps(nextProps){
+    const {info,records,status,need}=nextProps;
+    console.log(nextProps,'next');
+    this.setState({
+      basic:info,
+      records:records,
+      auctionStatus:status,
+      needRecord:need,
+    });
   }
   //打开标题链接
   openLink=()=>{
@@ -57,7 +68,7 @@ class  BasicDetail extends React.Component {
     }
   };*/
   render() {
-    const { basic,records,auctionStatus }=this.state;
+    const { basic,records,auctionStatus,needRecord }=this.state;
     // const auctionStatus=this.filterAuctionStatus.bind(basic.auctionStatus);
     // console.log(auctionStatus);
         return(
@@ -75,11 +86,16 @@ class  BasicDetail extends React.Component {
                   <p className="yc-sec-title">拍卖状态:</p>
                   <p className="yc-sec-title" style={{ marginLeft:5}}>{auctionStatus}</p>
                 </div>
-                <StructureRecord records={records} />
+                {needRecord && <StructureRecord records={records} />}
                 {/*//什么数据是有撤回原因和关联标注的 条件：!character && status !== 0*/}
+
                 <div>
                   <p className="yc-sec-title">撤回原因:</p>
-                  <p className="yc-sec-title" style={{ marginLeft:5}}>{ basic.reasonForWithdrawal }</p>
+                  <p className="yc-sec-title" style={{ marginLeft:5}}>
+                    {basic.reasonForWithdrawal
+                    ? basic.reasonForWithdrawal
+                    :'--'}
+                  </p>
                 </div>
                 <div >
                   <p className="yc-sec-title">关联标注:</p>
@@ -88,7 +104,9 @@ class  BasicDetail extends React.Component {
                     style={{ marginLeft:5}}
                     onClick={()=>this.associated(basic.associatedAnnotationId)}
                   >
-                    {basic.associatedAnnotationId }
+                    {basic.associatedAnnotationId
+                      ? basic.associatedAnnotationId
+                      :'--'}
                   </p>
                 </div>
               </div>

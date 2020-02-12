@@ -24,7 +24,7 @@ class  WsDetail extends React.Component {
 		};
   }
 
-  componentWillMount() {
+	componentWillReceiveProps(nextProps){
 		let storage = window.localStorage;
 		const role = storage.userState;
 		if(role !== '结构化人员'){
@@ -33,7 +33,7 @@ class  WsDetail extends React.Component {
 				checkStyle:'',
 			});
 		}
-		const { num, url, ifWs, attach }=this.props;
+		const { num, url, ifWs, attach }=nextProps;
 
 		this.setState({
 			wenshuNum: num,
@@ -144,48 +144,55 @@ class  WsDetail extends React.Component {
 									</div>
 									<div style={{display:this.state.style, }} >
 										<p style={{float:'left'}}>相关文书案号:</p>
-										<div className="range" style={{display:checkStyle}}>
-										{ wenshuNum && wenshuNum.map((item,index)=>{
-											return(
-													<div className="range-item" key={item.id}>
-														<Input placeholder="请输入相关文书案号"
-																	 style={{width:225,margin:5}}
-																	 value={item.value}
-																	 onChange={this.getWenshuNum}
-																	 key={index}
-														/>
-														<img
-															className="delete-img"
-															src={deleteIcon}
-															onClick={()=>this.deleteWS(index)}
-															alt=""
-														/>
-														<img
-															className="add-img"
-															src={addIcon}
-															onClick={()=>this.addWS(index)}
-															alt=""
-														/>
-													</div>
-												)
-										})
-										}
-										</div>
 										<div className="range" style={{display:strucStyle}}>
-											{ wenshuNum && wenshuNum.map((item,index)=>{
-												return(
-													<div className="range-item" key={item.id} style={{display:'inline-block'}}>
-														<p style={{marginLeft:5,fontSize:12,}}>{item.value}</p>
-													</div>
-												)
-											})
-											}
+											{wenshuNum
+												? wenshuNum.map((item,index)=>{
+													return(
+														<div className="range-item" key={item.id} style={{display:'inline-block'}}>
+															<p style={{marginLeft:5,fontSize:12,}}>{item.value}</p>
+														</div>
+													)
+												})
+												:<Input placeholder="请输入相关文书案号"
+																style={{width:225,margin:5}}
+																onChange={this.getWenshuNum}
+												/>}
+										</div>
+										<div className="range" style={{display:checkStyle}}>
+											{wenshuNum
+												? wenshuNum.map((item,index)=>{
+													return(
+														<div className="range-item" key={item.id}>
+															<Input placeholder="请输入相关文书案号"
+																		 style={{width:225,margin:5}}
+																		 value={item.value}
+																		 onChange={this.getWenshuNum}
+																		 key={index}
+															/>
+															<img
+																className="delete-img"
+																src={deleteIcon}
+																onClick={()=>this.deleteWS(index)}
+																alt=""
+															/>
+															<img
+																className="add-img"
+																src={addIcon}
+																onClick={()=>this.addWS(index)}
+																alt=""
+															/>
+														</div>
+													)
+												})
+												:'--'}
+
+
 										</div>
 									</div>
 
 									<div style={{display:this.state.style}}>
 										<p style={{float:'left'}}>文书链接地址:</p>
-										<div className="range" style={{display:checkStyle}}>
+										<div className="range" style={{display:strucStyle}}>
 										{ wenshuUrl && wenshuUrl.map((item,index)=>{
 											return(
 												<div key={item.id} className="range-item" >
@@ -213,7 +220,7 @@ class  WsDetail extends React.Component {
 										})
 										}
 										</div>
-										<div className="range" style={{display:strucStyle}}>
+										<div className="range" style={{display:checkStyle}}>
 											{ wenshuUrl && wenshuUrl.map((item,index)=>{
 												return(
 													<div className="range-item" key={item.id} style={{display:'inline-block'}}>

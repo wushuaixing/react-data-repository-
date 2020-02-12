@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Icon } from 'antd';
+import { Menu } from 'antd';
 import 'antd/dist/antd.css';
 import './style.scss';
 import {getAvailableNav} from "../../server/api";
@@ -95,7 +95,7 @@ class Sider extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     getAvailableNav().then(res=>{
         if(res.data.code === 200){
             console.log(res.data.data);
