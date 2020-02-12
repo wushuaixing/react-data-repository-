@@ -8,7 +8,7 @@ import { Select } from 'antd';
 const { Option } = Select;
 
 
-class  RoleDetail extends React.Component {
+class  CheckRole extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -152,88 +152,44 @@ class  RoleDetail extends React.Component {
                     <p>生日</p>
                     <p>性别</p>
                     <p>备注</p>
-                    <p>操作</p>
                   </li>
-                  <div className="add-btn" onClick={this.addToTable}>+ 添加</div>
                   {
                     tableList && tableList.map((row, index)=>{
                       return (<li key={index} className="t-body">
                         <div className="item">
-                          <form>
-                            <Input
-                              value={row.name}
-                              placeholder="请输入名称"
-                              style={{width: '100%'}}
-                            />
-                          </form>
+                          <p>{row.name}</p>
                         </div>
                         <div className="item">
                           <label>
-                            <Select value={row.labelType} style={{width: '100%'}} transfer>
-                              {
-                                _obligorList && _obligorList.map((item, index) => {
+                            {_obligorList && _obligorList.map((item, index) => {
                                 return (
-                                <Option
-                                value={item}
-                                key={item.value}
-                                >
-                                {item.label}
-                                </Option>
-                                );
-                                })
-                              }
-                            </Select>
+                                <Option value={item.value}
+                                        key={item.value}>{item.label}</Option>)})}
                           </label>
                         </div>
                         <div className="item">
-                          <form>
-                            <Input
-                              value={row.number}
-                              placeholder="请输入证件号"
-                              style={{width: '100%'}}
-                            />
-                          </form>
+                          <p>{row.number}</p>
                         </div>
                         <div className="item">
-                          <form>
-                            <Input
-                              value={row.birthday}
-                              placeholder="请输入年月日"
-                              style={{width: '100%'}}
-                              onBlur={()=>this.checkData(row.birthday, index)}
-                            />
-                          </form>
+                          <p>{row.birthday}</p>
                         </div>
                         <div className="item">
-                          <Select v-model="row.gender" style={{width: '100%'}} transfer
-                          >
+
                             {
                               genderList && genderList.map((item, index) => {
                                 return(
                                   <Option
-                                    v-for="item in genderList"
                                     value={item.value}
                                     key={item.value}
                                   >
                                     {item.label}
                                   </Option>
                                 );
-
                               })
                             }
-                          </Select>
                         </div>
                         <div className="item">
-                          <form>
-                            <Input
-                              value={row.notes}
-                              placeholder="请输入备注信息"
-                              style={{width: '100%'}}
-                            />
-                          </form>
-                        </div>
-                        <div className="item">
-                          <Button onClick={()=>this.deleteLine(index)}>删除</Button>
+                          <p>{row.notes}</p>
                         </div>
                       </li>);
 
@@ -247,5 +203,5 @@ class  RoleDetail extends React.Component {
   }
 }
 
-export default RoleDetail
+export default CheckRole
 
