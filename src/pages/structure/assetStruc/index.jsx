@@ -4,7 +4,7 @@ import {Form, Input, Button, DatePicker, Tabs, Table,Badge} from 'antd';
 import 'antd/dist/antd.css';
 import Pagination from "../../admin/accountManage";
 import {structuredList} from "../../../server/api";
-import {Route,Link} from "react-router-dom";
+import {Route,Link,withRouter} from "react-router-dom";
 import StructureDetail from "../detail";
 
 // ==================
@@ -254,11 +254,12 @@ class  Asset extends React.Component {
 							</div>
             </div>
 
-						<Route path='/state' component={StructureDetail}/>
+						{/*<Route path='/state' component={StructureDetail}/>*/}
 
           </div>
 
         );
 	}
 }
+// export default withRouter(searchForm()(Asset));
 export default searchForm()(Asset);

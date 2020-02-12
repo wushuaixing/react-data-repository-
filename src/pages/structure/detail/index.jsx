@@ -3,6 +3,8 @@ import React from 'react';
 import Button from "antd/es/button";
 import Icon from "antd/es/icon";
 import Checkbox from "antd/es/checkbox";
+import {withRouter} from "react-router-dom";
+
 import {structuredList, getCheckDetail,structuredObligorTypeList} from '../../../server/api';
 import BasicDetail from "../../../components/basicDetail";
 import WrongReason from "../../../components/wrongReason";
@@ -344,4 +346,6 @@ class  StructureDetail extends React.Component {
         );
     }
 }
+// export default withRouter(StructureDetail);
 export default StructureDetail;
+

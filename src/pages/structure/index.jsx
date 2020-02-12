@@ -1,6 +1,6 @@
 /** admin * */
 import React from 'react';
-import {BrowserRouter as Router,Route} from "react-router-dom";
+import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 
 import StructureDetail from './detail';
 import Asset from "./assetStruc";
@@ -28,10 +28,8 @@ class  Structure extends React.Component {
 
     return (
       <div>
-        <Router>
-          <Route path="/" component={Asset} />
-          <Route path="/:Id/:status" component={StructureDetail} />
-        </Router>
+          <Route path="/home"  exact component={Asset} />
+          <Route path="/:Id/:status" exact component={StructureDetail} />
       </div>
     )
   }
