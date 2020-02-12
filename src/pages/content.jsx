@@ -3,7 +3,8 @@ import React from 'react'
 import {Route, Switch} from 'react-router-dom';
 import AdminList from "./admin";
 import CheckList from "./check";
-import StructureDetail from "./structure";
+import Structure from "./structure";
+import StructureDetail from "./structure/detail";
 
 class ContentMain extends React.Component {
   render() {
@@ -11,9 +12,9 @@ class ContentMain extends React.Component {
       <div>
         <Switch>
           {/*<Route exact path="/home" component={AdminList} />*/}
-          <Route  path="/" component={StructureDetail} />
+          <Route  path="/" component={Structure} />
           <Route  path="/page/check" component={CheckList} />
-          <Route  path="/page/structure" component={StructureDetail} />
+          <Route  path="/:Id/:status" component={StructureDetail} />
         </Switch>
       </div>
     )

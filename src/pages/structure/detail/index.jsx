@@ -108,19 +108,20 @@ class  StructureDetail extends React.Component {
   }
 
   componentWillMount() {
-		const id=1111;
+  	const {Id,status}=this.props.match.params;
+  	console.log(Id,status);
 		//结构化数据详情
-		/*structuredList(id).then(res => {
+		structuredList(Id).then(res => {
 			// this.loading = false;
 			if (res.data.code === 200) {
-				this.data = res.data.data[0];
+				let data = res.data.data[0];
 				this.setState({
 
 				});
 			} else {
 				// this.$Message.error(res.data.message);
 			}
-		});*/
+		});
 		//检查／管理员数据详情
 		/*async getDetailData(id){
 			this.loading = true;

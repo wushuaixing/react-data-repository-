@@ -4,6 +4,8 @@ import {Form, Input, Button, DatePicker, Tabs, Table,Badge} from 'antd';
 import 'antd/dist/antd.css';
 import Pagination from "../../admin/accountManage";
 import {structuredList} from "../../../server/api";
+import {Route,Link} from "react-router-dom";
+import StructureDetail from "../detail";
 
 // ==================
 // 所需的所有组件
@@ -48,11 +50,13 @@ const columns = [
 		dataIndex: "action",
 		align: "center",
 		width: 180,
-		render: (record) => (
+		render: (text, record) => (
 			<span>
-						<Button onClick={()=>this.toDetailPage(record.id,record.status)}>
-							标注
-						</Button>
+				<Link to={`/${record.id}/${record.status}`}>
+        <Button>
+					标注
+        </Button>
+				</Link>
       </span>
 		),
 	}
@@ -95,13 +99,16 @@ const columnsRevise = [
 		dataIndex: "action",
 		align: "center",
 		width: 180,
-		render: (record) => (
+		render: (text, record) => (
 			<span>
-						<Button onClick={()=>this.toDetailPage(record.id,record.status)}>
-							修改标注
-						</Button>
+				<Link to={`/${record.id}/${record.status}`}>
+        <Button>
+					修改标注
+        </Button>
+				</Link>
       </span>
 		),
+
 	}
 ];
 
@@ -125,9 +132,6 @@ class  Asset extends React.Component {
 		this.getTableList(0,1);
   };
 
-	toDetailPage=(id,status)=>{
-		
-	};
 	//get table dataSource
 	getTableList=(approveStatus,page,ifWait)=>{
 		let params = {
@@ -139,8 +143,8 @@ class  Asset extends React.Component {
 			if (res.data.code === 200) {
 				// this.loading = false;
 				let _list=res.data.data;
-				let _temp=[];
 				_list.map((item,index)=>{
+					let _temp=[];
 						_temp.push(item.status);
 						item.status=_temp;
 						// item=Object.assign(item,{key:index})
@@ -171,8 +175,6 @@ class  Asset extends React.Component {
 			let ifWait=true;
 			this.getTableList(2,1,ifWait);
 		}
-		// const {approveStatus,page,}=this.state;
-
 	};
 
 	//换页
@@ -180,12 +182,16 @@ class  Asset extends React.Component {
 		this.setState({
 			page: page,
 		});
+
 	};
 
   render() {
     const { getFieldDecorator } = this.props.form;
 		const {tableList,total,waitNum}=this.state;
-
+		var state = {
+			pathname: '/state',
+			state: {}
+		};
 		return(
           <div>
             <div className="yc-detail-title">
@@ -247,8 +253,12 @@ class  Asset extends React.Component {
 								<Pagination showQuickJumper={true} defaultCurrent={1} pageSize={10} total={total} onChange={this.onChangePage} />
 							</div>
             </div>
+
+						<Route path='/state' component={StructureDetail}/>
+
           </div>
+
         );
-    }
+	}
 }
 export default searchForm()(Asset);
