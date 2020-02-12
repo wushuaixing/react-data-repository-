@@ -47,81 +47,6 @@ const columns = [
     }
   ];
 
-const data = [
-  {
-    id: '1',
-    username: 'John',
-    name: 32,
-    structuredObject: 'New York No.',
-    dataType: ['nice', 'developer'],
-    role: '结构化',
-  },
-  {
-    id: '1',
-    username: 'John',
-    name: 32,
-    structuredObject: 'New York No. 1 Lake Park',
-    dataType: ['nice', 'developer'],
-    role: '结构化',
-  },
-  {
-    id: '1',
-    username: 'John',
-    name: 32,
-    structuredObject: 'New York No. 1 Lake Park',
-    dataType: ['nice', 'developer'],
-    role: '结构化',
-  },
-  {
-    id: '1',
-    username: 'John',
-    name: 32,
-    structuredObject: 'New York No. 1 Lake Park',
-    dataType: ['nice', 'developer'],
-    role: '结构化',
-  },
-  {
-    id: '1',
-    username: 'John',
-    name: 32,
-    structuredObject: 'New York No. 1 Lake Park',
-    dataType: ['nice', 'developer'],
-    role: '结构化',
-  },
-  {
-    id: '1',
-    username: 'John',
-    name: 32,
-    structuredObject: 'New York No. 1 Lake Park',
-    dataType: ['nice', 'developer'],
-    role: '结构化',
-  },
-  {
-    id: '1',
-    username: 'John',
-    name: 32,
-    structuredObject: 'New York No. 1 Lake Park',
-    dataType: ['nice', 'developer'],
-    role: '结构化',
-  },
-  {
-    id: '1',
-    username: 'John',
-    name: 32,
-    structuredObject: 'New York No. 1 Lake Park',
-    dataType: ['nice', 'developer'],
-    role: '结构化',
-  },
-  {
-    id: '1',
-    username: 'John',
-    name: 32,
-    structuredObject: 'New York No. 1 Lake Park',
-    dataType: ['nice', 'developer'],
-    role: '结构化',
-  },
-];
-
 class  AccountManage extends React.Component {
   constructor(props) {
     super(props);
@@ -223,7 +148,7 @@ class  AccountManage extends React.Component {
                   Content of Tab Pane 2
                 </TabPane>
               </Tabs>
-            <Pagination showQuickJumper={true} defaultCurrent={1} pageSize={10} total={total} onChange={this.onChangePage} />
+              <Pagination showQuickJumper={true} defaultCurrent={1} pageSize={10} total={total} onChange={this.onChangePage} />
 
           </div>
         );

@@ -73,3 +73,5 @@ export function structuredObligorTypeList() {
 	return axios.get("/api/common/structuredObligorTypeList");
 }
 
+
+
