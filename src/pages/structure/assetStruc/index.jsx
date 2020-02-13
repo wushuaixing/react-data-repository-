@@ -122,9 +122,10 @@ class  Asset extends React.Component {
     this.state = {
 			num: 10,
 			page:1,
-			total:0,
+			total:'',
 			tableList:[],
 			waitNum:0,
+			status:'',
 		};
   }
 
@@ -156,6 +157,7 @@ class  Asset extends React.Component {
 				this.setState({
 					tableList:_list,
 					total:res.data.total,
+					status:approveStatus,
 				});
 				if(ifWait){
 					this.setState({
@@ -186,12 +188,17 @@ class  Asset extends React.Component {
 		this.setState({
 			page: page,
 		});
-
+		this.getTableList(this.state.status,1);
 	};
 
   render() {
     const { getFieldDecorator } = this.props.form;
-		const {tableList,total,waitNum}=this.state;
+		const {tableList,total,waitNum,page}=this.state;
+		const paginationProps = {
+			page: page,
+			onChange : (page) => this.onChangePage(page),
+			total: total,
+		};
 		return(
           <div>
             <div className="yc-detail-title">
@@ -237,20 +244,20 @@ class  Asset extends React.Component {
               </div>
 							<div className="yc-tab">
 								<Tabs defaultActiveKey="1"  onChange={this.changeTab}>
-									<TabPane tab="待标记" key="1">
+									<TabPane tab="待标记" key="1" pagination={paginationProps}>
 										<Table className="table-list" columns={columns} dataSource={tableList} style={{margin:10,width:1240}}
 													 rowKey={record => record.id} />
 									</TabPane>
-									<TabPane tab="已标记" key="2">
+									<TabPane tab="已标记" key="2" pagination={paginationProps}>
 										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10,width:1240}}
 													 rowKey={record => record.id} />
 									</TabPane>
-									<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>} key="3">
+									<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>}
+													 key="3" pagination={paginationProps}>
 										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10,width:1240}}
 													 rowKey={record => record.id} />
 									</TabPane>
 								</Tabs>
-								<Pagination showQuickJumper={true} defaultCurrent={1} pageSize={10} total={total} onChange={this.onChangePage} />
 							</div>
             </div>
           </div>
