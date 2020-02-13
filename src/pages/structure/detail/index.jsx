@@ -15,6 +15,9 @@ import WrongReason from "../../../components/wrongReason";
 import WsDetail from "../../../components/wsDetail";
 import RoleDetail from "../../../components/roleDetail";
 import HouseDetail from "../../../components/houseDetail";
+import TopMenu from "../../../components/topMenu";
+import LeftMenu from '../../../components/leftMenu';
+import {withRouter} from "react-router-dom";
 import './style.scss';
 
 // ==================
@@ -318,14 +321,11 @@ class  StructureDetail extends React.Component {
 	goBack=()=>{};
 
 	// const date_format = date => {/* your code */}
-
-
-
-
-
-
 //待标记--》详情页
   render() {
+		let storage = window.localStorage;
+		const user = storage.userName;
+		const role = storage.userState;
 		const { dataMark, dataTotal, buttonText, buttonStyle,data }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach }=this.state;
 		const basic=data;
@@ -333,7 +333,13 @@ class  StructureDetail extends React.Component {
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
         return(
-          <div>
+					<div>
+						<TopMenu user={user}/>
+						<div className="main-body" >
+							<div className="left-menu" >
+								<LeftMenu role={role} />
+							</div>
+							<div className="right-content" style={{marginLeft:180, marginTop:-1200}}>
             <div className="yc-detail-title">
               <div style={{ margin:10, fontSize:16, color:'#293038' }}>资产结构化／详情</div>
               <div className="yc-button-goback">
@@ -353,37 +359,6 @@ class  StructureDetail extends React.Component {
 								{	needWrongReason && <WrongReason errorList={errorReason} /> }
 							</div>
 							<div>
-								{/*<div className="yc-wrong-part">
-									<div className="yc-part-title">
-										<p>基本信息</p>
-									</div>
-									<div className="yc-wrong-detail">
-										<div>
-											<p className="yc-sec-title">标题:</p>
-											<p className="yc-link-title" onClick={this.openLink} style={{ marginLeft:5 }} >{ basic.title }</p>
-										</div>
-										<div>
-											<p className="yc-sec-title">拍卖状态:</p>
-											<p className="yc-sec-title" style={{ marginLeft:5}}>basic.auctionStatus</p>
-										</div>
-										{	needWrongReason && <StructureRecord records={recordsForCheck} />}
-										//什么数据是有撤回原因和关联标注的 条件：!character && status !== 0
-										<div >
-											<p className="yc-sec-title">撤回原因:</p>
-											<p className="yc-sec-title" style={{ marginLeft:5}}>{ basic.reasonForWithdrawal }</p>
-										</div>
-										<div >
-											<p className="yc-sec-title">关联标注:</p>
-											<p
-												className="yc-link-title"
-												style={{ marginLeft:5}}
-												onClick={()=>this.associated(basic.associatedAnnotationId)}
-											>
-												{basic.associatedAnnotationId }
-											</p>
-										</div>
-									</div>
-								</div>*/}
 								<BasicDetail info={basic} records={recordsForCheck} status={autionStatus} need={needRecord}/>
 							</div>
 							<div className="yc-wrong-part">
@@ -398,6 +373,8 @@ class  StructureDetail extends React.Component {
 								<RoleDetail info={obligors} list={obligorList} />
 							</div>
             </div>
+					</div>
+						</div>
 					</div>
         );
     }

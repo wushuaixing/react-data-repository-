@@ -2,9 +2,10 @@
 import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table,Badge} from 'antd';
 import 'antd/dist/antd.css';
-import Pagination from "../../admin/accountManage";
+import Pagination from "antd/es/pagination";
 import {structuredList} from "../../../server/api";
 import {Link} from "react-router-dom";
+
 
 // ==================
 // 所需的所有组件
@@ -62,6 +63,10 @@ const columns = [
 ];
 const columnsRevise = [
 	{
+		title: "结构化时间",
+		dataindex: "completeTime",
+	},
+	{
 		title: "拍卖标题",
 		dataIndex: "title",
 	},
@@ -100,7 +105,7 @@ const columnsRevise = [
 		width: 180,
 		render: (text, record) => (
 			<span>
-				<Link to={`/${record.id}/${record.status}`}>
+				<Link to={`/structureAsset/${record.id}/${record.status}`}>
         <Button>
 					修改标注
         </Button>

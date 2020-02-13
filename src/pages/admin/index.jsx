@@ -3,8 +3,8 @@ import React from 'react';
 import TopMenu from "../../components/topMenu";
 import LeftMenu from '../../components/leftMenu';
 import AccountManage from "./accountManage";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import ContentMain from "../content";
+import Asset from "../structure/assetStruc";
 
 // ==================
 // 所需的所有组件
@@ -37,9 +37,15 @@ class  AdminList extends React.Component {
       const role = storage.userState;
         return(
           <div>
-            <Router>
-                  <AccountManage />
-            </Router>
+            <TopMenu user={user}/>
+            <div className="main-body" >
+              <div className="left-menu" >
+                <LeftMenu role={role} />
+              </div>
+              <div className="right-content" style={{marginLeft:180, marginTop:-1200}}>
+                <AccountManage />
+              </div>
+            </div>
           </div>
         );
     }

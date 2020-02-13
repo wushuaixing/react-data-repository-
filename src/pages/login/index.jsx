@@ -87,7 +87,9 @@ class Login extends React.Component {
 		if (res.data.code === 200) {
 			storage.setItem("userState", res.data.data.ROLE);
 			storage.setItem("userName", res.data.data.NAME);
-			history.push('/home');
+			if(res.data.data.ROLE === "结构化人员"){
+				history.push('/structureAsset');
+			}
 
 		} else {
 			console.log('wrong');

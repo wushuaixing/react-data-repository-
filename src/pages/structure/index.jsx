@@ -12,24 +12,18 @@ import Asset from "./assetStruc";
 class  Structure extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-		};
-  }
-
-  componentWillMount() {
-
+    this.state = {};
   }
 
 //  账号管理-结构化账号列表接口  /api/asset/admin/userView  get
 //  账号管理-检查账号列表接口   /api/asset/admin/check/getCheckList  get
   render() {
-    const {} = this.props;
-
     return (
       <div>
-          <Route path="/home"  exact component={Asset} />
+        <Switch>
+          <Route path="/"  component={Asset} />
           <Route path="/:Id/:status" exact component={StructureDetail} />
+        </Switch>
       </div>
     )
   }

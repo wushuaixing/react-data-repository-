@@ -6,11 +6,13 @@ import {getAvailableNav} from "../../server/api";
 import {Link} from "react-router-dom";
 
 const { SubMenu } = Menu;
-
+let storage = window.localStorage;
+const user = storage.userName;
+const role = storage.userState;
 const menuRoute= {
   7: "/UserList",
   18: "/UserCheck",
-  8: "/AssetStructure",
+  8: "/structure",
   15: "/CheckAssetStrure",
   20: "/CheckAssetStrure",
   17: "/DocumentSearch",
@@ -20,25 +22,6 @@ const menuRoute= {
   22:"/structureMonitor",
 };
 
-const menu={"code":200,
-  "data":{
-  "账号管理":[
-    {"id":7,"title":"结构化账号"},
-    {"id":18,"title":"检查账号"}
-    ],
-    "资产结构化":[
-      {"id":16,"title":"文书搜索"},
-      {"id":19,"title":"检查详情"},
-      {"id":20,"title":"资产结构化列表"}
-      ],
-    "数据抓取与同步监控":[
-      {"id":21,"title":"数据抓取与同步监控"}
-      ],
-    "结构化情况数据监控":[
-      {"id":22,"title":"结构化情况数据监控"}
-      ]
-  },
-  "message":"成功"};
 
 const myMenu=[
 /*  {
@@ -56,33 +39,33 @@ const myMenu=[
   },*/
   { title:"账号管理",icon:"book",index:'2',
     children:[
-      { title:"结构化账号",key:"/page/admin",icon:"info-circle", index:'1'},
-      { title:"检查账号",key:"/page/check",icon:"branches", index:'3', },
+      { title:"结构化账号",path:"/account",icon:"info-circle", index:'1'},
+      { title:"检查账号",path:"/page/check",icon:"branches", index:'3', },
     ]
   },
   { title:"资产结构化情况",icon:"issues-close", index:'4',
     children:[
-      { title:"资产结构化",key:"/page/structure",icon:"info-circle", index:'5',},
-      { title:"文书搜索",key:"/page/1",icon:"branches", index:'6', },
+      { title:"资产结构化",path:"/structureAsset",icon:"info-circle", index:'5',},
+      { title:"文书搜索",path:"/page/ws",icon:"branches", index:'6', },
     ]
   },
   { title:"资产结构化情况检查",icon:"issues-close",index:'7',
     children:[
-      { title:"资产结构化",key:"/page/2",icon:"info-circle", index:'8', },
-      { title:"文书搜索",key:"/page/3",icon:"branches", index:'9', },
+      { title:"资产结构化",path:"/page/structure",icon:"info-circle", index:'8', },
+      { title:"文书搜索",path:"/page/ws",icon:"branches", index:'9', },
     ]
   },
-  { key:"/page/4",title:"数据抓取与同步监控",icon:"issues-close", index:'10',},
-  { key:"/page/5",title:"结构化情况数据监控",icon:"issues-close", index:'11', },
-  { key:"/page/6",title:"招投标结构化",icon:"issues-close", index:'12', },
-  { key:"/page/7",title:"破产重组结构化",icon:"issues-close", index:'13', },
+  { path:"/page/pyhtonMonitor",title:"数据抓取与同步监控",icon:"issues-close", index:'10',},
+  { path:"/page/strucMonitor",title:"结构化情况数据监控",icon:"issues-close", index:'11', },
+/*  { path:"/page/6",title:"招投标结构化",icon:"issues-close", index:'12', },
+  { path:"/page/7",title:"破产重组结构化",icon:"issues-close", index:'13', },*/
 
   ];
 
-//从接口得到menu的数组
+/*//从接口得到menu的数组
 const createMenuTemp = () =>{
 
-};
+};*/
 
 class Sider extends React.Component {
   // submenu keys of first level
@@ -90,7 +73,7 @@ class Sider extends React.Component {
     super(props);
     this.state = {
       openKeys: ['sub1'],
-      menuList: myMenu,
+      menuList: '',
       selectedKeys:[],
     };
   }
@@ -98,7 +81,10 @@ class Sider extends React.Component {
   componentDidMount() {
     getAvailableNav().then(res=>{
         if(res.data.code === 200){
-            console.log(res.data.data);
+          // console.log(Object.values(res.data.data));
+          this.setState({
+              menuList:res.data.data,
+            });
         }
     }).catch(()=>{
         // 异常处理
@@ -112,14 +98,80 @@ class Sider extends React.Component {
     const create = (menuData,el)=>{
       menuData.forEach((item) => {
         let _children = [];
-        if(item.children){
-          create(item.children, _children);
+        if(role === "结构化人员"){
+          if(item.index === '4'||item.index === '5'||item.index === '6' ){
+            if(item.children){
+              create(item.children, _children);
+              el.push(
+                <SubMenu
+                  key={`sub${item.index}`}
+                  title={(
+                    <span>
+                    <Link to={item.path}>
+                      <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
+                      <span>{item.title}</span>
+                    </Link>
+                </span>
+
+                  )}
+                >
+                  { _children }
+                </SubMenu>
+              )
+            } else {
+              el.push(
+                <Menu.Item key={item.index}>
+                  <Link to={item.path}>
+                    <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
+                    <span>{item.title}</span>
+                  </Link>
+                </Menu.Item>
+              )
+            }
+          }
+        }
+        else if(role === "检查人员"){
+          if(item.index === '7'||item.index === '8'||item.index === '9' ){
+            if(item.children){
+              create(item.children, _children);
+              el.push(
+                <SubMenu
+                  key={`sub${item.index}`}
+                  title={(
+                    <span>
+                    <Link to={item.path}>
+                      <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
+                      <span>{item.title}</span>
+                    </Link>
+                </span>
+
+                  )}
+                >
+                  { _children }
+                </SubMenu>
+              )
+            } else {
+              el.push(
+                <Menu.Item key={item.index}>
+                  <Link to={item.path}>
+                    <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
+                    <span>{item.title}</span>
+                  </Link>
+                </Menu.Item>
+              )
+            }
+          }
+        }
+        else if(role === "管理员"){
+          if(item.index !== '4'||item.index !== '5'||item.index !== '6'||item.index !== '7'||item.index !== '8'||item.index !== '9')
+          if(item.children){
+            create(item.children, _children);
             el.push(
               <SubMenu
                 key={`sub${item.index}`}
                 title={(
                   <span>
-                    <Link to={item.key}>
+                    <Link to={item.path}>
                       <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
                       <span>{item.title}</span>
                     </Link>
@@ -130,17 +182,19 @@ class Sider extends React.Component {
                 { _children }
               </SubMenu>
             )
-        } else {
-          el.push(
-            <Menu.Item key={item.index}>
-              <Link to={item.key}>
-                <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
-                <span>{item.title}</span>
-              </Link>
-            </Menu.Item>
-          )
+          } else {
+            el.push(
+              <Menu.Item key={item.index}>
+                <Link to={item.path}>
+                  <img style={{marginLeft:-10, marginRight:6 }} src={item.icon} width="15" height="16" alt="" />
+                  <span>{item.title}</span>
+                </Link>
+              </Menu.Item>
+            )
+          }
         }
       });
+
     };
     create(menuData,menu);
     return menu;
@@ -148,12 +202,10 @@ class Sider extends React.Component {
 
   render() {
     const { menuList,selectedKeys } = this.state;
-    const {role} =this.props;
+
     return (
       <div>
         <Menu
-          defaultSelectedKeys={['/page/admin']}
-          defaultOpenKeys={['sub1']}
           mode="inline"
           theme="dark"
           selectedKeys={selectedKeys}
