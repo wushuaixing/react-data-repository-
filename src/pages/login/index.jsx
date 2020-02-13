@@ -82,18 +82,26 @@ class Login extends React.Component {
 	};
 
 	//接口异步 验证账号密码
-	static async handleSubmit(info,history){
-		const res= await login(info);
-		if (res.data.code === 200) {
-			storage.setItem("userState", res.data.data.ROLE);
-			storage.setItem("userName", res.data.data.NAME);
-			if(res.data.data.ROLE === "结构化人员"){
-				history.push('/structureAsset');
-			}
-
-		} else {
-			console.log('wrong');
+	// 为什么要用static 修改该方法呢？
+	async handleSubmit(info){
+		const {history} = this.props;
+		debugger
+		try {
+			const res = await login(info);
+			if (res.data.code === 200) {
+				storage.setItem("userState", res.data.data.ROLE);
+				storage.setItem("userName", res.data.data.NAME);
+				if(res.data.data.ROLE === "结构化人员"){
+					history.push('/structureAsset');
+				}
+			} else {
+				console.log('wrong');
+			}	
+		} catch (error) {
+			// 如果网络请求出错了，做一些降级处理
+			console.error(error);
 		}
+		
 	};
 
   //提交账号密码
@@ -104,8 +112,7 @@ class Login extends React.Component {
 			password: this.props.form.getFieldValue('password'),
 			rememberMe: false,
 		};
-		const history=this.props.history;
-		Login.handleSubmit(values,history);
+		this.handleSubmit(values);
 		// console.log(this.props.history);
 	};
 
@@ -156,7 +163,9 @@ class Login extends React.Component {
 
 	//60秒后重新获取验证码
 	newSend = () => {
-		if(this.state.wait === 0) {
+		// props 和 state 里面的值应该这样析够出来
+		const { wait } = this.state;
+		if(wait === 0) {
 			this.setState({
 				wait: 60,
 				display_button:'',
@@ -164,7 +173,8 @@ class Login extends React.Component {
 			});
 		}
 		else{
-			let temp=this.state.wait--;
+			//不能直接操作state的值自减
+			let temp = wait - 1;
 			this.setState({
 				wait: temp,
 				display_button:'none',
