@@ -64,7 +64,7 @@ const columns = [
 const columnsRevise = [
 	{
 		title: "结构化时间",
-		dataindex: "completeTime",
+		dataIndex: "completeTime",
 	},
 	{
 		title: "拍卖标题",
