@@ -1,24 +1,23 @@
 import React from 'react';
 // import { Router, Route, Link } from 'react-router';
-import { BrowserRouter as Router, Route,Switch} from "react-router-dom";
-
+import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
+import history from "../history";
 import Login from "./login";
-
-
-import './App.css';
 import StructureAsset from "./strucAsset";
 import Check from "./check";
 import StructureDetail from "./structure/detail";
 import AccountManage from "./admin/accountManage";
+import './App.css';
 
 
 class App extends React.Component {
 	render(){
 		return(
-			<Router>
+			<Router history={history}>
 				<div>
 					<Switch>
-						<Route path="/" exact component={Login}  />
+						<Route path="/login" exact component={Login} />
+						＜Redirect from="/" to="/login" />
 						<Route path="/structureAsset" exact component={StructureAsset} />
 						<Route path="/structureAsset/:Id/:status" exact component={StructureDetail} />
 						<Route path="/page/ws" exact component={Check} />

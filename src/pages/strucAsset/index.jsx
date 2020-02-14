@@ -6,6 +6,7 @@ import ContentMain from "../content";
 import Structure from "../structure";
 import Asset from "../structure/assetStruc";
 import StructureDetail from "../structure/detail";
+import history from "../../history";
 // ==================
 // 所需的所有组件
 // ==================
@@ -29,10 +30,10 @@ class  structureAsset extends React.Component {
       const role = storage.userState;
         return(
           <div>
-              <TopMenu user={user}/>
+              <TopMenu user={user} history={history} />
               <div className="main-body" >
                 <div className="left-menu" >
-                  <LeftMenu role={role} />
+                  <LeftMenu role={role} history={history} />
                 </div>
                 <div className="right-content" style={{marginLeft:180, marginTop:-1200}}>
                   {/*<Structure />*/}

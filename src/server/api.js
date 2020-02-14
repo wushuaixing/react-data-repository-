@@ -5,11 +5,16 @@ axios.defaults.withCredentials = true;
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
 // axios 应该做一些封装和拦截，统一判断接口请求是否接通，可以去参考小程序项目
 
+//登录接口（账号-密码-下次是否自动登录）
 export const login = async (params) => {
 	let data = JSON.stringify(params);
-	// return axios.post(`${apiUrl}/api/login`, data);
 	return axios.post('/api/login', data);
-	
+}
+
+//判断是否登录过
+export const isLogin = (params) => {
+	let data = JSON.stringify(params);
+	return axios.get("/api/isLogin", data);
 }
 
 //获取图形验证码

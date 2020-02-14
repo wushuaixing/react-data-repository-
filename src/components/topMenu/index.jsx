@@ -1,11 +1,12 @@
 /** check * */
 import React from 'react';
 import { Dropdown, Menu, Icon, Modal  } from "antd";
-import './style.scss';
+import { Link } from "react-router-dom";
 import logo from "../../assets/img/top_logo.png";
 import Input from "antd/es/input";
 import Button from "antd/es/button";
 import {changePassword, logout} from "../../server/api";
+import './style.scss';
 
 
 
@@ -14,6 +15,7 @@ class topMenu extends React.Component {
 		super(props);
 		this.state = {
 				visible: false,
+			 isLogout: true,
 		};
 	}
 
@@ -57,7 +59,7 @@ class topMenu extends React.Component {
 	logOut =() => {
 		logout().then(res => {
 			if (res.data.code === 200) {
-				this.props.history.push('/');
+				this.props.history.push('/login');
 				window.localStorage.removeItem("userState");
 			} else {
 				// this.$Message.error(res.data.message);
@@ -67,7 +69,7 @@ class topMenu extends React.Component {
 
 	render() {
 		const { user } = this.props;
-		const { visible }=this.state;
+		const { visible,isLogout }=this.state;
 		const menu = (
 			<Menu className="user-menu" style={{marginTop: 8,}}>
 				<Menu.Item key="0">

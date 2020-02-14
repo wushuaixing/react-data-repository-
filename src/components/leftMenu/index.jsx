@@ -80,11 +80,15 @@ class Sider extends React.Component {
 
   componentDidMount() {
     getAvailableNav().then(res=>{
-        if(res.data.code === 200){
+        if(res.data.code === 200 && storage["userState"]){
           // console.log(Object.values(res.data.data));
           this.setState({
               menuList:res.data.data,
             });
+        }else if(res.data.code === 403){
+          localStorage.removeItem("userState");
+          localStorage.removeItem("userName");
+          this.props.history.push('/login');
         }
     }).catch(()=>{
         // 异常处理
