@@ -257,16 +257,16 @@ class  Asset extends React.Component {
 		let timeSearch=false;
 		if(status !== 0){timeSearch=true}
 		const paginationProps = {
-			page: page,
-			onChange : (page) => this.onChangePage(page),
-			total: total,
+			current: page,
+			showQuickJumper:true,
+			showTotal: total,
 		};
 		return(
           <div>
             <div className="yc-detail-title">
               <div style={{ margin:10, fontSize:16, color:'#293038',fontWeight:800 }}>资产结构化</div>
               <div className="yc-button-goback">
-                <Button type="default" onClick={()=>this.goBack}>获取新数据</Button>
+                <Button type="default">获取新数据</Button>
               </div>
             </div>
             <div className="yc-detail-content">
@@ -312,7 +312,7 @@ class  Asset extends React.Component {
               </div>
 							<div className="yc-tab">
 								<Tabs defaultActiveKey="1"  onChange={this.changeTab}>
-									<TabPane tab="待标记" key="1" pagination={paginationProps}>
+									<TabPane tab="待标记" key="1" pagination={paginationProps} onChange={(page) => this.onChangePage(page)}>
 										<Table className="table-list" columns={columns} dataSource={tableList} style={{margin:10,width:1240}}
 													 rowKey={record => record.id} />
 									</TabPane>
