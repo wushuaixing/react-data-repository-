@@ -4,7 +4,7 @@ import { Form, Icon, Input, Button, Checkbox, Tooltip } from 'antd';
 import box from '../../assets/img/box.png';
 import logo from '../../assets/img/logo.png';
 import miniLogo from '../../assets/img/logo_blue.png';
-import { login, codeImage, validateImgCode, resetPassword } from '../../server/api';
+import { login, isLogin,codeImage, validateImgCode, resetPassword } from '../../server/api';
 import 'antd/dist/antd.css';
 import './style.scss';
 // ==================
@@ -27,7 +27,29 @@ class Login extends React.Component {
 	}
 
 	componentWillMount() {
-
+		const myState=localStorage.getItem("userState");
+		const {history}=this.props;
+		isLogin().then(res=>{
+			if(res.data.code===200 && myState){
+				if(res.data.data===199){
+					history.push('/structureAsset');
+					localStorage.setItem("userState","结构化人员");
+				}
+				if(res.data.data===203){
+					localStorage.setItem("userState","管理员");
+					/*this.$router.push({
+						name: "UserList"
+					});*/
+				}
+				if(res.data.data===205){
+					localStorage.setItem("userState","检查人员");
+					/*this.$router.push({
+						name: "CheckAssetStrure"
+					});*/
+				}
+			}
+			else{}
+		});
 		//获取图形验证码
 		this.toRefreshImg();
 
@@ -85,7 +107,7 @@ class Login extends React.Component {
 	// 为什么要用static 修改该方法呢？
 	async handleSubmit(info){
 		const {history} = this.props;
-		debugger
+		// debugger
 		try {
 			const res = await login(info);
 			if (res.data.code === 200) {
@@ -96,12 +118,12 @@ class Login extends React.Component {
 				}
 			} else {
 				console.log('wrong');
-			}	
+			}
 		} catch (error) {
 			// 如果网络请求出错了，做一些降级处理
 			console.error(error);
 		}
-		
+
 	};
 
   //提交账号密码
