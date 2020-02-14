@@ -6,7 +6,7 @@ import Login from "./login";
 import StructureAsset from "./strucAsset";
 import Check from "./check";
 import StructureDetail from "./structure/detail";
-import AccountManage from "./admin/accountManage";
+import AccountManage from "./admin";
 import './App.css';
 
 

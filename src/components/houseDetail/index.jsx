@@ -1,4 +1,4 @@
-/** 错误原因展示* */
+/** 房产土地信息展示* */
 import React from 'react';
 import Checkbox from "antd/es/checkbox";
 import Input from "antd/es/input";

@@ -7,7 +7,6 @@ import {Link} from "react-router-dom";
 
 const { SubMenu } = Menu;
 let storage = window.localStorage;
-const user = storage.userName;
 const role = storage.userState;
 const menuRoute= {
   7: "/UserList",
@@ -39,7 +38,7 @@ const myMenu=[
   },*/
   { title:"账号管理",icon:"book",index:'2',
     children:[
-      { title:"结构化账号",path:"/account",icon:"info-circle", index:'1'},
+      { title:"结构化账号",path:"/admin/account",icon:"info-circle", index:'1'},
       { title:"检查账号",path:"/page/check",icon:"branches", index:'3', },
     ]
   },
@@ -85,6 +84,7 @@ class Sider extends React.Component {
           this.setState({
               menuList:res.data.data,
             });
+          this.props.history.push("/admin/account");
         }else if(res.data.code === 403){
           localStorage.removeItem("userState");
           localStorage.removeItem("userName");

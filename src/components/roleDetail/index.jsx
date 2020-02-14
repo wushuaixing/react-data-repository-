@@ -171,7 +171,7 @@ class  RoleDetail extends React.Component {
                           <label>
                             <Select value={row.labelType} style={{width: '100%'}} transfer>
                               {
-                                _obligorList && _obligorList.map((item, index) => {
+                                _obligorList && _obligorList.map((item) => {
                                 return (
                                 <Option
                                 value={item}
@@ -205,10 +205,10 @@ class  RoleDetail extends React.Component {
                           </form>
                         </div>
                         <div className="item">
-                          <Select v-model="row.gender" style={{width: '100%'}} transfer
+                          <Select style={{width: '100%'}} transfer
                           >
                             {
-                              genderList && genderList.map((item, index) => {
+                              genderList && genderList.map((item) => {
                                 return(
                                   <Option
                                     v-for="item in genderList"
