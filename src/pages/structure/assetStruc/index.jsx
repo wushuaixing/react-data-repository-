@@ -148,7 +148,7 @@ class  Asset extends React.Component {
 			if (res.data.code === 200) {
 				// this.loading = false;
 				let _list=res.data.data;
-				_list.map((item,index)=>{
+				_list.map((item)=>{
 					let _temp=[];
 						_temp.push(item.status);
 						item.status=_temp;
@@ -191,9 +191,71 @@ class  Asset extends React.Component {
 		this.getTableList(this.state.status,1);
 	};
 
+	//日期转换
+	dataFilter=(value)=>{
+		let data = new Date(value);
+		let year = data.getFullYear();
+		let month = data.getMonth() + 1;
+		if (month < 10) {
+			month = "0" + month;
+		}
+		let date = data.getDate();
+		if (date < 10) {
+			date = "0" + date;
+		}
+		return year + "-" + month + "-" + date;
+	};
+
+	//搜索框
+	handleSearch = e => {
+		e.preventDefault();
+		const {status}=this.state;
+		const searchTitle=this.props.form.getFieldValue('title');
+		const startTime=this.props.form.getFieldValue('start');
+		const endTime=this.props.form.getFieldValue('end');
+
+		let params={
+			approveStatus: status,
+			title: searchTitle,
+			page: 1,
+			num: 10,
+		};
+		if(status !== 0){
+			if(startTime){params.structuredStartTime=this.dataFilter((startTime))}
+			if(endTime){params.structuredEndTime=this.dataFilter((endTime))}
+		}
+		structuredList(params).then(res => {
+			if (res.data.code === 200) {
+				// this.loading = false;
+				let _list=res.data.data;
+				_list.map((item)=>{
+					let _temp=[];
+					_temp.push(item.status);
+					item.status=_temp;
+				});
+				this.setState({
+					tableList: _list,
+					total: res.data.total,
+				});
+			} else {
+				console.log('wrong');
+			}
+		});
+	};
+
+	//清空搜索条件
+	clearSearch=()=>{
+		this.props.form.resetFields();
+		const {status}=this.state;
+		this.getTableList(status,1);
+	};
+
   render() {
     const { getFieldDecorator } = this.props.form;
-		const {tableList,total,waitNum,page}=this.state;
+		const {tableList,total,waitNum,page,status}=this.state;
+		//待标记无时间搜索
+		let timeSearch=false;
+		if(status !== 0){timeSearch=true}
 		const paginationProps = {
 			page: page,
 			onChange : (page) => this.onChangePage(page),
@@ -209,7 +271,7 @@ class  Asset extends React.Component {
             </div>
             <div className="yc-detail-content">
               <div className="yc-search-line">
-                <Form layout="inline" onSubmit={this.handleSubmit} className="yc-search-form" style={{marginLeft:10,marginTop:15}}>
+                <Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{marginLeft:10,marginTop:15}}>
                   <Form.Item label="标题">
                     {getFieldDecorator('title', {})
                     (<Input
@@ -218,25 +280,31 @@ class  Asset extends React.Component {
                       style={{ width: 240 }}
                     />)}
                   </Form.Item>
-                  <Form.Item label="结构化时间">
-                    {getFieldDecorator('start', {})
-                    (<DatePicker
-                      placeholder="开始时间"
-                      style={{width:108}}
-                    />)}
-                  </Form.Item>
-                  <Form.Item label="至">
-                    {getFieldDecorator('end', {})
-                    (<DatePicker
-                      placeholder="结束时间"
-                      style={{width:108}}
-                    />)}
-                  </Form.Item>
+									{
+										timeSearch &&
+										<Form.Item label="结构化时间">
+											{getFieldDecorator('start', {})
+											(<DatePicker
+												placeholder="开始时间"
+												style={{width:108}}
+											/>)}
+										</Form.Item>
+									}
+									{
+										timeSearch &&
+										<Form.Item label="至">
+											{getFieldDecorator('end', {})
+											(<DatePicker
+												placeholder="结束时间"
+												style={{width: 108}}
+											/>)}
+										</Form.Item>
+									}
                   <Form.Item>
                     <Button type="primary" htmlType="submit" style={{backgroundColor:'#0099CC',marginLeft:15}}>
                       搜索
                     </Button>
-                    <Button type="default" htmlType="submit" style={{marginLeft:5}}>
+                    <Button type="default" style={{marginLeft:5}} onClick={this.clearSearch}>
                       清空搜索条件
                     </Button>
                   </Form.Item>
