@@ -2,13 +2,13 @@ stages:
   - install_deps
   - build
   - deploy
-  
+
 cache:
   key: ${CI_BUILD_REF_NAME}
   paths:
     - node_modules/
     - build/
-    
+
 # 安装依赖
 install_deps:
   stage: install_deps
@@ -32,8 +32,8 @@ build_step:
         - wwy-data
         - master
     script:
-        - yarn build
-        
+        - CI=false yarn build
+
 # 拷贝
 deploy_step:
   stage: deploy
@@ -51,4 +51,3 @@ deploy_step:
     - chmod 644 ~/.ssh/know_hosts
     - ls
     - scp -o StrictHostKeyChecking=no -r -P 22 ./build/* root@172.18.255.251:/disk/web/front/react-data-repository-dev/web
-    
