@@ -12,6 +12,8 @@ class ContentMain extends React.Component {
         {/*<Switch>*/}
           <Route path="/" component={Asset} />
           <Route path="/:Id/:status" exact component={StructureDetail} />
+          <Route path="/page/ws" exact component={CheckList} />
+
         {/*</Switch>*/}
       </div>
     )

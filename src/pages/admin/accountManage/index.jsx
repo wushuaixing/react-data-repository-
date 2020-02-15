@@ -214,6 +214,7 @@ class AccountManage extends React.Component {
                 destroyOnClose={true}
                 closable={true}
                 footer={null}
+								onCancel={this.handleCancel}
               >
                 <div className="add-user-modal">
                   <div className="part">
