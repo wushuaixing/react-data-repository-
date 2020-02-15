@@ -50,4 +50,4 @@ deploy_step:
     - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
     - ls
-    - scp -o StrictHostKeyChecking=no -r -P 22 ./build/* root@172.18.255.251:/disk/web/front/react-data-repository-dev/web
+    - scp -o StrictHostKeyChecking=no -r -P 22 ./build/* work@172.18.255.251:/disk/web/front/react-data-repository-dev/web
