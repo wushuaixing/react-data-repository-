@@ -69,7 +69,7 @@ class AccountManage extends React.Component {
       page: 1,
       searchRole:'',
       searchUser:'',
-      visible:true,
+      visible:false,
       characterList: [
         {
           value: 1,

@@ -38,13 +38,13 @@ const myMenu=[
   },*/
   { title:"账号管理",icon:"book",index:'2',
     children:[
-      { title:"结构化账号",path:"/admin/account",icon:"info-circle", index:'1'},
+      { title:"结构化账号",path:"/index",icon:"info-circle", index:'1'},
       { title:"检查账号",path:"/page/check",icon:"branches", index:'3', },
     ]
   },
   { title:"资产结构化情况",icon:"issues-close", index:'4',
     children:[
-      { title:"资产结构化",path:"/structureAsset",icon:"info-circle", index:'5',},
+      { title:"资产结构化",path:"/index",icon:"info-circle", index:'5',},
       { title:"文书搜索",path:"/page/ws",icon:"branches", index:'6', },
     ]
   },
@@ -84,7 +84,7 @@ class Sider extends React.Component {
           this.setState({
               menuList:res.data.data,
             });
-          this.props.history.push("/admin/account");
+          // this.props.history.push("/index");
         }else if(res.data.code === 403){
           localStorage.removeItem("userState");
           localStorage.removeItem("userName");

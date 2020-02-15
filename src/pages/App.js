@@ -1,12 +1,9 @@
 import React from 'react';
 // import { Router, Route, Link } from 'react-router';
-import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
 import history from "../history";
 import Login from "./login";
-import StructureAsset from "./strucAsset";
-import Check from "./check";
-import StructureDetail from "./structure/detail";
-import AccountManage from "./admin";
+import Home from "./home";
 import './App.css';
 
 
@@ -17,10 +14,10 @@ class App extends React.Component {
 				<div>
 					<Switch>
 						<Route path="/" exact component={Login} />
-						<Route path="/structureAsset" exact component={StructureAsset} />
+						<Route path="/login" exact component={Login} />
+						<Route path="/index" exact component={Home} />
 						{/*<Route path="/structureAsset/:Id/:status" exact component={StructureDetail} />*/}
 						{/*<Route path="/admin/account"  exact component={AccountManage} />*/}
-						<Redirect from="/login" to="/"  />
 					</Switch>
 				</div>
 			</Router>

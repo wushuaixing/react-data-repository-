@@ -2,7 +2,6 @@
 import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table,Badge} from 'antd';
 import 'antd/dist/antd.css';
-import Pagination from "antd/es/pagination";
 import {structuredList} from "../../../server/api";
 import {Link} from "react-router-dom";
 
@@ -105,7 +104,7 @@ const columnsRevise = [
 		width: 180,
 		render: (text, record) => (
 			<span>
-				<Link to={`/structureAsset/${record.id}/${record.status}`}>
+				<Link to={`/${record.id}/${record.status}`}>
         <Button>
 					修改标注
         </Button>

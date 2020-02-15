@@ -114,7 +114,7 @@ class Login extends React.Component {
 				console.log(res.data.data.ROLE);
 				storage.setItem("userState", res.data.data.ROLE);
 				storage.setItem("userName", res.data.data.NAME);
-				history.push('/structureAsset');
+				history.push('/index');
 				/*if(res.data.data.ROLE === "结构化人员"){
 					history.push('/structureAsset');
 				}else if(res.data.data.ROLE === "管理员"){

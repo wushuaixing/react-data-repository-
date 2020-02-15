@@ -4,7 +4,7 @@
 import React, { Component } from "react";
 import {Route, Switch, withRouter} from "react-router";
 import Login from "../pages/login";
-import StructureAsset from "../pages/strucAsset";
+import StructureAsset from "../pages/home";
 import StructureDetail from "../pages/structure/detail";
 import Check from "../pages/check";
 import {BrowserRouter as Router} from "react-router-dom";

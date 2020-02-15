@@ -4,9 +4,6 @@ import TopMenu from "../../components/topMenu";
 import LeftMenu from '../../components/leftMenu';
 import StructureRoute from "../../router/structureRoute";
 import AdminRoute from "../../router/adminRoute";
-import Structure from "../structure";
-import Asset from "../structure/assetStruc";
-import StructureDetail from "../structure/detail";
 import history from "../../history";
 // ==================
 // 所需的所有组件
