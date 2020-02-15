@@ -1,7 +1,7 @@
 /** check * */
 import React from 'react';
 import { Dropdown, Menu, Icon, Modal  } from "antd";
-import { Link } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 import logo from "../../assets/img/top_logo.png";
 import Input from "antd/es/input";
 import Button from "antd/es/button";
@@ -159,5 +159,5 @@ class topMenu extends React.Component {
 	}
 }
 
-export default topMenu;
+export default withRouter(topMenu);
 
