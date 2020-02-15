@@ -28,14 +28,13 @@ class  AdminList extends React.Component {
 //  账号管理-结构化账号列表接口  /api/asset/admin/userView  get
 //  账号管理-检查账号列表接口   /api/asset/admin/check/getCheckList  get
   render() {
-      const { }=this.props;
       // const { user, role }=this.state;
       let storage = window.localStorage;
       const user = storage.userName;
       const role = storage.userState;
         return(
           <div>
-            <TopMenu user={user} history={history} />
+            {/*<TopMenu user={user} history={history} />
             <div className="main-body" >
               <div className="left-menu" >
                 <LeftMenu role={role} history={history} />
@@ -44,10 +43,10 @@ class  AdminList extends React.Component {
                 <div style={{ opacity: 0, height: 0, display: 'none' }}>
                   <input type="text" />
                   <input type="password" />
-                </div>
+                </div>*/}
                 <AccountManage />
-              </div>
-            </div>
+              {/*</div>
+            </div>*/}
           </div>
         );
     }

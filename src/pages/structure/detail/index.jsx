@@ -334,12 +334,12 @@ class  StructureDetail extends React.Component {
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
         return(
 					<div>
-						<TopMenu user={user}/>
+						{/*<TopMenu user={user}/>
 						<div className="main-body" >
 							<div className="left-menu" >
 								<LeftMenu role={role} />
 							</div>
-							<div className="right-content" style={{marginLeft:180, marginTop:-1200}}>
+							<div className="right-content" style={{marginLeft:180, marginTop:-1200}}>*/}
             <div className="yc-detail-title">
               <div style={{ margin:10, fontSize:16, color:'#293038' }}>资产结构化／详情</div>
               <div className="yc-button-goback">
@@ -373,8 +373,8 @@ class  StructureDetail extends React.Component {
 								<RoleDetail info={obligors} list={obligorList} />
 							</div>
             </div>
-					</div>
-						</div>
+				{/*	</div>
+						</div>*/}
 					</div>
         );
     }
