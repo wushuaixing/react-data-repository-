@@ -31,7 +31,7 @@ class  structureAsset extends React.Component {
       if(role==="管理员"){admin=true}
         return(
           <div>
-              <TopMenu user={user} history={history} />
+              <TopMenu user={user}/>
               <div className="main-body" >
                 <div className="left-menu" >
                   <LeftMenu role={role} history={history} />
