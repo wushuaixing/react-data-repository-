@@ -120,6 +120,7 @@ class Login extends React.Component {
 					history.push('/admin/account');
 				}
 			} else {
+
 				console.log('wrong');
 			}
 		} catch (error) {
