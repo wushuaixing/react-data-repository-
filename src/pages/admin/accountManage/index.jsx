@@ -1,6 +1,6 @@
 /** right content for Account manage* */
 import React from 'react';
-import {Tabs, Table, Modal} from "antd";
+import {Tabs, Table, Modal, Form, } from "antd";
 import { userCreate, userView} from "../../../server/api";
 import Pagination from "antd/es/pagination";
 import Button from "antd/es/button";
@@ -8,6 +8,7 @@ import { Select, message } from 'antd';
 import Checkbox from "antd/es/checkbox";
 import Radio from "antd/es/radio";
 import Input from "antd/es/input";
+import 'antd/dist/antd.css';
 import './style.scss';
 
 // ==================
@@ -16,7 +17,17 @@ import './style.scss';
 const { TabPane } = Tabs;
 const { Option } = Select;
 const CheckboxGroup = Checkbox.Group;
-
+const accountForm = Form.create;
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 3 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 20 },
+  },
+};
 const columns = [
     {
       title: "ID",
@@ -69,7 +80,7 @@ class AccountManage extends React.Component {
       page: 1,
       searchRole:'',
       searchUser:'',
-      visible:false,
+      visible:true,
       characterList: [
         {
           value: 1,
@@ -117,6 +128,7 @@ class AccountManage extends React.Component {
       role: searchRole,
       username: searchUser
     };
+    // {"roleId":0,"name":"sss","username":"18967830267","password":"830267","structuredObject":[8],"auctionDataType":1}
     userView(params).then(res => {
       if (res.data.code === 200) {
         // this.loading = false;
@@ -166,17 +178,23 @@ class AccountManage extends React.Component {
         structuredObject: [8],
         auctionDataType: ""
     };
-    user.roleId = this.refs.role.state.value;
-    user.name = this.refs.username.state.value;
-    user.username = this.refs.mobile.state.value;
-    user.password = this.refs.psw.state.value;
-    user.auctionDataType = this.refs.dataType.state.value;
-    console.log(this.refs.psw.state.value);
-
+    user.roleId = this.props.form.getFieldValue('role');
+    if(user.roleId === "正式") {
+      user.roleId = 1;
+    }else if(user.roleId === "试用") {
+      user.roleId = 0;
+    }
+    user.name = this.props.form.getFieldValue('username');
+    user.username = this.props.form.getFieldValue('mobile');
+    user.password = this.props.form.getFieldValue('password');
+    user.auctionDataType = this.props.form.getFieldValue('dataType');
+    //确定前还需验证
+    // {"roleId":0,"name":"sss","username":"18967830267","password":"830267","structuredObject":[8],"auctionDataType":1}
     userCreate(user).then(res => {
       if (res.data.code === 200) {
+        message.success("账号添加成功");
       } else {
-        // this.$Message.error(res.data.message);
+        message.error(res.data.message);
       }
     });
     this.setState({
@@ -184,17 +202,54 @@ class AccountManage extends React.Component {
     });
   };
 
+
   handleCancel = () => {
     this.setState({
       visible: false,
     });
   };
 
-  render() {
-      const {tableList,total,visible,characterList}=this.state;
-        return(
-          <div>
+  //验证账号密码-输入框格式
+  handleValidator = (rule, val, callback) => {
+    if (rule.field === "username") {
+      if(!val){
+        callback('姓名不能为空');
+      }
+      else if (val.length > 20) {
+        callback("姓名最大长度为20个字符");
+      }
+    }
+    if (rule.field === "mobile") {
+      if(!val){
+        callback('账号不能为空');
+      }
+      else if (!this.user.username.match(/^\d{11}$/)) {
+        callback("请输入11位数字");
+      }
+    }
+    if (rule.field === "password") {
+      if(!val){
+        callback('密码不能为空');
+      }
+      else if (val.length > 20 || val.length < 6) {
+        callback('密码长度为6-20位');
+      }
+    }
+  };
+  setPwd=()=> {
+    let password=this.props.form.getFieldValue('mobile').substring(
+      5,
+      this.user.username.length
+    );
+    return password;
+  };
 
+  render() {
+      const {tableList,total,visible,characterList,structureList}=this.state;
+      const { getFieldDecorator } = this.props.form;
+
+    return(
+          <div>
               <div style={{ margin:10, fontSize:16, color:'#293038' }}>账号管理 > 结构化账号</div>
               <Button onClick={this.showModal}>+ 添加账号</Button>
               <Tabs defaultActiveKey="1" onChange={this.changeTab}>
@@ -207,6 +262,7 @@ class AccountManage extends React.Component {
                 </TabPane>
               </Tabs>
               <Pagination showQuickJumper={true} defaultCurrent={1} pageSize={10} total={total} onChange={this.onChangePage} />
+              <div style={{width:387}}>
               <Modal
                 style={{width:387}}
                 title="添加结构化账号"
@@ -216,115 +272,131 @@ class AccountManage extends React.Component {
                 footer={null}
 								onCancel={this.handleCancel}
               >
-                <div className="add-user-modal">
-                  <div className="part">
+                <div style={{ opacity: 0, height: 0, display: 'none' }}>
+                  <input type="text" />
+                  <input type="password" />
+                </div>
+                <Form className="add-user-modal" style={{width:387}} {...formItemLayout}>
+                  <Form.Item className="part" label="角色：">
+                    {getFieldDecorator('role', {
+                      rules:[
+                        { required: true, message: "请选择角色", },
+                      ],
+                    })(
 
-                    <span style={{color: 'red',position: 'absolute',left: -7,top: 8}}
-                    >*</span>
-                    <p>角色:</p>
-                    <label>
-                      <Select style={{width:70}} transfer ref="role">
-                        {
-                          characterList && characterList.map((item) => {
-                            return (
-                              <Option
-                                value={item.label}
-                                key={item.value}
-                              >
-                                {item.label}
-                              </Option>
-                            );
-                          })
-                        }
-                      </Select>
-                    </label>
-                </div>
-                <div className="part">
-                  <span style={{color: 'red',position: 'absolute',left: -7,top: 8}}
-                  >*</span
-                  >
-                  <p>姓名:</p>
-                  <Input
-                    style={{width: 260,height: 32}}
-                    placeholder="请输入姓名"
-                    ref="username"
-                  />
-                  {/*<span className="error" v-show="error.name">{{ error.name }}</span>*/}
-                </div>
-
-                <div className="part">
-                  <span style={{color: 'red',position: 'absolute',left: -7,top: 8}}
-                  >*</span
-                  >
-                  <p>账号:</p>
-                  <Input
-                    style={{width: 260,height: 32}}
-                    placeholder="请输入手机号"
-                    ref="mobile"
-                  />
-{/*                  <p style="line-height: 32px" v-else>{{ user.username }}</p>
-                  <span className="error" v-show="error.username">{{ error.username }}</span>*/}
-                </div>
-                <div className="part">
-                  <span style={{color: 'red',position: 'absolute',left: -7,top: 8}}
-                  >*</span
-                  >
-                  <p>密码:</p>
-                  <Input
-                    type="password"
-                    style={{width: 260,height: 32}}
-                    placeholder="密码默认为账号后六位"
-                    ref="psw"
-                />
-                {/*<span className="error" v-show="error.password">{{ error.password }}</span>*/}
-                </div>
-                <div>
-                  <div className="part">
+                        <Select style={{width:70,marginLeft:4}} transfer>
+                          {
+                            characterList && characterList.map((item) => {
+                              return (
+                                <Option
+                                  value={item.label}
+                                  key={item.value}
+                                >
+                                  {item.label}
+                                </Option>
+                              );
+                            })
+                          }
+                        </Select>
+                    )}
+                  </Form.Item>
+                  <Form.Item className="part" label="姓名：">
+                    {getFieldDecorator('username', {
+                      rules:[
+                        { required: true, message: "姓名不能为空", },
+                        { validator: this.handleValidator }
+                      ],
+                      validateTrigger:'onBlur',
+                    })(
+                      <Input
+                        style={{marginLeft: 4,width: 260,height: 32 }}
+                        className="yc-input"
+                        placeholder="请输入姓名"
+                      />,
+                    )}
+                  </Form.Item>
+                  <Form.Item className="part" label="账号：">
+                    {getFieldDecorator('mobile', {
+                      rules:[
+                        { required: true, message: "手机号不能为空", },
+                        { validator: this.handleValidator }
+                      ],
+                      validateTrigger:'onBlur',
+                    })(
+                      <Input
+                        style={{marginLeft: 4,width: 260,height: 32 }}
+                        className="yc-input"
+                        placeholder="请输入手机号"
+                      />,
+                    )}
+                  </Form.Item>
+                  <Form.Item className="part" label="密码：">
+                    {getFieldDecorator('password', {
+                      rules:[
+                        { required: true, message: '请输入密码', },
+                        { validator: this.handleValidator }
+                      ],
+                      validateTrigger:'onBlur',
+                    })(
+                      <Input
+                        className="yc-input"
+                        initialValue={this.setPwd}
+                        type="password"
+                        style={{marginLeft: 4,width: 260,height: 32}}
+                        placeholder="密码默认为账号后六位"
+                      />,
+                    )}
+                  </Form.Item>
+                  <div>
+                    <div className="part">
                       <span style={{color: 'red',position: 'absolute',left: -7,top: 3}}
                       >*</span
                       >
-                  </div>
-                  <p>结构化对象:</p>
-                  <div className="structured">
-                    <div>
-                      <CheckboxGroup
-                        options={this.state.structureList}
-                        value={this.state.structureList[0]}
-                        ref="structureObject"
-                        disabled
-                      />
-                  </div>
-                  <span style={{color: 'red',position: 'absolute',left: 9,top: 60}}
-                  >*</span
-                  >
-                  <p className="structured-dataType">数据类型:</p>
-                  {/*<span*/}
-                    {/*style="position: absolute;left: 74px;top: 57px;color: red"*/}
-                    {/*v-show="error.auctionDataType"*/}
-                  {/*>{{ error.auctionDataType }}</span>*/}
-
-                  <div>
-                    <div>
-                      <Radio.Group
-                        ref="dataType"
-                        style={{marginLeft:5,display:'inline-block' }}
+                    </div>
+                    <p>结构化对象:</p>
+                    <div className="structured">
+                      <div>
+                        <CheckboxGroup
+                          options={structureList}
+                          value={structureList[0]}
+                          disabled
+                        />
+                        <span style={{color: 'red',position: 'absolute',left: 9,top: 60}}
+                        >*</span
+                        >
+                        <p className="structured-dataType">数据类型:</p>
+                      </div>
+                      <Form.Item>
+                        {getFieldDecorator('dataType', {
+                          rules:[
+                            { required: true },
+                          ],
+                        })(
+                          <Radio.Group
+                            style={{marginLeft:5,display:'inline-block' }}
+                          >
+                            <Radio value={0}>非初标数据</Radio>
+                            <Radio value={1}>普通数据</Radio>
+                            <Radio value={2}>相似数据</Radio>
+                          </Radio.Group>,
+                        )}
+                      {/*<span style={{color: 'red',position: 'absolute',left: 9,top: 60}}
+                      >*</span
                       >
-                        <Radio value={0}>非初标数据</Radio>
-                        <Radio value={1}>普通数据</Radio>
-                        <Radio value={1}>相似数据</Radio>
-                      </Radio.Group>
+                      <p className="structured-dataType">数据类型:</p>*/}
+
+                      </Form.Item>
                     </div>
                   </div>
-                </div>
-                </div>
-                <div className="footer">
-                  <Button type="primary" onClick={this.handleOk}>确定</Button>
-                  <Button onClick={this.handleCancel}>取消</Button>
-                </div>
-             </div>
+                  <div className="footer">
+                    <Button type="primary" onClick={this.handleOk}>确定</Button>
+                    <Button onClick={this.handleCancel}>取消</Button>
+                  </div>
+                </Form>
               </Modal>
+              </div>
           </div>
         );
     }
 }
-export default AccountManage;
+export default accountForm()(AccountManage)

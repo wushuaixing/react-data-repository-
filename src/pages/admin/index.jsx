@@ -1,17 +1,8 @@
 /** admin * */
 import React from 'react';
-import TopMenu from "../../components/topMenu";
-import LeftMenu from '../../components/leftMenu';
 import AccountManage from "./accountManage";
-import history from "../../history";
 
-
-// ==================
-// 所需的所有组件
-// ==================
-
-
-class  AdminList extends React.Component {
+class  Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,25 +21,11 @@ class  AdminList extends React.Component {
   render() {
       // const { user, role }=this.state;
       let storage = window.localStorage;
-      const user = storage.userName;
-      const role = storage.userState;
         return(
           <div>
-            {/*<TopMenu user={user} history={history} />
-            <div className="main-body" >
-              <div className="left-menu" >
-                <LeftMenu role={role} history={history} />
-              </div>
-              <div className="right-content" style={{marginLeft:180, marginTop:-1200}}>
-                <div style={{ opacity: 0, height: 0, display: 'none' }}>
-                  <input type="text" />
-                  <input type="password" />
-                </div>*/}
-                <AccountManage />
-              {/*</div>
-            </div>*/}
+            <AccountManage />
           </div>
         );
     }
 }
-export default AdminList;
+export default Index;
