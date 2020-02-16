@@ -1,20 +1,20 @@
 import React from 'react';
 import { Menu } from 'antd';
 import 'antd/dist/antd.css';
-import './style.scss';
 import {getAvailableNav, } from "../../server/api";
 import {Link} from "react-router-dom";
 
 const { SubMenu } = Menu;
+let storage = window.localStorage;
 const menuRoute= {
   7: "/index",
   18: "/check",
-  8: "/structure",
-  15: "/CheckAssetStrure",
-  20: "/CheckAssetStrure",
-  17: "/DocumentSearch",
-  16: "/DocumentSearch",
-  9: "/DocumentSearch",
+  8: "/index",
+  15: "/index",
+  20: "/index",
+  17: "/check",
+  16: "/check",
+  9: "/check",
   21:"/syncMonitor",
   22:"/structureMonitor",
 };
