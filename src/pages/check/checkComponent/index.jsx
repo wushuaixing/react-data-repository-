@@ -11,9 +11,7 @@ class  CheckList extends React.Component {
 	render() {
 		return(
 			<div>
-					<div className="right-content">
 						check
-					</div>
 			</div>
 		);
 	}

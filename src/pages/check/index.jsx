@@ -43,7 +43,7 @@ class  Check extends React.Component {
 						<div className="left-menu" >
 							<LeftMenu role={role} />
 						</div>
-						<div className="right-content" style={{marginLeft:180, marginTop:-1200}}>
+						<div className="right-content" style={{marginLeft:180, marginTop:-800}}>
 							<CheckList />
 						</div>
 					</div>

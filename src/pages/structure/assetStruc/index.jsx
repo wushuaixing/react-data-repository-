@@ -51,7 +51,7 @@ const columns = [
 		width: 180,
 		render: (text, record) => (
 			<span>
-				<Link to={`/${record.id}/${record.status}`}>
+				<Link to={`/index/${record.id}/${record.status}`}>
         <Button>
 					标注
         </Button>
@@ -104,7 +104,7 @@ const columnsRevise = [
 		width: 180,
 		render: (text, record) => (
 			<span>
-				<Link to={`/${record.id}/${record.status}`}>
+				<Link to={`/index/${record.id}/${record.status}`}>
         <Button>
 					修改标注
         </Button>

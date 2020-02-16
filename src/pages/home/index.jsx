@@ -4,10 +4,6 @@ import TopMenu from "../../components/topMenu";
 import LeftMenu from '../../components/leftMenu';
 import StructureRoute from "../../router/structureRoute";
 import AdminRoute from "../../router/adminRoute";
-import history from "../../history";
-// ==================
-// 所需的所有组件
-// ==================
 
 
 class  Index extends React.Component {
@@ -32,11 +28,13 @@ class  Index extends React.Component {
         return(
           <div>
               <TopMenu user={user}/>
-              <div className="main-body" >
-                <div className="left-menu" >
+              <div className="main-body">
+                <div className="left-menu">
                   <LeftMenu role={role} />
                 </div>
-                <div className="right-content" style={{marginLeft:180, marginTop:-1200}}>
+                <div className="right-content" style={{marginLeft:180, marginTop:-900}}>
+                    {/*<Route path="/index" exact component={AccountManage} />
+                    <Route path="/index/check" component={CheckList} />*/}
                   {str && <StructureRoute />}
                   {admin && <AdminRoute />}
                 </div>

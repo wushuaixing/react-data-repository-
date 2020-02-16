@@ -8,15 +8,15 @@ const { SubMenu } = Menu;
 let storage = window.localStorage;
 const menuRoute= {
   7: "/index",
-  18: "/check",
+  18: "/index/check",
   8: "/index",
   15: "/index",
   20: "/index",
-  17: "/check",
-  16: "/check",
-  9: "/check",
-  21:"/syncMonitor",
-  22:"/structureMonitor",
+  17: "/index/check",
+  16: "/index/check",
+  9: "/index/check",
+  21:"/index/syncMonitor",
+  22:"/index/structureMonitor",
 };
 
 class Sider extends React.Component {
@@ -87,10 +87,8 @@ class Sider extends React.Component {
         <Menu
           mode="inline"
           theme="dark"
-          style={{ width: 180, height:1200 }}
-          selectedKeys={selectedKeys}
+          style={{ width: 180, height:900 }}
           inlineCollapsed={this.state.collapsed}
-          onClick={({key}) => this.setState({selectedKeys: [key]})}
         >
           {
             menuList.map(item => {
