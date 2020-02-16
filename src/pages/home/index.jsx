@@ -10,7 +10,7 @@ import history from "../../history";
 // ==================
 
 
-class  structureAsset extends React.Component {
+class  Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +34,7 @@ class  structureAsset extends React.Component {
               <TopMenu user={user}/>
               <div className="main-body" >
                 <div className="left-menu" >
-                  <LeftMenu role={role} history={history} />
+                  <LeftMenu role={role} />
                 </div>
                 <div className="right-content" style={{marginLeft:180, marginTop:-1200}}>
                   {str && <StructureRoute />}
@@ -45,4 +45,4 @@ class  structureAsset extends React.Component {
         );
     }
 }
-export default structureAsset;
+export default Index;

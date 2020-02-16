@@ -5,6 +5,8 @@ import history from "../history";
 import Login from "./login";
 import Home from "./home";
 import './App.css';
+import CheckList from "./check/checkComponent";
+import StructureDetail from "./structure/detail";
 
 
 class App extends React.Component {
@@ -16,6 +18,10 @@ class App extends React.Component {
 						<Route path="/" exact component={Login} />
 						<Route path="/login" exact component={Login} />
 						<Route path="/index" exact component={Home} />
+				{/*		<Route path="/ws" exact component={CheckList} />
+						<Route path="/index/:Id/:status" exact component={StructureDetail} />
+						<Route path="/check" exact component={CheckList} />*/}
+
 						{/*<Route path="/structureAsset/:Id/:status" exact component={StructureDetail} />*/}
 						{/*<Route path="/admin/account"  exact component={AccountManage} />*/}
 					</Switch>

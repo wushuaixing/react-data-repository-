@@ -3,7 +3,7 @@ import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table,Badge} from 'antd';
 import 'antd/dist/antd.css';
 import {structuredList} from "../../../server/api";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 
 
 // ==================
@@ -332,4 +332,4 @@ class  Asset extends React.Component {
         );
 	}
 }
-export default searchForm()(Asset);
+export default withRouter(searchForm()(Asset));
