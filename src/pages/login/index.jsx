@@ -1,15 +1,13 @@
 /** Login * */
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox, Tooltip } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Tooltip, message } from 'antd';
 import box from '../../assets/img/box.png';
 import logo from '../../assets/img/logo.png';
 import miniLogo from '../../assets/img/logo_blue.png';
 import { login, isLogin,codeImage, validateImgCode, resetPassword } from '../../server/api';
 import 'antd/dist/antd.css';
 import './style.scss';
-// ==================
-// 所需的所有组件
-// ==================
+
 const loginForm = Form.create;
 let storage = window.localStorage;
 class Login extends React.Component {
@@ -121,8 +119,7 @@ class Login extends React.Component {
 					history.push('/admin/account');
 				}*/
 			} else {
-
-				console.log('wrong');
+				message.error(res.data.message)
 			}
 		} catch (error) {
 			// 如果网络请求出错了，做一些降级处理
@@ -151,7 +148,7 @@ class Login extends React.Component {
 					imgSrc: res.data.data
 				});
 			} else {
-				// this.$Message.error(res.data.message);
+				message.error(res.data.message)
 			}
 		});
 	};
@@ -165,7 +162,7 @@ class Login extends React.Component {
 		if(params.username && params.imageCode){
 			validateImgCode(params).then(res => {
 				if (res.data.code === 200) {
-					// this.$Message.info("验证码发送成功，请查收短信");
+					message.success("验证码发送成功，请查收短信");
 					this.setState({
 						display_button:'none',
 						display_disabled:'',
@@ -174,14 +171,14 @@ class Login extends React.Component {
 				} else {
 					if(res.data.message==="非法请求,请获取图形验证码"){
 						res.data.message="请点击刷新图形验证码";
-						// this.$Message.error(res.data.message);
+						message.info(res.data.message);
 						this.setState({
 							display_button:'',
 							display_disabled:'none',
 						});
 						// clearTimeout(7);
 					}
-					// this.$Message.error(res.data.message);
+					message.error(res.data.message)
 				}
 			});
 		}
@@ -223,9 +220,7 @@ class Login extends React.Component {
 		resetPassword(findPsw).then(res => {
 			// this.loading = false;
 			if (res.data.code === 200) {
-				// this.$Message.info("修改成功");
-				// this.loading = false;
-				// this.forgetPsw = false;
+				message.success("修改成功");
 				findPsw=Object.assign({},{
 					username: "",
 					imageCode: "",
@@ -234,7 +229,7 @@ class Login extends React.Component {
 					confirmPassword: ""
 				});
 			} else {
-				// this.$Message.error(res.data.message);
+				message.error(res.data.message)
 			}
 		});
 	};
