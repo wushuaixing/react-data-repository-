@@ -1,10 +1,12 @@
-import axios from 'axios';
+import './index';
+import axios from "axios";
 axios.processData = false;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
-// axios 应该做一些封装和拦截，统一判断接口请求是否接通，可以去参考小程序项目
-
-//登录接口（账号-密码-下次是否自动登录）
+//////////////////
+//用户登录有关接口//
+//////////////////
+//登录（账号-密码-下次是否自动登录）
 export const login = async (params) => {
 	let data = JSON.stringify(params);
 	return axios.post('/api/login', data);
@@ -16,39 +18,41 @@ export const isLogin = (params) => {
 	return axios.get("/api/isLogin", data);
 };
 
+//退出登录
+export const logout=()=> {
+	return axios.get('/api/logout');
+};
+
 //获取图形验证码
-export function codeImage() {
+export const codeImage=()=> {
     return axios.get('/api/code/image');
-}
+};
 
 //验证图形验证码
-export function validateImgCode(params) {
+export const validateImgCode=(params)=> {
     return axios.post('/api/validImageCode',params)
-}
+};
 
 //重置密码
-export function resetPassword(params) {
+export const resetPassword=(params)=> {
     return axios.post('／api/resetPassword', params);
-}
+};
+
+//修改密码
+export const changePassword=(params)=> {
+	return axios.post('/api/changePassword', params);
+};
 
 //获取可用侧边栏
-export function getAvailableNav() {
+export const getAvailableNav=()=> {
 	// return axios.get('/api/common/getAvailableNav');
 	return axios.get('/api/common/getAvailableNav');
-}
-//
-//修改密码
-export function changePassword(params) {
-    return axios.post('/api/changePassword', params);
-}
-
-//退出登录
-export function logout() {
-    return axios.get('/api/logout');
-}
-
+};
+//////////////////////
+//管理员-账号管理-接口//
+/////////////////////
 //查看（正常和已删除）结构化账号列表
-export function userView(params) {
+export const userView=(params)=> {
     let urlPlus = "";
     for (let key in params) {
         urlPlus = urlPlus + key + "=" + params[key] + "&";
@@ -57,58 +61,60 @@ export function userView(params) {
     return axios.get('/api/asset/admin/userView?'+ urlPlus);
 }
 
-// 获取资产结构化数据详情
+//开设账号
+export const userCreate=(user)=> {
+	return axios.post("/api/asset/admin/userCreate", user);
+};
+
+//结构化人员列表
+export const getStructuredPersonnel=(name)=> {
+	return axios.get("/api/asset/inspector/control/getStructuredPersonnel", name);
+};
+//////////////////////////////
+//结构化人员-资产结构化数据接口//
+/////////////////////////////
 //资产结构化列表
-export function structuredList(params) {
+export const structuredList=(params)=> {
 	let urlPlus = "";
 	for (let key in params) {
 		urlPlus = urlPlus + key + "=" + params[key] + "&";
 	}
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 	return axios.get("/api/asset/structured/control/structuredList?" + urlPlus);
-}
+};
 
 //获取检察人员结构化列表详情
-export function getCheckDetail(id) {
+export const getCheckDetail=(id)=> {
 	return axios.get("/api/asset/inspector/control/getCheckDetail/" + id);
-}
+};
+
 //资产结构化列表
-export function structuredObligorTypeList() {
+export const structuredObligorTypeList=()=> {
 	return axios.get("/api/common/structuredObligorTypeList");
-}
+};
 
 // 保存结构化对象
-export function saveDetail(id, params) {
+export const saveDetail=(id, params)=> {
 	return axios.post(
 		"/api/asset/structured/control/" + id + "/saveDetail",
 		params
 	);
-}
+};
 
 //获取新数据 id
-export function getNewStructureData() {
+export const getNewStructureData=()=> {
 	return axios.get("/api/asset/structured/control/getNewStructuredDataId")
-}
-
-//开设账号
-export function userCreate(user) {
-	return axios.post("/api/asset/admin/userCreate", user);
-}
-
-//结构化人员列表
-export function getStructuredPersonnel(name) {
-	return axios.get("/api/asset/inspector/control/getStructuredPersonnel", name);
-}
-
-/**
- 检查人员*/
+};
+//////////////////////////////
+//检查人员-资产结构化数据接口//
+/////////////////////////////
 //获取检查人员结构化列表
-export function getCheckList(params) {
+export const getCheckList=(params)=> {
 	let urlPlus = "";
 	for (let key in params) {
 		urlPlus = urlPlus + key + "=" + params[key] + "&";
 	}
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 	return axios.get("/api/asset/inspector/control/getCheckList?" + urlPlus);
-}
+};
 
