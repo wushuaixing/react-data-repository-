@@ -41,7 +41,7 @@ class  WsDetail extends React.Component {
 			valueWenshu:ifWs,
 			wsAttach:attach,
 		});
-
+// console.log(this.state.wenshuNum.length);
 
 	}
 
@@ -122,7 +122,6 @@ class  WsDetail extends React.Component {
   render() {
 		const { wenshuNum, wenshuUrl, wsAttach }=this.state;
 		const { strucStyle,checkStyle}=this.state;
-
 		return(
 
 							<div style={{height:200}}>
@@ -144,8 +143,8 @@ class  WsDetail extends React.Component {
 									</div>
 									<div style={{display:this.state.style, }} >
 										<p style={{float:'left'}}>相关文书案号:</p>
-										<div className="range" style={{display:strucStyle}}>
-											{wenshuNum
+										<div className="range" style={{display:checkStyle}}>
+											{wenshuNum.length>0
 												? wenshuNum.map((item,index)=>{
 													return(
 														<div className="range-item" key={item.id} style={{display:'inline-block'}}>
@@ -153,13 +152,10 @@ class  WsDetail extends React.Component {
 														</div>
 													)
 												})
-												:<Input placeholder="请输入相关文书案号"
-																style={{width:225,margin:5}}
-																onChange={this.getWenshuNum}
-												/>}
+												:<p style={{fontSize:14,marginLeft:4}}>--</p>}
 										</div>
-										<div className="range" style={{display:checkStyle}}>
-											{wenshuNum
+										<div className="range" style={{display:strucStyle}}>
+											{wenshuNum.length>0
 												? wenshuNum.map((item,index)=>{
 													return(
 														<div className="range-item" key={item.id}>
@@ -184,7 +180,24 @@ class  WsDetail extends React.Component {
 														</div>
 													)
 												})
-												:'--'}
+												:<div className="range-item">
+													<Input placeholder="请输入相关文书案号"
+																 style={{width:225,margin:5}}
+																 onChange={this.getWenshuNum}
+													/>
+													<img
+														className="delete-img"
+														src={deleteIcon}
+														onClick={()=>this.deleteWS(0)}
+														alt=""
+													/>
+													<img
+														className="add-img"
+														src={addIcon}
+														onClick={()=>this.addWS(0)}
+														alt=""
+													/>
+												</div>}
 
 
 										</div>

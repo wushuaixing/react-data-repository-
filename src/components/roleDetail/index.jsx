@@ -58,7 +58,13 @@ class  RoleDetail extends React.Component {
     });
   };
 
+  roleInfo = e =>{
 
+    console.log(e.target,'target');
+
+    this.props.fn(e.target.value);//这个地方把值传递给了props的事件当中
+
+  };
   deleteLine=(index)=>{
     let temp=this.state.tableList;
     temp.splice(index, 1);
@@ -201,6 +207,7 @@ class  RoleDetail extends React.Component {
                               placeholder="请输入年月日"
                               style={{width: '100%'}}
                               onBlur={()=>this.checkData(row.birthday, index)}
+                              onChange={this.roleInfo}
                             />
                           </form>
                         </div>

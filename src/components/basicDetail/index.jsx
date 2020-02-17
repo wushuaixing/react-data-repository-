@@ -28,7 +28,7 @@ class  BasicDetail extends React.Component {
   }
   componentWillReceiveProps(nextProps){
     const {info,records,status,need}=nextProps;
-    console.log(nextProps,'next');
+    // console.log(nextProps,'next');
     this.setState({
       basic:info,
       records:records,

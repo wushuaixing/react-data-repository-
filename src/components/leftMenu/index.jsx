@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu } from 'antd';
 import 'antd/dist/antd.css';
-import {getAvailableNav, } from "../../server/api";
+import {getAvailableNav,} from "../../server/api";
 import {Link} from "react-router-dom";
 
 const { SubMenu } = Menu;
@@ -31,27 +31,32 @@ class Sider extends React.Component {
   }
 
   componentDidMount() {
-    getAvailableNav().then(res=>{
-      if(res.data.code === 200 && storage["userState"]){
-        let mainMenu=[];
-        for (let key in res.data.data) {
-          let list={
-            title:key,
-            subs:res.data.data[key],
-          };
-          mainMenu.push(list);
-        }
-        this.setState({
-          menuList:mainMenu,
-        });
-      }else if(res.data.code === 403){
-        localStorage.removeItem("userState");
-        localStorage.removeItem("userName");
-        this.props.history.push('/login');
+    this.getMenu();
+  }
+
+  async getMenu(){
+    const res = await getAvailableNav();
+    // getAvailableNav().then(res=>{
+    if(res.data.code === 200 && storage["userState"]){
+      let mainMenu=[];
+      for (let key in res.data.data) {
+        let list={
+          title:key,
+          subs:res.data.data[key],
+        };
+        mainMenu.push(list);
       }
-    }).catch(()=>{
-        // 异常处理
-    })
+      this.setState({
+        menuList:mainMenu,
+      });
+    }else if(res.data.code === 403){
+      localStorage.removeItem("userState");
+      localStorage.removeItem("userName");
+      this.props.history.push('/login');
+    }
+    // }).catch(()=>{
+    //     // 异常处理
+    // })
   }
 
   renderSubMenu = ({id, title, subs}) => {

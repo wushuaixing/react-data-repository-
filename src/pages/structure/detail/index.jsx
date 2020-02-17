@@ -10,14 +10,12 @@ import {
 	saveDetail,
 	getNewStructureData
 } from '../../../server/api';
+import {message} from "antd";
 import BasicDetail from "../../../components/basicDetail";
 import WrongReason from "../../../components/wrongReason";
 import WsDetail from "../../../components/wsDetail";
 import RoleDetail from "../../../components/roleDetail";
 import HouseDetail from "../../../components/houseDetail";
-import TopMenu from "../../../components/topMenu";
-import LeftMenu from '../../../components/leftMenu';
-import {withRouter} from "react-router-dom";
 import './style.scss';
 
 // ==================
@@ -40,7 +38,6 @@ class  StructureDetail extends React.Component {
 			checkedCollateral:true,
 			houseType:0,
 			valueWenshu:0,
-			area:'',
 			ifAttach:true,
 			wenshuNum:[],
 			wenshuUrl:[],
@@ -54,7 +51,7 @@ class  StructureDetail extends React.Component {
   }
 
 	componentDidMount() {
-  	console.log('didmount');
+  	// console.log('didmount');
 		const {Id, status} = this.props.match.params;
 		// console.log(Id, status);
 		if (role === "结构化人员") {
@@ -111,14 +108,33 @@ class  StructureDetail extends React.Component {
 	}
 
 	shouldComponentUpdate () {
-		console.log('shouldComponentUpdate');
+		// console.log('shouldComponentUpdate');
 		return true;
 	}
 	componentWillUpdate(){
-		console.log('componentWillUpdate');
+		// console.log('componentWillUpdate');
 	}
 
-
+	//房产子组件
+	setArea(num) {
+		const {data}=this.state;
+		let _data=data;
+		_data.buildingArea=num;
+		this.setState({
+			data: _data //把父组件中的parentText替换为子组件传递的值
+		},() =>{
+			console.log(data.buildingArea);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
+		});
+	}
+	//角色信息子组件
+	setRole(list) {
+		const {obligorList}=this.state;
+		this.setState({
+			obligorList: list //把父组件中的parentText替换为子组件传递的值
+		},() =>{
+			console.log(obligorList);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
+		});
+	}
 		//initData
 	initData=(data)=>{
 		let initData=data;
@@ -191,7 +207,6 @@ class  StructureDetail extends React.Component {
 		};
 		const res=await structuredList(params);
 			if (res.data.code === 200) {
-				console.log('getdata');
 				const strucData = res.data.data[0];
 				this.initData(strucData);
 				const _error=strucData.wrongReason;
@@ -239,13 +254,12 @@ class  StructureDetail extends React.Component {
 
 	toSave=()=> {
 		const {id,data,wsFindStatus,ifAttach,
-			wenshuUrl,wenshuNum,obligors,area,
+			wenshuUrl,wenshuNum,obligors,
 			valueHouse,}=this.state;
 		let _data=data;
 		_data.ah=wenshuNum;
 		_data.wenshuUrl=wenshuUrl;
 		_data.obligors=obligors;
-		_data.buildingArea=area;
 		_data.houseType=valueHouse;
 
 		if(wsFindStatus === 1 && ifAttach === true){
@@ -267,55 +281,61 @@ class  StructureDetail extends React.Component {
 					item.value="";
 				});
 			}
-			//console.log(this.data.wsUrl);
-			// this.data.ah.push("");this.data.wsUrl.push("");
 		}
+
+
 		this.setState({
 			data:_data,
 		});
-
 		saveDetail(id, this.state.data).then(res => {
-			if (res.data.code === 200) {
-				alert('200');
-				if(this.state.buttonText === '保存并标记下一条'){
-					getNewStructureData().then(res=>{
-						if (res.data.code === 200) {
-							if(res.data.data === 0){
-								// this.$Message.info("暂无新数据");
-								// this.$router.push({
-								// 	name: "AssetStructure",
-								// });
+			let num=this.state.data.buildingArea;
+			let _num=/(^[0-9]{1,6}$)|(^[0-9]{1,6}[.]{1}[0-9]+$)/.test(num);
+			if(!_num){
+				message.error("建筑面积格式错误");
+				return
+			}else{
+				if (res.data.code === 200) {
+					alert('200');
+					if(this.state.buttonText === '保存并标记下一条'){
+						getNewStructureData().then(res=>{
+							if (res.data.code === 200) {
+								if(res.data.data === 0){
+									message.info("暂无新数据");
+									this.props.history.push('/index')
+								}
+								this.getData({id: res.data.data});
+							}else {
+								message.error(res.data.message);
 							}
-							this.getData({id: res.data.data});
-						}else {
-							// this.$Message.error(res.data.message);
-						}
-					});
-				}
-				else if(this.state.buttonText === '保存并修改下一条'){
-					let params = {
-						approveStatus: 2
-					};
-					structuredList(params).then(res => {
-						if (res.data.code === 200) {
-							if(res.data.data.length===0){
-								// this.$router.push({
-								// 	name: "AssetStructure",
-								// 	query:{
-								// 		id:'waitTag'
-								// 	}
-								// });
+						});
+					}
+					else if(this.state.buttonText === '保存并修改下一条'){
+						let params = {
+							approveStatus: 2
+						};
+						structuredList(params).then(res => {
+							if (res.data.code === 200) {
+								if(res.data.data.length===0){
+									// this.$router.push({
+									// 	name: "AssetStructure",
+									// 	query:{
+									// 		id:'waitTag'
+									// 	}
+									// });
+								}
+								this.getData({id: res.data.data[0]["id"]});
+							} else {
+								// this.$Message.error(res.data.message);
 							}
-							this.getData({id: res.data.data[0]["id"]});
-						} else {
-							// this.$Message.error(res.data.message);
-						}
-					});
-				}
+						});
+					}
 
-			} else {
-				// this.$Message.error(res.data.message);
-			}});
+				} else {
+					message.error(res.data.message);
+				}
+			}
+
+		});
 	};
 
 	goBack=()=>{};
@@ -329,7 +349,6 @@ class  StructureDetail extends React.Component {
 		const { dataMark, dataTotal, buttonText, buttonStyle,data }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach }=this.state;
 		const basic=data;
-
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
         return(
@@ -363,14 +382,14 @@ class  StructureDetail extends React.Component {
 							</div>
 							<div className="yc-wrong-part">
 							<div className="left-part">
-								<HouseDetail  collateral={checkedCollateral} house={houseType} area={data.buildingArea} />
+								<HouseDetail  collateral={checkedCollateral} house={houseType} fn={this.setArea.bind(this)} area={basic.buildingArea} />
 							</div>
 								<div className="right-part">
 								<WsDetail num={wenshuNum} url={wenshuUrl} ifWs={wsFindStatus} attach={ifAttach} />
 								</div>
 							</div>
 							<div>
-								<RoleDetail info={obligors} list={obligorList} />
+								<RoleDetail info={obligors} list={obligorList} fn={this.setRole.bind(this)} />
 							</div>
             </div>
 				{/*	</div>

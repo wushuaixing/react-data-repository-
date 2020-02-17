@@ -1,6 +1,7 @@
 /** Login * */
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox, Tooltip, message } from 'antd';
+import {withRouter} from 'react-router-dom';
 import box from '../../assets/img/box.png';
 import logo from '../../assets/img/logo.png';
 import miniLogo from '../../assets/img/logo_blue.png';
@@ -413,4 +414,4 @@ class Login extends React.Component {
 	}
 }
 
-export default loginForm()(Login);
+export default withRouter(loginForm()(Login));

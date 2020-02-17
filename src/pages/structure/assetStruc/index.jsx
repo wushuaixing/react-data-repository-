@@ -1,6 +1,6 @@
 /** admin * */
 import React from 'react';
-import {Form, Input, Button, DatePicker, Tabs, Table,Badge} from 'antd';
+import {Form, Input, Button, DatePicker, Tabs, Table,Badge,message} from 'antd';
 import 'antd/dist/antd.css';
 import {structuredList} from "../../../server/api";
 import {Link, withRouter} from "react-router-dom";
@@ -164,7 +164,7 @@ class  Asset extends React.Component {
 					});
 				}
 			} else {
-				// this.$Message.error(res.data.message);
+				message.error(res.data.message);
 			}
 		});
 	};

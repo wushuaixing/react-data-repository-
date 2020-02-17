@@ -44,7 +44,7 @@ export const changePassword=(params)=> {
 };
 
 //获取可用侧边栏
-export const getAvailableNav=()=> {
+export const getAvailableNav= async ()=> {
 	// return axios.get('/api/common/getAvailableNav');
 	return axios.get('/api/common/getAvailableNav');
 };
