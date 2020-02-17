@@ -1,0 +1,54 @@
+.yc-detail-content {
+  .yc-search-line {
+
+    .yc-search-form {
+    }
+  }
+
+  .line {
+    margin: 10px;
+    width: 100%;
+    border-top: 1px solid rgb(226, 228, 233);
+    clear: both;
+  }
+
+  .yc-tab {
+    margin: 10px;
+    .tab-title {
+      margin: 10px 10px;
+      font-size: 16px;
+      color: #293038;
+      width: 90%;
+
+
+    }
+    .table-list{
+      width: 90%;
+      font-size: 12px;
+      .info {
+        .info-line {
+          height: 20px;
+
+          :first-child {
+            color: #808387;
+          }
+
+          .line-half {
+            :first-child {
+              color: #808387;
+            }
+
+            display: inline-block;
+            width: 170px;
+            position: relative;
+            top: -13px;
+
+            > p {
+              display: inline-block;
+            }
+          }
+        }
+      }
+    }
+  }
+}

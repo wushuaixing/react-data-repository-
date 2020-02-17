@@ -4,7 +4,7 @@ import TopMenu from "../../components/topMenu";
 import LeftMenu from '../../components/leftMenu';
 import StructureRoute from "../../router/structureRoute";
 import AdminRoute from "../../router/adminRoute";
-
+import CheckRoute from "../../router/checkRoute";
 
 class  Index extends React.Component {
   constructor(props) {
@@ -25,6 +25,7 @@ class  Index extends React.Component {
       let str=false;let admin=false;let check=false;
       if(role==="结构化人员"){str=true}
       if(role==="管理员"){admin=true}
+      if(role==="检查人员"){check=true}
         return(
           <div>
               <TopMenu user={user}/>
@@ -37,6 +38,7 @@ class  Index extends React.Component {
                     <Route path="/index/check" component={CheckList} />*/}
                   {str && <StructureRoute />}
                   {admin && <AdminRoute />}
+                  {check && <CheckRoute />}
                 </div>
               </div>
           </div>

@@ -187,7 +187,7 @@ class  Asset extends React.Component {
 		this.setState({
 			page: page,
 		});
-		this.getTableList(this.state.status,1);
+		this.getTableList(this.state.status,page);
 	};
 
 	//日期转换
@@ -212,16 +212,19 @@ class  Asset extends React.Component {
 		const searchTitle=this.props.form.getFieldValue('title');
 		const startTime=this.props.form.getFieldValue('start');
 		const endTime=this.props.form.getFieldValue('end');
-
 		let params={
-			approveStatus: status,
-			title: searchTitle,
+			approveStatus: '',
+			title: '',
 			page: 1,
 			num: 10,
 		};
+		let _params=Object.assign(params,{
+			approveStatus: status,
+			title: searchTitle,
+		});
 		if(status !== 0){
-			if(startTime){params.structuredStartTime=this.dataFilter((startTime))}
-			if(endTime){params.structuredEndTime=this.dataFilter((endTime))}
+			if(startTime){_params.structuredStartTime=this.dataFilter((startTime))}
+			if(endTime){_params.structuredEndTime=this.dataFilter((endTime))}
 		}
 		structuredList(params).then(res => {
 			if (res.data.code === 200) {
@@ -312,16 +315,16 @@ class  Asset extends React.Component {
 							<div className="yc-tab">
 								<Tabs defaultActiveKey="1"  onChange={this.changeTab}>
 									<TabPane tab="待标记" key="1" pagination={paginationProps} onChange={(page) => this.onChangePage(page)}>
-										<Table className="table-list" columns={columns} dataSource={tableList} style={{margin:10,width:1240}}
+										<Table className="table-list" columns={columns} dataSource={tableList} style={{margin:10,}}
 													 rowKey={record => record.id} />
 									</TabPane>
 									<TabPane tab="已标记" key="2" pagination={paginationProps}>
-										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10,width:1240}}
+										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10}}
 													 rowKey={record => record.id} />
 									</TabPane>
 									<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>}
 													 key="3" pagination={paginationProps}>
-										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10,width:1240}}
+										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10}}
 													 rowKey={record => record.id} />
 									</TabPane>
 								</Tabs>

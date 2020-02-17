@@ -1,7 +1,7 @@
 import React from 'react'
 //引入路由
 import { Route } from 'react-router-dom';
-import CheckList from "../pages/check/checkComponent";
+import CheckList from "../pages/check";
 import Asset from "../pages/structure/assetStruc";
 import StructureDetail from "../pages/structure/detail";
 

@@ -1,5 +1,4 @@
 import axios from 'axios';
-const apiUrl="http://data.java.yczcjk.com";
 axios.processData = false;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
@@ -96,4 +95,20 @@ export function userCreate(user) {
 	return axios.post("/api/asset/admin/userCreate", user);
 }
 
+//结构化人员列表
+export function getStructuredPersonnel(name) {
+	return axios.get("/api/asset/inspector/control/getStructuredPersonnel", name);
+}
+
+/**
+ 检查人员*/
+//获取检查人员结构化列表
+export function getCheckList(params) {
+	let urlPlus = "";
+	for (let key in params) {
+		urlPlus = urlPlus + key + "=" + params[key] + "&";
+	}
+	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
+	return axios.get("/api/asset/inspector/control/getCheckList?" + urlPlus);
+}
 

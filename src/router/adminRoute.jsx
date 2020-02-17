@@ -2,7 +2,7 @@ import React from 'react'
 //引入路由
 import {Route} from 'react-router-dom';
 import AccountManage from "../pages/admin";
-import CheckList from "../pages/check/checkComponent";
+import CheckList from "../pages/check";
 
 
 class ContentMain extends React.Component {

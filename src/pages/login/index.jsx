@@ -29,21 +29,15 @@ class Login extends React.Component {
 		const {history}=this.props;
 		isLogin().then(res=>{
 			if(res.data.code===200 && myState){
+				history.push('/index');
 				if(res.data.data===199){
-					history.push('/structureAsset');
 					localStorage.setItem("userState","结构化人员");
 				}
 				if(res.data.data===203){
 					localStorage.setItem("userState","管理员");
-					/*this.$router.push({
-						name: "UserList"
-					});*/
 				}
 				if(res.data.data===205){
 					localStorage.setItem("userState","检查人员");
-					/*this.$router.push({
-						name: "CheckAssetStrure"
-					});*/
 				}
 			}
 			else{}
