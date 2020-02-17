@@ -24,7 +24,7 @@ class Login extends React.Component {
 		};
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		const myState=localStorage.getItem("userState");
 		const {history}=this.props;
 		isLogin().then(res=>{
