@@ -82,7 +82,7 @@ const columnsStructure = [
 						text='待确认';
 					}
 					return (
-						<Badge style={{fontSize:12}} status={color} text={text} key={index} />
+						<Badge status={color} text={text} key={index} />
 					);
 				})}
       </span>
@@ -208,14 +208,14 @@ const columnsCheck = [
 					{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
 					&& record.structPersonnelEnable
 					&& record.structPersonnel !== '自动标注'
-					&& <Button>修改检查</Button>}
+					&& <Button style={{fontSize:12}} >修改检查</Button>}
 					{!record.structPersonnelEnable
 					&& record.structPersonnel === '自动标注'
-					&& <Button>修改标注</Button>}
+					&& <Button style={{fontSize:12}}>修改标注</Button>}
 					{record.status[0]===1
 					&& record.structPersonnelEnable
 					&& record.structPersonnel !== '自动标注'
-					&& <Button>检查</Button>}
+					&& <Button style={{fontSize:12}}>检查</Button>}
 				</Link>
       </span>
 		),
@@ -313,35 +313,20 @@ const columnsRevise = [
 					{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
 					&& record.structPersonnelEnable
 					&& record.structPersonnel !== '自动标注'
-					&& <Button>修改检查</Button>}
+					&& <Button style={{fontSize:12}} >修改检查</Button>}
 					{!record.structPersonnelEnable
 					&& record.structPersonnel === '自动标注'
-					&& <Button>修改标注</Button>}
+					&& <Button style={{fontSize:12}}>修改标注</Button>}
 					{record.status[0]===1
 					&& record.structPersonnelEnable
 					&& record.structPersonnel !== '自动标注'
-					&& <Button>检查</Button>}
+					&& <Button style={{fontSize:12}}>检查</Button>}
 				</Link>
       </span>
 		),
 	}
 ];
 
-// columnsStructure.unshift(	);
-// let columnsRevise = columnsTotal;
-// columnsRevise.unshift(	{
-// 	title: "修改时间",
-// 	dataIndex: "lastStructuredTime",
-// },);
-// let columnsCheck = columnsTotal;
-// columnsCheck.unshift(	{
-// 	title: "检查时间",
-// 	dataIndex: "checkTime",
-// },);
-// const tabArray=[
-// 	'全部','未检查','检查无误',
-// 	'检查错误','已修改','待确认'
-// ];
 
 class  Check extends React.Component {
 	constructor(props) {
@@ -566,25 +551,17 @@ class  Check extends React.Component {
 	clearSearch=()=>{
 		this.props.form.resetFields();
 		const {status}=this.state;
-		this.getTableList(status,1);
-	};
-
-/*	getColumns=(index)=>{
-		console.log(index);
-		let _columns=columnsTotal;
-		if(index === "检查无误"||index ==="检查错误"){
-			_columns[0].title="检查时间";
-			_columns[0].dataIndex="checkTime";
+		let checkType;
+		if(status===0 ||status===1 || status===5){
+			checkType=1;
+		}else if(status===2 ||status===3){
+			checkType=2;
+		}else{
+			checkType=0;
 		}
-		else if(index===4){
-			_columns[0].title="修改时间";
-			_columns[0].dataIndex="lastStructuredTime";
-		}
-		console.log(_columns);
-		return _columns;
-	};
-*/
 
+		this.getTableList(status,1,checkType);
+	};
 
 
 	render() {
