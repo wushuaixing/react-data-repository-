@@ -7,9 +7,9 @@ import deleteIcon from "../../assets/img/delete_wenshu.png";
 import addIcon from "../../assets/img/add_wenshu.png";
 import clone from "../../util/util";
 
-// ==================
-// 所需的所有组件
-// ==================
+let storage = window.localStorage;
+const role = storage.userState;
+
 class  WsDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +20,7 @@ class  WsDetail extends React.Component {
 			wenshuUrl:[],
 			strucStyle:'',
 			checkStyle:'none',
+
 			wsAttach:true,
 		};
   }
@@ -34,7 +35,16 @@ class  WsDetail extends React.Component {
 			});
 		}
 		const { num, url, ifWs, attach }=nextProps;
-
+		if(ifWs===1){
+			this.setState({
+				style:'none',
+			});
+		}
+		if(ifWs===0){
+			this.setState({
+				style:'',
+			});
+		}
 		this.setState({
 			wenshuNum: num,
 			wenshuUrl: url,
@@ -120,8 +130,12 @@ class  WsDetail extends React.Component {
 
 //待标记--》详情页
   render() {
-		const { wenshuNum, wenshuUrl, wsAttach }=this.state;
-		const { strucStyle,checkStyle}=this.state;
+		const { wenshuNum, wenshuUrl, wsAttach,valueWenshu }=this.state;
+		const { strucStyle,checkStyle,style}=this.state;
+		let disabled=false;
+		if(role !== "结构化人员"){
+			disabled=true;
+		}
 		return(
 
 							<div style={{height:200}}>
@@ -133,19 +147,20 @@ class  WsDetail extends React.Component {
 										<p className="yc-sec-title">查找文书:</p>
 										<Radio.Group
 											onChange={this.onChangeRadioWenshu}
-											value={this.state.valueWenshu}
+											value={valueWenshu}
 											className=""
 											style={{marginLeft:5,display:'inline-block'  }}
+											disabled={disabled}
 										>
 											<Radio value={0}>找到文书</Radio>
 											<Radio value={1}>未找到文书</Radio>
 										</Radio.Group>
 									</div>
-									<div style={{display:this.state.style, }} >
+									<div style={{display:style, }} >
 										<p style={{float:'left'}}>相关文书案号:</p>
 										<div className="range" style={{display:checkStyle}}>
 											{wenshuNum.length>0
-												? wenshuNum.map((item,index)=>{
+												? wenshuNum.map((item)=>{
 													return(
 														<div className="range-item" key={item.id} style={{display:'inline-block'}}>
 															<p style={{marginLeft:5,fontSize:12,}}>{item.value}</p>
@@ -203,7 +218,7 @@ class  WsDetail extends React.Component {
 										</div>
 									</div>
 
-									<div style={{display:this.state.style}}>
+									<div style={{display:style}}>
 										<p style={{float:'left'}}>文书链接地址:</p>
 										<div className="range" style={{display:strucStyle}}>
 										{ wenshuUrl && wenshuUrl.map((item,index)=>{
@@ -234,22 +249,25 @@ class  WsDetail extends React.Component {
 										}
 										</div>
 										<div className="range" style={{display:checkStyle}}>
-											{ wenshuUrl && wenshuUrl.map((item,index)=>{
-												return(
-													<div className="range-item" key={item.id} style={{display:'inline-block'}}>
-														<p style={{marginLeft:5,fontSize:12,}}>{item.url}</p>
-													</div>
-												)
-											})
-											}
+											{wenshuUrl.length>0
+												? wenshuUrl.map((item)=>{
+													return(
+														<div className="range-item" key={item.id} style={{display:'inline-block'}}>
+															<p style={{marginLeft:5,fontSize:12,}}>{item}</p>
+														</div>)
+												})
+												:<p style={{fontSize:14,marginLeft:4}}>--</p>}
 										</div>
 									</div>
 									<div style={{display:this.state.style}}>
+										<div style={{display:checkStyle}}>
 										<Checkbox
 											defaultChecked={wsAttach}
 											onChange={this.onChangeAttach}
 											style={{marginLeft:5}}
+											disabled={disabled}
 										>详情见资产拍卖附件</Checkbox>
+										</div>
 									</div>
 								</div>
 							</div>

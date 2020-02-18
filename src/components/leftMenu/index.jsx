@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu } from 'antd';
 import 'antd/dist/antd.css';
 import {getAvailableNav,} from "../../server/api";
-import {Link} from "react-router-dom";
+import {Link,withRouter} from "react-router-dom";
 
 const { SubMenu } = Menu;
 let storage = window.localStorage;
@@ -105,4 +105,4 @@ class Sider extends React.Component {
   }
 }
 
-export default Sider
+export default withRouter(Sider)

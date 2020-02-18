@@ -91,6 +91,14 @@ const columnsStructure = [
 	{
 		title: "结构化人员",
 		dataIndex: "structPersonnel",
+		render: (text, record) => (
+			<span>
+					{!record.structPersonnelEnable ?
+					<p style={{fontSize:12}}>{record.structPersonnel}(已删除)</p>
+					:<p style={{fontSize:12}}>{record.structPersonnel}</p>
+				}
+      </span>
+		),
 	},
 	{
 		title: "操作",
@@ -104,8 +112,8 @@ const columnsStructure = [
 					&& record.structPersonnelEnable
 					&& record.structPersonnel !== '自动标注'
 					&& <Button style={{fontSize:12}} >修改检查</Button>}
-					{!record.structPersonnelEnable
-					&& record.structPersonnel === '自动标注'
+					{(!record.structPersonnelEnable
+					|| record.structPersonnel === '自动标注')
 					&& <Button style={{fontSize:12}}>修改标注</Button>}
 					{record.status[0]===1
 					&& record.structPersonnelEnable

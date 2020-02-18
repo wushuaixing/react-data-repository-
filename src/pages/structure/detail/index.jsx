@@ -33,6 +33,12 @@ class  StructureDetail extends React.Component {
       dataTotal:50,
 			buttonText:'保存',
 			buttonStyle:{backgroundColor:'#0099CC', color:'white'},
+			checkStyle:'none',
+			back:'',
+			sure:'none',
+			checkTrue:'none',
+			editReason:'',
+			isCheck:'',
 			errorReason:[],
 			recordsForCheck:[],
 			checkedCollateral:true,
@@ -75,18 +81,44 @@ class  StructureDetail extends React.Component {
 					needWrongReason:true,
 				});
 			}
-
 			this.getStrucData(Id,role);
-
-
-
 		} else {
 			this.setState({
 				needWrongReason:true,
 				needRecord:true,
+				isCheck:'none',
+				buttonStyle: {display:'none'},
+
 			});
 			//检查／管理员数据详情
 			this.getDetailData(Id, role);
+			//检查按钮
+			console.log(status);
+
+			if (status !== 0 || status !== 3) {
+				this.setState({
+					checkStyle: '',
+				});
+			}
+			else if (status !== 2) {
+				this.setState({
+					back: 'none',
+				});
+			}else if(status !== 3) {
+				this.setState({
+					editReason: 'none',
+				});
+			}
+			else if(status !== 2) {
+				this.setState({
+					checkTrue: '',
+				});
+			}
+			else if(status === 5) {
+				this.setState({
+					sure:'',
+				});
+			}
 		}
 
 		structuredObligorTypeList().then(res => {
@@ -99,10 +131,10 @@ class  StructureDetail extends React.Component {
 					});
 				}
 				this.setState({
-					obligorList: list.data,
+					obligorList: list,
 				});
 			} else {
-				// this.$Message.error(res.data.message);
+				message.error(res.data.message);
 			}
 		});
 	}
@@ -141,7 +173,7 @@ class  StructureDetail extends React.Component {
 		this.setState({
 			data:initData,
 			id:initData.id,
-			value: initData.houseType,
+			houseType: initData.houseType,
 			wenshuNum: initData.ah,
 			wenshuUrl: initData.wsUrl,
 			wsFindStatus: initData.wsFindStatus,
@@ -200,7 +232,7 @@ class  StructureDetail extends React.Component {
 	};
 
 
-	async getStrucData(id,role){
+	async getStrucData(id){
 		//结构化数据详情
 		let params = {
 			id: id
@@ -214,23 +246,22 @@ class  StructureDetail extends React.Component {
 					errorReason: _error,
 				});
 			} else {
-				// this.$Message.error(res.data.message);
+				message.error(res.data.message);
 			}
 	}
 
 	async getDetailData(id,role){
-		this.loading = true;
 		const res= await getCheckDetail(id);
 		if (res.data.code === 200) {
-			this.loading = false;
-			let checkData = res.data.data;
+			const checkData = res.data.data;
 			this.initData(checkData);
+			const records=checkData.records;
 			//结构化记录
 			this.setState({
-				recordsForCheck: checkData.records,
+				recordsForCheck: records,
 			});
-			//结构化记录
-			const tempList = checkData.data.records.filter(item => item.error && item.desc !== '结构化');
+			//错误原因
+			const tempList = records.filter(item => item.error && item.desc !== '结构化');
 			if(role === "管理员"){
 				this.setState({
 					errorReason: tempList,
@@ -241,26 +272,28 @@ class  StructureDetail extends React.Component {
 				let _tempList = tempList.sort(function (a, b) {
 					return a.time < b.time ? 1 : -1
 				});
+				let err=[];
+				err.push( _tempList[0]);
 				if (_tempList) {
 					this.setState({
-						errorReason: _tempList[0],
+						errorReason: err,
 					});
 				}
-			} else {
-				// this.$Message.error(res.data.message);
 			}
-		}
+		}else {
+				message.error(res.data.message);
+			}
 	};
 
 	toSave=()=> {
 		const {id,data,wsFindStatus,ifAttach,
 			wenshuUrl,wenshuNum,obligors,
-			valueHouse,}=this.state;
+			houseType,}=this.state;
 		let _data=data;
 		_data.ah=wenshuNum;
 		_data.wenshuUrl=wenshuUrl;
 		_data.obligors=obligors;
-		_data.houseType=valueHouse;
+		_data.houseType=houseType;
 
 		if(wsFindStatus === 1 && ifAttach === true){
 			_data.wsInAttach=1;
@@ -351,28 +384,40 @@ class  StructureDetail extends React.Component {
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
+    const {isCheck,checkStyle,editReason,checkTrue,back}=this.state;
         return(
 					<div>
-						{/*<TopMenu user={user}/>
-						<div className="main-body" >
-							<div className="left-menu" >
-								<LeftMenu role={role} />
-							</div>
-							<div className="right-content" style={{marginLeft:180, marginTop:-1200}}>*/}
             <div className="yc-detail-title">
-              <div style={{ margin:10, fontSize:16, color:'#293038' }}>资产结构化／详情</div>
-              <div className="yc-button-goback">
+              <div style={{ margin:4, fontSize:16, color:'#293038' }}>{needRecord ? "资产结构化/检查" : "资产结构化/详情"}</div>
+              <div className="yc-button-goback" style={{display:isCheck}} >
                 <p>{ dataMark}/{ dataTotal }</p>
-                <Button type="default" onClick={this.goBack}><Icon type="left" />返回上一条</Button>
+                <Button type="default" onClick={this.goBack} ><Icon type="left" />返回上一条</Button>
               </div>
             </div>
 						<div className="yc-detail-content">
 							<div className="yc-action">
 								<Checkbox>仅标记本条</Checkbox>
 								<Button style={buttonStyle}
-								        onClick={this.toSave}
+												onClick={this.toSave}
 								>{buttonText}
+								</Button>
+								<Button style={{display:checkStyle,margin:4}}
+								        onClick={this.toSave}
+								>检查有误
 							  </Button>
+								<Button style={{display:editReason,margin:4}}
+												onClick={this.toSave}
+								>修改错误原因
+								</Button>
+								<Button style={{display:checkTrue,margin:4}}
+												onClick={this.toSave}
+								>检查无误
+								</Button>
+								<Button style={{display:back,margin:4}}
+												onClick={this.toSave}
+								>返回
+								</Button>
+
 	            </div>
 							<div>
 								{	needWrongReason && <WrongReason errorList={errorReason} /> }
@@ -392,8 +437,6 @@ class  StructureDetail extends React.Component {
 								<RoleDetail info={obligors} list={obligorList} fn={this.setRole.bind(this)} />
 							</div>
             </div>
-				{/*	</div>
-						</div>*/}
 					</div>
         );
     }

@@ -5,10 +5,8 @@ import Checkbox from "antd/es/checkbox";
 import Input from "antd/es/input";
 import Radio from "antd/es/radio";
 
-// ==================
-// 所需的所有组件
-// ==================
-
+let storage = window.localStorage;
+const role = storage.userState;
 
 class  HouseDetail extends React.Component {
   constructor(props) {
@@ -46,10 +44,7 @@ class  HouseDetail extends React.Component {
 
   //建筑面积
   getArea = e =>{
-    console.log(e.target.value,'target');
-
     this.props.fn(e.target.value);//这个地方把值传递给了props的事件当中
-
   };
   //建筑面积
   checkArea(e){
@@ -62,8 +57,11 @@ class  HouseDetail extends React.Component {
   };
 
   render() {
+      let disabled=false;
+      if(role !== "结构化人员"){
+        disabled=true;
+      }
     const { checkedCollateral,houseType,area }=this.state;
-    // let _area=area.toString();
         return(
           <div>
             <div className="yc-part-title">
@@ -76,15 +74,18 @@ class  HouseDetail extends React.Component {
                   defaultChecked={checkedCollateral}
                   onChange={this.onChangeCheckBox}
                   style={{marginLeft:5}}
+                  disabled={disabled}
                 >未抵押</Checkbox>
               </div>
               <div>
                 <p className="yc-sec-title">房产／土地类型:</p>
                 <Radio.Group
                   onChange={this.onChangeRadioHouse}
-                  initialValue={houseType}
+                  value={houseType}
                   className="yc-link-title"
                   style={{marginLeft:5}}
+                  disabled={disabled}
+
                 >
                   <Radio value={0}>未知</Radio>
                   <Radio value={1}>商用</Radio>
@@ -94,13 +95,16 @@ class  HouseDetail extends React.Component {
               </div>
               <div>
                 <p className="yc-sec-title">建筑面积:</p>
-                <Input className="yc-sec-title"
-                       placeholder="请输入建筑面积"
-                       style={{width:225,margin:5}}
-                       value={area}
-                       onChange={this.getArea}
-                       onBlur={this.checkArea}
-                />
+                {
+                  disabled ? <p style={{fontSize:12,margin:4,display:'inline-block'}}>{area}</p>
+                    : <Input className="yc-sec-title"
+                             placeholder="请输入建筑面积"
+                             style={{width:225,margin:5}}
+                             value={area}
+                             onChange={this.getArea}
+                             onBlur={this.checkArea}
+                    />
+                }
                 <p className="yc-sec-title">m²</p>
               </div>
               <div>

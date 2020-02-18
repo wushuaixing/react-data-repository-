@@ -1,6 +1,6 @@
 /** check * */
 import React from 'react';
-import { Dropdown, Menu, Icon, Modal  } from "antd";
+import { Dropdown, Menu, Icon, Modal,message  } from "antd";
 import { withRouter } from 'react-router-dom';
 import logo from "../../assets/img/top_logo.png";
 import Input from "antd/es/input";
@@ -37,12 +37,10 @@ class topMenu extends React.Component {
 		};
 		changePassword(params).then(res => {
 			if (res.data.code === 200) {
-				// this.$Message.info("密码修改成功");
-				/*this.$router.push({
-					name: "login"
-				});*/
+				message.info("密码修改成功");
+				this.props.history.push('/login')
 			} else {
-				// this.$Message.error(res.data.message);
+				message.error(res.data.message);
 			}
 		});
 		this.setState({
@@ -62,14 +60,14 @@ class topMenu extends React.Component {
 				this.props.history.push('/login');
 				window.localStorage.removeItem("userState");
 			} else {
-				// this.$Message.error(res.data.message);
+				message.error(res.data.message);
 			}
 		});
 	};
 
 	render() {
 		const { user } = this.props;
-		const { visible,isLogout }=this.state;
+		const { visible }=this.state;
 		const menu = (
 			<Menu className="user-menu" style={{marginTop: 8,}}>
 				<Menu.Item key="0">

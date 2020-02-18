@@ -19,10 +19,7 @@ class  StructureRecord extends React.Component {
     if(role === "结构化人员"){
 
     }
-    if(role === "检查人员"){
-
-    }
-    if(role === "管理员"){
+    else{
       this.setState({
         strucRecords:nextProps.records,
       });
