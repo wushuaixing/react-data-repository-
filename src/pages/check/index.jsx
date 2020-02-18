@@ -402,6 +402,7 @@ class  Check extends React.Component {
 		});
 		this.getTableList(0,1,1);
 	};
+	//根据status传不同时间类型
  	 setTimeType=(status)=>{
  	 	console.log(status);
  	 	let option={};
@@ -470,7 +471,9 @@ class  Check extends React.Component {
 	 };
 	//切换Tab
 	changeTab=(key)=>{
-		const option=this.setTimeType(key);
+		console.log();
+		const _key=parseInt(key);
+		const option=this.setTimeType(_key);
 		this.getTableList(option.tab,1,option.time,option.ifwait);
 	};
 
@@ -551,13 +554,8 @@ class  Check extends React.Component {
 		if(personnel){
 			params.userId=personnel;
 		}
-		if(status===0 ||status===1 || status===5){
-			params.checkType=1;
-		}else if(status===2 ||status===3){
-			params.checkType=2;
-		}else{
-			params.checkType=0;
-		}
+		const option= this.setTimeType(status);
+		params.checkType=option.time;
 
 		getCheckList(params).then(res => {
 			if (res.data.code === 200) {
@@ -584,14 +582,8 @@ class  Check extends React.Component {
 	clearSearch=()=>{
 		this.props.form.resetFields();
 		const {status}=this.state;
-		let checkType;
-		if(status===0 ||status===1 || status===5){
-			checkType=1;
-		}else if(status===2 ||status===3){
-			checkType=2;
-		}else{
-			checkType=0;
-		}
+		const option=this.setTimeType(status);
+		let checkType=option.time;
 
 		this.getTableList(status,1,checkType);
 	};
