@@ -145,7 +145,6 @@ class  RoleDetail extends React.Component {
   };
 
   changeGender=(value)=>{
-    console.log(value);
     if(value=== "0"){
       return "未知"
     }else if(value=== "1") {
@@ -163,14 +162,6 @@ class  RoleDetail extends React.Component {
         style='none';
       }
       const {tableList,obligorList,genderList}=this.state;
-      // let _obligorList=[];
-      // for (let key in obligorList) {
-      //   _obligorList.push({
-      //     value: obligorList[key] + "",
-      //     label: key
-      //   });
-      // }
-      console.log(obligorList);
 
         return(
           <div className="yc-wrong-part">

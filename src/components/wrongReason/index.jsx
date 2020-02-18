@@ -69,12 +69,11 @@ class  WrongReason extends React.Component {
                 <div>
                   {
                     reasonCheck && reasonCheck.map((item,index)=>{
-                      item.errorLevel=this.filterLevel(item.errorLevel);
                       return(
                         <div key={index}>
                           <div>
                             <p className="yc-sec-title">错误等级:</p>
-                            <p className="yc-error">{item.errorLevel && item.errorLevel}</p>
+                            <p className="yc-error">{item.errorLevel && this.filterLevel(item.errorLevel)}</p>
                           </div>
                           <div>
                             <p className="yc-sec-title">错误详情:</p>

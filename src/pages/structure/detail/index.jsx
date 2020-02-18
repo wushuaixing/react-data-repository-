@@ -1,10 +1,15 @@
 /** right content for Account manage* */
 import React from 'react';
 import {withRouter} from "react-router-dom";
+import {Form, message, Modal} from "antd";
 
 import Button from "antd/es/button";
 import Icon from "antd/es/icon";
 import Checkbox from "antd/es/checkbox";
+import RadioGroup from "antd/es/radio/group";
+import CheckboxGroup from "antd/es/checkbox/Group";
+import Radio from "antd/es/radio";
+import Input from "antd/es/input";
 import {
 	structuredList,
 	getCheckDetail,
@@ -12,7 +17,6 @@ import {
 	saveDetail,
 	getNewStructureData
 } from '../../../server/api';
-import {message} from "antd";
 import BasicDetail from "../../../components/basicDetail";
 import WrongReason from "../../../components/wrongReason";
 import WsDetail from "../../../components/wsDetail";
@@ -20,9 +24,6 @@ import RoleDetail from "../../../components/roleDetail";
 import HouseDetail from "../../../components/houseDetail";
 import './style.scss';
 
-// ==================
-// 所需的所有组件
-// ==================
 
 let storage = window.localStorage;
 const role = storage.userState;
@@ -36,10 +37,10 @@ class  StructureDetail extends React.Component {
 			buttonText:'保存',
 			buttonStyle:{backgroundColor:'#0099CC', color:'white'},
 			checkStyle:'none',
-			back:'',
+			back:'none',
 			sure:'none',
-			checkTrue:'none',
-			editReason:'',
+			checkTrue:'',
+			editReason:'none',
 			isCheck:'',
 			errorReason:[],
 			recordsForCheck:[],
@@ -55,13 +56,51 @@ class  StructureDetail extends React.Component {
 			data:{},
 			needWrongReason:false,
 			needRecord:false,
+			visible:false,
+			remark:"",
+			reasonList: [
+				"拍卖页文本看漏",
+				"拍卖页图片看漏",
+				"附件文本看漏",
+				"附件图片看漏",
+				"文书未找到",
+				"文书文本看漏",
+				"填写失误",
+				"其他"
+			],
+			highLevel: [
+				/*"资产所有人、债权人、资产线索遗漏:",
+				"名字填写错误:",
+				"身份信息填写错误:"*/
+				"所有人遗漏：",
+				"所有人错误：",
+				"多填所有人:",
+				"债权人遗漏：",
+				"债权人错误：",
+				"资产线索遗漏：",
+				"资产线索错误：",
+				"资产线索备注遗漏/错误：",
+				"身份信息遗漏：",
+				"身份信息错误：",
+				"抵押文书遗漏：",
+				"抵押文书错误：",
+				"无抵押勾选遗漏/错误:",
+				"见附件勾选遗漏/错误：",
+				"角色类别错误：",
+				"未优先填身份证号：",
+				"面积遗漏/错误：",
+				"案号遗漏/错误：",
+				"其他角色备注遗漏/错误：",
+				"房产/土地类型遗漏/错误：",
+				"多填债权人/资产线索/抵押文书：",
+			],
 		};
   }
 
 	componentDidMount() {
   	// console.log('didmount');
 		const {Id, status} = this.props.match.params;
-		// console.log(Id, status);
+		console.log(Id, status);
 		if (role === "结构化人员") {
 			//按钮
 			this.setState({
@@ -103,23 +142,25 @@ class  StructureDetail extends React.Component {
 			//检查／管理员数据详情
 			this.getDetailData(Id, role);
 			//检查按钮
-			console.log(status);
-
 			if (status !== 0 || status !== 3) {
 				this.setState({
 					checkStyle: '',
+					editReason:'none',
 				});
 			}
 			else if (status !== 2) {
 				this.setState({
 					back: 'none',
 				});
-			}else if(status !== 3) {
+			}else if(status == 3) {
 				this.setState({
-					editReason: 'none',
+					editReason: '',
+					checkStyle: 'none',
+					back: 'none',
+
 				});
 			}
-			else if(status !== 2) {
+			else if(status === 4) {
 				this.setState({
 					checkTrue: '',
 				});
@@ -165,7 +206,7 @@ class  StructureDetail extends React.Component {
 		this.setState({
 			data: _data //把父组件中的parentText替换为子组件传递的值
 		},() =>{
-			console.log(data.buildingArea);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
+			// console.log(data.buildingArea);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
 		});
 	}
 	//角色信息子组件
@@ -174,7 +215,7 @@ class  StructureDetail extends React.Component {
 		this.setState({
 			obligorList: list //把父组件中的parentText替换为子组件传递的值
 		},() =>{
-			console.log(obligorList);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
+			// console.log(obligorList);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
 		});
 	}
 		//initData
@@ -383,19 +424,38 @@ class  StructureDetail extends React.Component {
 
 	goBack=()=>{};
 
-	// const date_format = date => {/* your code */}
+	showModal=()=>{
+		this.setState({
+			visible: true,
+		});
+	};
+
+	addRemark(data) {
+		const {remark}=this.state;
+		let _remark = remark+ data+"\n";
+		this.setState({
+			remark:_remark,
+		});
+	};
 //待标记--》详情页
   render() {
 		let storage = window.localStorage;
 		const user = storage.userName;
 		const role = storage.userState;
+		const {Id, status} = this.props.match.params;
 		const { dataMark, dataTotal, buttonText, buttonStyle,data }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach }=this.state;
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
-    const {isCheck,checkStyle,editReason,checkTrue,back}=this.state;
-        return(
+    const { isCheck,checkStyle,editReason,checkTrue,back }=this.state;
+    const { visible,reasonList,highLevel,remark }=this.state;
+    let need=needWrongReason;
+		if(status === "2"|| status === "1"){
+			need=false;
+		}
+
+			return(
 					<div>
             <div className="yc-detail-title">
               <div style={{ margin:4, fontSize:16, color:'#293038' }}>{needRecord ? "资产结构化/检查" : "资产结构化/详情"}</div>
@@ -412,11 +472,11 @@ class  StructureDetail extends React.Component {
 								>{buttonText}
 								</Button>
 								<Button style={{display:checkStyle,margin:4}}
-								        onClick={this.toSave}
+												onClick={this.showModal}
 								>检查有误
 							  </Button>
 								<Button style={{display:editReason,margin:4}}
-												onClick={this.toSave}
+												onClick={this.showModal}
 								>修改错误原因
 								</Button>
 								<Button style={{display:checkTrue,margin:4}}
@@ -430,7 +490,7 @@ class  StructureDetail extends React.Component {
 
 	            </div>
 							<div>
-								{	needWrongReason && <WrongReason errorList={errorReason} /> }
+								{	need && <WrongReason errorList={errorReason} /> }
 							</div>
 							<div>
 								<BasicDetail info={basic} records={recordsForCheck} status={autionStatus} need={needRecord}/>
@@ -445,6 +505,80 @@ class  StructureDetail extends React.Component {
 							</div>
 							<div>
 								<RoleDetail info={obligors} list={obligorList} fn={this.setRole.bind(this)} />
+							</div>
+							<div>
+								<Modal
+									className="yc-check-modal"
+									style={{width:550}}
+									visible={visible}
+									destroyOnClose={true}
+									closable={true}
+									footer={null}
+									title="确认本条结构化数据标注结果有误吗？"
+								>
+								<div className="check-modal">
+									<div className="part">
+										<span
+										>点击确定，本条结构化数据将被标记为检查错误，并将退回给结构化人员</span
+										>
+									</div>
+									<div className="part">
+										<p className="part-title">备注</p>
+										<Input.TextArea
+											style={{height:136}}
+											maxLength="136"
+											placeholder="请填写备注"
+											value={remark}
+											onChange={this.getRemark}
+										/>
+									</div>
+									<div className="part">
+										<p className="part-title">错误等级</p>
+										<RadioGroup v-model="data.wrongLevel">
+											<Radio label="4">
+												<span>普通错误</span>
+											</Radio>
+											<Radio label="1">
+												<span>严重错误</span>
+											</Radio>
+											<Radio label="7">
+												<span>不计入错误</span>
+											</Radio>
+										</RadioGroup>
+									</div>
+									<div className="part">
+										<p className="part-title">出错原因</p>
+										<CheckboxGroup v-model="data.reason">
+											{reasonList && reasonList.map((item)=>{
+												return (
+													<Checkbox >
+														<span>{ item }</span>
+													</Checkbox>
+												)
+											})
+											}
+										</CheckboxGroup>
+									</div>
+									<div className="part">
+										<p className="part-title">错误类型</p>
+										<div className="part-error-detail">
+											{highLevel && highLevel.map((item)=>{
+												return(
+													<p
+													className="part-error-content"
+													onClick={()=>this.addRemark(item)}
+													>
+														{ item }
+													</p>
+												)})}
+										</div>
+									</div>
+									<div className="footer">
+										<Button type="primary" onClick={this.handleOk}>确定</Button>
+										<Button onClick={this.handleCancel}>取消</Button>
+									</div>
+								</div>
+								</Modal>
 							</div>
             </div>
 					</div>

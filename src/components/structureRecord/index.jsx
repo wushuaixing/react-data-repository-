@@ -62,12 +62,16 @@ class  StructureRecord extends React.Component {
   render() {
     const { strucRecords }=this.state;
     // console.log(strucRecords);
+    let _strucRecords=[];
+    if(strucRecords.length>10){
+      _strucRecords=strucRecords.slice(0,9)
+    }
         return(
           <div>
               <p className="yc-sec-title" style={{float: 'left'}}>结构化记录:</p>
             <div style={{display:'inline-block'}}>
                 {
-                  strucRecords && strucRecords.map((item,index)=>{
+                  _strucRecords && _strucRecords.map((item,index)=>{
                     const desc=this.toSetText(item.desc,item.error,index);
                     return (
                       <div
