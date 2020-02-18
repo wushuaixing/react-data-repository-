@@ -3,7 +3,6 @@ import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table, Badge, Select, message} from 'antd';
 import {getCheckList,getStructuredPersonnel} from "../../server/api";
 import {Link, withRouter} from "react-router-dom";
-
 import 'antd/dist/antd.css';
 import './style.scss';
 
@@ -342,7 +341,7 @@ class  Check extends React.Component {
 		this.state = {
 			num: 10,
 			page:1,
-			total:'',
+			total:0,
 			tableList:[],
 			waitNum:0,
 			status:'',
@@ -403,50 +402,76 @@ class  Check extends React.Component {
 		});
 		this.getTableList(0,1,1);
 	};
+ 	 setTimeType=(status)=>{
+ 	 	console.log(status);
+ 	 	let option={};
+ 	 	let ifWait=false;
 
-	//get table dataSource
-	// checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
-	getTableList=(tabStatus,page,time,ifWait)=>{
-		let params = {
-			status: tabStatus,
-			num: 10,
-			page: page,
-			checkType:time,
-		};
-		getCheckList(params).then(res => {
-			if (res.data.code === 200) {
-				// this.loading = false;
-				if(res.data.data.result !== null){
-					let _list=res.data.data.result.list;
-					_list.map((item)=>{
-						let _temp=[];
-						_temp.push(item.status);
-						item.status=_temp;
-					});
-					this.setState({
-						tableList:_list,
-						total:res.data.total,
-						status:tabStatus,
-					});
-					if(ifWait){
-						this.setState({
-							waitNum:res.data.total,
-						});
-					}
-					else{
+		 if (status === 0) {
+			 this.setState({
+				 timeType:"结构化时间",
+			 });
+			 return option={
+			 	time:1,
+				 tab:0,
+				 ifWait:ifWait
+			 }
+		 } else if (status === 1) {
+			 this.setState({
+				 timeType:"结构化时间",
+			 });
+			 return option={
+				 time:1,
+				 tab:1,
+				 ifWait:ifWait
 
-					}
-				}
+			 }
+		 } else if (status === 2) {
+			 this.setState({
+				 timeType:"检查时间",
+			 });
+			 return option={
+				 time:2,
+				 tab:1,
+				 ifWait:ifWait
 
-			} else {
-				message.error(res.data.message);
-			}
-		});
-	};
+			 }
+		 } else if (status === 3) {
+			 this.setState({
+				 timeType:"检查时间",
+			 });
+			 return option={
+				 time:1,
+				 tab:3,
+				 ifWait:ifWait
 
+			 }
+		 }else if (status === 4) {
+			 this.setState({
+				 timeType:"修改时间",
+			 });
+			 return option={
+				 time:0,
+				 tab:4,
+				 ifWait:ifWait
+
+			 }
+		 }else if (status === 5) {
+			 ifWait=true;
+			 this.setState({
+				 timeType:"结构化时间",
+			 });
+			 return option={
+				 time:1,
+				 tab:5,
+				 ifWait:ifWait,
+			 }
+		 }
+	 };
 	//切换Tab
 	changeTab=(key)=>{
-		if (key === "0") {
+console.log(key,'key');
+		if (key === 0) {
 			this.getTableList(0,1,1);
 			this.setState({
 				timeType:"结构化时间",
@@ -478,9 +503,49 @@ class  Check extends React.Component {
 				timeType:"结构化时间",
 			})
 		}
-
-
 	};
+
+	//get table dataSource
+	// checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
+	getTableList=(tabStatus,page,time,ifWait)=>{
+		let params = {
+			status: tabStatus,
+			num:10,
+			page: page,
+			checkType:time,
+		};
+		getCheckList(params).then(res => {
+			if (res.data.code === 200) {
+				// this.loading = false;
+				if(res.data.data.result !== null){
+					let _list=res.data.data.result.list;
+					_list.map((item)=>{
+						let _temp=[];
+						_temp.push(item.status);
+						item.status=_temp;
+					});
+					this.setState({
+						tableList:_list,
+						total:res.data.data.result.total,
+						status:tabStatus,
+					});
+					if(ifWait){
+						this.setState({
+							waitNum:res.data.total,
+						});
+					}
+					else{
+
+					}
+				}
+
+			} else {
+				message.error(res.data.message);
+			}
+		});
+	};
+
+
 
 	//换页
 	onChangePage=(page)=>{
@@ -571,15 +636,30 @@ class  Check extends React.Component {
 		this.getTableList(status,1,checkType);
 	};
 
+	//
+	onTablePageChange=(pagination)=>{
+		const {status,page}=this.state;
+		console.log(pagination,'pagination');
+		this.setState({
+			page: pagination.current,
+		});
+		const option=this.setTimeType(status);
+		console.log(option);
+		this.getTableList(option.tab,page,option.time,option.ifwait);
+	};
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const {tableList,personnelList,waitNum,timeType}=this.state;
-		/*const paginationProps = {
+		const {tableList,personnelList,waitNum,timeType,total,page}=this.state;
+		const paginationProps = {
 			current: page,
 			showQuickJumper:true,
-			showTotal: total,
-		};*/
+      total: total, // 数据总数
+      pageSize: 10, // 每页条数
+      showTotal: (() => {
+        return `共 ${total} 条`;
+      }),
+		};
 		return(
 			<div>
 				<div className="yc-detail-title">
@@ -650,57 +730,69 @@ class  Check extends React.Component {
 					<p className="line"/>
 					<div className="yc-tab">
 						<Tabs defaultActiveKey="0" onChange={this.changeTab}>
-							<TabPane tab="全部" key="0"  onChange={(page) => this.onChangePage(page)}>
+							<TabPane tab="全部" key="0" >
 								<Table rowClassName="table-list"
 											 columns={columnsStructure}
 											 dataSource={tableList}
 											 style={{margin:10}}
-											 rowKey={record => record.id} />
+											 rowKey={record => record.id}
+											 pagination={paginationProps}
+											 onChange={this.onTablePageChange}
+								/>
+
 							</TabPane>
-							<TabPane tab="未检查" key="1"  onChange={(page) => this.onChangePage(page)}>
+							<TabPane tab="未检查" key="1">
 								<Table rowClassName="table-list"
 											 columns={columnsStructure}
 											 dataSource={tableList}
 											 style={{margin:10,}}
-											 rowKey={record => record.id} />
+											 rowKey={record => record.id}
+											 pagination={paginationProps}
+											 onChange={this.onTablePageChange}
+								/>
+
 							</TabPane>
-							<TabPane tab="检查无误" key="2" onChange={(page) => this.onChangePage(page)}>
+							<TabPane tab="检查无误" key="2">
 								<Table rowClassName="table-list"
 											 columns={columnsCheck}
 											 dataSource={tableList}
 											 style={{margin:10}}
-											 rowKey={record => record.id} />
+											 rowKey={record => record.id}
+											 pagination={paginationProps}
+											 onChange={this.onTablePageChange}
+								/>
 							</TabPane>
-							<TabPane tab="检查错误" key="3" onChange={(page) => this.onChangePage(page)}>
+							<TabPane tab="检查错误" key="3">
 								<Table rowClassName="table-list"
 											 columns={columnsCheck}
 											 dataSource={tableList}
 											 style={{margin:10}}
-											 rowKey={record => record.id} />
+											 rowKey={record => record.id}
+											 pagination={paginationProps}
+											 onChange={this.onTablePageChange}
+								/>
 							</TabPane>
 							<TabPane tab="已修改" key="4" onChange={(page) => this.onChangePage(page)}>
 								<Table rowClassName="table-list"
 											 columns={columnsRevise}
 											 dataSource={tableList}
 											 style={{margin:10}}
-											 rowKey={record => record.id} />
+											 rowKey={record => record.id}
+											 pagination={paginationProps}
+											 onChange={this.onTablePageChange}
+								/>
 							</TabPane>
 							<TabPane tab={<span>待确认<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>}
-											 key="5" onChange={(page) => this.onChangePage(page)}>
+											 key="5">
 								<Table rowClassName="table-list"
 											 columns={columnsStructure}
 											 dataSource={tableList}
 											 style={{margin:10}}
-											 rowKey={record => record.id} />
+											 rowKey={record => record.id}
+											 pagination={paginationProps}
+											 onChange={this.onTablePageChange}
+								/>
 							</TabPane>
-							{/*{tabArray.map((i,index) => (
-								<TabPane tab={i} key={index}>
-
-									<Table className="table-list" columns={this.getColumns(i)} dataSource={this.getData(i)} style={{margin:10,}}
-												 rowKey={record => record.id} />
-									Content of tab {index}
-								</TabPane>))}*/}
-
 						</Tabs>
 					</div>
 				</div>

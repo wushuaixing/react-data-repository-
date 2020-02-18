@@ -4,7 +4,6 @@ import 'antd/dist/antd.css';
 import {getAvailableNav,} from "../../server/api";
 import {Link,withRouter} from "react-router-dom";
 
-const { SubMenu } = Menu;
 let storage = window.localStorage;
 const menuRoute= {
   7: "/index",
@@ -92,7 +91,7 @@ class Sider extends React.Component {
         <Menu
           mode="inline"
           theme="dark"
-          style={{ width: 180, height:900 }}
+          style={{ width: 180, height:1600 }}
           inlineCollapsed={this.state.collapsed}
         >
           {

@@ -1,11 +1,11 @@
 import React from 'react';
 // import { Router, Route, Link } from 'react-router';
 import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
+
 import history from "../history";
 import Login from "./login";
 import Home from "./home";
 import './App.css';
-
 
 class App extends React.Component {
 	render(){

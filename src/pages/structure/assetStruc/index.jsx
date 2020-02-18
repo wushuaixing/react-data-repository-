@@ -183,11 +183,12 @@ class  Asset extends React.Component {
 	};
 
 	//换页
-	onChangePage=(page)=>{
+	onChangePage=(pagination)=>{
+		const {status,page}=this.state;
 		this.setState({
-			page: page,
+			page: pagination.current,
 		});
-		this.getTableList(this.state.status,page);
+		this.getTableList(status,page);
 	};
 
 	//日期转换
@@ -261,7 +262,11 @@ class  Asset extends React.Component {
 		const paginationProps = {
 			current: page,
 			showQuickJumper:true,
-			showTotal: total,
+			total: total, // 数据总数
+			pageSize: 10, // 每页条数
+			showTotal: (() => {
+				return `共 ${total} 条`;
+			}),
 		};
 		return(
           <div>
@@ -314,18 +319,35 @@ class  Asset extends React.Component {
               </div>
 							<div className="yc-tab">
 								<Tabs defaultActiveKey="1"  onChange={this.changeTab}>
-									<TabPane tab="待标记" key="1" pagination={paginationProps} onChange={(page) => this.onChangePage(page)}>
-										<Table className="table-list" columns={columns} dataSource={tableList} style={{margin:10,}}
-													 rowKey={record => record.id} />
+									<TabPane tab="待标记" key="1">
+										<Table className="table-list"
+													 columns={columns}
+													 dataSource={tableList}
+													 style={{margin:10,}}
+													 rowKey={record => record.id}
+													 onChange={this.onChangePage}
+													 pagination={paginationProps}
+										/>
 									</TabPane>
-									<TabPane tab="已标记" key="2" pagination={paginationProps}>
-										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10}}
-													 rowKey={record => record.id} />
+									<TabPane tab="已标记" key="2">
+										<Table className="table-list"
+													 columns={columnsRevise}
+													 dataSource={tableList}
+													 style={{margin:10}}
+													 rowKey={record => record.id}
+													 onChange={this.onChangePage}
+													 pagination={paginationProps}
+										/>
 									</TabPane>
-									<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>}
-													 key="3" pagination={paginationProps}>
-										<Table className="table-list" columns={columnsRevise} dataSource={tableList} style={{margin:10}}
-													 rowKey={record => record.id} />
+									<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>} key="3">
+										<Table className="table-list"
+													 columns={columnsRevise}
+													 dataSource={tableList}
+													 style={{margin:10}}
+													 rowKey={record => record.id}
+													 onChange={this.onChangePage}
+													 pagination={paginationProps}
+										/>
 									</TabPane>
 								</Tabs>
 							</div>
