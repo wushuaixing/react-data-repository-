@@ -1,6 +1,17 @@
 .yc-detail-content {
   .yc-search-line {
-
+      > div {
+        display: inline-block;
+        margin-bottom: 16px;
+        margin-right: 20px;
+        > p {
+          display: inline-block;
+          margin-right: 10px;
+        }
+      }
+    .whole{
+      width:100%;
+    }
     .yc-search-form {
     }
   }

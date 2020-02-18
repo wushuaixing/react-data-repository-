@@ -3,6 +3,7 @@ import React from 'react'
 import {Route} from 'react-router-dom';
 import CheckList from "../pages/check";
 import StructureDetail from "../pages/structure/detail";
+import DocumentSearch from "../pages/documentSearch";
 
 
 class Index extends React.Component {
@@ -10,7 +11,7 @@ class Index extends React.Component {
     return (
       <div>
 				<Route path="/index" exact component={CheckList} />
-        <Route path="/index/check"  component={CheckList} />
+        <Route path="/index/documentSearch"  component={DocumentSearch} />
         <Route path="/index/:Id/:status" component={StructureDetail} />
       </div>
     )

@@ -2,7 +2,7 @@ import React from 'react'
 //引入路由
 import {Route} from 'react-router-dom';
 import AccountManage from "../pages/admin";
-import CheckList from "../pages/check";
+import DocumentSearch from "../pages/documentSearch";
 
 
 class ContentMain extends React.Component {
@@ -10,7 +10,7 @@ class ContentMain extends React.Component {
     return (
       <div>
 				<Route path="/index" exact component={AccountManage} />
-				<Route path="/index/check" component={CheckList} />
+				<Route path="/index/documentSearch" component={DocumentSearch} />
       </div>
     )
   }

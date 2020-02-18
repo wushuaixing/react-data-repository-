@@ -11,9 +11,9 @@ const menuRoute= {
   8: "/index",
   15: "/index",
   20: "/index",
-  17: "/index/check",
-  16: "/index/check",
-  9: "/index/check",
+  17: "/index/documentSearch",
+  16: "/index/documentSearch",
+  9: "/index/documentSearch",
   21:"/index/syncMonitor",
   22:"/index/structureMonitor",
 };

@@ -117,4 +117,17 @@ export const getCheckList=(params)=> {
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 	return axios.get("/api/asset/inspector/control/getCheckList?" + urlPlus);
 };
+////////////
+//文书搜索//
+//////////
+//文书搜索
+export function wenshuSearch(params) {
+	let urlPlus = "";
+	for (let key in params) {
+		urlPlus = urlPlus + key + "=" + params[key] + "&";
+	}
+	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
+
+	return axios.get("/api/asset/wenshu/search?" + urlPlus);
+}
 
