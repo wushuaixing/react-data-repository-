@@ -4,7 +4,7 @@ import {Form, Input, Button, DatePicker, Tabs, Table, Badge, Select, message} fr
 import {getCheckList,getStructuredPersonnel} from "../../server/api";
 import {Link, withRouter} from "react-router-dom";
 import 'antd/dist/antd.css';
-import './style.scss';
+import '../style.scss';
 
 const { TabPane } = Tabs;
 const { Option, OptGroup } = Select;
@@ -470,39 +470,8 @@ class  Check extends React.Component {
 	 };
 	//切换Tab
 	changeTab=(key)=>{
-console.log(key,'key');
-		if (key === 0) {
-			this.getTableList(0,1,1);
-			this.setState({
-				timeType:"结构化时间",
-			})
-		} else if (key === "1") {
-			this.getTableList(1,1,1);
-			this.setState({
-				timeType:"结构化时间",
-			})
-		} else if (key === "2") {
-			this.getTableList(2,1,2);
-			this.setState({
-				timeType:"检查时间",
-			})
-		} else if (key === "3") {
-			this.getTableList(3,1,2);
-			this.setState({
-				timeType:"检查时间",
-			})
-		}else if (key === "4") {
-			this.getTableList(4,1,0);
-			this.setState({
-				timeType:"修改时间",
-			})
-		}else if (key === "5") {
-			let ifWait=true;
-			this.getTableList(5,1,1, ifWait);
-			this.setState({
-				timeType:"结构化时间",
-			})
-		}
+		const option=this.setTimeType(key);
+		this.getTableList(option.tab,1,option.time,option.ifwait);
 	};
 
 	//get table dataSource
@@ -545,15 +514,6 @@ console.log(key,'key');
 		});
 	};
 
-
-
-	//换页
-	onChangePage=(page)=>{
-		this.setState({
-			page: page,
-		});
-		this.getTableList(this.state.status,page);
-	};
 
 	//日期转换
 	dataFilter=(value)=>{
@@ -636,7 +596,7 @@ console.log(key,'key');
 		this.getTableList(status,1,checkType);
 	};
 
-	//
+	//换页
 	onTablePageChange=(pagination)=>{
 		const {status,page}=this.state;
 		console.log(pagination,'pagination');
@@ -772,7 +732,7 @@ console.log(key,'key');
 											 onChange={this.onTablePageChange}
 								/>
 							</TabPane>
-							<TabPane tab="已修改" key="4" onChange={(page) => this.onChangePage(page)}>
+							<TabPane tab="已修改" key="4">
 								<Table rowClassName="table-list"
 											 columns={columnsRevise}
 											 dataSource={tableList}
