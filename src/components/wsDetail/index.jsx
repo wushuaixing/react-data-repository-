@@ -259,14 +259,14 @@ class  WsDetail extends React.Component {
 												:<p style={{fontSize:14,marginLeft:4}}>--</p>}
 										</div>
 									</div>
-									<div style={{display:this.state.style}}>
+									<div style={{display:style}}>
 										<div style={{display:checkStyle}}>
-										<Checkbox
-											defaultChecked={wsAttach}
-											onChange={this.onChangeAttach}
-											style={{marginLeft:5}}
-											disabled={disabled}
-										>详情见资产拍卖附件</Checkbox>
+											<Checkbox
+												defaultChecked={wsAttach}
+												onChange={this.onChangeAttach}
+												style={{marginLeft:5}}
+												disabled={disabled}
+											>详情见资产拍卖附件</Checkbox>
 										</div>
 									</div>
 								</div>

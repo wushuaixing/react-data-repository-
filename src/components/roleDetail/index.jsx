@@ -196,7 +196,7 @@ class  RoleDetail extends React.Component {
                       return (<li key={index} className="t-body">
                         <div className="item">
                         {disabled
-                          ? <p>{row.name}</p>
+                          ? <p>{row.name ? row.name : '--'}</p>
                           :
                           <form>
                             <Input
@@ -209,7 +209,7 @@ class  RoleDetail extends React.Component {
                         </div>
                         <div className="item">
                           {disabled
-                            ? <p>{this.changeLableType(row.labelType)}</p>
+                            ? <p>{row.labelType ? this.changeLableType(row.labelType) : '--'}</p>
                             :
                             <Select defaultValue={row.labelType} style={{width: '100%'}} transfer>
                               {
@@ -259,8 +259,7 @@ class  RoleDetail extends React.Component {
                           {disabled
                             ? <p>{row.gender ? this.changeGender(row.gender) : '--'}</p>
                             :
-                            <Select style={{width: '100%'}} defaultValue={row.gender} transfer
-                            >
+                            <Select style={{width: '100%'}} defaultValue={row.gender} transfer>
                               {
                                 genderList && genderList.map((item) => {
                                   return (

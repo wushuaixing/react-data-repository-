@@ -1,5 +1,7 @@
 /** right content for Account manage* */
 import React from 'react';
+import {withRouter} from "react-router-dom";
+
 import Button from "antd/es/button";
 import Icon from "antd/es/icon";
 import Checkbox from "antd/es/checkbox";
@@ -62,6 +64,14 @@ class  StructureDetail extends React.Component {
 		// console.log(Id, status);
 		if (role === "结构化人员") {
 			//按钮
+			this.setState({
+				checkStyle:'none',
+				back:'none',
+				sure:'none',
+				checkTrue:'none',
+				editReason:'none',
+				isCheck:'',
+			});
 			if (status === 0) {
 				this.setState({
 					buttonText: '保存',
@@ -441,5 +451,5 @@ class  StructureDetail extends React.Component {
         );
     }
 }
-export default StructureDetail;
+export default withRouter(StructureDetail);
 
