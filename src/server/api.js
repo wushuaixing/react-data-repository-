@@ -59,7 +59,7 @@ export const userView=(params)=> {
     }
     urlPlus = urlPlus.substring(0, urlPlus.length - 1);
     return axios.get('/api/asset/admin/userView?'+ urlPlus);
-}
+};
 
 //开设账号
 export const userCreate=(user)=> {
@@ -129,5 +129,10 @@ export function wenshuSearch(params) {
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 
 	return axios.get("/api/asset/wenshu/search?" + urlPlus);
+}
+
+//文书搜索详情
+export function wenshuDetail(id) {
+	return axios.get("/api/asset/structured/control/wenshu/detail/" + id);
 }
 

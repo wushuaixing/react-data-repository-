@@ -404,7 +404,6 @@ class  Check extends React.Component {
 	};
 	//根据status传不同时间类型
  	 setTimeType=(status)=>{
- 	 	console.log(status);
  	 	let option={};
  	 	let ifWait=false;
 
@@ -591,7 +590,6 @@ class  Check extends React.Component {
 	//换页
 	onTablePageChange=(pagination)=>{
 		const {status,page}=this.state;
-		console.log(pagination,'pagination');
 		this.setState({
 			page: pagination.current,
 		});

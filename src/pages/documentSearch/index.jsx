@@ -1,6 +1,6 @@
-/** check * */
+/** document search * */
 import React from 'react';
-import {Form, Input, Button, Tabs, Table, Select, message} from 'antd';
+import {Form, Input, Button, Table, message} from 'antd';
 import {wenshuSearch} from "../../server/api";
 import {Link, withRouter} from "react-router-dom";
 import 'antd/dist/antd.css';
@@ -15,7 +15,14 @@ const columns = [
 	},
 	{
 		title: "标题",
-		dataIndex: "title"
+		dataIndex: "title",
+		render: (text, record) => (
+			<span>
+				<Link to={`/documentDetail/${record.wid}`}>
+					<span className="ws-link">{record.title}</span>
+				</Link>
+      </span>
+		),
 	},
 	{
 		title: "案号",
