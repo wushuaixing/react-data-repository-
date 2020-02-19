@@ -2,7 +2,6 @@
 import React from 'react';
 import {Tabs, Table, Modal, Form, } from "antd";
 import { userCreate, userView} from "../../../server/api";
-import Pagination from "antd/es/pagination";
 import Button from "antd/es/button";
 import { Select, message } from 'antd';
 import Checkbox from "antd/es/checkbox";
@@ -67,8 +66,6 @@ const columns = [
     }
   ];
 
-const dataTemp={
-  "code":200,"data":[{"dataType":"非初标数据","id":959,"lastWeekErrorRate":"0.0%","lastWeekMarkNum":0,"name":"tgb","role":"试用","structuredObject":"资产结构化","totalWrongNum":0,"username":"66554411223"},{"dataType":"普通数据","id":957,"lastWeekErrorRate":"0.0%","lastWeekMarkNum":0,"name":"hygn2","role":"试用","structuredObject":"资产结构化","totalWrongNum":0,"username":"52052555455"},{"dataType":"普通数据","id":955,"lastWeekErrorRate":"0.0%","lastWeekMarkNum":0,"name":"apl","role":"试用","structuredObject":"资产结构化","totalWrongNum":0,"username":"85545242541"},{"dataType":"非初标数据","id":954,"lastWeekErrorRate":"0.0%","lastWeekMarkNum":0,"name":"123458777a","role":"试用","structuredObject":"资产结构化","totalWrongNum":0,"username":"12345877733"},{"dataType":"非初标数据","id":953,"lastWeekErrorRate":"0.0%","lastWeekMarkNum":0,"name":"18390955868","role":"试用","structuredObject":"资产结构化","totalWrongNum":0,"username":"18390955868"},{"dataType":"普通数据","id":949,"lastWeekErrorRate":"0.0%","lastWeekMarkNum":0,"name":"y1ccc","role":"试用","structuredObject":"资产结构化","totalWrongNum":0,"username":"95418528584"},{"dataType":"普通数据","id":922,"lastWeekErrorRate":"0.0%","lastWeekMarkNum":0,"name":"张三12","role":"正式","structuredObject":"资产结构化","totalWrongNum":0,"username":"12345678919"},{"dataType":"非初标数据","id":920,"lastWeekErrorRate":"0.0%","lastWeekMarkNum":0,"name":"y144","role":"试用","structuredObject":"资产结构化","totalWrongNum":0,"username":"88889999999"},{"dataType":"普通数据","id":919,"lastWeekErrorRate":"0.0%","lastWeekMarkNum":0,"name":"hj2","role":"试用","structuredObject":"资产结构化","totalWrongNum":0,"username":"66666666266"},{"dataType":"普通数据","id":917,"lastWeekErrorRate":"0.0%","lastWeekMarkNum":0,"name":"yeu3","role":"正式","structuredObject":"资产结构化","totalWrongNum":0,"username":"66555555555"}],"hasNext":true,"message":"成功","page":1,"pages":8,"size":10,"total":73};
 
 class AccountManage extends React.Component {
   constructor(props) {
@@ -154,19 +151,12 @@ class AccountManage extends React.Component {
       } else if (key === 2) {
         this.setState({
                    page: 1,
-          isEnabledUser: true,
+          isEnabledUser: false,
              searchRole: '',
              searchUser: '',
         });
       }
       this.getTableList();
-  };
-
-  //换页
-  onChangePage=(page)=>{
-    this.setState({
-      page: page,
-    });
   };
 
   handleOk = () => {
@@ -236,6 +226,7 @@ class AccountManage extends React.Component {
       }
     }
   };
+
   setPwd=()=> {
     let password=this.props.form.getFieldValue('mobile').substring(
       5,
@@ -244,24 +235,41 @@ class AccountManage extends React.Component {
     return password;
   };
 
+  //换页
+  onChangePage=(pagination)=>{
+    this.setState({
+      page: pagination.current,
+    });
+    this.getTableList();
+  };
   render() {
-      const {tableList,total,visible,characterList,structureList}=this.state;
+      const {tableList,total,page,visible,characterList,structureList}=this.state;
       const { getFieldDecorator } = this.props.form;
-
+      const paginationProps = {
+        current: page, //当前页
+        showQuickJumper:true, //跳转
+        total: total, // 数据总数
+        pageSize: 10, // 每页条数
+        showTotal: (() => {
+          return `共 ${total} 条`;
+        }),
+      };
     return(
           <div>
               <div style={{ margin:10, fontSize:16, color:'#293038' }}>账号管理 > 结构化账号</div>
               <Button onClick={this.showModal}>+ 添加账号</Button>
               <Tabs defaultActiveKey="1" onChange={this.changeTab}>
                 <TabPane tab="正常账号" key="1">
-                  <Table className="table-list" columns={columns} dataSource={dataTemp.data} style={{margin:10,width:1040}}
-                         rowKey={record => record.id} />
+                  <Table className="table-list" columns={columns} dataSource={tableList} style={{margin:10,width:1040}}
+                         rowKey={record => record.id}
+                         onChange={this.onChangePage}
+                         pagination={paginationProps}
+                  />
                 </TabPane>
                 <TabPane tab="已删除账号" key="2">
                   Content of Tab Pane 2
                 </TabPane>
               </Tabs>
-              <Pagination showQuickJumper={true} defaultCurrent={1} pageSize={10} total={total} onChange={this.onChangePage} />
               <div style={{width:387}}>
               <Modal
                 style={{width:387}}
