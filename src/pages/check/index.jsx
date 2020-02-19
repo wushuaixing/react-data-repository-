@@ -203,6 +203,14 @@ const columnsCheck = [
 	{
 		title: "结构化人员",
 		dataIndex: "structPersonnel",
+		render: (text, record) => (
+			<span>
+					{!record.structPersonnelEnable ?
+						<p style={{fontSize:12}}>{record.structPersonnel}(已删除)</p>
+						:<p style={{fontSize:12}}>{record.structPersonnel}</p>
+					}
+      </span>
+		),
 	},
 	{
 		title: "操作",
@@ -216,8 +224,8 @@ const columnsCheck = [
 					&& record.structPersonnelEnable
 					&& record.structPersonnel !== '自动标注'
 					&& <Button style={{fontSize:12}} >修改检查</Button>}
-					{!record.structPersonnelEnable
-					&& record.structPersonnel === '自动标注'
+					{(!record.structPersonnelEnable
+						|| record.structPersonnel === '自动标注')
 					&& <Button style={{fontSize:12}}>修改标注</Button>}
 					{record.status[0]===1
 					&& record.structPersonnelEnable
@@ -308,6 +316,14 @@ const columnsRevise = [
 	{
 		title: "结构化人员",
 		dataIndex: "structPersonnel",
+		render: (text, record) => (
+			<span>
+					{!record.structPersonnelEnable ?
+						<p style={{fontSize:12}}>{record.structPersonnel}(已删除)</p>
+						:<p style={{fontSize:12}}>{record.structPersonnel}</p>
+					}
+      </span>
+		),
 	},
 	{
 		title: "操作",
@@ -321,8 +337,8 @@ const columnsRevise = [
 					&& record.structPersonnelEnable
 					&& record.structPersonnel !== '自动标注'
 					&& <Button style={{fontSize:12}} >修改检查</Button>}
-					{!record.structPersonnelEnable
-					&& record.structPersonnel === '自动标注'
+					{(!record.structPersonnelEnable
+						|| record.structPersonnel === '自动标注')
 					&& <Button style={{fontSize:12}}>修改标注</Button>}
 					{record.status[0]===1
 					&& record.structPersonnelEnable
@@ -432,7 +448,7 @@ class  Check extends React.Component {
 			 });
 			 return option={
 				 time:2,
-				 tab:1,
+				 tab:2,
 				 ifWait:ifWait
 
 			 }
@@ -488,8 +504,9 @@ class  Check extends React.Component {
 		getCheckList(params).then(res => {
 			if (res.data.code === 200) {
 				// this.loading = false;
-				if(res.data.data.result !== null){
-					let _list=res.data.data.result.list;
+				let data=res.data.data.result || {};
+				if(data.list){
+					let _list=data.list;
 					_list.map((item)=>{
 						let _temp=[];
 						_temp.push(item.status);
@@ -505,9 +522,15 @@ class  Check extends React.Component {
 							waitNum:res.data.total,
 						});
 					}
-					else{
 
-					}
+				}
+				else{
+					let _total=0;
+					this.setState({
+						tableList:[],
+						total:_total,
+						status:tabStatus,
+					});
 				}
 
 			} else {
