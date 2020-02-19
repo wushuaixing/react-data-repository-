@@ -106,7 +106,7 @@ export const getNewStructureData=()=> {
 	return axios.get("/api/asset/structured/control/getNewStructuredDataId")
 };
 //////////////////////////////
-//检查人员-资产结构化数据接口//
+//检查人员-资产结构化检查接口//
 /////////////////////////////
 //获取检查人员结构化列表
 export const getCheckList=(params)=> {
@@ -117,6 +117,21 @@ export const getCheckList=(params)=> {
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 	return axios.get("/api/asset/inspector/control/getCheckList?" + urlPlus);
 };
+
+//结构化确认
+export function beConfirmed(id) {
+	return axios.get("/api/asset/inspector/control/beConfirmed/" + id);
+}
+
+//修改错误原因
+export function changeWrongType(id,params) {
+	return axios.post("/api/asset/inspector/control/updateErrorReason/"+id,params);
+}
+
+//检查确认
+export function inspectorCheck(params) {
+	return axios.post("/api/asset/inspector/control/inspectorCheck", params);
+}
 ////////////
 //文书搜索//
 //////////

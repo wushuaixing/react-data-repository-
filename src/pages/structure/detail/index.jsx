@@ -1,7 +1,7 @@
 /** right content for Account manage* */
 import React from 'react';
 import {withRouter} from "react-router-dom";
-import {Form, message, Modal} from "antd";
+import {message, Modal} from "antd";
 
 import Button from "antd/es/button";
 import Icon from "antd/es/icon";
@@ -15,7 +15,7 @@ import {
 	getCheckDetail,
 	structuredObligorTypeList,
 	saveDetail,
-	getNewStructureData
+	getNewStructureData,beConfirmed,inspectorCheck,changeWrongType,
 } from '../../../server/api';
 import BasicDetail from "../../../components/basicDetail";
 import WrongReason from "../../../components/wrongReason";
@@ -32,15 +32,12 @@ class  StructureDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+    	dataStatus:0,
+			dataId:0,
       dataMark:  0,
       dataTotal:50,
 			buttonText:'保存',
 			buttonStyle:{backgroundColor:'#0099CC', color:'white'},
-			checkStyle:'none',
-			back:'none',
-			sure:'none',
-			checkTrue:'',
-			editReason:'none',
 			isCheck:'',
 			errorReason:[],
 			recordsForCheck:[],
@@ -98,32 +95,35 @@ class  StructureDetail extends React.Component {
   }
 
 	componentDidMount() {
-  	// console.log('didmount');
 		const {Id, status} = this.props.match.params;
-		console.log(Id, status);
+		let _status=parseInt(status);
+		let dataId=parseInt(Id);
+		this.setState({
+			dataStatus:_status,
+			dataId:dataId,
+		});
 		if (role === "结构化人员") {
 			//按钮
 			this.setState({
 				checkStyle:'none',
-				back:'none',
 				sure:'none',
 				checkTrue:'none',
 				editReason:'none',
 				isCheck:'',
 			});
-			if (status === 0) {
+			if (_status === 0) {
 				this.setState({
 					buttonText: '保存',
 				});
 			}
-			if (status === 1) {
+			if (_status === 1) {
 				this.setState({
 					buttonText: '保存并标记下一条',
 					buttonStyle: {},
 
 				});
 			}
-			if (status === 2) {
+			if (_status === 2) {
 				this.setState({
 					buttonText: '保存并修改下一条',
 					buttonStyle: {},
@@ -137,39 +137,11 @@ class  StructureDetail extends React.Component {
 				needRecord:true,
 				isCheck:'none',
 				buttonStyle: {display:'none'},
-
 			});
 			//检查／管理员数据详情
 			this.getDetailData(Id, role);
 			//检查按钮
-			if (status !== 0 || status !== 3) {
-				this.setState({
-					checkStyle: '',
-					editReason:'none',
-				});
-			}
-			else if (status !== 2) {
-				this.setState({
-					back: 'none',
-				});
-			}else if(status == 3) {
-				this.setState({
-					editReason: '',
-					checkStyle: 'none',
-					back: 'none',
 
-				});
-			}
-			else if(status === 4) {
-				this.setState({
-					checkTrue: '',
-				});
-			}
-			else if(status === 5) {
-				this.setState({
-					sure:'',
-				});
-			}
 		}
 
 		structuredObligorTypeList().then(res => {
@@ -218,7 +190,7 @@ class  StructureDetail extends React.Component {
 			// console.log(obligorList);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
 		});
 	}
-		//initData
+	//initData
 	initData=(data)=>{
 		let initData=data;
 		this.setState({
@@ -281,7 +253,6 @@ class  StructureDetail extends React.Component {
 		}
 		return this.state;
 	};
-
 
 	async getStrucData(id){
 		//结构化数据详情
@@ -437,22 +408,177 @@ class  StructureDetail extends React.Component {
 			remark:_remark,
 		});
 	};
+
+	//待确认--确认接口
+	sure=()=> {
+		beConfirmed(this.$route.params.id).then(res => {
+			if (res.data.code === 200) {
+				message.info("操作成功");
+			} else {
+				message.error(res.data.message);
+			}
+		});
+	};
+	//检查无误
+	async checkIfTrue(){
+		const {dataStatus,dataId}=this.state;
+		let params = {
+			auctionExtractWrongTypes:[],
+			checkError: false,
+			id: dataId
+		};
+		const res= await inspectorCheck(params);
+		if (res.data.code === 200) {
+			message.info("操作成功");
+			// this.$router.push({
+			// 	name: "CheckAssetStrure",
+			// 	query:{
+			// 		id:this.$route.params.state,
+			// 		pageNum:this.$route.params.page,
+			// 	}
+			// });
+		} else {
+			message.error(res.data.message);
+		}
+	};
+	checkTrue() {
+		const {dataStatus,dataId}=this.state;
+		if(dataStatus === 3){
+			let params = {
+				auctionExtractWrongTypes:[],
+				desc: '检查无误',
+				level: 0
+			};
+			changeWrongType(dataId,params).then(res => {
+				if (res.data.code === 200) {
+					message.info("操作成功");
+					// this.$router.push({
+					// 	name: "CheckAssetStrure",
+					// 	query:{
+					// 		id:this.$route.params.state,
+					// 		pageNum:this.$route.params.page,
+					// 	}
+					// });
+				} else {
+					message.error(res.data.message);
+				}
+			});
+		}
+		else{
+			this.checkIfTrue();
+		}
+	};
+	//检查错误弹窗按钮接口
+	handleOk=(data)=>{
+			// console.log(data)
+		const {dataStatus,dataId}=this.state;
+
+		if(dataStatus === 5 || dataStatus === 4 || dataStatus === 1 ){
+				let params = {
+					checkError: true,
+					checkWrongLog: {
+						auctionExtractWrongTypes: data.reason,
+						remark: data.remark,
+						wrongLevel: data.wrongLevel
+					},
+					id: dataId
+				};
+				inspectorCheck(params).then(res => {
+					if (res.data.code === 200) {
+						//console.log(this.$route)
+						message.info("操作成功");
+						// this.$router.push({
+						// 	name: "CheckAssetStrure",
+						// 	query:{
+						// 		id:this.$route.params.state,
+						// 		pageNum:this.$route.params.page,
+						// 	}
+						// });
+					} else {
+						message.error("操作失败");
+					}
+				});
+			}
+			else if(dataStatus === 2){
+				let params = {
+					auctionExtractWrongTypes:data.reason,
+					desc: data.remark,
+					level: data.wrongLevel
+				};
+				changeWrongType(dataId,params).then(res => {
+					if (res.data.code === 200) {
+						message.info("操作成功");
+						// this.$router.push({
+						// 	name: "CheckAssetStrure",
+						// 	query:{
+						// 		id:this.$route.params.state,
+						// 		pageNum:this.$route.params.page,
+						// 	}
+						// });
+					} else {
+						message.error(res.data.message);
+					}
+				});
+			}
+			if(dataStatus === 3){
+				let params = {
+					auctionExtractWrongTypes:data.reason,
+					desc: data.remark,
+					level: data.wrongLevel
+				};
+				changeWrongType(dataId,params).then(res => {
+					if (res.data.code === 200) {
+						message.info("操作成功");
+						// this.$router.push({
+						// 	name: "CheckAssetStrure",
+						// 	query:{
+						// 		id:this.$route.params.state,
+						// 		pageNum:this.$route.params.page,
+						// 	}
+						// });
+					} else {
+						message.error(res.data.message);
+					}
+				});
+			}
+	};
 //待标记--》详情页
   render() {
-		let storage = window.localStorage;
-		const user = storage.userName;
-		const role = storage.userState;
-		const {Id, status} = this.props.match.params;
+  	console.log('render');
+		const { status} = this.props.match.params;
 		const { dataMark, dataTotal, buttonText, buttonStyle,data }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach }=this.state;
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
-    const { isCheck,checkStyle,editReason,checkTrue,back }=this.state;
+    const { isCheck }=this.state;
     const { visible,reasonList,highLevel,remark }=this.state;
+    let isTrue,isErr,revise,confirm;
     let need=needWrongReason;
 		if(status === "2"|| status === "1"){
 			need=false;
+		}
+		//按钮状态
+		if(status === "1" || status ==="4"){
+			isTrue='';
+			isErr='';
+			revise='none';
+			confirm='none';
+		}else if(status === "2"){
+			isTrue='none';
+			isErr='';
+			revise='none';
+			confirm='none';
+		}else if(status === "3"){
+			isTrue='';
+			isErr='none';
+			revise='';
+			confirm='none';
+		}else if(status ==="4"){
+			isTrue='';
+			isErr='';
+			revise='none';
+			confirm='';
 		}
 
 			return(
@@ -471,23 +597,26 @@ class  StructureDetail extends React.Component {
 												onClick={this.toSave}
 								>{buttonText}
 								</Button>
-								<Button style={{display:checkStyle,margin:4}}
+								<Button style={{display:isErr,margin:4}}
 												onClick={this.showModal}
 								>检查有误
 							  </Button>
-								<Button style={{display:editReason,margin:4}}
+								<Button style={{display:revise,margin:4}}
 												onClick={this.showModal}
 								>修改错误原因
 								</Button>
-								<Button style={{display:checkTrue,margin:4}}
+								<Button style={{display:isTrue,margin:4}}
 												onClick={this.toSave}
 								>检查无误
 								</Button>
-								<Button style={{display:back,margin:4}}
-												onClick={this.toSave}
+								<Button style={{margin:4}}
+												onClick={this.checkTrue}
 								>返回
 								</Button>
-
+								<Button style={{display:confirm}}
+												onClick={this.sure}
+								>确认
+								</Button>
 	            </div>
 							<div>
 								{	need && <WrongReason errorList={errorReason} /> }

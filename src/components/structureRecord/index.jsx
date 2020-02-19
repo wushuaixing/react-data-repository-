@@ -71,7 +71,9 @@ class  StructureRecord extends React.Component {
               <p className="yc-sec-title" style={{float: 'left'}}>结构化记录:</p>
             <div style={{display:'inline-block'}}>
                 {
-                  _strucRecords && _strucRecords.map((item,index)=>{
+                  _strucRecords.length >0
+                    ?
+                    _strucRecords.map((item,index)=>{
                     const desc=this.toSetText(item.desc,item.error,index);
                     return (
                       <div
@@ -89,6 +91,7 @@ class  StructureRecord extends React.Component {
                         </p>
                     </div>)
                   })
+                    : <p style={{marginLeft:5}}>--</p>
                 }
             </div>
           </div>

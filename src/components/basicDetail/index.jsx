@@ -86,9 +86,10 @@ class  BasicDetail extends React.Component {
                   <p className="yc-sec-title">拍卖状态:</p>
                   <p className="yc-sec-title" style={{ marginLeft:5}}>{auctionStatus}</p>
                 </div>
+                <div>
                 {needRecord && <StructureRecord records={records} />}
                 {/*//什么数据是有撤回原因和关联标注的 条件：!character && status !== 0*/}
-
+                </div>
                 <div>
                   <p className="yc-sec-title">撤回原因:</p>
                   <p className="yc-sec-title" style={{ marginLeft:5}}>
