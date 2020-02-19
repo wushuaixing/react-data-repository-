@@ -1,15 +1,10 @@
 /** right content for Account manage* */
 import React from 'react';
 import {withRouter} from "react-router-dom";
-import {message, Modal} from "antd";
-
+import {message} from "antd";
 import Button from "antd/es/button";
 import Icon from "antd/es/icon";
 import Checkbox from "antd/es/checkbox";
-import RadioGroup from "antd/es/radio/group";
-import CheckboxGroup from "antd/es/checkbox/Group";
-import Radio from "antd/es/radio";
-import Input from "antd/es/input";
 import {
 	structuredList,
 	getCheckDetail,
@@ -22,8 +17,8 @@ import WrongReason from "../../../components/wrongReason";
 import WsDetail from "../../../components/wsDetail";
 import RoleDetail from "../../../components/roleDetail";
 import HouseDetail from "../../../components/houseDetail";
+import Check from "./checkModal";
 import './style.scss';
-
 
 let storage = window.localStorage;
 const role = storage.userState;
@@ -54,43 +49,6 @@ class  StructureDetail extends React.Component {
 			needWrongReason:false,
 			needRecord:false,
 			visible:false,
-			remark:"",
-			reasonList: [
-				"拍卖页文本看漏",
-				"拍卖页图片看漏",
-				"附件文本看漏",
-				"附件图片看漏",
-				"文书未找到",
-				"文书文本看漏",
-				"填写失误",
-				"其他"
-			],
-			highLevel: [
-				/*"资产所有人、债权人、资产线索遗漏:",
-				"名字填写错误:",
-				"身份信息填写错误:"*/
-				"所有人遗漏：",
-				"所有人错误：",
-				"多填所有人:",
-				"债权人遗漏：",
-				"债权人错误：",
-				"资产线索遗漏：",
-				"资产线索错误：",
-				"资产线索备注遗漏/错误：",
-				"身份信息遗漏：",
-				"身份信息错误：",
-				"抵押文书遗漏：",
-				"抵押文书错误：",
-				"无抵押勾选遗漏/错误:",
-				"见附件勾选遗漏/错误：",
-				"角色类别错误：",
-				"未优先填身份证号：",
-				"面积遗漏/错误：",
-				"案号遗漏/错误：",
-				"其他角色备注遗漏/错误：",
-				"房产/土地类型遗漏/错误：",
-				"多填债权人/资产线索/抵押文书：",
-			],
 		};
   }
 
@@ -470,7 +428,8 @@ class  StructureDetail extends React.Component {
 	};
 	//检查错误弹窗按钮接口
 	handleOk=(data)=>{
-			// console.log(data)
+
+		console.log(data);
 		const {dataStatus,dataId}=this.state;
 
 		if(dataStatus === 5 || dataStatus === 4 || dataStatus === 1 ){
@@ -494,6 +453,7 @@ class  StructureDetail extends React.Component {
 						// 		pageNum:this.$route.params.page,
 						// 	}
 						// });
+
 					} else {
 						message.error("操作失败");
 					}
@@ -515,6 +475,7 @@ class  StructureDetail extends React.Component {
 						// 		pageNum:this.$route.params.page,
 						// 	}
 						// });
+
 					} else {
 						message.error(res.data.message);
 					}
@@ -542,6 +503,12 @@ class  StructureDetail extends React.Component {
 				});
 			}
 	};
+	handleCancel = (visible) => {
+		console.log(visible);
+		this.setState({
+			visible: visible,
+		});
+	};
 //待标记--》详情页
   render() {
   	console.log('render');
@@ -552,7 +519,7 @@ class  StructureDetail extends React.Component {
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
     const { isCheck }=this.state;
-    const { visible,reasonList,highLevel,remark }=this.state;
+    const { visible }=this.state;
     let isTrue,isErr,revise,confirm;
     let need=needWrongReason;
 		if(status === "2"|| status === "1"){
@@ -606,11 +573,11 @@ class  StructureDetail extends React.Component {
 								>修改错误原因
 								</Button>
 								<Button style={{display:isTrue,margin:4}}
-												onClick={this.toSave}
+												onClick={this.checkTrue}
 								>检查无误
 								</Button>
 								<Button style={{margin:4}}
-												onClick={this.checkTrue}
+												onClick={this.goBack}
 								>返回
 								</Button>
 								<Button style={{display:confirm}}
@@ -636,78 +603,13 @@ class  StructureDetail extends React.Component {
 								<RoleDetail info={obligors} list={obligorList} fn={this.setRole.bind(this)} />
 							</div>
 							<div>
-								<Modal
-									className="yc-check-modal"
-									style={{width:550}}
-									visible={visible}
-									destroyOnClose={true}
-									closable={true}
-									footer={null}
-									title="确认本条结构化数据标注结果有误吗？"
-								>
-								<div className="check-modal">
-									<div className="part">
-										<span
-										>点击确定，本条结构化数据将被标记为检查错误，并将退回给结构化人员</span
-										>
-									</div>
-									<div className="part">
-										<p className="part-title">备注</p>
-										<Input.TextArea
-											style={{height:136}}
-											maxLength="136"
-											placeholder="请填写备注"
-											value={remark}
-											onChange={this.getRemark}
-										/>
-									</div>
-									<div className="part">
-										<p className="part-title">错误等级</p>
-										<RadioGroup v-model="data.wrongLevel">
-											<Radio label="4">
-												<span>普通错误</span>
-											</Radio>
-											<Radio label="1">
-												<span>严重错误</span>
-											</Radio>
-											<Radio label="7">
-												<span>不计入错误</span>
-											</Radio>
-										</RadioGroup>
-									</div>
-									<div className="part">
-										<p className="part-title">出错原因</p>
-										<CheckboxGroup v-model="data.reason">
-											{reasonList && reasonList.map((item)=>{
-												return (
-													<Checkbox >
-														<span>{ item }</span>
-													</Checkbox>
-												)
-											})
-											}
-										</CheckboxGroup>
-									</div>
-									<div className="part">
-										<p className="part-title">错误类型</p>
-										<div className="part-error-detail">
-											{highLevel && highLevel.map((item)=>{
-												return(
-													<p
-													className="part-error-content"
-													onClick={()=>this.addRemark(item)}
-													>
-														{ item }
-													</p>
-												)})}
-										</div>
-									</div>
-									<div className="footer">
-										<Button type="primary" onClick={this.handleOk}>确定</Button>
-										<Button onClick={this.handleCancel}>取消</Button>
-									</div>
-								</div>
-								</Modal>
+								<Check visible={visible}
+											 ok={this.handleOk.bind(this)}
+											 cancel={this.handleCancel.bind(this)}
+											 show={this.showModal.bind(this)}
+											 // status={dataStatus}
+											 // id={dataId}
+								/>
 							</div>
             </div>
 					</div>

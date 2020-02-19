@@ -1,3 +1,4 @@
+
 .yc-detail-title{
   border-bottom: 1px solid #e2e4e9;
   padding: 16px 0 0 20px;
@@ -180,50 +181,5 @@
 
     }
   }
-  .ant-modal-content{
-  .yc-check-modal{
-
-      .check-modal {
-        padding: 4px 25px 25px 15px;
-        .part {
-          margin-bottom: 20px;
-          .part-title {
-            height: 14px;
-            font-size: 14px;
-            font-weight: 500;
-            color: rgba(41, 48, 56, 1);
-            line-height: 14px;
-            margin-bottom: 14px;
-          }
-          .part-error-detail {
-            max-height: 160px;
-            overflow-y: auto;
-            border: 1px solid rgba(226, 228, 233, 1);
-            border-radius: 2px;
-            padding: 0 10px;
-            .part-error-title {
-              margin: 14px 0 10px 0;
-              font-weight: 700;
-            }
-            .part-error-content:hover {
-              cursor: pointer;
-            }
-          }
-        }
-        .footer {
-          margin-top: 30px;
-          text-align: center;
-          > button {
-            width: 120px;
-            height: 36px;
-            margin-left: 10px;
-            margin-right: 10px;
-          }
-        }
-      }
-    }
-
-  }
 
 }
-
