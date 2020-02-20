@@ -10,7 +10,7 @@ const menuRoute= {
   18: "/index/checkUser",//检查账号
   8: "/index",//
   15: "/index",//
-  20: "/index",//
+  20: "/index/assetList",//资产结构化列表（管理员）
   17: "/index/documentSearch",//
   16: "/index/documentSearch",//文书搜索（管理员）
   9: "/index/documentSearch",//

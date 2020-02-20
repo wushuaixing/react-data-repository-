@@ -4,6 +4,7 @@ import {Route} from 'react-router-dom';
 import StructureAccount from "../pages/admin/structureUser";
 import CheckAccount from "../pages/admin/checkUser";
 import DocumentSearch from "../pages/documentSearch";
+import AssetList from "../pages/check";
 
 
 class ContentMain extends React.Component {
@@ -13,7 +14,9 @@ class ContentMain extends React.Component {
 				<Route path="/index" exact component={StructureAccount} />
 				<Route path="/index/checkUser" exact component={CheckAccount} />
 				<Route path="/index/documentSearch" component={DocumentSearch} />
-      </div>
+				<Route path="/index/assetList" component={AssetList} />
+
+			</div>
     )
   }
 }

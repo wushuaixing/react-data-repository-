@@ -120,7 +120,18 @@ export const userRemoveCheck=(id)=> {
 	return axios.get("/api/asset/admin/check/userRemove/" + id);
 };
 
-
+//////////////////////////////
+//管理员-资产结构化接口//
+/////////////////////////////
+//管理员资产结构化列表-
+export function adminStructuredList(params) {
+	let urlPlus = "";
+	for (let key in params) {
+		urlPlus = urlPlus + key + "=" + params[key] + "&";
+	}
+	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
+	return axios.get("/api/asset/admin/structured/structuredList?" + urlPlus);
+}
 //////////////////////////////
 //结构化人员-资产结构化数据接口//
 /////////////////////////////

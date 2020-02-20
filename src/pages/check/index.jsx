@@ -1,7 +1,7 @@
 /** check * */
 import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table, Badge, Select, message} from 'antd';
-import {getCheckList,getStructuredPersonnel} from "../../server/api";
+import {getCheckList,getStructuredPersonnel,adminStructuredList} from "../../server/api";
 import {Link, withRouter} from "react-router-dom";
 import 'antd/dist/antd.css';
 import '../style.scss';
@@ -9,7 +9,12 @@ import '../style.scss';
 const { TabPane } = Tabs;
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;
-
+let storage = window.localStorage;
+const role = storage.userState;
+let isCheck=true;
+if(role==="管理员"){
+	isCheck=false;
+}
 const columnsStructure = [
 	{
 		title: "结构化时间",
@@ -219,7 +224,7 @@ const columnsCheck = [
 		width: 180,
 		render: (text, record) => (
 			<span>
-				<Link to={`/index/${record.id}/${record.status}`}>
+				{isCheck ? <Link to={`/index/${record.id}/${record.status}`}>
 					{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
 					&& record.structPersonnelEnable
 					&& record.structPersonnel !== '自动标注'
@@ -232,6 +237,10 @@ const columnsCheck = [
 					&& record.structPersonnel !== '自动标注'
 					&& <Button style={{fontSize:12}}>检查</Button>}
 				</Link>
+				: <Link to={`/index/${record.id}/${record.status}`}>
+						<Button style={{fontSize:12}}>查看</Button>
+					</Link>
+				}
       </span>
 		),
 	}
@@ -332,24 +341,133 @@ const columnsRevise = [
 		width: 180,
 		render: (text, record) => (
 			<span>
+				{isCheck ? <Link to={`/index/${record.id}/${record.status}`}>
+						{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
+						&& record.structPersonnelEnable
+						&& record.structPersonnel !== '自动标注'
+						&& <Button style={{fontSize:12}} >修改检查</Button>}
+						{(!record.structPersonnelEnable
+							|| record.structPersonnel === '自动标注')
+						&& <Button style={{fontSize:12}}>修改标注</Button>}
+						{record.status[0]===1
+						&& record.structPersonnelEnable
+						&& record.structPersonnel !== '自动标注'
+						&& <Button style={{fontSize:12}}>检查</Button>}
+					</Link>
+					: <Link to={`/index/${record.id}/${record.status}`}>
+						<Button style={{fontSize:12}}>查看</Button>
+					</Link>
+				}
+      </span>
+		),
+	}
+];
+const columnsAdmin = [
+	{
+		title: "抓取时间",
+		dataIndex: "grabTime",
+	},
+	{
+		title: "拍卖信息",
+		dataIndex: "info",
+		render: (text, record)=>(
+			<span>
+				{
+					<div className="info">
+						<p className="link" style={{display: 'inline-block'}}>
+							{record.info.title}
+						</p>
+						<div className="info-line">
+							<p>处置法院/单位:{record.info.court}</p>
+						</div>
+						<div className="info-line">
+							<div className="line-half">
+								<p>拍卖时间:{record.info.start}</p>
+							</div>
+							<div className="line-half">
+								<p style={{margin: 10}}>拍卖状态:</p>
+								<p>{record.info.status}</p>
+							</div>
+						</div>
+						<div className="info-line">
+							<div className="line-half">
+								<p>评估价:</p>
+								<p>{record.info.consultPrice}</p>
+							</div>
+							<div className="line-half">
+								<p style={{margin: 10}}>起拍价:</p>
+								<p>{record.info.initialPrice}</p>
+							</div>
+						</div>
+					</div>
+				}
+			</span>
+		)
+	},
+	{
+		title: "状态",
+		dataIndex: "status",
+		width: 285,
+		render: (status) => (
+			<span>
+        {status.map((item,index) => {
+					let color='default';
+					let text='';
+					if (item === 1) {
+						color = 'default';
+						text='未检查';
+					}
+					else if (item === 2) {
+						color = 'success';
+						text='检查无误';
+					}else if(item === 3) {
+						color = 'error';
+						text='检查错误';
+					}
+					else if(item === 4) {
+						color = 'success';
+						text='已修改';
+					}
+					else if(item === 5) {
+						color = 'error';
+						text='待确认';
+					}else{
+						color = 'default';
+						text='未标记';
+					}
+					return (
+						<Badge status={color} text={text} key={index} />
+					);
+				})}
+      </span>
+		),
+	},
+	{
+		title: "结构化人员",
+		dataIndex: "structPersonnel",
+		render: (text, record) => (
+			<span>
+					{!record.structPersonnelEnable ?
+						<p style={{fontSize:12}}>{record.structPersonnel}(已删除)</p>
+						:<p style={{fontSize:12}}>{record.structPersonnel}</p>
+					}
+      </span>
+		),
+	},
+	{
+		title: "操作",
+		dataIndex: "action",
+		align: "center",
+		width: 180,
+		render: (text, record) => (
+			<span>
 				<Link to={`/index/${record.id}/${record.status}`}>
-					{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
-					&& record.structPersonnelEnable
-					&& record.structPersonnel !== '自动标注'
-					&& <Button style={{fontSize:12}} >修改检查</Button>}
-					{(!record.structPersonnelEnable
-						|| record.structPersonnel === '自动标注')
-					&& <Button style={{fontSize:12}}>修改标注</Button>}
-					{record.status[0]===1
-					&& record.structPersonnelEnable
-					&& record.structPersonnel !== '自动标注'
-					&& <Button style={{fontSize:12}}>检查</Button>}
+					<Button style={{fontSize:12}}>查看</Button>
 				</Link>
       </span>
 		),
 	}
 ];
-
 
 class  Check extends React.Component {
 	constructor(props) {
@@ -360,6 +478,8 @@ class  Check extends React.Component {
 			total:0,
 			tableList:[],
 			waitNum:0,
+			editNmu:0,
+			checkErrorNum:0,
 			status:'',
 			personnelList:[],
 			timeType:"结构化时间",
@@ -419,68 +539,98 @@ class  Check extends React.Component {
 		this.getTableList(0,1,1);
 	};
 	//根据status传不同时间类型
- 	 setTimeType=(status)=>{
+	// checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
+	setTimeType=(status)=>{
  	 	let option={};
- 	 	let ifWait=false;
-
 		 if (status === 0) {
 			 this.setState({
 				 timeType:"结构化时间",
 			 });
-			 return option={
-			 	time:1,
-				 tab:0,
-				 ifWait:ifWait
+			 if(isCheck) {
+				 return option = {
+					 time: 1,
+					 tab: 0,
+				 }
+			 }else{
+				 return option = {
+					 time: 3,
+					 tab: 0,
+				 }
 			 }
 		 } else if (status === 1) {
 			 this.setState({
 				 timeType:"结构化时间",
 			 });
-			 return option={
-				 time:1,
-				 tab:1,
-				 ifWait:ifWait
-
+			 if(isCheck){
+				 return option={
+					 time:1,
+					 tab:1,
+				 }
+			 }else{
+				 return option = {
+					 time: 3,
+					 tab: 6,
+				 }
 			 }
 		 } else if (status === 2) {
 			 this.setState({
 				 timeType:"检查时间",
 			 });
-			 return option={
-				 time:2,
-				 tab:2,
-				 ifWait:ifWait
-
+			 if(isCheck) {
+				 return option = {
+					 time: 2,
+					 tab: 2,
+				 }
+			 }else{
+				 return option={
+					 time:1,
+					 tab:1,
+				 }
 			 }
 		 } else if (status === 3) {
 			 this.setState({
 				 timeType:"检查时间",
 			 });
-			 return option={
-				 time:1,
-				 tab:3,
-				 ifWait:ifWait
-
+			 if(isCheck) {
+				 return option = {
+					 time: 2,
+					 tab: 3,
+				 }
+			 }else{
+				 return option = {
+					 time: 2,
+					 tab: 2,
+				 }
 			 }
 		 }else if (status === 4) {
 			 this.setState({
 				 timeType:"修改时间",
 			 });
-			 return option={
-				 time:0,
-				 tab:4,
-				 ifWait:ifWait
-
+			 if(isCheck) {
+				 return option = {
+					 time: 0,
+					 tab: 4,
+				 }
+			 }else{
+				 return option = {
+					 time: 2,
+					 tab: 3,
+				 }
 			 }
 		 }else if (status === 5) {
-			 ifWait=true;
 			 this.setState({
 				 timeType:"结构化时间",
 			 });
-			 return option={
-				 time:1,
-				 tab:5,
-				 ifWait:ifWait,
+			 if(isCheck) {
+				 return option = {
+					 time: 1,
+					 tab: 5,
+				 }
+			 }else{
+				 return option = {
+					 time: 0,
+					 tab: 4,
+				 }
 			 }
 		 }
 	 };
@@ -493,50 +643,68 @@ class  Check extends React.Component {
 	};
 
 	//get table dataSource
-	// checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
-	getTableList=(tabStatus,page,time,ifWait)=>{
+	getTableList=(tabStatus,page,time)=>{
 		let params = {
 			status: tabStatus,
 			num:10,
 			page: page,
 			checkType:time,
 		};
-		getCheckList(params).then(res => {
-			if (res.data.code === 200) {
-				// this.loading = false;
-				let data=res.data.data.result || {};
-				if(data.list){
-					let _list=data.list;
-					_list.map((item)=>{
-						let _temp=[];
-						_temp.push(item.status);
-						item.status=_temp;
-					});
-					this.setState({
-						tableList:_list,
-						total:res.data.data.result.total,
-						status:tabStatus,
-					});
-					if(ifWait){
+		if(isCheck){
+			getCheckList(params).then(res => {
+				if (res.data.code === 200) {
+					// this.loading = false;
+					let data=res.data.data.result || {};
+					if(data.list){
+						let _list=data.list;
+						_list.map((item)=>{
+							let _temp=[];
+							_temp.push(item.status);
+							item.status=_temp;
+						});
 						this.setState({
-							waitNum:res.data.total,
+							tableList:_list,
+							total:res.data.data.result.total,
+							status:tabStatus,
+							waitNum:res.data.waitConfirmedNum,
 						});
 					}
-
+					else{
+						let _total=0;
+						this.setState({
+							tableList:[],
+							total:_total,
+							status:tabStatus,
+						});
+					}
+				} else {
+					message.error(res.data.message);
 				}
-				else{
-					let _total=0;
-					this.setState({
-						tableList:[],
-						total:_total,
-						status:tabStatus,
-					});
+			});
+		}else{
+			adminStructuredList(params).then(res => {
+				// this.loading = false;
+				if (res.data.code === 200) {
+					if (res.data.data.result) {
+						let _list=res.data.data.result.list;
+						_list.map((item)=>{
+							let _temp=[];
+							_temp.push(item.status);
+							item.status=_temp;
+						});
+						this.setState({
+							tableList:_list,
+							total:res.data.data.result.total,
+							checkErrorNum:res.data.data.checkErrorNum,
+							editNum:res.data.data.alreadyEditedNum,
+						});
+					}
+				} else {
+					message.error(res.data.message);
 				}
+			});
+		}
 
-			} else {
-				message.error(res.data.message);
-			}
-		});
 	};
 
 
@@ -622,7 +790,7 @@ class  Check extends React.Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const {tableList,personnelList,waitNum,timeType,total,page}=this.state;
+		const {tableList,personnelList,waitNum,checkErrorNum,editNum,timeType,total,page}=this.state;
 		const paginationProps = {
 			current: page,
 			showQuickJumper:true,
@@ -704,7 +872,7 @@ class  Check extends React.Component {
 						<Tabs defaultActiveKey="0" onChange={this.changeTab}>
 							<TabPane tab="全部" key="0" >
 								<Table rowClassName="table-list"
-											 columns={columnsStructure}
+											 columns={isCheck ? columnsStructure : columnsAdmin}
 											 dataSource={tableList}
 											 style={{margin:10}}
 											 rowKey={record => record.id}
@@ -713,9 +881,9 @@ class  Check extends React.Component {
 								/>
 
 							</TabPane>
-							<TabPane tab="未检查" key="1">
+							<TabPane tab={isCheck ? "未检查" : "未标记" } key="1">
 								<Table rowClassName="table-list"
-											 columns={columnsStructure}
+											 columns={isCheck ? columnsStructure : columnsAdmin}
 											 dataSource={tableList}
 											 style={{margin:10,}}
 											 rowKey={record => record.id}
@@ -724,7 +892,7 @@ class  Check extends React.Component {
 								/>
 
 							</TabPane>
-							<TabPane tab="检查无误" key="2">
+							<TabPane tab={isCheck ? "检查无误" : "未检查" } key="2">
 								<Table rowClassName="table-list"
 											 columns={columnsCheck}
 											 dataSource={tableList}
@@ -734,7 +902,7 @@ class  Check extends React.Component {
 											 onChange={this.onTablePageChange}
 								/>
 							</TabPane>
-							<TabPane tab="检查错误" key="3">
+							<TabPane tab={isCheck ? "检查错误" : "检查无误" } key="3">
 								<Table rowClassName="table-list"
 											 columns={columnsCheck}
 											 dataSource={tableList}
@@ -744,9 +912,14 @@ class  Check extends React.Component {
 											 onChange={this.onTablePageChange}
 								/>
 							</TabPane>
-							<TabPane tab="已修改" key="4">
+							<TabPane tab={isCheck
+														?
+														"已修改"
+														:
+														<span>检查错误<span style={{color:'red',marginLeft:2}}>({checkErrorNum})</span></span>}
+											 key="4">
 								<Table rowClassName="table-list"
-											 columns={columnsRevise}
+											 columns={isCheck ? columnsRevise : columnsCheck}
 											 dataSource={tableList}
 											 style={{margin:10}}
 											 rowKey={record => record.id}
@@ -754,7 +927,9 @@ class  Check extends React.Component {
 											 onChange={this.onTablePageChange}
 								/>
 							</TabPane>
-							<TabPane tab={<span>待确认<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>}
+							<TabPane tab={isCheck ? <span>待确认<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>
+														:<span>已修改<span style={{color:'red',marginLeft:2}}>({editNum})</span></span>
+														}
 											 key="5">
 								<Table rowClassName="table-list"
 											 columns={columnsStructure}
