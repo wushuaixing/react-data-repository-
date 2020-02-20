@@ -617,7 +617,6 @@ class  Check extends React.Component {
 			page: pagination.current,
 		});
 		const option=this.setTimeType(status);
-		console.log(option);
 		this.getTableList(option.tab,page,option.time,option.ifwait);
 	};
 

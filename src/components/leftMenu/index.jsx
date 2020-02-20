@@ -6,16 +6,16 @@ import {Link,withRouter} from "react-router-dom";
 
 let storage = window.localStorage;
 const menuRoute= {
-  7: "/index",
-  18: "/index/check",
-  8: "/index",
-  15: "/index",
-  20: "/index",
-  17: "/index/documentSearch",
-  16: "/index/documentSearch",
-  9: "/index/documentSearch",
-  21:"/index/syncMonitor",
-  22:"/index/structureMonitor",
+  7: "/index", //结构化账号
+  18: "/index/checkUser",//检查账号
+  8: "/index",//
+  15: "/index",//
+  20: "/index",//
+  17: "/index/documentSearch",//
+  16: "/index/documentSearch",//文书搜索（管理员）
+  9: "/index/documentSearch",//
+  21:"/index/syncMonitor",//抓取与同步监控
+  22:"/index/structureMonitor",//结构化情况监控
 };
 
 class Sider extends React.Component {

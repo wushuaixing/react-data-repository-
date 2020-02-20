@@ -71,6 +71,26 @@ export const userEdit=(id, user)=> {
 	return axios.post("/api/asset/admin/" + id + "/userEdit", user);
 };
 
+//重置密码
+export const userReset=(id)=> {
+	return axios.post("/api/asset/admin/" + id + "/userReset");
+};
+
+//账号删除(针对正常账号)
+export function userRemove(id) {
+	return axios.post("/api/asset/admin/" + id + "/userRemove");
+}
+
+//删除检查账号
+export function userRemoveCheck(id) {
+	return axios.get("/api/asset/admin/check/userRemove/" + id);
+}
+
+//账号移除(针对已删除账号)
+export const userDelete=(id)=> {
+	return axios.post("/api/asset/admin/" + id + "/userDelete");
+};
+
 //结构化人员列表
 export const getStructuredPersonnel=(name)=> {
 	return axios.get("/api/asset/inspector/control/getStructuredPersonnel", name);
