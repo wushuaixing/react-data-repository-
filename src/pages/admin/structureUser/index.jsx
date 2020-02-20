@@ -3,7 +3,7 @@ import React from 'react';
 import {Tabs, Table, } from "antd";
 import { userCreate, userView, userEdit,userReset,userRemove,userDelete} from "../../../server/api";
 import { message } from 'antd';
-import AccountModal from "./accountModal";
+import AccountModal from "./structureAccountModal";
 import SearchAccount from "./search";
 import 'antd/dist/antd.css';
 import './style.scss';
@@ -142,7 +142,6 @@ class AccountManage extends React.Component {
 
 	//重置密码
 	resetPassword(id) {
-		const {isEnabledUser,searchRole,searchUser}=this.state;
 		userReset(id).then(res => {
 			if (res.data.code === 200) {
 				message.info("重置密码成功");
@@ -150,7 +149,6 @@ class AccountManage extends React.Component {
 				message.error(res.data.message);
 			}
 		});
-		this.getTableList(isEnabledUser,1,searchRole,searchUser);
 	};
 
 	//删除账号
@@ -159,11 +157,11 @@ class AccountManage extends React.Component {
 		userRemove(id).then(res => {
 			if (res.data.code === 200) {
 				message.info("删除成功");
+				this.getTableList(isEnabledUser,1,searchRole,searchUser);
 			} else {
 				message.error(res.data.message);
 			}
 		});
-		this.getTableList(isEnabledUser,1,searchRole,searchUser);
 	};
 
 	//已删除账号移除操作
@@ -172,11 +170,11 @@ class AccountManage extends React.Component {
 		userDelete(id).then(res => {
 			if (res.data.code === 200) {
 				this.$Message.info("删除成功");
+				this.getTableList(isEnabledUser,1,searchRole,searchUser);
 			} else {
 				this.$Message.error(res.data.message);
 			}
 		});
-		this.getTableList(isEnabledUser,1,searchRole,searchUser);
 	};
 
   //get table dataSource

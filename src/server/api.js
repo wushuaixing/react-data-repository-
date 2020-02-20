@@ -81,20 +81,46 @@ export function userRemove(id) {
 	return axios.post("/api/asset/admin/" + id + "/userRemove");
 }
 
-//删除检查账号
-export function userRemoveCheck(id) {
-	return axios.get("/api/asset/admin/check/userRemove/" + id);
-}
-
 //账号移除(针对已删除账号)
 export const userDelete=(id)=> {
 	return axios.post("/api/asset/admin/" + id + "/userDelete");
 };
 
-//结构化人员列表
-export const getStructuredPersonnel=(name)=> {
-	return axios.get("/api/asset/inspector/control/getStructuredPersonnel", name);
+//检查账号列表查询
+export const getCheckListCheck=(params)=> {
+	let urlPlus = "";
+	for (let key in params) {
+		urlPlus = urlPlus + key + "=" + params[key] + "&";
+	}
+	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
+	return axios.get("/api/asset/admin/check/getCheckList?" + urlPlus);
 };
+
+//检查账号添加
+export const userCreateCheck=(user)=> {
+	return axios.post("/api/asset/admin/check/userCreate", user);
+};
+
+//检查账号编辑
+export const userEditCheck=(id, user)=> {
+	let params = {
+		mobile: user.mobile,
+		name: user.name
+	};
+	return axios.post("/api/asset/admin/check/userEdit/" + id, params);
+};
+
+//重置检查账号密码
+export const userResetCheck=(id)=> {
+	return axios.get("/api/asset/admin/check/userReset/" + id);
+};
+
+//删除检查账号
+export const userRemoveCheck=(id)=> {
+	return axios.get("/api/asset/admin/check/userRemove/" + id);
+};
+
+
 //////////////////////////////
 //结构化人员-资产结构化数据接口//
 /////////////////////////////
@@ -142,6 +168,12 @@ export const getCheckList=(params)=> {
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 	return axios.get("/api/asset/inspector/control/getCheckList?" + urlPlus);
 };
+
+//结构化人员列表
+export const getStructuredPersonnel=(name)=> {
+	return axios.get("/api/asset/inspector/control/getStructuredPersonnel", name);
+};
+
 
 //结构化确认
 export const beConfirmed=(id)=> {
