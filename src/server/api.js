@@ -66,6 +66,11 @@ export const userCreate=(user)=> {
 	return axios.post("/api/asset/admin/userCreate", user);
 };
 
+//编辑账号
+export const userEdit=(id, user)=> {
+	return axios.post("/api/asset/admin/" + id + "/userEdit", user);
+};
+
 //结构化人员列表
 export const getStructuredPersonnel=(name)=> {
 	return axios.get("/api/asset/inspector/control/getStructuredPersonnel", name);
@@ -119,24 +124,24 @@ export const getCheckList=(params)=> {
 };
 
 //结构化确认
-export function beConfirmed(id) {
+export const beConfirmed=(id)=> {
 	return axios.get("/api/asset/inspector/control/beConfirmed/" + id);
-}
+};
 
 //修改错误原因
-export function changeWrongType(id,params) {
+export const changeWrongType=(id,params)=> {
 	return axios.post("/api/asset/inspector/control/updateErrorReason/"+id,params);
-}
+};
 
 //检查确认
-export function inspectorCheck(params) {
+export const inspectorCheck=(params)=> {
 	return axios.post("/api/asset/inspector/control/inspectorCheck", params);
-}
+};
 ////////////
 //文书搜索//
 //////////
 //文书搜索
-export function wenshuSearch(params) {
+export const wenshuSearch=(params)=> {
 	let urlPlus = "";
 	for (let key in params) {
 		urlPlus = urlPlus + key + "=" + params[key] + "&";
@@ -144,10 +149,10 @@ export function wenshuSearch(params) {
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 
 	return axios.get("/api/asset/wenshu/search?" + urlPlus);
-}
+};
 
 //文书搜索详情
-export function wenshuDetail(id) {
+export const wenshuDetail=(id)=> {
 	return axios.get("/api/asset/structured/control/wenshu/detail/" + id);
-}
+};
 

@@ -1,39 +1,33 @@
-.add-user-modal {
-  width:387px;
-  padding: 4px 25px 25px 15px;
-  .part {
-    margin-bottom: 18px;
-    position: relative;
-    label{
+.search-line {
+  text-align: left;
+  margin: 4px 0 14px 0;
+  > div {
+    display: inline-block;
+  }
+  .search {
+    width: 240px;
+    margin-right: 20px;
+    .ant-input-suffix{
+      width: 18px;
+      height:18px;
+    }
+  }
+  .character {
+    > p {
       display: inline-block;
-      width: 42px;
-    }
-
-    .error {
-      position: absolute;
-      left: 47px;
-      top: 32px;
-      color: red;
+      width: 36px;
+      font-size: 14px;
+      color: #293038;
+      letter-spacing: 0;
+      line-height: 12px;
     }
   }
-  .structured {
-    position: relative;
-    margin-top: 12px;
-    border: 1px solid #e2e4e9;
-    border-radius: 2px;
-    padding: 20px 17px;
-    .structured-dataType {
-      margin-top: 16px;
-    }
-  }
-  .footer {
-    margin-top: 30px;
-    text-align: center;
-    > button {
-      width: 120px;
-      height: 36px;
-      margin-left: 10px;
-      margin-right: 10px;
-    }
+  > button {
+    float: right;
   }
 }
+.table-list{
+  width:90%;
+  font-size: 12px;
+}
+
