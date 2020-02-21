@@ -20,7 +20,6 @@ class  WsDetail extends React.Component {
 			wenshuUrl:[],
 			strucStyle:'',
 			checkStyle:'none',
-
 			wsAttach:true,
 		};
   }
@@ -34,7 +33,7 @@ class  WsDetail extends React.Component {
 				checkStyle:'',
 			});
 		}
-		const { num, url, ifWs, attach,wsStyle }=nextProps;
+		const { num, url, ifWs, attach }=nextProps;
 		if(ifWs===1){
 			this.setState({
 				wsStyle:'none',
@@ -44,6 +43,27 @@ class  WsDetail extends React.Component {
 			this.setState({
 				wsStyle:'',
 			});
+		}
+		console.log(url.length);
+		if(num.length===0){
+			let ws = clone(num);
+			ws.splice(1, 0, {
+				id: new Date().getTime(),
+				value: ""
+			});
+			this.setState({
+				wenshuNum:ws,
+			})
+		}
+		if(url.length===0){
+			let ws = clone(url);
+			ws.splice(1, 0, {
+				id: new Date().getTime(),
+				value: ""
+			});
+			this.setState({
+				wenshuUrl:ws,
+			})
 		}
 		this.setState({
 			wenshuNum: num,
@@ -60,9 +80,10 @@ class  WsDetail extends React.Component {
 
 	};
   //文书案号
-	getWenshuNum=e=>{
+	getWenshuNum=(index,value)=>{
+		console.log(index,value);
 		let temp=[];
-		temp.push(e.target.value);
+		temp.push(value);
 		this.props.fnChanged(temp,'num');
 	};
 
@@ -76,51 +97,76 @@ class  WsDetail extends React.Component {
 	//详情见附件
 	onChangeAttach=e=>{
 			console.log(e.target.checked,'attach');
+		this.props.fnChanged(e.target.checked,'attach');
 	};
 
 	//添加文书号
 	addWS=(index) =>{
-		let temp=this.state.wenshuNum;
+		console.log(index,'index');
+		const {wenshuNum}=this.state;
+		let temp=wenshuNum;
 		if (temp.length < 3) {
 			let ws = clone(temp);
 			ws.splice(index + 1, 0, {
 				id: new Date().getTime(),
 				value: ""
 			});
+			this.props.fnChanged(ws,'addNum');
 		}
 	};
 	//添加文书链接地址
 	addWSUrl=(index) =>{
-		const temp=this.state.wenshuUrl;
+		const {wenshuUrl}=this.state;
+		const temp=wenshuUrl;
 		if (temp.length < 3) {
 			let ws = clone(temp);
 			ws.splice(index + 1, 0, {
 				id: new Date().getTime(),
 				value: ""
 			});
+			this.props.fnChanged(ws,'addUrl');
 		}
 	};
 	//删除文书号
 	deleteWS=(index) =>{
-		let temp=this.state.wenshuNum;
+		const {wenshuNum}=this.state;
+		let temp=wenshuNum;
 		temp.splice(index,1);
+		this.props.fnChanged(temp,'deleteNum');
 	};
 	//删除文书链接地址
 	deleteWSUrl=(index)=> {
 		let temp=this.state.wenshuUrl;
 		temp.splice(index,1);
+		this.props.fnChanged(temp,'deleteUrl');
+	};
+
+	initialInput=(array)=>{
+		if(array.length===0){
+			let ws = clone(array);
+			ws.splice(1, 0, {
+				id: new Date().getTime(),
+				value: ""
+			});
+			return ws
+		}else{
+			return array
+		}
 	};
 
 //待标记--》详情页
   render() {
 		const { wenshuNum, wenshuUrl, wsAttach,valueWenshu }=this.state;
 		const { strucStyle,checkStyle,wsStyle}=this.state;
+
+		let ah=this.initialInput(wenshuNum);
+		let url=this.initialInput(wenshuUrl);
+
 		let disabled=false;
 		if(role !== "结构化人员"){
 			disabled=true;
 		}
 		return(
-
 							<div style={{height:200}}>
 								<div className="yc-part-title">
 									<p>文书信息</p>
@@ -153,63 +199,42 @@ class  WsDetail extends React.Component {
 												:<p style={{fontSize:14,marginLeft:4}}>--</p>}
 										</div>
 										<div className="range" style={{display:strucStyle}}>
-											{wenshuNum.length>0
-												? wenshuNum.map((item,index)=>{
+											{ah && ah.map((item,index)=>{
 													return(
 														<div className="range-item" key={item.id}>
 															<Input placeholder="请输入相关文书案号"
 																		 style={{width:225,margin:5}}
-																		 value={item.value}
+																		 defaultValue={item.value}
 																		 onChange={this.getWenshuNum.bind(this,index)}
 																		 key={index}
 															/>
 															<img
 																className="delete-img"
 																src={deleteIcon}
-																onClick={()=>this.deleteWS.bind(this,index)}
+																onClick={()=>this.deleteWS(index)}
 																alt=""
 															/>
 															<img
 																className="add-img"
 																src={addIcon}
-																onClick={()=>this.addWS.bind(this,index)}
+																onClick={()=>this.addWS(index)}
 																alt=""
 															/>
 														</div>
 													)
-												})
-												:<div className="range-item">
-													<Input placeholder="请输入相关文书案号"
-																 style={{width:225,margin:5}}
-																 onChange={this.getWenshuNum.bind(this.index)}
-													/>
-													<img
-														className="delete-img"
-														src={deleteIcon}
-														onClick={()=>this.deleteWS.bind(this,0)}
-														alt=""
-													/>
-													<img
-														className="add-img"
-														src={addIcon}
-														onClick={()=>this.addWS.bind(this,0)}
-														alt=""
-													/>
-												</div>}
-
-
+												})}
 										</div>
 									</div>
 									<div style={{display:wsStyle}}>
 										<p style={{float:'left'}}>文书链接地址:</p>
 										<div className="range" style={{display:strucStyle}}>
-										{ wenshuUrl && wenshuUrl.map((item,index)=>{
+										{ url && url.map((item,index)=>{
 											return(
 												<div key={item.id} className="range-item" >
 													<Input
 														     placeholder="请输入文书链接地址"
 																 style={{width:225,margin:5,display:'inline-block'}}
-																 value={item.url}
+																 defaultValue={item.url}
 																 onChange={this.getWenshuUrl}
 																 key={index}
 													/>
@@ -235,7 +260,7 @@ class  WsDetail extends React.Component {
 												? wenshuUrl.map((item)=>{
 													return(
 														<div className="range-item" key={item.id} style={{display:'inline-block'}}>
-															<p style={{marginLeft:5,fontSize:12,}}>{item}</p>
+															<p style={{marginLeft:5,fontSize:12,}}>{item.url}</p>
 														</div>)
 												})
 												:<p style={{fontSize:14,marginLeft:4}}>--</p>}

@@ -33,7 +33,6 @@ class  StructureDetail extends React.Component {
       dataTotal:50,
 			buttonText:'保存',
 			buttonStyle:{backgroundColor:'#0099CC', color:'white'},
-			isCheck:'',
 			errorReason:[],
 			recordsForCheck:[],
 			checkedCollateral:true,
@@ -68,7 +67,6 @@ class  StructureDetail extends React.Component {
 				sure:'none',
 				checkTrue:'none',
 				editReason:'none',
-				isCheck:'',
 			});
 			if (_status === 0) {
 				this.setState({
@@ -94,7 +92,6 @@ class  StructureDetail extends React.Component {
 			this.setState({
 				needWrongReason:true,
 				needRecord:true,
-				isCheck:'none',
 				buttonStyle: {display:'none'},
 			});
 			//检查／管理员数据详情
@@ -144,7 +141,7 @@ class  StructureDetail extends React.Component {
 	setRole(list) {
 		const {obligor}=this.state;
 		this.setState({
-			obligor: list //把父组件中的--替换为子组件传递的值
+			obligor: list //把父组件中的值替换为子组件传递的值
 		},() =>{
 			// console.log(obligor);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
 		});
@@ -157,7 +154,7 @@ class  StructureDetail extends React.Component {
 			id:initData.id,
 			houseType: initData.houseType,
 			wenshuNum: initData.ah,
-			changeUrl: initData.wsUrl,
+			wenshuUrl: initData.wsUrl,
 			wsFindStatus: initData.wsFindStatus,
 			obligors:initData.obligors,
 		});
@@ -370,7 +367,7 @@ class  StructureDetail extends React.Component {
 	};
 	//检查无误
 	async checkIfTrue(){
-		const {dataStatus,dataId}=this.state;
+		const {dataId}=this.state;
 		let params = {
 			auctionExtractWrongTypes:[],
 			checkError: false,
@@ -530,6 +527,17 @@ class  StructureDetail extends React.Component {
 				ifAttach:value,
 			})
 		}
+		if(type==='addNum' || type==='deleteNum'){
+			console.log(value,'value');
+			this.setState({
+				wenshuNum:value,
+			})
+		}
+		if(type==='addUrl' || type==='deleteUrl'){
+			this.setState({
+				wenshuUrl:value,
+			})
+		}
 	};
 
 
@@ -540,11 +548,12 @@ class  StructureDetail extends React.Component {
 		const { status} = this.props.match.params;
 		const { dataMark, dataTotal, buttonText, buttonStyle,data }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach, wsStyle }=this.state;
+		console.log(wenshuNum,'wenshuNum');
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
     const { visible }=this.state;
-    let isCheck,isAdmin;
+    let isAdmin;
     let isStruct='';
     let need=needWrongReason;
 
@@ -553,7 +562,6 @@ class  StructureDetail extends React.Component {
 			if(status === "2"|| status === "1"){
 				need=false;
 			}
-			isCheck='none';
 			isStruct='none';
 
 		}else if(role==="管理员"){
