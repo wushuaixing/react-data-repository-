@@ -35,7 +35,6 @@ class  WsDetail extends React.Component {
 			});
 		}
 		const { num, url, ifWs, attach,wsStyle }=nextProps;
-		console.log(attach,'attach');
 		if(ifWs===1){
 			this.setState({
 				wsStyle:'none',

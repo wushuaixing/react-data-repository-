@@ -142,11 +142,11 @@ class  StructureDetail extends React.Component {
 	}
 	//角色信息子组件
 	setRole(list) {
-		const {obligorList}=this.state;
+		const {obligor}=this.state;
 		this.setState({
-			obligorList: list //把父组件中的parentText替换为子组件传递的值
+			obligor: list //把父组件中的--替换为子组件传递的值
 		},() =>{
-			// console.log(obligorList);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
+			// console.log(obligor);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
 		});
 	}
 	//initData
@@ -537,7 +537,6 @@ class  StructureDetail extends React.Component {
 
 //待标记--》详情页
   render() {
-  	console.log('render');
 		let storage = window.localStorage;
 		const role = storage.userState;
 		const { status} = this.props.match.params;
@@ -657,7 +656,7 @@ class  StructureDetail extends React.Component {
 								</div>
 							</div>
 							<div>
-								<RoleDetail info={obligors} list={obligorList} fn={this.setRole.bind(this)} />
+								<RoleDetail info={obligors} list={obligorList} changed={this.setRole.bind(this)} />
 							</div>
 							<div>
 								<Check visible={visible}

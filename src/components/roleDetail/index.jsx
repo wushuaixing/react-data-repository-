@@ -59,15 +59,44 @@ class  RoleDetail extends React.Component {
     });
   };
 
-  roleInfo = e =>{
+  roleInfo = (index,event) =>{
+    const {tableList}=this.state;
+    let temp=tableList;
+    let name=event.target.name;
+    let value=event.target.value;
+    if(name){
+      if(name==="name"){
+        temp[index].name=value;
+      }else if(name==="note"){
+        temp[index].notes=value;
+      }else if(name==="birthday"){
+        temp[index].birthday=value;
+      }else if(name==="number"){
+        temp[index].number=value;
+      }
+    }
 
-    console.log(e.target,'target');
 
-    // this.props.fn(e.target.value);//这个地方把值传递给了props的事件当中
+    console.log(tableList[index],'target');
+    this.props.changed(temp);//这个地方把值传递给了props的事件当中
 
   };
+  roleLabel = (index,event) => {
+    const {tableList}=this.state;
+    let temp=tableList;
+    temp[index].labelType=event;
+    this.props.changed(temp);
+  };
+  roleGender= (index,event) => {
+    const {tableList}=this.state;
+    let temp=tableList;
+    temp[index].gender=event;
+    this.props.changed(temp);
+  };
+
   deleteLine=(index)=>{
-    let temp=this.state.tableList;
+    const {tableList}=this.state;
+    let temp=tableList;
     temp.splice(index, 1);
     this.setState({
       tableList:temp,
@@ -191,9 +220,11 @@ class  RoleDetail extends React.Component {
                           :
                           <form>
                             <Input
-                              value={row.name}
+                              name="name"
+                              defaultValue={row.name}
                               placeholder="请输入名称"
                               style={{width: '100%'}}
+                              onChange={this.roleInfo.bind(this,index)}
                             />
                           </form>
                         }
@@ -202,11 +233,16 @@ class  RoleDetail extends React.Component {
                           {disabled
                             ? <p>{row.labelType ? this.changeLableType(row.labelType) : '--'}</p>
                             :
-                            <Select defaultValue={row.labelType} style={{width: '100%'}} transfer>
+                            <Select defaultValue={row.labelType}
+                                    style={{width: '100%'}}
+                                    transfer
+                                    onChange={this.roleLabel.bind(this,index)}
+                            >
                               {
                                 obligorList && obligorList.map((item) => {
                                 return (
                                   <Option
+                                    name="labelType"
                                     value={item.value}
                                     key={item.value}
                                   >
@@ -224,9 +260,12 @@ class  RoleDetail extends React.Component {
                             :
                             <form>
                               <Input
-                                value={row.number}
+                                defaultValue={row.number}
                                 placeholder="请输入证件号"
                                 style={{width: '100%'}}
+                                name="number"
+                                onChange={this.roleInfo.bind(this,index)}
+
                               />
                             </form>
                           }
@@ -237,11 +276,12 @@ class  RoleDetail extends React.Component {
                             :
                             <form>
                               <Input
-                                value={row.birthday}
+                                name="birthday"
+                                defaultValue={row.birthday}
                                 placeholder="请输入年月日"
                                 style={{width: '100%'}}
                                 onBlur={() => this.checkData(row.birthday, index)}
-                                onChange={this.roleInfo}
+                                onChange={this.roleInfo.bind(this,index)}
                               />
                             </form>
                           }
@@ -250,11 +290,16 @@ class  RoleDetail extends React.Component {
                           {disabled
                             ? <p>{row.gender ? this.changeGender(row.gender) : '--'}</p>
                             :
-                            <Select style={{width: '100%'}} defaultValue={row.gender} transfer>
+                            <Select style={{width: '100%'}}
+                                    defaultValue={row.gender}
+                                    transfer
+                                    onChange={this.roleGender.bind(this,index)}
+                            >
                               {
                                 genderList && genderList.map((item) => {
                                   return (
                                     <Option
+                                      name="gender"
                                       value={item.value}
                                       key={item.value}
                                     >
@@ -272,9 +317,12 @@ class  RoleDetail extends React.Component {
                             :
                             <form>
                               <Input
-                                value={row.notes}
+                                defaultValue={row.notes}
                                 placeholder="请输入备注信息"
                                 style={{width: '100%'}}
+                                name="note"
+                                onChange={this.roleInfo.bind(this,index)}
+
                               />
                             </form>
                           }
