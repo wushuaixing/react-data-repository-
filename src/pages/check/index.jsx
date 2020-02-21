@@ -1,6 +1,6 @@
 /** check * */
 import React from 'react';
-import {Link, withRouter} from "react-router-dom";
+import { withRouter} from "react-router-dom";
 import {Form, Tabs, Table, message} from 'antd';
 import {getCheckList,getStructuredPersonnel,adminStructuredList} from "../../server/api";
 import SearchForm from "./searchInfo";
@@ -8,7 +8,6 @@ import {Columns} from "../../static/columns";
 import 'antd/dist/antd.css';
 import '../style.scss';
 
-console.log(Columns);
 const { TabPane } = Tabs;
 const searchForm = Form.create;
 let storage = window.localStorage;
@@ -410,6 +409,7 @@ class  Check extends React.Component {
 	};
 
 	render() {
+
 		const {tableList,waitNum,checkErrorNum,editNum,timeType,total,page,status}=this.state;
 		const paginationProps = {
 			current: page,
@@ -460,7 +460,7 @@ class  Check extends React.Component {
 							</TabPane>
 							<TabPane tab={isCheck ? "检查无误" : "未检查" } key="2">
 								<Table rowClassName="table-list"
-											 columns={columnsCheck}
+											 columns={isCheck ? columnsCheck: columnsCheckAdmin}
 											 dataSource={tableList}
 											 style={{margin:10}}
 											 rowKey={record => record.id}

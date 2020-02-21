@@ -420,8 +420,6 @@ class  StructureDetail extends React.Component {
 	};
 	//检查错误弹窗按钮接口
 	handleOk=(data)=>{
-
-		console.log(data);
 		const {dataStatus,dataId}=this.state;
 
 		if(dataStatus === 5 || dataStatus === 4 || dataStatus === 1 ){
@@ -504,54 +502,72 @@ class  StructureDetail extends React.Component {
 //待标记--》详情页
   render() {
   	console.log('render');
+		let storage = window.localStorage;
+		const role = storage.userState;
 		const { status} = this.props.match.params;
 		const { dataMark, dataTotal, buttonText, buttonStyle,data }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach }=this.state;
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
-    const { isCheck }=this.state;
     const { visible }=this.state;
-    let isTrue,isErr,revise,confirm;
+    let isTrue,isErr,revise,confirm,isCheck,isAdmin;
+    let isStruct='';
     let need=needWrongReason;
-		if(status === "2"|| status === "1"){
-			need=false;
-		}
+
 		//按钮状态
-		if(status === "1" || status ==="4"){
-			isTrue='';
-			isErr='';
-			revise='none';
-			confirm='none';
-		}else if(status === "2"){
+		if(role==="检查人员"){
+			if(status === "2"|| status === "1"){
+				need=false;
+			}
+			isCheck='none';
+			isStruct='none';
+			if(status === "1" || status ==="4"){
+				isTrue='';
+				isErr='';
+				revise='none';
+				confirm='none';
+			}else if(status === "2"){
+				isTrue='none';
+				isErr='';
+				revise='none';
+				confirm='none';
+			}else if(status === "3"){
+				isTrue='';
+				isErr='none';
+				revise='';
+				confirm='none';
+			}else if(status ==="4"){
+				isTrue='';
+				isErr='';
+				revise='none';
+				confirm='';
+			}
+		}else if(role==="管理员"){
+			if(status === "-1"|| status === "1"){
+				need=false;
+			}
+			isStruct='none';
+			isAdmin='none';
 			isTrue='none';
-			isErr='';
-			revise='none';
-			confirm='none';
-		}else if(status === "3"){
-			isTrue='';
 			isErr='none';
-			revise='';
-			confirm='none';
-		}else if(status ==="4"){
-			isTrue='';
-			isErr='';
 			revise='none';
-			confirm='';
+			confirm='none';
 		}
+
 
 			return(
 					<div>
             <div className="yc-detail-title">
               <div style={{ margin:4, fontSize:16, color:'#293038' }}>{needRecord ? "资产结构化/检查" : "资产结构化/详情"}</div>
-              <div className="yc-button-goback" style={{display:isCheck}} >
+              <div className="yc-button-goback" style={{display:isStruct}} >
                 <p>{ dataMark}/{ dataTotal }</p>
-                <Button type="default" onClick={this.goBack} ><Icon type="left" />返回上一条</Button>
+                <Button type="default" onClick={this.goBack}><Icon type="left" />返回上一条</Button>
               </div>
             </div>
 						<div className="yc-detail-content">
 							<div className="yc-action">
-								<Checkbox>仅标记本条</Checkbox>
+								<Checkbox style={{display:isAdmin}}>仅标记本条</Checkbox>
 								<Button style={buttonStyle}
 												onClick={this.toSave}
 								>{buttonText}

@@ -61,10 +61,11 @@ class  StructureRecord extends React.Component {
 
   render() {
     const { strucRecords }=this.state;
-    // console.log(strucRecords);
     let _strucRecords=[];
     if(strucRecords.length>10){
       _strucRecords=strucRecords.slice(0,9)
+    }else{
+      _strucRecords=strucRecords;
     }
         return(
           <div>

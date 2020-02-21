@@ -33,7 +33,7 @@ class  Index extends React.Component {
                 <div className="left-menu">
                   <LeftMenu role={role} />
                 </div>
-                <div className="right-content" style={{marginLeft:180, marginTop:-1600}}>
+                <div className="right-content" style={{marginLeft:180, marginTop:-2000}}>
                     {/*<Route path="/index" exact component={AccountManage} />
                     <Route path="/index/check" component={CheckList} />*/}
                   {str && <StructureRoute />}

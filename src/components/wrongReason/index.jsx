@@ -40,17 +40,18 @@ class  WrongReason extends React.Component {
         const role = storage.userState;
         const { errorList }=this.state;
         let reasonStruc,reasonCheck,reasonAdmin;
+        let need=false;
         if(role === "结构化人员"){
           reasonStruc=errorList;
+          need=true;
         }
         if(role === "检查人员"){
           reasonCheck=errorList;
-
         }
         if(role === "管理员"){
           reasonAdmin=errorList;
-
         }
+        console.log(need);
 
     return(
           <div>
@@ -73,11 +74,11 @@ class  WrongReason extends React.Component {
                         <div key={index}>
                           <div>
                             <p className="yc-sec-title">错误等级:</p>
-                            <p className="yc-error">{item.errorLevel && this.filterLevel(item.errorLevel)}</p>
+                            <p className="yc-error">{item.errorLevel ? this.filterLevel(item.errorLevel) :'--'}</p>
                           </div>
                           <div>
                             <p className="yc-sec-title">错误详情:</p>
-                            <p className="yc-error">{item && item.desc}</p>
+                            <p className="yc-error">{item ? item.desc :'--'}</p>
                           </div>
                         </div>)
                     })
@@ -99,11 +100,11 @@ class  WrongReason extends React.Component {
                       </div>
                       <div>
                         <p className="yc-sec-title">错误等级:</p>
-                        <p className="yc-error">{item.errorLevel && this.filterLevel(item.errorLevel)}</p>
+                        <p className="yc-error">{item.errorLevel ? this.filterLevel(item.errorLevel) :'--'}</p>
                       </div>
                       <div>
                         <p className="yc-sec-title">错误详情:</p>
-                        <p className="yc-error">{item.desc && item.desc}</p>
+                        <p className="yc-error">{item.desc ? item.desc :'--'}</p>
                       </div>
                     </div>)
                   })
