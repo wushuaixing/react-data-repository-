@@ -359,14 +359,6 @@ class  StructureDetail extends React.Component {
 		});
 	};
 
-	addRemark(data) {
-		const {remark}=this.state;
-		let _remark = remark+ data+"\n";
-		this.setState({
-			remark:_remark,
-		});
-	};
-
 	//待确认--确认接口
 	sure=()=> {
 		beConfirmed(this.$route.params.id).then(res => {

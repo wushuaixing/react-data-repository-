@@ -1,13 +1,12 @@
 /** check * */
 import React from 'react';
-import {Form, Input, Button, DatePicker, Tabs, Table, Badge, Select, message} from 'antd';
-import {getCheckList,getStructuredPersonnel,adminStructuredList} from "../../server/api";
 import {Link, withRouter} from "react-router-dom";
+import {Form, Button, Tabs, Table, Badge, message} from 'antd';
+import {getCheckList,getStructuredPersonnel,adminStructuredList} from "../../server/api";
+import SearchForm from "./searchInfo";
 import 'antd/dist/antd.css';
 import '../style.scss';
 
-const { TabPane } = Tabs;
-const { Option, OptGroup } = Select;
 const searchForm = Form.create;
 let storage = window.localStorage;
 const role = storage.userState;
@@ -480,13 +479,23 @@ class  Check extends React.Component {
 			waitNum:0,
 			editNmu:0,
 			checkErrorNum:0,
-			status:'',
+			status:0,
 			personnelList:[],
 			timeType:"结构化时间",
 		};
 	}
 
 	componentDidMount() {
+		const {status}=this.state;
+		const option=this.setTimeType(status);
+		let params = {
+			status: option.tab,
+			num:10,
+			page: 1,
+			checkType:option.time,
+		};
+		this.getTableList(params);
+
 		getStructuredPersonnel("").then(res => {
 			if (res.data.code === 200) {
 				let id = res.data.data[0]["firstNameRank"];
@@ -536,52 +545,62 @@ class  Check extends React.Component {
 				message.error(res.data.message);
 			}
 		});
-		this.getTableList(0,1,1);
+
+
 	};
 	//根据status传不同时间类型
 	// checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
 	setTimeType=(status)=>{
  	 	let option={};
 		 if (status === 0) {
-			 this.setState({
-				 timeType:"结构化时间",
-			 });
 			 if(isCheck) {
+				 this.setState({
+					 timeType:"结构化时间",
+				 });
 				 return option = {
 					 time: 1,
 					 tab: 0,
 				 }
 			 }else{
+				 this.setState({
+					 timeType:"抓取时间",
+				 });
 				 return option = {
 					 time: 3,
 					 tab: 0,
 				 }
 			 }
 		 } else if (status === 1) {
-			 this.setState({
-				 timeType:"结构化时间",
-			 });
 			 if(isCheck){
+				 this.setState({
+					 timeType:"结构化时间",
+				 });
 				 return option={
 					 time:1,
 					 tab:1,
 				 }
 			 }else{
+				 this.setState({
+					 timeType:"抓取时间",
+				 });
 				 return option = {
 					 time: 3,
 					 tab: 6,
 				 }
 			 }
 		 } else if (status === 2) {
-			 this.setState({
-				 timeType:"检查时间",
-			 });
 			 if(isCheck) {
+				 this.setState({
+					 timeType:"检查时间",
+				 });
 				 return option = {
 					 time: 2,
 					 tab: 2,
 				 }
 			 }else{
+				 this.setState({
+					 timeType:"结构化时间",
+				 });
 				 return option={
 					 time:1,
 					 tab:1,
@@ -603,30 +622,36 @@ class  Check extends React.Component {
 				 }
 			 }
 		 }else if (status === 4) {
-			 this.setState({
-				 timeType:"修改时间",
-			 });
 			 if(isCheck) {
+				 this.setState({
+					 timeType:"修改时间",
+				 });
 				 return option = {
 					 time: 0,
 					 tab: 4,
 				 }
 			 }else{
+				 this.setState({
+					 timeType:"检查时间",
+				 });
 				 return option = {
 					 time: 2,
 					 tab: 3,
 				 }
 			 }
 		 }else if (status === 5) {
-			 this.setState({
-				 timeType:"结构化时间",
-			 });
 			 if(isCheck) {
+				 this.setState({
+					 timeType:"结构化时间",
+				 });
 				 return option = {
 					 time: 1,
 					 tab: 5,
 				 }
 			 }else{
+				 this.setState({
+					 timeType:"修改时间",
+				 });
 				 return option = {
 					 time: 0,
 					 tab: 4,
@@ -634,22 +659,26 @@ class  Check extends React.Component {
 			 }
 		 }
 	 };
+
 	//切换Tab
 	changeTab=(key)=>{
-		console.log();
 		const _key=parseInt(key);
+		this.setState({
+			status:_key,
+		});
 		const option=this.setTimeType(_key);
-		this.getTableList(option.tab,1,option.time,option.ifwait);
+		let params = {
+			status: option.tab,
+			num:10,
+			page: 1,
+			checkType:option.time,
+		};
+		this.getTableList(params);
 	};
 
 	//get table dataSource
-	getTableList=(tabStatus,page,time)=>{
-		let params = {
-			status: tabStatus,
-			num:10,
-			page: page,
-			checkType:time,
-		};
+	getTableList=(params)=>{
+		let tabStatus=params.status;
 		if(isCheck){
 			getCheckList(params).then(res => {
 				if (res.data.code === 200) {
@@ -724,58 +753,50 @@ class  Check extends React.Component {
 	};
 
 	// 搜索框
-	handleSearch = e => {
-		e.preventDefault();
+	handleSearch = data => {
 		const {status}=this.state;
-		const searchTitle=this.props.form.getFieldValue('title');
-		const startTime=this.dataFilter(this.props.form.getFieldValue('start'));
-		const endTime=this.dataFilter(this.props.form.getFieldValue('end'));
-		const personnel=this.props.form.getFieldValue('personnel');
-
-		let params={
-			approveStatus: status,
-			title: searchTitle,
-			page: 1,
-			num: 10,
-			startTime:startTime,
-			endTime:endTime,
-
-		};
-		if(personnel){
-			params.userId=personnel;
-		}
+		let params=data;
 		const option= this.setTimeType(status);
 		params.checkType=option.time;
+		if(isCheck){
+			this.getTableList(params);
+			// getCheckList(params).then(res => {
+			// 	if (res.data.code === 200) {
+			// 		// this.loading = false;
+			// 		if(res.data.data.result !== null) {
+			// 			let _list = res.data.data.result.list;
+			// 			_list.map((item) => {
+			// 				let _temp = [];
+			// 				_temp.push(item.status);
+			// 				item.status = _temp;
+			// 			});
+			// 			this.setState({
+			// 				tableList: _list,
+			// 				total: res.data.total,
+			// 			});
+			// 		}
+			// 	} else {
+			// 		message.error(res.data.message);
+			// 	}
+			// });
+		}
+		else{
+			this.getTableList(params);
+		}
 
-		getCheckList(params).then(res => {
-			if (res.data.code === 200) {
-				// this.loading = false;
-				if(res.data.data.result !== null) {
-					let _list = res.data.data.result.list;
-					_list.map((item) => {
-						let _temp = [];
-						_temp.push(item.status);
-						item.status = _temp;
-					});
-					this.setState({
-						tableList: _list,
-						total: res.data.total,
-					});
-				}
-			} else {
-				message.error(res.data.message);
-			}
-		});
 	};
 
 	//清空搜索条件
 	clearSearch=()=>{
-		this.props.form.resetFields();
 		const {status}=this.state;
 		const option=this.setTimeType(status);
-		let checkType=option.time;
-
-		this.getTableList(status,1,checkType);
+		let params = {
+			status: option.tab,
+			num:10,
+			page: 1,
+			checkType:option.time,
+		};
+		this.getTableList(params);
 	};
 
 	//换页
@@ -785,12 +806,18 @@ class  Check extends React.Component {
 			page: pagination.current,
 		});
 		const option=this.setTimeType(status);
-		this.getTableList(option.tab,page,option.time,option.ifwait);
+		let params = {
+			status: option.tab,
+			num:10,
+			page: page,
+			checkType:option.time,
+		};
+		this.getTableList(params);
 	};
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const {tableList,personnelList,waitNum,checkErrorNum,editNum,timeType,total,page}=this.state;
+		const {tableList,personnelList,waitNum,checkErrorNum,editNum,timeType,total,page,status}=this.state;
 		const paginationProps = {
 			current: page,
 			showQuickJumper:true,
@@ -807,65 +834,11 @@ class  Check extends React.Component {
 				</div>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
-						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{marginLeft:10,marginTop:15}}>
-							<Form.Item label="标题">
-								{getFieldDecorator('title', {})
-								(<Input
-									type="text"
-									size='default'
-									style={{ width: 240 }}
-								/>)}
-							</Form.Item>
-
-								<Form.Item label={timeType}>
-									{getFieldDecorator('start', {})
-									(<DatePicker
-										placeholder="开始时间"
-										style={{width:108}}
-									/>)}
-								</Form.Item>
-								<Form.Item label="至">
-									{getFieldDecorator('end', {})
-									(<DatePicker
-										placeholder="结束时间"
-										style={{width: 108}}
-									/>)}
-								</Form.Item>
-							<Form.Item label="结构化人员">
-								{getFieldDecorator('personnel', {
-								})(
-
-									<Select style={{width:198,marginLeft:4}} transfer>
-										{
-											personnelList && personnelList.map((item,index) => {
-												return (
-													<OptGroup label={item.id} key={index}>
-														{ item.array.map((ele,index)=>{
-															return(
-																<Option
-																	value={ele.value}
-																	key={index}
-																>
-																	{ele.label}
-																</Option>
-															)
-														})
-														}
-													</OptGroup>)
-											})
-										}
-									</Select>
-								)}
-							</Form.Item>
-							<Form.Item>
-								<Button type="primary" htmlType="submit" style={{backgroundColor:'#0099CC',marginLeft:15}}>
-									搜索
-								</Button>
-								<Button type="default" style={{marginLeft:5}} onClick={this.clearSearch}>
-									清空搜索条件
-								</Button>
-							</Form.Item>
-						</Form>
+						<SearchForm  status={status}
+												 timeType={timeType}
+												 toSearch={this.handleSearch.bind(this)}
+												 toClear={this.clearSearch.bind(this)}
+						/>
 					</div>
 					<p className="line"/>
 					<div className="yc-tab">

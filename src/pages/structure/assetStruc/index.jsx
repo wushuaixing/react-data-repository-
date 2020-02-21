@@ -285,6 +285,7 @@ class  Asset extends React.Component {
                       type="text"
                       size='default'
                       style={{ width: 240 }}
+											placeholder="拍卖信息标题"
                     />)}
                   </Form.Item>
 									{
@@ -308,10 +309,10 @@ class  Asset extends React.Component {
 										</Form.Item>
 									}
                   <Form.Item>
-                    <Button type="primary" htmlType="submit" style={{backgroundColor:'#0099CC',marginLeft:15}}>
+                    <Button type="primary" htmlType="submit" style={{backgroundColor:'#0099CC',marginLeft:15,fontSize:12}}>
                       搜索
                     </Button>
-                    <Button type="default" style={{marginLeft:5}} onClick={this.clearSearch}>
+                    <Button type="default" style={{marginLeft:5,fontSize:12}} onClick={this.clearSearch}>
                       清空搜索条件
                     </Button>
                   </Form.Item>

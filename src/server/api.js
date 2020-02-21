@@ -132,6 +132,15 @@ export function adminStructuredList(params) {
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 	return axios.get("/api/asset/admin/structured/structuredList?" + urlPlus);
 }
+//检查人员列表(仅管理员)
+export function getCheckPersonnel(params) {
+	let urlPlus = "";
+	for (let key in params) {
+		urlPlus = urlPlus + key + "=" + params[key] + "&";
+	}
+	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
+	return axios.get("/api/asset/inspector/control/getCheckPersonnel?" + urlPlus);
+}
 //////////////////////////////
 //结构化人员-资产结构化数据接口//
 /////////////////////////////
