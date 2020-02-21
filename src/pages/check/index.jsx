@@ -7,6 +7,7 @@ import SearchForm from "./searchInfo";
 import 'antd/dist/antd.css';
 import '../style.scss';
 
+const { TabPane } = Tabs;
 const searchForm = Form.create;
 let storage = window.localStorage;
 const role = storage.userState;
