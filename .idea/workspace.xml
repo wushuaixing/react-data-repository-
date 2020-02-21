@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="-feat:文书信息-加减操作框(initialInput)">
+    <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/wsDetail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/wsDetail/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/structure/detail/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/structure/detail/style.scss" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,22 +16,26 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="155" column="20" lean-forward="true" selection-start-line="155" selection-start-column="20" selection-end-line="155" selection-end-column="20" />
+            <state relative-caret-position="312">
+              <caret line="350" column="15" selection-start-line="350" selection-start-column="15" selection-end-line="350" selection-end-column="15" />
               <folding>
                 <element signature="n#!!doc" />
                 <element signature="e#41#67#0" expanded="true" />
+                <element signature="e#2375#2661#0" />
                 <element signature="n#!!block;n#shouldComponentUpdate#0;n#StructureDetail#0" />
                 <element signature="n#!!block;n#componentWillUpdate#0;n#StructureDetail#0" />
                 <element signature="n#!!block;n#setArea#0;n#StructureDetail#0" />
+                <element signature="e#3324#4521#0" />
+                <element signature="n#!!block;n#getStrucData#0;n#StructureDetail#0" />
                 <element signature="n#!!block;n#getDetailData#0;n#StructureDetail#0" />
-                <element signature="e#6399#7585#0" />
+                <element signature="e#5732#5741#0" />
+                <element signature="e#5725#7176#0" />
                 <element signature="e#7625#7671#0" />
                 <element signature="e#8135#8157#0" />
                 <element signature="n#!!block;n#checkTrue#0;n#StructureDetail#0" />
                 <element signature="e#8957#10732#0" />
                 <element signature="e#10886#10895#0" />
-                <marker date="1582294964000" expanded="true" signature="9922:10104" ph="..." />
+                <marker date="1582298136000" expanded="true" signature="10900:11082" ph="..." />
               </folding>
             </state>
           </provider>
@@ -42,8 +44,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/wsDetail/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="169" selection-start-line="169" selection-end-line="169" />
+            <state relative-caret-position="735">
+              <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
+              <folding>
+                <element signature="e#41#67#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/roleDetail/index.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="482">
+              <caret line="228" column="33" lean-forward="true" selection-start-line="228" selection-start-column="33" selection-end-line="228" selection-end-column="33" />
               <folding>
                 <element signature="e#41#67#0" expanded="true" />
               </folding>
@@ -98,18 +112,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../doc.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="481">
-                <caret line="3653" column="54" selection-start-line="3653" selection-start-column="10" selection-end-line="3653" selection-end-column="54" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/server/api.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3045">
@@ -141,8 +143,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>recordsForCheck</find>
-      <find>left-menu</find>
       <find>style</find>
       <find>isAdmin</find>
       <find>wsFindStatus</find>
@@ -163,7 +163,6 @@
       <find>revise</find>
       <find>changeInfo</find>
       <find>isStruct</find>
-      <find>isCheck</find>
       <find>checkTrue</find>
       <find>deleteWS</find>
       <find>getWenshuNum</find>
@@ -171,6 +170,9 @@
       <find>wenshuNum</find>
       <find>yc-wrong-detail</find>
       <find>wenshuUrl</find>
+      <find>isCheck</find>
+      <find>wsStyle</find>
+      <find>tempData</find>
     </findStrings>
     <replaceStrings>
       <replace>/page/structure</replace>
@@ -199,7 +201,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/router/config.js" />
         <option value="$PROJECT_DIR$/src/pages/App.css" />
         <option value="$PROJECT_DIR$/src/pages/structure/assetStruc/style.scss" />
         <option value="$PROJECT_DIR$/src/pages/check/style.scss" />
@@ -248,8 +249,9 @@
         <option value="$PROJECT_DIR$/src/components/roleDetail/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/structure/assetStruc/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/structure/detail/style.scss" />
-        <option value="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" />
         <option value="$PROJECT_DIR$/src/components/wsDetail/index.jsx" />
+        <option value="$PROJECT_DIR$/src/static/checkRoleLable.js" />
+        <option value="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" />
       </list>
     </option>
   </component>
@@ -303,72 +305,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="wsDetail" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="searchInfo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="home" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="structure" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="structure" type="462c0819:PsiDirectoryNode" />
-              <item name="assetStruc" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="structure" type="462c0819:PsiDirectoryNode" />
-              <item name="detail" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="structure" type="462c0819:PsiDirectoryNode" />
-              <item name="detail" type="462c0819:PsiDirectoryNode" />
-              <item name="checkModal" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="router" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
@@ -515,14 +451,7 @@
       <workItem from="1581989036344" duration="30900000" />
       <workItem from="1582075318759" duration="23565000" />
       <workItem from="1582163230234" duration="31875000" />
-      <workItem from="1582247334168" duration="33060000" />
-    </task>
-    <task id="LOCAL-00039" summary="-feat:[结构化人员]详情页数据渲染(componentWillReceiveProps)及保存">
-      <created>1581516997511</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1581516997511</updated>
+      <workItem from="1582247334168" duration="34394000" />
     </task>
     <task id="LOCAL-00040" summary="-feat:[检查人员]角色信息">
       <created>1581517969300</created>
@@ -860,14 +789,22 @@
       <option name="project" value="LOCAL" />
       <updated>1582289579732</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="-feat:文书信息-加减操作框(initialInput)">
+      <created>1582295939239</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1582295939241</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="444534000" />
+    <option name="totallyTimeSpent" value="445868000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49638554" visible="true" weight="0.17195208" />
       <window_info id="Structure" order="1" sideWeight="0.5036145" side_tool="true" weight="0.26074702" />
@@ -973,9 +910,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/pages/App.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/check/detail/index.jsx" />
     <entry file="file://$PROJECT_DIR$/src/components/checkRole/index.jsx" />
     <entry file="file://$PROJECT_DIR$/src/components/topMenu/index.jsx">
@@ -1320,16 +1254,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/roleDetail/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-320">
-          <caret line="120" column="26" lean-forward="true" selection-start-line="120" selection-start-column="26" selection-end-line="120" selection-end-column="26" />
-          <folding>
-            <element signature="e#41#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/check/searchInfo/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
@@ -1390,34 +1314,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/wsDetail/index.jsx">
+    <entry file="file://$PROJECT_DIR$/src/components/roleDetail/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="169" selection-start-line="169" selection-end-line="169" />
+        <state relative-caret-position="482">
+          <caret line="228" column="33" lean-forward="true" selection-start-line="228" selection-start-column="33" selection-end-line="228" selection-end-column="33" />
           <folding>
             <element signature="e#41#67#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/wsDetail/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
+          <folding>
+            <element signature="e#41#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/static/checkRoleLable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="29" column="13" lean-forward="true" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="155" column="20" lean-forward="true" selection-start-line="155" selection-start-column="20" selection-end-line="155" selection-end-column="20" />
+        <state relative-caret-position="312">
+          <caret line="350" column="15" selection-start-line="350" selection-start-column="15" selection-end-line="350" selection-end-column="15" />
           <folding>
             <element signature="n#!!doc" />
             <element signature="e#41#67#0" expanded="true" />
+            <element signature="e#2375#2661#0" />
             <element signature="n#!!block;n#shouldComponentUpdate#0;n#StructureDetail#0" />
             <element signature="n#!!block;n#componentWillUpdate#0;n#StructureDetail#0" />
             <element signature="n#!!block;n#setArea#0;n#StructureDetail#0" />
+            <element signature="e#3324#4521#0" />
+            <element signature="n#!!block;n#getStrucData#0;n#StructureDetail#0" />
             <element signature="n#!!block;n#getDetailData#0;n#StructureDetail#0" />
-            <element signature="e#6399#7585#0" />
+            <element signature="e#5732#5741#0" />
+            <element signature="e#5725#7176#0" />
             <element signature="e#7625#7671#0" />
             <element signature="e#8135#8157#0" />
             <element signature="n#!!block;n#checkTrue#0;n#StructureDetail#0" />
             <element signature="e#8957#10732#0" />
             <element signature="e#10886#10895#0" />
-            <marker date="1582294964000" expanded="true" signature="9922:10104" ph="..." />
+            <marker date="1582298136000" expanded="true" signature="10900:11082" ph="..." />
           </folding>
         </state>
       </provider>

@@ -96,7 +96,6 @@ class  StructureDetail extends React.Component {
 			});
 			//检查／管理员数据详情
 			this.getDetailData(Id, role);
-			//检查按钮
 
 		}
 
@@ -122,6 +121,7 @@ class  StructureDetail extends React.Component {
 		// console.log('shouldComponentUpdate');
 		return true;
 	}
+
 	componentWillUpdate(){
 		// console.log('componentWillUpdate');
 	}
@@ -263,6 +263,56 @@ class  StructureDetail extends React.Component {
 			}
 	};
 
+	//角色信息+建筑面积-保存前格式验证
+	checkRoleLable=(data)=>{
+		let failed=true;
+		//建筑面积格式
+		if(data.buildingArea){
+			let num=data.buildingArea;
+			let _num=/(^[0-9]{1,6}$)|(^[0-9]{1,6}[.]{1}[0-9]+$)/.test(num);
+			if(!_num){
+				failed=false;
+				message.error("建筑面积格式错误");
+				return failed
+			}
+		}
+		// labelType 角色： 1-资产所有人 2-债权人 3-资产线索 5竞买人
+		if(data.obligors){
+			let tempData=[];
+			data.obligors.forEach((item)=>{
+				let itemValue=Object.values(item);
+				let roleValue=itemValue.filter(_item=> _item != null && _item !== undefined && _item !== "");
+				if(roleValue.length){
+					tempData.push(item);
+				}
+			});
+			let r1 = data.obligors.filter(item=>item.labelType==="3"&& !item.notes);
+			let r2 = data.obligors.filter(item=>{
+				let res1 = item.labelType==="2";
+				let res2 = /银行|信用(联|)社/.test(item.name);
+				if(res1 && res2){
+					item.type=4;
+				} else {
+					item.type=item.labelType;
+				}
+				return res1 && !res2 && !item.notes
+			});
+			// console.log(r2)
+			if(r1.length) {
+				failed=false;
+				message.error("资产线索备注待完善");
+				return failed;
+			}
+			else if(r2.length){
+				failed=false;
+				message.error("债权人备注待完善");
+				return failed;
+			}
+		}
+
+		return failed
+	};
+
 	toSave=()=> {
 		const {id,data,wsFindStatus,ifAttach,
 			wenshuUrl,wenshuNum,obligors,
@@ -296,13 +346,9 @@ class  StructureDetail extends React.Component {
 		this.setState({
 			data:_data,
 		});
-		saveDetail(id, this.state.data).then(res => {
-			let num=this.state.data.buildingArea;
-			let _num=/(^[0-9]{1,6}$)|(^[0-9]{1,6}[.]{1}[0-9]+$)/.test(num);
-			if(!_num){
-				message.error("建筑面积格式错误");
-				return
-			}else{
+		saveDetail(id, data).then(res => {
+			const failed=this.checkRoleLable(data);
+			if(failed){
 				if (res.data.code === 200) {
 					alert('200');
 					if(this.state.buttonText === '保存并标记下一条'){
@@ -365,6 +411,7 @@ class  StructureDetail extends React.Component {
 			}
 		});
 	};
+
 	//检查无误
 	async checkIfTrue(){
 		const {dataId}=this.state;
@@ -387,6 +434,7 @@ class  StructureDetail extends React.Component {
 			message.error(res.data.message);
 		}
 	};
+
 	checkTrue() {
 		const {dataStatus,dataId}=this.state;
 		if(dataStatus === 3){
@@ -414,6 +462,7 @@ class  StructureDetail extends React.Component {
 			this.checkIfTrue();
 		}
 	};
+
 	//检查错误弹窗按钮接口
 	handleOk=(data)=>{
 		const {dataStatus,dataId}=this.state;
@@ -489,12 +538,14 @@ class  StructureDetail extends React.Component {
 				});
 			}
 	};
+
 	handleCancel = (visible) => {
 		console.log(visible);
 		this.setState({
 			visible: visible,
 		});
 	};
+
 	//文书组件返回数据
 	changeInfo=(value,type)=>{
 		console.log(type,'type');
@@ -548,7 +599,6 @@ class  StructureDetail extends React.Component {
 		const { status} = this.props.match.params;
 		const { dataMark, dataTotal, buttonText, buttonStyle,data }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach, wsStyle }=this.state;
-		console.log(wenshuNum,'wenshuNum');
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
