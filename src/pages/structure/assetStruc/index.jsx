@@ -321,7 +321,7 @@ class  Asset extends React.Component {
 							<div className="yc-tab">
 								<Tabs defaultActiveKey="1"  onChange={this.changeTab}>
 									<TabPane tab="待标记" key="1">
-										<Table className="table-list"
+										<Table rowClassName="table-list"
 													 columns={columns}
 													 dataSource={tableList}
 													 style={{margin:10,}}
@@ -331,7 +331,7 @@ class  Asset extends React.Component {
 										/>
 									</TabPane>
 									<TabPane tab="已标记" key="2">
-										<Table className="table-list"
+										<Table rowClassName="table-list"
 													 columns={columnsRevise}
 													 dataSource={tableList}
 													 style={{margin:10}}
@@ -341,7 +341,7 @@ class  Asset extends React.Component {
 										/>
 									</TabPane>
 									<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>} key="3">
-										<Table className="table-list"
+										<Table rowClassName="table-list"
 													 columns={columnsRevise}
 													 dataSource={tableList}
 													 style={{margin:10}}

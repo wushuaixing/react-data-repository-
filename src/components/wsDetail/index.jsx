@@ -126,7 +126,7 @@ class  WsDetail extends React.Component {
 									<p>文书信息</p>
 								</div>
 								<div className="yc-wrong-detail">
-								<div>
+									<div>
 										<p className="yc-sec-title">查找文书:</p>
 										<Radio.Group
 											onChange={this.onChangeRadioWenshu}
@@ -160,19 +160,19 @@ class  WsDetail extends React.Component {
 															<Input placeholder="请输入相关文书案号"
 																		 style={{width:225,margin:5}}
 																		 value={item.value}
-																		 onChange={this.getWenshuNum}
+																		 onChange={this.getWenshuNum.bind(this,index)}
 																		 key={index}
 															/>
 															<img
 																className="delete-img"
 																src={deleteIcon}
-																onClick={()=>this.deleteWS(index)}
+																onClick={()=>this.deleteWS.bind(this,index)}
 																alt=""
 															/>
 															<img
 																className="add-img"
 																src={addIcon}
-																onClick={()=>this.addWS(index)}
+																onClick={()=>this.addWS.bind(this,index)}
 																alt=""
 															/>
 														</div>
@@ -181,18 +181,18 @@ class  WsDetail extends React.Component {
 												:<div className="range-item">
 													<Input placeholder="请输入相关文书案号"
 																 style={{width:225,margin:5}}
-																 onChange={this.getWenshuNum}
+																 onChange={this.getWenshuNum.bind(this.index)}
 													/>
 													<img
 														className="delete-img"
 														src={deleteIcon}
-														onClick={()=>this.deleteWS(0)}
+														onClick={()=>this.deleteWS.bind(this,0)}
 														alt=""
 													/>
 													<img
 														className="add-img"
 														src={addIcon}
-														onClick={()=>this.addWS(0)}
+														onClick={()=>this.addWS.bind(this,0)}
 														alt=""
 													/>
 												</div>}
