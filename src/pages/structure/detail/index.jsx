@@ -49,6 +49,7 @@ class  StructureDetail extends React.Component {
 			needWrongReason:false,
 			needRecord:false,
 			visible:false,
+			wsStyle:'',
 		};
   }
 
@@ -156,7 +157,7 @@ class  StructureDetail extends React.Component {
 			id:initData.id,
 			houseType: initData.houseType,
 			wenshuNum: initData.ah,
-			wenshuUrl: initData.wsUrl,
+			changeUrl: initData.wsUrl,
 			wsFindStatus: initData.wsFindStatus,
 			obligors:initData.obligors,
 		});
@@ -499,6 +500,41 @@ class  StructureDetail extends React.Component {
 			visible: visible,
 		});
 	};
+	//文书组件返回数据
+	changeInfo=(value,type)=>{
+		console.log(type,'type');
+		if(type==='ws'){
+			if(value === 1){
+				this.setState({
+					wsStyle: 'none',
+					wsFindStatus:1,
+				});
+			}
+			if(value === 0){
+				this.setState({
+					wsStyle: '',
+					wsFindStatus:0,
+				});
+			}
+		}
+		if(type==='url'){
+			this.setState({
+				wenshuUrl:value,
+			})
+		}
+		if(type ==='num'){
+			this.setState({
+				wenshuNum:value,
+			})
+		}
+		if(type ==='attach'){
+			this.setState({
+				wenshuNum:value,
+			})
+		}
+	};
+
+
 //待标记--》详情页
   render() {
   	console.log('render');
@@ -506,7 +542,7 @@ class  StructureDetail extends React.Component {
 		const role = storage.userState;
 		const { status} = this.props.match.params;
 		const { dataMark, dataTotal, buttonText, buttonStyle,data }=this.state;
-		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach }=this.state;
+		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach, wsStyle }=this.state;
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
@@ -553,7 +589,14 @@ class  StructureDetail extends React.Component {
 			isErr='none';
 			revise='none';
 			confirm='none';
+		}else if(role==="结构化人员"){
+			isStruct='';
+			isTrue='none';
+			isErr='none';
+			revise='none';
+			confirm='none';
 		}
+
 
 
 			return(
@@ -604,7 +647,13 @@ class  StructureDetail extends React.Component {
 								<HouseDetail  collateral={checkedCollateral} house={houseType} fn={this.setArea.bind(this)} area={basic.buildingArea} />
 							</div>
 								<div className="right-part">
-								<WsDetail num={wenshuNum} url={wenshuUrl} ifWs={wsFindStatus} attach={ifAttach} />
+								<WsDetail num={wenshuNum}
+													url={wenshuUrl}
+													ifWs={wsFindStatus}
+													attach={ifAttach}
+													wsStyle={wsStyle}
+													fnChanged={this.changeInfo.bind(this)}
+								/>
 								</div>
 							</div>
 							<div>

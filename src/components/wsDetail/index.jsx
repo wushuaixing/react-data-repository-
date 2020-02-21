@@ -14,7 +14,7 @@ class  WsDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-			style:'',
+			wsStyle:'',
 			valueWenshu:0,
 			wenshuNum:[],
 			wenshuUrl:[],
@@ -34,15 +34,16 @@ class  WsDetail extends React.Component {
 				checkStyle:'',
 			});
 		}
-		const { num, url, ifWs, attach }=nextProps;
+		const { num, url, ifWs, attach,wsStyle }=nextProps;
+		console.log(attach,'attach');
 		if(ifWs===1){
 			this.setState({
-				style:'none',
+				wsStyle:'none',
 			});
 		}
 		if(ifWs===0){
 			this.setState({
-				style:'',
+				wsStyle:'',
 			});
 		}
 		this.setState({
@@ -51,42 +52,31 @@ class  WsDetail extends React.Component {
 			valueWenshu:ifWs,
 			wsAttach:attach,
 		});
-// console.log(this.state.wenshuNum.length);
 
 	}
 
 	//文书信息
 	onChangeRadioWenshu = e =>{
-		console.log('radio checked', e.target.value);
-		if(e.target.value === 1){
-			this.setState({
-				style: 'none',
-			});
-		}
-		if(e.target.value === 0){
-			this.setState({
-				style: '',
-			});
-		}
-		this.props.ifWs=e.target.value;
+  	this.props.fnChanged(e.target.value,'ws');
+
 	};
   //文书案号
 	getWenshuNum=e=>{
 		let temp=[];
 		temp.push(e.target.value);
-		// this.props.num=temp;
+		this.props.fnChanged(temp,'num');
 	};
 
 	//文书链接
 	getWenshuUrl=e=>{
 		let temp=[];
 		temp.push(e.target.value);
-		// this.props.url=temp;
+		this.props.fnChanged(temp,'url');
 	};
 
 	//详情见附件
 	onChangeAttach=e=>{
-		// this.props.attach=e.target.checked;
+			console.log(e.target.checked,'attach');
 	};
 
 	//添加文书号
@@ -98,8 +88,6 @@ class  WsDetail extends React.Component {
 				id: new Date().getTime(),
 				value: ""
 			});
-			// this.props.num=ws;
-			// this.$set(this.data, "ah", ws);
 		}
 	};
 	//添加文书链接地址
@@ -111,27 +99,23 @@ class  WsDetail extends React.Component {
 				id: new Date().getTime(),
 				value: ""
 			});
-			// this.props.url=ws;
-			// this.$set(this.data, "wsUrl", ws);
 		}
 	};
 	//删除文书号
 	deleteWS=(index) =>{
 		let temp=this.state.wenshuNum;
 		temp.splice(index,1);
-		// this.props.num=temp;
 	};
 	//删除文书链接地址
 	deleteWSUrl=(index)=> {
 		let temp=this.state.wenshuUrl;
 		temp.splice(index,1);
-		// this.props.url=temp;
 	};
 
 //待标记--》详情页
   render() {
 		const { wenshuNum, wenshuUrl, wsAttach,valueWenshu }=this.state;
-		const { strucStyle,checkStyle,style}=this.state;
+		const { strucStyle,checkStyle,wsStyle}=this.state;
 		let disabled=false;
 		if(role !== "结构化人员"){
 			disabled=true;
@@ -156,7 +140,7 @@ class  WsDetail extends React.Component {
 											<Radio value={1}>未找到文书</Radio>
 										</Radio.Group>
 									</div>
-									<div style={{display:style, }} >
+									<div style={{display:wsStyle, }} >
 										<p style={{float:'left'}}>相关文书案号:</p>
 										<div className="range" style={{display:checkStyle}}>
 											{wenshuNum.length>0
@@ -217,8 +201,7 @@ class  WsDetail extends React.Component {
 
 										</div>
 									</div>
-
-									<div style={{display:style}}>
+									<div style={{display:wsStyle}}>
 										<p style={{float:'left'}}>文书链接地址:</p>
 										<div className="range" style={{display:strucStyle}}>
 										{ wenshuUrl && wenshuUrl.map((item,index)=>{
@@ -259,8 +242,8 @@ class  WsDetail extends React.Component {
 												:<p style={{fontSize:14,marginLeft:4}}>--</p>}
 										</div>
 									</div>
-									<div style={{display:style}}>
-										<div style={{display:checkStyle}}>
+									<div style={{display:wsStyle}}>
+										<div style={{display:strucStyle}}>
 											<Checkbox
 												defaultChecked={wsAttach}
 												onChange={this.onChangeAttach}
