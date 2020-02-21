@@ -296,8 +296,6 @@ class  StructureDetail extends React.Component {
 				});
 			}
 		}
-
-
 		this.setState({
 			data:_data,
 		});
@@ -529,7 +527,7 @@ class  StructureDetail extends React.Component {
 		}
 		if(type ==='attach'){
 			this.setState({
-				wenshuNum:value,
+				ifAttach:value,
 			})
 		}
 	};
@@ -546,7 +544,7 @@ class  StructureDetail extends React.Component {
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
     const { visible }=this.state;
-    let isTrue,isErr,revise,confirm,isCheck,isAdmin;
+    let isCheck,isAdmin;
     let isStruct='';
     let need=needWrongReason;
 
@@ -557,46 +555,16 @@ class  StructureDetail extends React.Component {
 			}
 			isCheck='none';
 			isStruct='none';
-			if(status === "1" || status ==="4"){
-				isTrue='';
-				isErr='';
-				revise='none';
-				confirm='none';
-			}else if(status === "2"){
-				isTrue='none';
-				isErr='';
-				revise='none';
-				confirm='none';
-			}else if(status === "3"){
-				isTrue='';
-				isErr='none';
-				revise='';
-				confirm='none';
-			}else if(status ==="4"){
-				isTrue='';
-				isErr='';
-				revise='none';
-				confirm='';
-			}
+
 		}else if(role==="管理员"){
 			if(status === "-1"|| status === "1"){
 				need=false;
 			}
 			isStruct='none';
 			isAdmin='none';
-			isTrue='none';
-			isErr='none';
-			revise='none';
-			confirm='none';
 		}else if(role==="结构化人员"){
 			isStruct='';
-			isTrue='none';
-			isErr='none';
-			revise='none';
-			confirm='none';
 		}
-
-
 
 			return(
 					<div>
@@ -614,26 +582,26 @@ class  StructureDetail extends React.Component {
 												onClick={this.toSave}
 								>{buttonText}
 								</Button>
-								<Button style={{display:isErr,margin:4}}
-												onClick={this.showModal}
-								>检查有误
-							  </Button>
-								<Button style={{display:revise,margin:4}}
-												onClick={this.showModal}
-								>修改错误原因
-								</Button>
-								<Button style={{display:isTrue,margin:4}}
-												onClick={this.checkTrue}
-								>检查无误
-								</Button>
+								{
+									(role==="检查人员" && (status === "1" || status ==="2"|| status ==="4")) &&
+									<Button style={{margin:4}} onClick={this.showModal}>检查有误</Button>
+								}
+								{
+									(role==="检查人员" && status ==="3") &&
+									<Button style={{margin:4}} onClick={this.showModal}>修改错误原因</Button>
+								}
+								{
+									(role==="检查人员" && (status === "1" || status ==="3"|| status ==="4")) &&
+									<Button style={{margin:4}} onClick={this.checkTrue}>检查无误</Button>
+								}
 								<Button style={{margin:4}}
 												onClick={this.goBack}
 								>返回
 								</Button>
-								<Button style={{display:confirm}}
-												onClick={this.sure}
-								>确认
-								</Button>
+								{
+									(role==="检查人员" && status ==="5") &&
+									<Button style={{margin:4}} onClick={this.sure}>确认</Button>
+								}
 	            </div>
 							<div>
 								{	need && <WrongReason errorList={errorReason} /> }
@@ -663,8 +631,6 @@ class  StructureDetail extends React.Component {
 											 ok={this.handleOk.bind(this)}
 											 cancel={this.handleCancel.bind(this)}
 											 show={this.showModal.bind(this)}
-											 // status={dataStatus}
-											 // id={dataId}
 								/>
 							</div>
             </div>
