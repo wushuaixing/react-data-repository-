@@ -46,6 +46,9 @@
     .table-list{
       width: 90%;
       font-size: 12px;
+      .ant-badge-status-text{
+        font-size: 12px;
+      }
       .info {
         .info-line {
           height: 20px;

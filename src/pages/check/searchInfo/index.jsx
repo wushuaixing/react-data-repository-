@@ -78,7 +78,7 @@ class  Index extends React.Component {
 				message.error(res.data.message);
 			}
 		});
-		//检查人员
+		//检查人员列表(管理员获取)
 		if(!isCheck){
 			getCheckPersonnel().then(res => {
 				if (res.data.code === 200) {

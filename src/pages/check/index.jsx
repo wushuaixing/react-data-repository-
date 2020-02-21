@@ -1,12 +1,14 @@
 /** check * */
 import React from 'react';
 import {Link, withRouter} from "react-router-dom";
-import {Form, Button, Tabs, Table, Badge, message} from 'antd';
+import {Form, Tabs, Table, message} from 'antd';
 import {getCheckList,getStructuredPersonnel,adminStructuredList} from "../../server/api";
 import SearchForm from "./searchInfo";
+import {Columns} from "../../static/columns";
 import 'antd/dist/antd.css';
 import '../style.scss';
 
+console.log(Columns);
 const { TabPane } = Tabs;
 const searchForm = Form.create;
 let storage = window.localStorage;
@@ -20,453 +22,63 @@ const columnsStructure = [
 		title: "结构化时间",
 		dataIndex: "firstStructuredTime",
 	},
-	{
-		title: "拍卖信息",
-		dataIndex: "info",
-		render: (text, record)=>(
-			<span>
-				{
-					<div className="info">
-						<p className="link" style={{display: 'inline-block'}}>
-							{record.info.title}
-						</p>
-						<div className="info-line">
-							<p>处置法院/单位:{record.info.court}</p>
-						</div>
-						<div className="info-line">
-							<div className="line-half">
-								<p>拍卖时间:{record.info.start}</p>
-							</div>
-							<div className="line-half">
-								<p style={{margin: 10}}>拍卖状态:</p>
-								<p>{record.info.status}</p>
-							</div>
-						</div>
-						<div className="info-line">
-							<div className="line-half">
-								<p>评估价:</p>
-								<p>{record.info.consultPrice}</p>
-							</div>
-							<div className="line-half">
-								<p style={{margin: 10}}>起拍价:</p>
-								<p>{record.info.initialPrice}</p>
-							</div>
-						</div>
-					</div>
-				}
-			</span>
-		)
-	},
-	{
-		title: "状态",
-		dataIndex: "status",
-		width: 285,
-		render: (status) => (
-			<span>
-        {status.map((item,index) => {
-					let color='default';
-					let text='';
-					if (item === 1) {
-						color = 'default';
-						text='未检查';
-					}
-					else if (item === 2) {
-						color = 'success';
-						text='检查无误';
-					}else if(item === 3) {
-						color = 'error';
-						text='检查错误';
-					}
-					else if(item === 4) {
-						color = 'success';
-						text='已修改';
-					}
-					else if(item === 5) {
-						color = 'error';
-						text='待确认';
-					}
-					return (
-						<Badge status={color} text={text} key={index} />
-					);
-				})}
-      </span>
-		),
-	},
-	{
-		title: "结构化人员",
-		dataIndex: "structPersonnel",
-		render: (text, record) => (
-			<span>
-					{!record.structPersonnelEnable ?
-					<p style={{fontSize:12}}>{record.structPersonnel}(已删除)</p>
-					:<p style={{fontSize:12}}>{record.structPersonnel}</p>
-				}
-      </span>
-		),
-	},
-	{
-		title: "操作",
-		dataIndex: "action",
-		align: "center",
-		width: 180,
-		render: (text, record) => (
-			<span>
-				<Link to={`/index/${record.id}/${record.status}`}>
-					{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
-					&& record.structPersonnelEnable
-					&& record.structPersonnel !== '自动标注'
-					&& <Button style={{fontSize:12}} >修改检查</Button>}
-					{(!record.structPersonnelEnable
-					|| record.structPersonnel === '自动标注')
-					&& <Button style={{fontSize:12}}>修改标注</Button>}
-					{record.status[0]===1
-					&& record.structPersonnelEnable
-					&& record.structPersonnel !== '自动标注'
-					&& <Button style={{fontSize:12}}>检查</Button>}
-				</Link>
-      </span>
-		),
-	}
+	Columns[0],
+	Columns[1],
+	Columns[2],
+	Columns[4],
 ];
 const columnsCheck = [
 	{
 		title: "检查时间",
 		dataIndex: "checkTime",
 	},
+	Columns[0],
+	Columns[1],
+	Columns[2],
+	Columns[4],
+];
+const columnsCheckAdmin = [
 	{
-		title: "拍卖信息",
-		dataIndex: "info",
-		render: (text, record)=>(
-			<span>
-				{
-					<div className="info">
-						<p className="link">
-							{record.info.title}
-						</p>
-						<div className="info-line">
-							<p>处置法院/单位:{record.info.court}</p>
-						</div>
-						<div className="info-line">
-							<div className="line-half">
-								<p>拍卖时间:{record.info.start}</p>
-							</div>
-							<div className="line-half">
-								<p style={{margin: 10}}>拍卖状态:</p>
-								<p>{record.info.status}</p>
-							</div>
-						</div>
-						<div className="info-line">
-							<div className="line-half">
-								<p>评估价:</p>
-								<p>{record.info.consultPrice}</p>
-							</div>
-							<div className="line-half">
-								<p style={{margin: 10}}>起拍价:</p>
-								<p>{record.info.initialPrice}</p>
-							</div>
-						</div>
-					</div>
-				}
-			</span>
-		)
+		title: "检查时间",
+		dataIndex: "checkTime",
 	},
-	{
-		title: "状态",
-		dataIndex: "status",
-		width: 285,
-		render: (status) => (
-			<span>
-        {status.map((item,index) => {
-					let color='default';
-					let text='';
-					if (item === 1) {
-						color = 'default';
-						text='未检查';
-					}
-					else if (item === 2) {
-						color = 'success';
-						text='检查无误';
-					}else if(item === 3) {
-						color = 'error';
-						text='检查错误';
-					}
-					else if(item === 4) {
-						color = 'success';
-						text='已修改';
-					}
-					else if(item === 5) {
-						color = 'error';
-						text='待确认';
-					}
-					return (
-						<Badge status={color} text={text} key={index} />
-					);
-				})}
-      </span>
-		),
-	},
-	{
-		title: "结构化人员",
-		dataIndex: "structPersonnel",
-		render: (text, record) => (
-			<span>
-					{!record.structPersonnelEnable ?
-						<p style={{fontSize:12}}>{record.structPersonnel}(已删除)</p>
-						:<p style={{fontSize:12}}>{record.structPersonnel}</p>
-					}
-      </span>
-		),
-	},
-	{
-		title: "操作",
-		dataIndex: "action",
-		align: "center",
-		width: 180,
-		render: (text, record) => (
-			<span>
-				{isCheck ? <Link to={`/index/${record.id}/${record.status}`}>
-					{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
-					&& record.structPersonnelEnable
-					&& record.structPersonnel !== '自动标注'
-					&& <Button style={{fontSize:12}} >修改检查</Button>}
-					{(!record.structPersonnelEnable
-						|| record.structPersonnel === '自动标注')
-					&& <Button style={{fontSize:12}}>修改标注</Button>}
-					{record.status[0]===1
-					&& record.structPersonnelEnable
-					&& record.structPersonnel !== '自动标注'
-					&& <Button style={{fontSize:12}}>检查</Button>}
-				</Link>
-				: <Link to={`/index/${record.id}/${record.status}`}>
-						<Button style={{fontSize:12}}>查看</Button>
-					</Link>
-				}
-      </span>
-		),
-	}
+	Columns[0],
+	Columns[1],
+	Columns[2],
+	Columns[3],
+	Columns[5],
 ];
 const columnsRevise = [
 	{
 		title: "修改时间",
 		dataIndex: "lastStructuredTime",
 	},
+	Columns[0],
+	Columns[1],
+	Columns[2],
+	Columns[4],
+];
+const columnsReviseAdmin= [
 	{
-		title: "拍卖信息",
-		dataIndex: "info",
-		render: (text, record)=>(
-			<span>
-				{
-					<div className="info">
-						<p className="link">
-							{record.info.title}
-						</p>
-						<div className="info-line">
-							<p>处置法院/单位:{record.info.court}</p>
-						</div>
-						<div className="info-line">
-							<div className="line-half">
-								<p>拍卖时间:{record.info.start}</p>
-							</div>
-							<div className="line-half">
-								<p style={{margin: 10}}>拍卖状态:</p>
-								<p>{record.info.status}</p>
-							</div>
-						</div>
-						<div className="info-line">
-							<div className="line-half">
-								<p>评估价:</p>
-								<p>{record.info.consultPrice}</p>
-							</div>
-							<div className="line-half">
-								<p style={{margin: 10}}>起拍价:</p>
-								<p>{record.info.initialPrice}</p>
-							</div>
-						</div>
-					</div>
-				}
-			</span>
-		)
+		title: "修改时间",
+		dataIndex: "lastStructuredTime",
 	},
-	{
-		title: "状态",
-		dataIndex: "status",
-		width: 285,
-		render: (status) => (
-			<span>
-        {status.map((item,index) => {
-					let color='default';
-					let text='';
-					if (item === 1) {
-						color = 'default';
-						text='未检查';
-					}
-					else if (item === 2) {
-						color = 'success';
-						text='检查无误';
-					}else if(item === 3) {
-						color = 'error';
-						text='检查错误';
-					}
-					else if(item === 4) {
-						color = 'success';
-						text='已修改';
-					}
-					else if(item === 5) {
-						color = 'error';
-						text='待确认';
-					}
-					return (
-						<Badge status={color} text={text} key={index} />
-					);
-				})}
-      </span>
-		),
-	},
-	{
-		title: "结构化人员",
-		dataIndex: "structPersonnel",
-		render: (text, record) => (
-			<span>
-					{!record.structPersonnelEnable ?
-						<p style={{fontSize:12}}>{record.structPersonnel}(已删除)</p>
-						:<p style={{fontSize:12}}>{record.structPersonnel}</p>
-					}
-      </span>
-		),
-	},
-	{
-		title: "操作",
-		dataIndex: "action",
-		align: "center",
-		width: 180,
-		render: (text, record) => (
-			<span>
-				{isCheck ? <Link to={`/index/${record.id}/${record.status}`}>
-						{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
-						&& record.structPersonnelEnable
-						&& record.structPersonnel !== '自动标注'
-						&& <Button style={{fontSize:12}} >修改检查</Button>}
-						{(!record.structPersonnelEnable
-							|| record.structPersonnel === '自动标注')
-						&& <Button style={{fontSize:12}}>修改标注</Button>}
-						{record.status[0]===1
-						&& record.structPersonnelEnable
-						&& record.structPersonnel !== '自动标注'
-						&& <Button style={{fontSize:12}}>检查</Button>}
-					</Link>
-					: <Link to={`/index/${record.id}/${record.status}`}>
-						<Button style={{fontSize:12}}>查看</Button>
-					</Link>
-				}
-      </span>
-		),
-	}
+	Columns[0],
+	Columns[1],
+	Columns[2],
+	Columns[3],
+	Columns[5],
 ];
 const columnsAdmin = [
 	{
 		title: "抓取时间",
 		dataIndex: "grabTime",
 	},
-	{
-		title: "拍卖信息",
-		dataIndex: "info",
-		render: (text, record)=>(
-			<span>
-				{
-					<div className="info">
-						<p className="link" style={{display: 'inline-block'}}>
-							{record.info.title}
-						</p>
-						<div className="info-line">
-							<p>处置法院/单位:{record.info.court}</p>
-						</div>
-						<div className="info-line">
-							<div className="line-half">
-								<p>拍卖时间:{record.info.start}</p>
-							</div>
-							<div className="line-half">
-								<p style={{margin: 10}}>拍卖状态:</p>
-								<p>{record.info.status}</p>
-							</div>
-						</div>
-						<div className="info-line">
-							<div className="line-half">
-								<p>评估价:</p>
-								<p>{record.info.consultPrice}</p>
-							</div>
-							<div className="line-half">
-								<p style={{margin: 10}}>起拍价:</p>
-								<p>{record.info.initialPrice}</p>
-							</div>
-						</div>
-					</div>
-				}
-			</span>
-		)
-	},
-	{
-		title: "状态",
-		dataIndex: "status",
-		width: 285,
-		render: (status) => (
-			<span>
-        {status.map((item,index) => {
-					let color='default';
-					let text='';
-					if (item === 1) {
-						color = 'default';
-						text='未检查';
-					}
-					else if (item === 2) {
-						color = 'success';
-						text='检查无误';
-					}else if(item === 3) {
-						color = 'error';
-						text='检查错误';
-					}
-					else if(item === 4) {
-						color = 'success';
-						text='已修改';
-					}
-					else if(item === 5) {
-						color = 'error';
-						text='待确认';
-					}else{
-						color = 'default';
-						text='未标记';
-					}
-					return (
-						<Badge status={color} text={text} key={index} />
-					);
-				})}
-      </span>
-		),
-	},
-	{
-		title: "结构化人员",
-		dataIndex: "structPersonnel",
-		render: (text, record) => (
-			<span>
-					{!record.structPersonnelEnable ?
-						<p style={{fontSize:12}}>{record.structPersonnel}(已删除)</p>
-						:<p style={{fontSize:12}}>{record.structPersonnel}</p>
-					}
-      </span>
-		),
-	},
-	{
-		title: "操作",
-		dataIndex: "action",
-		align: "center",
-		width: 180,
-		render: (text, record) => (
-			<span>
-				<Link to={`/index/${record.id}/${record.status}`}>
-					<Button style={{fontSize:12}}>查看</Button>
-				</Link>
-      </span>
-		),
-	}
+	Columns[0],
+	Columns[1],
+	Columns[2],
+	Columns[3],
+	Columns[5],
 ];
 
 class  Check extends React.Component {
@@ -761,25 +373,6 @@ class  Check extends React.Component {
 		params.checkType=option.time;
 		if(isCheck){
 			this.getTableList(params);
-			// getCheckList(params).then(res => {
-			// 	if (res.data.code === 200) {
-			// 		// this.loading = false;
-			// 		if(res.data.data.result !== null) {
-			// 			let _list = res.data.data.result.list;
-			// 			_list.map((item) => {
-			// 				let _temp = [];
-			// 				_temp.push(item.status);
-			// 				item.status = _temp;
-			// 			});
-			// 			this.setState({
-			// 				tableList: _list,
-			// 				total: res.data.total,
-			// 			});
-			// 		}
-			// 	} else {
-			// 		message.error(res.data.message);
-			// 	}
-			// });
 		}
 		else{
 			this.getTableList(params);
@@ -817,8 +410,7 @@ class  Check extends React.Component {
 	};
 
 	render() {
-		const { getFieldDecorator } = this.props.form;
-		const {tableList,personnelList,waitNum,checkErrorNum,editNum,timeType,total,page,status}=this.state;
+		const {tableList,waitNum,checkErrorNum,editNum,timeType,total,page,status}=this.state;
 		const paginationProps = {
 			current: page,
 			showQuickJumper:true,
@@ -878,7 +470,7 @@ class  Check extends React.Component {
 							</TabPane>
 							<TabPane tab={isCheck ? "检查错误" : "检查无误" } key="3">
 								<Table rowClassName="table-list"
-											 columns={columnsCheck}
+											 columns={isCheck ? columnsCheck : columnsCheckAdmin}
 											 dataSource={tableList}
 											 style={{margin:10}}
 											 rowKey={record => record.id}
@@ -893,7 +485,7 @@ class  Check extends React.Component {
 														<span>检查错误<span style={{color:'red',marginLeft:2}}>({checkErrorNum})</span></span>}
 											 key="4">
 								<Table rowClassName="table-list"
-											 columns={isCheck ? columnsRevise : columnsCheck}
+											 columns={isCheck ? columnsRevise : columnsCheckAdmin}
 											 dataSource={tableList}
 											 style={{margin:10}}
 											 rowKey={record => record.id}
@@ -906,7 +498,7 @@ class  Check extends React.Component {
 														}
 											 key="5">
 								<Table rowClassName="table-list"
-											 columns={columnsStructure}
+											 columns={isCheck ? columnsStructure : columnsReviseAdmin}
 											 dataSource={tableList}
 											 style={{margin:10}}
 											 rowKey={record => record.id}
