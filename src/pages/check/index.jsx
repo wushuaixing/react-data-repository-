@@ -36,10 +36,9 @@ class  Check extends React.Component {
 
 	componentDidMount() {
 		const {status}=this.state;
-		console.log(this.props.location.state,'tttttt');
 		//详情页跳回路由
 		if(this.props.location.state){
-			let {pagePath,tabPath}=this.props.location.state;
+			let {statusPath,pagePath,tabPath}=this.props.location.state;
 			let _status=parseInt(tabPath);
 
 			const option=this.setTimeType(_status);
@@ -52,8 +51,12 @@ class  Check extends React.Component {
 				page: pagePath,
 				checkType: option.time,
 			};
-			console.log(option.tab);
 			this.getTableList(params);
+			if(!isCheck){
+				this.setState({
+					status:statusPath,
+				})
+			}
 		}
 		else{
 			const option=this.setTimeType(status);
@@ -237,27 +240,8 @@ class  Check extends React.Component {
 				 }
 			 }
 		 }
+
 	 };
-
-	//切换Tab
-	changeTab=(key)=>{
-		const _key=parseInt(key);
-		const option=this.setTimeType(_key);
-		let params = {
-			status: option.tab,
-			num:10,
-			page: 1,
-			checkType:option.time,
-		};
-
-		this.getTableList(params);
-
-		const _tabIndex=_key.toString();
-
-		this.setState({
-			tabIndex:_tabIndex,
-		});
-	};
 
 	//get table dataSource
 	getTableList=(params)=>{
@@ -281,7 +265,6 @@ class  Check extends React.Component {
 							status:tabStatus,
 							waitNum:res.data.data.waitConfirmedNum,
 						});
-						console.log(this.state.page,'getPge');
 					}
 					else{
 						let _total=0;
@@ -311,7 +294,9 @@ class  Check extends React.Component {
 							total:res.data.data.result.total,
 							checkErrorNum:res.data.data.checkErrorNum,
 							editNum:res.data.data.alreadyEditedNum,
+							page:res.data.data.result.page,
 						});
+
 					}
 				} else {
 					message.error(res.data.message);
@@ -349,17 +334,41 @@ class  Check extends React.Component {
 		this.getTableList(params);
 	};
 
+	//切换Tab
+	changeTab=(key)=>{
+		const _key=parseInt(key);
+		const option=this.setTimeType(_key);
+		console.log(option.tab);
+		let params = {
+			status: option.tab,
+			num:10,
+			page: 1,
+			checkType:option.time,
+		};
+		this.getTableList(params);
+		const _tabIndex=_key.toString();
+		this.setState({
+			tabIndex:_tabIndex,
+		});
+		if(!isCheck){
+			this.setState({
+				status:_key,
+			})
+		}
+	};
+
 	//换页
 	onTablePageChange=(num)=> {
-		const {status, page,tabIndex} = this.state;
-		const option = this.setTimeType(status);
-		console.log(option.tab,'option.tab');
+		const {tabIndex} = this.state;
+		const _tabIndex=parseInt(tabIndex);
+		const option = this.setTimeType(_tabIndex);
 		let params = {
 			status: option.tab,
 			num: 10,
 			page: num,
 			checkType: option.time,
 		};
+
 		this.getTableList(params);
 	};
 

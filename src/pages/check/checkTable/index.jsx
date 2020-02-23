@@ -7,12 +7,12 @@ import 'antd/dist/antd.css';
 import '../../style.scss';
 
 const { TabPane } = Tabs;
-let storage = window.localStorage;
-const role = storage.userState;
-let isCheck=true;
-if(role==="管理员"){
-	isCheck=false;
-}
+// let storage = window.localStorage;
+// const role = storage.userState;
+// let isCheck=true;
+// if(role==="管理员"){
+// 	isCheck=false;
+// }
 
 
 class  CheckTable extends React.Component {
@@ -182,7 +182,7 @@ class  CheckTable extends React.Component {
 				width: 180,
 				render: (text, record) => (
 					<span>
-				<Link to={`/index/${record.id}/${record.status}/${currentPage}`}>
+				<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
 						<Button style={{fontSize:12}}>查看</Button>
 				</Link>
       </span>

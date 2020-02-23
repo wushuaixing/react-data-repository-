@@ -30,7 +30,6 @@ class  StructureDetail extends React.Component {
 			tabStatus:0,
     	dataStatus:0,
 			dataId:0,
-			currentPage:1,
       dataMark:  0,
       dataTotal:50,
 			buttonText:'保存',
@@ -58,13 +57,10 @@ class  StructureDetail extends React.Component {
 		const {Id, status, page, tabStatus} = this.props.match.params;
 		let _status=parseInt(status);
 		let dataId=parseInt(Id);
-		let currentPage=parseInt(page);
-		console.log(_status,'61');
 		this.setState({
 			tabStatus:tabStatus,
 			dataStatus:_status,
 			dataId:dataId,
-			currentPage:currentPage,
 		});
 		if (role === "结构化人员") {
 			//按钮
@@ -600,21 +596,25 @@ class  StructureDetail extends React.Component {
 	//跳转回列表页
 	onClickToTable=(status,page,tab)=>{
 		let data = {statusPath:status,pagePath:page,tabPath:tab};
+		let url= '';
+		if(role === "管理员"){
+			url='/index/assetList';
+		}else if(role === "检查人员"){
+			url='/index';
+		}
 		let path = {
-			pathname:'/index',
+			pathname:url,
 			state:data,
 		};
-		console.log(page,'pppp');
 		this.props.history.push(path);
 	};
 
 //待标记--》详情页
   render() {
-		let storage = window.localStorage;
-		const role = storage.userState;
+
 		const {status, page} = this.props.match.params;
 		let _page=parseInt(page);
-		const { dataMark, dataTotal, buttonText, buttonStyle,data,currentPage,dataStatus,tabStatus }=this.state;
+		const { dataMark, dataTotal, buttonText, buttonStyle,data,dataStatus,tabStatus }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach, wsStyle }=this.state;
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;

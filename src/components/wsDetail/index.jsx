@@ -256,9 +256,9 @@ class  WsDetail extends React.Component {
 										</div>
 										<div className="range" style={{display:checkStyle}}>
 											{wenshuUrl.length>0
-												? wenshuUrl.map((item)=>{
+												? wenshuUrl.map((item,index)=>{
 													return(
-														<div className="range-item" key={item.id} style={{display:'inline-block'}}>
+														<div className="range-item" key={index} style={{display:'inline-block'}}>
 															<p style={{marginLeft:5,fontSize:12,}}>{item.url}</p>
 														</div>)
 												})
