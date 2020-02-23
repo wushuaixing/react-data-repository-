@@ -1,84 +1,19 @@
 /** check * */
 import React from 'react';
 import { withRouter} from "react-router-dom";
-import {Form, Tabs, Table, message} from 'antd';
+import {message} from 'antd';
 import {getCheckList,getStructuredPersonnel,adminStructuredList} from "../../server/api";
 import SearchForm from "./searchInfo";
-import {Columns} from "../../static/columns";
+import CheckTable from "./checkTable";
 import 'antd/dist/antd.css';
 import '../style.scss';
 
-const { TabPane } = Tabs;
-const searchForm = Form.create;
 let storage = window.localStorage;
 const role = storage.userState;
 let isCheck=true;
 if(role==="管理员"){
 	isCheck=false;
 }
-const columnsStructure = [
-	{
-		title: "结构化时间",
-		dataIndex: "firstStructuredTime",
-	},
-	Columns[0],
-	Columns[1],
-	Columns[2],
-	Columns[4],
-];
-const columnsCheck = [
-	{
-		title: "检查时间",
-		dataIndex: "checkTime",
-	},
-	Columns[0],
-	Columns[1],
-	Columns[2],
-	Columns[4],
-];
-const columnsCheckAdmin = [
-	{
-		title: "检查时间",
-		dataIndex: "checkTime",
-	},
-	Columns[0],
-	Columns[1],
-	Columns[2],
-	Columns[3],
-	Columns[5],
-];
-const columnsRevise = [
-	{
-		title: "修改时间",
-		dataIndex: "lastStructuredTime",
-	},
-	Columns[0],
-	Columns[1],
-	Columns[2],
-	Columns[4],
-];
-const columnsReviseAdmin= [
-	{
-		title: "修改时间",
-		dataIndex: "lastStructuredTime",
-	},
-	Columns[0],
-	Columns[1],
-	Columns[2],
-	Columns[3],
-	Columns[5],
-];
-const columnsAdmin = [
-	{
-		title: "抓取时间",
-		dataIndex: "grabTime",
-	},
-	Columns[0],
-	Columns[1],
-	Columns[2],
-	Columns[3],
-	Columns[5],
-];
 
 class  Check extends React.Component {
 	constructor(props) {
@@ -87,6 +22,7 @@ class  Check extends React.Component {
 			num: 10,
 			page:1,
 			total:0,
+			currentPage:1,
 			tableList:[],
 			waitNum:0,
 			editNmu:0,
@@ -306,8 +242,9 @@ class  Check extends React.Component {
 						this.setState({
 							tableList:_list,
 							total:res.data.data.result.total,
+							currentPage:res.data.data.result.page,
 							status:tabStatus,
-							waitNum:res.data.waitConfirmedNum,
+							waitNum:res.data.data.waitConfirmedNum,
 						});
 					}
 					else{
@@ -348,22 +285,6 @@ class  Check extends React.Component {
 
 	};
 
-
-	//日期转换
-	dataFilter=(value)=>{
-		let data = new Date(value);
-		let year = data.getFullYear();
-		let month = data.getMonth() + 1;
-		if (month < 10) {
-			month = "0" + month;
-		}
-		let date = data.getDate();
-		if (date < 10) {
-			date = "0" + date;
-		}
-		return year + "-" + month + "-" + date;
-	};
-
 	// 搜索框
 	handleSearch = data => {
 		const {status}=this.state;
@@ -393,10 +314,10 @@ class  Check extends React.Component {
 	};
 
 	//换页
-	onTablePageChange=(pagination)=>{
+	onTablePageChange=(num)=>{
 		const {status,page}=this.state;
 		this.setState({
-			page: pagination.current,
+			page: num,
 		});
 		const option=this.setTimeType(status);
 		let params = {
@@ -409,17 +330,7 @@ class  Check extends React.Component {
 	};
 
 	render() {
-
 		const {tableList,waitNum,checkErrorNum,editNum,timeType,total,page,status}=this.state;
-		const paginationProps = {
-			current: page,
-			showQuickJumper:true,
-      total: total, // 数据总数
-      pageSize: 10, // 每页条数
-      showTotal: (() => {
-        return `共 ${total} 条`;
-      }),
-		};
 		return(
 			<div>
 				<div className="yc-detail-title">
@@ -435,7 +346,16 @@ class  Check extends React.Component {
 					</div>
 					<p className="line"/>
 					<div className="yc-tab">
-						<Tabs defaultActiveKey="0" onChange={this.changeTab}>
+							<CheckTable page={page}
+													total={total}
+													waitNum={waitNum}
+													checkErrorNum={checkErrorNum}
+													editNum={editNum}
+													data={tableList}
+													isCheck={isCheck}
+													onPage={this.onTablePageChange.bind(this)}
+													onTabs={this.changeTab.bind(this)} />
+						{/*<Tabs defaultActiveKey="0" onChange={this.changeTab}>
 							<TabPane tab="全部" key="0" >
 								<Table rowClassName="table-list"
 											 columns={isCheck ? columnsStructure : columnsAdmin}
@@ -506,7 +426,7 @@ class  Check extends React.Component {
 											 onChange={this.onTablePageChange}
 								/>
 							</TabPane>
-						</Tabs>
+						</Tabs>*/}
 					</div>
 				</div>
 			</div>
@@ -514,4 +434,4 @@ class  Check extends React.Component {
 		);
 	}
 }
-export default withRouter(searchForm()(Check));
+export default withRouter(Check);

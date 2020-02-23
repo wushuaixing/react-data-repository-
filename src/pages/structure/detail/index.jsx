@@ -624,6 +624,12 @@ class  StructureDetail extends React.Component {
 			isStruct='';
 		}
 
+		// let pathData = {dataStatus:status,page:page};
+		// let path = {
+		// 	pathname:'/index',
+		// 	state:pathData,
+		// };
+
 			return(
 					<div>
             <div className="yc-detail-title">
