@@ -1,8 +1,4 @@
-import './index';
-import axios from "axios";
-axios.processData = false;
-axios.defaults.withCredentials = true;
-axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
+import axios from './index';
 //////////////////
 //用户登录有关接口//
 //////////////////

@@ -3,6 +3,11 @@
  */
 // axios 应该做一些封装和拦截，统一判断接口请求是否接通，可以去参考小程序项目
 import axios from "axios";
+import {withRouter} from "react-router-dom";
+
+axios.processData = false;
+axios.defaults.withCredentials = true;
+axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
 
 // 请求前拦截
 axios.interceptors.request.use(
@@ -41,3 +46,26 @@ axios.interceptors.response.use(
 		return Promise.reject(err);
 	}
 );
+
+let http={
+	post:"",
+	get:""
+};
+
+http.post=function (api,data) {
+	return new Promise((resolve,reject)=>{
+		axios.post(api,data).then((res)=>{
+			resolve(res)
+		})
+	})
+};
+
+http.get=function (api,data) {
+	return new Promise((resolve,reject)=>{
+		axios.get(api,data).then((res)=>{
+			resolve(res)
+		})
+	})
+};
+
+export default withRouter(http)

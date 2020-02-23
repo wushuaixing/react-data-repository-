@@ -12,6 +12,10 @@ class App extends React.Component {
 		return(
 			<Router history={history}>
 				<div>
+					<form style={{display:'none'}}>
+						<input type="text" />
+						<input type="password" />
+					</form>
 					<Switch>
 						<Route path="/" exact component={Login} />
 						<Route path="/login" component={Login} />

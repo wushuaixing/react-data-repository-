@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,29 +15,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="350" column="15" selection-start-line="350" selection-start-column="15" selection-end-line="350" selection-end-column="15" />
+            <state relative-caret-position="200">
+              <caret line="313" column="4" selection-start-line="313" selection-start-column="4" selection-end-line="313" selection-end-column="4" />
               <folding>
                 <element signature="n#!!doc" />
                 <element signature="e#41#67#0" expanded="true" />
-                <element signature="e#2375#2661#0" />
                 <element signature="n#!!block;n#shouldComponentUpdate#0;n#StructureDetail#0" />
                 <element signature="n#!!block;n#componentWillUpdate#0;n#StructureDetail#0" />
                 <element signature="n#!!block;n#setArea#0;n#StructureDetail#0" />
-                <element signature="e#3324#4521#0" />
+                <element signature="n#!!block;n#setRole#0;n#StructureDetail#0" />
+                <element signature="e#3258#4455#0" />
                 <element signature="n#!!block;n#getStrucData#0;n#StructureDetail#0" />
                 <element signature="n#!!block;n#getDetailData#0;n#StructureDetail#0" />
-                <element signature="e#5732#5741#0" />
-                <element signature="e#5725#7176#0" />
-                <element signature="e#7625#7671#0" />
-                <element signature="e#8135#8157#0" />
+                <element signature="e#5646#6783#0" />
+                <element signature="e#6799#8580#0" />
+                <element signature="n#!!block;n#checkIfTrue#0;n#StructureDetail#0" />
                 <element signature="n#!!block;n#checkTrue#0;n#StructureDetail#0" />
-                <element signature="e#8957#10732#0" />
-                <element signature="e#10886#10895#0" />
-                <marker date="1582298136000" expanded="true" signature="10900:11082" ph="..." />
+                <marker date="1582298323000" expanded="true" signature="10911:11093" ph="..." />
               </folding>
             </state>
           </provider>
@@ -44,7 +43,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/wsDetail/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="735">
+            <state relative-caret-position="609">
               <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
               <folding>
                 <element signature="e#41#67#0" expanded="true" />
@@ -56,8 +55,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/roleDetail/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
-              <caret line="228" column="33" lean-forward="true" selection-start-line="228" selection-start-column="33" selection-end-line="228" selection-end-column="33" />
+            <state relative-caret-position="4725">
+              <caret line="228" column="33" selection-start-line="228" selection-start-column="33" selection-end-line="228" selection-end-column="33" />
               <folding>
                 <element signature="e#41#67#0" expanded="true" />
               </folding>
@@ -68,7 +67,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/structure/assetStruc/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="587">
+            <state relative-caret-position="7119">
               <caret line="343" column="39" selection-start-line="343" selection-start-column="39" selection-end-line="343" selection-end-column="39" />
               <folding>
                 <element signature="e#15#41#0" expanded="true" />
@@ -89,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/checkModal/style.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="14" column="33" lean-forward="true" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+            <state relative-caret-position="294">
+              <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -98,7 +97,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/style.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1115">
+            <state relative-caret-position="1281">
               <caret line="102" lean-forward="true" selection-start-line="102" selection-end-line="102" />
               <folding>
                 <element signature="e#17#335#0" />
@@ -111,14 +110,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/server/api.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3045">
-              <caret line="145" column="8" selection-start-line="145" selection-start-column="8" selection-end-line="145" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#17#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="21">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -126,8 +122,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/server/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
+            <state relative-caret-position="210">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
+              <folding>
+                <element signature="e#87#113#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/App.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="142">
+              <caret line="14" column="37" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="37" />
+              <folding>
+                <element signature="e#82#157#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -211,8 +222,6 @@
         <option value="$PROJECT_DIR$/src/components/topMenu/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/documentSearch/style.scss" />
         <option value="$PROJECT_DIR$/src/router/structureRoute.jsx" />
-        <option value="$PROJECT_DIR$/src/server/index.js" />
-        <option value="$PROJECT_DIR$/src/pages/App.js" />
         <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/src/pages/documentSearch/detail/style.scss" />
         <option value="$PROJECT_DIR$/src/pages/documentSearch/detail/index.jsx" />
@@ -235,7 +244,6 @@
         <option value="$PROJECT_DIR$/src/pages/admin/checkUser/checkAccountModal/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/admin/checkUser/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/structure/index.jsx" />
-        <option value="$PROJECT_DIR$/src/server/api.js" />
         <option value="$PROJECT_DIR$/src/static/columns.js" />
         <option value="$PROJECT_DIR$/src/pages/style.scss" />
         <option value="$PROJECT_DIR$/src/pages/check/searchInfo/index.jsx" />
@@ -252,13 +260,16 @@
         <option value="$PROJECT_DIR$/src/components/wsDetail/index.jsx" />
         <option value="$PROJECT_DIR$/src/static/checkRoleLable.js" />
         <option value="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/App.js" />
+        <option value="$PROJECT_DIR$/src/server/index.js" />
+        <option value="$PROJECT_DIR$/src/server/api.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="318" />
+    <option name="x" value="542" />
     <option name="y" value="23" />
-    <option name="width" value="1440" />
+    <option name="width" value="898" />
     <option name="height" value="797" />
   </component>
   <component name="ProjectId" id="1U5jExP2xhgo23MLTsRg19V60C3" />
@@ -305,6 +316,12 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="wsDetail" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
@@ -451,14 +468,8 @@
       <workItem from="1581989036344" duration="30900000" />
       <workItem from="1582075318759" duration="23565000" />
       <workItem from="1582163230234" duration="31875000" />
-      <workItem from="1582247334168" duration="34394000" />
-    </task>
-    <task id="LOCAL-00040" summary="-feat:[检查人员]角色信息">
-      <created>1581517969300</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1581517969301</updated>
+      <workItem from="1582247334168" duration="34883000" />
+      <workItem from="1582422311332" duration="1207000" />
     </task>
     <task id="LOCAL-00041" summary="-feat:结构化时间字段">
       <created>1581603703112</created>
@@ -796,11 +807,18 @@
       <option name="project" value="LOCAL" />
       <updated>1582295939241</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="-feat:角色信息+建筑面积-保存前格式验证">
+      <created>1582298334769</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1582298334770</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="445868000" />
+    <option name="totallyTimeSpent" value="447564000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -817,8 +835,8 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49964765" weight="0.32891566" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.4989429" weight="0.6012048" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49612403" weight="0.13975903" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.4989429" weight="0.96385545" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49612403" visible="true" weight="0.32891566" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.503876" side_tool="true" weight="0.30722892" />
       <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.49964765" weight="0.37951806" />
       <window_info anchor="bottom" id="TypeScript" order="12" />
@@ -871,7 +889,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-feat:检查详情切换tab更新数据函数简化处理" />
     <MESSAGE value="-feat:文书搜索-搜索框+列表" />
     <MESSAGE value="-feat:文书搜索-文书详情页(接口+路由）" />
     <MESSAGE value="-feat:检查详情页-自动标注+已删除账号操作" />
@@ -896,7 +913,8 @@
     <MESSAGE value="-feat:table-rowClassName" />
     <MESSAGE value="-feat:检查操作按钮简化处理" />
     <MESSAGE value="-feat:文书信息-加减操作框(initialInput)" />
-    <option name="LAST_COMMIT_MESSAGE" value="-feat:文书信息-加减操作框(initialInput)" />
+    <MESSAGE value="-feat:角色信息+建筑面积-保存前格式验证" />
+    <option name="LAST_COMMIT_MESSAGE" value="-feat:角色信息+建筑面积-保存前格式验证" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -926,13 +944,6 @@
           <folding>
             <element signature="e#33#74#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
     </entry>
@@ -1237,23 +1248,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3045">
-          <caret line="145" column="8" selection-start-line="145" selection-start-column="8" selection-end-line="145" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/check/searchInfo/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
@@ -1276,9 +1270,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/static/checkRoleLable.js" />
+    <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="313" column="4" selection-start-line="313" selection-start-column="4" selection-end-line="313" selection-end-column="4" />
+          <folding>
+            <element signature="n#!!doc" />
+            <element signature="e#41#67#0" expanded="true" />
+            <element signature="n#!!block;n#shouldComponentUpdate#0;n#StructureDetail#0" />
+            <element signature="n#!!block;n#componentWillUpdate#0;n#StructureDetail#0" />
+            <element signature="n#!!block;n#setArea#0;n#StructureDetail#0" />
+            <element signature="n#!!block;n#setRole#0;n#StructureDetail#0" />
+            <element signature="e#3258#4455#0" />
+            <element signature="n#!!block;n#getStrucData#0;n#StructureDetail#0" />
+            <element signature="n#!!block;n#getDetailData#0;n#StructureDetail#0" />
+            <element signature="e#5646#6783#0" />
+            <element signature="e#6799#8580#0" />
+            <element signature="n#!!block;n#checkIfTrue#0;n#StructureDetail#0" />
+            <element signature="n#!!block;n#checkTrue#0;n#StructureDetail#0" />
+            <marker date="1582298323000" expanded="true" signature="10911:11093" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/wsDetail/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
+          <folding>
+            <element signature="e#41#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/roleDetail/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4725">
+          <caret line="228" column="33" selection-start-line="228" selection-start-column="33" selection-end-line="228" selection-end-column="33" />
+          <folding>
+            <element signature="e#41#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/structure/assetStruc/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="587">
+        <state relative-caret-position="7119">
           <caret line="343" column="39" selection-start-line="343" selection-start-column="39" selection-end-line="343" selection-end-column="39" />
           <folding>
             <element signature="e#15#41#0" expanded="true" />
@@ -1295,14 +1333,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/checkModal/style.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="33" lean-forward="true" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+        <state relative-caret-position="294">
+          <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/style.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1115">
+        <state relative-caret-position="1281">
           <caret line="102" lean-forward="true" selection-start-line="102" selection-end-line="102" />
           <folding>
             <element signature="e#17#335#0" />
@@ -1314,56 +1352,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/roleDetail/index.jsx">
+    <entry file="file://$PROJECT_DIR$/src/pages/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="228" column="33" lean-forward="true" selection-start-line="228" selection-start-column="33" selection-end-line="228" selection-end-column="33" />
+        <state relative-caret-position="142">
+          <caret line="14" column="37" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="37" />
           <folding>
-            <element signature="e#41#67#0" expanded="true" />
+            <element signature="e#82#157#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/wsDetail/index.jsx">
+    <entry file="file://$PROJECT_DIR$/src/server/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
+        <state relative-caret-position="210">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
           <folding>
-            <element signature="e#41#67#0" expanded="true" />
+            <element signature="e#87#113#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/static/checkRoleLable.js">
+    <entry file="file://$PROJECT_DIR$/src/server/api.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="29" column="13" lean-forward="true" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="350" column="15" selection-start-line="350" selection-start-column="15" selection-end-line="350" selection-end-column="15" />
-          <folding>
-            <element signature="n#!!doc" />
-            <element signature="e#41#67#0" expanded="true" />
-            <element signature="e#2375#2661#0" />
-            <element signature="n#!!block;n#shouldComponentUpdate#0;n#StructureDetail#0" />
-            <element signature="n#!!block;n#componentWillUpdate#0;n#StructureDetail#0" />
-            <element signature="n#!!block;n#setArea#0;n#StructureDetail#0" />
-            <element signature="e#3324#4521#0" />
-            <element signature="n#!!block;n#getStrucData#0;n#StructureDetail#0" />
-            <element signature="n#!!block;n#getDetailData#0;n#StructureDetail#0" />
-            <element signature="e#5732#5741#0" />
-            <element signature="e#5725#7176#0" />
-            <element signature="e#7625#7671#0" />
-            <element signature="e#8135#8157#0" />
-            <element signature="n#!!block;n#checkTrue#0;n#StructureDetail#0" />
-            <element signature="e#8957#10732#0" />
-            <element signature="e#10886#10895#0" />
-            <marker date="1582298136000" expanded="true" signature="10900:11082" ph="..." />
-          </folding>
+        <state relative-caret-position="21">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
