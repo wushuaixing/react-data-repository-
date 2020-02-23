@@ -247,7 +247,6 @@ class  CheckTable extends React.Component {
 											 pagination={paginationProps}
 											 onChange={this.onTablePageChange}
 								/>
-
 							</TabPane>
 							<TabPane tab={isCheck ? "未检查" : "未标记" } key="1">
 								<Table rowClassName="table-list"
@@ -258,7 +257,6 @@ class  CheckTable extends React.Component {
 											 pagination={paginationProps}
 											 onChange={this.onTablePageChange}
 								/>
-
 							</TabPane>
 							<TabPane tab={isCheck ? "检查无误" : "未检查" } key="2">
 								<Table rowClassName="table-list"
@@ -270,7 +268,12 @@ class  CheckTable extends React.Component {
 											 onChange={this.onTablePageChange}
 								/>
 							</TabPane>
-							<TabPane tab={isCheck ? "检查错误" : "检查无误" } key="3">
+							<TabPane tab={isCheck
+															?
+															<span>检查错误<span style={{color:'red',marginLeft:2}}>({checkErrorNum})</span></span>
+															: "检查无误"
+														}
+											 key="3">
 								<Table rowClassName="table-list"
 											 columns={isCheck ? columnsCheck : columnsCheckAdmin}
 											 dataSource={tableList}
@@ -282,7 +285,7 @@ class  CheckTable extends React.Component {
 							</TabPane>
 							<TabPane tab={isCheck
 														?
-														"已修改"
+														<span>已修改<span style={{color:'red',marginLeft:2}}>({editNum})</span></span>
 														:
 														<span>检查错误<span style={{color:'red',marginLeft:2}}>({checkErrorNum})</span></span>}
 											 key="4">

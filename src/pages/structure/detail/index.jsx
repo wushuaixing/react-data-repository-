@@ -595,11 +595,12 @@ class  StructureDetail extends React.Component {
 
 	//跳转回列表页
 	onClickToTable=(status,page,tab)=>{
+		console.log(status,page,tab);
 		let data = {statusPath:status,pagePath:page,tabPath:tab};
 		let url= '';
 		if(role === "管理员"){
 			url='/index/assetList';
-		}else if(role === "检查人员"){
+		}else{
 			url='/index';
 		}
 		let path = {
@@ -611,7 +612,6 @@ class  StructureDetail extends React.Component {
 
 //待标记--》详情页
   render() {
-
 		const {status, page} = this.props.match.params;
 		let _page=parseInt(page);
 		const { dataMark, dataTotal, buttonText, buttonStyle,data,dataStatus,tabStatus }=this.state;

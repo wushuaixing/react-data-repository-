@@ -1,9 +1,10 @@
 /** admin * */
 import React from 'react';
-import {Form, Input, Button, DatePicker, Tabs, Table,Badge,message} from 'antd';
-import 'antd/dist/antd.css';
+import {Form, Input, Button, DatePicker, Tabs, Table,message} from 'antd';
+import {Columns} from "../../../static/columns";
 import {structuredList} from "../../../server/api";
 import {Link, withRouter} from "react-router-dom";
+import 'antd/dist/antd.css';
 
 
 // ==================
@@ -12,108 +13,7 @@ import {Link, withRouter} from "react-router-dom";
 const { TabPane } = Tabs;
 
 const searchForm = Form.create;
-const columns = [
-	{
-		title: "拍卖标题",
-		dataIndex: "title",
-	},
-	{
-		title: "结构化状态",
-		dataIndex: "status",
-		width: 285,
-		render: (status) => (
-			<span>
-        {status.map((item,index) => {
-					let color='default';
-					let text='待标记';
-					if (item === 0) {
-						color = 'default';
-						text='待标记';
-					}
-					else if (item === 1) {
-						color = 'success';
-						text='已标记';
-					}else if(item === 2){
-						color = 'error';
-						text='待修改';
-					}
-					return (
-						<Badge status={color} text={text} key={index} />
-					);
-				})}
-      </span>
-		),
-	},
-	{
-		title: "操作",
-		dataIndex: "action",
-		align: "center",
-		width: 180,
-		render: (text, record) => (
-			<span>
-				<Link to={`/index/${record.id}/${record.status}`}>
-        <Button>
-					标注
-        </Button>
-				</Link>
-      </span>
-		),
-	}
-];
-const columnsRevise = [
-	{
-		title: "结构化时间",
-		dataIndex: "completeTime",
-	},
-	{
-		title: "拍卖标题",
-		dataIndex: "title",
-	},
-	{
-		title: "结构化状态",
-		dataIndex: "status",
-		width: 285,
-		render: (status) => (
-			<span>
-        {status.map((item,index) => {
-        	let color='default';
-        	let text='待标记';
-					if (item === 0) {
-						color = 'default';
-						text='待标记';
-					}
-					else if (item === 1) {
-						color = 'success';
-						text='已标记';
-					}else if(item === 2){
-						color = 'error';
-						text='待修改';
-					}
-					return (
-						<Badge status={color} text={text} key={index} />
-					);
-				})}
-      </span>
-		),
 
-	},
-	{
-		title: "操作",
-		dataIndex: "action",
-		align: "center",
-		width: 180,
-		render: (text, record) => (
-			<span>
-				<Link to={`/index/${record.id}/${record.status}`}>
-        <Button>
-					修改标注
-        </Button>
-				</Link>
-      </span>
-		),
-
-	}
-];
 
 class  Asset extends React.Component {
   constructor(props) {
@@ -128,37 +28,59 @@ class  Asset extends React.Component {
 		};
   }
 
-  componentWillMount() {
-
-  };
-
   componentDidMount() {
-		this.getTableList(0,1);
-  };
+		//详情页跳回路由
+		if(this.props.location.state){
+			let {statusPath,pagePath,tabPath}=this.props.location.state;
+			let _status=parseInt(statusPath);
+			let _page=parseInt(pagePath);
+			this.setState({
+				tabIndex:tabPath,
+			});
+			this.getTableList(_status,_page);
+		}
+		else {
+			this.getTableList(0, 1);
+		}
+		this.getWaitNum();
 
-	//get table dataSource
-	getTableList=(approveStatus,page,ifWait)=>{
-		let params = {
-			approveStatus: approveStatus,
+	};
+
+  getWaitNum=()=>{
+		structuredList({
+			approveStatus: 2,
 			num: 10,
-			page: page,
-		};
+			page: 1,
+		}).then(res => {
+			if (res.data.code === 200) {
+				// this.loading = false;
+					this.setState({
+						waitNum:res.data.total,
+					});
+			} else {
+				message.error(res.data.message);
+			}
+		});
+
+	};
+
+  getApi=(params)=>{
 		structuredList(params).then(res => {
 			if (res.data.code === 200) {
 				// this.loading = false;
 				let _list=res.data.data;
 				_list.map((item)=>{
 					let _temp=[];
-						_temp.push(item.status);
-						item.status=_temp;
-						// item=Object.assign(item,{key:index})
+					_temp.push(item.status);
+					item.status=_temp;
+					// item=Object.assign(item,{key:index})
 				});
 				this.setState({
 					tableList:_list,
 					total:res.data.total,
-					status:approveStatus,
+					status:params.approveStatus,
 				});
-				if(ifWait){
+				if(params.approveStatus === 2){
 					this.setState({
 						waitNum:res.data.total,
 					});
@@ -169,14 +91,28 @@ class  Asset extends React.Component {
 		});
 	};
 
+	//get table dataSource
+	getTableList=(approveStatus,page)=>{
+		let params = {
+			approveStatus: approveStatus,
+			num: 10,
+			page: page,
+		};
+		let _index = approveStatus.toString();
+		this.setState({
+			tabIndex:_index,
+		});
+		this.getApi(params);
+	};
+
 	//切换Tab
 	changeTab=(key)=>{
 		// approveStatus| 状态 0未标记 1已标记 2待修改
-		if (key === "1") {
+		if (key === "0") {
 			this.getTableList(0,1);
-		} else if (key === "2") {
+		} else if (key === "1") {
 			this.getTableList(1,1);
-		} else if (key === "3") {
+		} else if (key === "2") {
 			let ifWait=true;
 			this.getTableList(2,1,ifWait);
 		}
@@ -218,6 +154,7 @@ class  Asset extends React.Component {
 			title: '',
 			page: 1,
 			num: 10,
+			tabIndex:"0"
 		};
 		let _params=Object.assign(params,{
 			approveStatus: status,
@@ -227,23 +164,24 @@ class  Asset extends React.Component {
 			if(startTime){_params.structuredStartTime=this.dataFilter((startTime))}
 			if(endTime){_params.structuredEndTime=this.dataFilter((endTime))}
 		}
-		structuredList(params).then(res => {
-			if (res.data.code === 200) {
-				// this.loading = false;
-				let _list=res.data.data;
-				_list.map((item)=>{
-					let _temp=[];
-					_temp.push(item.status);
-					item.status=_temp;
-				});
-				this.setState({
-					tableList: _list,
-					total: res.data.total,
-				});
-			} else {
-				console.log('wrong');
-			}
-		});
+		this.getApi(_params);
+		// structuredList(params).then(res => {
+		// 	if (res.data.code === 200) {
+		// 		// this.loading = false;
+		// 		let _list=res.data.data;
+		// 		_list.map((item)=>{
+		// 			let _temp=[];
+		// 			_temp.push(item.status);
+		// 			item.status=_temp;
+		// 		});
+		// 		this.setState({
+		// 			tableList: _list,
+		// 			total: res.data.total,
+		// 		});
+		// 	} else {
+		// 		console.log('wrong');
+		// 	}
+		// });
 	};
 
 	//清空搜索条件
@@ -255,10 +193,54 @@ class  Asset extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-		const {tableList,total,waitNum,page,status}=this.state;
+		const {tableList,total,waitNum,page,status,tabIndex}=this.state;
 		//待标记无时间搜索
 		let timeSearch=false;
 		if(status !== 0){timeSearch=true}
+		const columns = [
+			Columns[4],
+			Columns[5],
+			{
+				title: "操作",
+				dataIndex: "action",
+				align: "center",
+				width: 180,
+				render: (text, record) => (
+					<span>
+				<Link to={`/index/${record.id}/${record.status}/${page}/${status}`}>
+        <Button>
+					标注
+        </Button>
+				</Link>
+      </span>
+				),
+			},
+
+		];
+		const columnsRevise = [
+			{
+				title: "结构化时间",
+				dataIndex: "completeTime",
+			},
+			Columns[4],
+			Columns[5],
+			{
+				title: "操作",
+				dataIndex: "action",
+				align: "center",
+				width: 180,
+				render: (text, record) => (
+					<span>
+						<Link to={`/index/${record.id}/${record.status}/${page}/${status}`}>
+							<Button>
+								修改标注
+							</Button>
+						</Link>
+      		</span>
+				),
+
+			}
+		];
 		const paginationProps = {
 			current: page,
 			showQuickJumper:true,
@@ -319,8 +301,8 @@ class  Asset extends React.Component {
                 </Form>
               </div>
 							<div className="yc-tab">
-								<Tabs defaultActiveKey="1"  onChange={this.changeTab}>
-									<TabPane tab="待标记" key="1">
+								<Tabs activeKey={tabIndex}  onChange={this.changeTab}>
+									<TabPane tab="待标记" key="0">
 										<Table rowClassName="table-list"
 													 columns={columns}
 													 dataSource={tableList}
@@ -330,7 +312,7 @@ class  Asset extends React.Component {
 													 pagination={paginationProps}
 										/>
 									</TabPane>
-									<TabPane tab="已标记" key="2">
+									<TabPane tab="已标记" key="1">
 										<Table rowClassName="table-list"
 													 columns={columnsRevise}
 													 dataSource={tableList}
@@ -340,7 +322,7 @@ class  Asset extends React.Component {
 													 pagination={paginationProps}
 										/>
 									</TabPane>
-									<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>} key="3">
+									<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>} key="2">
 										<Table rowClassName="table-list"
 													 columns={columnsRevise}
 													 dataSource={tableList}

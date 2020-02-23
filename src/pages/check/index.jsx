@@ -264,6 +264,8 @@ class  Check extends React.Component {
 							page:res.data.data.result.page,
 							status:tabStatus,
 							waitNum:res.data.data.waitConfirmedNum,
+							checkErrorNum:res.data.data.checkErrorNum,
+							editNum:res.data.data.alreadyEditedNum,
 						});
 					}
 					else{

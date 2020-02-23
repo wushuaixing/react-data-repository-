@@ -1,6 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import {Badge, Button} from "antd";
+import {Badge} from "antd";
 
 /**
  * created by anran on 2020-02-20.
@@ -108,39 +107,36 @@ export const Columns = [
 		),
 	},
 	{
-		title: "操作",
-		dataIndex: "action",
-		align: "center",
-		width: 180,
-		render: (text, record) => (
+		title: "拍卖标题",
+		dataIndex: "title",
+	},
+	{
+		title: "结构化状态",
+		dataIndex: "status",
+		width: 285,
+		render: (status) => (
 			<span>
-				<Link to={`/index/${record.id}/${record.status}`}>
-						{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
-						&& record.structPersonnelEnable
-						&& record.structPersonnel !== '自动标注'
-						&& <Button style={{fontSize:12}} >修改检查</Button>}
-						{(!record.structPersonnelEnable
-							|| record.structPersonnel === '自动标注')
-						&& <Button style={{fontSize:12}}>修改标注</Button>}
-						{record.status[0]===1
-						&& record.structPersonnelEnable
-						&& record.structPersonnel !== '自动标注'
-						&& <Button style={{fontSize:12}}>检查</Button>}
-				</Link>
+        {status.map((item,index) => {
+					let color='default';
+					let text='待标记';
+					if (item === 0) {
+						color = 'default';
+						text='待标记';
+					}
+					else if (item === 1) {
+						color = 'success';
+						text='已标记';
+					}else if(item === 2){
+						color = 'error';
+						text='待修改';
+					}
+					return (
+						<Badge status={color} text={text} key={index} />
+					);
+				})}
       </span>
 		),
 	},
-	{
-		title: "操作",
-		dataIndex: "action",
-		align: "center",
-		width: 180,
-		render: (text, record) => (
-			<span>
-				<Link to={`/index/${record.id}/${record.status}`}>
-						<Button style={{fontSize:12}}>查看</Button>
-				</Link>
-      </span>
-		),
-	}
+
+
 ];
