@@ -26,12 +26,14 @@ class  CheckTable extends React.Component {
 			waitNum:0,
 			checkErrorNum:0,
 			editNum:0,
+			tabIndex:"0",
 		};
 	}
 
 	componentWillReceiveProps(nextProps){
-		const {data,page,isCheck,total,waitNum,checkErrorNum,editNum}=nextProps;
+		const {data,page,isCheck,total,waitNum,checkErrorNum,editNum,tabIndex,status}=nextProps;
 		// console.log(nextProps,'next');
+		console.log(tabIndex,'tabIndextabIndextabIndex');
 		this.setState({
 			tableList:data,
 			currentPage:page,
@@ -40,6 +42,8 @@ class  CheckTable extends React.Component {
 			waitNum:waitNum,
 			checkErrorNum:checkErrorNum,
 			editNum:editNum,
+			tabIndex:tabIndex,
+			status:status,
 		});
 	}
 
@@ -55,7 +59,8 @@ class  CheckTable extends React.Component {
 	};
 
 	render() {
-		const {tableList,waitNum,checkErrorNum,editNum,total,currentPage,isCheck}=this.state;
+		const {tableList,waitNum,checkErrorNum,editNum,total,currentPage,isCheck,tabIndex,status}=this.state;
+		// console.log(currentPage,typeof(currentPage));
 		const paginationProps = {
 			current: currentPage,
 			showQuickJumper:true,
@@ -80,7 +85,7 @@ class  CheckTable extends React.Component {
 				width: 180,
 				render: (text, record) => (
 					<span>
-				<Link to={`/index/${record.id}/${record.status}/${currentPage}`}>
+				<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
 						{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
 						&& record.structPersonnelEnable
 						&& record.structPersonnel !== '自动标注'
@@ -105,18 +110,29 @@ class  CheckTable extends React.Component {
 			Columns[0],
 			Columns[1],
 			Columns[2],
-			Columns[4],
-		];
-		const columnsCheckAdmin = [
 			{
-				title: "检查时间",
-				dataIndex: "checkTime",
+				title: "操作",
+				dataIndex: "action",
+				align: "center",
+				width: 180,
+				render: (text, record) => (
+					<span>
+				<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
+						{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
+						&& record.structPersonnelEnable
+						&& record.structPersonnel !== '自动标注'
+						&& <Button style={{fontSize:12}} >修改检查</Button>}
+					{(!record.structPersonnelEnable
+						|| record.structPersonnel === '自动标注')
+					&& <Button style={{fontSize:12}}>修改标注</Button>}
+					{record.status[0]===1
+					&& record.structPersonnelEnable
+					&& record.structPersonnel !== '自动标注'
+					&& <Button style={{fontSize:12}}>检查</Button>}
+				</Link>
+      </span>
+				),
 			},
-			Columns[0],
-			Columns[1],
-			Columns[2],
-			Columns[3],
-			Columns[5],
 		];
 		const columnsRevise = [
 			{
@@ -126,18 +142,29 @@ class  CheckTable extends React.Component {
 			Columns[0],
 			Columns[1],
 			Columns[2],
-			Columns[4],
-		];
-		const columnsReviseAdmin= [
 			{
-				title: "修改时间",
-				dataIndex: "lastStructuredTime",
+				title: "操作",
+				dataIndex: "action",
+				align: "center",
+				width: 180,
+				render: (text, record) => (
+					<span>
+				<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
+						{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
+						&& record.structPersonnelEnable
+						&& record.structPersonnel !== '自动标注'
+						&& <Button style={{fontSize:12}} >修改检查</Button>}
+					{(!record.structPersonnelEnable
+						|| record.structPersonnel === '自动标注')
+					&& <Button style={{fontSize:12}}>修改标注</Button>}
+					{record.status[0]===1
+					&& record.structPersonnelEnable
+					&& record.structPersonnel !== '自动标注'
+					&& <Button style={{fontSize:12}}>检查</Button>}
+				</Link>
+      </span>
+				),
 			},
-			Columns[0],
-			Columns[1],
-			Columns[2],
-			Columns[3],
-			Columns[5],
 		];
 		const columnsAdmin = [
 			{
@@ -148,12 +175,69 @@ class  CheckTable extends React.Component {
 			Columns[1],
 			Columns[2],
 			Columns[3],
-			Columns[5],
+			{
+				title: "操作",
+				dataIndex: "action",
+				align: "center",
+				width: 180,
+				render: (text, record) => (
+					<span>
+				<Link to={`/index/${record.id}/${record.status}/${currentPage}`}>
+						<Button style={{fontSize:12}}>查看</Button>
+				</Link>
+      </span>
+				),
+			}
 		];
-
+		const columnsCheckAdmin = [
+			{
+				title: "检查时间",
+				dataIndex: "checkTime",
+			},
+			Columns[0],
+			Columns[1],
+			Columns[2],
+			Columns[3],
+			{
+				title: "操作",
+				dataIndex: "action",
+				align: "center",
+				width: 180,
+				render: (text, record) => (
+					<span>
+				<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
+						<Button style={{fontSize:12}}>查看</Button>
+				</Link>
+      </span>
+				),
+			}
+		];
+		const columnsReviseAdmin= [
+			{
+				title: "修改时间",
+				dataIndex: "lastStructuredTime",
+			},
+			Columns[0],
+			Columns[1],
+			Columns[2],
+			Columns[3],
+			{
+				title: "操作",
+				dataIndex: "action",
+				align: "center",
+				width: 180,
+				render: (text, record) => (
+					<span>
+				<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
+						<Button style={{fontSize:12}}>查看</Button>
+				</Link>
+      </span>
+				),
+			}
+		];
 		return(
 					<div>
-						<Tabs defaultActiveKey="0" onChange={this.changeTab}>
+						<Tabs activeKey={tabIndex} onChange={this.changeTab} >
 							<TabPane tab="全部" key="0" >
 								<Table rowClassName="table-list"
 											 columns={isCheck ? columnsStructure : columnsAdmin}

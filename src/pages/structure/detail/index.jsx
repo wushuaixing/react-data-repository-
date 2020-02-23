@@ -27,8 +27,10 @@ class  StructureDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+			tabStatus:0,
     	dataStatus:0,
 			dataId:0,
+			currentPage:1,
       dataMark:  0,
       dataTotal:50,
 			buttonText:'保存',
@@ -53,12 +55,16 @@ class  StructureDetail extends React.Component {
   }
 
 	componentDidMount() {
-		const {Id, status} = this.props.match.params;
+		const {Id, status, page, tabStatus} = this.props.match.params;
 		let _status=parseInt(status);
 		let dataId=parseInt(Id);
+		let currentPage=parseInt(page);
+		console.log(_status,'61');
 		this.setState({
+			tabStatus:tabStatus,
 			dataStatus:_status,
 			dataId:dataId,
+			currentPage:currentPage,
 		});
 		if (role === "结构化人员") {
 			//按钮
@@ -591,13 +597,24 @@ class  StructureDetail extends React.Component {
 		}
 	};
 
+	//跳转回列表页
+	onClickToTable=(status,page,tab)=>{
+		let data = {statusPath:status,pagePath:page,tabPath:tab};
+		let path = {
+			pathname:'/index',
+			state:data,
+		};
+		console.log(page,'pppp');
+		this.props.history.push(path);
+	};
 
 //待标记--》详情页
   render() {
 		let storage = window.localStorage;
 		const role = storage.userState;
-		const { status} = this.props.match.params;
-		const { dataMark, dataTotal, buttonText, buttonStyle,data }=this.state;
+		const {status, page} = this.props.match.params;
+		let _page=parseInt(page);
+		const { dataMark, dataTotal, buttonText, buttonStyle,data,currentPage,dataStatus,tabStatus }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach, wsStyle }=this.state;
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
@@ -624,11 +641,6 @@ class  StructureDetail extends React.Component {
 			isStruct='';
 		}
 
-		// let pathData = {dataStatus:status,page:page};
-		// let path = {
-		// 	pathname:'/index',
-		// 	state:pathData,
-		// };
 
 			return(
 					<div>
@@ -659,7 +671,7 @@ class  StructureDetail extends React.Component {
 									<Button style={{margin:4}} onClick={this.checkTrue}>检查无误</Button>
 								}
 								<Button style={{margin:4}}
-												onClick={this.goBack}
+												onClick={()=>this.onClickToTable(dataStatus,_page,tabStatus)}
 								>返回
 								</Button>
 								{

@@ -12,7 +12,7 @@ class Index extends React.Component {
       <div>
 				<Route path="/index" exact component={AssetList} />
         <Route path="/index/documentSearch"  component={DocumentSearch} />
-        <Route path="/index/:Id/:status/:page" component={StructureDetail} />
+        <Route path="/index/:Id/:status/:page/:tabStatus" component={StructureDetail} />
       </div>
     )
   }

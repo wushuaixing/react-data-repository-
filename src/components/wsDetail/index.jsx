@@ -44,7 +44,6 @@ class  WsDetail extends React.Component {
 				wsStyle:'',
 			});
 		}
-		console.log(url.length);
 		if(num.length===0){
 			let ws = clone(num);
 			ws.splice(1, 0, {
@@ -230,7 +229,7 @@ class  WsDetail extends React.Component {
 										<div className="range" style={{display:strucStyle}}>
 										{ url && url.map((item,index)=>{
 											return(
-												<div key={item.id} className="range-item" >
+												<div key={index} className="range-item" >
 													<Input
 														     placeholder="请输入文书链接地址"
 																 style={{width:225,margin:5,display:'inline-block'}}

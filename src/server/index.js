@@ -4,7 +4,9 @@
 // axios 应该做一些封装和拦截，统一判断接口请求是否接通，可以去参考小程序项目
 import axios from "axios";
 import {withRouter} from "react-router-dom";
-
+withRouter(function request() {
+	this.props.history.push()
+});
 axios.processData = false;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
@@ -67,5 +69,7 @@ http.get=function (api,data) {
 		})
 	})
 };
+
+
 
 export default withRouter(http)

@@ -28,6 +28,7 @@ class  Check extends React.Component {
 			editNmu:0,
 			checkErrorNum:0,
 			status:0,
+			tabIndex:"0",
 			personnelList:[],
 			timeType:"结构化时间",
 		};
@@ -35,14 +36,35 @@ class  Check extends React.Component {
 
 	componentDidMount() {
 		const {status}=this.state;
-		const option=this.setTimeType(status);
-		let params = {
-			status: option.tab,
-			num:10,
-			page: 1,
-			checkType:option.time,
-		};
-		this.getTableList(params);
+		console.log(this.props.location.state,'tttttt');
+		//详情页跳回路由
+		if(this.props.location.state){
+			let {pagePath,tabPath}=this.props.location.state;
+			let _status=parseInt(tabPath);
+
+			const option=this.setTimeType(_status);
+			this.setState({
+				tabIndex:tabPath,
+			});
+			let params = {
+				status: option.tab,
+				num: 10,
+				page: pagePath,
+				checkType: option.time,
+			};
+			console.log(option.tab);
+			this.getTableList(params);
+		}
+		else{
+			const option=this.setTimeType(status);
+			let params = {
+				status: option.tab,
+				num: 10,
+				page: 1,
+				checkType:option.time,
+			};
+			this.getTableList(params);
+		}
 
 		getStructuredPersonnel("").then(res => {
 			if (res.data.code === 200) {
@@ -96,6 +118,15 @@ class  Check extends React.Component {
 
 
 	};
+	shouldComponentUpdate () {
+		// console.log('shouldComponentUpdate');
+		return true;
+	}
+
+	componentWillUpdate(){
+		// console.log('componentWillUpdate');
+
+	}
 	//根据status传不同时间类型
 	// checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
 	setTimeType=(status)=>{
@@ -211,9 +242,6 @@ class  Check extends React.Component {
 	//切换Tab
 	changeTab=(key)=>{
 		const _key=parseInt(key);
-		this.setState({
-			status:_key,
-		});
 		const option=this.setTimeType(_key);
 		let params = {
 			status: option.tab,
@@ -221,7 +249,14 @@ class  Check extends React.Component {
 			page: 1,
 			checkType:option.time,
 		};
+
 		this.getTableList(params);
+
+		const _tabIndex=_key.toString();
+
+		this.setState({
+			tabIndex:_tabIndex,
+		});
 	};
 
 	//get table dataSource
@@ -242,10 +277,11 @@ class  Check extends React.Component {
 						this.setState({
 							tableList:_list,
 							total:res.data.data.result.total,
-							currentPage:res.data.data.result.page,
+							page:res.data.data.result.page,
 							status:tabStatus,
 							waitNum:res.data.data.waitConfirmedNum,
 						});
+						console.log(this.state.page,'getPge');
 					}
 					else{
 						let _total=0;
@@ -314,23 +350,21 @@ class  Check extends React.Component {
 	};
 
 	//换页
-	onTablePageChange=(num)=>{
-		const {status,page}=this.state;
-		this.setState({
-			page: num,
-		});
-		const option=this.setTimeType(status);
+	onTablePageChange=(num)=> {
+		const {status, page,tabIndex} = this.state;
+		const option = this.setTimeType(status);
+		console.log(option.tab,'option.tab');
 		let params = {
 			status: option.tab,
-			num:10,
-			page: page,
-			checkType:option.time,
+			num: 10,
+			page: num,
+			checkType: option.time,
 		};
 		this.getTableList(params);
 	};
 
 	render() {
-		const {tableList,waitNum,checkErrorNum,editNum,timeType,total,page,status}=this.state;
+		const {tableList,waitNum,checkErrorNum,editNum,timeType,total,page,status,tabIndex}=this.state;
 		return(
 			<div>
 				<div className="yc-detail-title">
@@ -347,6 +381,8 @@ class  Check extends React.Component {
 					<p className="line"/>
 					<div className="yc-tab">
 							<CheckTable page={page}
+													status={status}
+													tabIndex={tabIndex}
 													total={total}
 													waitNum={waitNum}
 													checkErrorNum={checkErrorNum}
@@ -354,79 +390,8 @@ class  Check extends React.Component {
 													data={tableList}
 													isCheck={isCheck}
 													onPage={this.onTablePageChange.bind(this)}
-													onTabs={this.changeTab.bind(this)} />
-						{/*<Tabs defaultActiveKey="0" onChange={this.changeTab}>
-							<TabPane tab="全部" key="0" >
-								<Table rowClassName="table-list"
-											 columns={isCheck ? columnsStructure : columnsAdmin}
-											 dataSource={tableList}
-											 style={{margin:10}}
-											 rowKey={record => record.id}
-											 pagination={paginationProps}
-											 onChange={this.onTablePageChange}
-								/>
-
-							</TabPane>
-							<TabPane tab={isCheck ? "未检查" : "未标记" } key="1">
-								<Table rowClassName="table-list"
-											 columns={isCheck ? columnsStructure : columnsAdmin}
-											 dataSource={tableList}
-											 style={{margin:10,}}
-											 rowKey={record => record.id}
-											 pagination={paginationProps}
-											 onChange={this.onTablePageChange}
-								/>
-
-							</TabPane>
-							<TabPane tab={isCheck ? "检查无误" : "未检查" } key="2">
-								<Table rowClassName="table-list"
-											 columns={isCheck ? columnsCheck: columnsCheckAdmin}
-											 dataSource={tableList}
-											 style={{margin:10}}
-											 rowKey={record => record.id}
-											 pagination={paginationProps}
-											 onChange={this.onTablePageChange}
-								/>
-							</TabPane>
-							<TabPane tab={isCheck ? "检查错误" : "检查无误" } key="3">
-								<Table rowClassName="table-list"
-											 columns={isCheck ? columnsCheck : columnsCheckAdmin}
-											 dataSource={tableList}
-											 style={{margin:10}}
-											 rowKey={record => record.id}
-											 pagination={paginationProps}
-											 onChange={this.onTablePageChange}
-								/>
-							</TabPane>
-							<TabPane tab={isCheck
-														?
-														"已修改"
-														:
-														<span>检查错误<span style={{color:'red',marginLeft:2}}>({checkErrorNum})</span></span>}
-											 key="4">
-								<Table rowClassName="table-list"
-											 columns={isCheck ? columnsRevise : columnsCheckAdmin}
-											 dataSource={tableList}
-											 style={{margin:10}}
-											 rowKey={record => record.id}
-											 pagination={paginationProps}
-											 onChange={this.onTablePageChange}
-								/>
-							</TabPane>
-							<TabPane tab={isCheck ? <span>待确认<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>
-														:<span>已修改<span style={{color:'red',marginLeft:2}}>({editNum})</span></span>
-														}
-											 key="5">
-								<Table rowClassName="table-list"
-											 columns={isCheck ? columnsStructure : columnsReviseAdmin}
-											 dataSource={tableList}
-											 style={{margin:10}}
-											 rowKey={record => record.id}
-											 pagination={paginationProps}
-											 onChange={this.onTablePageChange}
-								/>
-							</TabPane>
-						</Tabs>*/}
+													onTabs={this.changeTab.bind(this)}
+							/>
 					</div>
 				</div>
 			</div>

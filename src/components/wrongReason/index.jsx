@@ -51,7 +51,6 @@ class  WrongReason extends React.Component {
         if(role === "管理员"){
           reasonAdmin=errorList;
         }
-        console.log(need);
 
     return(
           <div>
