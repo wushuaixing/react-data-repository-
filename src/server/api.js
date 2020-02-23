@@ -168,6 +168,10 @@ export const saveDetail=(id, params)=> {
 	);
 };
 
+//已标记数/总数
+export const getNumberOfTags=()=> {
+	return axios.get("/api/asset/structured/control/getNumberOfTags");
+};
 //获取新数据 id
 export const getNewStructureData=()=> {
 	return axios.get("/api/asset/structured/control/getNewStructuredDataId")

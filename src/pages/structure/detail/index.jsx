@@ -10,6 +10,7 @@ import {
 	getCheckDetail,
 	structuredObligorTypeList,
 	saveDetail,
+	getNumberOfTags,
 	getNewStructureData,beConfirmed,inspectorCheck,changeWrongType,
 } from '../../../server/api';
 import BasicDetail from "../../../components/basicDetail";
@@ -50,6 +51,7 @@ class  StructureDetail extends React.Component {
 			needRecord:false,
 			visible:false,
 			wsStyle:'',
+			preId:"",
 		};
   }
 
@@ -57,10 +59,12 @@ class  StructureDetail extends React.Component {
 		const {Id, status, page, tabStatus} = this.props.match.params;
 		let _status=parseInt(status);
 		let dataId=parseInt(Id);
+		let _page=parseInt(page);
 		this.setState({
 			tabStatus:tabStatus,
 			dataStatus:_status,
 			dataId:dataId,
+			dataPage:_page,
 		});
 		if (role === "结构化人员") {
 			//按钮
@@ -72,12 +76,12 @@ class  StructureDetail extends React.Component {
 			});
 			if (_status === 0) {
 				this.setState({
-					buttonText: '保存',
+					buttonText: '保存并标记下一条',
 				});
 			}
-			if (_status === 1) {
+			if (_status ===1 ) {
 				this.setState({
-					buttonText: '保存并标记下一条',
+					buttonText: '保存并修改下一条',
 					buttonStyle: {},
 
 				});
@@ -319,6 +323,8 @@ class  StructureDetail extends React.Component {
 		const {id,data,wsFindStatus,ifAttach,
 			wenshuUrl,wenshuNum,obligors,
 			houseType,}=this.state;
+		const {dataId,dataStatus,dataPage,tabStatus,buttonText}=this.state;
+
 		let _data=data;
 		_data.ah=wenshuNum;
 		_data.wenshuUrl=wenshuUrl;
@@ -352,8 +358,11 @@ class  StructureDetail extends React.Component {
 			const failed=this.checkRoleLable(data);
 			if(failed){
 				if (res.data.code === 200) {
-					alert('200');
-					if(this.state.buttonText === '保存并标记下一条'){
+					storage.setItem("preId", id);
+					this.setState({
+						preId:id,
+					});
+					if(buttonText === '保存并标记下一条'){
 						getNewStructureData().then(res=>{
 							if (res.data.code === 200) {
 								if(res.data.data === 0){
@@ -366,23 +375,19 @@ class  StructureDetail extends React.Component {
 							}
 						});
 					}
-					else if(this.state.buttonText === '保存并修改下一条'){
+					else if(buttonText === '保存并修改下一条'){
 						let params = {
 							approveStatus: 2
 						};
 						structuredList(params).then(res => {
 							if (res.data.code === 200) {
+								message.info("修改成功");
 								if(res.data.data.length===0){
-									// this.$router.push({
-									// 	name: "AssetStructure",
-									// 	query:{
-									// 		id:'waitTag'
-									// 	}
-									// });
+									this.onClickToTable(2,1,2);
 								}
 								this.getData({id: res.data.data[0]["id"]});
 							} else {
-								// this.$Message.error(res.data.message);
+								message.error(res.data.message);
 							}
 						});
 					}
@@ -395,7 +400,10 @@ class  StructureDetail extends React.Component {
 		});
 	};
 
-	goBack=()=>{};
+	goBack=()=>{
+		storage.setItem("preId", "");
+
+	};
 
 	showModal=()=>{
 		this.setState({
@@ -405,9 +413,47 @@ class  StructureDetail extends React.Component {
 
 	//待确认--确认接口
 	sure=()=> {
-		beConfirmed(this.$route.params.id).then(res => {
+		const {dataId,dataStatus,dataPage,tabStatus}=this.state;
+		beConfirmed(dataId).then(res => {
 			if (res.data.code === 200) {
+				this.onClickToTable(dataStatus,dataPage,tabStatus);
 				message.info("操作成功");
+			} else {
+				message.error(res.data.message);
+			}
+		});
+	};
+
+	getData(id) {
+		// this.loading = true;
+		const {preId,dataMark,dataTotal}=this.state;
+		this.setState({
+			preId:storage["preId"],
+		});
+		structuredList(id).then(res => {
+			this.loading = false;
+			if (res.data.code === 200) {
+				const strucData = res.data.data[0];
+				this.initData(strucData);
+				const _error=strucData.wrongReason;
+				this.setState({
+					errorReason: _error,
+				});
+			} else {
+				message.error(res.data.message);
+			}
+		});
+		getNumberOfTags().then(res => {
+			if (res.data.code === 200) {
+				this.setState({
+					dataMark:res.data.data.MARK,
+					dataTotal:res.data.data.TOTAL,
+				});
+				if(!preId){
+					this.setState({
+						dataMark:res.data.data.MARK-1,
+					});
+				}
 			} else {
 				message.error(res.data.message);
 			}
@@ -416,7 +462,7 @@ class  StructureDetail extends React.Component {
 
 	//检查无误
 	async checkIfTrue(){
-		const {dataId}=this.state;
+		const {dataId,dataStatus,dataPage,tabStatus}=this.state;
 		let params = {
 			auctionExtractWrongTypes:[],
 			checkError: false,
@@ -424,21 +470,15 @@ class  StructureDetail extends React.Component {
 		};
 		const res= await inspectorCheck(params);
 		if (res.data.code === 200) {
+			this.onClickToTable(dataStatus,dataPage,tabStatus);
 			message.info("操作成功");
-			// this.$router.push({
-			// 	name: "CheckAssetStrure",
-			// 	query:{
-			// 		id:this.$route.params.state,
-			// 		pageNum:this.$route.params.page,
-			// 	}
-			// });
 		} else {
 			message.error(res.data.message);
 		}
 	};
 
 	checkTrue() {
-		const {dataStatus,dataId}=this.state;
+		const {dataId,dataStatus,dataPage,tabStatus}=this.state;
 		if(dataStatus === 3){
 			let params = {
 				auctionExtractWrongTypes:[],
@@ -447,14 +487,8 @@ class  StructureDetail extends React.Component {
 			};
 			changeWrongType(dataId,params).then(res => {
 				if (res.data.code === 200) {
+					this.onClickToTable(dataStatus,dataPage,tabStatus);
 					message.info("操作成功");
-					// this.$router.push({
-					// 	name: "CheckAssetStrure",
-					// 	query:{
-					// 		id:this.$route.params.state,
-					// 		pageNum:this.$route.params.page,
-					// 	}
-					// });
 				} else {
 					message.error(res.data.message);
 				}
@@ -467,7 +501,7 @@ class  StructureDetail extends React.Component {
 
 	//检查错误弹窗按钮接口
 	handleOk=(data)=>{
-		const {dataStatus,dataId}=this.state;
+		const {dataId,dataStatus,dataPage,tabStatus}=this.state;
 
 		if(dataStatus === 5 || dataStatus === 4 || dataStatus === 1 ){
 				let params = {
@@ -481,15 +515,8 @@ class  StructureDetail extends React.Component {
 				};
 				inspectorCheck(params).then(res => {
 					if (res.data.code === 200) {
-						//console.log(this.$route)
+						this.onClickToTable(dataStatus,dataPage,tabStatus);
 						message.info("操作成功");
-						// this.$router.push({
-						// 	name: "CheckAssetStrure",
-						// 	query:{
-						// 		id:this.$route.params.state,
-						// 		pageNum:this.$route.params.page,
-						// 	}
-						// });
 
 					} else {
 						message.error("操作失败");
@@ -504,14 +531,8 @@ class  StructureDetail extends React.Component {
 				};
 				changeWrongType(dataId,params).then(res => {
 					if (res.data.code === 200) {
+						this.onClickToTable(dataStatus,dataPage,tabStatus);
 						message.info("操作成功");
-						// this.$router.push({
-						// 	name: "CheckAssetStrure",
-						// 	query:{
-						// 		id:this.$route.params.state,
-						// 		pageNum:this.$route.params.page,
-						// 	}
-						// });
 
 					} else {
 						message.error(res.data.message);
@@ -526,14 +547,8 @@ class  StructureDetail extends React.Component {
 				};
 				changeWrongType(dataId,params).then(res => {
 					if (res.data.code === 200) {
+						this.onClickToTable(dataStatus,dataPage,tabStatus);
 						message.info("操作成功");
-						// this.$router.push({
-						// 	name: "CheckAssetStrure",
-						// 	query:{
-						// 		id:this.$route.params.state,
-						// 		pageNum:this.$route.params.page,
-						// 	}
-						// });
 					} else {
 						message.error(res.data.message);
 					}
@@ -594,9 +609,9 @@ class  StructureDetail extends React.Component {
 	};
 
 	//跳转回列表页
-	onClickToTable=(status,page,tab)=>{
+	onClickToTable=(status,page,tab,id)=>{
 		console.log(status,page,tab);
-		let data = {statusPath:status,pagePath:page,tabPath:tab};
+		let data = {statusPath:status,pagePath:page,tabPath:tab, Id:id};
 		let url= '';
 		if(role === "管理员"){
 			url='/index/assetList';
@@ -613,8 +628,7 @@ class  StructureDetail extends React.Component {
 //待标记--》详情页
   render() {
 		const {status, page} = this.props.match.params;
-		let _page=parseInt(page);
-		const { dataMark, dataTotal, buttonText, buttonStyle,data,dataStatus,tabStatus }=this.state;
+		const { dataMark, dataTotal, buttonText, buttonStyle,data,dataStatus,tabStatus,dataPage }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach, wsStyle }=this.state;
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
@@ -671,7 +685,7 @@ class  StructureDetail extends React.Component {
 									<Button style={{margin:4}} onClick={this.checkTrue}>检查无误</Button>
 								}
 								<Button style={{margin:4}}
-												onClick={()=>this.onClickToTable(dataStatus,_page,tabStatus)}
+												onClick={()=>this.onClickToTable(dataStatus,dataPage,tabStatus)}
 								>返回
 								</Button>
 								{
@@ -702,14 +716,16 @@ class  StructureDetail extends React.Component {
 							<div>
 								<RoleDetail info={obligors} list={obligorList} changed={this.setRole.bind(this)} />
 							</div>
-							<div>
-								<Check visible={visible}
-											 ok={this.handleOk.bind(this)}
-											 cancel={this.handleCancel.bind(this)}
-											 show={this.showModal.bind(this)}
-								/>
-							</div>
+
             </div>
+						<div>
+							<Check visible={visible}
+										 ok={this.handleOk.bind(this)}
+										 cancel={this.handleCancel.bind(this)}
+										 show={this.showModal.bind(this)}
+										 style={{width:430}}
+							/>
+						</div>
 					</div>
         );
     }

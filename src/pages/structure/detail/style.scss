@@ -26,7 +26,6 @@
     position: absolute;
     right: 20px;
   }
-
   .yc-wrong-part {
     padding: 10px 0 0 20px;
     color: #293038;
@@ -180,5 +179,9 @@
 
     }
   }
-
+.ant-modal{
+  .ant-modal-content{
+    width: 430px;
+  }
+}
 }

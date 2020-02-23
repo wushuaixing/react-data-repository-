@@ -31,12 +31,16 @@ class  Asset extends React.Component {
   componentDidMount() {
 		//详情页跳回路由
 		if(this.props.location.state){
-			let {statusPath,pagePath,tabPath}=this.props.location.state;
+			let {statusPath,pagePath,tabPath,Id}=this.props.location.state;
 			let _status=parseInt(statusPath);
 			let _page=parseInt(pagePath);
 			this.setState({
 				tabIndex:tabPath,
 			});
+			if(Id){
+				let _Id=parseInt(Id);
+				this.getApi({_Id});
+			}
 			this.getTableList(_status,_page);
 		}
 		else {

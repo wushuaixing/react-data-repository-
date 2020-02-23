@@ -109,9 +109,7 @@ class  Check extends React.Component {
 		const { visible,reasonList,highLevel }=this.state;
 			return(
 					<div>
-						<div className="yc-detail-content">
 								<Modal
-									style={{width:550}}
 									visible={visible}
 									destroyOnClose={true}
 									closable={true}
@@ -124,7 +122,7 @@ class  Check extends React.Component {
 										>点击确定，本条结构化数据将被标记为检查错误，并将退回给结构化人员</span
 										>
 									</div>
-									<Form style={{width:387}}>
+									<Form style={{width:337}}>
 										<Form.Item className="part" label="备注">
 											{getFieldDecorator('remark', {})(
 												<Input.TextArea
@@ -187,7 +185,6 @@ class  Check extends React.Component {
 									</Form>
 								</div>
 								</Modal>
-            </div>
 					</div>
         );
     }
