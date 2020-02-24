@@ -209,6 +209,13 @@ export const changeWrongType=(id,params)=> {
 export const inspectorCheck=(params)=> {
 	return axios.post("/api/asset/inspector/control/inspectorCheck", params);
 };
+
+//已删除&自动标注的检查保存
+export const notEnableSave=(id, params)=> {
+	return axios.post(
+		"/api/asset/inspector/control/" + id + "/saveDetail", params
+	);
+};
 ////////////
 //文书搜索//
 //////////

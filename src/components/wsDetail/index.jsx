@@ -21,19 +21,20 @@ class  WsDetail extends React.Component {
 			strucStyle:'',
 			checkStyle:'none',
 			wsAttach:true,
+			need:false,
 		};
   }
 
 	componentWillReceiveProps(nextProps){
 		let storage = window.localStorage;
 		const role = storage.userState;
-		if(role !== '结构化人员'){
+		const { num, url, ifWs, attach, need }=nextProps;
+		if(role !== '结构化人员' && !need){
 			this.setState({
 				strucStyle:'none',
 				checkStyle:'',
 			});
 		}
-		const { num, url, ifWs, attach }=nextProps;
 		if(ifWs===1){
 			this.setState({
 				wsStyle:'none',
@@ -69,6 +70,7 @@ class  WsDetail extends React.Component {
 			wenshuUrl: url,
 			valueWenshu:ifWs,
 			wsAttach:attach,
+			need:need,
 		});
 
 	}
@@ -155,14 +157,14 @@ class  WsDetail extends React.Component {
 
 //待标记--》详情页
   render() {
-		const { wenshuNum, wenshuUrl, wsAttach,valueWenshu }=this.state;
+		const { wenshuNum, wenshuUrl, wsAttach,valueWenshu,need }=this.state;
 		const { strucStyle,checkStyle,wsStyle}=this.state;
 
 		let ah=this.initialInput(wenshuNum);
 		let url=this.initialInput(wenshuUrl);
 
 		let disabled=false;
-		if(role !== "结构化人员"){
+		if(role !== "结构化人员" && !need){
 			disabled=true;
 		}
 		return(

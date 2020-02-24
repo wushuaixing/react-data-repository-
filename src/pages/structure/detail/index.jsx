@@ -10,7 +10,7 @@ import {
 	getCheckDetail,
 	structuredObligorTypeList,
 	saveDetail,
-	getNumberOfTags,
+	getNumberOfTags,notEnableSave,
 	getNewStructureData,beConfirmed,inspectorCheck,changeWrongType,
 } from '../../../server/api';
 import BasicDetail from "../../../components/basicDetail";
@@ -52,14 +52,22 @@ class  StructureDetail extends React.Component {
 			visible:false,
 			wsStyle:'',
 			preId:"",
+			needStruc:false,
 		};
   }
 
 	componentDidMount() {
-		const {Id, status, page, tabStatus} = this.props.match.params;
+		const {Id, status, page, tabStatus, enable, personnel} = this.props.match.params;
+		const {needStruc}=this.state;
 		let _status=parseInt(status);
 		let dataId=parseInt(Id);
 		let _page=parseInt(page);
+		console.log(enable,personnel);
+		if(enable ==="false" || personnel==='自动标注'){
+			this.setState({
+				needStruc:true,
+			})
+		}
 		this.setState({
 			tabStatus:tabStatus,
 			dataStatus:_status,
@@ -95,11 +103,20 @@ class  StructureDetail extends React.Component {
 			}
 			this.getStrucData(Id,role);
 		} else {
-			this.setState({
-				needWrongReason:true,
-				needRecord:true,
-				buttonStyle: {display:'none'},
-			});
+			if(!needStruc){
+				this.setState({
+					needWrongReason:true,
+					needRecord:true,
+					buttonStyle: {display:'none'},
+				});
+			}else{
+				this.setState({
+					needWrongReason:true,
+					needRecord:true,
+					buttonText: '保存',
+				});
+			}
+
 			//检查／管理员数据详情
 			this.getDetailData(Id, role);
 
@@ -323,11 +340,10 @@ class  StructureDetail extends React.Component {
 		const {id,data,wsFindStatus,ifAttach,
 			wenshuUrl,wenshuNum,obligors,
 			houseType,}=this.state;
-		const {dataId,dataStatus,dataPage,tabStatus,buttonText}=this.state;
-
+		const {dataId,dataStatus,dataPage,tabStatus,buttonText,need}=this.state;
 		let _data=data;
 		_data.ah=wenshuNum;
-		_data.wenshuUrl=wenshuUrl;
+		_data.wsUrl=wenshuUrl;
 		_data.obligors=obligors;
 		_data.houseType=houseType;
 
@@ -340,13 +356,13 @@ class  StructureDetail extends React.Component {
 		else if(wsFindStatus === 0) {
 			_data.wsInAttach=0;
 
-			if(_data.wenshuUrl){
-				_data.wenshuUrl.forEach(item => {
+			if(_data.wsUrl){
+				_data.wsUrl.forEach(item => {
 					item.value="";
 				});
 			}
-			if(_data.wenshuNum){
-				_data.wenshuNum.forEach(item => {
+			if(_data.ah){
+				_data.ah.forEach(item => {
 					item.value="";
 				});
 			}
@@ -354,50 +370,73 @@ class  StructureDetail extends React.Component {
 		this.setState({
 			data:_data,
 		});
-		saveDetail(id, data).then(res => {
-			const failed=this.checkRoleLable(data);
-			if(failed){
-				if (res.data.code === 200) {
-					storage.setItem("preId", id);
-					this.setState({
-						preId:id,
-					});
-					if(buttonText === '保存并标记下一条'){
-						getNewStructureData().then(res=>{
-							if (res.data.code === 200) {
-								if(res.data.data === 0){
-									message.info("暂无新数据");
-									this.props.history.push('/index')
-								}
-								this.getData({id: res.data.data});
-							}else {
-								message.error(res.data.message);
-							}
+		if(!need){
+			saveDetail(dataId, data).then(res => {
+				const failed=this.checkRoleLable(data);
+				if(failed){
+					if (res.data.code === 200) {
+						storage.setItem("preId", id);
+						this.setState({
+							preId:id,
 						});
-					}
-					else if(buttonText === '保存并修改下一条'){
-						let params = {
-							approveStatus: 2
-						};
-						structuredList(params).then(res => {
-							if (res.data.code === 200) {
-								message.info("修改成功");
-								if(res.data.data.length===0){
-									this.onClickToTable(2,1,2);
+						if(buttonText === '保存并标记下一条'){
+							getNewStructureData().then(res=>{
+								if (res.data.code === 200) {
+									if(res.data.data === 0){
+										message.info("暂无新数据");
+										this.props.history.push('/index')
+									}
+									this.getData({id: res.data.data});
+								}else {
+									message.error(res.data.message);
 								}
-								this.getData({id: res.data.data[0]["id"]});
-							} else {
-								message.error(res.data.message);
-							}
-						});
-					}
+							});
+						}
+						else if(buttonText === '保存并修改下一条'){
+							let params = {
+								approveStatus: 2
+							};
+							structuredList(params).then(res => {
+								if (res.data.code === 200) {
+									message.info("修改成功");
+									if(res.data.data.length===0){
+										this.onClickToTable(2,1,2);
+									}
+									this.getData({id: res.data.data[0]["id"]});
+								} else {
+									message.error(res.data.message);
+								}
+							});
+						}
 
+					} else {
+						message.error(res.data.message);
+					}
+				}
+
+			});
+		}else{
+			notEnableSave(dataId, data).then(res => {
+				if (res.data.code === 200) {
+					let params={};
+					params.auctionExtractWrongTypes=[];
+					params.checkError=false;
+					params.id=id;
+					inspectorCheck(params).then(res => {
+						if (res.data.code === 200) {
+							message.info("操作成功");
+							this.onClickToTable(dataStatus,dataPage,tabStatus);
+						} else {
+							message.error("操作失败");
+						}
+					});
 				} else {
 					message.error(res.data.message);
 				}
-			}
+			});
+		}
 
-		});
+
 	};
 
 	goBack=()=>{
@@ -633,11 +672,16 @@ class  StructureDetail extends React.Component {
 		const basic=data;
     const { errorReason, recordsForCheck,autionStatus,needWrongReason,needRecord }=this.state;
     const { obligors,obligorList,checkedCollateral,houseType }=this.state;
-    const { visible }=this.state;
+    const { visible,needStruc }=this.state;
     let isAdmin;
     let isStruct='';
     let need=needWrongReason;
-
+    let _buttonText=buttonText;
+    let _buttonStyle=buttonStyle;
+    if(needStruc){
+    	_buttonText='保存';
+    	_buttonStyle={backgroundColor:'#0099CC', color:'white'};
+		}
 		//按钮状态
 		if(role==="检查人员"){
 			if(status === "2"|| status === "1"){
@@ -668,21 +712,24 @@ class  StructureDetail extends React.Component {
 						<div className="yc-detail-content">
 							<div className="yc-action">
 								<Checkbox style={{display:isAdmin}}>仅标记本条</Checkbox>
-								<Button style={buttonStyle}
+								<Button style={_buttonStyle}
 												onClick={this.toSave}
-								>{buttonText}
+								>{_buttonText}
 								</Button>
 								{
 									(role==="检查人员" && (status === "1" || status ==="2"|| status ==="4")) &&
 									<Button style={{margin:4}} onClick={this.showModal}>检查有误</Button>
+									&& !needStruc
 								}
 								{
 									(role==="检查人员" && status ==="3") &&
 									<Button style={{margin:4}} onClick={this.showModal}>修改错误原因</Button>
+									&& !needStruc
 								}
 								{
-									(role==="检查人员" && (status === "1" || status ==="3"|| status ==="4")) &&
+									(role==="检查人员" && (status === "1" || status ==="3"|| status ==="4" )) &&
 									<Button style={{margin:4}} onClick={this.checkTrue}>检查无误</Button>
+									&& !needStruc
 								}
 								<Button style={{margin:4}}
 												onClick={()=>this.onClickToTable(dataStatus,dataPage,tabStatus)}
@@ -691,6 +738,7 @@ class  StructureDetail extends React.Component {
 								{
 									(role==="检查人员" && status ==="5") &&
 									<Button style={{margin:4}} onClick={this.sure}>确认</Button>
+									&& !needStruc
 								}
 	            </div>
 							<div>
@@ -701,7 +749,12 @@ class  StructureDetail extends React.Component {
 							</div>
 							<div className="yc-wrong-part">
 							<div className="left-part">
-								<HouseDetail  collateral={checkedCollateral} house={houseType} fn={this.setArea.bind(this)} area={basic.buildingArea} />
+								<HouseDetail  collateral={checkedCollateral}
+															house={houseType}
+															fn={this.setArea.bind(this)}
+															area={basic.buildingArea}
+															need={needStruc}
+								/>
 							</div>
 								<div className="right-part">
 								<WsDetail num={wenshuNum}
@@ -710,11 +763,16 @@ class  StructureDetail extends React.Component {
 													attach={ifAttach}
 													wsStyle={wsStyle}
 													fnChanged={this.changeInfo.bind(this)}
+													need={needStruc}
 								/>
 								</div>
 							</div>
 							<div>
-								<RoleDetail info={obligors} list={obligorList} changed={this.setRole.bind(this)} />
+								<RoleDetail info={obligors}
+														list={obligorList}
+														changed={this.setRole.bind(this)}
+														need={needStruc}
+								/>
 							</div>
 
             </div>

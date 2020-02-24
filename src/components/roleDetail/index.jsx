@@ -13,6 +13,7 @@ class  RoleDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      need:false,
       tableList:[],
       obligorList:[],
       genderList: [
@@ -33,11 +34,11 @@ class  RoleDetail extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    const {info,list}=nextProps;
-
+    const {info,list,need}=nextProps;
     this.setState({
       tableList:info,
       obligorList:list,
+      need:need,
     });
   }
 
@@ -184,14 +185,13 @@ class  RoleDetail extends React.Component {
   };
 
   render() {
+    const {tableList,obligorList,genderList,need,}=this.state;
       let disabled=false;
       let style='';
-      if(role !== "结构化人员"){
+      if(role !== "结构化人员" && !need){
         disabled=true;
         style='none';
       }
-      const {tableList,obligorList,genderList}=this.state;
-
         return(
           <div className="yc-wrong-part">
             <div className="yc-part-title">

@@ -85,19 +85,19 @@ class  CheckTable extends React.Component {
 				width: 180,
 				render: (text, record) => (
 					<span>
-				<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
-						{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
-						&& record.structPersonnelEnable
-						&& record.structPersonnel !== '自动标注'
-						&& <Button style={{fontSize:12}} >修改检查</Button>}
-					{(!record.structPersonnelEnable
-						|| record.structPersonnel === '自动标注')
-					&& <Button style={{fontSize:12}}>修改标注</Button>}
-					{record.status[0]===1
-					&& record.structPersonnelEnable
-					&& record.structPersonnel !== '自动标注'
-					&& <Button style={{fontSize:12}}>检查</Button>}
-				</Link>
+						<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}/${record.structPersonnelEnable}/${record.structPersonnel}`}>
+								{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
+								&& record.structPersonnelEnable
+								&& record.structPersonnel !== '自动标注'
+								&& <Button style={{fontSize:12}} >修改检查</Button>}
+							{(!record.structPersonnelEnable
+								|| record.structPersonnel === '自动标注')
+							&& <Button style={{fontSize:12}}>修改标注</Button>}
+							{record.status[0]===1
+							&& record.structPersonnelEnable
+							&& record.structPersonnel !== '自动标注'
+							&& <Button style={{fontSize:12}}>检查</Button>}
+						</Link>
       </span>
 				),
 			},
@@ -117,19 +117,19 @@ class  CheckTable extends React.Component {
 				width: 180,
 				render: (text, record) => (
 					<span>
-				<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
-						{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
-						&& record.structPersonnelEnable
-						&& record.structPersonnel !== '自动标注'
-						&& <Button style={{fontSize:12}} >修改检查</Button>}
-					{(!record.structPersonnelEnable
-						|| record.structPersonnel === '自动标注')
-					&& <Button style={{fontSize:12}}>修改标注</Button>}
-					{record.status[0]===1
-					&& record.structPersonnelEnable
-					&& record.structPersonnel !== '自动标注'
-					&& <Button style={{fontSize:12}}>检查</Button>}
-				</Link>
+						<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}/${record.structPersonnelEnable}/${record.structPersonnel}`}>
+								{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
+								&& record.structPersonnelEnable
+								&& record.structPersonnel !== '自动标注'
+								&& <Button style={{fontSize:12}} >修改检查</Button>}
+							{(!record.structPersonnelEnable
+								|| record.structPersonnel === '自动标注')
+							&& <Button style={{fontSize:12}}>修改标注</Button>}
+							{record.status[0]===1
+							&& record.structPersonnelEnable
+							&& record.structPersonnel !== '自动标注'
+							&& <Button style={{fontSize:12}}>检查</Button>}
+						</Link>
       </span>
 				),
 			},
@@ -149,19 +149,19 @@ class  CheckTable extends React.Component {
 				width: 180,
 				render: (text, record) => (
 					<span>
-				<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
-						{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
-						&& record.structPersonnelEnable
-						&& record.structPersonnel !== '自动标注'
-						&& <Button style={{fontSize:12}} >修改检查</Button>}
-					{(!record.structPersonnelEnable
-						|| record.structPersonnel === '自动标注')
-					&& <Button style={{fontSize:12}}>修改标注</Button>}
-					{record.status[0]===1
-					&& record.structPersonnelEnable
-					&& record.structPersonnel !== '自动标注'
-					&& <Button style={{fontSize:12}}>检查</Button>}
-				</Link>
+						<Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}/${record.structPersonnelEnable}/${record.structPersonnel}`}>
+								{(record.status[0]===2 || record.status[0]===3 ||record.status[0]===4)
+								&& record.structPersonnelEnable
+								&& record.structPersonnel !== '自动标注'
+								&& <Button style={{fontSize:12}} >修改检查</Button>}
+							{(!record.structPersonnelEnable
+								|| record.structPersonnel === '自动标注')
+							&& <Button style={{fontSize:12}}>修改标注</Button>}
+							{record.status[0]===1
+							&& record.structPersonnelEnable
+							&& record.structPersonnel !== '自动标注'
+							&& <Button style={{fontSize:12}}>检查</Button>}
+						</Link>
       </span>
 				),
 			},

@@ -15,16 +15,18 @@ class  HouseDetail extends React.Component {
       checkedCollateral:true,
       houseType:0,
       area:'',
+      need:false,
 		};
   }
 
   componentWillReceiveProps(nextProps){
-    const {collateral,house,area}=nextProps;
+    const {collateral,house,area,need}=nextProps;
 
     this.setState({
       checkedCollateral:collateral,
       houseType:house,
       area:area,
+      need:need,
     });
 
   }
@@ -57,8 +59,9 @@ class  HouseDetail extends React.Component {
   };
 
   render() {
+    const {need}=this.state;
       let disabled=false;
-      if(role !== "结构化人员"){
+      if(role !== "结构化人员" && !need){
         disabled=true;
       }
     const { checkedCollateral,houseType,area }=this.state;
