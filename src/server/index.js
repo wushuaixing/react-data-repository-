@@ -3,10 +3,8 @@
  */
 // axios 应该做一些封装和拦截，统一判断接口请求是否接通，可以去参考小程序项目
 import axios from "axios";
-import {withRouter} from "react-router-dom";
-withRouter(function request() {
-	this.props.history.push()
-});
+import history from "../history";
+
 axios.processData = false;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
@@ -28,7 +26,7 @@ axios.interceptors.response.use(
 		if (response.data.code !== 200) {
 			// debugger
 			if (response.data.code === 401 ) {
-				this.props.history.push("/login");
+				history.push("/login");
 			} else {
 				return response;
 			}
@@ -72,4 +70,4 @@ http.get=function (api,data) {
 
 
 
-export default withRouter(http)
+export default http
