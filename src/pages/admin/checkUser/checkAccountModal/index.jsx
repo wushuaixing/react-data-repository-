@@ -2,15 +2,10 @@
 import React from 'react';
 import { Modal, Form, } from "antd";
 import Button from "antd/es/button";
-import { Select } from 'antd';
-import Checkbox from "antd/es/checkbox";
 import Input from "antd/es/input";
 import 'antd/dist/antd.css';
 import './style.scss';
 
-// ==================
-// 所需的所有组件
-// ==================
 const accountForm = Form.create;
 const formItemLayout = {
   labelCol: {
@@ -31,8 +26,6 @@ class AccountManage extends React.Component {
 
   componentWillReceiveProps(nextProps){
     const {visible,action,info}=nextProps;
-    console.log(action);
-    // console.log(nextProps,'next');
     this.setState({
       visible:visible,
       action:action,
@@ -43,7 +36,6 @@ class AccountManage extends React.Component {
   modalOk=()=>{
     const {info}=this.state;
     let options=this.props.form.getFieldsValue();
-    console.log(options,'options');
     this.setState({
       visible: false,
     });

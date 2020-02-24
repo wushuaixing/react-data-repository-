@@ -1,6 +1,6 @@
 /** right content for Account manage* */
 import React from 'react';
-import {Tabs, Table, } from "antd";
+import {Table, Spin,} from "antd";
 import { userCreateCheck, userEditCheck, userResetCheck,userRemoveCheck,getCheckListCheck} from "../../../server/api";
 import { message,Button } from 'antd';
 import AccountModal from './checkAccountModal';
@@ -11,6 +11,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+			loading:false,
       isEnabledUser: true,
       taleList: [],
       total: 1,
@@ -90,9 +91,13 @@ class Index extends React.Component {
 
 	//重置密码
 	resetPassword(id) {
-		// this.loading = true;
+		this.setState({
+			loading:true,
+		});
 		userResetCheck(id).then(res => {
-			// this.loading = false;
+			this.setState({
+				loading:false,
+			});
 			if (res.data.code === 200) {
 				message.info("重置密码成功");
 			} else {
@@ -103,9 +108,13 @@ class Index extends React.Component {
 
 	//删除账号
 	deleteUser(id) {
-		// this.loading = true;
+		this.setState({
+			loading:true,
+		});
 		userRemoveCheck(id).then(res => {
-			// this.loading = false;
+			this.setState({
+				loading:false,
+			});
 			if (res.data.code === 200) {
 				message.info("删除成功");
 				this.getTableList();
@@ -117,12 +126,15 @@ class Index extends React.Component {
 
   //get table dataSource
   getTableList=()=>{
+			this.setState({
+				loading:true,
+			});
 			getCheckListCheck({num:1000}).then(res => {
 				if (res.data.code === 200) {
-					// this.loading = false;
 					this.setState({
 						tableList:res.data.data.list,
 						total:res.data.data.total,
+						loading:false,
 					});
 				} else {
 					message.error(res.data.message);
@@ -136,10 +148,14 @@ class Index extends React.Component {
 		//默认初始传入正常账号
 		this.setState({
 			visible: false,
+			loading:true,
 		});
 		if(action==='add'){
 			//确定前还需验证
 			userCreateCheck(data).then(res => {
+				this.setState({
+					loading:false,
+				});
 				if (res.data.code === 200) {
 					message.info("账号添加成功");
 				} else {
@@ -148,6 +164,9 @@ class Index extends React.Component {
 			});
 		}else{
 			userEditCheck(id, data).then(res => {
+				this.setState({
+					loading:false,
+				});
 				if (res.data.code === 200) {
 					message.info("修改成功");
 				} else {
@@ -177,7 +196,7 @@ class Index extends React.Component {
   };
 
   render() {
-      const {tableList,total,page,visible,action,columns,info}=this.state;
+      const {tableList,total,page,visible,action,columns,info,loading}=this.state;
       const paginationProps = {
         current: page, //当前页
         showQuickJumper:true, //跳转
@@ -194,13 +213,15 @@ class Index extends React.Component {
 								<div className="add">
 									<Button onClick={this.addAccount}>+ 添加账号</Button>
 								</div>
-								<div>
-									<Table rowClassName="table-list" columns={columns} dataSource={tableList} style={{margin:10,fontSize:12}}
-										 rowKey={record => record.id}
-										 onChange={this.onChangePage}
-										 pagination={paginationProps}
-									/>
-								</div>
+								<Spin tip="Loading..." spinning={loading}>
+									<div>
+										<Table rowClassName="table-list" columns={columns} dataSource={tableList} style={{margin:10,fontSize:12}}
+											 rowKey={record => record.id}
+											 onChange={this.onChangePage}
+											 pagination={paginationProps}
+										/>
+									</div>
+								</Spin>
 							</div>
               <div>
                 <AccountModal

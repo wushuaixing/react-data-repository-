@@ -4,12 +4,10 @@ import 'antd/dist/antd.css';
 import {getAvailableNav,} from "../../server/api";
 import {Link,withRouter} from "react-router-dom";
 import admin from "../../assets/img/admin.png";
-import userCheck from "../../assets/img/user_check.png";
 import check from "../../assets/img/check.png";
 import user from "../../assets/img/user.png";
 import sync from "../../assets/img/sync.png";
 import structure from "../../assets/img/structure.png";
-import Icon from "antd/es/icon";
 
 let storage = window.localStorage;
 const menuRoute= {
@@ -18,8 +16,8 @@ const menuRoute= {
   8: "/index",//资产结构化列表（结构化人员）
   15: "/index",//资产结构化列表检查（检查人员）
   20: "/index/assetList",//资产结构化列表（管理员）
-  17: "/index/documentSearch",//文书搜索（检查人员）
-  16: "/index/documentSearch",//文书搜索（管理员）
+  // 17: "/index/documentSearch",//文书搜索（检查人员）
+  16: "/index/documentSearch",//文书搜索（管理员+检查人员）
   9: "/index/documentSearch",//文书搜索（结构化人员）
   21:"/index/syncMonitor",//抓取与同步监控（管理员）
   22:"/index/structureMonitor",//结构化情况监控（管理员）
@@ -103,8 +101,9 @@ class Sider extends React.Component {
       >
         {
           subs && subs.map(item => {
-            if(item.id === 7 || item.id === 8 || item.id === 9 || item.id === 15 ||
-              item.id === 16||item.id === 17 || item.id === 18||item.id === 20 ||
+            if(item.id === 7 || item.id === 8 || item.id === 9 ||
+              item.id === 15 || item.id === 16 ||item.id === 17 ||
+              item.id === 18||item.id === 20 ||
               item.id === 21 || item.id === 22){
               return this.renderMenuItem(item)
             }
@@ -115,7 +114,6 @@ class Sider extends React.Component {
   };
 
   renderMenuItem = ({id, icon, title}) => {
-    if(id !== 10 || id !== 11 ){
       let key = menuRoute[id];
       return (
         <Menu.Item key={id}>
@@ -124,8 +122,6 @@ class Sider extends React.Component {
           </Link>
         </Menu.Item>
       )
-    }
-
   };
 
   onOpenChange = key => {
@@ -143,7 +139,6 @@ class Sider extends React.Component {
 
   render() {
     const { menuList, openKeys } = this.state;
-
     return (
       <div>
         <Menu

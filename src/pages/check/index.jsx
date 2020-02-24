@@ -1,7 +1,7 @@
 /** check * */
 import React from 'react';
 import { withRouter} from "react-router-dom";
-import {message} from 'antd';
+import {message, Spin} from 'antd';
 import {getCheckList,getStructuredPersonnel,adminStructuredList} from "../../server/api";
 import SearchForm from "./searchInfo";
 import CheckTable from "./checkTable";
@@ -31,6 +31,7 @@ class  Check extends React.Component {
 			tabIndex:"0",
 			personnelList:[],
 			timeType:"结构化时间",
+			loading:false,
 		};
 	}
 
@@ -245,11 +246,16 @@ class  Check extends React.Component {
 
 	//get table dataSource
 	getTableList=(params)=>{
+		this.setState({
+			loading:true,
+		});
 		let tabStatus=params.status;
 		if(isCheck){
 			getCheckList(params).then(res => {
+				this.setState({
+					loading:false,
+				});
 				if (res.data.code === 200) {
-					// this.loading = false;
 					let data=res.data.data.result || {};
 					if(data.list){
 						let _list=data.list;
@@ -282,7 +288,9 @@ class  Check extends React.Component {
 			});
 		}else{
 			adminStructuredList(params).then(res => {
-				// this.loading = false;
+				this.setState({
+					loading:false,
+				});
 				if (res.data.code === 200) {
 					if (res.data.data.result) {
 						let _list=res.data.data.result.list;
@@ -298,7 +306,6 @@ class  Check extends React.Component {
 							editNum:res.data.data.alreadyEditedNum,
 							page:res.data.data.result.page,
 						});
-
 					}
 				} else {
 					message.error(res.data.message);
@@ -340,7 +347,6 @@ class  Check extends React.Component {
 	changeTab=(key)=>{
 		const _key=parseInt(key);
 		const option=this.setTimeType(_key);
-		console.log(option.tab);
 		let params = {
 			status: option.tab,
 			num:10,
@@ -375,7 +381,7 @@ class  Check extends React.Component {
 	};
 
 	render() {
-		const {tableList,waitNum,checkErrorNum,editNum,timeType,total,page,status,tabIndex}=this.state;
+		const {tableList,waitNum,checkErrorNum,editNum,timeType,total,page,status,tabIndex,loading}=this.state;
 		return(
 			<div>
 				<div className="yc-detail-title">
@@ -391,18 +397,20 @@ class  Check extends React.Component {
 					</div>
 					<p className="line"/>
 					<div className="yc-tab">
+						<Spin tip="Loading..." spinning={loading}>
 							<CheckTable page={page}
-													status={status}
-													tabIndex={tabIndex}
-													total={total}
-													waitNum={waitNum}
-													checkErrorNum={checkErrorNum}
-													editNum={editNum}
-													data={tableList}
-													isCheck={isCheck}
-													onPage={this.onTablePageChange.bind(this)}
-													onTabs={this.changeTab.bind(this)}
-							/>
+														status={status}
+														tabIndex={tabIndex}
+														total={total}
+														waitNum={waitNum}
+														checkErrorNum={checkErrorNum}
+														editNum={editNum}
+														data={tableList}
+														isCheck={isCheck}
+														onPage={this.onTablePageChange.bind(this)}
+														onTabs={this.changeTab.bind(this)}
+								/>
+						</Spin>
 					</div>
 				</div>
 			</div>

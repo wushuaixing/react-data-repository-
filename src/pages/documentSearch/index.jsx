@@ -1,6 +1,6 @@
 /** document search * */
 import React from 'react';
-import {Form, Input, Button, Table, message} from 'antd';
+import {Form, Input, Button, Table, message, Spin} from 'antd';
 import {wenshuSearch} from "../../server/api";
 import {Link, withRouter} from "react-router-dom";
 import 'antd/dist/antd.css';
@@ -60,6 +60,7 @@ class  Check extends React.Component {
 			personnelList:[],
 			timeType:"结构化时间",
 			searchContent:{},
+			loading:false,
 		};
 	}
 
@@ -88,9 +89,13 @@ class  Check extends React.Component {
 				delete params[key];
 			}
 		}
-
+		this.setState({
+			loading:true,
+		});
 		wenshuSearch(params).then(res => {
-			// this.loading = false;
+			this.setState({
+				loading:false,
+			});
 			if (res.data.code === 200) {
 				this.setState({
 					tableList:res.data.data,
@@ -148,7 +153,6 @@ class  Check extends React.Component {
 	//换页
 	onTablePageChange=(pagination)=>{
 		const {searchContent,page}=this.state;
-		console.log(pagination,'pagination');
 		this.setState({
 			page: pagination.current,
 		});
@@ -157,7 +161,7 @@ class  Check extends React.Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const {tableList,total,page}=this.state;
+		const {tableList,total,page,loading}=this.state;
 		const paginationProps = {
 			current: page,
 			showQuickJumper:true,
@@ -168,74 +172,75 @@ class  Check extends React.Component {
 			}),
 		};
 		return(
-			<div>
-				<div className="yc-detail-title">
-					<div style={{ margin:10, fontSize:16, color:'#293038',fontWeight:800 }}>文书搜索</div>
-				</div>
-				<div className="yc-detail-content">
-					<div className="yc-search-line">
-						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{marginLeft:20,marginTop:15}}>
-							<Form.Item label="全文">
-								{getFieldDecorator('whole', {})
-								(<Input
-									type="text"
-									size='default'
-									style={{width:1100}}
-									placeholder="姓名、公司、地址关键词等"
-								/>)}
-							</Form.Item>
-
-							<Form.Item label="案号">
-								{getFieldDecorator('ah', {})
-								(<Input
-									type="text"
-									size='default'
-									style={{width:230}}
-									placeholder="案号"
-								/>)}
-							</Form.Item>
-							<Form.Item label="法院">
-								{getFieldDecorator('court', {})
-								(<Input
-									type="text"
-									size='default'
-									style={{width:230}}
-									placeholder="法院"
-								/>)}
-							</Form.Item>
-							<Form.Item label="链接">
-								{getFieldDecorator('url', {})
-								(<Input
-									type="text"
-									size='default'
-									style={{width:230}}
-									placeholder="文书链接"
-								/>)}
-							</Form.Item>
-							<Form.Item>
-								<Button type="primary" htmlType="submit" style={{backgroundColor:'#0099CC',marginLeft:15}}>
-									搜索
-								</Button>
-								<Button type="default" style={{marginLeft:5}} onClick={this.clearSearch}>
-									清空搜索条件
-								</Button>
-							</Form.Item>
-						</Form>
+				<div>
+					<div className="yc-detail-title">
+						<div style={{ margin:10, fontSize:16, color:'#293038',fontWeight:800 }}>文书搜索</div>
 					</div>
-					<p className="line"/>
-					<div className="yc-tab">
-								<Table rowClassName="table-list"
-											 columns={columns}
-											 dataSource={tableList}
-											 style={{margin:10}}
-											 rowKey={record => record.wid}
-											 pagination={paginationProps}
-											 onChange={this.onTablePageChange}
-								/>
+					<div className="yc-detail-content">
+						<div className="yc-search-line">
+							<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{marginLeft:20,marginTop:15}}>
+								<Form.Item label="全文">
+									{getFieldDecorator('whole', {})
+									(<Input
+										type="text"
+										size='default'
+										style={{width:1100}}
+										placeholder="姓名、公司、地址关键词等"
+									/>)}
+								</Form.Item>
+
+								<Form.Item label="案号">
+									{getFieldDecorator('ah', {})
+									(<Input
+										type="text"
+										size='default'
+										style={{width:230}}
+										placeholder="案号"
+									/>)}
+								</Form.Item>
+								<Form.Item label="法院">
+									{getFieldDecorator('court', {})
+									(<Input
+										type="text"
+										size='default'
+										style={{width:230}}
+										placeholder="法院"
+									/>)}
+								</Form.Item>
+								<Form.Item label="链接">
+									{getFieldDecorator('url', {})
+									(<Input
+										type="text"
+										size='default'
+										style={{width:230}}
+										placeholder="文书链接"
+									/>)}
+								</Form.Item>
+								<Form.Item>
+									<Button type="primary" htmlType="submit" style={{backgroundColor:'#0099CC',marginLeft:15}}>
+										搜索
+									</Button>
+									<Button type="default" style={{marginLeft:5}} onClick={this.clearSearch}>
+										清空搜索条件
+									</Button>
+								</Form.Item>
+							</Form>
+						</div>
+						<p className="line"/>
+						<div className="yc-tab">
+							<Spin tip="Loading..." spinning={loading}>
+									<Table rowClassName="table-list"
+												 columns={columns}
+												 dataSource={tableList}
+												 style={{margin:10}}
+												 rowKey={record => record.wid}
+												 pagination={paginationProps}
+												 onChange={this.onTablePageChange}
+									/>
+							</Spin>
+						</div>
 					</div>
 				</div>
-			</div>
-
 		);
 	}
 }

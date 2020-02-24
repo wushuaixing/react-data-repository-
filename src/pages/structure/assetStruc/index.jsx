@@ -1,6 +1,6 @@
 /** admin * */
 import React from 'react';
-import {Form, Input, Button, DatePicker, Tabs, Table,message} from 'antd';
+import {Form, Input, Button, DatePicker, Tabs, Table, message, Spin} from 'antd';
 import {Columns} from "../../../static/columns";
 import {structuredList} from "../../../server/api";
 import {Link, withRouter} from "react-router-dom";
@@ -25,6 +25,7 @@ class  Asset extends React.Component {
 			tableList:[],
 			waitNum:0,
 			status:'',
+			loading:false,
 		};
   }
 
@@ -51,14 +52,17 @@ class  Asset extends React.Component {
 	};
 
   getWaitNum=()=>{
+		this.setState({
+			loading:true,
+		});
 		structuredList({
 			approveStatus: 2,
 			num: 10,
 			page: 1,
 		}).then(res => {
 			if (res.data.code === 200) {
-				// this.loading = false;
 					this.setState({
+						loading:false,
 						waitNum:res.data.total,
 					});
 			} else {
@@ -69,15 +73,19 @@ class  Asset extends React.Component {
 	};
 
   getApi=(params)=>{
+		this.setState({
+			loading:true,
+		});
 		structuredList(params).then(res => {
 			if (res.data.code === 200) {
-				// this.loading = false;
+				this.setState({
+					loading:false,
+				});
 				let _list=res.data.data;
 				_list.map((item)=>{
 					let _temp=[];
 					_temp.push(item.status);
 					item.status=_temp;
-					// item=Object.assign(item,{key:index})
 				});
 				this.setState({
 					tableList:_list,
@@ -169,23 +177,6 @@ class  Asset extends React.Component {
 			if(endTime){_params.structuredEndTime=this.dataFilter((endTime))}
 		}
 		this.getApi(_params);
-		// structuredList(params).then(res => {
-		// 	if (res.data.code === 200) {
-		// 		// this.loading = false;
-		// 		let _list=res.data.data;
-		// 		_list.map((item)=>{
-		// 			let _temp=[];
-		// 			_temp.push(item.status);
-		// 			item.status=_temp;
-		// 		});
-		// 		this.setState({
-		// 			tableList: _list,
-		// 			total: res.data.total,
-		// 		});
-		// 	} else {
-		// 		console.log('wrong');
-		// 	}
-		// });
 	};
 
 	//清空搜索条件
@@ -197,7 +188,7 @@ class  Asset extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-		const {tableList,total,waitNum,page,status,tabIndex}=this.state;
+		const {tableList,total,waitNum,page,status,tabIndex,loading}=this.state;
 		//待标记无时间搜索
 		let timeSearch=false;
 		if(status !== 0){timeSearch=true}
@@ -305,38 +296,40 @@ class  Asset extends React.Component {
                 </Form>
               </div>
 							<div className="yc-tab">
-								<Tabs activeKey={tabIndex}  onChange={this.changeTab}>
-									<TabPane tab="待标记" key="0">
-										<Table rowClassName="table-list"
-													 columns={columns}
-													 dataSource={tableList}
-													 style={{margin:10,}}
-													 rowKey={record => record.id}
-													 onChange={this.onChangePage}
-													 pagination={paginationProps}
-										/>
-									</TabPane>
-									<TabPane tab="已标记" key="1">
-										<Table rowClassName="table-list"
-													 columns={columnsRevise}
-													 dataSource={tableList}
-													 style={{margin:10}}
-													 rowKey={record => record.id}
-													 onChange={this.onChangePage}
-													 pagination={paginationProps}
-										/>
-									</TabPane>
-									<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>} key="2">
-										<Table rowClassName="table-list"
-													 columns={columnsRevise}
-													 dataSource={tableList}
-													 style={{margin:10}}
-													 rowKey={record => record.id}
-													 onChange={this.onChangePage}
-													 pagination={paginationProps}
-										/>
-									</TabPane>
-								</Tabs>
+								<Spin tip="Loading..." spinning={loading}>
+									<Tabs activeKey={tabIndex}  onChange={this.changeTab} animated={false}>
+										<TabPane tab="待标记" key="0">
+											<Table rowClassName="table-list"
+														 columns={columns}
+														 dataSource={tableList}
+														 style={{margin:10,}}
+														 rowKey={record => record.id}
+														 onChange={this.onChangePage}
+														 pagination={paginationProps}
+											/>
+										</TabPane>
+										<TabPane tab="已标记" key="1">
+											<Table rowClassName="table-list"
+														 columns={columnsRevise}
+														 dataSource={tableList}
+														 style={{margin:10}}
+														 rowKey={record => record.id}
+														 onChange={this.onChangePage}
+														 pagination={paginationProps}
+											/>
+										</TabPane>
+										<TabPane tab={<span>待修改<span style={{color:'red',marginLeft:2}}>({waitNum})</span></span>} key="2">
+											<Table rowClassName="table-list"
+														 columns={columnsRevise}
+														 dataSource={tableList}
+														 style={{margin:10}}
+														 rowKey={record => record.id}
+														 onChange={this.onChangePage}
+														 pagination={paginationProps}
+											/>
+										</TabPane>
+									</Tabs>
+								</Spin>
 							</div>
             </div>
           </div>

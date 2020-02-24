@@ -33,7 +33,6 @@ class  CheckTable extends React.Component {
 	componentWillReceiveProps(nextProps){
 		const {data,page,isCheck,total,waitNum,checkErrorNum,editNum,tabIndex,status}=nextProps;
 		// console.log(nextProps,'next');
-		console.log(tabIndex,'tabIndextabIndextabIndex');
 		this.setState({
 			tableList:data,
 			currentPage:page,
@@ -237,7 +236,7 @@ class  CheckTable extends React.Component {
 		];
 		return(
 					<div>
-						<Tabs activeKey={tabIndex} onChange={this.changeTab} >
+						<Tabs activeKey={tabIndex} onChange={this.changeTab} animated={false}>
 							<TabPane tab="全部" key="0" >
 								<Table rowClassName="table-list"
 											 columns={isCheck ? columnsStructure : columnsAdmin}

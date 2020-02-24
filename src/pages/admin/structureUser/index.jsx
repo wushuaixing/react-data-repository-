@@ -1,6 +1,6 @@
 /** right content for Account manage* */
 import React from 'react';
-import {Tabs, Table, } from "antd";
+import {Tabs, Table, Spin,} from "antd";
 import { userCreate, userView, userEdit,userReset,userRemove,userDelete} from "../../../server/api";
 import { message } from 'antd';
 import AccountModal from "./structureAccountModal";
@@ -16,6 +16,7 @@ class AccountManage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+			loading:false,
       isEnabledUser: true,
       taleList: [],
       total: 1,
@@ -142,7 +143,13 @@ class AccountManage extends React.Component {
 
 	//重置密码
 	resetPassword(id) {
+		this.setState({
+			loading:true,
+		});
 		userReset(id).then(res => {
+			this.setState({
+				loading:false,
+			});
 			if (res.data.code === 200) {
 				message.info("重置密码成功");
 			} else {
@@ -154,7 +161,13 @@ class AccountManage extends React.Component {
 	//删除账号
 	deleteUser(id) {
 		const {isEnabledUser,searchRole,searchUser}=this.state;
+		this.setState({
+			loading:true,
+		});
 		userRemove(id).then(res => {
+			this.setState({
+				loading:false,
+			});
 			if (res.data.code === 200) {
 				message.info("删除成功");
 				this.getTableList(isEnabledUser,1,searchRole,searchUser);
@@ -167,12 +180,18 @@ class AccountManage extends React.Component {
 	//已删除账号移除操作
 	remove(id) {
 		const {isEnabledUser,searchRole,searchUser}=this.state;
+		this.setState({
+			loading:true,
+		});
 		userDelete(id).then(res => {
 			if (res.data.code === 200) {
-				this.$Message.info("删除成功");
+				this.setState({
+					loading:false,
+				});
+				message.info("删除成功");
 				this.getTableList(isEnabledUser,1,searchRole,searchUser);
 			} else {
-				this.$Message.error(res.data.message);
+				message.error(res.data.message);
 			}
 		});
 	};
@@ -196,10 +215,14 @@ class AccountManage extends React.Component {
 				username: searchUser
 			};
 		}
+		this.setState({
+			loading:true,
+		});
 		userView(params).then(res => {
 			if (res.data.code === 200) {
 				// this.loading = false;
 				this.setState({
+					loading:false,
 					tableList:res.data.data,
 					total:res.data.total,
 				});
@@ -216,10 +239,14 @@ class AccountManage extends React.Component {
 		//默认初始传入正常账号
 		this.setState({
 			visible: false,
+			laoding: true,
 		});
 		if(action==='add'){
 			//确定前还需验证
 			userCreate(data).then(res => {
+				this.setState({
+					loading:false,
+				});
 				if (res.data.code === 200) {
 					message.success("账号添加成功");
 				} else {
@@ -229,6 +256,9 @@ class AccountManage extends React.Component {
 		}else{
 			userEdit(id, data).then(res => {
 				if (res.data.code === 200) {
+					this.setState({
+						loading:false,
+					});
 					message.info("修改成功");
 				} else {
 					message.error(res.data.message);
@@ -274,7 +304,6 @@ class AccountManage extends React.Component {
   //换页
   onChangePage=(pagination)=>{
 		const {isEnabledUser,page,searchRole,searchUser}=this.state;
-
 		this.setState({
       page: pagination.current,
     });
@@ -282,7 +311,7 @@ class AccountManage extends React.Component {
   };
 
   render() {
-      const {tableList,total,page,visible,action,columns,columnsDelete,info}=this.state;
+      const {tableList,total,page,visible,action,columns,columnsDelete,info,loading}=this.state;
       const paginationProps = {
         current: page, //当前页
         showQuickJumper:true, //跳转
@@ -295,31 +324,33 @@ class AccountManage extends React.Component {
     return(
           <div>
               <div style={{ margin:10, fontSize:16, color:'#293038' }}>账号管理 > 结构化账号</div>
-              <Tabs defaultActiveKey="1" onChange={this.changeTab} style={{margin:15,fontSize:12}}>
-                <TabPane tab="正常账号" key="1">
-                  <SearchAccount 	showModal={this.showModal.bind(this)}
-																	searchFn={this.searchAccount.bind(this)}
-																	roleFn={this.selectRole.bind(this)}
+							<Spin tip="Loading..." spinning={loading}>
+								<Tabs defaultActiveKey="1" onChange={this.changeTab} style={{margin:15,fontSize:12}} animated={false}>
+									<TabPane tab="正常账号" key="1">
+										<SearchAccount 	showModal={this.showModal.bind(this)}
+																		searchFn={this.searchAccount.bind(this)}
+																		roleFn={this.selectRole.bind(this)}
 
-									/>
-                  <Table rowClassName="table-list" columns={columns} dataSource={tableList} style={{margin:10,fontSize:12}}
-                         rowKey={record => record.id}
-                         onChange={this.onChangePage}
-                         pagination={paginationProps}
-                  />
-                </TabPane>
-                <TabPane tab="已删除账号" key="2">
-									<SearchAccount showModal={this.showModal.bind(this)}
-																 searchFn={this.searchAccount.bind(this)}
-																 roleFn={this.selectRole.bind(this)}
-									/>
-									<Table rowClassName="table-list" columns={columnsDelete} dataSource={tableList} style={{margin:10,fontSize:12}}
-												 rowKey={record => record.id}
-												 onChange={this.onChangePage}
-												 pagination={paginationProps}
-									/>
-                </TabPane>
-              </Tabs>
+										/>
+										<Table rowClassName="table-list" columns={columns} dataSource={tableList} style={{margin:10,fontSize:12}}
+													 rowKey={record => record.id}
+													 onChange={this.onChangePage}
+													 pagination={paginationProps}
+										/>
+									</TabPane>
+									<TabPane tab="已删除账号" key="2">
+										<SearchAccount showModal={this.showModal.bind(this)}
+																	 searchFn={this.searchAccount.bind(this)}
+																	 roleFn={this.selectRole.bind(this)}
+										/>
+										<Table rowClassName="table-list" columns={columnsDelete} dataSource={tableList} style={{margin:10,fontSize:12}}
+													 rowKey={record => record.id}
+													 onChange={this.onChangePage}
+													 pagination={paginationProps}
+										/>
+									</TabPane>
+								</Tabs>
+							</Spin>
               <div>
                 <AccountModal
                   visible={visible}
