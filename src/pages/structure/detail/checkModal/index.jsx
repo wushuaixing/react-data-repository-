@@ -81,7 +81,6 @@ class  Check extends React.Component {
 	};
 
   modalCancel=()=>{
-		const {visible}=this.state;
 		this.setState({
 			visible: false,
 		});
@@ -122,7 +121,7 @@ class  Check extends React.Component {
 										>点击确定，本条结构化数据将被标记为检查错误，并将退回给结构化人员</span
 										>
 									</div>
-									<Form style={{width:337}}>
+									<Form style={{width:347}}>
 										<Form.Item className="part" label="备注">
 											{getFieldDecorator('remark', {})(
 												<Input.TextArea
@@ -179,7 +178,7 @@ class  Check extends React.Component {
 												</div>
 										</div>
 										<div className="footer">
-											<Button type="primary" onClick={this.modalOk}>确定</Button>
+											<Button type="primary" onClick={this.modalOk} style={{backgroundColor:'#0099CC'}}>确定</Button>
 											<Button onClick={this.modalCancel}>取消</Button>
 										</div>
 									</Form>
