@@ -11,15 +11,12 @@
     margin-left: 50px;
     margin-top: -20px;
   }
-
-
   .user-message{
     text-align: right;
     margin-top: -30px;
     .dropdown-link{
       color: #ffffff;
     }
-
   }
   > img {
     display: inline-block;
@@ -27,14 +24,24 @@
     height: 21px;
     margin: 15px 6px 0 20px;
   }
-  .ant-modal {
-    .ant-modal-content{
-      .ant-modal-body{
-        padding: 15px;
-      }
-      .ant-modal-footer{
-        text-align:center;
-      }
+
+}
+.ant-modal {
+  padding: 5px 15px;
+  width: 508px;
+  .ant-modal-content{
+    width: 508px;
+    .ant-form-item{
+      margin-bottom: 14px;
+    }
+    .ant-input:placeholder-shown{
+      font-size: 10px;
+    }
+    .ant-modal-body{
+      padding: 5px 15px;
+    }
+    .ant-modal-footer{
+      text-align:center;
     }
   }
 }

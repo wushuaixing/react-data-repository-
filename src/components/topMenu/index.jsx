@@ -1,14 +1,18 @@
-/** check * */
+/** topMenu * */
 import React from 'react';
-import { Dropdown, Menu, Icon, Modal,message  } from "antd";
+import { Dropdown, Menu, Icon, Modal,message,Input,Button,Form  } from "antd";
 import { withRouter } from 'react-router-dom';
 import logo from "../../assets/img/top_logo.png";
-import Input from "antd/es/input";
-import Button from "antd/es/button";
 import {changePassword, logout} from "../../server/api";
+import 'antd/dist/antd.css';
 import './style.scss';
 
-
+const pswForm = Form.create;
+const formItemLayout = {
+	labelCol: {
+		sm: { span:6,offset:0 },
+	},
+};
 
 class topMenu extends React.Component {
 	constructor(props) {
@@ -25,17 +29,30 @@ class topMenu extends React.Component {
 		});
 	};
 
+	//验证密码-输入框格式
+	handleValidator = (rule, val, callback) => {
+		if (rule.field === "newPassword") {
+			if(!val){
+				callback('请输入新密码');
+			}
+			else if (val.length > 20 || val.length < 6) {
+				callback('长度为6-20位，不允许有空格');
+			}
+		}
+		if (rule.field === "confirmNewPassword") {
+			if(!val){
+				callback('请确认新密码');
+			}
+			else if (val.length > 20 || val.length < 6) {
+				callback('长度为6-20位，不允许有空格');
+			}
+		}
+	};
+
 	handleOk = () => {
-		const original = this.refs.originPsw.state.value;
-		const newPsw = this.refs.newPsw.state.value;
-		const confirm = this.refs.confirmPsw.state.value;
-		console.log(this.refs.confirmPsw.state.value);
-		const params={
-			oldPassword: original,
-		  newPassword: newPsw,
-		  confirmNewPassword: confirm,
-		};
-		changePassword(params).then(res => {
+		let options=this.props.form.getFieldsValue();
+		console.log(options);
+		changePassword(options).then(res => {
 			if (res.data.code === 200) {
 				message.info("密码修改成功");
 				this.props.history.push('/login')
@@ -68,6 +85,8 @@ class topMenu extends React.Component {
 	render() {
 		const { user } = this.props;
 		const { visible }=this.state;
+		const { getFieldDecorator } = this.props.form;
+
 		const menu = (
 			<Menu className="user-menu" style={{marginTop: 8,}}>
 				<Menu.Item key="0">
@@ -79,8 +98,8 @@ class topMenu extends React.Component {
 			</Menu>
 		);
 
-
 		return (
+			<div>
 				<div className="top-title">
 					<img src={logo} alt="" />
 					<p className="title">
@@ -96,67 +115,74 @@ class topMenu extends React.Component {
 								Hi, {user} <Icon type="down" />
 							</a>
 						</Dropdown>
-
 					</div>
-					<Modal
-						style={{width:500, height:340}}
-						title="修改密码"
-						visible={visible}
-						destroyOnClose={true}
-						closable={true}
-						footer={[
-							// 定义右下角 按钮的地方 可根据需要使用 一个或者 2个按钮
-							<Button key="back" onClick={this.handleCancel} style={{width: 120,height: 36, marginLeft: 0 }}>取消</Button>,
-							<Button key="submit" type="primary" onClick={this.handleOk} style={{backgroundColor:'#0099CC',width: 120,height: 36}}>
-								确定
-							</Button>
-						]}
-					>
-						<div style={{marginBottom: 20,fontSize: 14}}>
-							<p
-								style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
-							>
-								原密码:
-							</p>
-							<Input
-								type="password"
-								style={{width: 240,display: 'inline-block'}}
-								placeholder="请输入原密码"
-								ref="originPsw"
-							/>
-						</div>
-						<div style={{marginBottom: 20,fontSize: 14}}>
-							<p
-								style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
-							>
-								新密码:
-							</p>
-							<Input
-								type="password"
-								style={{width: 240,display: 'inline-block'}}
-								placeholder="请输入新密码，长度为6-20位，不允许有空格"
-								ref="newPsw"
-							/>
-						</div>
-						<div style={{marginBottom: 20,fontSize: 14}}>
-							<p
-								style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
-							>
-								请确认新密码:
-							</p>
-							<Input
-								type="password"
-								style={{width: 240,display: 'inline-block'}}
-								placeholder="请确认新密码，长度为6-20位，不允许有空格"
-								ref="confirmPsw"
-							/>
-						</div>
-
-					</Modal>
 				</div>
+				<Modal
+					title="修改密码"
+					visible={visible}
+					destroyOnClose={true}
+					closable={true}
+					footer={[
+						// 定义右下角 按钮的地方 可根据需要使用 一个或者 2个按钮
+						<Button key="submit"
+										type="primary"
+										onClick={this.handleOk}
+										style={{backgroundColor:'#0099CC',width: 120,height: 36,marginRight:15}}
+						>
+							确定
+						</Button>,
+						<Button key="back"
+										onClick={this.handleCancel}
+										style={{width: 120,height: 36, marginLeft: 0 }}
+						>
+							取消</Button>
+					]}
+				>
+					<Form {...formItemLayout}>
+						<Form.Item label="原密码">
+							{getFieldDecorator('oldPassword', {})(
+								<Input
+									style={{marginLeft: 8,width: 265,height: 32 }}
+									className="yc-input"
+									placeholder="请输入原密码"
+								/>,
+							)}
+						</Form.Item>
+						<Form.Item label="新密码">
+							{getFieldDecorator('newPassword',
+								{
+									rules:[
+									{ validator: this.handleValidator }
+								],
+								validateTrigger:'onBlur',
+							})(
+								<Input
+									style={{marginLeft: 8,width: 265,height: 32 }}
+									className="yc-input"
+									placeholder="请输入新密码，长度为6-20位，不允许有空格"
+								/>,
+							)}
+						</Form.Item>
+						<Form.Item label="请确认新密码">
+							{getFieldDecorator('confirmNewPassword', {
+								rules:[
+									{ validator: this.handleValidator }
+								],
+								validateTrigger:'onBlur',
+							})(
+								<Input
+									style={{marginLeft: 8,width: 265,height: 32 }}
+									className="yc-input"
+									placeholder="请确认新密码，长度为6-20位，不允许有空格"
+								/>,
+							)}
+						</Form.Item>
+					</Form>
+				</Modal>
+			</div>
 		);
 	}
 }
 
-export default withRouter(topMenu);
+export default withRouter(pswForm()(topMenu));
 
