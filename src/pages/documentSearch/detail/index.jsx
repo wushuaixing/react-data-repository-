@@ -25,7 +25,6 @@ class  DocumentDetail extends React.Component {
 				data.trialDate=this.dataFilter(data.trialDate);
 				let detail =
 					"<div>" + res.data.data.content + "</div>";
-console.log(detail);
 				this.setState({
 					data:data,
 					html:detail,

@@ -1,9 +1,6 @@
-/** right content for Account manage* */
+/**ROLE INFORMATION* */
 import React from 'react';
-import Button from "antd/es/button";
-import Input from "antd/es/input";
-import { Select } from 'antd';
-
+import { Select,message,Button,Input } from 'antd';
 
 const { Option } = Select;
 let storage = window.localStorage;
@@ -72,13 +69,14 @@ class  RoleDetail extends React.Component {
         temp[index].notes=value;
       }else if(name==="birthday"){
         temp[index].birthday=value;
+        this.checkData(temp[index].birthday=value,index);
       }else if(name==="number"){
         temp[index].number=value;
       }
     }
 
 
-    console.log(tableList[index],'target');
+    // console.log(tableList[index],index,'target');
     this.props.changed(temp);//这个地方把值传递给了props的事件当中
 
   };
@@ -107,6 +105,7 @@ class  RoleDetail extends React.Component {
 
 
   checkData=(data,index)=>{
+    console.log(data);
     if (!data) {
       return;
     }
@@ -114,16 +113,12 @@ class  RoleDetail extends React.Component {
     let year, month, day;
     let changeTime;
     let dateNum=`${data}`.match(/^\d{8}$/);
-    let ifWord=`${data}`.match(/[\u4e00-\u9fa5]/g);
-    // let checkTime = `${data}`.match(/(\d{4}).(\d{1,2}).(\d{1,2}).*/);
-    // let checkTime = `${data}`.match(/(\d{1,}).(\d{1,}).(\d{1,}).(.*).*/);
     let checkTime = `${data}`.match(/^(\d{4})年(\d{1,2})月(\d{1,2})(日|号|)$/);
     if(dateNum){
 			info.birthday =data;
     }
     else if(!checkTime){
-      // this.$Message.error("输入格式错误");
-      // this.error.birthday = "输入格式错误";
+      message.error("输入格式错误");
 			info.birthday =data;
     }
     else if(checkTime){
@@ -149,16 +144,14 @@ class  RoleDetail extends React.Component {
           }
 					info.birthday = year + month + day;
         } else {
-          // this.$Message.error("输入格式错误");
-          // this.error.birthday = "输入格式错误";
+          message.error("输入格式错误");
 					info.birthday = "";
         }
       }
     }
     else {
-      // this.$Message.error("输入格式错误");
-      // this.error.birthday = "输入格式错误";
-      // return;
+      message.error("输入格式错误");
+      return
     }
   };
 
@@ -265,7 +258,6 @@ class  RoleDetail extends React.Component {
                                 style={{width: '100%'}}
                                 name="number"
                                 onChange={this.roleInfo.bind(this,index)}
-
                               />
                             </form>
                           }
@@ -280,7 +272,7 @@ class  RoleDetail extends React.Component {
                                 defaultValue={row.birthday}
                                 placeholder="请输入年月日"
                                 style={{width: '100%'}}
-                                onBlur={() => this.checkData(row.birthday, index)}
+                                // onBlur={() => this.checkData.bind(this,index)}
                                 onChange={this.roleInfo.bind(this,index)}
                               />
                             </form>

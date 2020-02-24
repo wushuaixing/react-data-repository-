@@ -1,10 +1,7 @@
-/** right content for Account manage* */
+/** 详情* */
 import React from 'react';
 import {withRouter} from "react-router-dom";
-import {message} from "antd";
-import Button from "antd/es/button";
-import Icon from "antd/es/icon";
-import Checkbox from "antd/es/checkbox";
+import {message,Button,Icon,Checkbox} from "antd";
 import {
 	structuredList,
 	getCheckDetail,
@@ -286,7 +283,9 @@ class  StructureDetail extends React.Component {
 			}
 	};
 
-	//角色信息+建筑面积-保存前格式验证
+
+
+	//角色信息+建筑面积+生日-保存前格式验证
 	checkRoleLable=(data)=>{
 		let failed=true;
 		//建筑面积格式
@@ -301,14 +300,6 @@ class  StructureDetail extends React.Component {
 		}
 		// labelType 角色： 1-资产所有人 2-债权人 3-资产线索 5竞买人
 		if(data.obligors){
-			let tempData=[];
-			data.obligors.forEach((item)=>{
-				let itemValue=Object.values(item);
-				let roleValue=itemValue.filter(_item=> _item != null && _item !== undefined && _item !== "");
-				if(roleValue.length){
-					tempData.push(item);
-				}
-			});
 			let r1 = data.obligors.filter(item=>item.labelType==="3"&& !item.notes);
 			let r2 = data.obligors.filter(item=>{
 				let res1 = item.labelType==="2";
@@ -332,9 +323,10 @@ class  StructureDetail extends React.Component {
 				return failed;
 			}
 		}
-
 		return failed
 	};
+
+
 
 	toSave=()=> {
 		const {id,data,wsFindStatus,ifAttach,
@@ -366,6 +358,17 @@ class  StructureDetail extends React.Component {
 					item.value="";
 				});
 			}
+		}
+		if(_data.obligors) {
+			let tempData = [];
+			data.obligors.forEach((item, index) => {
+				let itemValue = Object.values(item);
+				let roleValue = itemValue.filter(_item => _item != null && _item !== undefined && _item !== "");
+				if (roleValue.length) {
+					tempData.push(item);
+				}
+			});
+			_data.obligors=tempData;
 		}
 		this.setState({
 			data:_data,
@@ -465,7 +468,7 @@ class  StructureDetail extends React.Component {
 
 	getData(id) {
 		// this.loading = true;
-		const {preId,dataMark,dataTotal}=this.state;
+		const {preId}=this.state;
 		this.setState({
 			preId:storage["preId"],
 		});
