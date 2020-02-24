@@ -92,66 +92,67 @@ class topMenu extends React.Component {
 							<input type="password" />
 						</form>
 						<Dropdown className="user-drop" overlay={menu} trigger={['click']}>
-							<a className="dropdown-link" href="#" >
+							<a className="dropdown-link" href="#" style={{marginRight:10}}>
 								Hi, {user} <Icon type="down" />
 							</a>
 						</Dropdown>
-						<Modal
-							style={{width:500, height:340}}
-							title="修改密码"
-							visible={visible}
-							destroyOnClose={true}
-							closable={true}
-							footer={[
-								// 定义右下角 按钮的地方 可根据需要使用 一个或者 2个按钮
-								<Button key="back" onClick={this.handleCancel} style={{width: 120,height: 36, marginLeft: -20 }}>取消</Button>,
-								<Button key="submit" type="primary" onClick={this.handleOk} style={{backgroundColor:'#0099CC',width: 120,height: 36}}>
-									确定
-								</Button>
-									]}
-						>
-							<div style={{marginBottom: 20,fontSize: 14}}>
-								<p
-									style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
-								>
-									原密码:
-								</p>
-								<Input
-									type="password"
-									style={{width: 320,display: 'inline-block'}}
-									placeholder="请输入原密码"
-									ref="originPsw"
-								/>
-							</div>
-							<div style={{marginBottom: 20,fontSize: 14}}>
-								<p
-									style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
-								>
-									新密码:
-								</p>
-								<Input
-									type="password"
-									style={{width: 320,display: 'inline-block'}}
-									placeholder="请输入新密码，长度为6-20位，不允许有空格"
-									ref="newPsw"
-								/>
-							</div>
-							<div style={{marginBottom: 20,fontSize: 14}}>
-								<p
-									style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
-								>
-									请确认新密码:
-								</p>
-								<Input
-									type="password"
-									style={{width: 320,display: 'inline-block'}}
-									placeholder="请确认新密码，长度为6-20位，不允许有空格"
-									ref="confirmPsw"
-								/>
-							</div>
 
-							</Modal>
 					</div>
+					<Modal
+						style={{width:500, height:340}}
+						title="修改密码"
+						visible={visible}
+						destroyOnClose={true}
+						closable={true}
+						footer={[
+							// 定义右下角 按钮的地方 可根据需要使用 一个或者 2个按钮
+							<Button key="back" onClick={this.handleCancel} style={{width: 120,height: 36, marginLeft: 0 }}>取消</Button>,
+							<Button key="submit" type="primary" onClick={this.handleOk} style={{backgroundColor:'#0099CC',width: 120,height: 36}}>
+								确定
+							</Button>
+						]}
+					>
+						<div style={{marginBottom: 20,fontSize: 14}}>
+							<p
+								style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
+							>
+								原密码:
+							</p>
+							<Input
+								type="password"
+								style={{width: 240,display: 'inline-block'}}
+								placeholder="请输入原密码"
+								ref="originPsw"
+							/>
+						</div>
+						<div style={{marginBottom: 20,fontSize: 14}}>
+							<p
+								style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
+							>
+								新密码:
+							</p>
+							<Input
+								type="password"
+								style={{width: 240,display: 'inline-block'}}
+								placeholder="请输入新密码，长度为6-20位，不允许有空格"
+								ref="newPsw"
+							/>
+						</div>
+						<div style={{marginBottom: 20,fontSize: 14}}>
+							<p
+								style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
+							>
+								请确认新密码:
+							</p>
+							<Input
+								type="password"
+								style={{width: 240,display: 'inline-block'}}
+								placeholder="请确认新密码，长度为6-20位，不允许有空格"
+								ref="confirmPsw"
+							/>
+						</div>
+
+					</Modal>
 				</div>
 		);
 	}
