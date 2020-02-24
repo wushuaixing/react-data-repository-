@@ -669,7 +669,7 @@ class  StructureDetail extends React.Component {
 
 //待标记--》详情页
   render() {
-		const {status, page} = this.props.match.params;
+		const {status} = this.props.match.params;
 		const { dataMark, dataTotal, buttonText, buttonStyle,data,dataStatus,tabStatus,dataPage }=this.state;
 		const { wenshuNum, wenshuUrl,wsFindStatus, ifAttach, wsStyle }=this.state;
 		const basic=data;
@@ -720,28 +720,24 @@ class  StructureDetail extends React.Component {
 								>{_buttonText}
 								</Button>
 								{
-									(role==="检查人员" && (status === "1" || status ==="2"|| status ==="4")) &&
+									(role==="检查人员" && (status === "1" || status ==="2"|| status ==="4")&& needStruc===false) &&
 									<Button style={{margin:4}} onClick={this.showModal}>检查有误</Button>
-									&& !needStruc
 								}
 								{
-									(role==="检查人员" && status ==="3") &&
+									(role==="检查人员" && status ==="3" && needStruc===false) &&
 									<Button style={{margin:4}} onClick={this.showModal}>修改错误原因</Button>
-									&& !needStruc
 								}
 								{
-									(role==="检查人员" && (status === "1" || status ==="3"|| status ==="4" )) &&
+									(role==="检查人员" && (status === "1" || status ==="4" )&& needStruc===false) &&
 									<Button style={{margin:4}} onClick={this.checkTrue}>检查无误</Button>
-									&& !needStruc
 								}
 								<Button style={{margin:4}}
 												onClick={()=>this.onClickToTable(dataStatus,dataPage,tabStatus)}
 								>返回
 								</Button>
 								{
-									(role==="检查人员" && status ==="5") &&
+									(role==="检查人员" && status ==="5"&& needStruc===false) &&
 									<Button style={{margin:4}} onClick={this.sure}>确认</Button>
-									&& !needStruc
 								}
 	            </div>
 							<div>
