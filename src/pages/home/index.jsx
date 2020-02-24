@@ -27,15 +27,13 @@ class  Index extends React.Component {
       if(role==="管理员"){admin=true}
       if(role==="检查人员"){check=true}
         return(
-          <div>
+          <div >
               <TopMenu user={user}/>
-              <div className="main-body">
-                <div className="left-menu">
+              <div className="main-body" style={{marginTop:-2,display:'flex',backgroundColor:'#293038',minHeight:1200}}>
+                <div className="left-menu"  style={{width:180}}>
                   <LeftMenu role={role} />
                 </div>
-                <div className="right-content" style={{marginLeft:180, marginTop:-2000}}>
-                    {/*<Route path="/index" exact component={AccountManage} />
-                    <Route path="/index/check" component={CheckList} />*/}
+                <div className="right-content" style={{flex:1,backgroundColor:'#ffffff'}}>
                   {str && <StructureRoute />}
                   {admin && <AdminRoute />}
                   {check && <CheckRoute />}

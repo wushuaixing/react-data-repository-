@@ -194,7 +194,7 @@ class Index extends React.Component {
 								<div className="add">
 									<Button onClick={this.addAccount}>+ 添加账号</Button>
 								</div>
-								<div>
+								<div className="yc-tab">
 									<Table rowClassName="table-list" columns={columns} dataSource={tableList} style={{margin:10,fontSize:12}}
 										 rowKey={record => record.id}
 										 onChange={this.onChangePage}
