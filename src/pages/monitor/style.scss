@@ -1,0 +1,53 @@
+
+  .yc-left-card{
+    float:left;
+    width:50%;
+    background-color: #ffffff;
+    min-height: 1200px;
+    .yc-left-amount{
+      float:left;
+      width:30%;
+      .yc-part-title{
+        margin-top:20px;
+        margin-left: 20px;
+        margin-bottom: 0;
+        color: #808387;
+        font-size: 14px;
+      }
+      .yc-part-amount{
+        margin-left:20px;
+        color:#293038;
+        font-size: 20px;
+        font-weight:800;
+      }
+    }
+    .yc-right-amount{
+      overflow: hidden;
+      .amount{
+      margin-top:20px;color:#808387;margin-bottom:0;font-size:14px;
+      }
+    }
+    .yc-source-pie{
+      width: 90%;
+      height: 220px;
+    }
+    .yc-chart-title{
+      margin-left: 20px;
+      color:#293038;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .yc-python-line{
+      width:90%;
+      height:300px;
+      margin-left: -30px;
+    }
+
+  }
+  .yc-right-card{
+    float:right;
+    width:49%;
+    background-color: #ffffff;
+    min-height: 1200px;
+
+  }

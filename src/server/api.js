@@ -234,4 +234,16 @@ export const wenshuSearch=(params)=> {
 export const wenshuDetail=(id)=> {
 	return axios.get("/api/asset/structured/control/wenshu/detail/" + id);
 };
+////////////////////
+//数据抓取与同步监控//
+///////////////////
+//数据源分布
+export const dataSourceData=()=> {
+	return axios.get("/api/statistical/assetDataCrawlingDetails");
+};
+
+//源网站增量与数据抓取量，差值
+export const detailsByDate=(type,dataSourceType)=> {
+	return axios.get("/api/statistical/assetDataCrawlingDetailsByDate?type="+ type +"&dataSourceType=" +dataSourceType);
+};
 
