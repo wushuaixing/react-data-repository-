@@ -33,23 +33,23 @@ class  HouseDetail extends React.Component {
   //抵押情况
   onChangeCheckBox = e =>{
     // console.log(e.target.checked);
-    this.props.collateral=e.target.checked;
+    this.props.fnCollateral(e.target.checked);
 
   };
 
   //房产／土地类型
   onChangeRadioHouse = e =>{
     // console.log('radio checked', e.target.value);
-    this.props.houseType=e.target.value;
+    this.props.fnHouse(e.target.value);
   };
 
 
   //建筑面积
   getArea = e =>{
-    this.props.fn(e.target.value);//这个地方把值传递给了props的事件当中
+    this.props.fnArea(e.target.value);//这个地方把值传递给了props的事件当中
   };
   //建筑面积
-  checkArea(e){
+  checkArea=(e)=>{
     let num=e.target.value;
     let _num=/(^[0-9]{1,6}$)|(^[0-9]{1,6}[.]{1}[0-9]+$)/.test(num);
     if(!_num){

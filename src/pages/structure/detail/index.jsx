@@ -147,7 +147,7 @@ class  StructureDetail extends React.Component {
 	}
 
 	//房产子组件
-	setArea(num) {
+	setArea=(num)=> {
 		const {data}=this.state;
 		let _data=data;
 		_data.buildingArea=num;
@@ -156,7 +156,30 @@ class  StructureDetail extends React.Component {
 		},() =>{
 			// console.log(data.buildingArea);//setState是异步操作，但是我们可以在它的回调函数里面进行操作
 		});
-	}
+	};
+
+	setCollateral=(bool)=>{
+		const {data}=this.state;
+		let _data=data;
+		if(bool === true){
+			_data.collateral=0;
+		}else{
+			_data.collateral=1;
+		}
+		this.setState({
+			data:_data,
+			checkedCollateral:true,
+		})
+	};
+
+	setHouseType=(type)=>{
+		const {data}=this.state;
+		let _data=data;
+		_data.houseType=type;
+		this.setState({
+				data:_data,
+		});
+	};
 	//角色信息子组件
 	setRole(list) {
 		const {obligor}=this.state;
@@ -750,7 +773,9 @@ class  StructureDetail extends React.Component {
 							<div className="left-part">
 								<HouseDetail  collateral={checkedCollateral}
 															house={houseType}
-															fn={this.setArea.bind(this)}
+															fnArea={this.setArea.bind(this)}
+															fnCollateral={this.setCollateral.bind(this)}
+															fnHouse={this.setHouseType.bind(this)}
 															area={basic.buildingArea}
 															need={needStruc}
 								/>
