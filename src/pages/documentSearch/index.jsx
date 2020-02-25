@@ -172,7 +172,7 @@ class  Check extends React.Component {
 			}),
 		};
 		return(
-				<div>
+				<div style={{backgroundColor:'#ffffff',margin:20}}>
 					<div className="yc-detail-title">
 						<div style={{ margin:10, fontSize:16, color:'#293038',fontWeight:800 }}>文书搜索</div>
 					</div>

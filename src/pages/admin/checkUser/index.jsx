@@ -5,7 +5,6 @@ import { userCreateCheck, userEditCheck, userResetCheck,userRemoveCheck,getCheck
 import { message,Button } from 'antd';
 import AccountModal from './checkAccountModal';
 import 'antd/dist/antd.css';
-import './style.scss';
 
 class Index extends React.Component {
   constructor(props) {
@@ -207,10 +206,13 @@ class Index extends React.Component {
         }),
       };
     return(
-          <div>
-              <div style={{ margin:10, fontSize:16, color:'#293038' }}>账号管理 > 检查账号</div>
-							<div className="content">
-								<div className="add">
+          <div style={{backgroundColor:'#ffffff',margin:20}}>
+						<div className="yc-detail-title" >
+							<div style={{ margin:10, fontSize:16, color:'#293038',fontWeight:800 }}>账号管理 > 检查账号</div>
+						</div>
+						<div className="yc-detail-content">
+							<div>
+								<div style={{ margin:10,textAlign:'right'}}>
 									<Button onClick={this.addAccount}>+ 添加账号</Button>
 								</div>
 								<Spin tip="Loading..." spinning={loading}>
@@ -223,6 +225,7 @@ class Index extends React.Component {
 									</div>
 								</Spin>
 							</div>
+						</div>
               <div>
                 <AccountModal
                   visible={visible}

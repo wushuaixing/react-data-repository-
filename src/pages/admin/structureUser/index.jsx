@@ -322,8 +322,11 @@ class AccountManage extends React.Component {
         }),
       };
     return(
-          <div>
-              <div style={{ margin:10, fontSize:16, color:'#293038' }}>账号管理 > 结构化账号</div>
+          <div style={{backgroundColor:'#ffffff',margin:20}}>
+						<div className="yc-detail-title" >
+							<div style={{ margin:10, fontSize:16, color:'#293038',fontWeight:800 }}>账号管理 > 结构化账号</div>
+						</div>
+						<div className="yc-detail-content">
 							<Spin tip="Loading..." spinning={loading}>
 								<Tabs defaultActiveKey="1" onChange={this.changeTab} style={{margin:15,fontSize:12}} animated={false}>
 									<TabPane tab="正常账号" key="1">
@@ -351,6 +354,7 @@ class AccountManage extends React.Component {
 									</TabPane>
 								</Tabs>
 							</Spin>
+						</div>
               <div>
                 <AccountModal
                   visible={visible}

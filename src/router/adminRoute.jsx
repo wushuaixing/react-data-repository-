@@ -6,7 +6,7 @@ import CheckAccount from "../pages/admin/checkUser";
 import DocumentSearch from "../pages/documentSearch";
 import AssetList from "../pages/check";
 import StructureDetail from "../pages/structure/detail";
-
+import SyncMonitor from "../pages/monitor";
 
 class ContentMain extends React.Component {
   render() {
@@ -17,7 +17,7 @@ class ContentMain extends React.Component {
 				<Route path="/index/documentSearch" component={DocumentSearch} />
 				<Route path="/index/assetList" component={AssetList} />
 				<Route path="/index/:Id/:status/:page/:tabStatus" component={StructureDetail} />
-
+				<Route path="/index/syncMonitor" component={SyncMonitor} />
 			</div>
     )
   }

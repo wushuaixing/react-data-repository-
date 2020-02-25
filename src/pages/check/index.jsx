@@ -383,8 +383,8 @@ class  Check extends React.Component {
 	render() {
 		const {tableList,waitNum,checkErrorNum,editNum,timeType,total,page,status,tabIndex,loading}=this.state;
 		return(
-			<div>
-				<div className="yc-detail-title">
+			<div style={{backgroundColor:'#ffffff',margin:20}}>
+				<div className="yc-detail-title" >
 					<div style={{ margin:10, fontSize:16, color:'#293038',fontWeight:800 }}>资产结构化检查</div>
 				</div>
 				<div className="yc-detail-content">

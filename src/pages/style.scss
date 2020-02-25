@@ -1,9 +1,11 @@
 .yc-detail-content {
+  min-height: 1200px;
   .yc-search-line {
       > div {
         display: inline-block;
         margin-bottom: 16px;
         margin-right: 20px;
+        margin-left: 20px;
         > p {
           display: inline-block;
           margin-right: 10px;

@@ -29,13 +29,13 @@ class  Index extends React.Component {
         return(
           <div >
               <TopMenu user={user}/>
-              <div className="main-body"
+              <div className="yc-main-body"
                    style={{marginTop:-2,backgroundColor:'#293038',minHeight:1200}}
               >
-                <div className="left-menu"  style={{float:'left',width:180}}>
+                <div className="yc-left-menu"  style={{float:'left',width:180}}>
                   <LeftMenu role={role} />
                 </div>
-                <div className="right-content" style={{overflow:'hidden',backgroundColor:'#ffffff',minHeight:1200}}>
+                <div className="yc-right-content" style={{overflow:'hidden',backgroundColor:'#EDEFF3',minHeight:1200}}>
                   {str && <StructureRoute />}
                   {admin && <AdminRoute />}
                   {check && <CheckRoute />}
