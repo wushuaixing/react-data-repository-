@@ -175,7 +175,7 @@ class Index extends React.Component {
   };
 
   render() {
-    const {timeType,auctionNumAll,detailNumAll,extractNumAll,auctionNumLast,extractNumLast,aucToExRate,exToDetailRate,lastAucToExRate,aucToExDiff,exToDeDiff,lastAuToExDiff,}=this.state;
+    const {timeType,auctionNumAll,detailNumAll,extractNumAll,auctionNumLast,extractNumLast,aucToExRate,exToDetailRate,lastAucToExRate,aucToExDiff,exToDeDiff,}=this.state;
     return (
           <div>
             <div className="yc-detail-title" >

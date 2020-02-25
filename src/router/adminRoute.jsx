@@ -6,8 +6,8 @@ import CheckAccount from "../pages/admin/checkUser";
 import DocumentSearch from "../pages/documentSearch";
 import AssetList from "../pages/check";
 import StructureDetail from "../pages/structure/detail";
-import SyncMonitor from "../pages/monitor";
-
+import SyncMonitor from "../pages/syncMonitor";
+import StructMonitor from "../pages/structMonitor";
 class ContentMain extends React.Component {
   render() {
     return (
@@ -18,7 +18,9 @@ class ContentMain extends React.Component {
 				<Route path="/index/assetList" component={AssetList} />
 				<Route path="/index/:Id/:status/:page/:tabStatus" component={StructureDetail} />
 				<Route path="/index/syncMonitor" component={SyncMonitor} />
-			</div>
+				<Route path="/index/structureMonitor" component={StructMonitor} />
+
+	</div>
     )
   }
 }

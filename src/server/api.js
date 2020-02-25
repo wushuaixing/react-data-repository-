@@ -260,3 +260,10 @@ export const sqlMonitorChart=(type)=> {
 export function ruleMonitor() {
 	return axios.get("/api/statistical/assetDataRuleStateDetails");
 }
+////////////////////
+//结构化情况监控//
+///////////////////
+//每日资产数据新增与标记
+export function addedAndStructured(type) {
+	return axios.get("/api/statistical/assetDataIncrementAndSignDetails?type="+type);
+}

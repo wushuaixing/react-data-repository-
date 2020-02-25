@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="-feat:房产类型／抵押-回调函数传值">
-      <change afterPath="$PROJECT_DIR$/src/pages/monitor/ruleMonitor/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/monitor/sqlMonitor/index.jsx" afterDir="false" />
+    <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/pages/syncMonitor/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/syncMonitor/sourceAndPython/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/syncMonitor/style.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/monitor/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/monitor/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/monitor/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/monitor/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/monitor/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/structMonitor/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/monitor/legend.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/syncMonitor/legend.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/monitor/pieData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/syncMonitor/pieData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/monitor/ruleMonitor/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/syncMonitor/ruleMonitor/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/monitor/series.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/syncMonitor/series.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/monitor/sourceAndPython/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/structMonitor/everyDay/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/monitor/sourcePie/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/syncMonitor/sourcePie/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/monitor/sqlMonitor/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/syncMonitor/sqlMonitor/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/monitor/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/structMonitor/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/adminRoute.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/adminRoute.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/api.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,50 +27,48 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/monitor/index.jsx">
+        <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="28" column="60" selection-start-line="28" selection-start-column="60" selection-end-line="28" selection-end-column="60" />
+            <state relative-caret-position="225">
+              <caret line="25" column="20" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
               <folding>
                 <element signature="e#22#48#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/pages/monitor/ruleMonitor/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="164" lean-forward="true" selection-start-line="164" selection-end-line="164" />
-              <folding>
-                <element signature="e#22#48#0" expanded="true" />
-                <element signature="e#262#301#0" expanded="true" />
-                <element signature="e#4476#6050#0" />
-                <element signature="e#6132#7596#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/monitor/sqlMonitor/index.jsx">
+        <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/ruleMonitor/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="76" selection-start-line="76" selection-end-line="99" selection-end-column="7" />
+            <state relative-caret-position="441">
+              <caret line="232" column="14" lean-forward="true" selection-start-line="232" selection-start-column="14" selection-end-line="232" selection-end-column="14" />
               <folding>
                 <element signature="e#22#48#0" expanded="true" />
-                <element signature="e#253#292#0" expanded="true" />
+                <element signature="e#258#297#0" expanded="true" />
+                <element signature="e#1922#3018#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/monitor/style.scss">
+        <entry file="file://$PROJECT_DIR$/src/pages/structMonitor/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="611">
-              <caret line="64" selection-start-line="64" selection-end-line="64" />
+            <state relative-caret-position="504">
+              <caret line="24" selection-start-line="24" selection-end-line="24" />
+              <folding>
+                <element signature="e#22#48#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/structMonitor/style.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="63">
+              <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -69,17 +76,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/server/api.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="652">
-              <caret line="259" column="27" selection-start-line="259" selection-start-column="16" selection-end-line="259" selection-end-column="27" />
+            <state relative-caret-position="526">
+              <caret line="263" column="7" selection-start-line="263" selection-start-column="7" selection-end-line="263" selection-end-column="7" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/monitor/sourceAndPython/index.jsx">
+        <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/sourceAndPython/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="232" column="5" lean-forward="true" selection-start-line="232" selection-start-column="5" selection-end-line="232" selection-end-column="5" />
+            <state relative-caret-position="357">
+              <caret line="17" selection-start-line="17" selection-end-line="56" selection-end-column="2" />
               <folding>
                 <element signature="e#22#48#0" expanded="true" />
                 <element signature="e#197#230#0" expanded="true" />
@@ -90,16 +97,34 @@
                 <element signature="e#1273#1888#0" />
                 <element signature="e#2526#3458#0" />
                 <element signature="e#4496#5729#0" />
+                <element signature="e#5211#6024#0" />
+                <element signature="e#7659#8865#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/pages/structMonitor/everyDay/index.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="179">
+              <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+              <folding>
+                <element signature="e#22#48#0" expanded="true" />
+                <element signature="e#197#230#0" expanded="true" />
+                <element signature="e#279#318#0" expanded="true" />
+                <element signature="e#466#682#0" />
+                <element signature="e#701#950#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/monitor/sourcePie/index.jsx">
+        <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/sourcePie/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="15" column="37" lean-forward="true" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
+            <state relative-caret-position="362">
+              <caret line="75" column="18" lean-forward="true" selection-start-line="72" selection-start-column="10" selection-end-line="75" selection-end-column="18" />
               <folding>
                 <element signature="e#22#48#0" expanded="true" />
                 <element signature="e#299#338#0" expanded="true" />
@@ -141,13 +166,13 @@
       <find>onChangeRadioHouse</find>
       <find>sqlMonitor</find>
       <find>changeDayMonth</find>
-      <find>sourceType</find>
       <find>drawSql</find>
       <find>auctionNumLast</find>
-      <find>PieData</find>
-      <find>auctionNumAll</find>
       <find>structureRate</find>
       <find>drawRule</find>
+      <find>auctionNumAll</find>
+      <find>PieData</find>
+      <find>sourceType</find>
       <find>extractNumIncrement</find>
     </findStrings>
     <replaceStrings>
@@ -177,9 +202,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/pages/admin/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/admin/structureUser/structureAccountModal/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/structure/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/check/searchInfo/index.jsx" />
         <option value="$PROJECT_DIR$/src/components/structureRecord/index.jsx" />
         <option value="$PROJECT_DIR$/src/static/checkRoleLable.js" />
@@ -207,7 +229,6 @@
         <option value="$PROJECT_DIR$/src/pages/login/index.jsx" />
         <option value="$PROJECT_DIR$/src/server/index.js" />
         <option value="$PROJECT_DIR$/src/components/leftMenu/index.jsx" />
-        <option value="$PROJECT_DIR$/src/router/adminRoute.jsx" />
         <option value="$PROJECT_DIR$/src/pages/home/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/check/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/admin/checkUser/style.scss" />
@@ -226,8 +247,12 @@
         <option value="$PROJECT_DIR$/src/pages/monitor/style.scss" />
         <option value="$PROJECT_DIR$/src/pages/monitor/sqlMonitor/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/monitor/index.jsx" />
-        <option value="$PROJECT_DIR$/src/server/api.js" />
         <option value="$PROJECT_DIR$/src/pages/monitor/ruleMonitor/index.jsx" />
+        <option value="$PROJECT_DIR$/src/router/adminRoute.jsx" />
+        <option value="$PROJECT_DIR$/src/server/api.js" />
+        <option value="$PROJECT_DIR$/src/pages/structMonitor/style.scss" />
+        <option value="$PROJECT_DIR$/src/pages/structMonitor/index.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/structMonitor/everyDay/index.jsx" />
       </list>
     </option>
   </component>
@@ -288,23 +313,20 @@
               <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="monitor" type="462c0819:PsiDirectoryNode" />
+              <item name="structMonitor" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
               <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="monitor" type="462c0819:PsiDirectoryNode" />
-              <item name="sourcePie" type="462c0819:PsiDirectoryNode" />
+              <item name="syncMonitor" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
               <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="monitor" type="462c0819:PsiDirectoryNode" />
-              <item name="sqlMonitor" type="462c0819:PsiDirectoryNode" />
+              <item name="router" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
@@ -348,11 +370,11 @@
       <recent name="$PROJECT_DIR$/src/pages/check/checkComponent" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/pages/structMonitor" />
+      <recent name="$PROJECT_DIR$/src/pages/structMonitor/everyDay" />
       <recent name="$PROJECT_DIR$/src/pages/monitor/ruleMonitor" />
       <recent name="$PROJECT_DIR$/src/pages/monitor/sqlMonitor" />
       <recent name="$PROJECT_DIR$/src/pages/monitor/sourceAndPython" />
-      <recent name="$PROJECT_DIR$/src/pages/monitor/sourcePie" />
-      <recent name="$PROJECT_DIR$/src/pages/monitor" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -453,28 +475,7 @@
       <workItem from="1582247334168" duration="34883000" />
       <workItem from="1582422311332" duration="56796000" />
       <workItem from="1582551268223" duration="18000" />
-      <workItem from="1582592204526" duration="27302000" />
-    </task>
-    <task id="LOCAL-00060" summary="-feat:axios拦截器">
-      <created>1581942340337</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1581942340338</updated>
-    </task>
-    <task id="LOCAL-00061" summary="-feat:axios拦截器">
-      <created>1581942886638</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1581942886638</updated>
-    </task>
-    <task id="LOCAL-00062" summary="-feat:标注页保存前格式验证-建筑面积">
-      <created>1581952600785</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1581952600785</updated>
+      <workItem from="1582592204526" duration="29450000" />
     </task>
     <task id="LOCAL-00063" summary="-feat:检查详情页信息展示">
       <created>1582012144247</created>
@@ -798,11 +799,32 @@
       <option name="project" value="LOCAL" />
       <updated>1582623456052</updated>
     </task>
-    <option name="localTasksCounter" value="109" />
+    <task id="LOCAL-00109" summary="-feat:sql监控">
+      <created>1582632170982</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1582632170982</updated>
+    </task>
+    <task id="LOCAL-00110" summary="-feat:ruleMonitor">
+      <created>1582632697278</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1582632697278</updated>
+    </task>
+    <task id="LOCAL-00111" summary="-feat:ruleMonitor">
+      <created>1582632716697</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1582632716697</updated>
+    </task>
+    <option name="localTasksCounter" value="112" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="530473000" />
+    <option name="totallyTimeSpent" value="532621000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -873,8 +895,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-feat:结构化人员-详情页-文书信息传值" />
-    <MESSAGE value="-feat:结构化人员-详情页-角色信息传值" />
     <MESSAGE value="-feat:table-rowClassName" />
     <MESSAGE value="-feat:检查操作按钮简化处理" />
     <MESSAGE value="-feat:文书信息-加减操作框(initialInput)" />
@@ -898,7 +918,9 @@
     <MESSAGE value="-feat:数据抓取与同步监控-资产数据抓取情况" />
     <MESSAGE value="-feat:资产数据情况-线图样式调整" />
     <MESSAGE value="-feat:房产类型／抵押-回调函数传值" />
-    <option name="LAST_COMMIT_MESSAGE" value="-feat:房产类型／抵押-回调函数传值" />
+    <MESSAGE value="-feat:sql监控" />
+    <MESSAGE value="-feat:ruleMonitor" />
+    <option name="LAST_COMMIT_MESSAGE" value="-feat:ruleMonitor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -912,26 +934,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/components/wrongReason/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="45" column="10" selection-start-line="45" selection-start-column="10" selection-end-line="45" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/img/account.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="e#82#157#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/history.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
@@ -1119,16 +1121,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/router/adminRoute.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="19" column="67" selection-start-line="19" selection-start-column="67" selection-end-line="19" selection-end-column="67" />
-          <folding>
-            <element signature="e#33#72#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/home/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -1218,14 +1210,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/monitor/legend.js">
+    <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/legend.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
           <caret line="14" column="23" lean-forward="true" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/monitor/pieData.js">
+    <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/pieData.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
           <caret line="3" selection-start-line="3" selection-end-line="39" />
@@ -1240,7 +1232,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/monitor/series.js">
+    <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/series.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret selection-end-line="1" />
@@ -1303,10 +1295,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/monitor/sourcePie/index.jsx">
+    <entry file="file://$PROJECT_DIR$/src/pages/structure/style.scss">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/style.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="15" column="37" lean-forward="true" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
+        <state relative-caret-position="611">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/sqlMonitor/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="125" column="54" lean-forward="true" selection-start-line="125" selection-start-column="18" selection-end-line="125" selection-end-column="54" />
+          <folding>
+            <element signature="e#22#48#0" expanded="true" />
+            <element signature="e#253#292#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/adminRoute.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+          <folding>
+            <element signature="e#33#72#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="25" column="20" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
+          <folding>
+            <element signature="e#22#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/sourcePie/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="75" column="18" lean-forward="true" selection-start-line="72" selection-start-column="10" selection-end-line="75" selection-end-column="18" />
           <folding>
             <element signature="e#22#48#0" expanded="true" />
             <element signature="e#299#338#0" expanded="true" />
@@ -1314,13 +1347,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/structure/style.scss">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/monitor/sourceAndPython/index.jsx">
+    <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/sourceAndPython/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="232" column="5" lean-forward="true" selection-start-line="232" selection-start-column="5" selection-end-line="232" selection-end-column="5" />
+        <state relative-caret-position="357">
+          <caret line="17" selection-start-line="17" selection-end-line="56" selection-end-column="2" />
           <folding>
             <element signature="e#22#48#0" expanded="true" />
             <element signature="e#197#230#0" expanded="true" />
@@ -1331,54 +1361,58 @@
             <element signature="e#1273#1888#0" />
             <element signature="e#2526#3458#0" />
             <element signature="e#4496#5729#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/monitor/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="611">
-          <caret line="64" selection-start-line="64" selection-end-line="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/monitor/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="28" column="60" selection-start-line="28" selection-start-column="60" selection-end-line="28" selection-end-column="60" />
-          <folding>
-            <element signature="e#22#48#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/monitor/sqlMonitor/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="76" selection-start-line="76" selection-end-line="99" selection-end-column="7" />
-          <folding>
-            <element signature="e#22#48#0" expanded="true" />
-            <element signature="e#253#292#0" expanded="true" />
+            <element signature="e#5211#6024#0" />
+            <element signature="e#7659#8865#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/server/api.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="652">
-          <caret line="259" column="27" selection-start-line="259" selection-start-column="16" selection-end-line="259" selection-end-column="27" />
+        <state relative-caret-position="526">
+          <caret line="263" column="7" selection-start-line="263" selection-start-column="7" selection-end-line="263" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/monitor/ruleMonitor/index.jsx">
+    <entry file="file://$PROJECT_DIR$/src/pages/structMonitor/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="164" lean-forward="true" selection-start-line="164" selection-end-line="164" />
+        <state relative-caret-position="504">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
           <folding>
             <element signature="e#22#48#0" expanded="true" />
-            <element signature="e#262#301#0" expanded="true" />
-            <element signature="e#4476#6050#0" />
-            <element signature="e#6132#7596#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/ruleMonitor/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="232" column="14" lean-forward="true" selection-start-line="232" selection-start-column="14" selection-end-line="232" selection-end-column="14" />
+          <folding>
+            <element signature="e#22#48#0" expanded="true" />
+            <element signature="e#258#297#0" expanded="true" />
+            <element signature="e#1922#3018#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/structMonitor/style.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/structMonitor/everyDay/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+          <folding>
+            <element signature="e#22#48#0" expanded="true" />
+            <element signature="e#197#230#0" expanded="true" />
+            <element signature="e#279#318#0" expanded="true" />
+            <element signature="e#466#682#0" />
+            <element signature="e#701#950#0" />
           </folding>
         </state>
       </provider>
