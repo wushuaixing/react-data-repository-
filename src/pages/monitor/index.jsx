@@ -25,9 +25,7 @@ class Index extends React.Component {
             <SourceAndPython />
         </div>
         <div className="right-card">
-          <div className="yc-detail-title" >
-            <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>SQL同步监控</div>
-          </div>
+
         </div>
       </div>
     )

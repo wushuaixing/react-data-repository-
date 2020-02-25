@@ -145,7 +145,6 @@ class Index extends React.Component {
     let type=e.target.value;
     this.changeTime(type);
     this.siteSelect(0);
-
   };
 
   onChangeSelect=(value)=>{
@@ -348,14 +347,14 @@ class Index extends React.Component {
                     </Select>
                   </div>
               </div>
-              <div className="yc-chart-title">
+              <div className="yc-chart-title" >
                 <span>源网站增量与数据抓取量-{siteName}</span>
               </div>
-              <div className="yc-python-line" style={{marginLeft: 20}} id="compareSP" />
+              <div className="yc-python-line" id="compareSP" />
               <div className="yc-chart-title">
                 <span>数据抓取量与源网站增量差值-{siteName}</span>
               </div>
-              <div className="yc-python-line" style={{marginLeft: 20}} id="compareDiff" />
+              <div className="yc-python-line" id="compareDiff" />
           </div>
 
 
