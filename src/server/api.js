@@ -247,3 +247,16 @@ export const detailsByDate=(type,dataSourceType)=> {
 	return axios.get("/api/statistical/assetDataCrawlingDetailsByDate?type="+ type +"&dataSourceType=" +dataSourceType);
 };
 
+//SQL同步情况
+export const sqlMonitorText=()=> {
+	return axios.get("/api/statistical/assetDataSQLSynchronmentDetails4TextVO");
+};
+
+export const sqlMonitorChart=(type)=> {
+	return axios.get("/api/statistical/assetDataSQLSynchronmentDetails4PicVO?method="+type);
+};
+
+//规则监控
+export function ruleMonitor() {
+	return axios.get("/api/statistical/assetDataRuleStateDetails");
+}
