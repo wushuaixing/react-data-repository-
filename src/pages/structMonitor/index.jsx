@@ -3,20 +3,13 @@ import React from 'react';
 import EveryMonitor from "./everyDay";
 import RecentMonitor from "./recent";
 import PythonTag from "./pythonAndTag";
+import DataType from "./dataType";
 import './style.scss';
-
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
-  }
-
-  componentDidMount() {
-
-
+    this.state = {};
   }
 
   render() {
@@ -25,7 +18,7 @@ class Index extends React.Component {
         <div className="yc-struct" style={{backgroundColor:'#ffffff'}}>
           <EveryMonitor />
         </div>
-        <div className="yc-chart" style={{marginTop:20}}>
+        <div className="yc-chart" style={{marginTop:20,height:380,}}>
           <div className="yc-left-chart" style={{backgroundColor:'#ffffff'}}>
             <RecentMonitor />
           </div>
@@ -33,7 +26,9 @@ class Index extends React.Component {
             <PythonTag />
           </div>
         </div>
-
+        <div  className="yc-struct" style={{marginTop:20,backgroundColor:'#ffffff'}}>
+          <DataType />
+        </div>
       </div>
     )
   }

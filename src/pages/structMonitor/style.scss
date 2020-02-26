@@ -3,7 +3,6 @@
     width: 100%;
     height: 300px;
   }
-
 }
 .yc-chart{
   .yc-left-chart{
@@ -33,12 +32,19 @@
   }
   .yc-right-chart{
     float:right;
-    height: 396px;
+    height: 380px;
     width:64%;
     .yc-python-tag{
       width: 100%;
       height: 340px;
     }
+  }
+}
+
+.yc-dataType{
+  .yc-every-line{
+    width: 100%;
+    height: 300px;
   }
 }
 

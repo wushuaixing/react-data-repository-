@@ -146,7 +146,7 @@ class Index extends React.Component {
             <div className="yc-detail-title" >
               <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>近期新增与标记</div>
             </div>
-            <div className="yc-detail-title" >
+            <div style={{  borderBottom: '1px solid #e2e4e9'}} >
               <Radio.Group
                 style={{marginTop:10,marginLeft:-50}}
                 onChange={this.onChangeRadio}
