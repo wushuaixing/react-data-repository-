@@ -18,7 +18,7 @@ const columns = [
 		dataIndex: "title",
 		render: (text, record) => (
 			<span>
-				<Link to={`/documentDetail/${record.wid}`}>
+				<Link to={`/documentDetail/${record.wid}`} target="_blank" >
 					<span className="ws-link">{record.title}</span>
 				</Link>
       </span>
