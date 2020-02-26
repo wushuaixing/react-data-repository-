@@ -11,6 +11,48 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import '../style.scss';
 
+
+const xAxisStyle={
+	type: 'category',
+	axisLine: {
+		lineStyle:{
+			color:'#E2E4E9'
+		}
+	},
+	axisLabel: {
+		textStyle: {
+			color: '#293038'
+		}
+	},
+	splitLine: {
+		lineStyle: {
+			type: 'dashed'
+		}
+	},
+};
+const yAxisStyle={
+	type: 'value',
+	splitLine: {
+		lineStyle: {
+			type: 'dashed'
+		}
+	},
+	axisLine: {
+		lineStyle:{
+			color:'#E2E4E9'
+		}
+	},
+	axisLabel: {
+		textStyle: {
+			color: '#293038'
+		}
+	},
+	axisTick: {
+		show: false
+	},
+
+};
+
 class Index extends React.Component {
 	constructor(props) {
 		super(props);

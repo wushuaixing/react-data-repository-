@@ -100,8 +100,8 @@ class Index extends React.Component {
       color:['#1CAFE0FF','#16B45CFF'],
       title: {
         text:'当日完成率',
-        top:'120px',
-        left:"60px",
+        top:'90px',
+        left:"40px",
         textStyle:{
           fontWeight:'bold',
           fontSize: 14,
@@ -110,8 +110,8 @@ class Index extends React.Component {
       },
       legend:{
         show:true,
-        left: 10,
-        top: 5,
+        left: 0,
+        top: 10,
       },
       series: [
         {
@@ -137,7 +137,7 @@ class Index extends React.Component {
         }
       ]
     })
-  }
+  };
 
   render() {
     const {timeType,remainLast,newCome,before18,taskTagged,allTagged,lastRest,allLast,after18,newData,lastTitle}=this.state;

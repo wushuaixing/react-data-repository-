@@ -6,7 +6,7 @@ import {PieData} from "./pieData";
 export const Legend=[
 	{
 		orient: 'vertical',
-		right:55,
+		right:10,
 		top: 40,
 		icon:'circle',
 		itemWidth:8,
