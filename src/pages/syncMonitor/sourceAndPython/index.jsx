@@ -324,7 +324,7 @@ class Index extends React.Component {
                       <span>月</span>
                     </Radio.Button>
                 </Radio.Group>
-                  <span style={{display: 'inline-block', marginLeft: 20,coloe:'#293038'}}>数据源：</span>
+                  <span style={{display: 'inline-block', marginLeft: 20,color:'#293038'}}>数据源：</span>
                   <div style={{display: 'inline-flex'}}>
                     <Select style={{width:150,marginLeft:4,height:28}}
                             transfer

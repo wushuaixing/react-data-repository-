@@ -47,7 +47,6 @@
   .yc-right-card{
     float:right;
     width:49%;
-    background-color: #ffffff;
     min-height: 1200px;
     .yc-detail-amount{
       .yc-part-title{
@@ -60,7 +59,13 @@
     }
     .yc-sql-line{
       width:90%;
-      height:300px;
+      height:260px;
+      margin-bottom: 0;
+    }
+    .yc-rule-line{
+      width:90%;
+      height:250px;
+      margin-bottom: 0;
     }
 
   }

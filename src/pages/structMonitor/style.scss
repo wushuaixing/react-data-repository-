@@ -3,4 +3,36 @@
     width: 90%;
     height: 300px;
   }
+
 }
+.yc-chart{
+  .yc-left-chart{
+    float:left;
+    width:35%;
+    .yc-ring-pie{
+      float:left;
+      width: 40%;
+      height: 200px;
+    }
+    .yc-ring-text{
+      margin:10px;
+      text-align:center;
+      .ring-text{
+        float:left;
+        width:150px;
+        text-align:left;
+        color:#293038;
+      }
+      .yc-border-line{
+        color:#293038;
+        font-weight: 800;
+        margin-top:5px;
+        border-top: 1px solid #e2e4e9;
+       }
+    }
+  }
+  .yc-right-chart{
+    float:right;
+  }
+}
+

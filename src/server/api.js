@@ -73,9 +73,9 @@ export const userReset=(id)=> {
 };
 
 //账号删除(针对正常账号)
-export function userRemove(id) {
+export const userRemove=(id)=> {
 	return axios.post("/api/asset/admin/" + id + "/userRemove");
-}
+};
 
 //账号移除(针对已删除账号)
 export const userDelete=(id)=> {
@@ -120,23 +120,23 @@ export const userRemoveCheck=(id)=> {
 //管理员-资产结构化接口//
 /////////////////////////////
 //管理员资产结构化列表-
-export function adminStructuredList(params) {
+export const adminStructuredList=(params)=> {
 	let urlPlus = "";
 	for (let key in params) {
 		urlPlus = urlPlus + key + "=" + params[key] + "&";
 	}
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 	return axios.get("/api/asset/admin/structured/structuredList?" + urlPlus);
-}
+};
 //检查人员列表(仅管理员)
-export function getCheckPersonnel(params) {
+export const getCheckPersonnel=(params)=> {
 	let urlPlus = "";
 	for (let key in params) {
 		urlPlus = urlPlus + key + "=" + params[key] + "&";
 	}
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 	return axios.get("/api/asset/inspector/control/getCheckPersonnel?" + urlPlus);
-}
+};
 //////////////////////////////
 //结构化人员-资产结构化数据接口//
 /////////////////////////////
@@ -257,13 +257,38 @@ export const sqlMonitorChart=(type)=> {
 };
 
 //规则监控
-export function ruleMonitor() {
+export const ruleMonitor=()=> {
 	return axios.get("/api/statistical/assetDataRuleStateDetails");
-}
+};
 ////////////////////
-//结构化情况监控//
+//结构化情况监控/////
 ///////////////////
 //每日资产数据新增与标记
-export function addedAndStructured(type) {
+export const addedAndStructured=(type)=> {
 	return axios.get("/api/statistical/assetDataIncrementAndSignDetails?type="+type);
-}
+};
+
+//昨日新增与标记
+export const newAndStruc=(type)=> {
+	return axios.get("/api/statistical/recentNewAndStructured?type="+type);
+};
+
+//数据抓取与标记差值
+export const pythonAndTag=()=> {
+	return axios.get("/api/statistical/diffBetweenGrabAndStructured");
+};
+
+//数据类型占比变动趋势
+export const dataTypeChange=()=> {
+	return axios.get("/api/statistical/assetDataTypeRatio");
+};
+
+//资产数据抓取时间段
+export const structurePython=(type,date)=> {
+	return axios.get("/api/statistical/assetDataCrawlingTimeDistributeDetailsVO?type="+ type +"&date=" +date);
+};
+
+//资产数据抓取时间段,31天）内的抓取总量总体分布情况
+export const pythonAmountIn31=(type)=> {
+	return axios.get("/api/statistical/assetDataCrawlingTimeDistributeAssistDetailsVO?type="+ type);
+};

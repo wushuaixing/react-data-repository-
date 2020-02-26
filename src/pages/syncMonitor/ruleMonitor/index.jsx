@@ -1,6 +1,6 @@
 /** sync monitor * */
 import React from 'react';
-import {message,Radio,Row, Col} from "antd";
+import {message,Row, Col} from "antd";
 import {sqlMonitorText,ruleMonitor} from "../../../server/api";
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
@@ -10,47 +10,6 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import '../style.scss';
-
-const xAxisStyle={
-	type: 'category',
-	axisLine: {
-		lineStyle:{
-			color:'#E2E4E9'
-		}
-	},
-	axisLabel: {
-		textStyle: {
-			color: '#293038'
-		}
-	},
-	splitLine: {
-		lineStyle: {
-			type: 'dashed'
-		}
-	},
-};
-const yAxisStyle={
-	type: 'value',
-	splitLine: {
-		lineStyle: {
-			type: 'dashed'
-		}
-	},
-	axisLine: {
-		lineStyle:{
-			color:'#E2E4E9'
-		}
-	},
-	axisLabel: {
-		textStyle: {
-			color: '#293038'
-		}
-	},
-	axisTick: {
-		show: false
-	},
-
-};
 
 class Index extends React.Component {
 	constructor(props) {
@@ -113,7 +72,7 @@ class Index extends React.Component {
 			title : {
 				text: '数据结构化转化率',
 				textStyle:{
-					fontWeight:'normal',
+					fontWeight:'bold',
 					fontSize: 14,
 				},
 			},
@@ -167,7 +126,7 @@ class Index extends React.Component {
 
 
 	render() {
-		const {structureQueue,notFitStructure,structureRate,ruleDiff,extractNumLast}=this.state;
+		const {structureQueue,notFitStructure,ruleDiff,extractNumLast}=this.state;
 		return (
 			<div>
 				<div className="yc-detail-title" >
@@ -176,7 +135,7 @@ class Index extends React.Component {
 				<div className="yc-detail-amount">
 					<div>
 						<p style={{color:'#293038',fontWeight:800,marginLeft:20,marginTop:10}}>昨日数据情况</p>
-						<Row style={{height:50,marginLeft:20}}>
+						<Row style={{height:40,marginLeft:20}}>
 							<Col span={7}>
 								<p style={{color:'#808387'}}>实际进入结构化队列数量</p>
 								<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
@@ -209,7 +168,7 @@ class Index extends React.Component {
 					</div>
 					<div>
 						<div style={{color:'#293038',fontWeight:800,marginTop:0,marginLeft:20}}>昨日数据结构化转化率</div>
-						<Row style={{height:50,marginLeft:20,marginTop:10}}>
+						<Row style={{height:40,marginLeft:20,marginTop:10,marginBottom:10}}>
 							<Col span={7}>
 								<p style={{color:'#808387'}}>detail表数据增量</p>
 								<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
@@ -231,8 +190,9 @@ class Index extends React.Component {
 						</Row>
 					</div>
 				</div>
-				<div className="" id="ruleMonitor"
-						 style={{width:540,height:280,margin:20}}
+				<div className="yc-rule-line"
+						 id="ruleMonitor"
+						 style={{marginLeft:20,marginTop:20}}
 				/>
 
 			</div>

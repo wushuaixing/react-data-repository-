@@ -149,7 +149,7 @@ class Index extends React.Component {
       },
       legend: {
         left:20,
-        top: 25
+        top: 30
       },
       tooltip: {
         trigger: 'axis',
@@ -182,7 +182,7 @@ class Index extends React.Component {
               <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>SQL同步监控</div>
             </div>
 						<div className="yc-detail-amount">
-							<Row style={{height:70,margin:20}}>
+							<Row style={{height:60,marginTop:20,marginLeft:20,marginBottom:0}}>
 								<Col span={6}>
 									<p style={{color:'#808387'}}>auction表数据总量</p>
 									<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
@@ -218,7 +218,7 @@ class Index extends React.Component {
 								</Col>
 							</Row>
 							<p style={{color:'#293038',fontWeight:800,marginLeft:20}}>昨日增量</p>
-							<Row style={{height:70,margin:20}}>
+							<Row style={{height:60,marginLeft:20,marginBottom:0,}}>
 								<Col span={6}>
 									<p style={{color:'#808387'}}>auction表</p>
 									<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
@@ -267,7 +267,7 @@ class Index extends React.Component {
               </Radio.Group>
             </div>
             <div className="yc-sql-line" id="sqlMonitor"
-								 style={{width:540,height:300,margin:20}}
+								 style={{marginLeft:20,marginBottom:0,marginTop:-40}}
 						/>
 
 					</div>

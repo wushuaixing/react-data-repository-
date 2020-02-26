@@ -26,14 +26,13 @@ class Index extends React.Component {
             <SourcePie />
             <SourceAndPython />
         </div>
-        <div className="right-card" style={{ marginLeft: 630}}>
-          <div style={{backgroundColor:'#ffffff'}}>
+        <div className="yc-right-card">
+          <div style={{backgroundColor:'#ffffff',marginLeft:10,marginBottom:0}}>
             <SqlMonitor />
           </div>
-          <div style={{backgroundColor:'#ffffff'}}>
+          <div style={{marginTop:20,marginLeft:10,backgroundColor:'#ffffff',minHeight:630}}>
             <RuleMonitor />
           </div>
-
         </div>
       </div>
     )
