@@ -41,10 +41,31 @@
   }
 }
 
-.yc-dataType{
-  .yc-every-line{
-    width: 100%;
-    height: 300px;
+.yc-time-chart{
+  background-color: white;
+  .yc-left-chart{
+    float:left;
+    width:65%;
+    height:420px;
+    .ant-calendar-picker-input.ant-input{
+      font-size: 12px;
+    }
+    .ant-select-selection-selected-value{
+      font-size: 12px;
+    }
+    .chart{
+      width: 95%;
+      height:360px;
+    }
+  }
+  .yc-right-chart{
+    float:right;
+    height:420px;
+    width:35%;
+    .yc-python-tag{
+      width: 100%;
+      height: 340px;
+    }
   }
 }
 
