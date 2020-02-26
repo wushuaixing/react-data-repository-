@@ -2,6 +2,7 @@
 import React from 'react';
 import EveryMonitor from "./everyDay";
 import RecentMonitor from "./recent";
+import PythonTag from "./pythonAndTag";
 import './style.scss';
 
 
@@ -29,6 +30,7 @@ class Index extends React.Component {
             <RecentMonitor />
           </div>
           <div className="yc-right-chart" style={{backgroundColor:'#ffffff'}}>
+            <PythonTag />
           </div>
         </div>
 

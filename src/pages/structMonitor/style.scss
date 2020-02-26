@@ -1,6 +1,6 @@
 .yc-struct{
   .yc-every-line{
-    width: 90%;
+    width: 100%;
     height: 300px;
   }
 
@@ -33,6 +33,12 @@
   }
   .yc-right-chart{
     float:right;
+    height: 396px;
+    width:64%;
+    .yc-python-tag{
+      width: 100%;
+      height: 340px;
+    }
   }
 }
 

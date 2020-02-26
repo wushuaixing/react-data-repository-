@@ -11,7 +11,6 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import '../style.scss';
 
-
 const xAxisStyle={
 	type: 'category',
 	axisLine: {
@@ -30,28 +29,6 @@ const xAxisStyle={
 		}
 	},
 };
-const yAxisStyle={
-	type: 'value',
-	splitLine: {
-		lineStyle: {
-			type: 'dashed'
-		}
-	},
-	axisLine: {
-		lineStyle:{
-			color:'#E2E4E9'
-		}
-	},
-	axisLabel: {
-		textStyle: {
-			color: '#293038'
-		}
-	},
-	axisTick: {
-		show: false
-	},
-
-};
 
 class Index extends React.Component {
 	constructor(props) {
@@ -69,7 +46,7 @@ class Index extends React.Component {
 		ruleMonitor().then(res=>{
 			if (res.data.code === 200) {
 				const {detailNumEnterStructureQueue,detailNumNotEnterStructureQueue,structureSyncRate
-					,ruleSyncNumDiff,everydaySyncRateDetails}=res.data.data;
+					,ruleSyncNumDiff}=res.data.data;
 				this.setState({
 					structureQueue:detailNumEnterStructureQueue,
 					notFitStructure:detailNumNotEnterStructureQueue,
