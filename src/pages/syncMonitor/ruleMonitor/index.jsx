@@ -60,6 +60,7 @@ class Index extends React.Component {
 	drawRule=(data)=>{
 		//console.log(data);
 		// 均值  昨日数据转化率
+		let meanValue='';
 		let structureRate =[];
 		for(let key in data){
 			meanValue=parseInt(data[key].meanValue);
