@@ -102,6 +102,7 @@ class AccountManage extends React.Component {
                 destroyOnClose={true}
                 footer={null}
                 maskClosable
+                onCancel={this.modalCancel}
               >
                 <Form className="add-userView-modal" style={{width:387}} {...formItemLayout}>
                   <Form.Item className="part" label="姓名：">

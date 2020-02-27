@@ -132,6 +132,7 @@ class topMenu extends React.Component {
 					visible={visible}
 					destroyOnClose={true}
 					closable={true}
+					onCancel={this.handleCancel}
 					footer={[
 						// 定义右下角 按钮的地方 可根据需要使用 一个或者 2个按钮
 						<Button key="submit"

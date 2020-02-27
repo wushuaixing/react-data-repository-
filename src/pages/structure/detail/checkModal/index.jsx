@@ -30,9 +30,6 @@ class  Check extends React.Component {
 				"其他"
 			],
 			highLevel: [
-				/*"资产所有人、债权人、资产线索遗漏:",
-				"名字填写错误:",
-				"身份信息填写错误:"*/
 				"所有人遗漏：",
 				"所有人错误：",
 				"多填所有人:",
@@ -114,6 +111,8 @@ class  Check extends React.Component {
 									closable={true}
 									footer={null}
 									title="确认本条结构化数据标注结果有误吗？"
+									maskClosable
+									onCancel={this.modalCancel}
 								>
 								<div className="check-modal">
 									<div className="part">
