@@ -106,6 +106,7 @@ class  HouseDetail extends React.Component {
                              value={area}
                              onChange={this.getArea}
                              onBlur={this.checkArea}
+                             autoComplete="new-password"
                     />
                 }
                 <p className="yc-sec-title">m²</p>

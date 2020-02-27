@@ -208,6 +208,7 @@ class  WsDetail extends React.Component {
 																		 defaultValue={item.value}
 																		 onChange={this.getWenshuNum.bind(this,index)}
 																		 key={index}
+																		 autoComplete="new-password"
 															/>
 															<img
 																className="delete-img"
@@ -238,6 +239,7 @@ class  WsDetail extends React.Component {
 																 defaultValue={item.url}
 																 onChange={this.getWenshuUrl}
 																 key={index}
+																 autoComplete="new-password"
 													/>
 													<img
 														className="delete-img"

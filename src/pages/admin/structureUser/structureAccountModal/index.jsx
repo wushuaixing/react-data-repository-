@@ -235,6 +235,7 @@ class AccountManage extends React.Component {
                         type="password"
                         style={{marginLeft: 4,width: 260,height: 32}}
                         placeholder="密码默认为账号后六位"
+                        autoComplete="new-password"
                       />,
                     )}
                   </Form.Item> :''}

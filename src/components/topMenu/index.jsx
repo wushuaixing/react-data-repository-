@@ -171,6 +171,7 @@ class topMenu extends React.Component {
 									style={{marginLeft: 8,width: 265,height: 32 }}
 									className="yc-input"
 									placeholder="请输入新密码，长度为6-20位，不允许有空格"
+									autoComplete="new-password"
 								/>,
 							)}
 						</Form.Item>
@@ -185,6 +186,7 @@ class topMenu extends React.Component {
 									style={{marginLeft: 8,width: 265,height: 32 }}
 									className="yc-input"
 									placeholder="请确认新密码，长度为6-20位，不允许有空格"
+									autoComplete="new-password"
 								/>,
 							)}
 						</Form.Item>
