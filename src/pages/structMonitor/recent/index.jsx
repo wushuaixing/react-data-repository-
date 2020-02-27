@@ -194,17 +194,17 @@ class Index extends React.Component {
                       </Col>
                       <Col span={6}>
                           <p style={{fontWeight:800,fontSize:16,color:'#293038',marginBottom:5}}>
-                            {remainLast}<span style={{color:'#808387',fontSize:14,marginLeft:4}}>条</span></p>
+                            {remainLast ?remainLast:'--'}<span style={{color:'#808387',fontSize:14,marginLeft:4}}>条</span></p>
                         <p style={{fontWeight:800,fontSize:16,color:'#293038',marginBottom:28}}>
-                          {newCome}<span style={{color:'#808387',fontSize:14,marginLeft:4,}}>条</span></p>
+                          {newCome ?newCome:'--'}<span style={{color:'#808387',fontSize:14,marginLeft:4,}}>条</span></p>
                         <p style={{fontWeight:800,fontSize:16,color:'#293038',marginBottom:0}}>
-                          {before18}<span style={{color:'#808387',fontSize:14,marginLeft:4}}>条</span></p>
+                          {before18 ?before18:'--'}<span style={{color:'#808387',fontSize:14,marginLeft:4}}>条</span></p>
                         <p style={{fontWeight:800,fontSize:16,color:'#293038',marginBottom:5}}>
-                          {after18}<span style={{color:'#808387',fontSize:14,marginLeft:4}}>条</span></p>
+                          {after18 ?after18:'--'}<span style={{color:'#808387',fontSize:14,marginLeft:4}}>条</span></p>
                         <p style={{fontWeight:800,fontSize:16,color:'#293038',marginBottom:6}}>
-                          {taskTagged}<span style={{color:'#808387',fontSize:14,marginLeft:4}}>条</span></p>
+                          {taskTagged ?taskTagged:'--'}<span style={{color:'#808387',fontSize:14,marginLeft:4}}>条</span></p>
                         <p style={{fontWeight:800,fontSize:16,color:'#293038'}}>
-                          {allTagged}<span style={{color:'#808387',fontSize:14,marginLeft:4}}>条</span></p>
+                          {allTagged ?allTagged:'--'}<span style={{color:'#808387',fontSize:14,marginLeft:4}}>条</span></p>
                       </Col>
                     </Row>
                   </div>
@@ -213,11 +213,11 @@ class Index extends React.Component {
               <div style={{fontWeight:500,color:'#293038',marginBottom:20,marginTop:20}}>
                 <div style={{display:'inline-block',float:'left',marginBottom:20,marginLeft:20,borderTop:1,borderTopColor:'#e2e4e9'}}>
                     <span>{lastTitle} </span>
-                    <span style={{marginLeft: 10}}>{lastRest}</span>条
+                    <span style={{marginLeft: 10}}>{lastRest ?lastRest:'--'}</span>条
                 </div>
                 <div  style={{display:'inline-block',float:'right',marginRight:20}}>
                 <span >当前总剩余 </span>
-                <span style={{marginLeft: 10}}>{allLast}</span>条
+                <span style={{marginLeft: 10}}>{allLast ?allLast:'--'}</span>条
                 </div>
               </div>
             </div>

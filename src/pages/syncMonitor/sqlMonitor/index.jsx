@@ -162,7 +162,7 @@ class Index extends React.Component {
 									<Col span={6}>
 										<p style={{color:'#808387'}}>auction表数据总量</p>
 										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-											{auctionNumAll}
+											{auctionNumAll ? auctionNumAll : '--'}
 											<span style={{marginLeft:2,fontSize:14}}>条</span>
 										</p>
 									</Col>
@@ -175,7 +175,7 @@ class Index extends React.Component {
 									<Col span={6}>
 										<p>extract表数据总量</p>
 										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-											{extractNumAll}
+											{extractNumAll ? extractNumAll :'--'}
 											<span style={{marginLeft:2,fontSize:14}}>条</span>
 										</p>
 									</Col>
@@ -188,7 +188,7 @@ class Index extends React.Component {
 									<Col span={6}>
 										<p>detail表数据总量</p>
 										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-											{detailNumAll}
+											{detailNumAll ? detailNumAll : '--'}
 											<span style={{marginLeft:2,fontSize:14}}>条</span>
 										</p>
 									</Col>
@@ -198,7 +198,7 @@ class Index extends React.Component {
 									<Col span={6}>
 										<p style={{color:'#808387'}}>auction表</p>
 										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-											{auctionNumLast}
+											{auctionNumLast ? auctionNumLast :'--'}
 											<span style={{marginLeft:2,fontSize:14}}>条</span>
 										</p>
 									</Col>
@@ -211,7 +211,7 @@ class Index extends React.Component {
 									<Col span={6}>
 										<p>extract表</p>
 										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-											{extractNumLast}
+											{extractNumLast ? extractNumLast : '--'}
 											<span style={{marginLeft:2,fontSize:14}}>条</span>
 										</p>
 									</Col>
@@ -223,7 +223,7 @@ class Index extends React.Component {
 									<Col span={6}>
 										<p>detail表</p>
 										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-											{extractNumLast}
+											{extractNumLast ? extractNumLast : '--'}
 											<span style={{marginLeft:2,fontSize:14}}>条</span>
 										</p>
 									</Col>

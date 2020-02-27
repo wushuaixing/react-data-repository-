@@ -84,15 +84,15 @@ class Index extends React.Component {
               <div>
                 <div className="yc-left-amount" style={{marginTop:-20}}>
                   <p className="yc-part-title">昨日抓取总量</p>
-                  <p className="yc-part-amount">{lastPython}<span style={{fontSize:14,marginLeft:8}}>条</span></p>
+                  <p className="yc-part-amount">{lastPython ? lastPython :'--'}<span style={{fontSize:14,marginLeft:8}}>条</span></p>
                 </div>
                 <div className="right-amount">
                   <p style={{marginTop:20,color:'#808387',marginBottom:0,fontSize:14}}>与源网站增量（区分数据源）差值</p>
                   <p style={{fontSize:20,color:'#293038',fontWeight:800}}>
                     <span  style={{fontSize:14,marginRight:8}}>少</span>
-                    {compareSourceLess}<span style={{fontSize:14,marginLeft:8}}>条</span>
+                    {compareSourceLess ? compareSourceLess:'--'}<span style={{fontSize:14,marginLeft:8}}>条</span>
                     <span style={{fontSize:14,marginLeft:8,marginRight:8}}>多</span>
-                    {compareSourceMore}<span style={{fontSize:14,marginLeft:8}}>条</span></p>
+                    {compareSourceMore ?compareSourceMore :'--'}<span style={{fontSize:14,marginLeft:8}}>条</span></p>
                 </div>
               </div>
               <div className="yc-source-pie" id="source-pie" />

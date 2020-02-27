@@ -142,7 +142,7 @@ class Index extends React.Component {
 							<Col span={7}>
 								<p style={{color:'#808387'}}>实际进入结构化队列数量</p>
 								<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-									{structureQueue}
+									{structureQueue ?structureQueue:'--'}
 									<span style={{marginLeft:2,fontSize:14}}>条</span>
 								</p>
 							</Col>
@@ -152,18 +152,18 @@ class Index extends React.Component {
 							<Col span={6}>
 								<p>不符合结构化条件数量</p>
 								<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-									{notFitStructure}
+									{notFitStructure ?notFitStructure:'--'}
 									<span style={{marginLeft:2,fontSize:14}}>条</span>
 								</p>
 							</Col>
 							<Col span={4}>
-								<div style={{color:'#293038',fontSize:10,marginLeft:10}}>少 {ruleDiff} 条</div>
+								<div style={{color:'#293038',fontSize:10,marginLeft:10}}>少 {ruleDiff ? ruleDiff:'--'} 条</div>
 								<div style={{color:'#0099CC',fontWeight:800,marginLeft:10}}> - - - - -> </div>
 							</Col>
 							<Col span={6}>
 								<p>detail表数据增量</p>
 								<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-									{extractNumLast}
+									{extractNumLast ?extractNumLast :'--'}
 									<span style={{marginLeft:2,fontSize:14}}>条</span>
 								</p>
 							</Col>
@@ -175,18 +175,18 @@ class Index extends React.Component {
 							<Col span={7}>
 								<p style={{color:'#808387'}}>detail表数据增量</p>
 								<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-									{extractNumLast}
+									{extractNumLast ?extractNumLast:'--'}
 									<span style={{marginLeft:2,fontSize:14}}>条</span>
 								</p>
 							</Col>
 							<Col span={3}>
-								<div style={{color:'#293038',fontSize:10,marginLeft:4}}>{structureQueue} %</div>
+								<div style={{color:'#293038',fontSize:10,marginLeft:4}}>{structureQueue ?structureQueue:'--'} %</div>
 								<div style={{color:'#0099CC',fontWeight:800,marginTop:0}}> - - - - -> </div>
 							</Col>
 							<Col span={6}>
 								<p>实际队列数量</p>
 								<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-									{structureQueue}
+									{structureQueue ? structureQueue:'--'}
 									<span style={{marginLeft:2,fontSize:14}}>条</span>
 								</p>
 							</Col>
