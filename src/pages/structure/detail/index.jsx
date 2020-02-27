@@ -727,7 +727,7 @@ class  StructureDetail extends React.Component {
 
 
 			return(
-					<div>
+					<div style={{backgroundColor:'#ffffff',margin:20}}>
             <div className="yc-detail-title">
               <div style={{ margin:4, fontSize:16, color:'#293038' }}>{needRecord ? "资产结构化/检查" : "资产结构化/详情"}</div>
               <div className="yc-button-goback" style={{display:isStruct}} >
@@ -754,7 +754,7 @@ class  StructureDetail extends React.Component {
 									(role==="检查人员" && (status === "1" || status ==="4" )&& needStruc===false) &&
 									<Button style={{margin:4}} onClick={this.checkTrue}>检查无误</Button>
 								}
-								<Button style={{margin:4}}
+								<Button style={{marginLeft:10,marginRight:20}}
 												onClick={()=>this.onClickToTable(dataStatus,dataPage,tabStatus)}
 								>返回
 								</Button>
