@@ -63,7 +63,7 @@ class AccountManage extends React.Component {
       if(!val){
         callback('');
       }
-      else if (!this.user.username.match(/^\d{11}$/)) {
+      else if (!val.match(/^\d{11}$/)) {
         callback("请输入11位数字");
       }
       else{
@@ -103,7 +103,7 @@ class AccountManage extends React.Component {
                 footer={null}
                 maskClosable
               >
-                <Form className="add-user-modal" style={{width:387}} {...formItemLayout}>
+                <Form className="add-userView-modal" style={{width:387}} {...formItemLayout}>
                   <Form.Item className="part" label="姓名：">
                     {getFieldDecorator('name', {
                       rules:[

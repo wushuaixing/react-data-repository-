@@ -85,7 +85,7 @@ class Sider extends React.Component {
     // }).catch(()=>{
     //     // 异常处理
     // })
-  }
+  };
 
   renderSubMenu = ({id, title, icon, subs},index) => {
     let _index=index.toString();

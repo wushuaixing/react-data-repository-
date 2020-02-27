@@ -2,15 +2,17 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox, Tooltip, message, Spin } from 'antd';
 import {withRouter} from 'react-router-dom';
+import { login, isLogin,codeImage, validateImgCode, resetPassword } from '../../server/api';
+import {codeMessage} from "../../static/status";
 import box from '../../assets/img/box.png';
 import logo from '../../assets/img/logo.png';
 import miniLogo from '../../assets/img/logo_blue.png';
-import { login, isLogin,codeImage, validateImgCode, resetPassword } from '../../server/api';
 import 'antd/dist/antd.css';
 import './style.scss';
 
 const loginForm = Form.create;
 let storage = window.localStorage;
+const{	assetUser,adminUser,checkUser}=codeMessage;
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
@@ -32,17 +34,18 @@ class Login extends React.Component {
 		isLogin().then(res=>{
 			if(res.data.code===200 && myState){
 				history.push('/index');
-				if(res.data.data===199){
+				if(res.data.data===assetUser){
 					localStorage.setItem("userState","结构化人员");
 				}
-				if(res.data.data===203){
+				if(res.data.data===adminUser){
 					localStorage.setItem("userState","管理员");
 				}
-				if(res.data.data===205){
+				if(res.data.data===checkUser){
 					localStorage.setItem("userState","检查人员");
 				}
 			}
-			else{}
+			else{
+			}
 		});
 		//获取图形验证码
 		this.toRefreshImg();
