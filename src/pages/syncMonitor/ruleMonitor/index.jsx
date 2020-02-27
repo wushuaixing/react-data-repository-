@@ -138,7 +138,7 @@ class Index extends React.Component {
 				<div className="yc-detail-amount">
 					<div>
 						<p style={{color:'#293038',fontWeight:800,marginLeft:20,marginTop:10}}>昨日数据情况</p>
-						<Row style={{height:40,marginLeft:20}}>
+						<Row style={{height:20,marginLeft:20}}>
 							<Col span={7}>
 								<p style={{color:'#808387'}}>实际进入结构化队列数量</p>
 								<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
@@ -171,7 +171,7 @@ class Index extends React.Component {
 					</div>
 					<div>
 						<div style={{color:'#293038',fontWeight:800,marginTop:0,marginLeft:20}}>昨日数据结构化转化率</div>
-						<Row style={{height:40,marginLeft:20,marginTop:10,marginBottom:10}}>
+						<Row style={{height:30,marginLeft:20,marginTop:10,marginBottom:10}}>
 							<Col span={7}>
 								<p style={{color:'#808387'}}>detail表数据增量</p>
 								<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
@@ -195,7 +195,7 @@ class Index extends React.Component {
 				</div>
 				<div className="yc-rule-line"
 						 id="ruleMonitor"
-						 style={{marginLeft:20,marginTop:20}}
+						 style={{marginLeft:20,marginTop:40}}
 				/>
 
 			</div>

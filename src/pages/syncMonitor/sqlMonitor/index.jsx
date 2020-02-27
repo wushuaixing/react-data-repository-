@@ -119,12 +119,11 @@ class Index extends React.Component {
           fontWeight:'bold',
           fontSize: 14,
           color:'#293038',
-
         },
       },
       legend: {
         left:20,
-        top: 30
+        top: 30,
       },
       tooltip: {
         trigger: 'axis',
@@ -230,7 +229,7 @@ class Index extends React.Component {
 									</Col>
 								</Row>
 							</div>
-							<div style={{margin:20,textAlign:'right',}}>
+							<div style={{marginRight:20,textAlign:'right',}}>
 								<Radio.Group
 									onChange={this.onChangeRadio}
 									value={timeType}
@@ -244,7 +243,7 @@ class Index extends React.Component {
 								</Radio.Group>
 							</div>
 							<div className="yc-sql-line" id="sqlMonitor"
-									 style={{marginLeft:20,marginBottom:0,marginTop:-30}}
+									 style={{marginLeft:20,marginBottom:0,marginTop:0}}
 							/>
 
 						</div>
