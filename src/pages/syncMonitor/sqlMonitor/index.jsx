@@ -19,7 +19,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-			timeType:1,
+			timeType:0,
 			auctionNumAll:0,
 			detailNumAll:0,
 			extractNumAll:0,
@@ -74,15 +74,13 @@ class Index extends React.Component {
   onChangeRadio=(e)=>{
     let type=parseInt(e.target.value);
 		this.changeDayMonth(type);
-		this.setState({
-			timeType:type,
-		})
   };
 
 	//sql 切换日/月
   changeDayMonth(type){
 		this.setState({
 			loading:true,
+			timeType:type,
 		});
     sqlMonitorChart(type).then(res=>{
 				this.setState({
@@ -237,16 +235,16 @@ class Index extends React.Component {
 									onChange={this.onChangeRadio}
 									value={timeType}
 								>
-									<Radio.Button value={1} style={{width:54,height:28}}>
+									<Radio.Button value={0} style={{width:54,height:28}}>
 										<span>日</span>
 									</Radio.Button>
-									<Radio.Button value={3} style={{width:54,height:28}}>
+									<Radio.Button value={1} style={{width:54,height:28}}>
 										<span>月</span>
 									</Radio.Button>
 								</Radio.Group>
 							</div>
 							<div className="yc-sql-line" id="sqlMonitor"
-									 style={{marginLeft:20,marginBottom:0,marginTop:-40}}
+									 style={{marginLeft:20,marginBottom:0,marginTop:-30}}
 							/>
 
 						</div>
