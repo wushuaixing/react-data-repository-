@@ -56,7 +56,6 @@ class Index extends React.Component {
     let myChart = echarts.init(document.getElementById('source-pie'));
     // 绘制图表
     myChart.setOption({
-      color:['#1CAFE0FF','#FD9C26FF','#F03733FF','#126EC7FF','#16B45CFF','#8F56DFFF'],
       title : {
         text: '数据源分布',
         textStyle:{
@@ -97,12 +96,9 @@ class Index extends React.Component {
                 </div>
               </div>
               <div className="yc-source-pie" id="source-pie" />
-            </div>
+        </div>
       </Spin>
-
-
     )
   }
-
 }
 export default Index;

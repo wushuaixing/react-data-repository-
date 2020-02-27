@@ -15,7 +15,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timeType:1,
+      timeType:0,
       lastTitle:"昨日剩余",
       remainLast:0,
       newCome:0,
@@ -134,9 +134,11 @@ class Index extends React.Component {
             }
           },
           data: [{
-            value:65,name:'当日完成率'
+            value:65,name:'当日完成率',
+            itemStyle:{normal:{color:'#1CAFE0FF'},emphasis:{color:'#1CAFE0FF'}},
           },{
-            value:32,name:''
+            value:32,name:'',
+            itemStyle:{normal:{color:'#FD9C26FF'},emphasis:{color:'#FD9C26FF'}},
           }]
         }
       ]
@@ -158,10 +160,10 @@ class Index extends React.Component {
                   onChange={this.onChangeRadio}
                   value={timeType}
                 >
-                  <Radio.Button value={1} style={{width:70,height:28}}>
+                  <Radio.Button value={0} style={{width:70,height:28}}>
                     <span>昨日</span>
                   </Radio.Button>
-                  <Radio.Button value={3} style={{width:70,height:28}}>
+                  <Radio.Button value={1} style={{width:70,height:28}}>
                     <span>今日</span>
                   </Radio.Button>
                 </Radio.Group>
@@ -207,14 +209,6 @@ class Index extends React.Component {
                     </Row>
                   </div>
                 </div>
-                {/*<div className="yc-border-line">*/}
-                      {/*<span >*/}
-                          {/*{lastTitle}</span>*/}
-                  {/*<span >{lastRest}</span>条*/}
-                  {/*<span >*/}
-                          {/*当前总剩余 </span>*/}
-                  {/*<span>{allLast}</span>条*/}
-                {/*</div>*/}
               </div>
               <div style={{fontWeight:500,color:'#293038',marginBottom:20,marginTop:20}}>
                 <div style={{display:'inline-block',float:'left',marginBottom:20,marginLeft:20,borderTop:1,borderTopColor:'#e2e4e9'}}>

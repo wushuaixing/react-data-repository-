@@ -8,7 +8,7 @@ export const Series=[
 		type: 'pie',
 		id: 'pie',
 		radius: '60%',
-		hoverAnimation: false,
+		hoverAnimation: true,
 		legendHoverLink:false,
 		center: ['20%', '50%'],
 		selectedMode: 'single',
