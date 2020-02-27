@@ -1,7 +1,8 @@
 /** sync monitor * */
 import React from 'react';
-import {message,Radio,Row, Col} from "antd";
+import {message, Radio, Row, Col, Spin} from "antd";
 import {sqlMonitorText,sqlMonitorChart} from "../../../server/api";
+import {AxisStyle} from '../../../static/axisStyle';
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
 import  'echarts/lib/chart/line';
@@ -11,46 +12,8 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import '../style.scss';
 
-const xAxisStyle={
-	type: 'category',
-	axisLine: {
-		lineStyle:{
-			color:'#E2E4E9'
-		}
-	},
-	axisLabel: {
-		textStyle: {
-			color: '#293038'
-		}
-	},
-	splitLine: {
-		lineStyle: {
-			type: 'dashed'
-		}
-	},
-};
-const yAxisStyle={
-	type: 'value',
-	splitLine: {
-		lineStyle: {
-			type: 'dashed'
-		}
-	},
-	axisLine: {
-		lineStyle:{
-			color:'#E2E4E9'
-		}
-	},
-	axisLabel: {
-		textStyle: {
-			color: '#293038'
-		}
-	},
-	axisTick: {
-		show: false
-	},
-
-};
+const xAxisStyle=AxisStyle[0];
+const yAxisStyle=AxisStyle[1];
 
 class Index extends React.Component {
   constructor(props) {
@@ -68,19 +31,27 @@ class Index extends React.Component {
 			aucToExDiff:0,
 			exToDeDiff:0,
 			lastAuToExDiff:0,
+			loading:false,
     };
   }
 
   componentDidMount() {
+  	this.setState({
+			loading:true,
+		});
   	const {timeType}=this.state;
     this.changeDayMonth(timeType);
 		sqlMonitorText().then(res=>{
-			this.loading=false;
+			this.setState({
+				loading:false,
+			});
 			if (res.data.code === 200) {
 				const {auctionNumAll,detailNumAll,extractNumAll}=res.data.data.numberAllDetail;
 				const {auctionNumIncrement,extractNumIncrement}=res.data.data.numberIncrementDetail.auctionNumIncrement;
-				const {auction2ExtractNumAllSyncRate,extract2DetailAllSyncRate,auction2ExtractNumIncrementSyncRate}=res.data.data.numberSyncRateDetail;
-				const {auction2ExtractNumAllDiff,extract2DetailNumAllDiff,auction2ExtractNumIncrementDiff}=res.data.data.numberDifferenceDetail;
+				const {auction2ExtractNumAllSyncRate,extract2DetailAllSyncRate,
+					auction2ExtractNumIncrementSyncRate}=res.data.data.numberSyncRateDetail;
+				const {auction2ExtractNumAllDiff,extract2DetailNumAllDiff,
+					auction2ExtractNumIncrementDiff}=res.data.data.numberDifferenceDetail;
 				this.setState({
 					auctionNumAll:auctionNumAll,
 					detailNumAll:detailNumAll,
@@ -110,7 +81,13 @@ class Index extends React.Component {
 
 	//sql 切换日/月
   changeDayMonth(type){
+		this.setState({
+			loading:true,
+		});
     sqlMonitorChart(type).then(res=>{
+				this.setState({
+					loading:false,
+				});
         if (res.data.code === 200) {
         	let data=res.data.data || {};
           this.drawSql(data);
@@ -175,103 +152,105 @@ class Index extends React.Component {
   };
 
   render() {
-    const {timeType,auctionNumAll,detailNumAll,extractNumAll,auctionNumLast,extractNumLast,aucToExRate,exToDetailRate,lastAucToExRate,aucToExDiff,exToDeDiff,}=this.state;
+    const {timeType,auctionNumAll,detailNumAll,extractNumAll,auctionNumLast,extractNumLast,
+			aucToExRate,exToDetailRate,lastAucToExRate,aucToExDiff,exToDeDiff,loading,}=this.state;
     return (
-          <div>
-            <div className="yc-detail-title" >
-              <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>SQL同步监控</div>
-            </div>
-						<div className="yc-detail-amount">
-							<Row style={{height:60,marginTop:20,marginLeft:20,marginBottom:0}}>
-								<Col span={6}>
-									<p style={{color:'#808387'}}>auction表数据总量</p>
-									<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-										{auctionNumAll}
-										<span style={{marginLeft:2,fontSize:14}}>条</span>
-									</p>
-								</Col>
-								<Col span={3}>
-									<div style={{color:'#293038',fontSize:10,marginLeft:4}}>{aucToExRate} %</div>
-									<div style={{color:'#0099CC',fontWeight:800,marginTop:0}}> - - - - -> </div>
-									<div style={{color:'#0099CC',fontWeight:800,marginBottom:0}}> {`${'<- - - - -'}`} </div>
-									<div style={{color:'#293038',fontSize:10,marginLeft:-10}}>少 {aucToExDiff} 条</div>
-								</Col>
-								<Col span={6}>
-									<p>extract表数据总量</p>
-									<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-										{extractNumAll}
-										<span style={{marginLeft:2,fontSize:14}}>条</span>
-									</p>
-								</Col>
-								<Col span={3}>
-									<div style={{color:'#293038',fontSize:10,marginLeft:4}}>{exToDetailRate} %</div>
-									<div style={{color:'#0099CC',fontWeight:800,marginTop:0}}> - - - - -> </div>
-									<div style={{color:'#0099CC',fontWeight:800,marginBottom:0}}> {`${'<- - - - -'}`} </div>
-									<div style={{color:'#293038',fontSize:10,marginLeft:-10}}>少 {exToDeDiff} 条</div>
-								</Col>
-								<Col span={6}>
-									<p>detail表数据总量</p>
-									<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-										{detailNumAll}
-										<span style={{marginLeft:2,fontSize:14}}>条</span>
-									</p>
-								</Col>
-							</Row>
-							<p style={{color:'#293038',fontWeight:800,marginLeft:20}}>昨日增量</p>
-							<Row style={{height:60,marginLeft:20,marginBottom:0,}}>
-								<Col span={6}>
-									<p style={{color:'#808387'}}>auction表</p>
-									<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-										{auctionNumLast}
-										<span style={{marginLeft:2,fontSize:14}}>条</span>
-									</p>
-								</Col>
-								<Col span={3}>
-									<div style={{color:'#293038',fontSize:10,marginLeft:4}}>{lastAucToExRate} %</div>
-									<div style={{color:'#0099CC',fontWeight:800,marginTop:0}}> - - - - -> </div>
-									<div style={{color:'#0099CC',fontWeight:800,marginBottom:0}}> {`${'<- - - - -'}`} </div>
-									<div style={{color:'#293038',fontSize:10,marginLeft:-10}}>少 {aucToExDiff} 条</div>
-								</Col>
-								<Col span={6}>
-									<p>extract表</p>
-									<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-										{extractNumLast}
-										<span style={{marginLeft:2,fontSize:14}}>条</span>
-									</p>
-								</Col>
-								<Col span={3}>
-									<div style={{color:'#293038',fontSize:10,marginLeft:4}}>0%</div>
-									<div style={{color:'#0099CC',fontWeight:800,marginTop:0}}> - - - - -> </div>
-									<div style={{color:'#0099CC',fontWeight:800,marginBottom:0}}> {`${'<- - - - -'}`} </div>
-								</Col>
-								<Col span={6}>
-									<p>detail表</p>
-									<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
-										{extractNumLast}
-										<span style={{marginLeft:2,fontSize:14}}>条</span>
-									</p>
-								</Col>
-							</Row>
+			<Spin tip="Loading..." spinning={loading}>
+				<div>
+							<div className="yc-detail-title" >
+								<div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>SQL同步监控</div>
+							</div>
+							<div className="yc-detail-amount">
+								<Row style={{height:60,marginTop:20,marginLeft:20,marginBottom:0}}>
+									<Col span={6}>
+										<p style={{color:'#808387'}}>auction表数据总量</p>
+										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
+											{auctionNumAll}
+											<span style={{marginLeft:2,fontSize:14}}>条</span>
+										</p>
+									</Col>
+									<Col span={3}>
+										<div style={{color:'#293038',fontSize:10,marginLeft:4}}>{aucToExRate} %</div>
+										<div style={{color:'#0099CC',fontWeight:800,marginTop:0}}> - - - - -> </div>
+										<div style={{color:'#0099CC',fontWeight:800,marginBottom:0}}> {`${'<- - - - -'}`} </div>
+										<div style={{color:'#293038',fontSize:10,marginLeft:-10}}>少 {aucToExDiff} 条</div>
+									</Col>
+									<Col span={6}>
+										<p>extract表数据总量</p>
+										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
+											{extractNumAll}
+											<span style={{marginLeft:2,fontSize:14}}>条</span>
+										</p>
+									</Col>
+									<Col span={3}>
+										<div style={{color:'#293038',fontSize:10,marginLeft:4}}>{exToDetailRate} %</div>
+										<div style={{color:'#0099CC',fontWeight:800,marginTop:0}}> - - - - -> </div>
+										<div style={{color:'#0099CC',fontWeight:800,marginBottom:0}}> {`${'<- - - - -'}`} </div>
+										<div style={{color:'#293038',fontSize:10,marginLeft:-10}}>少 {exToDeDiff} 条</div>
+									</Col>
+									<Col span={6}>
+										<p>detail表数据总量</p>
+										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
+											{detailNumAll}
+											<span style={{marginLeft:2,fontSize:14}}>条</span>
+										</p>
+									</Col>
+								</Row>
+								<p style={{color:'#293038',fontWeight:800,marginLeft:20}}>昨日增量</p>
+								<Row style={{height:60,marginLeft:20,marginBottom:0,}}>
+									<Col span={6}>
+										<p style={{color:'#808387'}}>auction表</p>
+										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
+											{auctionNumLast}
+											<span style={{marginLeft:2,fontSize:14}}>条</span>
+										</p>
+									</Col>
+									<Col span={3}>
+										<div style={{color:'#293038',fontSize:10,marginLeft:4}}>{lastAucToExRate} %</div>
+										<div style={{color:'#0099CC',fontWeight:800,marginTop:0}}> - - - - -> </div>
+										<div style={{color:'#0099CC',fontWeight:800,marginBottom:0}}> {`${'<- - - - -'}`} </div>
+										<div style={{color:'#293038',fontSize:10,marginLeft:-10}}>少 {aucToExDiff} 条</div>
+									</Col>
+									<Col span={6}>
+										<p>extract表</p>
+										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
+											{extractNumLast}
+											<span style={{marginLeft:2,fontSize:14}}>条</span>
+										</p>
+									</Col>
+									<Col span={3}>
+										<div style={{color:'#293038',fontSize:10,marginLeft:4}}>0%</div>
+										<div style={{color:'#0099CC',fontWeight:800,marginTop:0}}> - - - - -> </div>
+										<div style={{color:'#0099CC',fontWeight:800,marginBottom:0}}> {`${'<- - - - -'}`} </div>
+									</Col>
+									<Col span={6}>
+										<p>detail表</p>
+										<p style={{fontSize:20,color:'#293038',fontWeight:800}}>
+											{extractNumLast}
+											<span style={{marginLeft:2,fontSize:14}}>条</span>
+										</p>
+									</Col>
+								</Row>
+							</div>
+							<div style={{margin:20,textAlign:'right',}}>
+								<Radio.Group
+									onChange={this.onChangeRadio}
+									value={timeType}
+								>
+									<Radio.Button value={1} style={{width:54,height:28}}>
+										<span>日</span>
+									</Radio.Button>
+									<Radio.Button value={3} style={{width:54,height:28}}>
+										<span>月</span>
+									</Radio.Button>
+								</Radio.Group>
+							</div>
+							<div className="yc-sql-line" id="sqlMonitor"
+									 style={{marginLeft:20,marginBottom:0,marginTop:-40}}
+							/>
+
 						</div>
-            <div style={{margin:20,textAlign:'right',}}>
-              <Radio.Group
-                onChange={this.onChangeRadio}
-                value={timeType}
-              >
-                <Radio.Button value={1} style={{width:54,height:28}}>
-                  <span>日</span>
-                </Radio.Button>
-                <Radio.Button value={3} style={{width:54,height:28}}>
-                  <span>月</span>
-                </Radio.Button>
-              </Radio.Group>
-            </div>
-            <div className="yc-sql-line" id="sqlMonitor"
-								 style={{marginLeft:20,marginBottom:0,marginTop:-40}}
-						/>
-
-					</div>
-
+			</Spin>
 
     )
   }

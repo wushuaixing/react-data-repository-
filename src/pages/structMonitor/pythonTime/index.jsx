@@ -1,6 +1,6 @@
 /** sync monitor * */
 import React from 'react';
-import {message, Select, DatePicker} from "antd";
+import {message, Select, DatePicker, Spin} from "antd";
 import moment from 'moment';
 import {pythonAmountIn31, structurePython} from "../../../server/api";
 import echarts from 'echarts/lib/echarts';
@@ -35,6 +35,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading:false,
       sourceList:[
         {
           value: "全部",
@@ -120,8 +121,12 @@ class Index extends React.Component {
   getSourceList=(id,time)=>{
     this.setState({
       sourceId:id,
+      loading:true,
     });
     structurePython(id,time).then(res =>{
+      this.setState({
+        loading:false,
+      });
       if (res.data.code === 200) {
         this.drawStructureTime(res.data.data);
         let pieData=res.data.data.structureDataBy18thPoint;
@@ -131,6 +136,9 @@ class Index extends React.Component {
       }
     });
     pythonAmountIn31(id).then(res=>{
+      this.setState({
+        loading:false,
+      });
       if(res.data.code === 200){
         let amount=res.data.data;
         this.drawStructureTime(amount);
@@ -306,52 +314,54 @@ class Index extends React.Component {
   };
 
   render() {
-    const {sourceList}=this.state;
+    const {sourceList,loading}=this.state;
     return (
-          <div>
-            <div className="yc-detail-title" >
-              <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>资产数据抓取时间段分布</div>
-            </div>
-            <div className="yc-left-chart" style={{backgroundColor:'#ffffff'}} >
-              <div style={{marginTop:20,marginBottom:20}}>
-                  <span style={{display: 'inline-block', marginLeft: 26,color:'#293038'}}>数据源：</span>
-                  <div style={{display: 'inline-flex'}}>
-                    <Select style={{width:150,marginLeft:4,height:28}}
-                            transfer
-                            placeholder="全部"
-                            onChange={this.onChangeSelect}
-                            defaultValue="全部"
-                    >
-                      {
-                        sourceList && sourceList.map((item) => {
-                          return (
-                            <Option
-                              value={item.value}
-                              key={item.value}
-                            >
-                              {item.label}
-                            </Option>
-                          );
-                        })
-                      }
-                    </Select>
-                  </div>
-                <span style={{display: 'inline-block', marginLeft: 20,color:'#293038'}}>结构化时间：</span>
-                <div style={{display: 'inline-flex'}}>
-                  <DatePicker
-                    placeholder="开始时间"
-                    style={{width:108,fontSize:12}}
-                    onChange={this.onChangeDate}
-                    defaultValue={moment(nowDate, dateFormat)}
-                    format={dateFormat}
-                  />
-                </div>
+      <Spin tip="Loading..." spinning={loading}>
+        <div>
+              <div className="yc-detail-title" >
+                <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>资产数据抓取时间段分布</div>
               </div>
-            <div className="chart" id="pythonTime" />
+              <div className="yc-left-chart" style={{backgroundColor:'#ffffff'}} >
+                <div style={{marginTop:20,marginBottom:20}}>
+                    <span style={{display: 'inline-block', marginLeft: 26,color:'#293038'}}>数据源：</span>
+                    <div style={{display: 'inline-flex'}}>
+                      <Select style={{width:150,marginLeft:4,height:28}}
+                              transfer
+                              placeholder="全部"
+                              onChange={this.onChangeSelect}
+                              defaultValue="全部"
+                      >
+                        {
+                          sourceList && sourceList.map((item) => {
+                            return (
+                              <Option
+                                value={item.value}
+                                key={item.value}
+                              >
+                                {item.label}
+                              </Option>
+                            );
+                          })
+                        }
+                      </Select>
+                    </div>
+                  <span style={{display: 'inline-block', marginLeft: 20,color:'#293038'}}>结构化时间：</span>
+                  <div style={{display: 'inline-flex'}}>
+                    <DatePicker
+                      placeholder="开始时间"
+                      style={{width:108,fontSize:12}}
+                      onChange={this.onChangeDate}
+                      defaultValue={moment(nowDate, dateFormat)}
+                      format={dateFormat}
+                    />
+                  </div>
+                </div>
+              <div className="chart" id="pythonTime" />
+              </div>
+              <div className="yc-right-chart" style={{backgroundColor:'#ffffff'}} id="pieEighteen">
+              </div>
             </div>
-            <div className="yc-right-chart" style={{backgroundColor:'#ffffff'}} id="pieEighteen">
-            </div>
-          </div>
+      </Spin>
     )
   }
 

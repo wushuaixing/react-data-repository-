@@ -1,7 +1,8 @@
 /** sync monitor * */
 import React from 'react';
-import {message} from "antd";
+import {message, Spin} from "antd";
 import {dataTypeChange} from "../../../server/api";
+import {AxisStyle} from '../../../static/axisStyle';
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
 import  'echarts/lib/chart/line';
@@ -12,58 +13,27 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import '../style.scss';
 
-const xAxisStyle={
-  type: 'category',
-  axisLine: {
-    lineStyle:{
-      color:'#E2E4E9'
-    }
-  },
-  axisLabel: {
-    textStyle: {
-      color: '#293038'
-    }
-  },
-  splitLine: {
-    lineStyle: {
-      type: 'dashed'
-    }
-  },
-};
-const yAxisStyle={
-  type: 'value',
-  splitLine: {
-    lineStyle: {
-      type: 'dashed'
-    }
-  },
-  axisLine: {
-    lineStyle:{
-      color:'#E2E4E9'
-    }
-  },
-  axisLabel: {
-    textStyle: {
-      color: '#293038'
-    }
-  },
-  axisTick: {
-    show: false
-  },
-
-};
+const xAxisStyle=AxisStyle[0];
+const yAxisStyle=AxisStyle[1];
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dataType:3,
+      loading:false,
     };
   }
 
   componentDidMount() {
+    this.setState({
+      loading:true,
+    });
     //数据类型占比变动
     dataTypeChange().then(res=>{
+      this.setState({
+        loading:false,
+      });
       if (res.data.code === 200) {
         //console.log(res.data.data);
         this.drawLineDataType(res.data.data);
@@ -129,19 +99,19 @@ class Index extends React.Component {
       ]
     });
 
-  }
-
+  };
 
   render() {
+    const {loading}=this.state;
     return (
-      <div>
-        <div className="yc-detail-title" >
-          <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>数据类型占比变动趋势</div>
+      <Spin tip="Loading..." spinning={loading}>
+        <div>
+          <div className="yc-detail-title" >
+            <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>数据类型占比变动趋势</div>
+          </div>
+          <div className="yc-every-line" id="dataType" style={{height: 300}} />
         </div>
-        <div className="yc-every-line" id="dataType" style={{height: 300}} />
-      </div>
-
-
+      </Spin>
     )
   }
 

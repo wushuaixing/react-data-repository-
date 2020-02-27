@@ -1,7 +1,8 @@
 /** sync monitor * */
 import React from 'react';
-import {message, Select, Radio} from "antd";
+import {message, Select, Radio, Spin} from "antd";
 import {detailsByDate} from "../../../server/api";
+import {AxisStyle} from '../../../static/axisStyle';
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
 import  'echarts/lib/chart/line';
@@ -15,51 +16,14 @@ import '../style.scss';
 
 const { Option } = Select;
 
-const xAxisStyle={
-  type: 'category',
-  axisLine: {
-    lineStyle:{
-      color:'#E2E4E9'
-    }
-  },
-  axisLabel: {
-    textStyle: {
-      color: '#293038'
-    }
-  },
-  splitLine: {
-    lineStyle: {
-      type: 'dashed'
-    }
-  },
-};
-const yAxisStyle={
-  type: 'value',
-  splitLine: {
-    lineStyle: {
-      type: 'dashed'
-    }
-  },
-  axisLine: {
-    lineStyle:{
-      color:'#E2E4E9'
-    }
-  },
-  axisLabel: {
-    textStyle: {
-      color: '#293038'
-    }
-  },
-  axisTick: {
-    show: false
-  },
-
-};
+const xAxisStyle=AxisStyle[0];
+const yAxisStyle=AxisStyle[1];
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading:false,
       siteName:"总量",
       dataSourceType:0,
       timeType:1,
@@ -156,9 +120,12 @@ class Index extends React.Component {
       const {dataSourceType}=this.state;
       this.setState({
         timeType:type,
+        loading:true,
       });
-      console.log(dataSourceType,type);
       detailsByDate(type,dataSourceType).then(res => {
+        this.setState({
+          loading:false,
+        });
         if (res.data.code === 200) {
           let sourceTemp=[];
           for (let key in res.data.data) {
@@ -306,56 +273,58 @@ class Index extends React.Component {
   };
 
   render() {
-    const {siteList,timeType,siteName}=this.state;
+    const {siteList,timeType,siteName,loading}=this.state;
     return (
-          <div>
-              <div style={{margin:20}}>
-                  <Radio.Group
-                    onChange={this.onChangeRadio}
-                    value={timeType}
-                    >
-                    <Radio.Button value={1} style={{width:54}}>
-                      <span>日</span>
-                    </Radio.Button>
-                    <Radio.Button value={2} style={{width:54}}>
-                      <span>周</span>
-                    </Radio.Button>
-                    <Radio.Button value={3} style={{width:54}}>
-                      <span>月</span>
-                    </Radio.Button>
-                </Radio.Group>
-                  <span style={{display: 'inline-block', marginLeft: 20,color:'#293038'}}>数据源：</span>
-                  <div style={{display: 'inline-flex'}}>
-                    <Select style={{width:150,marginLeft:4,height:28}}
-                            transfer
-                            placeholder="总量"
-                            onChange={this.onChangeSelect}
-                            defaultValue="0"
-                    >
-                      {
-                        siteList && siteList.map((item) => {
-                          return (
-                            <Option
-                              value={item.value}
-                              key={item.value}
-                            >
-                              {item.label}
-                            </Option>
-                          );
-                        })
-                      }
-                    </Select>
-                  </div>
-              </div>
-              <div className="yc-chart-title" >
-                <span>源网站增量与数据抓取量-{siteName}</span>
-              </div>
-              <div className="yc-python-line" id="compareSP" />
-              <div className="yc-chart-title">
-                <span>数据抓取量与源网站增量差值-{siteName}</span>
-              </div>
-              <div className="yc-python-line" id="compareDiff" />
-          </div>
+      <Spin tip="Loading..." spinning={loading}>
+        <div>
+                <div style={{margin:20}}>
+                    <Radio.Group
+                      onChange={this.onChangeRadio}
+                      value={timeType}
+                      >
+                      <Radio.Button value={1} style={{width:54}}>
+                        <span>日</span>
+                      </Radio.Button>
+                      <Radio.Button value={2} style={{width:54}}>
+                        <span>周</span>
+                      </Radio.Button>
+                      <Radio.Button value={3} style={{width:54}}>
+                        <span>月</span>
+                      </Radio.Button>
+                  </Radio.Group>
+                    <span style={{display: 'inline-block', marginLeft: 20,color:'#293038'}}>数据源：</span>
+                    <div style={{display: 'inline-flex'}}>
+                      <Select style={{width:150,marginLeft:4,height:28}}
+                              transfer
+                              placeholder="总量"
+                              onChange={this.onChangeSelect}
+                              defaultValue="0"
+                      >
+                        {
+                          siteList && siteList.map((item) => {
+                            return (
+                              <Option
+                                value={item.value}
+                                key={item.value}
+                              >
+                                {item.label}
+                              </Option>
+                            );
+                          })
+                        }
+                      </Select>
+                    </div>
+                </div>
+                <div className="yc-chart-title" >
+                  <span>源网站增量与数据抓取量-{siteName}</span>
+                </div>
+                <div className="yc-python-line" id="compareSP" />
+                <div className="yc-chart-title">
+                  <span>数据抓取量与源网站增量差值-{siteName}</span>
+                </div>
+                <div className="yc-python-line" id="compareDiff" />
+            </div>
+      </Spin>
 
 
     )

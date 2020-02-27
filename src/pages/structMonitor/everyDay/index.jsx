@@ -1,7 +1,8 @@
 /** sync monitor * */
 import React from 'react';
-import {message, Select, Radio} from "antd";
+import {message, Radio, Spin} from "antd";
 import {addedAndStructured} from "../../../server/api";
+import {AxisStyle} from '../../../static/axisStyle';
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
 import  'echarts/lib/chart/line';
@@ -12,52 +13,15 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import '../style.scss';
 
-const xAxisStyle={
-  type: 'category',
-  axisLine: {
-    lineStyle:{
-      color:'#E2E4E9'
-    }
-  },
-  axisLabel: {
-    textStyle: {
-      color: '#293038'
-    }
-  },
-  splitLine: {
-    lineStyle: {
-      type: 'dashed'
-    }
-  },
-};
-const yAxisStyle={
-  type: 'value',
-  splitLine: {
-    lineStyle: {
-      type: 'dashed'
-    }
-  },
-  axisLine: {
-    lineStyle:{
-      color:'#E2E4E9'
-    }
-  },
-  axisLabel: {
-    textStyle: {
-      color: '#293038'
-    }
-  },
-  axisTick: {
-    show: false
-  },
-
-};
+const xAxisStyle=AxisStyle[0];
+const yAxisStyle=AxisStyle[1];
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dataType:3,
+      loading:false,
     };
   }
 
@@ -75,10 +39,13 @@ class Index extends React.Component {
   changeDataType(type){
     this.setState({
       dataType:type,
+      loading:true,
     });
     addedAndStructured(type).then(res =>{
+      this.setState({
+        loading:false
+      });
       if (res.data.code === 200) {
-        //console.log(res.data.data);
         this.drawStruct(res.data.data);
       }
       else{
@@ -97,10 +64,7 @@ class Index extends React.Component {
     let structureData=[];
     // 标记量与抓取量差值
     let diffCount=[];
-    let diffMore=[];
-    let diffLess=[];
     for (let key in data ){
-      //console.log( data[key])
       pythonData.push([
         data[key].date,
         data[key].structureDataIncrement
@@ -143,37 +107,39 @@ class Index extends React.Component {
         {type: 'bar', data:diffCount, name:'标记量与抓取量差值'},
       ]
     });
-  }
+  };
 
 
   render() {
-    const {dataType}=this.state;
+    const {dataType,loading}=this.state;
     return (
-      <div>
-        <div className="yc-detail-title" >
-          <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>每日资产数据新增与标记</div>
-          <div style={{textAlign:'center',marginTop:-35}}>
-          <Radio.Group
-              onChange={this.onChangeRadio}
-              value={dataType}
-            >
-              <Radio.Button value={3} style={{width:90}}>
-                <span>总量</span>
-              </Radio.Button>
-              <Radio.Button value={1} style={{width:90}}>
-                <span>相似数据</span>
-              </Radio.Button>
-              <Radio.Button value={2}>
-                <span>非初标数据</span>
-              </Radio.Button>
-              <Radio.Button value={0} style={{width:90}}>
-                <span>初标数据</span>
-              </Radio.Button>
-            </Radio.Group>
+      <Spin tip="Loading..." spinning={loading}>
+        <div>
+          <div className="yc-detail-title" >
+            <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>每日资产数据新增与标记</div>
+            <div style={{textAlign:'center',marginTop:-35}}>
+            <Radio.Group
+                onChange={this.onChangeRadio}
+                value={dataType}
+              >
+                <Radio.Button value={3} style={{width:90}}>
+                  <span>总量</span>
+                </Radio.Button>
+                <Radio.Button value={1} style={{width:90}}>
+                  <span>相似数据</span>
+                </Radio.Button>
+                <Radio.Button value={2}>
+                  <span>非初标数据</span>
+                </Radio.Button>
+                <Radio.Button value={0} style={{width:90}}>
+                  <span>初标数据</span>
+                </Radio.Button>
+              </Radio.Group>
+            </div>
           </div>
+          <div className="yc-every-line" id="myChartEveryDay" />
         </div>
-        <div className="yc-every-line" id="myChartEveryDay" />
-      </div>
+      </Spin>
 
 
     )

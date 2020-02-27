@@ -1,7 +1,8 @@
 /** sync monitor * */
 import React from 'react';
-import {message} from "antd";
+import {message, Spin} from "antd";
 import {pythonAndTag} from "../../../server/api";
+import {AxisStyle} from '../../../static/axisStyle';
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
 import  'echarts/lib/chart/line';
@@ -12,57 +13,26 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import '../style.scss';
 
-const xAxisStyle={
-  type: 'category',
-  axisLine: {
-    lineStyle:{
-      color:'#E2E4E9'
-    }
-  },
-  axisLabel: {
-    textStyle: {
-      color: '#293038'
-    }
-  },
-  splitLine: {
-    lineStyle: {
-      type: 'dashed'
-    }
-  },
-};
-const yAxisStyle={
-  type: 'value',
-  splitLine: {
-    lineStyle: {
-      type: 'dashed'
-    }
-  },
-  axisLine: {
-    lineStyle:{
-      color:'#E2E4E9'
-    }
-  },
-  axisLabel: {
-    textStyle: {
-      color: '#293038'
-    }
-  },
-  axisTick: {
-    show: false
-  },
-
-};
+const xAxisStyle=AxisStyle[0];
+const yAxisStyle=AxisStyle[1];
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading:false,
     };
   }
 
   componentDidMount() {
     //数据抓取与标记差值
+    this.setState({
+      loading:true,
+    });
     pythonAndTag().then(res=>{
+      this.setState({
+        loading:false,
+      });
       if (res.data.code === 200) {
         this.drawLinePythonAndTag(res.data.data);
       }else{
@@ -147,15 +117,16 @@ class Index extends React.Component {
   };
 
   render() {
+    const {loading}=this.state;
     return (
-      <div>
-        <div className="yc-detail-title" >
-          <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>数据抓取与标记差值分析</div>
+      <Spin tip="Loading..." spinning={loading}>
+        <div>
+          <div className="yc-detail-title" >
+            <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>数据抓取与标记差值分析</div>
+          </div>
+          <div className="yc-python-tag" id="pythonTag" />
         </div>
-        <div className="yc-python-tag" id="pythonTag" />
-      </div>
-
-
+      </Spin>
     )
   }
 

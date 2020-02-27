@@ -2,6 +2,7 @@
 import React from 'react';
 import {message,Row, Col} from "antd";
 import {sqlMonitorText,ruleMonitor} from "../../../server/api";
+import {AxisStyle} from '../../../static/axisStyle';
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
 import  'echarts/lib/chart/line';
@@ -11,24 +12,7 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import '../style.scss';
 
-const xAxisStyle={
-	type: 'category',
-	axisLine: {
-		lineStyle:{
-			color:'#E2E4E9'
-		}
-	},
-	axisLabel: {
-		textStyle: {
-			color: '#293038'
-		}
-	},
-	splitLine: {
-		lineStyle: {
-			type: 'dashed'
-		}
-	},
-};
+const xAxisStyle=AxisStyle[0];
 
 class Index extends React.Component {
 	constructor(props) {
@@ -76,7 +60,6 @@ class Index extends React.Component {
 	drawRule=(data)=>{
 		//console.log(data);
 		// 均值  昨日数据转化率
-		let meanValue='';
 		let structureRate =[];
 		for(let key in data){
 			meanValue=parseInt(data[key].meanValue);
