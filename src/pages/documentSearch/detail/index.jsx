@@ -4,17 +4,28 @@ import {withRouter} from 'react-router-dom';
 import {message, Button, Spin} from 'antd';
 import {wenshuDetail} from '../../../server/api';
 import './style.scss';
+import {useCallback} from "anujs";
 
 class  DocumentDetail extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data:{},
-			isBu:false,
-			html:'',
-			loading:false,
+			data: {},
+			isBu: false,
+			html: '',
+			loading: false,
 		};
-	}
+		this.textInput = null;
+		this.textBox = element => {
+			this.textInput = element;
+		};
+		this.getHeight = () => {
+			if (this.textInput) {
+				return this.textInput.clientHeight
+			}
+		}
+	};
+
 
 	componentDidMount() {
 		const {Id} = this.props.match.params;
@@ -35,31 +46,22 @@ class  DocumentDetail extends React.Component {
 					data:data,
 					html:detail,
 				});
-				//
-				// if(data.appellors){
-				// 	// console.log('ifdata',this.data.appellors)
-				// 	if(this.$refs.textBox.offsetHeight && this.$refs.toggleBox.offsetHeight){
-				// 		let _isBu= this.$refs.toggleBox.offsetHeight == 54;
-				// 		this.setState({
-				// 			isBu:_isBu,
-				// 		});
-				// 	}
-				// }
-				// item.detail = item.detail.replace(new RegExp(searchText,'g'),'<span>'+searchText+'</span>');
-				// let subjectMatterIntroduction =
-				// 	"<span><div>" + res.data.data["content"] + "</div></span>";
-				//
-				// document
-				// 	.getElementById("document-detail-content")
-				// 	.appendChild(
-				// 		this.$parseDom(this.$clearStyle(subjectMatterIntroduction))[0]
-				// 	);
+				if(data.appellors){
+					const height=this.getHeight();
+					if(height>50){
+						this.setState({
+							isBu:true,
+						})
+					}
+				}
 			} else {
 				message.error(res.data.message);
 			}
 		});
 	}
 
+	componentDidUpdate(prevProps, prevState, snapshot) {
+	}
 
 	dataFilter=(value)=> {
 		let data = new Date(value);
@@ -89,7 +91,7 @@ class  DocumentDetail extends React.Component {
 	};
 
 	render() {
-		const {data,html,loading}=this.state;
+		const {data,html,isBu,loading}=this.state;
 		return(
 			<Spin tip="Loading..." spinning={loading}>
 				<div>
@@ -135,11 +137,11 @@ class  DocumentDetail extends React.Component {
 										<p className="message-line-left">裁判日期:</p>
 										<p className="message-line-right">{ data.trialDate ? data.trialDate : '--'}</p>
 									</div>
-									<div className="message-line" ref="textBox">
+									<div className="message-line" ref={this.textBox}>
 										<p className="message-line-left">当事人:</p>
 										<input type="checkbox" name="toggle" id="toggle" style={{display: 'none'}} />
 											<p className="message-line-right" ref="toggleBox">{ data.appellors ? data.appellors : '--'}</p>
-											<label for="toggle" className="message-line-right" style={{color:'#0099CC'}} />
+												{isBu && <label htmlFor="toggle" className="message-line-right" style={{color:'#0099CC'}} />}
 									</div>
 								</div>
 							</div>
