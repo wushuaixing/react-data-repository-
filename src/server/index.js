@@ -19,6 +19,7 @@ axios.interceptors.request.use(
 		return Promise.reject(err);
 	}
 );
+
 // 返回后拦截
 axios.interceptors.response.use(
 	response => {
@@ -26,7 +27,9 @@ axios.interceptors.response.use(
 		if (response.data.code !== 200) {
 			// debugger
 			if (response.data.code === 401 ) {
-				history.push("/login");
+				// window.location.reload();
+				// history.push("/login");
+				window.location.href = '/login';
 			} else {
 				return response;
 			}
