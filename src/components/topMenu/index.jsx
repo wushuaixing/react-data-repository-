@@ -36,7 +36,12 @@ class topMenu extends React.Component {
 				callback('请输入新密码');
 			}
 			else if (val.length > 20 || val.length < 6) {
-				callback('长度为6-20位，不允许有空格');
+				let pattern = new RegExp(/\s+/g);
+				if(pattern.test(val)){
+					callback('不允许有空格');
+				}else{
+					callback('长度为6-20位');
+				}
 			}
 		}
 		if (rule.field === "confirmNewPassword") {
@@ -44,7 +49,12 @@ class topMenu extends React.Component {
 				callback('请确认新密码');
 			}
 			else if (val.length > 20 || val.length < 6) {
-				callback('长度为6-20位，不允许有空格');
+				let pattern = new RegExp(/\s+/g);
+				if(pattern.test(val)){
+					callback('不允许有空格');
+				}else{
+					callback('长度为6-20位');
+				}
 			}
 		}
 	};
