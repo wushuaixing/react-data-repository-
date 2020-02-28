@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="-feat:提取公用方法handleValidator,dateFilter">
-      <change afterPath="$PROJECT_DIR$/src/util/commonMethod.js" afterDir="false" />
+    <list default="true" id="9615b8c9-2969-4b57-853c-2a7ba01d28c7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/static/dataList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/leftMenu/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/leftMenu/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/topMenu/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/topMenu/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/checkUser/checkAccountModal/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/checkUser/checkAccountModal/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/structureUser/structureAccountModal/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/structureUser/structureAccountModal/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/check/searchInfo/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/check/searchInfo/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/documentSearch/detail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/documentSearch/detail/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/login/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/structMonitor/pythonTime/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/structMonitor/pythonTime/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/structure/detail/checkModal/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/structure/detail/checkModal/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/status.js" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,7 +26,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/leftMenu/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="113">
@@ -47,46 +38,24 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/login/loginForm/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1641" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/admin/checkUser/checkAccountModal/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-555">
-              <caret line="32" column="3" lean-forward="true" selection-start-line="32" selection-start-column="3" selection-end-line="32" selection-end-column="3" />
-              <folding>
-                <element signature="e#41#67#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/admin/structureUser/search/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="23" column="19" lean-forward="true" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/checkModal/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="21" column="19" lean-forward="true" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
+            <state relative-caret-position="145">
+              <caret line="21" column="16" lean-forward="true" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
               <folding>
                 <element signature="n#!!doc" />
                 <element signature="e#41#67#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/static/dataList.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="519">
+              <caret line="131" lean-forward="true" selection-start-line="131" selection-end-line="131" />
             </state>
           </provider>
         </entry>
@@ -103,43 +72,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="802" column="24" selection-start-line="802" selection-start-column="24" selection-end-line="802" selection-end-column="24" />
-              <folding>
-                <element signature="n#!!block;n#getStrucData#0;n#StructureDetail#0" />
-                <element signature="n#!!block;n#getDetailData#0;n#StructureDetail#0" />
-                <element signature="n#!!block;n#getData#0;n#StructureDetail#0" />
-                <element signature="n#!!block;n#checkTrue#0;n#StructureDetail#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/admin/structureUser/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1502">
-              <caret line="14" column="45" lean-forward="true" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
-              <folding>
-                <element signature="e#41#67#0" expanded="true" />
-                <element signature="n#!!block;n#constructor#0;n#AccountManage#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/util/commonMethod.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-244">
-              <caret line="35" column="50" selection-start-line="35" selection-start-column="50" selection-end-line="35" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -151,14 +83,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>user</find>
-      <find>onOpenChange</find>
-      <find>userView</find>
-      <find>storage</find>
-      <find>handleCancel</find>
-      <find>isBu</find>
-      <find>api/asset/inspector/control/getCheckList</find>
-      <find>detail</find>
       <find>static_position</find>
       <find>bidding-announcement</find>
       <find>html</find>
@@ -180,7 +104,15 @@
       <find>ifAttach</find>
       <find>this.handleValidator</find>
       <find>onChangeReason</find>
+      <find>api/asset/inspector/control/getCheckLis</find>
+      <find>typeList</find>
+      <find>status</find>
+      <find>tabStatus</find>
       <find>handleValidator</find>
+      <find>reasonList</find>
+      <find>label</find>
+      <find>wrongTypeList</find>
+      <find>抵押文书遗漏</find>
     </findStrings>
     <replaceStrings>
       <replace>/page/structure</replace>
@@ -212,8 +144,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/pages/monitor/sourcePie/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/monitor/sourceAndPython/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/monitor/style.scss" />
         <option value="$PROJECT_DIR$/src/pages/monitor/sqlMonitor/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/monitor/index.jsx" />
@@ -256,21 +186,21 @@
         <option value="$PROJECT_DIR$/src/components/leftMenu/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/structure/assetStruc/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/check/searchInfo/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/admin/structureUser/structureAccountModal/index.jsx" />
         <option value="$PROJECT_DIR$/src/components/topMenu/index.jsx" />
         <option value="$PROJECT_DIR$/src/util/commonMethod.js" />
         <option value="$PROJECT_DIR$/src/pages/admin/checkUser/checkAccountModal/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/structure/detail/checkModal/index.jsx" />
         <option value="$PROJECT_DIR$/src/pages/login/index.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/check/searchInfo/index.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/check/index.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/structure/detail/checkModal/index.jsx" />
+        <option value="$PROJECT_DIR$/src/static/dataList.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="564" />
-    <option name="y" value="23" />
-    <option name="width" value="876" />
-    <option name="height" value="797" />
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectId" id="1U5jExP2xhgo23MLTsRg19V60C3" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -308,56 +238,6 @@
               <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="checkUser" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="checkUser" type="462c0819:PsiDirectoryNode" />
-              <item name="checkAccountModal" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="structureUser" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="structureUser" type="462c0819:PsiDirectoryNode" />
-              <item name="search" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="structureUser" type="462c0819:PsiDirectoryNode" />
-              <item name="structureAccountModal" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -367,6 +247,14 @@
               <item name="pages" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
               <item name="checkTable" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="searchInfo" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
@@ -569,21 +457,7 @@
       <workItem from="1582851753106" duration="495000" />
       <workItem from="1582852383710" duration="731000" />
       <workItem from="1582853529970" duration="655000" />
-      <workItem from="1582854230581" duration="15388000" />
-    </task>
-    <task id="LOCAL-00090" summary="-feat:axios类的实例export">
-      <created>1582424714818</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1582424714819</updated>
-    </task>
-    <task id="LOCAL-00091" summary="-feat:检查资产结构化列表拆分组件">
-      <created>1582430515321</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1582430515322</updated>
+      <workItem from="1582854230581" duration="18723000" />
     </task>
     <task id="LOCAL-00092" summary="-feat:检查-详情页返回列表页对应tab">
       <created>1582446861768</created>
@@ -914,17 +788,31 @@
       <option name="project" value="LOCAL" />
       <updated>1582886635506</updated>
     </task>
-    <option name="localTasksCounter" value="139" />
+    <task id="LOCAL-00139" summary="-feat:提取公用方法handleValidator,dateFilter">
+      <created>1582893414125</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1582893414126</updated>
+    </task>
+    <task id="LOCAL-00140" summary="-fix:检查人员-搜索框问题">
+      <created>1582896124894</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1582896124894</updated>
+    </task>
+    <option name="localTasksCounter" value="141" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="589411000" />
+    <option name="totallyTimeSpent" value="592746000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49638554" visible="true" weight="0.18534179" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49638554" visible="true" weight="0.18534179" />
       <window_info id="Structure" order="1" sideWeight="0.5036145" side_tool="true" weight="0.26074702" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -989,7 +877,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-fix:近期新增与标记" />
     <MESSAGE value="-feat:近期新增与标记" />
     <MESSAGE value="-feat:数据抓取与标记差值分析" />
     <MESSAGE value="-feat:数据类型占比变动趋势" />
@@ -1014,7 +901,8 @@
     <MESSAGE value="-fix:最多添加三个文书input框提示" />
     <MESSAGE value="-fix:结构化人员列表返回对应列" />
     <MESSAGE value="-feat:提取公用方法handleValidator,dateFilter" />
-    <option name="LAST_COMMIT_MESSAGE" value="-feat:提取公用方法handleValidator,dateFilter" />
+    <MESSAGE value="-fix:检查人员-搜索框问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="-fix:检查人员-搜索框问题" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1028,13 +916,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/pieData.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" selection-start-line="9" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/syncMonitor/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="328">
@@ -1200,16 +1081,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../doc.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="54432">
-            <caret line="2592" column="51" selection-start-line="2592" selection-start-column="11" selection-end-line="2592" selection-end-column="51" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/router/adminRoute.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
@@ -1248,13 +1119,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
           <caret line="7" column="36" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="153" column="30" selection-start-line="153" selection-start-column="16" selection-end-line="153" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -1353,13 +1217,6 @@
     <entry file="file://$PROJECT_DIR$/src/pages/structure/index.jsx">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/check/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="53" column="8" lean-forward="true" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/structure/assetStruc/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
@@ -1367,19 +1224,6 @@
           <folding>
             <element signature="e#15#41#0" expanded="true" />
             <element signature="e#1456#2027#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/check/searchInfo/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="134" column="32" selection-start-line="134" selection-start-column="32" selection-end-line="134" selection-end-column="32" />
-          <folding>
-            <element signature="e#15#41#0" expanded="true" />
-            <element signature="e#772#1729#0" />
-            <element signature="e#939#1120#0" />
-            <element signature="e#1764#2236#0" />
           </folding>
         </state>
       </provider>
@@ -1444,27 +1288,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/admin/checkUser/checkAccountModal/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-555">
-          <caret line="32" column="3" lean-forward="true" selection-start-line="32" selection-start-column="3" selection-end-line="32" selection-end-column="3" />
-          <folding>
-            <element signature="e#41#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/checkModal/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="21" column="19" lean-forward="true" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
-          <folding>
-            <element signature="n#!!doc" />
-            <element signature="e#41#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/admin/structureUser/structureAccountModal/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="129">
@@ -1485,12 +1308,80 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../doc.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="901">
+            <caret line="2592" column="50" selection-start-line="2592" selection-start-column="11" selection-end-line="2592" selection-end-column="50" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/admin/checkUser/checkAccountModal/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-555">
+          <caret line="32" column="3" lean-forward="true" selection-start-line="32" selection-start-column="3" selection-end-line="32" selection-end-column="3" />
+          <folding>
+            <element signature="e#41#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="58">
+          <caret line="177" column="68" selection-start-line="193" selection-start-column="21" selection-end-line="193" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/check/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="90" column="12" selection-start-line="90" selection-start-column="12" selection-end-line="90" selection-end-column="12" />
+          <folding>
+            <element signature="e#15#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/check/searchInfo/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="104" selection-start-line="104" selection-end-line="104" />
+          <folding>
+            <element signature="e#15#41#0" expanded="true" />
+            <element signature="e#827#1784#0" />
+            <element signature="e#967#1181#0" />
+            <element signature="e#1819#2291#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/leftMenu/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="113">
           <caret line="76" column="31" selection-start-line="76" selection-start-column="31" selection-end-line="76" selection-end-column="31" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/static/dataList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="519">
+          <caret line="131" lean-forward="true" selection-start-line="131" selection-end-line="131" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/checkModal/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="21" column="16" lean-forward="true" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+          <folding>
+            <element signature="n#!!doc" />
+            <element signature="e#41#67#0" expanded="true" />
           </folding>
         </state>
       </provider>

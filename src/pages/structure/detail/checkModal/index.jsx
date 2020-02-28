@@ -7,6 +7,7 @@ import Checkbox from "antd/es/checkbox";
 import CheckboxGroup from "antd/es/checkbox/Group";
 import Radio from "antd/es/radio";
 import Input from "antd/es/input";
+import {reasonList,wrongTypeList} from "../../../../static/dataList";
 import './style.scss';
 
 const checkForm = Form.create;
@@ -19,39 +20,8 @@ class  Check extends React.Component {
 			dataStatus:0,
 			dataId:0,
 			remark:"",
-			reasonList: [
-				"拍卖页文本看漏",
-				"拍卖页图片看漏",
-				"附件文本看漏",
-				"附件图片看漏",
-				"文书未找到",
-				"文书文本看漏",
-				"填写失误",
-				"其他"
-			],
-			highLevel: [
-				"所有人遗漏：",
-				"所有人错误：",
-				"多填所有人:",
-				"债权人遗漏：",
-				"债权人错误：",
-				"资产线索遗漏：",
-				"资产线索错误：",
-				"资产线索备注遗漏/错误：",
-				"身份信息遗漏：",
-				"身份信息错误：",
-				"抵押文书遗漏：",
-				"抵押文书错误：",
-				"无抵押勾选遗漏/错误:",
-				"见附件勾选遗漏/错误：",
-				"角色类别错误：",
-				"未优先填身份证号：",
-				"面积遗漏/错误：",
-				"案号遗漏/错误：",
-				"其他角色备注遗漏/错误：",
-				"房产/土地类型遗漏/错误：",
-				"多填债权人/资产线索/抵押文书：",
-			],
+			reasonList: reasonList,
+			wrongTypeList: wrongTypeList,
 		};
   }
 
@@ -70,7 +40,7 @@ class  Check extends React.Component {
 
   modalOk=()=>{
 		const options=this.props.form.getFieldsValue();
-		console.log(options);
+		console.log(options,'options');
   	const {visible}=this.state;
 		this.setState({
 			visible: false,
@@ -86,9 +56,9 @@ class  Check extends React.Component {
 	};
 
 
-	onChangeReason=(checkedValues)=>{
-		console.log('checked = ', checkedValues);
-	};
+	// onChangeReason=(checkedValues)=>{
+	// 	console.log('checked = ', checkedValues);
+	// };
 
 	addRemark(data) {
 		const {remark}=this.state;
@@ -103,7 +73,7 @@ class  Check extends React.Component {
 //待标记--》详情页
   render() {
 		const { getFieldDecorator } = this.props.form;
-		const { visible,reasonList,highLevel }=this.state;
+		const { visible,reasonList,wrongTypeList }=this.state;
 			return(
 					<div>
 								<Modal
@@ -151,10 +121,10 @@ class  Check extends React.Component {
 										<Form.Item className="part" label="出错原因">
 											{getFieldDecorator('reason', {})(
 												<CheckboxGroup onChange={this.onChangeReason}>
-													{reasonList && reasonList.map((item,index)=>{
+													{reasonList && reasonList.map((item)=>{
 														return (
-															<Checkbox value={item} key={index}>
-																<span>{ item }</span>
+															<Checkbox value={item.value} key={item.label}>
+																<span>{ item.value }</span>
 															</Checkbox>
 														)
 													})
@@ -165,14 +135,14 @@ class  Check extends React.Component {
 										<div className="part">
 											<p className="part-title">错误类型</p>
 												<div className="part-error-detail">
-													{highLevel && highLevel.map((item,index)=>{
+													{wrongTypeList && wrongTypeList.map((item)=>{
 														return(
 															<p
-																key={index}
+																key={item.label}
 																className="part-error-content"
-																onClick={()=>this.addRemark(item)}
+																onClick={()=>this.addRemark(item.value)}
 															>
-																{ item }
+																{ item.value }
 															</p>
 														)})}
 												</div>
