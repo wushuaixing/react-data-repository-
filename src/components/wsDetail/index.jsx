@@ -1,8 +1,6 @@
 /** right content for Account manage* */
 import React from 'react';
-import Checkbox from "antd/es/checkbox";
-import Input from "antd/es/input";
-import Radio from "antd/es/radio";
+import {message,Checkbox,Input,Radio,} from "antd"
 import deleteIcon from "../../assets/img/delete_wenshu.png";
 import addIcon from "../../assets/img/add_wenshu.png";
 import clone from "../../util/util";
@@ -113,6 +111,8 @@ class  WsDetail extends React.Component {
 				value: ""
 			});
 			this.props.fnChanged(ws,'addNum');
+		}else if(temp.length ===3){
+			message.error("最多添加3个")
 		}
 	};
 	//添加文书链接地址
@@ -126,6 +126,8 @@ class  WsDetail extends React.Component {
 				value: ""
 			});
 			this.props.fnChanged(ws,'addUrl');
+		}else if(temp.length ===3){
+			message.error("最多添加3个")
 		}
 	};
 	//删除文书号
@@ -274,7 +276,7 @@ class  WsDetail extends React.Component {
 											<Checkbox
 												defaultChecked={wsAttach}
 												onChange={this.onChangeAttach}
-												style={{marginLeft:5}}
+												style={{marginLeft:80}}
 												disabled={disabled}
 											>详情见资产拍卖附件</Checkbox>
 										</div>

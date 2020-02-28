@@ -37,7 +37,7 @@ class  StructureDetail extends React.Component {
 			checkedCollateral:true,
 			houseType:0,
 			valueWenshu:0,
-			ifAttach:true,
+			ifAttach:false,
 			wenshuNum:[],
 			wenshuUrl:[],
 			obligors:[],
