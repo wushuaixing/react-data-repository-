@@ -65,26 +65,32 @@ class  BasicDetail extends React.Component {
                 {needRecord && <StructureRecord records={records} />}
                 {/*//什么数据是有撤回原因和关联标注的 条件：!character && status !== 0*/}
                 </div>
-                <div>
-                  <p className="yc-sec-title">撤回原因:</p>
-                  <p className="yc-sec-title" style={{ marginLeft:5}}>
-                    {basic.reasonForWithdrawal
-                    ? basic.reasonForWithdrawal
-                    :'--'}
-                  </p>
-                </div>
-                <div >
-                  <p className="yc-sec-title">关联标注:</p>
-                  <p
-                    className="yc-link-title"
-                    style={{ marginLeft:5}}
-                    onClick={()=>this.associated(basic.associatedAnnotationId)}
-                  >
-                    {basic.associatedAnnotationId
-                      ? basic.associatedAnnotationId
-                      :'--'}
-                  </p>
-                </div>
+                {
+                  ((dataStatus !== 0 && role==="检查人员") ||( auctionStatus === "终止" || auctionStatus === "撤回"))&&
+                  <div>
+                    <p className="yc-sec-title">撤回原因:</p>
+                    <p className="yc-sec-title" style={{ marginLeft:5}}>
+                      {basic.reasonForWithdrawal
+                        ? basic.reasonForWithdrawal
+                        :'--'}
+                    </p>
+                  </div>
+                }
+                {
+                  ((dataStatus !== 0 && role==="检查人员") || basic.type === 2)&&
+                  <div>
+                    <p className="yc-sec-title">关联标注:</p>
+                    <p
+                      className="yc-link-title"
+                      style={{marginLeft: 5}}
+                      onClick={() => this.associated(basic.associatedAnnotationId)}
+                    >
+                      {basic.associatedAnnotationId
+                        ? basic.associatedAnnotationId
+                        : '--'}
+                    </p>
+                  </div>
+                }
               </div>
             </div>
           </div>
