@@ -179,9 +179,15 @@
 
     }
   }
-.ant-modal{
-  .ant-modal-content{
-    width: 430px;
+  .ant-modal{
+    .ant-modal-content{
+      width: 430px;
+    }
   }
-}
+  .ant-checkbox-wrapper{
+    font-size: 12px;
+  }
+  .ant-radio-wrapper{
+    font-size: 12px;
+  }
 }
