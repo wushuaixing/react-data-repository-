@@ -2,6 +2,7 @@
 import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table, message, Spin} from 'antd';
 import {Columns} from "../../../static/columns";
+import {dataFilter} from "../../../util/commonMethod";
 import {structuredList} from "../../../server/api";
 import {Link, withRouter} from "react-router-dom";
 import 'antd/dist/antd.css';
@@ -35,9 +36,6 @@ class  Asset extends React.Component {
 			let {statusPath,pagePath,tabPath,Id}=this.props.location.state;
 			let _status=parseInt(statusPath);
 			let _page=parseInt(pagePath);
-			this.setState({
-				tabIndex:tabPath,
-			});
 			if(Id){
 				let _Id=parseInt(Id);
 				this.getApi({_Id});
@@ -113,6 +111,7 @@ class  Asset extends React.Component {
 		let _index = approveStatus.toString();
 		this.setState({
 			tabIndex:_index,
+			page:page,
 		});
 		this.getApi(params);
 	};
@@ -132,26 +131,8 @@ class  Asset extends React.Component {
 
 	//换页
 	onChangePage=(pagination)=>{
-		const {status,page}=this.state;
-		this.setState({
-			page: pagination.current,
-		});
-		this.getTableList(status,page);
-	};
-
-	//日期转换
-	dataFilter=(value)=>{
-		let data = new Date(value);
-		let year = data.getFullYear();
-		let month = data.getMonth() + 1;
-		if (month < 10) {
-			month = "0" + month;
-		}
-		let date = data.getDate();
-		if (date < 10) {
-			date = "0" + date;
-		}
-		return year + "-" + month + "-" + date;
+		const {status}=this.state;
+		this.getTableList(status,pagination.current);
 	};
 
 	//搜索框
@@ -173,8 +154,8 @@ class  Asset extends React.Component {
 			title: searchTitle,
 		});
 		if(status !== 0){
-			if(startTime){_params.structuredStartTime=this.dataFilter((startTime))}
-			if(endTime){_params.structuredEndTime=this.dataFilter((endTime))}
+			if(startTime){_params.structuredStartTime=dataFilter((startTime))}
+			if(endTime){_params.structuredEndTime=dataFilter((endTime))}
 		}
 		this.getApi(_params);
 	};
@@ -202,12 +183,12 @@ class  Asset extends React.Component {
 				width: 180,
 				render: (text, record) => (
 					<span>
-				<Link to={`/index/${record.id}/${record.status}/${page}/${status}`}>
-        <Button>
-					标注
-        </Button>
-				</Link>
-      </span>
+						<Link to={`/index/${record.id}/${record.status}/${page}/${status}`}>
+						<Button>
+							标注
+						</Button>
+						</Link>
+      		</span>
 				),
 			},
 

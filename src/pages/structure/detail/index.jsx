@@ -59,7 +59,6 @@ class  StructureDetail extends React.Component {
 		let _status=parseInt(status);
 		let dataId=parseInt(Id);
 		let _page=parseInt(page);
-		console.log(enable,personnel);
 		if(enable ==="false" || personnel==='自动标注'){
 			this.setState({
 				needStruc:true,
@@ -384,7 +383,7 @@ class  StructureDetail extends React.Component {
 		}
 		if(_data.obligors) {
 			let tempData = [];
-			data.obligors.forEach((item, index) => {
+			data.obligors.forEach((item) => {
 				let itemValue = Object.values(item);
 				let roleValue = itemValue.filter(_item => _item != null && _item !== undefined && _item !== "");
 				if (roleValue.length) {
