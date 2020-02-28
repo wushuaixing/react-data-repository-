@@ -18,7 +18,7 @@ import HouseDetail from "../../../components/houseDetail";
 import Check from "./checkModal";
 import './style.scss';
 
-let storage = window.localStorage;
+const storage = window.localStorage;
 const role = storage.userState;
 
 class  StructureDetail extends React.Component {
@@ -767,28 +767,28 @@ class  StructureDetail extends React.Component {
 								{	need && <WrongReason errorList={errorReason} /> }
 							</div>
 							<div>
-								<BasicDetail info={basic} records={recordsForCheck} status={autionStatus} need={needRecord}/>
+								<BasicDetail info={basic} records={recordsForCheck}  status={autionStatus} need={needRecord} dataStatus={status}/>
 							</div>
 							<div className="yc-wrong-part">
-							<div className="left-part">
-								<HouseDetail  collateral={checkedCollateral}
-															house={houseType}
-															fnArea={this.setArea.bind(this)}
-															fnCollateral={this.setCollateral.bind(this)}
-															fnHouse={this.setHouseType.bind(this)}
-															area={basic.buildingArea}
-															need={needStruc}
-								/>
-							</div>
+								<div className="left-part">
+									<HouseDetail  collateral={checkedCollateral}
+																house={houseType}
+																fnArea={this.setArea.bind(this)}
+																fnCollateral={this.setCollateral.bind(this)}
+																fnHouse={this.setHouseType.bind(this)}
+																area={basic.buildingArea}
+																need={needStruc}
+									/>
+								</div>
 								<div className="right-part">
-								<WsDetail num={wenshuNum}
-													url={wenshuUrl}
-													ifWs={wsFindStatus}
-													attach={ifAttach}
-													wsStyle={wsStyle}
-													fnChanged={this.changeInfo.bind(this)}
-													need={needStruc}
-								/>
+									<WsDetail num={wenshuNum}
+														url={wenshuUrl}
+														ifWs={wsFindStatus}
+														attach={ifAttach}
+														wsStyle={wsStyle}
+														fnChanged={this.changeInfo.bind(this)}
+														need={needStruc}
+									/>
 								</div>
 							</div>
 							<div>
@@ -798,7 +798,6 @@ class  StructureDetail extends React.Component {
 														need={needStruc}
 								/>
 							</div>
-
             </div>
 						<div>
 							<Check visible={visible}

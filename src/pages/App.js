@@ -5,6 +5,7 @@ import history from "../history";
 import Login from "./login";
 import Home from "./home";
 import DocumentDetail from "./documentSearch/detail";
+import SourcePage from "./sourcePage";
 import './App.css';
 
 class App extends React.Component {
@@ -21,7 +22,7 @@ class App extends React.Component {
 						<Route path="/login" component={Login} />
 						<Route path="/index" component={Home} />
 						<Route path="/documentDetail/:Id" component={DocumentDetail} />
-
+						<Route path="/sourcePage/:Id" component={SourcePage} />
 					</Switch>
 				</div>
 			</Router>

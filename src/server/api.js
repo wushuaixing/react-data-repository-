@@ -150,6 +150,11 @@ export const structuredList=(params)=> {
 	return axios.get("/api/asset/structured/control/structuredList?" + urlPlus);
 };
 
+//源链接提取页
+export function htmlDetailInfo(id) {
+	return axios.get("/api/asset/auction/" + id + "/htmlDetailInfo");
+}
+
 //获取检察人员结构化列表详情
 export const getCheckDetail=(id)=> {
 	return axios.get("/api/asset/inspector/control/getCheckDetail/" + id);

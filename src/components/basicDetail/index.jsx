@@ -1,10 +1,10 @@
 /** 错误原因展示* */
 import React from 'react';
+import {Link} from "react-router-dom";
 import StructureRecord from "../../components/structureRecord";
-// ==================
-// 所需的所有组件
-// ==================
 
+const storage = window.localStorage;
+const role = storage.userState;
 
 class  BasicDetail extends React.Component {
   constructor(props) {
@@ -13,6 +13,7 @@ class  BasicDetail extends React.Component {
       basic:{},
       records:[],
       auctionStatus:'',
+      dataStatus:0,
 		};
   }
 
@@ -27,50 +28,20 @@ class  BasicDetail extends React.Component {
 
   }
   componentWillReceiveProps(nextProps){
-    const {info,records,status,need}=nextProps;
+    const {info,records,status,need,dataStatus}=nextProps;
     // console.log(nextProps,'next');
+    let _data=parseInt(dataStatus);
     this.setState({
       basic:info,
       records:records,
       auctionStatus:status,
       needRecord:need,
+      dataStatus:_data,
     });
   }
-  //打开标题链接
-  openLink=()=>{
-    let href = window.location.href.split("#")[0];
-    // window.open(href + "#/SourcePage/"+this.$route.params.id);
-  };
 
-
-
-  //
-  associated=(id) =>{
-    let href = window.location.href.split("#")[0];
-    // window.open(
-    // 	href + "#/check/" + id + "/" + strucData.data[0].auctionStatus
-    // );
-  };
-
- /* filterAuctionStatus=(value) =>{
-    if (value === 1) {
-      return "即将开始";
-    } else if (value === 3) {
-      return "拍卖中";
-    } else if (value === 5) {
-      return "成功交易";
-    } else if (value === 7) {
-      return "失败";
-    } else if (value === 9) {
-      return "终止";
-    } else if (value === 11) {
-      return "撤回";
-    }
-  };*/
   render() {
-    const { basic,records,auctionStatus,needRecord }=this.state;
-    // const auctionStatus=this.filterAuctionStatus.bind(basic.auctionStatus);
-    // console.log(auctionStatus);
+    const { basic,records,auctionStatus,needRecord,dataStatus }=this.state;
         return(
           <div>
             <div className="yc-wrong-part">
@@ -80,7 +51,11 @@ class  BasicDetail extends React.Component {
               <div className="yc-wrong-detail">
                 <div>
                   <p className="yc-sec-title">标题:</p>
-                  <p className="yc-link-title" onClick={this.openLink} style={{ marginLeft:5 }} >{ basic.title }</p>
+                  <Link to={`/sourcePage/1855771`} target="_blank">
+                    <p className="yc-link-title" style={{ marginLeft:5 }} >
+                      { basic.title }
+                    </p>
+                  </Link>
                 </div>
                 <div>
                   <p className="yc-sec-title">拍卖状态:</p>
