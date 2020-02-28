@@ -3,6 +3,7 @@ import React from 'react';
 import {Form, Input, Button, DatePicker, Cascader, Select, message} from 'antd';
 import {getStructuredPersonnel,getCheckPersonnel} from "../../../server/api";
 import { province } from "../../../assets/province";
+import {dataFilter} from "../../../util/commonMethod";
 import 'antd/dist/antd.css';
 import '../../style.scss';
 
@@ -115,21 +116,6 @@ class  Index extends React.Component {
 	//根据status传不同时间类型
 	// checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
 
-	//日期转换
-	dataFilter=(value)=>{
-		let data = new Date(value);
-		let year = data.getFullYear();
-		let month = data.getMonth() + 1;
-		if (month < 10) {
-			month = "0" + month;
-		}
-		let date = data.getDate();
-		if (date < 10) {
-			date = "0" + date;
-		}
-		return year + "-" + month + "-" + date;
-	};
-
 	// 搜索框
 	handleSearch = e => {
 		e.preventDefault();
@@ -145,8 +131,8 @@ class  Index extends React.Component {
 			page: 1,
 			num: 10,
 		};
-		if(startTime){options.startTime=this.dataFilter((startTime))}
-		if(endTime){options.endTime=this.dataFilter((endTime))}
+		if(startTime){options.startTime=dataFilter((startTime))}
+		if(endTime){options.endTime=dataFilter((endTime))}
 		if(userId){
 			options.userId=userId;
 		}

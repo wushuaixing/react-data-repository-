@@ -70,6 +70,7 @@ class  Check extends React.Component {
 
   modalOk=()=>{
 		const options=this.props.form.getFieldsValue();
+		console.log(options);
   	const {visible}=this.state;
 		this.setState({
 			visible: false,

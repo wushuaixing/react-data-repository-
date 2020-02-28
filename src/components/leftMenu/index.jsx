@@ -30,62 +30,72 @@ class Sider extends React.Component {
     this.state = {
       openKeys: ["0"],
       menuList: [],
-      selectedKeys:[],
+      defaultKey:[],
     };
   }
 
   componentDidMount() {
-    this.getMenu();
+    // this.getMenu();
+    getAvailableNav().then(res=>{
+      let menuIcon;
+      if (storage["userState"] === "管理员") {
+        menuIcon = admin;
+        this.setState({
+          defaultKey:["7"],
+        })
+      } else if (storage["userState"] === "结构化人员") {
+        menuIcon = user;
+        this.setState({
+          defaultKey:["8"],
+        })
+      } else if (storage["userState"] === "检查人员") {
+        menuIcon = check;
+        this.setState({
+          defaultKey:["15"],
+        })
+      } else {
+        this.props.history.push("/login");
+      }
+      if(res.data.code === 200 && storage["userState"]){
+        let mainMenu=[];
+        for (let key in res.data.data) {
+          if (storage["userState"] === "管理员" && key === "账号管理") {
+            menuIcon = admin;
+          }
+          if (storage["userState"] === "管理员" && key === "数据抓取与同步监控") {
+            menuIcon = sync;
+          }
+          if (storage["userState"] === "管理员" && key === "结构化情况数据监控") {
+            menuIcon = structure;
+          }
+          else if (storage["userState"] === "管理员" && key === "资产结构化") {
+            menuIcon = user;
+          }
+          let list={
+            title:key,
+            icon:menuIcon,
+            subs:res.data.data[key],
+          };
+
+          mainMenu.push(list);
+        }
+        this.setState({
+          menuList:mainMenu,
+        });
+      }else if(res.data.code === 403){
+        localStorage.removeItem("userState");
+        localStorage.removeItem("userName");
+        this.props.history.push('/login');
+      }
+    }).catch(()=>{
+      // 异常处理
+    })
   }
 
-  async getMenu(){
-    const res = await getAvailableNav();
-    let menuIcon;
-    if (storage["userState"] === "管理员") {
-      menuIcon = admin;
-    } else if (storage["userState"] === "结构化人员") {
-      menuIcon = user;
-    } else if (storage["userState"] === "检查人员") {
-      menuIcon = check;
-    } else {
-      this.props.history.push("/login");
-    }
-    // getAvailableNav().then(res=>{
-    if(res.data.code === 200 && storage["userState"]){
-      let mainMenu=[];
-      for (let key in res.data.data) {
-        if (storage["userState"] === "管理员" && key === "账号管理") {
-          menuIcon = admin;
-        }
-        if (storage["userState"] === "管理员" && key === "数据抓取与同步监控") {
-          menuIcon = sync;
-        }
-        if (storage["userState"] === "管理员" && key === "结构化情况数据监控") {
-          menuIcon = structure;
-        }
-        else if (storage["userState"] === "管理员" && key === "资产结构化") {
-          menuIcon = user;
-        }
-        let list={
-          title:key,
-          icon:menuIcon,
-          subs:res.data.data[key],
-        };
+  // async getMenu(){
+  //   const res = await getAvailableNav();
 
-        mainMenu.push(list);
-      }
-      this.setState({
-        menuList:mainMenu,
-      });
-    }else if(res.data.code === 403){
-      localStorage.removeItem("userState");
-      localStorage.removeItem("userName");
-      this.props.history.push('/login');
-    }
-    // }).catch(()=>{
-    //     // 异常处理
-    // })
-  };
+  // };
 
   renderSubMenu = ({id, title, icon, subs},index) => {
     let _index=index.toString();
@@ -137,8 +147,20 @@ class Sider extends React.Component {
     }
   };
 
+  getDefaultKey=()=>{
+    if (storage["userState"] === "管理员") {
+      return ["7"]
+    } else if (storage["userState"] === "结构化人员") {
+      return ["8"]
+    } else if (storage["userState"] === "检查人员") {
+      return ["15"]
+    }
+  };
+
   render() {
     const { menuList, openKeys } = this.state;
+    const defaultKey = this.getDefaultKey();
+
     return (
       <div>
         <Menu
@@ -147,6 +169,7 @@ class Sider extends React.Component {
           style={{ width: 180}}
           openKeys={openKeys}
           onOpenChange={this.onOpenChange}
+          defaultSelectedKeys={defaultKey}
         >
           {
             menuList.map((item,index) => {

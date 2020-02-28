@@ -3,8 +3,8 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {message, Button, Spin} from 'antd';
 import {wenshuDetail} from '../../../server/api';
+import {dataFilter} from "../../../util/commonMethod";
 import './style.scss';
-import {useCallback} from "anujs";
 
 class  DocumentDetail extends React.Component {
 	constructor(props) {
@@ -38,8 +38,8 @@ class  DocumentDetail extends React.Component {
 			});
 			if (res.data.code === 200) {
 				let data=res.data.data;
-				data.publishTime=this.dataFilter(data.publishTime);
-				data.trialDate=this.dataFilter(data.trialDate);
+				data.publishTime=dataFilter(data.publishTime);
+				data.trialDate=dataFilter(data.trialDate);
 				let detail =
 					"<div>" + res.data.data.content + "</div>";
 				this.setState({
@@ -60,22 +60,6 @@ class  DocumentDetail extends React.Component {
 		});
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
-	}
-
-	dataFilter=(value)=> {
-		let data = new Date(value);
-		let year = data.getFullYear();
-		let month = data.getMonth() + 1;
-		if (month < 10) {
-			month = "0" + month;
-		}
-		let date = data.getDate();
-		if (date < 10) {
-			date = "0" + date;
-		}
-		return year + "-" + month + "-" + date;
-	};
 
 	copy=()=> {
 		var text = document.getElementById("link-detail").innerText;

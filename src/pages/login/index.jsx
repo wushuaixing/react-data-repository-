@@ -4,6 +4,7 @@ import { Form, Icon, Input, Button, Checkbox, Tooltip, message, Spin } from 'ant
 import {withRouter} from 'react-router-dom';
 import { login, isLogin,codeImage, validateImgCode, resetPassword } from '../../server/api';
 import {codeMessage} from "../../static/status";
+import {validatorLogin} from "../../util/commonMethod";
 import box from '../../assets/img/box.png';
 import logo from '../../assets/img/logo.png';
 import miniLogo from '../../assets/img/logo_blue.png';
@@ -49,8 +50,14 @@ class Login extends React.Component {
 		});
 		//获取图形验证码
 		this.toRefreshImg();
-
 	}
+	componentWillUnmount() {
+		this.setState = (state, callback) => {
+			return
+		}
+	}
+
+
 
 	//切换登录和找回密码
 	ifFindPsw=()=>{
@@ -71,37 +78,7 @@ class Login extends React.Component {
 		}
 	};
 
-	//验证账号密码-输入框格式
-	handleValidator = (rule, val, callback) => {
-		if(rule.field === "username"){
-			if(!val){
-				callback('账号不能为空');
-			}
-			else if(!val.match(/[0-9]{11}/)){
-				callback('账号长度为11位数字');
-			}
-		}
-		if(rule.field === "password"){
-			if(!val){
-				callback('密码不能为空');
-			}
-			else if(val.length>20 || val.length<6){
-				callback('密码长度为6-20位');
-			}
-		}
-		//找回密码的格式验证
-		if(rule.field === "psw"){
-			if(!val){
-				callback('密码不能为空');
-			}
-			else if(val.length>20 || val.length<6){
-				callback('密码长度为6-20位');
-			}
-		}
-	};
-
 	//接口异步 验证账号密码
-	// 为什么要用static 修改该方法呢？
 	async handleSubmit(info){
 		const {loading}=this.state;
 		console.log(loading);
@@ -268,7 +245,7 @@ class Login extends React.Component {
 										{getFieldDecorator('username', {
 											rules:[
 												// { require: true, message: "请输入账号", },
-															{ validator: this.handleValidator }
+															{ validator: validatorLogin }
 													 ],
 											validateTrigger:'onBlur',
 										})(
@@ -283,7 +260,7 @@ class Login extends React.Component {
 										{getFieldDecorator('password', {
 											rules:[
 												// { required: true, message: '请输入密码', },
-												{ validator: this.handleValidator }
+												{ validator: validatorLogin }
 												],
 											validateTrigger:'onBlur',
 										})(
@@ -368,7 +345,7 @@ class Login extends React.Component {
 										{getFieldDecorator('psw', {
 											rules:[
 												// { required: true, message: '请输入密码', },
-												{ validator: this.handleValidator }
+												{ validator: validatorLogin }
 											],
 											validateTrigger:'onBlur',
 										})(

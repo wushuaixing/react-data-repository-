@@ -4,6 +4,7 @@ import { Dropdown, Menu, Icon, Modal,message,Input,Button,Form  } from "antd";
 import { withRouter } from 'react-router-dom';
 import logo from "../../assets/img/top_logo.png";
 import {changePassword, logout} from "../../server/api";
+import {handleValidator} from "../../util/commonMethod";
 import 'antd/dist/antd.css';
 import './style.scss';
 
@@ -27,36 +28,6 @@ class topMenu extends React.Component {
 		this.setState({
 			visible: true,
 		});
-	};
-
-	//验证密码-输入框格式
-	handleValidator = (rule, val, callback) => {
-		if (rule.field === "newPassword") {
-			if(!val){
-				callback('请输入新密码');
-			}
-			else if (val.length > 20 || val.length < 6) {
-				let pattern = new RegExp(/\s+/g);
-				if(pattern.test(val)){
-					callback('不允许有空格');
-				}else{
-					callback('长度为6-20位');
-				}
-			}
-		}
-		if (rule.field === "confirmNewPassword") {
-			if(!val){
-				callback('请确认新密码');
-			}
-			else if (val.length > 20 || val.length < 6) {
-				let pattern = new RegExp(/\s+/g);
-				if(pattern.test(val)){
-					callback('不允许有空格');
-				}else{
-					callback('长度为6-20位');
-				}
-			}
-		}
 	};
 
 	handleOk = () => {
@@ -163,7 +134,7 @@ class topMenu extends React.Component {
 							{getFieldDecorator('newPassword',
 								{
 									rules:[
-									{ validator: this.handleValidator }
+									{ validator: handleValidator }
 								],
 								validateTrigger:'onBlur',
 							})(
@@ -178,7 +149,7 @@ class topMenu extends React.Component {
 						<Form.Item label="请确认新密码">
 							{getFieldDecorator('confirmNewPassword', {
 								rules:[
-									{ validator: this.handleValidator }
+									{ validator: handleValidator }
 								],
 								validateTrigger:'onBlur',
 							})(

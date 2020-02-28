@@ -1,17 +1,10 @@
 /** right content for Account manage* */
 import React from 'react';
-import { Modal, Form, } from "antd";
-import Button from "antd/es/button";
-import { Select } from 'antd';
-import Checkbox from "antd/es/checkbox";
-import Radio from "antd/es/radio";
-import Input from "antd/es/input";
+import { Modal,Form,Button,Select,Checkbox,Radio,Input } from "antd";
+import {handleValidator} from "../../../../util/commonMethod";
 import 'antd/dist/antd.css';
 import './style.scss';
 
-// ==================
-// 所需的所有组件
-// ==================
 const { Option } = Select;
 const accountForm = Form.create;
 const formItemLayout = {
@@ -82,36 +75,6 @@ class AccountManage extends React.Component {
     this.props.cancel(false);
   };
 
-  //验证账号密码-输入框格式
-  handleValidator = (rule, val, callback) => {
-    if (rule.field === "name") {
-      if(!val){
-        callback('');
-      }
-      else if (val.length > 20) {
-        callback("姓名最大长度为20个字符");
-      }
-    }
-    if (rule.field === "username") {
-      if(!val){
-        callback('');
-      }
-      else if (!this.userView.username.match(/^\d{11}$/)) {
-        callback("请输入11位数字");
-      }
-      else{
-        this.setPwd(val);
-      }
-    }
-    if (rule.field === "password") {
-      if(!val){
-        callback('');
-      }
-      else if (val.length > 20 || val.length < 6) {
-        callback('密码长度为6-20位');
-      }
-    }
-  };
   //编辑账号-返回信息是字符串
   filterRoleId=(label)=>{
     if(label==="试用"){
@@ -185,7 +148,7 @@ class AccountManage extends React.Component {
                     {getFieldDecorator('name', {
                       rules:[
                         { required: true, message: "姓名不能为空", },
-                        { validator: this.handleValidator }
+                        { validator: handleValidator }
                       ],
                       validateTrigger:'onBlur',
                       initialValue: action==='edit' ? info.name : ''
@@ -202,7 +165,7 @@ class AccountManage extends React.Component {
                       getFieldDecorator('username', {
                       rules:[
                         { required: true, message: "手机号不能为空", },
-                        { validator: this.handleValidator }
+                        { validator: handleValidator }
                       ],
                       validateTrigger:'onBlur',
                       initialValue:''
@@ -224,7 +187,7 @@ class AccountManage extends React.Component {
                     {getFieldDecorator('password', {
                       rules:[
                         { required: true, message: '请输入密码', },
-                        { validator: this.handleValidator }
+                        { validator: handleValidator }
                       ],
                       validateTrigger:'onBlur',
                       initialValue:''

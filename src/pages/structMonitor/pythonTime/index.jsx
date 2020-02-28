@@ -1,14 +1,14 @@
-/** sync monitor * */
+/** python-time* */
 import React from 'react';
 import {message, Select, DatePicker, Spin} from "antd";
 import moment from 'moment';
 import {pythonAmountIn31, structurePython} from "../../../server/api";
+import {dataFilter,getToday} from "../../../util/commonMethod";
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
 import  'echarts/lib/chart/line';
 import  'echarts/lib/chart/pie';
 import  'echarts/lib/chart/bar';
-
 // 引入提示框和标题组件
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
@@ -16,20 +16,10 @@ import 'echarts/lib/component/legend';
 import '../style.scss';
 
 const { Option } = Select;
-//获取当日日期
+//当日日期：
+const nowDate=getToday();
 const dateFormat = 'YYYY-MM-DD';
-const today=new Date();
-const seperator1="-";
-let year = today.getFullYear();
-let month = today.getMonth() + 1;
-let strDate = today.getDate();
-if (month >= 1 && month <= 9) {
-  month = "0" + month;
-}
-if (strDate >= 0 && strDate <= 9) {
-  strDate = "0" + strDate;
-}
-let nowDate=year + seperator1 + month + seperator1 + strDate;
+
 
 class Index extends React.Component {
   constructor(props) {
@@ -76,27 +66,11 @@ class Index extends React.Component {
   }
 
   onChangeDate=(e)=>{
-    let _date=this.dataFilter(e);
-    console.log(_date);
+    let _date=dataFilter(e);
     this.changeDate(_date);
     this.setState({
       time:_date,
     })
-  };
-
-  //日期转换
-  dataFilter=(value)=>{
-    let data = new Date(value);
-    let year = data.getFullYear();
-    let month = data.getMonth() + 1;
-    if (month < 10) {
-      month = "0" + month;
-    }
-    let date = data.getDate();
-    if (date < 10) {
-      date = "0" + date;
-    }
-    return year + "-" + month + "-" + date;
   };
 
   //资产数据抓取时间段分布 数据源选择
