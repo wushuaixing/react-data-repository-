@@ -39,15 +39,15 @@ class  Index extends React.Component {
 					id: "",
 					array: [
 						{
-							value: "全部",
+							value: 0,
 							label: "全部"
 						},
 						{
-							value: "已删除",
+							value: 1,
 							label: "已删除"
 						},
 						{
-							value: "自动标注",
+							value: 2,
 							label: "自动标注"
 						}
 					]
@@ -102,12 +102,10 @@ class  Index extends React.Component {
 				}
 			});
 		}
-
 	};
 
 	componentWillReceiveProps(nextProps){
 		const {status,timeType}=nextProps;
-		// console.log(nextProps,'next');
 		this.setState({
 			status:status,
 			timeType:timeType,
@@ -125,7 +123,6 @@ class  Index extends React.Component {
 		const endTime=this.props.form.getFieldValue('endTime');
 		const userId=this.props.form.getFieldValue('userId');
 		const province=this.props.form.getFieldValue('province');
-
 		let options={
 			title: searchTitle,
 			page: 1,
@@ -151,15 +148,15 @@ class  Index extends React.Component {
 				}
 			}
 		}
-
-		console.log(options);
+		console.log(options,'options');
 		this.props.toSearch(options);
 	};
 
 	//清空搜索条件
 	clearSearch=()=>{
 		this.props.form.resetFields();
-		this.props.toClear(this);
+		this.props.toClear(this.props.status);
+		console.log(this.props.status);
 	};
 
 	render() {

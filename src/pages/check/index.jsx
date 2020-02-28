@@ -2,7 +2,7 @@
 import React from 'react';
 import { withRouter} from "react-router-dom";
 import {message, Spin} from 'antd';
-import {getCheckList,getStructuredPersonnel,adminStructuredList} from "../../server/api";
+import {getCheckList,adminStructuredList} from "../../server/api";
 import SearchForm from "./searchInfo";
 import CheckTable from "./checkTable";
 import 'antd/dist/antd.css';
@@ -69,58 +69,6 @@ class  Check extends React.Component {
 			};
 			this.getTableList(params);
 		}
-
-		getStructuredPersonnel("").then(res => {
-			if (res.data.code === 200) {
-				let id = res.data.data[0]["firstNameRank"];
-				let list = [];
-				let typeList=[];
-				typeList.push({
-					id: "",
-					array: [
-						{
-							value: "全部",
-							label: "全部"
-						},
-						{
-							value: "已删除",
-							label: "已删除"
-						},
-						{
-							value: "自动标注",
-							label: "自动标注"
-						}
-					]
-				});
-
-				for (let key = 0; key < res.data.data.length; key++) {
-					if (res.data.data[key]["firstNameRank"] === id) {
-						list.push({
-							value: res.data.data[key]["id"],
-							label: res.data.data[key]["name"]
-						});
-					} else {
-						typeList.push({
-							id: id,
-							array: list
-						});
-						id = res.data.data[key]["firstNameRank"];
-						list = [];
-						list.push({
-							value: res.data.data[key]["id"],
-							label: res.data.data[key]["name"]
-						});
-					}
-				}
-				this.setState({
-					personnelList:typeList,
-				});
-			} else {
-				message.error(res.data.message);
-			}
-		});
-
-
 	};
 	shouldComponentUpdate () {
 		// console.log('shouldComponentUpdate');
@@ -249,7 +197,15 @@ class  Check extends React.Component {
 		this.setState({
 			loading:true,
 		});
-		let tabStatus=params.status;
+		if(isCheck){
+			this.setState({
+				approveStatus:params.status,
+			})
+		}else {
+			this.setState({
+				status:params.status,
+			})
+		}
 		if(isCheck){
 			getCheckList(params).then(res => {
 				this.setState({
@@ -268,7 +224,6 @@ class  Check extends React.Component {
 							tableList:_list,
 							total:res.data.data.result.total,
 							page:res.data.data.result.page,
-							status:tabStatus,
 							waitNum:res.data.data.waitConfirmedNum,
 							checkErrorNum:res.data.data.checkErrorNum,
 							editNum:res.data.data.alreadyEditedNum,
@@ -279,7 +234,6 @@ class  Check extends React.Component {
 						this.setState({
 							tableList:[],
 							total:_total,
-							status:tabStatus,
 						});
 					}
 				} else {
@@ -319,6 +273,7 @@ class  Check extends React.Component {
 	handleSearch = data => {
 		const {status}=this.state;
 		let params=data;
+
 		const option= this.setTimeType(status);
 		params.checkType=option.time;
 		if(isCheck){
@@ -331,8 +286,7 @@ class  Check extends React.Component {
 	};
 
 	//清空搜索条件
-	clearSearch=()=>{
-		const {status}=this.state;
+	clearSearch=(status)=>{
 		const option=this.setTimeType(status);
 		let params = {
 			status: option.tab,
@@ -398,7 +352,7 @@ class  Check extends React.Component {
 					<p className="line"/>
 					<div className="yc-tab">
 						<Spin tip="Loading..." spinning={loading}>
-							<CheckTable page={page}
+							<CheckTable 	page={page}
 														status={status}
 														tabIndex={tabIndex}
 														total={total}
