@@ -8,112 +8,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="439" column="29" lean-forward="true" selection-start-line="439" selection-start-column="29" selection-end-line="439" selection-end-column="29" />
-              <folding>
-                <element signature="e#41#67#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/login/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4635">
-              <caret line="316" column="31" selection-start-line="316" selection-start-column="31" selection-end-line="316" selection-end-column="31" />
-              <folding>
-                <element signature="e#15#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/check/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/style.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="54" column="23" selection-start-line="54" selection-start-column="23" selection-end-line="54" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/structureRecord/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1080">
-              <caret line="72" column="66" selection-start-line="72" selection-start-column="66" selection-end-line="72" selection-end-column="66" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/index.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="54" selection-start-line="2" selection-start-column="54" selection-end-line="2" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/wrongReason/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
-              <folding>
-                <element signature="e#1257#2011#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pages/App.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="11" column="35" lean-forward="true" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
-              <folding>
-                <element signature="e#82#148#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="28" lean-forward="true" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/server/api.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="31" lean-forward="true" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -123,26 +17,51 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+      <find>static_position</find>
+      <find>bidding-announcement</find>
+      <find>html</find>
+      <find>history</find>
+      <find>columnsRevise</find>
+      <find>to={`/index/${record.id}/${record.status}/${page}/${status}`}</find>
+      <find>subject-matter-introduction</find>
+      <find>htmlDetailInfo</find>
+      <find>need</find>
+      <find>openLink</find>
+      <find>needRecord</find>
+      <find>auctionStatus</find>
+      <find>wsAttach</find>
+      <find>both</find>
+      <find>useCallback</find>
+      <find>nowDate</find>
+      <find>page</find>
+      <find>dataFilter</find>
+      <find>ifAttach</find>
+      <find>this.handleValidator</find>
+      <find>onChangeReason</find>
+      <find>api/asset/inspector/control/getCheckLis</find>
+      <find>typeList</find>
+      <find>status</find>
+      <find>tabStatus</find>
       <find>handleValidator</find>
-      <find>findPsw</find>
-      <find>yc-right</find>
-      <find>imgSrc</find>
-      <find>handleCorrect</find>
-      <find>isTime</find>
-      <find>class</find>
-      <find>user</find>
-      <find>storage</find>
-      <find>reasonStruc</find>
-      <find>class=</find>
-      <find>recordsForCheck</find>
-      <find>style</find>
-      <find>保存</find>
-      <find>保存并</find>
-      <find>houseType</find>
-      <find>associated</find>
+      <find>reasonList</find>
+      <find>label</find>
+      <find>wrongTypeList</find>
+      <find>抵押文书遗漏</find>
     </findStrings>
     <replaceStrings>
+      <replace>/page/structure</replace>
+      <replace>'</replace>
+      <replace>wsFindStatus</replace>
       <replace>className=</replace>
+      <replace>status</replace>
+      <replace>_status</replace>
+      <replace>}}</replace>
+      <replace>dataIndex</replace>
+      <replace>const</replace>
+      <replace>value</replace>
+      <replace>userView</replace>
+      <replace>}</replace>
+      <replace>validatorLogin</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -150,127 +69,23 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/menu/style.scss" />
-        <option value="$PROJECT_DIR$/src/index.js" />
-        <option value="$PROJECT_DIR$/src/menu/index.jsx" />
-        <option value="$PROJECT_DIR$/src/admin/index.jsx" />
-        <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/index.html" />
-        <option value="$PROJECT_DIR$/src/components/topMenu/style.scss" />
-        <option value="$PROJECT_DIR$/src/pages/check/index.jsx" />
-        <option value="$PROJECT_DIR$/src/components/menu/index.jsx" />
-        <option value="$PROJECT_DIR$/src/components/menu/style.scss" />
-        <option value="$PROJECT_DIR$/src/pages/admin/style.scss" />
-        <option value="$PROJECT_DIR$/src/components/formLogin.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/login/style.scss" />
-        <option value="$PROJECT_DIR$/src/pages/login/footer/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/login/loginForm/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/login/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/admin/rightContent/index.jsx" />
-        <option value="$PROJECT_DIR$/src/components/leftMenu/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/login/findForm/index.jsx" />
-        <option value="$PROJECT_DIR$/src/components/topMenu/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/admin/accountManage/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/structure/style.scss" />
-        <option value="$PROJECT_DIR$/src/pages/structure/index.jsx" />
-        <option value="$PROJECT_DIR$/src/server/api.js" />
-        <option value="$PROJECT_DIR$/src/components/rongReason/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/admin/index.jsx" />
-        <option value="$PROJECT_DIR$/src/index.css" />
-        <option value="$PROJECT_DIR$/src/components/wrongReason/style.scss" />
-        <option value="$PROJECT_DIR$/src/components/wrongReason/index.jsx" />
-        <option value="$PROJECT_DIR$/src/components/structureRecord/index.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/App.js" />
-        <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/src/pages/structure/detail/style.scss" />
-        <option value="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" />
-      </list>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="wwy-data-temp" />
+      </map>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="ProjectFrameBounds">
     <option name="x" value="489" />
     <option name="y" value="23" />
     <option name="width" value="927" />
     <option name="height" value="797" />
   </component>
+=======
+>>>>>>> f90ea49b82eb7e734af37c8b3cc7e8108f01d94b
   <component name="ProjectId" id="1U5jExP2xhgo23MLTsRg19V60C3" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="login" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="structure" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="structure" type="462c0819:PsiDirectoryNode" />
-              <item name="detail" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="data-wwy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="data-wwy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
-  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -279,27 +94,27 @@
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.standard" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.eslint" value="$APPLICATION_HOME_DIR$/plugins/tslint" />
+    <property name="node.js.selected.package.standard" value="$APPLICATION_HOME_DIR$/plugins/tslint" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
-    <property name="ts.external.directory.path" value="E:\Program Files\JetBrains\WebStorm 2019.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/pages/structure/detail" />
-      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/pages/documentSearch/detail" />
       <recent name="$PROJECT_DIR$/src/pages" />
-      <recent name="$PROJECT_DIR$/src/components" />
-      <recent name="E:\data-wwy\src\components" />
+      <recent name="$PROJECT_DIR$/src/util" />
+      <recent name="$PROJECT_DIR$/src/router" />
+      <recent name="$PROJECT_DIR$/src/pages/check/checkComponent" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components/wrongReason" />
-      <recent name="$PROJECT_DIR$/src/components/structureRecord" />
-      <recent name="$PROJECT_DIR$/src/components/rongReason" />
-      <recent name="$PROJECT_DIR$/src/pages/structure" />
-      <recent name="$PROJECT_DIR$/src/pages/structure/detail" />
+      <recent name="$PROJECT_DIR$/src/pages/sourcePage/htmlPart" />
+      <recent name="$PROJECT_DIR$/src/pages/sourcePage" />
+      <recent name="$PROJECT_DIR$/src/pages/structMonitor/pythonTime" />
+      <recent name="$PROJECT_DIR$/src/pages/structMonitor/dataType" />
+      <recent name="$PROJECT_DIR$/src/pages/structMonitor/pythonAndTag" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -314,8 +129,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Node.js.index.jsx">
+  <component name="RunManager" selected="npm.npm start">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.jsx (1)" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/pages/login/index.jsx" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.jsx (2)" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/pages/structure/detail/index.jsx" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
     <configuration name="index.jsx" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/components/wrongReason/index.jsx" working-dir="$PROJECT_DIR$">
@@ -334,8 +155,25 @@
     <recent_temporary>
       <list>
         <item itemvalue="Node.js.index.jsx" />
+        <item itemvalue="Node.js.index.jsx (2)" />
+        <item itemvalue="Node.js.index.jsx (1)" />
+        <item itemvalue="Node.js.index.jsx" />
+        <item itemvalue="Node.js.index.jsx" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <treeState>
+          <expand />
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",SHOW_CLASSES,SHOW_FIELDS,ALPHA_COMPARATOR" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -370,203 +208,264 @@
       <workItem from="1581040926767" duration="15287000" />
       <workItem from="1581079203024" duration="965000" />
       <workItem from="1581138863506" duration="9811000" />
+      <workItem from="1581299230345" duration="3406000" />
+      <workItem from="1581470023682" duration="484000" />
+      <workItem from="1581470722463" duration="59000" />
+      <workItem from="1581470844112" duration="60000" />
+      <workItem from="1581471135740" duration="57000" />
+      <workItem from="1581471206746" duration="21000" />
+      <workItem from="1581471298056" duration="16898000" />
+      <workItem from="1581555693371" duration="15965000" />
+      <workItem from="1581642431750" duration="19533000" />
+      <workItem from="1581727666798" duration="36758000" />
+      <workItem from="1581901281032" duration="29219000" />
+      <workItem from="1581989036344" duration="30900000" />
+      <workItem from="1582075318759" duration="23565000" />
+      <workItem from="1582163230234" duration="31875000" />
+      <workItem from="1582247334168" duration="34883000" />
+      <workItem from="1582422311332" duration="56796000" />
+      <workItem from="1582551268223" duration="18000" />
+      <workItem from="1582592204526" duration="29635000" />
+      <workItem from="1582684292817" duration="19348000" />
+      <workItem from="1582765985901" duration="19127000" />
+      <workItem from="1582814282022" duration="861000" />
+      <workItem from="1582851753106" duration="495000" />
+      <workItem from="1582852383710" duration="731000" />
+      <workItem from="1582853529970" duration="655000" />
+      <workItem from="1582854230581" duration="18723000" />
     </task>
-    <task id="LOCAL-00001" summary="-feat:登录页">
-      <created>1579596786288</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
+    <task id="LOCAL-00092" summary="-feat:检查-详情页返回列表页对应tab">
+      <created>1582446861768</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
       <option name="project" value="LOCAL" />
-      <updated>1579596786288</updated>
+      <updated>1582446861769</updated>
     </task>
-    <task id="LOCAL-00002" summary="-feat:server 配置(not yet)">
-      <created>1579596822918</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
+    <task id="LOCAL-00093" summary="-feat:管理员-详情页返回列表页对应tab(返回按钮)">
+      <created>1582456884023</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
       <option name="project" value="LOCAL" />
-      <updated>1579596822918</updated>
+      <updated>1582456884024</updated>
     </task>
-    <task id="LOCAL-00003" summary="-feat:server 配置(not yet)">
-      <created>1579598260523</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
+    <task id="LOCAL-00094" summary="-feat:结构化人员-详情页返回列表页对应tab(返回按钮)">
+      <created>1582460865675</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
       <option name="project" value="LOCAL" />
-      <updated>1579598260524</updated>
+      <updated>1582460865676</updated>
     </task>
-    <task id="LOCAL-00004" summary="-feat:侧边栏">
-      <created>1580046961450</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
+    <task id="LOCAL-00095" summary="-feat:三个人员-详情页(操作按钮)返回列表页对应tab">
+      <created>1582464575468</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
       <option name="project" value="LOCAL" />
-      <updated>1580046961450</updated>
+      <updated>1582464575469</updated>
     </task>
-    <task id="LOCAL-00005" summary="-feat:顶部栏">
-      <created>1580123928047</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
+    <task id="LOCAL-00096" summary="-feat:import history尝试解决axios">
+      <created>1582507248513</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
       <option name="project" value="LOCAL" />
-      <updated>1580123928047</updated>
+      <updated>1582507248513</updated>
     </task>
-    <task id="LOCAL-00006" summary="-feat:路由跳转（not yet">
-      <created>1580123983444</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
+    <task id="LOCAL-00097" summary="-feat:侧边栏icon及只留开发模块">
+      <created>1582518385379</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
       <option name="project" value="LOCAL" />
-      <updated>1580123983444</updated>
+      <updated>1582518385379</updated>
     </task>
-    <task id="LOCAL-00007" summary="-feat:路由跳转,原生 route 数组对象（not yet">
-      <created>1580125001652</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
+    <task id="LOCAL-00098" summary="-feat:布局调整">
+      <created>1582529369322</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
       <option name="project" value="LOCAL" />
-      <updated>1580125001652</updated>
+      <updated>1582529369324</updated>
     </task>
-    <task id="LOCAL-00008" summary="-feat:账号管理-列表">
-      <created>1580132360643</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
+    <task id="LOCAL-00099" summary="-feat:检查人员-已删除,自动标注-修改标注-保存操作">
+      <created>1582533772502</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
       <option name="project" value="LOCAL" />
-      <updated>1580132360644</updated>
+      <updated>1582533772503</updated>
     </task>
-    <task id="LOCAL-00009" summary="-feat:点击登录按钮前验证输入格式">
-      <created>1580652188428</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
+    <task id="LOCAL-00100" summary="-feat:页面loading">
+      <created>1582537274386</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
       <option name="project" value="LOCAL" />
-      <updated>1580652188428</updated>
+      <updated>1582537274388</updated>
     </task>
-    <task id="LOCAL-00010" summary="-feat:更改服务器地址">
-      <created>1580652218782</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
+    <task id="LOCAL-00101" summary="-feat:角色信息-验证生日格式">
+      <created>1582540110769</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
       <option name="project" value="LOCAL" />
-      <updated>1580652218782</updated>
+      <updated>1582540110769</updated>
     </task>
-    <task id="LOCAL-00011" summary="-feat:登录后跳转页面(storage)">
-      <created>1580725040735</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
+    <task id="LOCAL-00102" summary="-feat:修改标注按钮-&gt;保存+返回">
+      <created>1582547951652</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
       <option name="project" value="LOCAL" />
-      <updated>1580725040735</updated>
+      <updated>1582547951652</updated>
     </task>
-    <task id="LOCAL-00012" summary="-feat:[找回密码]表单及与登录框切换">
-      <created>1580739070396</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
+    <task id="LOCAL-00103" summary="-feat:检查有误弹窗-样式调整">
+      <created>1582548011424</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
       <option name="project" value="LOCAL" />
-      <updated>1580739070396</updated>
+      <updated>1582548011424</updated>
     </task>
-    <task id="LOCAL-00013" summary="-feat:[找回密码]验证码等(not yet,yzm后端可能有问题)">
-      <created>1580790155888</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
+    <task id="LOCAL-00104" summary="-feat:修改密码-Form组件">
+      <created>1582550183854</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
       <option name="project" value="LOCAL" />
-      <updated>1580790155888</updated>
+      <updated>1582550183854</updated>
     </task>
-    <task id="LOCAL-00014" summary="-feat:根据账号权限获取可用侧边栏(not yet)">
-      <created>1580829201566</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
+    <task id="LOCAL-00105" summary="-feat:页面样式、背景颜色">
+      <created>1582596052793</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
       <option name="project" value="LOCAL" />
-      <updated>1580829201566</updated>
+      <updated>1582596052795</updated>
     </task>
-    <task id="LOCAL-00015" summary="-feat:修改密码弹窗(not yet)">
-      <created>1580829257504</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
+    <task id="LOCAL-00106" summary="-feat:数据抓取与同步监控-资产数据抓取情况">
+      <created>1582620952697</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
       <option name="project" value="LOCAL" />
-      <updated>1580829257504</updated>
+      <updated>1582620952698</updated>
     </task>
-    <task id="LOCAL-00016" summary="-feat:账号管理列表拆分组件">
-      <created>1580829351995</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
+    <task id="LOCAL-00107" summary="-feat:资产数据情况-线图样式调整">
+      <created>1582621800270</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
       <option name="project" value="LOCAL" />
-      <updated>1580829351996</updated>
+      <updated>1582621800270</updated>
     </task>
-    <task id="LOCAL-00017" summary="-feat:登录页面拆分组件(this.props.history.push拆分后有问题)">
-      <created>1580829483327</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
+    <task id="LOCAL-00108" summary="-feat:房产类型／抵押-回调函数传值">
+      <created>1582623456052</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
       <option name="project" value="LOCAL" />
-      <updated>1580829483327</updated>
+      <updated>1582623456052</updated>
     </task>
-    <task id="LOCAL-00018" summary="-feat修改密码弹窗">
-      <created>1580878458625</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
+    <task id="LOCAL-00109" summary="-feat:sql监控">
+      <created>1582632170982</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
       <option name="project" value="LOCAL" />
-      <updated>1580878458626</updated>
+      <updated>1582632170982</updated>
     </task>
-    <task id="LOCAL-00019" summary="-feat:退出登录">
-      <created>1580878857952</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
+    <task id="LOCAL-00110" summary="-feat:ruleMonitor">
+      <created>1582632697278</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
       <option name="project" value="LOCAL" />
-      <updated>1580878857952</updated>
+      <updated>1582632697278</updated>
     </task>
-    <task id="LOCAL-00020" summary="-feat:[管理员-结构化账号-列表]">
-      <created>1580905262353</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
+    <task id="LOCAL-00111" summary="-feat:ruleMonitor">
+      <created>1582632716697</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
       <option name="project" value="LOCAL" />
-      <updated>1580905262353</updated>
+      <updated>1582632716697</updated>
     </task>
-    <task id="LOCAL-00021" summary="-feat:[结构化-资产结构化详情]">
-      <created>1580912048528</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
+    <task id="LOCAL-00112" summary="-feat:每日资产数据新增与标记">
+      <created>1582634320835</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
       <option name="project" value="LOCAL" />
-      <updated>1580912048528</updated>
+      <updated>1582634320835</updated>
     </task>
-    <task id="LOCAL-00022" summary="-feat:[结构化-结构化详情][检／管-结构化检查详情]">
-      <created>1580982067988</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
+    <task id="LOCAL-00113" summary="-fix:文书详情页-打开新页面">
+      <created>1582685035838</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
       <option name="project" value="LOCAL" />
-      <updated>1580982067988</updated>
+      <updated>1582685035839</updated>
     </task>
-    <task id="LOCAL-00023" summary="-feat:[结-待修改][检／管]-错误原因;">
-      <created>1581002292982</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
+    <task id="LOCAL-00114" summary="-fix:近期新增与标记">
+      <created>1582696892577</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
       <option name="project" value="LOCAL" />
-      <updated>1581002292982</updated>
+      <updated>1582696892578</updated>
     </task>
-    <task id="LOCAL-00024" summary="-feat:[结-待修改][检／管]-错误原因;">
-      <created>1581047301773</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
+    <task id="LOCAL-00115" summary="-feat:近期新增与标记">
+      <created>1582697211052</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
       <option name="project" value="LOCAL" />
-      <updated>1581047301773</updated>
+      <updated>1582697211052</updated>
     </task>
-    <task id="LOCAL-00025" summary="-feat:[检／管]-结构化记录;">
-      <created>1581058929061</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
+    <task id="LOCAL-00116" summary="-feat:数据抓取与标记差值分析">
+      <created>1582697974402</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
       <option name="project" value="LOCAL" />
-      <updated>1581058929061</updated>
+      <updated>1582697974402</updated>
     </task>
-    <task id="LOCAL-00026" summary="-feat:[结／检／管]-基本信息;">
-      <created>1581064479580</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
+    <task id="LOCAL-00117" summary="-feat:数据类型占比变动趋势">
+      <created>1582699277466</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
       <option name="project" value="LOCAL" />
-      <updated>1581064479580</updated>
+      <updated>1582699277466</updated>
     </task>
-    <task id="LOCAL-00027" summary="-feat:[结／检／管]-基本信息-结构化记录">
-      <created>1581066169064</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
+    <task id="LOCAL-00118" summary="-feat:资产数据抓取时间段分布">
+      <created>1582703819438</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
       <option name="project" value="LOCAL" />
-      <updated>1581066169064</updated>
+      <updated>1582703819438</updated>
     </task>
-    <task id="LOCAL-00028" summary="-feat:[结／检／管]-基本信息-房产／土地信息">
-      <created>1581066548515</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
+    <task id="LOCAL-00119" summary="-feat:loading">
+      <created>1582773448670</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
       <option name="project" value="LOCAL" />
-      <updated>1581066548515</updated>
+      <updated>1582773448671</updated>
     </task>
+    <task id="LOCAL-00120" summary="-feat:loading">
+      <created>1582773498498</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1582773498498</updated>
+    </task>
+    <task id="LOCAL-00121" summary="-fix:日月切换type值修改">
+      <created>1582773951446</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1582773951446</updated>
+    </task>
+    <task id="LOCAL-00122" summary="-fix:pie-hover">
+      <created>1582776921754</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1582776921754</updated>
+    </task>
+    <task id="LOCAL-00123" summary="-fix:图表高度调整">
+      <created>1582785157500</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1582785157500</updated>
+    </task>
+    <task id="LOCAL-00124" summary="-fix:checkGroup defaultValue=[]">
+      <created>1582793260262</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1582793260262</updated>
+    </task>
+<<<<<<< HEAD
     <task id="LOCAL-00029" summary="-feat:workspace.xml">
       <created>1581219423999</created>
       <option name="number" value="00029" />
@@ -623,6 +522,123 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout-to-restore>
   </component>
+=======
+    <task id="LOCAL-00125" summary="-fix:修改密码不允许输入空格">
+      <created>1582794056227</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1582794056227</updated>
+    </task>
+    <task id="LOCAL-00126" summary="-fix:401-window.location.href='/login'">
+      <created>1582794184239</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1582794184240</updated>
+    </task>
+    <task id="LOCAL-00127" summary="-fix:状态码统一">
+      <created>1582794323687</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1582794323687</updated>
+    </task>
+    <task id="LOCAL-00128" summary="-fix:modal onCancel 点击x回调关闭">
+      <created>1582794903050</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1582794903050</updated>
+    </task>
+    <task id="LOCAL-00129" summary="-fix:详情页-背景色">
+      <created>1582795377560</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1582795377561</updated>
+    </task>
+    <task id="LOCAL-00130" summary="-fix:文书详情页-loading">
+      <created>1582795395746</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1582795395746</updated>
+    </task>
+    <task id="LOCAL-00131" summary="-feat:文书详情页-超过三行-ref clientHeight">
+      <created>1582806374139</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1582806374139</updated>
+    </task>
+    <task id="LOCAL-00132" summary="-fix:input浏览器自动填入账号密码autoComplete=&quot;new-password&quot;">
+      <created>1582807476439</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1582807476439</updated>
+    </task>
+    <task id="LOCAL-00133" summary="-fix:监控图-无数据显示'--'">
+      <created>1582807877147</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1582807877147</updated>
+    </task>
+    <task id="LOCAL-00134" summary="-feat:源链接提取页">
+      <created>1582881585584</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1582881585584</updated>
+    </task>
+    <task id="LOCAL-00135" summary="-fix:基本信息-撤回原因+关联标注">
+      <created>1582881630927</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1582881630927</updated>
+    </task>
+    <task id="LOCAL-00136" summary="-fix:字体大小">
+      <created>1582882347467</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1582882347467</updated>
+    </task>
+    <task id="LOCAL-00137" summary="-fix:最多添加三个文书input框提示">
+      <created>1582882780531</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1582882780531</updated>
+    </task>
+    <task id="LOCAL-00138" summary="-fix:结构化人员列表返回对应列">
+      <created>1582886635506</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1582886635506</updated>
+    </task>
+    <task id="LOCAL-00139" summary="-feat:提取公用方法handleValidator,dateFilter">
+      <created>1582893414125</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1582893414126</updated>
+    </task>
+    <task id="LOCAL-00140" summary="-fix:检查人员-搜索框问题">
+      <created>1582896124894</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1582896124894</updated>
+    </task>
+    <option name="localTasksCounter" value="141" />
+    <servers />
+  </component>
+>>>>>>> f90ea49b82eb7e734af37c8b3cc7e8108f01d94b
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
@@ -632,20 +648,7 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
-              <option name="COLUMN_ORDER">
-                <list>
-                  <option value="0" />
-                  <option value="1" />
-                  <option value="2" />
-                  <option value="3" />
-                </list>
-              </option>
+              <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
@@ -667,6 +670,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+<<<<<<< HEAD
     <MESSAGE value="-feat:顶部栏" />
     <MESSAGE value="-feat:路由跳转（not yet" />
     <MESSAGE value="-feat:路由跳转,原生 route 数组对象（not yet" />
@@ -693,254 +697,44 @@
     <MESSAGE value="-feat:[结／检／管]-基本信息-房产／土地信息" />
     <MESSAGE value="-feat:workspace.xml" />
     <option name="LAST_COMMIT_MESSAGE" value="-feat:workspace.xml" />
+=======
+    <MESSAGE value="-feat:近期新增与标记" />
+    <MESSAGE value="-feat:数据抓取与标记差值分析" />
+    <MESSAGE value="-feat:数据类型占比变动趋势" />
+    <MESSAGE value="-feat:资产数据抓取时间段分布" />
+    <MESSAGE value="-feat:loading" />
+    <MESSAGE value="-fix:日月切换type值修改" />
+    <MESSAGE value="-fix:pie-hover" />
+    <MESSAGE value="-fix:图表高度调整" />
+    <MESSAGE value="-fix:checkGroup defaultValue=[]" />
+    <MESSAGE value="-fix:修改密码不允许输入空格" />
+    <MESSAGE value="-fix:401-window.location.href='/login'" />
+    <MESSAGE value="-fix:状态码统一" />
+    <MESSAGE value="-fix:modal onCancel 点击x回调关闭" />
+    <MESSAGE value="-fix:详情页-背景色" />
+    <MESSAGE value="-fix:文书详情页-loading" />
+    <MESSAGE value="-feat:文书详情页-超过三行-ref clientHeight" />
+    <MESSAGE value="-fix:input浏览器自动填入账号密码autoComplete=&quot;new-password&quot;" />
+    <MESSAGE value="-fix:监控图-无数据显示'--'" />
+    <MESSAGE value="-feat:源链接提取页" />
+    <MESSAGE value="-fix:基本信息-撤回原因+关联标注" />
+    <MESSAGE value="-fix:字体大小" />
+    <MESSAGE value="-fix:最多添加三个文书input框提示" />
+    <MESSAGE value="-fix:结构化人员列表返回对应列" />
+    <MESSAGE value="-feat:提取公用方法handleValidator,dateFilter" />
+    <MESSAGE value="-fix:检查人员-搜索框问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="-fix:检查人员-搜索框问题" />
+>>>>>>> f90ea49b82eb7e734af37c8b3cc7e8108f01d94b
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/server/api.js</url>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/structureRecord/index.jsx</url>
-          <line>92</line>
+          <line>97</line>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/pages/structure/detail/index.jsx</url>
-          <line>302</line>
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/assets/img/asset_check.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../doc.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="11" column="26" lean-forward="true" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/topMenu.jsx" />
-    <entry file="file://$PROJECT_DIR$/src/serviceWorker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2299">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/admin/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/leftMenu/style.scss">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/formLogin.jsx" />
-    <entry file="file://$PROJECT_DIR$/src/pages/login/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1035">
-          <caret line="69" selection-start-line="69" selection-end-line="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/topMenu/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="12" selection-start-column="12" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/login/footer/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="28" lean-forward="true" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/login/findForm/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="87" lean-forward="true" selection-start-line="3" selection-start-column="87" selection-end-line="3" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="10" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/leftMenu/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="12" column="30" lean-forward="true" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/structure/style.scss">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/structure/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#15#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/login/loginForm/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="649">
-          <caret line="143" column="1" lean-forward="true" selection-start-line="143" selection-start-column="1" selection-end-line="143" selection-end-column="1" />
-          <folding>
-            <element signature="e#15#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/admin/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
-          <folding>
-            <element signature="e#15#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/admin/accountManage/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3300">
-          <caret line="223" column="26" selection-start-line="223" selection-start-column="26" selection-end-line="223" selection-end-column="26" />
-          <folding>
-            <element signature="e#41#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/wrongReason/style.scss">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/topMenu/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="56" column="17" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
-          <folding>
-            <element signature="e#15#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="11" column="35" lean-forward="true" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
-          <folding>
-            <element signature="e#82#148#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="28" lean-forward="true" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="31" lean-forward="true" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/App.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="54" selection-start-line="2" selection-start-column="54" selection-end-line="2" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/structureRecord/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="72" column="66" selection-start-line="72" selection-start-column="66" selection-end-line="72" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/check/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/wrongReason/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
-          <folding>
-            <element signature="e#1257#2011#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="54" column="23" selection-start-line="54" selection-start-column="23" selection-end-line="54" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/structure/detail/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="439" column="29" lean-forward="true" selection-start-line="439" selection-start-column="29" selection-end-line="439" selection-end-column="29" />
-          <folding>
-            <element signature="e#41#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/login/index.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4635">
-          <caret line="316" column="31" selection-start-line="316" selection-start-column="31" selection-end-line="316" selection-end-column="31" />
-          <folding>
-            <element signature="e#15#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>

@@ -1,0 +1,71 @@
+
+  .yc-left-card{
+    float:left;
+    width:50%;
+    background-color: #ffffff;
+    min-height: 1200px;
+    .yc-left-amount{
+      float:left;
+      width:30%;
+      .yc-part-title{
+        margin-top:20px;
+        margin-left: 20px;
+        margin-bottom: 0;
+        color: #808387;
+        font-size: 14px;
+      }
+      .yc-part-amount{
+        margin-left:20px;
+        color:#293038;
+        font-size: 20px;
+        font-weight:800;
+      }
+    }
+    .yc-right-amount{
+      overflow: hidden;
+      .amount{
+      margin-top:20px;color:#808387;margin-bottom:0;font-size:14px;
+      }
+    }
+    .yc-source-pie{
+      width: 100%;
+      height: 220px;
+    }
+    .yc-chart-title{
+      margin-left: 20px;
+      color:#293038;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .yc-python-line{
+      width:100%;
+      height:320px;
+    }
+
+
+  }
+  .yc-right-card{
+    float:right;
+    width:49%;
+    min-height: 1200px;
+    .yc-detail-amount{
+      .yc-part-title{
+        margin-top:20px;
+        margin-left: 20px;
+        margin-bottom: 0;
+        color: #808387;
+        font-size: 14px;
+      }
+    }
+    .yc-sql-line{
+      width:100%;
+      height:260px;
+      margin-bottom: 0;
+    }
+    .yc-rule-line{
+      width:100%;
+      height:250px;
+      margin-bottom: 0;
+    }
+
+  }

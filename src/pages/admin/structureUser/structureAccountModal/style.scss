@@ -1,0 +1,56 @@
+.ant-modal-content{
+  width:387px;
+  .ant-modal-title{
+
+  }
+  .ant-modal-body{
+    //padding:10px;
+    padding: 4px 25px 25px 15px;
+
+  }
+  .add-userView-modal {
+    .ant-form label{
+    }
+    .ant-form-item-control{
+      font-size: 14px;
+
+    }
+    .part {
+      margin-bottom: 18px;
+      position: relative;
+      label{
+        display: inline-block;
+        width: 42px;
+      }
+
+      .error {
+        position: absolute;
+        left: 47px;
+        top: 32px;
+        color: red;
+      }
+    }
+    .structured {
+      width:295px;
+      position: relative;
+      margin-top: 12px;
+      border: 1px solid #e2e4e9;
+      border-radius: 2px;
+      padding: 20px 27px;
+      .structured-dataType {
+        margin-top: 16px;
+      }
+    }
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      > button {
+        width: 120px;
+        height: 36px;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+

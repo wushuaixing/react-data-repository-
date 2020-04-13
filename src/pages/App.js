@@ -1,26 +1,29 @@
 import React from 'react';
 // import { Router, Route, Link } from 'react-router';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-
+import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
+import history from "../history";
 import Login from "./login";
-import AdminList from './admin/index';
-import CheckList from './check/index';
-import StructureDetail from './structure/index';
-
+import Home from "./home";
+import DocumentDetail from "./documentSearch/detail";
+import SourcePage from "./sourcePage";
 import './App.css';
 
 class App extends React.Component {
-	browserHistory;
 	render(){
 		return(
-			<Router  history={this.browserHistory}>
+			<Router history={history}>
 				<div>
-					{/*<IndexRoute component={Login} />*/}
-					<Route exact path="/" component={Login} history={this.props.history} />
-					<Route path="/adminList" component={AdminList} />
-					<Route path="/check" component={CheckList} />
-					<Route path="/detail" component={StructureDetail} />
-					{/*<Route path="/Page3" component={Page3} />*/}
+					<form style={{display:'none'}}>
+						<input type="text" />
+						<input type="password" />
+					</form>
+					<Switch>
+						<Route path="/" exact component={Login} />
+						<Route path="/login" component={Login} />
+						<Route path="/index" component={Home} />
+						<Route path="/documentDetail/:Id" component={DocumentDetail} />
+						<Route path="/sourcePage/:Id" component={SourcePage} />
+					</Switch>
 				</div>
 			</Router>
 		)
@@ -53,9 +56,11 @@ const routeConfig = [
 ]
 
 React.render(<Router routes={routeConfig} />, document.body)*/
-
+// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+// export default withRouter(App)
 export default App;
 // const App = () =>(
+
 //           <Login />
 // );
 

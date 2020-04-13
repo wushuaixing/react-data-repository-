@@ -13,18 +13,15 @@ class  StructureRecord extends React.Component {
 		};
   }
 
-  componentWillMount() {
+  componentWillReceiveProps(nextProps){
     let storage = window.localStorage;
     const role = storage.userState;
     if(role === "结构化人员"){
 
     }
-    if(role === "检查人员"){
-
-    }
-    if(role === "管理员"){
+    else{
       this.setState({
-        strucRecords:this.props.records,
+        strucRecords:nextProps.records,
       });
     }
 
@@ -64,13 +61,20 @@ class  StructureRecord extends React.Component {
 
   render() {
     const { strucRecords }=this.state;
-    // console.log(strucRecords);
+    let _strucRecords=[];
+    if(strucRecords.length>10){
+      _strucRecords=strucRecords.slice(0,9)
+    }else{
+      _strucRecords=strucRecords;
+    }
         return(
           <div>
               <p className="yc-sec-title" style={{float: 'left'}}>结构化记录:</p>
             <div style={{display:'inline-block'}}>
                 {
-                  strucRecords && strucRecords.map((item,index)=>{
+                  _strucRecords.length >0
+                    ?
+                    _strucRecords.map((item,index)=>{
                     const desc=this.toSetText(item.desc,item.error,index);
                     return (
                       <div
@@ -88,6 +92,7 @@ class  StructureRecord extends React.Component {
                         </p>
                     </div>)
                   })
+                    : <p style={{marginLeft:5}}>--</p>
                 }
             </div>
           </div>

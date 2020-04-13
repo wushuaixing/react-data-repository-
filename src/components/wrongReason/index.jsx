@@ -10,28 +10,15 @@ class  WrongReason extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      errorList:{},
+      errorList:[],
 		};
   }
 
-  componentWillMount() {
-    const _list=this.props.errorList;
+  componentWillReceiveProps(nextProps){
+    const _list=nextProps.errorList;
     this.setState({
       errorList:_list,
     });
-
-    let storage = window.localStorage;
-    const role = storage.userState;
-
-    if(role === "结构化人员"){
-
-    }
-    if(role === "检查人员"){
-
-    }
-    if(role === "管理员"){
-
-    }
 
   }
 
@@ -47,51 +34,25 @@ class  WrongReason extends React.Component {
       }
   };
 
-  //检查人员错误原因渲染文本
-  setWrongText=(reasonCheck)=>{
-    const _level=this.filterLevel(reasonCheck.errorLevel);
-    return(<div>
-      <div>
-        <p style={{display: 'inline-block'}}>错误等级:</p>
-        <p className="error">{_level && _level}</p>
-      </div>
-      <div>
-      <p style={{display: 'inline-block'}}>错误详情:</p>
-      <p className="error">{reasonCheck && reasonCheck.desc}</p>
-     </div>
-    </div>)
-  };
-
-  //管理员错误原因渲染文本
-  setAdmin=(reasonAdmin)=>{
-    reasonAdmin && reasonAdmin.map((item,index)=>{
-      console.log(item.errorLevel);
-      item.errorLevel=this.filterLevel(item.errorLevel);
-      return (<div
-        style={{marginBottom: 10}} key={index}
-      >
-        <div>
-          <p style={{display: 'inline-block'}}>
-            { item.time && item.user && item.time +" "+ item.user}
-          </p>
-          <p className="yc-error">有误</p>
-        </div>
-        <div>
-          <p style={{display: 'inline-block'}}>错误等级:</p>
-          <p className="yc-error">{item.errorLevel && item.errorLevel}</p>
-        </div>
-        <div>
-          <p style={{display: 'inline-block'}}>错误详情:</p>
-          <p className="yc-error">{item.desc && item.desc}</p>
-        </div>
-      </div>)
-    })
-  };
 
   render() {
-    const { errorList }=this.state;
-    const {reasonStruc,reasonCheck,reasonAdmin}= errorList;
-        return(
+        let storage = window.localStorage;
+        const role = storage.userState;
+        const { errorList }=this.state;
+        let reasonStruc,reasonCheck,reasonAdmin;
+        let need=false;
+        if(role === "结构化人员"){
+          reasonStruc=errorList;
+          need=true;
+        }
+        if(role === "检查人员"){
+          reasonCheck=errorList;
+        }
+        if(role === "管理员"){
+          reasonAdmin=errorList;
+        }
+
+    return(
           <div>
             <div className="yc-wrong-part">
               <div className="yc-part-title">
@@ -108,16 +69,15 @@ class  WrongReason extends React.Component {
                 <div>
                   {
                     reasonCheck && reasonCheck.map((item,index)=>{
-                      item.errorLevel=this.filterLevel(item.errorLevel);
                       return(
                         <div key={index}>
                           <div>
                             <p className="yc-sec-title">错误等级:</p>
-                            <p className="yc-error">{item && this.filterLevel(item.errorLevel)}</p>
+                            <p className="yc-error">{item.errorLevel ? this.filterLevel(item.errorLevel) :'--'}</p>
                           </div>
                           <div>
                             <p className="yc-sec-title">错误详情:</p>
-                            <p className="yc-error">{item && item.desc}</p>
+                            <p className="yc-error">{item ? item.desc :'--'}</p>
                           </div>
                         </div>)
                     })
@@ -128,7 +88,6 @@ class  WrongReason extends React.Component {
               <div className="yc-wrong-detail">
                 {
                   reasonAdmin && reasonAdmin.map((item,index)=>{
-                    item.errorLevel=this.filterLevel(item.errorLevel);
                     return (<div
                       style={{marginBottom: 10}} key={index}
                     >
@@ -140,11 +99,11 @@ class  WrongReason extends React.Component {
                       </div>
                       <div>
                         <p className="yc-sec-title">错误等级:</p>
-                        <p className="yc-error">{item.errorLevel && item.errorLevel}</p>
+                        <p className="yc-error">{item.errorLevel ? this.filterLevel(item.errorLevel) :'--'}</p>
                       </div>
                       <div>
                         <p className="yc-sec-title">错误详情:</p>
-                        <p className="yc-error">{item.desc && item.desc}</p>
+                        <p className="yc-error">{item.desc ? item.desc :'--'}</p>
                       </div>
                     </div>)
                   })

@@ -1,0 +1,53 @@
+stages:
+  - install_deps
+  - build
+  - deploy
+
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - node_modules/
+    - build/
+
+# 安装依赖
+install_deps:
+  stage: install_deps
+  tags:
+    - font-group-runner
+  only:
+    - wwy-data
+    - master
+  script:
+    - node -v
+    - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
+    - yarn config set sass-binary-site https://npm.taobao.org/mirrors/node-sass
+    - yarn install
+
+# 编译
+build_step:
+    stage: build
+    tags:
+        - font-group-runner
+    only:
+        - wwy-data
+        - master
+    script:
+        - CI=false yarn build
+
+# 拷贝
+deploy_step:
+  stage: deploy
+  tags:
+    - font-group-runner
+  only:
+    - wwy-data
+    - master
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
+    - chmod 644 ~/.ssh/know_hosts
+    - ls
+    - scp -o StrictHostKeyChecking=no -r -P 22 ./build/* work@172.18.255.251:/disk/web/front/react-data-repository-dev/web

@@ -1,19 +1,26 @@
-/** check * */
+/** topMenu * */
 import React from 'react';
-import { Dropdown, Menu, Icon, Modal  } from "antd";
-import './style.scss';
+import { Dropdown, Menu, Icon, Modal,message,Input,Button,Form  } from "antd";
+import { withRouter } from 'react-router-dom';
 import logo from "../../assets/img/top_logo.png";
-import Input from "antd/es/input";
-import Button from "antd/es/button";
 import {changePassword, logout} from "../../server/api";
+import {handleValidator} from "../../util/commonMethod";
+import 'antd/dist/antd.css';
+import './style.scss';
 
-
+const pswForm = Form.create;
+const formItemLayout = {
+	labelCol: {
+		sm: { span:6,offset:0 },
+	},
+};
 
 class topMenu extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 				visible: false,
+			 isLogout: true,
 		};
 	}
 
@@ -24,23 +31,14 @@ class topMenu extends React.Component {
 	};
 
 	handleOk = () => {
-		const original = this.refs.originPsw.state.value;
-		const newPsw = this.refs.newPsw.state.value;
-		const confirm = this.refs.confirmPsw.state.value;
-		console.log(this.refs.confirmPsw.state.value);
-		const params={
-			oldPassword: original,
-		  newPassword: newPsw,
-		  confirmNewPassword: confirm,
-		};
-		changePassword(params).then(res => {
+		let options=this.props.form.getFieldsValue();
+		console.log(options);
+		changePassword(options).then(res => {
 			if (res.data.code === 200) {
-				// this.$Message.info("密码修改成功");
-				/*this.$router.push({
-					name: "login"
-				});*/
+				message.info("密码修改成功");
+				this.props.history.push('/login')
 			} else {
-				// this.$Message.error(res.data.message);
+				message.error(res.data.message);
 			}
 		});
 		this.setState({
@@ -57,10 +55,10 @@ class topMenu extends React.Component {
 	logOut =() => {
 		logout().then(res => {
 			if (res.data.code === 200) {
-				this.props.history.push('/');
+				this.props.history.push('/login');
 				window.localStorage.removeItem("userState");
 			} else {
-				// this.$Message.error(res.data.message);
+				message.error(res.data.message);
 			}
 		});
 	};
@@ -68,6 +66,8 @@ class topMenu extends React.Component {
 	render() {
 		const { user } = this.props;
 		const { visible }=this.state;
+		const { getFieldDecorator } = this.props.form;
+
 		const menu = (
 			<Menu className="user-menu" style={{marginTop: 8,}}>
 				<Menu.Item key="0">
@@ -79,8 +79,8 @@ class topMenu extends React.Component {
 			</Menu>
 		);
 
-
 		return (
+			<div>
 				<div className="top-title">
 					<img src={logo} alt="" />
 					<p className="title">
@@ -92,70 +92,81 @@ class topMenu extends React.Component {
 							<input type="password" />
 						</form>
 						<Dropdown className="user-drop" overlay={menu} trigger={['click']}>
-							<a className="dropdown-link" href="#" >
+							<a className="dropdown-link" href="#" style={{marginRight:10}}>
 								Hi, {user} <Icon type="down" />
 							</a>
 						</Dropdown>
-						<Modal
-							style={{width:500, height:340}}
-							title="修改密码"
-							visible={visible}
-							destroyOnClose={true}
-							closable={true}
-							footer={[
-								// 定义右下角 按钮的地方 可根据需要使用 一个或者 2个按钮
-								<Button key="back" onClick={this.handleCancel} style={{width: 120,height: 36, marginLeft: -20 }}>取消</Button>,
-								<Button key="submit" type="primary" onClick={this.handleOk} style={{backgroundColor:'#0099CC',width: 120,height: 36}}>
-									确定
-								</Button>
-									]}
-						>
-							<div style={{marginBottom: 20,fontSize: 14}}>
-								<p
-									style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
-								>
-									原密码:
-								</p>
-								<Input
-									type="password"
-									style={{width: 320,display: 'inline-block'}}
-									placeholder="请输入原密码"
-									ref="originPsw"
-								/>
-							</div>
-							<div style={{marginBottom: 20,fontSize: 14}}>
-								<p
-									style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
-								>
-									新密码:
-								</p>
-								<Input
-									type="password"
-									style={{width: 320,display: 'inline-block'}}
-									placeholder="请输入新密码，长度为6-20位，不允许有空格"
-									ref="newPsw"
-								/>
-							</div>
-							<div style={{marginBottom: 20,fontSize: 14}}>
-								<p
-									style={{display: 'inline-block',width: 90,marginRight: 10,marginTop: 0,textAlign: 'right'}}
-								>
-									请确认新密码:
-								</p>
-								<Input
-									type="password"
-									style={{width: 320,display: 'inline-block'}}
-									placeholder="请确认新密码，长度为6-20位，不允许有空格"
-									ref="confirmPsw"
-								/>
-							</div>
-
-							</Modal>
 					</div>
 				</div>
+				<Modal
+					title="修改密码"
+					visible={visible}
+					destroyOnClose={true}
+					closable={true}
+					onCancel={this.handleCancel}
+					footer={[
+						// 定义右下角 按钮的地方 可根据需要使用 一个或者 2个按钮
+						<Button key="submit"
+										type="primary"
+										onClick={this.handleOk}
+										style={{backgroundColor:'#0099CC',width: 120,height: 36,marginRight:15}}
+						>
+							确定
+						</Button>,
+						<Button key="back"
+										onClick={this.handleCancel}
+										style={{width: 120,height: 36, marginLeft: 0 }}
+						>
+							取消</Button>
+					]}
+				>
+					<Form {...formItemLayout}>
+						<Form.Item label="原密码">
+							{getFieldDecorator('oldPassword', {})(
+								<Input
+									style={{marginLeft: 8,width: 265,height: 32 }}
+									className="yc-input"
+									placeholder="请输入原密码"
+								/>,
+							)}
+						</Form.Item>
+						<Form.Item label="新密码">
+							{getFieldDecorator('newPassword',
+								{
+									rules:[
+									{ validator: handleValidator }
+								],
+								validateTrigger:'onBlur',
+							})(
+								<Input
+									style={{marginLeft: 8,width: 265,height: 32 }}
+									className="yc-input"
+									placeholder="请输入新密码，长度为6-20位，不允许有空格"
+									autoComplete="new-password"
+								/>,
+							)}
+						</Form.Item>
+						<Form.Item label="请确认新密码">
+							{getFieldDecorator('confirmNewPassword', {
+								rules:[
+									{ validator: handleValidator }
+								],
+								validateTrigger:'onBlur',
+							})(
+								<Input
+									style={{marginLeft: 8,width: 265,height: 32 }}
+									className="yc-input"
+									placeholder="请确认新密码，长度为6-20位，不允许有空格"
+									autoComplete="new-password"
+								/>,
+							)}
+						</Form.Item>
+					</Form>
+				</Modal>
+			</div>
 		);
 	}
 }
 
-export default topMenu;
+export default withRouter(pswForm()(topMenu));
 
