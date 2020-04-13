@@ -5,8 +5,8 @@ import {withRouter} from 'react-router-dom';
 import { login, isLogin,codeImage, validateImgCode, resetPassword } from '../../server/api';
 import {codeMessage} from "../../static/status";
 import {validatorLogin} from "../../util/commonMethod";
-import box from '../../assets/img/box.png';
-import logo from '../../assets/img/logo.png';
+import box from '../../assets/img/loginPage-box.png';
+import logo from '../../assets/img/loginPage-logo.png';
 import miniLogo from '../../assets/img/logo_blue.png';
 import 'antd/dist/antd.css';
 import './style.scss';
@@ -218,6 +218,8 @@ class Login extends React.Component {
 		});
 	};
 
+
+	
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { imgSrc, wait, loading } = this.state;
@@ -229,9 +231,7 @@ class Login extends React.Component {
 						<input type="password" />
 					</div>
 					<div className="yc-login-header">
-						<div className="header-img">
-							<img src={logo} alt="" />
-						</div>
+						<img src={logo} alt="" />
 					</div>
 					<div className="yc-login-container">
 						<div className="yc-container-body">
@@ -387,8 +387,8 @@ class Login extends React.Component {
 						<div className="yc-login-footer">
 							<div className="footer-container">
 								<div className="footer-tech">
-									<img src={miniLogo}  alt="" />
-									<span style={{marginLeft:6}}>杭州源诚科技有限公司 技术支持</span>
+									<img src={miniLogo}  alt="" className="footer-tech-logo" />
+									<span>杭州源诚科技有限公司 技术支持</span>
 								</div>
 								<div className="footer-copyright">
 									<span>
