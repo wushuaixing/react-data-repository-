@@ -1,7 +1,7 @@
 /** 错误原因展示* */
 import React from 'react';
 import {Link} from "react-router-dom";
-import StructureRecord from "../../components/structureRecord";
+import StructureRecord from "../structureRecord";
 
 const storage = window.localStorage;
 const role = storage.userState;

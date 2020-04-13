@@ -10,11 +10,11 @@ import {
 	getNumberOfTags,notEnableSave,
 	getNewStructureData,beConfirmed,inspectorCheck,changeWrongType,
 } from '../../../server/api';
-import BasicDetail from "../../../components/basicDetail";
-import WrongReason from "../../../components/wrongReason";
-import WsDetail from "../../../components/wsDetail";
-import RoleDetail from "../../../components/roleDetail";
-import HouseDetail from "../../../components/houseDetail";
+import BasicDetail from "../../../components/presentational/basicDetail";
+import WrongReason from "../../../components/presentational/wrongReason";
+import WsDetail from "../../../components/presentational/wsDetail";
+import RoleDetail from "../../../components/presentational/roleDetail";
+import HouseDetail from "../../../components/presentational/houseDetail";
 import Check from "./checkModal";
 import './style.scss';
 

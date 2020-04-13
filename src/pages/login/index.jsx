@@ -51,14 +51,6 @@ class Login extends React.Component {
 		//获取图形验证码
 		this.toRefreshImg();
 	}
-	componentWillUnmount() {
-		this.setState = (state, callback) => {
-			return
-		}
-	}
-
-
-
 	//切换登录和找回密码
 	ifFindPsw=()=>{
 		const {findPsw}=this.state;
