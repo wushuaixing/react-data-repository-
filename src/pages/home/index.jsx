@@ -5,40 +5,22 @@ import LeftMenu from '../../components/presentational/leftMenu';
 import StructureRoute from "../../router/structureRoute";
 import AdminRoute from "../../router/adminRoute";
 import CheckRoute from "../../router/checkRoute";
-
+import './style.scss'
 class  Index extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    	user: '',
-			role: '',
-		};
-  }
-
-  componentDidMount() {
-  }
-
   render() {
-      let storage = window.localStorage;
-      const user = storage.userName;
-      const role = storage.userState;
-      let str=false;let admin=false;let check=false;
-      if(role==="结构化人员"){str=true}
-      if(role==="管理员"){admin=true}
-      if(role==="检查人员"){check=true}
+      const user = window.localStorage.userName;
+      const role = window.localStorage.userState;
         return(
           <div >
               <TopMenu user={user}/>
-              <div className="yc-main-body"
-                   style={{marginTop:-2,backgroundColor:'#293038',minHeight:1200}}
-              >
-                <div className="yc-left-menu"  style={{float:'left',width:180}}>
+              <div className="yc-main-body">
+                <div className="yc-left-menu" >
                   <LeftMenu role={role} />
                 </div>
-                <div className="yc-right-content" style={{overflow:'hidden',backgroundColor:'#EDEFF3',minHeight:1200}}>
-                  {str && <StructureRoute />}
-                  {admin && <AdminRoute />}
-                  {check && <CheckRoute />}
+                <div className="yc-right-content">
+                  { role === '结构化人员' && <StructureRoute />}
+                  { role === '管理员' && <AdminRoute />}
+                  { role === '检查人员' && <CheckRoute />}
                 </div>
               </div>
           </div>

@@ -205,7 +205,6 @@ class Check extends React.Component {
 							<Table rowClassName="table-list"
 								columns={columns}
 								dataSource={tableList}
-								style={{ margin: 10 }}
 								rowKey={record => record.wid}
 								pagination={paginationProps}
 								onChange={this.onTablePageChange}

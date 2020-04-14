@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
 import history from "../history";
 import Login from "./login";
 import Home from "./home";
-import DocumentDetail from "./documentSearch/detail";
+import DocumentDetail from "./documentDetail";
 import SourcePage from "./sourcePage";
 import './App.css';
 
@@ -13,10 +13,6 @@ class App extends React.Component {
 		return(
 			<Router history={history}>
 				<div>
-					<form style={{display:'none'}}>
-						<input type="text" />
-						<input type="password" />
-					</form>
 					<Switch>
 						<Route path="/" exact component={Login} />
 						<Route path="/login" component={Login} />
