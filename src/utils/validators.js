@@ -56,6 +56,9 @@ export const handleValidator = (rule, val, callback) => {
 	}
 };
 export const validatorLogin = (rule, val, callback) => {
+	if(val.toString().indexOf(' ')>=0){
+		callback('账号密码不能含有空格')
+	}
 	if(rule.field === "username"){
 		if(!val){
 			callback('账号不能为空');
@@ -68,8 +71,8 @@ export const validatorLogin = (rule, val, callback) => {
 		if(!val){
 			callback('密码不能为空');
 		}
-		else if(val.length>20 || val.length<6){
-			callback('密码长度为6-20位');
+		if(!val.match(/[0-9a-zA-Z]{6,20}/)){
+			callback('密码格式错误,需为6-20位的数字,字母或下划线');
 		}
 	}
 	//找回密码的格式验证

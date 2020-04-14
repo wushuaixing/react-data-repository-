@@ -11,6 +11,7 @@ import ContainerFooter from './footer'
 import 'antd/dist/antd.css';
 import './style.scss';
 
+
 //头部图标和公司文字
 function Header() {
 	return (
@@ -47,6 +48,7 @@ class Login extends React.Component {
 	componentDidMount() {
 		const myState = localStorage.getItem("userState");
 		const { history } = this.props;
+		console.log(myState)
 		isLogin().then(res => {
 			if (res.data.code === 200 && myState) {
 				history.push('/index');
@@ -146,7 +148,6 @@ class Login extends React.Component {
 					if (res.data.message === "非法请求,请获取图形验证码") {
 						res.data.message = "请点击刷新图形验证码";
 						message.info(res.data.message);
-						// clearTimeout(7);
 					}
 					message.error(res.data.message)
 				}
@@ -216,10 +217,11 @@ class Login extends React.Component {
 										<Form.Item>
 											{getFieldDecorator('username', {
 												rules: [
-													// { require: true, message: "请输入账号", },
-													{ validator: validatorLogin }
+													{ 
+														validator: validatorLogin,
+													}
 												],
-												validateTrigger: 'onFormFinish',
+												validateTrigger: 'onBlur',
 											})(
 												<Input
 													className="yc-input"
@@ -231,10 +233,11 @@ class Login extends React.Component {
 										<Form.Item>
 											{getFieldDecorator('password', {
 												rules: [
-													// { required: true, message: '请输入密码', },
-													{ validator: validatorLogin }
+													{ 
+														validator: validatorLogin,
+													}
 												],
-												validateTrigger: 'onFormFinish',
+												validateTrigger: 'onBlur',
 											})(
 												<Input
 													className="yc-input"
@@ -249,7 +252,7 @@ class Login extends React.Component {
 												valuePropName: 'checked',
 												initialValue: true,
 											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12 }}>下次自动登录</Checkbox>)}
-											<a className="yc-forget" href="#" onClick={this.ifFindPsw} style={{ marginLeft: 145 }}>
+											<a className="yc-forget" href="#" onClick={this.ifFindPsw} style={{ marginLeft: 145,display:'none' }}>
 												忘记密码
 										</a>
 											<Button type="primary" htmlType="submit" className="yc-login-button">
