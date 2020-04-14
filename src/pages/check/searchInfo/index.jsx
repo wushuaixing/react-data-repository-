@@ -3,7 +3,7 @@ import React from 'react';
 import {Form, Input, Button, DatePicker, Cascader, Select, message} from 'antd';
 import {getStructuredPersonnel,getCheckPersonnel} from "../../../server/api";
 import { province } from "../../../assets/province";
-import {dataFilter} from "../../../util/commonMethod";
+import {dataFilter} from "../../../utils/common";
 import 'antd/dist/antd.css';
 import '../../style.scss';
 

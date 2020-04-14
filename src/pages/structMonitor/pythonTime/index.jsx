@@ -3,7 +3,7 @@ import React from 'react';
 import {message, Select, DatePicker, Spin} from "antd";
 import moment from 'moment';
 import {pythonAmountIn31, structurePython} from "../../../server/api";
-import {dataFilter,getToday} from "../../../util/commonMethod";
+import {dataFilter,getToday} from "../../../utils/common";
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
 import  'echarts/lib/chart/line';

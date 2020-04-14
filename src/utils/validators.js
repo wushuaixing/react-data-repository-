@@ -1,39 +1,5 @@
-/**
- * created by anran on 2020-02-17.
- */
-//日期转换
-const dataFilter=(value)=>{
-		let data = new Date(value);
-		let year = data.getFullYear();
-		let month = data.getMonth() + 1;
-		if (month < 10) {
-			month = "0" + month;
-		}
-		let date = data.getDate();
-		if (date < 10) {
-			date = "0" + date;
-		}
-		return year + "-" + month + "-" + date;
-	};
-
-//获取当日日期
-const getToday=()=>{
-	const today=new Date();
-	const seperator1="-";
-	let year = today.getFullYear();
-	let month = today.getMonth() + 1;
-	let strDate = today.getDate();
-	if (month >= 1 && month <= 9) {
-		month = "0" + month;
-	}
-	if (strDate >= 0 && strDate <= 9) {
-		strDate = "0" + strDate;
-	}
-	return year + seperator1 + month + seperator1 + strDate
-};
-
 //验证账号密码-输入框格式
-const handleValidator = (rule, val, callback) => {
+export const handleValidator = (rule, val, callback) => {
 	if (rule.field === "name") {
 		if(!val){
 			callback('');
@@ -89,7 +55,7 @@ const handleValidator = (rule, val, callback) => {
 		}
 	}
 };
-const validatorLogin = (rule, val, callback) => {
+export const validatorLogin = (rule, val, callback) => {
 	if(rule.field === "username"){
 		if(!val){
 			callback('账号不能为空');
@@ -115,8 +81,4 @@ const validatorLogin = (rule, val, callback) => {
 			callback('密码长度为6-20位');
 		}
 	}
-};
-
-export {
-	dataFilter,getToday,handleValidator,validatorLogin
 };

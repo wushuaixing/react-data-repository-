@@ -4,7 +4,7 @@ import { Form, Icon, Input, Button, Checkbox, Tooltip, message, Spin } from 'ant
 import { withRouter } from 'react-router-dom';
 import { login, isLogin, codeImage, validateImgCode, resetPassword } from '../../server/api';
 import { codeMessage } from "../../static/status";
-import { validatorLogin } from "../../util/commonMethod";
+import { validatorLogin } from "../../utils/validators";
 import box from '../../assets/img/loginPage-box.png';
 import logo from '../../assets/img/loginPage-logoText.png';
 import ContainerFooter from './footer'
@@ -36,17 +36,14 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			showForm: 'login', //展示表单  1.login 登录表单 2.findPassword 找回密码表单 
-			display_button: '',
-			display_disabled: 'none',
 			phoneCodeButton: 'get', // 获取手机验证码按钮展现样式 1.get 获取 2.again 重新获取需要s秒(倒计时)
 			ifAutoLogin: false, //设置是否自动登录
 			codeImgSrc: '',  //图片验证码
 			wait: 0, //设置计时时间 保存两次短信的等待时间
-			loading: false,
+			loading: false, //提交表单的loading样式
 			iconColor: 'rgba(0,0,0,.25)', //图标背景色相同 设置变量统一管理
 		};
 	}
-
 	componentDidMount() {
 		const myState = localStorage.getItem("userState");
 		const { history } = this.props;
@@ -69,7 +66,7 @@ class Login extends React.Component {
 		//获取图形验证码
 		this.toRefreshImg();
 	}
-	//切换登录和找回密码
+	//切换登录和找回密码表单
 	ifFindPsw = () => {
 		let showForm = this.state.showForm === 'login' ? 'findPassword' : 'login'
 		this.setState({
@@ -78,7 +75,6 @@ class Login extends React.Component {
 	};
 	//接口异步 验证账号密码
 	async handleSubmit(info) {
-		const { loading } = this.state;
 		const { history } = this.props;
 		try {
 			this.setState({
@@ -89,17 +85,15 @@ class Login extends React.Component {
 				this.setState({
 					loading: false,
 				});
-				console.log(res.data.data.ROLE);
 				storage.setItem("userState", res.data.data.ROLE);
 				storage.setItem("userName", res.data.data.NAME);
 				history.push('/index');
-				/*if(res.data.data.ROLE === "结构化人员"){
-					history.push('/structureAsset');
-				}else if(res.data.data.ROLE === "管理员"){
-					history.push('/admin/account');
-				}*/
 			} else {
-				message.error(res.data.message)
+				this.setState({
+					loading: false,
+				},()=>{
+					message.error(res.data.message)
+				});
 			}
 		} catch (error) {
 			console.error(error);
@@ -225,7 +219,7 @@ class Login extends React.Component {
 													// { require: true, message: "请输入账号", },
 													{ validator: validatorLogin }
 												],
-												validateTrigger: 'onBlur',
+												validateTrigger: 'onFormFinish',
 											})(
 												<Input
 													className="yc-input"
@@ -240,7 +234,7 @@ class Login extends React.Component {
 													// { required: true, message: '请输入密码', },
 													{ validator: validatorLogin }
 												],
-												validateTrigger: 'onBlur',
+												validateTrigger: 'onFormFinish',
 											})(
 												<Input
 													className="yc-input"

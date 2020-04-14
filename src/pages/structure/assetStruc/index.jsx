@@ -2,7 +2,7 @@
 import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table, message, Spin} from 'antd';
 import {Columns} from "../../../static/columns";
-import {dataFilter} from "../../../util/commonMethod";
+import {dataFilter} from "../../../utils/common";
 import {structuredList} from "../../../server/api";
 import {Link, withRouter} from "react-router-dom";
 import 'antd/dist/antd.css';

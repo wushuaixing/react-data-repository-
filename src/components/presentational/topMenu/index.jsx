@@ -4,7 +4,7 @@ import { Dropdown, Menu, Icon, Modal,message,Input,Button,Form  } from "antd";
 import { withRouter } from 'react-router-dom';
 import logo from "../../../assets/img/top_logo.png";
 import {changePassword, logout} from "../../../server/api";
-import {handleValidator} from "../../../util/commonMethod";
+import {handleValidator} from "../../../utils/validators";
 import 'antd/dist/antd.css';
 import './style.scss';
 
