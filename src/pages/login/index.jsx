@@ -65,7 +65,6 @@ class Login extends React.Component {
 	componentDidMount() {
 		const myState = localStorage.getItem("userState");
 		const { history } = this.props;
-		console.log(myState)
 		isLogin().then(res => {
 			if (res.data.code === 200 && myState) {
 				history.push('/index');

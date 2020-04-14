@@ -2,9 +2,9 @@
 import React from 'react';
 import TopMenu from "../../components/presentational/topMenu";
 import LeftMenu from '../../components/presentational/leftMenu';
-import StructureRoute from "../../router/structureRoute";
-import AdminRoute from "../../router/adminRoute";
-import CheckRoute from "../../router/checkRoute";
+import StructureRoute from "../../routers/structureRoute";
+import AdminRoute from "../../routers/adminRoute";
+import CheckRoute from "../../routers/checkRoute";
 import './style.scss'
 class  Index extends React.Component {
   render() {
