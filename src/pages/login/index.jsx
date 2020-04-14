@@ -7,10 +7,9 @@ import { codeMessage } from "../../static/status";
 import { validatorLogin } from "../../utils/validators";
 import box from '../../assets/img/loginPage-box.png';
 import logo from '../../assets/img/loginPage-logoText.png';
-import ContainerFooter from './footer'
+import miniLogo from '../../assets/img/loginPage-logo.png';
 import 'antd/dist/antd.css';
 import './style.scss';
-
 
 //头部图标和公司文字
 function Header() {
@@ -25,6 +24,24 @@ function LoginPagePresentationImg() {
 	return (
 		<div className="yc-left">
 			<img src={box} width="650" height="600" alt="" />
+		</div>
+	)
+}
+//容器底部
+function ContainerFooter() {
+	return (
+		<div className="yc-login-footer">
+			<div className="footer-container">
+				<div className="footer-tech">
+					<img src={miniLogo} alt="" className="footer-tech-logo" />
+					<span>杭州源诚科技有限公司 技术支持</span>
+				</div>
+				<div className="footer-copyright">
+					<span>
+						Copyright©2019杭州源诚科技有限公司 备案号：浙ICP备17030D14
+						</span>
+				</div>
+			</div>
 		</div>
 	)
 }
@@ -69,7 +86,7 @@ class Login extends React.Component {
 		this.toRefreshImg();
 	}
 	//切换登录和找回密码表单
-	ifFindPsw = () => {
+	switchToFindPassword = () => {
 		let showForm = this.state.showForm === 'login' ? 'findPassword' : 'login'
 		this.setState({
 			showForm
@@ -93,7 +110,7 @@ class Login extends React.Component {
 			} else {
 				this.setState({
 					loading: false,
-				},()=>{
+				}, () => {
 					message.error(res.data.message)
 				});
 			}
@@ -139,9 +156,9 @@ class Login extends React.Component {
 				if (res.data.code === 200) {
 					message.success("验证码发送成功，请查收短信");
 					this.setState({
-						phoneCodeButton:'again',
-						wait:60
-					},()=>{
+						phoneCodeButton: 'again',
+						wait: 60
+					}, () => {
 						this.newSend()
 					});
 				} else {
@@ -160,14 +177,14 @@ class Login extends React.Component {
 		const { wait } = this.state;
 		if (wait === 0) {
 			this.setState({
-				phoneCodeButton:'get'
+				phoneCodeButton: 'get'
 			});
 		}
 		else {
 			let temp = wait - 1;
 			this.setState({
 				wait: temp,
-				phoneCodeButton:'again'
+				phoneCodeButton: 'again'
 			});
 			setTimeout(this.newSend, 1000);
 		}
@@ -217,7 +234,7 @@ class Login extends React.Component {
 										<Form.Item>
 											{getFieldDecorator('username', {
 												rules: [
-													{ 
+													{
 														validator: validatorLogin,
 													}
 												],
@@ -233,7 +250,7 @@ class Login extends React.Component {
 										<Form.Item>
 											{getFieldDecorator('password', {
 												rules: [
-													{ 
+													{
 														validator: validatorLogin,
 													}
 												],
@@ -252,7 +269,7 @@ class Login extends React.Component {
 												valuePropName: 'checked',
 												initialValue: true,
 											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12 }}>下次自动登录</Checkbox>)}
-											<a className="yc-forget" href="#" onClick={this.ifFindPsw} style={{ marginLeft: 145,display:'none' }}>
+											<a className="yc-forget" href="#" onClick={this.switchToFindPassword} style={{ marginLeft: 145, display: 'none' }}>
 												忘记密码
 										</a>
 											<Button type="primary" htmlType="submit" className="yc-login-button">
