@@ -7,7 +7,7 @@ import SearchForm from "./searchInfo";
 import CheckTable from "./checkTable";
 import 'antd/dist/antd.css';
 import '../style.scss';
-
+import {BreadCrumb} from '../../components/common'
 let storage = window.localStorage;
 const role = storage.userState;
 let isCheck=true;
@@ -338,9 +338,7 @@ class  Check extends React.Component {
 		const {tableList,waitNum,checkErrorNum,editNum,timeType,total,page,status,tabIndex,loading}=this.state;
 		return(
 			<div style={{backgroundColor:'#ffffff',margin:20}}>
-				<div className="yc-detail-title" >
-					<div style={{ margin:10, fontSize:16, color:'#293038',fontWeight:800 }}>资产结构化检查</div>
-				</div>
+				<BreadCrumb texts={['资产结构化检查']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
 						<SearchForm  status={status}

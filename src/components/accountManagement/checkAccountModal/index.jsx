@@ -2,7 +2,7 @@
 import React from 'react';
 import { Modal, Form, Button, Input } from "antd";
 import { handleValidator } from "../../../utils/validators";
-
+import '../style.scss'
 const accountForm = Form.create;
 const formItemLayout = {
   labelCol: {
@@ -62,7 +62,6 @@ class AccountManage extends React.Component {
     return (
       <div>
         <Modal
-          style={{ width: 387 }}
           title="添加检查账号"
           visible={visible}
           destroyOnClose={true}

@@ -5,6 +5,7 @@ import {Columns} from "../../../static/columns";
 import {dataFilter} from "../../../utils/common";
 import {structuredList} from "../../../server/api";
 import {Link, withRouter} from "react-router-dom";
+import {BreadCrumb} from '../../../components/common'
 import 'antd/dist/antd.css';
 
 
@@ -228,12 +229,7 @@ class  Asset extends React.Component {
 		};
 		return(
           <div style={{backgroundColor:'#ffffff',margin:20}}>
-            <div className="yc-detail-title">
-              <div style={{ margin:10, fontSize:16, color:'#293038',fontWeight:800 }}>资产结构化</div>
-              <div className="yc-button-goback">
-                <Button type="default">获取新数据</Button>
-              </div>
-            </div>
+			<BreadCrumb texts={['资产结构化']} buttonText={'获取新数据'}></BreadCrumb>
             <div className="yc-detail-content">
               <div className="yc-search-line">
                 <Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{marginLeft:10,marginTop:15}}>

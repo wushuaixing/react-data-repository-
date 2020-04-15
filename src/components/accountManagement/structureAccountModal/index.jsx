@@ -2,8 +2,9 @@
 import React from 'react';
 import { Modal, Form, Button, Select, Checkbox, Radio, Input } from "antd";
 import { handleValidator } from "../../../utils/validators";
+import {HotDotBeforeFormItem} from '../../common'
 import './style.scss';
-
+import '../style.scss'
 const { Option } = Select;
 const accountForm = Form.create;
 const formItemLayout = {
@@ -103,11 +104,6 @@ class AccountManage extends React.Component {
   render() {
     const { visible, characterList, structureList, initialPsw, action, info } = this.state;
     const { getFieldDecorator } = this.props.form;
-    const radioStyle = {
-      display: 'block',
-      height: '30px',
-      lineHeight: '30px',
-    };
     return (
       <div>
         <Modal
@@ -119,7 +115,7 @@ class AccountManage extends React.Component {
           onCancel={this.modalCancel}
           maskClosable
         >
-          <Form className="add-userView-modal" style={{ width: 387 }} {...formItemLayout}>
+          <Form className="add-userView-modal" {...formItemLayout}>
             <Form.Item className="yc-form-item" label="角色：" >
               {getFieldDecorator('roleId', {
                 rules: [
@@ -199,10 +195,8 @@ class AccountManage extends React.Component {
                 )}
               </Form.Item> : ''}
             <div>
-              <div className="yc-form-item" style={{ marginLeft: 15, }}>
-                <span style={{ color: 'red', position: 'absolute', left: -7, fontSize: 18 }}
-                >*</span
-                >
+              <div className="yc-form-item" >
+                <HotDotBeforeFormItem left={0} />
               </div>
               <p style={{ marginLeft: 18, color: 'rgba(0, 0, 0, 0.85)' }}>结构化对象:</p>
               <div className="account-form-structure-object" style={{ marginLeft: 18 }}>
@@ -214,10 +208,8 @@ class AccountManage extends React.Component {
                   >
 
                   </Checkbox.Group>
-                  <span style={{ color: 'red', position: 'absolute', left: 9, top: 78, fontSize: 18, marginLeft: 14, }}
-                  >*</span
-                  >
                   <p className="account-form-structure-object-dataType" style={{ marginLeft: 6, color: 'rgba(0, 0, 0, 0.85)' }}>数据类型:</p>
+                  <HotDotBeforeFormItem left={20} top={75} />
                 </div>
                 <Form.Item>
                   {getFieldDecorator('auctionDataType', {

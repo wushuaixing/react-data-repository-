@@ -5,6 +5,7 @@ import { userCreateCheck, userEditCheck, userResetCheck, userRemoveCheck, getChe
 import { message, Button } from 'antd';
 import AccountModal from '../../../components/accountManagement/checkAccountModal';
 import 'antd/dist/antd.css';
+import {BreadCrumb} from '../../../components/common'
 
 class Index extends React.Component {
 	constructor(props) {
@@ -191,9 +192,7 @@ class Index extends React.Component {
 		};
 		return (
 			<div style={{ backgroundColor: '#ffffff', margin: 20 }}>
-				<div className="yc-detail-title" >
-					<div style={{ margin: 10, fontSize: 16, color: '#293038', fontWeight: 800 }}>账号管理 > 检查账号</div>
-				</div>
+				<BreadCrumb texts={['账号管理','检查账号']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div>
 						<div style={{ margin: 10, textAlign: 'right' }}>

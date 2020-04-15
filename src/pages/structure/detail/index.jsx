@@ -14,6 +14,7 @@ import BasicDetail from "../../../components/basicDetail";
 import WrongReason from "../../../components/wrongReason";
 import WsDetail from "../../../components/wsDetail";
 import RoleDetail from "../../../components/roleDetail";
+import {BreadCrumb} from '../../../components/common'
 import HouseDetail from "../../../components/houseDetail";
 import Check from "./checkModal";
 import './style.scss';
@@ -727,13 +728,7 @@ class  StructureDetail extends React.Component {
 
 			return(
 					<div style={{backgroundColor:'#ffffff',margin:20}}>
-            <div className="yc-detail-title">
-              <div style={{ margin:4, fontSize:16, color:'#293038' }}>{needRecord ? "资产结构化/检查" : "资产结构化/详情"}</div>
-              <div className="yc-button-goback" style={{display:isStruct}} >
-                <p>{ dataMark}/{ dataTotal }</p>
-                <Button type="default" onClick={this.goBack}><Icon type="left" />返回上一条</Button>
-              </div>
-            </div>
+			<BreadCrumb texts={['资产结构化/详情']} note={`${dataMark}/${dataTotal}`} buttonText={'返回上一条'} icon={'left'}></BreadCrumb>
 						<div className="yc-detail-content">
 							<div className="yc-action">
 								<Checkbox style={{display:isAdmin}}>仅标记本条</Checkbox>

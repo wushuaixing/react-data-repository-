@@ -4,7 +4,7 @@ import { Form, Input, Button, Table, message, Spin } from 'antd';
 import { wenshuSearch } from "../../server/api";
 import { Link, withRouter } from "react-router-dom";
 import '../style.scss';
-
+import {BreadCrumb} from '../../components/common'
 const searchForm = Form.create;
 //表column
 const columns = [
@@ -146,9 +146,7 @@ class Check extends React.Component {
 		};
 		return (
 			<div style={{ backgroundColor: '#ffffff', margin: 20 }}>
-				<div className="yc-detail-title">
-					<div style={{ margin: 10, fontSize: 16, color: '#293038', fontWeight: 800 }}>文书搜索</div>
-				</div>
+				<BreadCrumb texts={['文书搜索']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
 						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{ marginLeft: 20, marginTop: 15 }}>

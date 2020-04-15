@@ -12,7 +12,7 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import '../style.scss';
-
+import {BreadCrumb} from '../../../components/common'
 class Index extends React.Component {
   constructor(props) {
     super(props);
@@ -78,9 +78,7 @@ class Index extends React.Component {
     return (
       <Spin tip="Loading..." spinning={loading}>
         <div>
-              <div className="yc-detail-title" >
-                <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>资产数据抓取情况</div>
-              </div>
+              <BreadCrumb texts={['资产数据抓取情况']}></BreadCrumb>
               <div>
                 <div className="yc-left-amount" style={{marginTop:-20}}>
                   <p className="yc-part-title">昨日抓取总量</p>

@@ -5,6 +5,7 @@ import moment from 'moment';
 import {pythonAmountIn31, structurePython} from "../../../server/api";
 import {dataFilter,getToday} from "../../../utils/common";
 import echarts from 'echarts/lib/echarts';
+import {BreadCrumb} from '../../../components/common'
 // 引入柱状图
 import  'echarts/lib/chart/line';
 import  'echarts/lib/chart/pie';
@@ -292,9 +293,7 @@ class Index extends React.Component {
     return (
       <Spin tip="Loading..." spinning={loading}>
         <div>
-              <div className="yc-detail-title" >
-                <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>资产数据抓取时间段分布</div>
-              </div>
+              <BreadCrumb texts={['资产数据抓取时间段分布']}></BreadCrumb>
               <div className="yc-left-chart" style={{backgroundColor:'#ffffff'}} >
                 <div style={{marginTop:20,marginBottom:20}}>
                     <span style={{display: 'inline-block', marginLeft: 26,color:'#293038'}}>数据源：</span>
