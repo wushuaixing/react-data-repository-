@@ -6,7 +6,7 @@ class NotFound extends React.Component {
         this.props.history.push('/login')
     }
     goBack() {
-
+        this.props.history.go(-1)
     }
     render() {
         return (

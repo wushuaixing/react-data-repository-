@@ -1,8 +1,8 @@
 import React from 'react'
 //引入路由
 import {Route} from 'react-router-dom';
-import StructureAccount from "../pages/admin/structureUser";
-import CheckAccount from "../pages/admin/checkUser";
+import StructureAccount from "../pages/accountManagement/structureUser";
+import CheckAccount from "../pages/accountManagement/checkUser";
 import DocumentSearch from "../pages/documentSearch";
 import AssetList from "../pages/check";
 import StructureDetail from "../pages/structure/detail";
