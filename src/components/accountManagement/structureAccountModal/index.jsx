@@ -1,8 +1,7 @@
 /** right content for Account manage* */
 import React from 'react';
 import { Modal, Form, Button, Select, Checkbox, Radio, Input } from "antd";
-import { handleValidator } from "../../../../utils/validators";
-import 'antd/dist/antd.css';
+import { handleValidator } from "../../../utils/validators";
 import './style.scss';
 
 const { Option } = Select;
@@ -121,7 +120,7 @@ class AccountManage extends React.Component {
           maskClosable
         >
           <Form className="add-userView-modal" style={{ width: 387 }} {...formItemLayout}>
-            <Form.Item className="part" label="角色：" >
+            <Form.Item className="yc-form-item" label="角色：" >
               {getFieldDecorator('roleId', {
                 rules: [
                   { required: true, message: "请选择角色", },
@@ -144,7 +143,7 @@ class AccountManage extends React.Component {
                 </Select>
               )}
             </Form.Item>
-            <Form.Item className="part" label="姓名：">
+            <Form.Item className="yc-form-item" label="姓名：">
               {getFieldDecorator('name', {
                 rules: [
                   { required: true, message: "姓名不能为空", },
@@ -154,13 +153,12 @@ class AccountManage extends React.Component {
                 initialValue: action === 'edit' ? info.name : ''
               })(
                 <Input
-                  style={{ marginLeft: 4, width: 260, height: 32 }}
-                  className="yc-input"
+                  className="yc-form-input"
                   placeholder="请输入姓名"
                 />,
               )}
             </Form.Item>
-            <Form.Item className="part" label="账号:">
+            <Form.Item className="yc-form-item" label="账号:">
               {
                 getFieldDecorator('username', {
                   rules: [
@@ -173,8 +171,7 @@ class AccountManage extends React.Component {
                   action === 'add'
                     ?
                     <Input
-                      style={{ marginLeft: 4, width: 260, height: 32 }}
-                      className="yc-input"
+                      className="yc-form-input"
                       placeholder="请输入手机号"
                     />
                     : <p
@@ -183,7 +180,7 @@ class AccountManage extends React.Component {
                 )}
             </Form.Item>
             {action === 'add' ?
-              <Form.Item className="part" label="密码：">
+              <Form.Item className="yc-form-item" label="密码：">
                 {getFieldDecorator('password', {
                   rules: [
                     { required: true, message: '请输入密码', },
@@ -193,40 +190,34 @@ class AccountManage extends React.Component {
                   initialValue: ''
                 })(
                   <Input
-                    className="yc-input"
+                    className="yc-form-input"
                     initialvalue={initialPsw}
                     type="password"
-                    style={{ marginLeft: 4, width: 260, height: 32 }}
                     placeholder="密码默认为账号后六位"
                     autoComplete="new-password"
                   />,
                 )}
               </Form.Item> : ''}
             <div>
-              <div className="part" style={{ marginLeft: 15, }}>
+              <div className="yc-form-item" style={{ marginLeft: 15, }}>
                 <span style={{ color: 'red', position: 'absolute', left: -7, fontSize: 18 }}
                 >*</span
                 >
               </div>
               <p style={{ marginLeft: 18, color: 'rgba(0, 0, 0, 0.85)' }}>结构化对象:</p>
-              <div className="structured" style={{ marginLeft: 18 }}>
+              <div className="account-form-structure-object" style={{ marginLeft: 18 }}>
                 <div>
                   <Checkbox.Group
                     options={structureList}
                     defaultValue={["资产结构化"]}
                     disabled
                   >
-                    {/*{structureList && structureList.map((item,index)=>{*/}
-                    {/*return (*/}
-                    {/*<Checkbox value={index} key={index} >{item}</Checkbox>*/}
-                    {/*)*/}
-                    {/*})*/}
-                    {/*}*/}
+
                   </Checkbox.Group>
                   <span style={{ color: 'red', position: 'absolute', left: 9, top: 78, fontSize: 18, marginLeft: 14, }}
                   >*</span
                   >
-                  <p className="structured-dataType" style={{ marginLeft: 6, color: 'rgba(0, 0, 0, 0.85)' }}>数据类型:</p>
+                  <p className="account-form-structure-object-dataType" style={{ marginLeft: 6, color: 'rgba(0, 0, 0, 0.85)' }}>数据类型:</p>
                 </div>
                 <Form.Item>
                   {getFieldDecorator('auctionDataType', {
@@ -246,9 +237,9 @@ class AccountManage extends React.Component {
                 </Form.Item>
               </div>
             </div>
-            <div className="footer" style={{ marginLeft: -45 }}>
-              <Button type="primary" style={{ backgroundColor: '#0099CC', fontSize: 16 }} onClick={this.modalOk}>确定</Button>
-              <Button style={{ color: '#293038', fontSize: 16 }} onClick={this.modalCancel}>取消</Button>
+            <div className="yc-modal-footer">
+              <Button type="primary" onClick={this.modalOk}>确定</Button>
+              <Button onClick={this.modalCancel}>取消</Button>
             </div>
           </Form>
         </Modal>

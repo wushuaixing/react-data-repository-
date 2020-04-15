@@ -1,9 +1,9 @@
 /** right content for Account manage* */
 import React from 'react';
 import {message,Checkbox,Input,Radio,} from "antd"
-import deleteIcon from "../../../assets/img/delete_wenshu.png";
-import addIcon from "../../../assets/img/add_wenshu.png";
-import {clone} from "../../../utils/common";
+import deleteIcon from "../../assets/img/delete_wenshu.png";
+import addIcon from "../../assets/img/add_wenshu.png";
+import {clone} from "../../utils/common";
 
 let storage = window.localStorage;
 const role = storage.userState;

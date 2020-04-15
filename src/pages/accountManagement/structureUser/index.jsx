@@ -3,8 +3,8 @@ import React from 'react';
 import {Tabs, Table, Spin,} from "antd";
 import { userCreate, userView, userEdit,userReset,userRemove,userDelete} from "../../../server/api";
 import { message } from 'antd';
-import AccountModal from "./structureAccountModal";
-import SearchAccount from "./search";
+import AccountModal from '../../../components/accountManagement/structureAccountModal';
+import SearchAccount from "../../../components/accountManagement/search";
 import 'antd/dist/antd.css';
 import './style.scss';
 // ==================
