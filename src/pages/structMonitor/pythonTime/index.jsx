@@ -1,9 +1,8 @@
-/** python-time* */
+/** python-now* */
 import React from 'react';
 import {message, Select, DatePicker, Spin} from "antd";
-import moment from 'moment';
 import {pythonAmountIn31, structurePython} from "../../../server/api";
-import {filters,getToday} from "../../../utils/common";
+import {filters} from "../../../utils/common";
 import echarts from 'echarts/lib/echarts';
 import {BreadCrumb} from '../../../components/common'
 // 引入柱状图
@@ -17,11 +16,6 @@ import 'echarts/lib/component/legend';
 import '../style.scss';
 
 const { Option } = Select;
-//当日日期：
-const nowDate=getToday();
-const dateFormat = 'YYYY-MM-DD';
-
-
 class Index extends React.Component {
   constructor(props) {
     super(props);
@@ -54,15 +48,15 @@ class Index extends React.Component {
         },
 
       ],
-      time:nowDate,
       sourceId:0,
+      now:filters.getTodayDate()
     };
   }
 
   componentDidMount() {
-    const {sourceId,time}=this.state;
+    const {sourceId,now}=this.state;
 
-    this.getSourceList(sourceId, time);
+    this.getSourceList(sourceId, now);
 
   }
 
@@ -70,35 +64,35 @@ class Index extends React.Component {
     let _date=filters(e);
     this.changeDate(_date);
     this.setState({
-      time:_date,
+      now:_date,
     })
   };
 
   //资产数据抓取时间段分布 数据源选择
   onChangeSelect=(value)=>{
-    const {time}=this.state;
+    const {now}=this.state;
     if (value === "全部") {
-      this.getSourceList(0,time);
+      this.getSourceList(0,now);
     } else if (value === "阿里司法拍卖") {
-      this.getSourceList(1,time);
+      this.getSourceList(1,now);
     } else if (value === "公拍网") {
-      this.getSourceList(3,time);
+      this.getSourceList(3,now);
     }else if (value === "京东司法拍卖") {
-      this.getSourceList(4,time);
+      this.getSourceList(4,now);
     }else if (value === "中国拍卖行业协会") {
-      this.getSourceList(5,time);
+      this.getSourceList(5,now);
     }else if (value === "人民法院诉讼资产网") {
-      this.getSourceList(6,time);
+      this.getSourceList(6,now);
     }
   };
 
   //资产数据抓取时间段
-  getSourceList=(id,time)=>{
+  getSourceList=(id,now)=>{
     this.setState({
       sourceId:id,
       loading:true,
     });
-    structurePython(id,time).then(res =>{
+    structurePython(id,now).then(res =>{
       this.setState({
         loading:false,
       });
@@ -156,7 +150,6 @@ class Index extends React.Component {
       }
       hourData.reverse();
     }
-    //
     pythonTime.setOption({
       color:['#1CAFE0FF','#FD9C26FF','#F03733FF','#126EC7FF','#16B45CFF','#8F56DFFF'],
       title : {
@@ -181,17 +174,6 @@ class Index extends React.Component {
           }
         }
       },
-      /*xAxis: {
-					 type: 'category',
-					 splitLine: {
-							 show: true,
-							 lineStyle: {
-									 color: '#999',
-									 type: 'dashed'
-							 }
-					 },
-			 },
-			 yAxis: yAxisStyle,*/
       xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -324,8 +306,8 @@ class Index extends React.Component {
                       placeholder="开始时间"
                       style={{width:108,fontSize:12}}
                       onChange={this.onChangeDate}
-                      defaultValue={moment(nowDate, dateFormat)}
-                      format={dateFormat}
+                      defaultValue={this.state.now}
+                      format={'YYYY-MM-DD'}
                     />
                   </div>
                 </div>

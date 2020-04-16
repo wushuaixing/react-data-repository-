@@ -15,7 +15,7 @@ class DocumentDetail extends React.Component {
 			loading: false,
 		};
 		this.getHeight = () => {
-			//获取当事人dom节点的高度 如果超过三行则需要做显示隐藏处理
+			//获取当前右边当事人信息dom节点的高度 如果超过三行则需要做显示隐藏处理
 			let node = Array.prototype.slice.call(document.querySelectorAll(".message-line"), -1)[0]
 			return node.clientHeight;
 		}
@@ -42,17 +42,14 @@ class DocumentDetail extends React.Component {
 			}
 		});
 	}
-
-
 	copy = () => {
-		let text = document.getElementById("link-detail").innerText;
-		let input = document.getElementById("document-detail-input");//隐藏的剪切板
-		input.value = text; // 修改文本框的内                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        容
-		input.select(); // 选中文本
+		let text = document.getElementById("link-detail").innerText; //
+		let clipBoard = document.querySelectorAll('.container_rightInfo textarea')[0];//隐藏的剪切板
+		clipBoard.value = text; // 修改文本框的内                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        容
+		clipBoard.select(); // 选中剪切板
 		document.execCommand("copy"); // 执行浏览器复制命令
 		message.info("复制成功");
 	};
-
 	openLink = (url) => {
 		window.open(url);
 	};
@@ -76,7 +73,7 @@ class DocumentDetail extends React.Component {
 							</div>
 						</div>
 						<div className="container_rightInfo">
-							<textarea id="document-detail-input" />
+							<textarea />
 							<div>
 								<div className="title">基本信息</div>
 								<div>

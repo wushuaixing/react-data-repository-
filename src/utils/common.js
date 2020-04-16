@@ -3,32 +3,22 @@ import moment from 'moment'
 
 const filters = {
 	//判断输入是否为空  为空返回--
-	blockNullByBar: (input) => {
+	blockNullByBar(input){
 		if (input == '' || input == undefined || input == null) {
 			return '--';
 		} else {
 			return input;
 		}
 	},
-	formatStandardDate: (timeStamp) => {
+	//时间戳转换为标准日期
+	formatStandardDate(timeStamp){
 		return (timeStamp == '' || timeStamp == '--') ? timeStamp : moment(timeStamp).format('YYYY-MM-DD');
+	},
+	//获取当日日期
+	getTodayDate(){
+		return moment().format('YYYY-MM-DD');
 	}
 }
-//获取当日日期
-const getToday = () => {
-	const today = new Date();
-	const seperator1 = "-";
-	let year = today.getFullYear();
-	let month = today.getMonth() + 1;
-	let strDate = today.getDate();
-	if (month >= 1 && month <= 9) {
-		month = "0" + month;
-	}
-	if (strDate >= 0 && strDate <= 9) {
-		strDate = "0" + strDate;
-	}
-	return year + seperator1 + month + seperator1 + strDate
-};
 
 const clone = obj => {
 	var o;
@@ -60,5 +50,5 @@ const clone = obj => {
 };
 
 export {
-	getToday, clone, filters
+	clone, filters
 };
