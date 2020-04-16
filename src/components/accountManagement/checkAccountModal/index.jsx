@@ -69,7 +69,7 @@ class AccountManage extends React.Component {
           maskClosable
           onCancel={this.modalCancel}
         >
-          <Form className="add-userView-modal" {...formItemLayout}>
+          <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout}>
             <Form.Item className="yc-form-item" label="姓名：">
               {getFieldDecorator('name', {
                 rules: [

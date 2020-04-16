@@ -3,7 +3,6 @@ import React from 'react';
 import { Modal, Form, Button, Select, Checkbox, Radio, Input } from "antd";
 import { handleValidator } from "../../../utils/validators";
 import {HotDotBeforeFormItem} from '../../common'
-import './style.scss';
 import '../style.scss'
 const { Option } = Select;
 const accountForm = Form.create;
@@ -115,7 +114,7 @@ class AccountManage extends React.Component {
           onCancel={this.modalCancel}
           maskClosable
         >
-          <Form className="add-userView-modal" {...formItemLayout}>
+          <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout}>
             <Form.Item className="yc-form-item" label="角色：" >
               {getFieldDecorator('roleId', {
                 rules: [
@@ -199,16 +198,15 @@ class AccountManage extends React.Component {
                 <HotDotBeforeFormItem left={0} />
               </div>
               <p style={{ marginLeft: 18, color: 'rgba(0, 0, 0, 0.85)' }}>结构化对象:</p>
-              <div className="account-form-structure-object" style={{ marginLeft: 18 }}>
+              <div className="structureObject" style={{ marginLeft: 18 }}>
                 <div>
                   <Checkbox.Group
                     options={structureList}
                     defaultValue={["资产结构化"]}
                     disabled
                   >
-
                   </Checkbox.Group>
-                  <p className="account-form-structure-object-dataType" style={{ marginLeft: 6, color: 'rgba(0, 0, 0, 0.85)' }}>数据类型:</p>
+                  <p className="structureObject-dataType" style={{ marginLeft: 6, color: 'rgba(0, 0, 0, 0.85)' }}>数据类型:</p>
                   <HotDotBeforeFormItem left={20} top={75} />
                 </div>
                 <Form.Item>

@@ -228,7 +228,7 @@ class  Asset extends React.Component {
 			}),
 		};
 		return(
-          <div style={{backgroundColor:'#ffffff',margin:20}}>
+          <div className="yc-content-container">
 			<BreadCrumb texts={['资产结构化']} buttonText={'获取新数据'}></BreadCrumb>
             <div className="yc-detail-content">
               <div className="yc-search-line">

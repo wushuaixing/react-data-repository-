@@ -6,7 +6,6 @@ import Home from "./home";
 import DocumentDetail from "./documentDetail";
 import SourcePage from "./sourcePage";
 import NotFound from './notFound'
-import './App.css';
 
 class App extends React.Component {
 	render(){

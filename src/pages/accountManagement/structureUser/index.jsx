@@ -1,13 +1,11 @@
 /** right content for Account manage* */
 import React from 'react';
 import {BreadCrumb} from '../../../components/common'
-import { Tabs, Table, Spin, } from "antd";
+import { Tabs, Table, Spin,message } from "antd";
 import { userCreate, userView, userEdit, userReset, userRemove, userDelete } from "../../../server/api";
-import { message } from 'antd';
 import AccountModal from '../../../components/accountManagement/structureAccountModal';
 import SearchAccount from "../../../components/accountManagement/search";
-import 'antd/dist/antd.css';
-import './style.scss';
+import '../style.scss';
 // ==================
 // 所需的所有组件
 // ==================
@@ -323,18 +321,18 @@ class AccountManage extends React.Component {
 			}),
 		};
 		return (
-			<div style={{ backgroundColor: '#ffffff', margin: 20 }}>
+			<div className="yc-content-container">
 				<BreadCrumb texts={['账号管理','结构化账号']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<Spin tip="Loading..." spinning={loading}>
-						<Tabs defaultActiveKey="1" onChange={this.changeTab} style={{ margin: 15, fontSize: 12 }} animated={false}>
+						<Tabs defaultActiveKey="1" onChange={this.changeTab} animated={false} className="role-tab">
 							<TabPane tab="正常账号" key="1">
 								<SearchAccount showModal={this.showModal.bind(this)}
 									searchFn={this.searchAccount.bind(this)}
 									roleFn={this.selectRole.bind(this)}
 
 								/>
-								<Table rowClassName="table-list" columns={columns} dataSource={tableList} style={{ margin: 10, fontSize: 12 }}
+								<Table rowClassName="table-list" columns={columns} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
 									onChange={this.onChangePage}
 									pagination={paginationProps}
@@ -345,7 +343,7 @@ class AccountManage extends React.Component {
 									searchFn={this.searchAccount.bind(this)}
 									roleFn={this.selectRole.bind(this)}
 								/>
-								<Table rowClassName="table-list" columns={columnsDelete} dataSource={tableList} style={{ margin: 10, fontSize: 12 }}
+								<Table rowClassName="table-list" columns={columnsDelete} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
 									onChange={this.onChangePage}
 									pagination={paginationProps}

@@ -1,11 +1,10 @@
 /** right content for Account manage* */
 import React from 'react';
-import { Table, Spin, } from "antd";
 import { userCreateCheck, userEditCheck, userResetCheck, userRemoveCheck, getCheckListCheck } from "../../../server/api";
-import { message, Button } from 'antd';
+import { message, Button,Table, Spin } from 'antd';
 import AccountModal from '../../../components/accountManagement/checkAccountModal';
-import 'antd/dist/antd.css';
 import {BreadCrumb} from '../../../components/common'
+import '../style.scss'
 
 class Index extends React.Component {
 	constructor(props) {
@@ -191,16 +190,16 @@ class Index extends React.Component {
 			}),
 		};
 		return (
-			<div style={{ backgroundColor: '#ffffff', margin: 20 }}>
+			<div className="yc-content-container">
 				<BreadCrumb texts={['账号管理','检查账号']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div>
-						<div style={{ margin: 10, textAlign: 'right' }}>
+						<div className="addUser-button">
 							<Button onClick={this.addAccount}>+ 添加账号</Button>
 						</div>
 						<Spin tip="Loading..." spinning={loading}>
 							<div>
-								<Table rowClassName="table-list" columns={columns} dataSource={tableList} style={{ margin: 10, fontSize: 12 }}
+								<Table rowClassName="table-list" columns={columns} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
 									onChange={this.onChangePage}
 									pagination={paginationProps}

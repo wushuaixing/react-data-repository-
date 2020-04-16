@@ -145,7 +145,7 @@ class Check extends React.Component {
 			}),
 		};
 		return (
-			<div style={{ backgroundColor: '#ffffff', margin: 20 }}>
+			<div className="yc-content-container">
 				<BreadCrumb texts={['文书搜索']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">

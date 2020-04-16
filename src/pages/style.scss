@@ -1,3 +1,4 @@
+//每个tab下白色的内容区除面包屑的部分
 .yc-detail-content {
   min-height: 1200px;
   .yc-search-line {
@@ -81,6 +82,13 @@
   font-size: 12px;
 }
 
+//每个tab下 灰色大容器中  白色的内容区部分
+.yc-content-container{
+  background-color: #ffffff;
+  margin: 20px;
+}
+
+//模态框底部
 .yc-modal-footer {
   margin-top: 30px;
   text-align: center;
