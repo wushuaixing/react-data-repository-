@@ -3,7 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { message, Button, Spin } from 'antd';
 import { wenshuDetail } from '../../../server/api';
-import { filters } from "../../../utils/common";
+import { filters,dateUtils } from "../../../utils/common";
 import './style.scss';
 
 class DocumentDetail extends React.Component {
@@ -65,7 +65,7 @@ class DocumentDetail extends React.Component {
 								{data.title}
 							</div>
 							<div className="publishTime">
-								<p>发布日期：{filters.formatStandardDate(data.publishTime)}</p>
+								<p>发布日期：{dateUtils.formatStandardDate(data.publishTime)}</p>
 							</div>
 							<div className="line" />
 							<div className="content-container">
@@ -95,7 +95,7 @@ class DocumentDetail extends React.Component {
 									</div>
 									<div className="message-line">
 										<p className="message-line-left">裁判日期:</p>
-										<p className="message-line-right">{filters.formatStandardDate(data.trialDate)}</p>
+										<p className="message-line-right">{dateUtils.formatStandardDate(data.trialDate)}</p>
 									</div>
 									<div className="message-line">
 										<p className="message-line-left">当事人:</p>

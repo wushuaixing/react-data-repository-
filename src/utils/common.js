@@ -9,8 +9,10 @@ const filters = {
 		} else {
 			return input;
 		}
-	},
-	//时间戳转换为标准日期
+	}
+}
+const dateUtils = {
+	//时间戳转换为标准日期	
 	formatStandardDate(timeStamp){
 		return (timeStamp == '' || timeStamp == '--') ? timeStamp : moment(timeStamp).format('YYYY-MM-DD');
 	},
@@ -50,5 +52,5 @@ const clone = obj => {
 };
 
 export {
-	clone, filters
+	clone, filters , dateUtils
 };

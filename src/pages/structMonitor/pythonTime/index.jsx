@@ -2,7 +2,7 @@
 import React from 'react';
 import {message, Select, DatePicker, Spin} from "antd";
 import {pythonAmountIn31, structurePython} from "../../../server/api";
-import {filters} from "../../../utils/common";
+import { dateUtils } from "../../../utils/common";
 import echarts from 'echarts/lib/echarts';
 import {BreadCrumb} from '../../../components/common'
 // 引入柱状图
@@ -49,7 +49,7 @@ class Index extends React.Component {
 
       ],
       sourceId:0,
-      now:filters.getTodayDate()
+      now:dateUtils.getTodayDate()
     };
   }
 
@@ -61,7 +61,7 @@ class Index extends React.Component {
   }
 
   onChangeDate=(e)=>{
-    let _date=filters(e);
+    let _date= dateUtils.formatStandardDate(e);
     this.changeDate(_date);
     this.setState({
       now:_date,

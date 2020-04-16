@@ -17,7 +17,7 @@ class App extends React.Component {
 						<Route path="/login" component={Login} />
 						<Route path="/index" component={Home} />
 						<Route path="/documentDetail/:Id" component={DocumentDetail} />
-						<Route path="/auctionDetail/:Id" component={AuctionDetail} />
+						<Route path="/auctionDetail/:auctionID" component={AuctionDetail} />
 						<Route path="*" component={NotFound} />
 					</Switch>
 				</div>
