@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
 import history from "../history";
 import Login from "./login";
 import Home from "./home";
-import DocumentDetail from "./documentDetail";
-import SourcePage from "./sourcePage";
+import DocumentDetail from "../pages/externalSource/document";
+import AuctionDetail from "../pages/externalSource/auction";
 import NotFound from './notFound'
 
 class App extends React.Component {
@@ -17,7 +17,7 @@ class App extends React.Component {
 						<Route path="/login" component={Login} />
 						<Route path="/index" component={Home} />
 						<Route path="/documentDetail/:Id" component={DocumentDetail} />
-						<Route path="/sourcePage/:Id" component={SourcePage} />
+						<Route path="/auctionDetail/:Id" component={AuctionDetail} />
 						<Route path="*" component={NotFound} />
 					</Switch>
 				</div>

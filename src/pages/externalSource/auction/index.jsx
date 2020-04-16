@@ -2,7 +2,7 @@
 import React from 'react';
 import {withRouter} from "react-router-dom";
 import { message } from 'antd';
-import {htmlDetailInfo} from "../../server/api";
+import {htmlDetailInfo} from "../../../server/api";
 import 'antd/dist/antd.css';
 import './style.scss';
 import AnchorHtml from "./htmlPart";

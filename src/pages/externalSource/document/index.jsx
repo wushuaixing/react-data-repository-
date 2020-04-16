@@ -2,8 +2,8 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {message, Button, Spin} from 'antd';
-import {wenshuDetail} from '../../server/api';
-import {dataFilter} from "../../utils/common";
+import {wenshuDetail} from '../../../server/api';
+import {dataFilter} from "../../../utils/common";
 import './style.scss';
 
 class  DocumentDetail extends React.Component {

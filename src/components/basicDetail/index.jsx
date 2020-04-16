@@ -51,7 +51,7 @@ class  BasicDetail extends React.Component {
               <div className="yc-wrong-detail">
                 <div>
                   <p className="yc-sec-title">标题:</p>
-                  <Link to={`/sourcePage/1855771`} target="_blank">
+                  <Link to={`/auctionDetail/1855771`} target="_blank">
                     <p className="yc-link-title" style={{ marginLeft:5 }} >
                       { basic.title }
                     </p>
