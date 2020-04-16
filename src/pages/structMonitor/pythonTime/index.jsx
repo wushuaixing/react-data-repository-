@@ -3,7 +3,7 @@ import React from 'react';
 import {message, Select, DatePicker, Spin} from "antd";
 import moment from 'moment';
 import {pythonAmountIn31, structurePython} from "../../../server/api";
-import {dataFilter,getToday} from "../../../utils/common";
+import {filters,getToday} from "../../../utils/common";
 import echarts from 'echarts/lib/echarts';
 import {BreadCrumb} from '../../../components/common'
 // 引入柱状图
@@ -67,7 +67,7 @@ class Index extends React.Component {
   }
 
   onChangeDate=(e)=>{
-    let _date=dataFilter(e);
+    let _date=filters(e);
     this.changeDate(_date);
     this.setState({
       time:_date,

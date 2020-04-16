@@ -3,7 +3,7 @@ import React from 'react';
 import {Form, Input, Button, DatePicker, Cascader, Select, message} from 'antd';
 import {getStructuredPersonnel,getCheckPersonnel} from "../../../server/api";
 import { province } from "../../../assets/province";
-import {dataFilter} from "../../../utils/common";
+import {filters} from "../../../utils/common";
 import 'antd/dist/antd.css';
 import '../../style.scss';
 
@@ -128,8 +128,8 @@ class  Index extends React.Component {
 			page: 1,
 			num: 10,
 		};
-		if(startTime){options.startTime=dataFilter((startTime))}
-		if(endTime){options.endTime=dataFilter((endTime))}
+		if(startTime){options.startTime=filters((startTime))}
+		if(endTime){options.endTime=filters((endTime))}
 		if(userId){
 			options.userId=userId;
 		}

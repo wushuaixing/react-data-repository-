@@ -1,25 +1,23 @@
-/**
- * created by anran on 2020-02-17.
- */
-//日期转换
-const dataFilter=(value)=>{
-		let data = new Date(value);
-		let year = data.getFullYear();
-		let month = data.getMonth() + 1;
-		if (month < 10) {
-			month = "0" + month;
-		}
-		let date = data.getDate();
-		if (date < 10) {
-			date = "0" + date;
-		}
-		return year + "-" + month + "-" + date;
-	};
+//保存公共函数 如过滤器 日期处理等
+import moment from 'moment'
 
+const filters = {
+	//判断输入是否为空  为空返回--
+	blockNullByBar: (input) => {
+		if (input == '' || input == undefined || input == null) {
+			return '--';
+		} else {
+			return input;
+		}
+	},
+	formatStandardDate: (timeStamp) => {
+		return (timeStamp == '' || timeStamp == '--') ? timeStamp : moment(timeStamp).format('YYYY-MM-DD');
+	}
+}
 //获取当日日期
-const getToday=()=>{
-	const today=new Date();
-	const seperator1="-";
+const getToday = () => {
+	const today = new Date();
+	const seperator1 = "-";
 	let year = today.getFullYear();
 	let month = today.getMonth() + 1;
 	let strDate = today.getDate();
@@ -31,9 +29,7 @@ const getToday=()=>{
 	}
 	return year + seperator1 + month + seperator1 + strDate
 };
-/**
- * created by anran on 2020-02-10.
- */
+
 const clone = obj => {
 	var o;
 	// 如果  他是对象object的话  , 因为null,object,array  也是'object';
@@ -62,6 +58,7 @@ const clone = obj => {
 	}
 	return o;
 };
+
 export {
-	dataFilter,getToday,clone
+	getToday, clone, filters
 };

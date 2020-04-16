@@ -2,7 +2,7 @@
 import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table, message, Spin} from 'antd';
 import {Columns} from "../../../static/columns";
-import {dataFilter} from "../../../utils/common";
+import {filters} from "../../../utils/common";
 import {structuredList} from "../../../server/api";
 import {Link, withRouter} from "react-router-dom";
 import {BreadCrumb} from '../../../components/common'
@@ -155,8 +155,8 @@ class  Asset extends React.Component {
 			title: searchTitle,
 		});
 		if(status !== 0){
-			if(startTime){_params.structuredStartTime=dataFilter((startTime))}
-			if(endTime){_params.structuredEndTime=dataFilter((endTime))}
+			if(startTime){_params.structuredStartTime=filters((startTime))}
+			if(endTime){_params.structuredEndTime=filters((endTime))}
 		}
 		this.getApi(_params);
 	};
