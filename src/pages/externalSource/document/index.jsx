@@ -3,7 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { message, Button, Spin } from 'antd';
 import { wenshuDetail } from '../../../server/api';
-import { filters,dateUtils } from "../../../utils/common";
+import { filters, dateUtils } from "../../../utils/common";
 import './style.scss';
 
 class DocumentDetail extends React.Component {
@@ -58,60 +58,58 @@ class DocumentDetail extends React.Component {
 		const { data, ellipsisButtonVisible, loading } = this.state;
 		return (
 			<Spin tip="Loading..." spinning={loading}>
-				<div className="externalSource-document">
-					<div className="container">
-						<div className="container_body">
-							<div className="title">
-								{data.title}
-							</div>
-							<div className="publishTime">
-								<p>发布日期：{dateUtils.formatStandardDate(data.publishTime)}</p>
-							</div>
-							<div className="line" />
-							<div className="content-container">
-								<div dangerouslySetInnerHTML={{ __html: data.content }}></div>
+				<div className="externalSource-document-container">
+					<div className="container_body">
+						<div className="title">
+							{data.title}
+						</div>
+						<div className="publishTime">
+							<p>发布日期：{dateUtils.formatStandardDate(data.publishTime)}</p>
+						</div>
+						<div className="line" />
+						<div className="content-container">
+							<div dangerouslySetInnerHTML={{ __html: data.content }}></div>
+						</div>
+					</div>
+					<div className="container_rightInfo">
+						<textarea />
+						<div>
+							<div className="title">基本信息</div>
+							<div>
+								<div className="message-line">
+									<p className="message-line-left">审理法院:</p>
+									<p className="message-line-right">{filters.blockNullByBar(data.court)}</p>
+								</div>
+								<div className="message-line">
+									<p className="message-line-left">案件类型:</p>
+									<p className="message-line-right">{filters.blockNullByBar(data.caseType)}</p>
+								</div>
+								<div className="message-line">
+									<p className="message-line-left">案由:</p>
+									<p className="message-line-right" >{filters.blockNullByBar(data.reason)}</p>
+								</div>
+								<div className="message-line">
+									<p className="message-line-left">审理程序:</p>
+									<p className="message-line-right">{filters.blockNullByBar(data.trialRound)}</p>
+								</div>
+								<div className="message-line">
+									<p className="message-line-left">裁判日期:</p>
+									<p className="message-line-right">{dateUtils.formatStandardDate(data.trialDate)}</p>
+								</div>
+								<div className="message-line">
+									<p className="message-line-left">当事人:</p>
+									<input type="checkbox" name="toggle" id="toggle" style={{ display: 'none' }} />
+									<p className="message-line-right">{filters.blockNullByBar(data.appellors)}</p>
+									{ellipsisButtonVisible && <label htmlFor="toggle" className="message-line-right" />}
+								</div>
 							</div>
 						</div>
-						<div className="container_rightInfo">
-							<textarea />
-							<div>
-								<div className="title">基本信息</div>
-								<div>
-									<div className="message-line">
-										<p className="message-line-left">审理法院:</p>
-										<p className="message-line-right">{filters.blockNullByBar(data.court)}</p>
-									</div>
-									<div className="message-line">
-										<p className="message-line-left">案件类型:</p>
-										<p className="message-line-right">{filters.blockNullByBar(data.caseType)}</p>
-									</div>
-									<div className="message-line">
-										<p className="message-line-left">案由:</p>
-										<p className="message-line-right" >{filters.blockNullByBar(data.reason)}</p>
-									</div>
-									<div className="message-line">
-										<p className="message-line-left">审理程序:</p>
-										<p className="message-line-right">{filters.blockNullByBar(data.trialRound)}</p>
-									</div>
-									<div className="message-line">
-										<p className="message-line-left">裁判日期:</p>
-										<p className="message-line-right">{dateUtils.formatStandardDate(data.trialDate)}</p>
-									</div>
-									<div className="message-line">
-										<p className="message-line-left">当事人:</p>
-										<input type="checkbox" name="toggle" id="toggle" style={{ display: 'none' }} />
-										<p className="message-line-right">{filters.blockNullByBar(data.appellors)}</p>
-										{ellipsisButtonVisible && <label htmlFor="toggle" className="message-line-right" />}
-									</div>
+						<div>
+							<div className="title">
+								源链接
 								</div>
-							</div>
-							<div>
-								<div className="title">
-									源链接
-								</div>
-								<p className="link" id="link-detail" onClick={() => this.openLink(data.url)}>{data.url}</p>
-								<Button style={{ float: 'right' }} onClick={this.copy}>复制链接</Button>
-							</div>
+							<p className="link" id="link-detail" onClick={() => this.openLink(data.url)}>{data.url}</p>
+							<Button style={{ float: 'right' }} onClick={this.copy}>复制链接</Button>
 						</div>
 					</div>
 				</div>

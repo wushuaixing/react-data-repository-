@@ -1,20 +1,43 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { message,Anchor } from 'antd';
+import { message, Anchor } from 'antd';
 import { htmlDetailInfo } from "../../../server/api";
 import './style.scss';
 
 const { Link } = Anchor;
+const anchors = [
+  {
+    id: 'biddingAnnouncement',
+    title: '竞买公告'
+  },
+  {
+    id: 'subjectMatterIntroduction',
+    title: '标的物介绍'
+  },
+  {
+    id: 'auctionSuccessConfirmation',
+    title: '竞价成功确认书'
+  }
+]
 function AuctionAnchor() {
   return (
     <Anchor
       showInkInFixed={true}
     >
-      <Link href="#basic_usage" title="竞买公告" />
-      <Link href="#static_position" title="标的物介绍" />
-      <Link href="#book" title="竞价成功确认书" />
+      {anchors.map(anchor => <Link href={`#${anchor.id}`} title={anchor.title} key={anchor.id} />)}
     </Anchor>
   );
+}
+
+function AnnounceMentPart(props) {
+  const { index } = props
+  return (
+    <div id={anchors[index].id} className="container_body_eachPart">
+      <div className="line" />
+      <div className="title">{anchors[index].title}</div>
+      <div className="content" dangerouslySetInnerHTML={{ __html: props.html }} />
+    </div>
+  )
 }
 
 
@@ -35,27 +58,24 @@ class Index extends React.Component {
     htmlDetailInfo(auctionID).then(res => {
       if (res.data.code === 200) {
         if (res.data.data) {
-          const { title, url, attachList,
-            biddingAnnouncement, subjectMatterIntroduction } = res.data.data;
+          const { title, url, attachList } = res.data.data;
           let isToHtml, attachUrl;
           attachList.forEach((item) => {
             isToHtml = item.transcodingToHtml;
             attachUrl = item.url;
           });
-
-          let bidding = "<div>" + biddingAnnouncement + "</div>";
-          let subject = "<div>" + subjectMatterIntroduction + "</div>";
-          bidding = this.clearStyle(bidding);
-          subject = this.clearStyle(subject);
+          for (let i = 0; i < anchors.length; i++) {
+            let part_name = anchors[i].id //id是每一部分的名称 比如subjectMatterIntroduction 标的物介绍 将后端传来的html动态赋值合并新属性html
+            let html = this.clearStyle(res.data.data[part_name]) //清理样式 返回html
+            Object.assign(anchors[i], { html })
+          }
 
           this.setState({
             attachList: attachList,
             title: title,
             titleUrl: url,
             isToHtml: isToHtml,
-            attachUrl: attachUrl,
-            biddingHtml: bidding,
-            subjectHtml: subject,
+            attachUrl: attachUrl
           });
         }
       } else {
@@ -74,49 +94,25 @@ class Index extends React.Component {
   };
 
   render() {
-    const { title, isToHtml, attachUrl, attachList, biddingHtml, subjectHtml } = this.state;
-
+    const { title, isToHtml, attachUrl, attachList } = this.state;
     return (
-      <div className="source-page">
-        <div className="source-left">
-          <div className="link-title" onClick={this.open}>
-            {title}
-          </div>
-          <div className="detail">
-            <div id="basic_usage" className="part">
-              <div className="line" />
-              <p style={{ left: 396 }}>竞买公告</p>
-              <div id="bidding-announcement" className="content" dangerouslySetInnerHTML={{ __html: biddingHtml }} />
-              <div style={{ clear: 'both' }} />
-            </div>
-
-            <div id="static_position" className="part">
-              <div className="line" />
-              <p style={{ left: 382 }}>标的物介绍</p>
-              <div id="subject-matter-introduction" className="content" dangerouslySetInnerHTML={{ __html: subjectHtml }} />
-            </div>
-
-            <div id="book" className="part">
-              <div className="line" />
-              <p style={{ left: 382 }}>竞价成功确认书</p>
-              <div style={{ height: 200 }}>
-                1111
-              </div>
-            </div>
-          </div>
+      <div className="externalSource-auction-container">
+        <div className="container_body">
+          <div className="container_body_linkTitle" onClick={this.open}>{title}</div>
+          {anchors.map((anchor, index) => {
+            return <AnnounceMentPart index={index} html={anchor.html} key={index}></AnnounceMentPart>
+          })}
         </div>
-        <div className="source-right">
+        <div className="container_right">
           <div className="accessory">
             <p>附件{!isToHtml && attachUrl && <span style={{ fontSize: 12 }}>(未解析)</span>}</p>
             {!attachUrl && <span style={{ fontSize: 12, display: 'inline-block', marginTop: 6, fontWeight: 500, }}>未找到相关附件</span>}
             <ul>
-              {attachList && attachList.map((item) => {
-                return (
-                  <li onClick={() => this.goToAccessoryDetail}>
-                    {item.name}
-                  </li>
-                )
-              })}
+              {attachList && attachList.map((item, index) =>
+                <li onClick={() => this.goToAccessoryDetail} key={index}>
+                  {item.name}
+                </li>
+              )}
             </ul>
           </div>
           <AuctionAnchor />

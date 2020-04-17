@@ -49,13 +49,12 @@ class Index extends React.Component {
 
       ],
       sourceId:0,
-      now:dateUtils.getTodayDate()
+      now:dateUtils.getTodayDate(true)
     };
   }
 
   componentDidMount() {
     const {sourceId,now}=this.state;
-
     this.getSourceList(sourceId, now);
 
   }

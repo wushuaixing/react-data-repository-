@@ -17,8 +17,8 @@ const dateUtils = {
 		return (timeStamp === '' || timeStamp === '--' || timeStamp === undefined || timeStamp === null) ? timeStamp : moment(timeStamp).format('YYYY-MM-DD');
 	},
 	//获取当日日期
-	getTodayDate() {
-		return moment().format('YYYY-MM-DD');
+	getTodayDate(ifmoment = false) {
+		return (ifmoment) ? moment() : moment().format('YYYY-MM-DD');
 	}
 }
 
