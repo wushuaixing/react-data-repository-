@@ -25,7 +25,7 @@
         line-height: 28px;
         position: absolute;
         top: 0;
-        left:50%;
+        left: 50%;
         transform: translateX(-50%);
         background-color: #fff;
       }
@@ -35,7 +35,7 @@
         border-top: 1px solid #000000;
       }
       .content {
-        margin-top:40px;
+        margin-top: 40px;
         img {
           width: 100%;
         }
@@ -49,47 +49,29 @@
     min-height: 370px;
     position: fixed;
     top: 80px;
-    right:0;
+    right: 0;
     margin-right: calc((100% - 1120px) / 2);
     padding: 24px 20px 10px 20px;
-    .ivu-anchor-wrapper {
-      padding-left: 8px;
-      .ivu-anchor-ink {
-        padding-top: 13px;
-        padding-bottom: 20px;
-        .ivu-anchor-ink-ball {
-          margin-top: 0;
-          z-index: 1;
-          width: 18px;
-          height: 18px;
-          border: 4px solid rgba(203, 221, 236, 0.99);
-          background-color: #337ab7;
-        }
-      }
-      .ivu-anchor-link {
-        padding: 11px 0 8px 16px;
-        text-align: left;
-        font-size: 16px;
-        color: #337ab7;
-        line-height: 16px;
-      }
-    }
     .accessory {
       margin-bottom: 20px;
       text-align: left;
-      p {
+      padding-left: 5px;
+      word-break: break-all;
+      &_title {
+        color: #4d5566;
         font-size: 16px;
-        color: #333333;
-        text-align: justify;
-        line-height: 16px;
-        font-weight: 600;
       }
-      ul {
+      &-notFound {
+        line-height: 20px;
+        color: #7d8699;
+        font-size: 14px;
+      }
+      &-list {
+        padding-left: 5px;
         max-height: 343px;
-        overflow-y: auto;
         width: 170px;
-        margin-top: 12px;
-        li {
+        margin-top: 7px;
+        &_item span:nth-child(1) {
           max-width: 136px;
           margin-bottom: 12px;
           list-style: none;
@@ -97,20 +79,18 @@
           color: #337ab7;
           text-align: justify;
           line-height: 12px;
+          &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+          }
         }
-        li:hover {
-          text-decoration: underline;
-          cursor: pointer;
+        &_item span:nth-child(2){
+          width:50px;
+          background: rgb(176, 184, 194);
+          color:rgb(255, 255, 255);
+          margin-left:5px;  
         }
       }
-    }
-    .gradient {
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 80px;
-      position: absolute;
-      background-image: linear-gradient(rgba(255, 255, 25, 0) 0%, rgba(255, 255, 255, 1) 100%);
     }
   }
 }

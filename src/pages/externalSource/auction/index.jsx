@@ -40,16 +40,22 @@ function AnnounceMentPart(props) {
   )
 }
 
+function AttachListItem(props) {
+  return (
+    <div onClick={props.handleClick} className="accessory-list_item">
+      <span>{props.name}</span>
+      {!props.transcodingToHtml&&<span>未解析</span>}
+    </div>
+  )
+}
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      attachList: [],
-      title: '',
-      titleUrl: '',
-      isToHtml: false,
-      attachUrl: '',
+      title: '', //标题
+      titleUrl: '', //标题链接
+      attachList: []// 存放文件下载列表 包括 附件ID 附件文件名称 是否已转码到HTML 附件URL
     };
   }
 
@@ -57,31 +63,21 @@ class Index extends React.Component {
     const { auctionID } = this.props.match.params;
     htmlDetailInfo(auctionID).then(res => {
       if (res.data.code === 200) {
-        if (res.data.data) {
-          const { title, url, attachList } = res.data.data;
-          let isToHtml, attachUrl;
-          attachList.forEach((item) => {
-            isToHtml = item.transcodingToHtml;
-            attachUrl = item.url;
-          });
-          for (let i = 0; i < anchors.length; i++) {
-            let part_name = anchors[i].id //id是每一部分的名称 比如subjectMatterIntroduction 标的物介绍 将后端传来的html动态赋值合并新属性html
-            let html = this.clearStyle(res.data.data[part_name]) //清理样式 返回html
-            Object.assign(anchors[i], { html })
-          }
-
-          this.setState({
-            attachList: attachList,
-            title: title,
-            titleUrl: url,
-            isToHtml: isToHtml,
-            attachUrl: attachUrl
-          });
+        const data = res.data.data;
+        const { title, url, attachList } = data;
+        for (let i = 0; i < anchors.length; i++) {
+          let part_name = anchors[i].id //id是每一部分的名称 比如subjectMatterIntroduction 标的物介绍 将后端传来的html动态赋值合并新属性html
+          let html = this.clearStyle(data[part_name]) //清理样式 返回html
+          Object.assign(anchors[i], { html })
         }
+        this.setState({
+          attachList,
+          title,
+          titleUrl: url
+        });
       } else {
         message.error(res.data.message);
       }
-
     });
   }
 
@@ -92,31 +88,37 @@ class Index extends React.Component {
       .replace(/font-size: \d{0,2}\.?\d?p[t|x];/g, "");
     return data;
   };
-
+  openTitleUrl() {
+    window.open(this.state.titleUrl)
+  }
+  downloadAttachFile(url){
+    window.open(url)
+  }
   render() {
-    const { title, isToHtml, attachUrl, attachList } = this.state;
+    const { title, attachList } = this.state;
     return (
       <div className="externalSource-auction-container">
         <div className="container_body">
-          <div className="container_body_linkTitle" onClick={this.open}>{title}</div>
+          <div className="container_body_linkTitle" onClick={this.openTitleUrl.bind(this)}>{title}</div>
           {anchors.map((anchor, index) => {
             return <AnnounceMentPart index={index} html={anchor.html} key={index}></AnnounceMentPart>
           })}
         </div>
         <div className="container_right">
           <div className="accessory">
-            <p>附件{!isToHtml && attachUrl && <span style={{ fontSize: 12 }}>(未解析)</span>}</p>
-            {!attachUrl && <span style={{ fontSize: 12, display: 'inline-block', marginTop: 6, fontWeight: 500, }}>未找到相关附件</span>}
-            <ul>
-              {attachList && attachList.map((item, index) =>
-                <li onClick={() => this.goToAccessoryDetail} key={index}>
-                  {item.name}
-                </li>
-              )}
-            </ul>
+            <div className="accessory_title">附件</div>
+            {(attachList.length > 0) ?
+              <div className="accessory-list">
+                {
+                  attachList.map((item, index) =>
+                    <AttachListItem handleClick={this.downloadAttachFile.bind(this,item.url)} name={item.name} key={index} transcodingToHtml={item.transcodingToHtml}></AttachListItem>
+                  )
+                }
+              </div> :
+              <span className="accessory-notFound">未找到相关附件</span>
+            }
           </div>
           <AuctionAnchor />
-          <div className="gradient" />
         </div>
       </div>
     )
