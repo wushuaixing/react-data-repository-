@@ -5,7 +5,7 @@ import StructureAccount from "../pages/accountManagement/structureUser";
 import CheckAccount from "../pages/accountManagement/checkUser";
 import DocumentSearch from "../pages/documentSearch";
 import AssetList from "../pages/assetStructureList/checkAccount";
-import StructureDetail from "../pages/structure/detail";
+import StructureDetail from "../pages/documentDetail";
 import SyncMonitor from "../pages/syncMonitor";
 import StructMonitor from "../pages/structMonitor";
 class ContentMain extends React.Component {
