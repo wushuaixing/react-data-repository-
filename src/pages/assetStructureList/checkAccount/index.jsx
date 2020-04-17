@@ -2,12 +2,11 @@
 import React from 'react';
 import { withRouter} from "react-router-dom";
 import {message, Spin} from 'antd';
-import {getCheckList,adminStructuredList} from "../../server/api";
-import SearchForm from "./searchInfo";
-import CheckTable from "./checkTable";
-import 'antd/dist/antd.css';
-import '../style.scss';
-import {BreadCrumb} from '../../components/common'
+import {getCheckList,adminStructuredList} from "../../../server/api";
+import SearchForm from "../../../components/searchInfo";
+import CheckTable from "../../../components/checkTable";
+import '../../../pages/style.scss';
+import {BreadCrumb} from '../../../components/common'
 let storage = window.localStorage;
 const role = storage.userState;
 let isCheck=true;

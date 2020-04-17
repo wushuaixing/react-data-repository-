@@ -1,11 +1,11 @@
 /** search **/
+
+//筛选栏 管理员能通过地区(省/市/区)以及抓取时间,结构化人员和检查人员进行表格筛选。
 import React from 'react';
 import {Form, Input, Button, DatePicker, Cascader, Select, message} from 'antd';
-import {getStructuredPersonnel,getCheckPersonnel} from "../../../server/api";
-import { province } from "../../../assets/province";
-import {filters} from "../../../utils/common";
-import 'antd/dist/antd.css';
-import '../../style.scss';
+import {getStructuredPersonnel,getCheckPersonnel} from "../../server/api";
+import { province } from "../../assets/province";
+import {filters} from "../../utils/common";
 
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;

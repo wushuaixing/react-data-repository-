@@ -1,7 +1,7 @@
 import React from 'react'
 //引入路由
 import {Route} from 'react-router-dom';
-import AssetList from "../pages/check";
+import AssetList from "../pages/assetStructureList/checkAccount";
 import StructureDetail from "../pages/structure/detail";
 import DocumentSearch from "../pages/documentSearch";
 

@@ -1,10 +1,11 @@
-/** check * */
+/** 5.1 checkTable(资产结构化检查-6个tab栏下的表格-检察人员)
+
+全部/未检查/检查无误/检查错误/已修改/待确认 * */
 import React from 'react';
 import {Link, withRouter} from "react-router-dom";
 import {Tabs, Table, Button} from 'antd';
-import {Columns} from "../../../static/columns";
+import {Columns} from "../../static/columns";
 import 'antd/dist/antd.css';
-import '../../style.scss';
 
 const { TabPane } = Tabs;
 // let storage = window.localStorage;
