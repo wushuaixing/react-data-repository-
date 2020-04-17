@@ -82,13 +82,12 @@ class  Check extends React.Component {
 	//根据status传不同时间类型
 	// checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
 	setTimeType=(status)=>{
- 	 	let option={};
 		 if (status === 0) {
 			 if(isCheck) {
 				 this.setState({
 					 timeType:"结构化时间",
 				 });
-				 return option = {
+				 return {
 					 time: 1,
 					 tab: 0,
 				 }
@@ -96,7 +95,7 @@ class  Check extends React.Component {
 				 this.setState({
 					 timeType:"抓取时间",
 				 });
-				 return option = {
+				 return {
 					 time: 3,
 					 tab: 0,
 				 }
@@ -106,7 +105,7 @@ class  Check extends React.Component {
 				 this.setState({
 					 timeType:"结构化时间",
 				 });
-				 return option={
+				 return {
 					 time:1,
 					 tab:1,
 				 }
@@ -114,7 +113,7 @@ class  Check extends React.Component {
 				 this.setState({
 					 timeType:"抓取时间",
 				 });
-				 return option = {
+				 return {
 					 time: 3,
 					 tab: 6,
 				 }
@@ -124,7 +123,7 @@ class  Check extends React.Component {
 				 this.setState({
 					 timeType:"检查时间",
 				 });
-				 return option = {
+				 return {
 					 time: 2,
 					 tab: 2,
 				 }
@@ -132,7 +131,7 @@ class  Check extends React.Component {
 				 this.setState({
 					 timeType:"结构化时间",
 				 });
-				 return option={
+				 return {
 					 time:1,
 					 tab:1,
 				 }
@@ -142,12 +141,12 @@ class  Check extends React.Component {
 				 timeType:"检查时间",
 			 });
 			 if(isCheck) {
-				 return option = {
+				 return {
 					 time: 2,
 					 tab: 3,
 				 }
 			 }else{
-				 return option = {
+				 return {
 					 time: 2,
 					 tab: 2,
 				 }
@@ -157,7 +156,7 @@ class  Check extends React.Component {
 				 this.setState({
 					 timeType:"修改时间",
 				 });
-				 return option = {
+				 return {
 					 time: 0,
 					 tab: 4,
 				 }
@@ -165,7 +164,7 @@ class  Check extends React.Component {
 				 this.setState({
 					 timeType:"检查时间",
 				 });
-				 return option = {
+				 return {
 					 time: 2,
 					 tab: 3,
 				 }
@@ -175,7 +174,7 @@ class  Check extends React.Component {
 				 this.setState({
 					 timeType:"结构化时间",
 				 });
-				 return option = {
+				 return {
 					 time: 1,
 					 tab: 5,
 				 }
@@ -183,7 +182,7 @@ class  Check extends React.Component {
 				 this.setState({
 					 timeType:"修改时间",
 				 });
-				 return option = {
+				 return {
 					 time: 0,
 					 tab: 4,
 				 }
@@ -215,10 +214,12 @@ class  Check extends React.Component {
 					let data=res.data.data.result || {};
 					if(data.list){
 						let _list=data.list;
+						//待改
 						_list.map((item)=>{
 							let _temp=[];
 							_temp.push(item.status);
 							item.status=_temp;
+							return null;
 						});
 						this.setState({
 							tableList:_list,
@@ -248,10 +249,12 @@ class  Check extends React.Component {
 				if (res.data.code === 200) {
 					if (res.data.data.result) {
 						let _list=res.data.data.result.list;
+						//待改
 						_list.map((item)=>{
 							let _temp=[];
 							_temp.push(item.status);
 							item.status=_temp;
+							return null;
 						});
 						this.setState({
 							tableList:_list,

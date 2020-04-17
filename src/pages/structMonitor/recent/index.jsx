@@ -26,7 +26,6 @@ class Index extends React.Component {
       lastRest: 0,
       allLast: 0,
       after18: 0,
-      newData: 0,
       tagPercent: 0,
       loading: false,
     };
@@ -66,9 +65,9 @@ class Index extends React.Component {
         const { lastDayNewComeLast, newCome, before18, after18
           , underTaskStructured, allStructured, last, allLast } = res.data.data;
         const remainLast = parseInt(lastDayNewComeLast);
-        const numLast = parseInt(remainLast);
-        const numBefore = parseInt(before18);
-        const newData = numLast + numBefore;
+        //const numLast = parseInt(remainLast);
+        //const numBefore = parseInt(before18);
+        //const newData = numLast + numBefore;
         //接口数据
         // if(newData===0){
         //   this.drawRingPIe(0);

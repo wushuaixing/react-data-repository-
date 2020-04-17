@@ -3,8 +3,8 @@ import moment from 'moment'
 
 const filters = {
 	//判断输入是否为空  为空返回--
-	blockNullByBar(input){
-		if (input == '' || input == undefined || input == null) {
+	blockNullByBar(input) {
+		if (input === '' || input === undefined || input === null) {
 			return '--';
 		} else {
 			return input;
@@ -13,11 +13,11 @@ const filters = {
 }
 const dateUtils = {
 	//时间戳转换为标准日期	
-	formatStandardDate(timeStamp){
-		return (timeStamp == '' || timeStamp == '--') ? timeStamp : moment(timeStamp).format('YYYY-MM-DD');
+	formatStandardDate(timeStamp) {
+		return (timeStamp === '' || timeStamp === '--' || timeStamp === undefined || timeStamp === null) ? timeStamp : moment(timeStamp).format('YYYY-MM-DD');
 	},
 	//获取当日日期
-	getTodayDate(){
+	getTodayDate() {
 		return moment().format('YYYY-MM-DD');
 	}
 }
@@ -52,5 +52,5 @@ const clone = obj => {
 };
 
 export {
-	clone, filters , dateUtils
+	clone, filters, dateUtils
 };

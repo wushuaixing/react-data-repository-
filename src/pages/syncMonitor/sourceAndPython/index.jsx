@@ -164,8 +164,6 @@ class Index extends React.Component {
     let dataEveryMore=[];
     let dataEveryLess=[];
     let diffAllCount=[];
-    let ifAllData=false;
-    let ifDiffData=false;
     for (let key in data ){
       diffAllCount.push([
         data[key].date,
@@ -190,12 +188,6 @@ class Index extends React.Component {
           data[key].date,
           data[key].diffNegative
         ]);
-      }
-      if(data[key].sourceCount>0){
-        ifAllData=true;
-      }
-      if(data[key].diffAllCount>0){
-        ifDiffData=true;
       }
     }
     lineSP.setOption({

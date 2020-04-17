@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Locale,ConfigProvider } from 'antd';
+import { ConfigProvider } from 'antd';
 import zh_CN from 'antd/es/locale-provider/zh_CN';
 import moment from 'moment';
 import 'moment/locale/zh-cn';

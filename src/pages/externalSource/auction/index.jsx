@@ -67,10 +67,9 @@ class Index extends React.Component {
 
   clearStyle = (data) => {
     data = data
-      .replace(/background\: \#[a-zA-Z0-9]{6}\;/g, "")
-      .replace(/color\: \#[a-zA-Z0-9]{6}\;/g, "")
-      //.replace(/font\-weight\: bolder\;/g, "font-weight: inherit")
-      .replace(/font\-size\: \d{0,2}\.?\d?p[t|x]\;/g, "");
+      .replace(/background: #[a-zA-Z0-9]{6};/g, "")
+      .replace(/color: #[a-zA-Z0-9]{6};/g, "")
+      .replace(/font-size: \d{0,2}\.?\d?p[t|x];/g, "");
     return data;
   };
 

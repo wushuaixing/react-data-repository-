@@ -92,7 +92,7 @@ class topMenu extends React.Component {
 							<input type="password" />
 						</form>
 						<Dropdown className="user-drop" overlay={menu} trigger={['click']}>
-							<a className="dropdown-link" href="#" style={{marginRight:10}}>
+							<a className="dropdown-link" href="" style={{marginRight:10}}>
 								Hi, {user} <Icon type="down" />
 							</a>
 						</Dropdown>

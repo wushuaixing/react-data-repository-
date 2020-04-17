@@ -40,9 +40,9 @@ class Index extends React.Component {
 					width: 180,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)}>编辑</a>
-							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)}>重置密码</a>
-							<a onClick={() => this.deleteUser(record.id)}>删除</a>
+							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)} href="">编辑</a>
+							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)} href="">重置密码</a>
+							<a onClick={() => this.deleteUser(record.id)} href="">删除</a>
 						</span>
 					),
 				}

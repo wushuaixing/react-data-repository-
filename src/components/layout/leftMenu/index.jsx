@@ -117,6 +117,9 @@ class Sider extends React.Component {
               item.id === 21 || item.id === 22){
               return this.renderMenuItem(item)
             }
+            else{
+              return null;
+            }
           })
         }
       </Menu.SubMenu>

@@ -268,7 +268,7 @@ class Login extends React.Component {
 												valuePropName: 'checked',
 												initialValue: true,
 											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12 }}>下次自动登录</Checkbox>)}
-											<a className="yc-forget" href="#" onClick={this.switchToFindPassword} style={{ marginLeft: 145, display: 'none' }}>
+											<a className="yc-forget" href="" onClick={this.switchToFindPassword} style={{ marginLeft: 145, display: 'none' }}>
 												忘记密码
 										</a>
 											<Button type="primary" htmlType="submit" className="yc-login-button">
@@ -374,7 +374,7 @@ class Login extends React.Component {
 											)}
 										</Form.Item>
 										<Form.Item style={{ marginTop: -25 }}>
-											<a className="yc-forget" href="#" onClick={this.ifFindPsw} style={{ marginLeft: 270 }}>
+											<a className="yc-forget" href="" onClick={this.ifFindPsw} style={{ marginLeft: 270 }}>
 												返回登录
 										</a>
 											<Button type="primary" htmlType="submit" className="yc-login-button" style={{ marginTop: -20 }}>

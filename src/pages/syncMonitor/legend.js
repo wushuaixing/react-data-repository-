@@ -20,8 +20,10 @@ export const Legend=[
 					compareCount = PieData[i].sourceCompare;
 					if (compareCount < 0) {
 						compareCount = Math.abs(compareCount);
+						//legendEnd = `{a|${name}}&nbsp;`
 						legendEnd = '{a|' + name + '}' + '  ' + '{b|' + count + '}' + '  ' + '条' + '  ' + '少' + '  ' + '{c|' + compareCount + '}' + '  ' + '条';
 					} else {
+						
 						legendEnd = '{a|' + name + '}' + '  ' + '{b|' + count + '}' + '  ' + '条' + '  ' + '多' + '  ' + '{c|' + compareCount + '}' + '  ' + '条';
 					}
 				}
