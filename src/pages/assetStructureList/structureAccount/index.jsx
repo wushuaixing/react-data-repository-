@@ -18,7 +18,8 @@ function WaitUpdateTab(props={waitNum:0}) {
 class Asset extends React.Component {
 	constructor(props) {
 		super(props);
-		this.ifUpdateWaitNumber = true// 第一次搜索需要额外请求待修改数量接口  
+		this.ifUpdateWaitNumber = true// 第一次搜索需要额外请求待修改数量接口
+		this.storeWaitMarkDataList = []//在没有任何筛选条件 待标记的资产结构化列表数据  当waitNum和此变量同时为0 button变成可以点击
 		this.state = {
 			num: 10,
 			page: 1,
@@ -27,12 +28,12 @@ class Asset extends React.Component {
 			waitNum: 0,   //待修改tab 后边的红色数字
 			status: 0,  //所处statusTab 0.待标记 1.已标记 2.待修改  antdesign要求strign 后端接口是int
 			loading: false,
-			buttonDisabled:true
+			buttonDisabled:false,
 		};
 	}
 
 	componentDidMount() {
-		//详情页跳回路由
+		//详情页跳回路由 如果是从待标记这跳回来 那存在刚修改完最后一条数据 所以button要变成能点击样式
 		if (this.props.location.state) {
 			let { statusPath, pagePath, Id } = this.props.location.state;
 			let _status = parseInt(statusPath);
@@ -51,24 +52,42 @@ class Asset extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		structuredList(params).then((res) => {
-			if (res.data.code === 200) {
+		//如果是第一次则需要同时得到两个promise接口返回 以决定Button 点击样式
+		if(this.ifUpdateWaitNumber){
+			this.ifUpdateWaitNumber = false
+			//this.getWaitNum()
+			Promise.all([structuredList(params),structuredCheckErrorNum()]).then((values)=>{
+				let res = values[0]
+				let waitNum = values[1].data.data
 				this.setState({
 					tableList: res.data.data,
 					total: res.data.total,
 					status: params.approveStatus,
-					loading: false
+					loading: false,
+					waitNum,
+					buttonDisabled:(res.data.total===0&&waitNum===0)?false:true
 				});
-			}
-		})
-		if(this.ifUpdateWaitNumber){
-			this.ifUpdateWaitNumber = false
-			this.getWaitNum()
+			}) 
+		}else{
+			structuredList(params).then((res) => {
+				if (res.data.code === 200) {
+					this.setState({
+						tableList: res.data.data,
+						total: res.data.total,
+						status: params.approveStatus,
+						loading: false
+					});
+				}
+			})
 		}
+		/* 
+		Promise.all([structuredList(),structuredCheckErrorNum()]).then((values)=>{
+			console.log(values)
+		}) */
 	};
 
 	//换页或者切tab 获取表格展示数据  tab值和页数  不用更新待修改数量
-	getTableList = (approveStatus, page = 1) => {
+	getTableList = (approveStatus=0, page = 1) => {
 		let params = {
 			approveStatus, //传Int
 			page,
@@ -120,8 +139,9 @@ class Asset extends React.Component {
 		getNewStructuredData().then((res) => {
 			this.setState({
 				loading: false,
+				status:0
 			});
-			console.log(res.data)
+			this.getTableList(0)
 		})
 	}
 	//获取待修改列表数量
