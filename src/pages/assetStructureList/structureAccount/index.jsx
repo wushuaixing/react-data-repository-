@@ -3,10 +3,10 @@ import React from 'react';
 import { Form, Input, Button, DatePicker, Tabs, Table, message, Spin } from 'antd';
 import { Columns } from "../../../static/columns";
 import { filters } from "../../../utils/common";
-import { structuredList } from "../../../server/api";
+import createPaginationProps from "../../../utils/pagination";
+import { structuredList,getNewStructuredData,structuredCheckErrorNum } from "../../../server/api";
 import { Link, withRouter } from "react-router-dom";
 import { BreadCrumb } from '../../../components/common'
-import 'antd/dist/antd.css';
 
 // ==================
 // 所需的所有组件
@@ -14,6 +14,17 @@ import 'antd/dist/antd.css';
 const { TabPane } = Tabs;
 
 const searchForm = Form.create;
+function AssetStructureTabTable(props) {
+	return (
+		<Table rowClassName="table-list"
+			columns={props.columnsRevise}
+			dataSource={props.tableList}
+			rowKey={record => record.id}
+			onChange={props.onChangePage}
+			pagination={props.paginationProps}
+		/>
+	)
+}
 
 
 class Asset extends React.Component {
@@ -23,9 +34,9 @@ class Asset extends React.Component {
 			num: 10,
 			page: 1,
 			total: '',
-			tableList: [],
-			waitNum: 0,
-			status: '',
+			tableList: [],  //表格数据
+			waitNum: 0,   //待修改tab 后边的红色数字
+			status: '',  //所处statusTab 0.待标记 1.已标记 2.待修改
 			loading: false,
 		};
 	}
@@ -48,28 +59,6 @@ class Asset extends React.Component {
 		this.getWaitNum();
 
 	};
-
-	getWaitNum = () => {
-		this.setState({
-			loading: true,
-		});
-		structuredList({
-			approveStatus: 2,
-			num: 10,
-			page: 1,
-		}).then(res => {
-			if (res.data.code === 200) {
-				this.setState({
-					loading: false,
-					waitNum: res.data.total,
-				});
-			} else {
-				message.error(res.data.message);
-			}
-		});
-
-	};
-
 	getApi = (params) => {
 		this.setState({
 			loading: true,
@@ -82,12 +71,13 @@ class Asset extends React.Component {
 				let _list = res.data.data;
 
 				//这里还得改  map函数不应该用这   暂时写个返回值
-				_list.map(function(item){
+				_list.map(function (item) {
 					let _temp = [];
 					_temp.push(item.status);
 					item.status = _temp;
 					return null;
 				});
+				console.log(params)
 				this.setState({
 					tableList: _list,
 					total: res.data.total,
@@ -110,7 +100,6 @@ class Asset extends React.Component {
 	getTableList = (approveStatus, page) => {
 		let params = {
 			approveStatus: approveStatus,
-			num: 10,
 			page: page,
 		};
 		let _index = approveStatus.toString();
@@ -129,8 +118,7 @@ class Asset extends React.Component {
 		} else if (key === "1") {
 			this.getTableList(1, 1);
 		} else if (key === "2") {
-			let ifWait = true;
-			this.getTableList(2, 1, ifWait);
+			this.getTableList(2, 1);
 		}
 	};
 
@@ -151,7 +139,6 @@ class Asset extends React.Component {
 			approveStatus: '',
 			title: '',
 			page: 1,
-			num: 10,
 			tabIndex: "0"
 		};
 		let _params = Object.assign(params, {
@@ -171,11 +158,27 @@ class Asset extends React.Component {
 		const { status } = this.state;
 		this.getTableList(status, 1);
 	};
-
+	getNewStructureData(){
+		this.setState({
+			loading: true,
+		});
+		getNewStructuredData().then((res)=>{
+			this.setState({
+				loading: false,
+			});
+		})
+	}
+	getWaitNum = () => {
+		structuredCheckErrorNum().then((res)=>{
+			this.setState({
+				waitNum:res.data.data
+			})
+		})
+	};
 	render() {
+		
 		const { getFieldDecorator } = this.props.form;
 		const { tableList, total, waitNum, page, status, tabIndex, loading } = this.state;
-		//待标记无时间搜索
 		let timeSearch = false;
 		if (status !== 0) { timeSearch = true }
 		const columns = [
@@ -222,18 +225,10 @@ class Asset extends React.Component {
 
 			}
 		];
-		const paginationProps = {
-			current: page,
-			showQuickJumper: true,
-			total: total, // 数据总数
-			pageSize: 10, // 每页条数
-			showTotal: (() => {
-				return `共 ${total} 条`;
-			}),
-		};
+		const paginationProps = createPaginationProps(page,total)
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['资产结构化']} buttonText={'获取新数据'}></BreadCrumb>
+				<BreadCrumb texts={['资产结构化']} buttonText={'获取新数据'} handleClick={this.getNewStructureData.bind(this)}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
 						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{ marginLeft: 10, marginTop: 15 }}>
@@ -283,7 +278,6 @@ class Asset extends React.Component {
 									<Table rowClassName="table-list"
 										columns={columns}
 										dataSource={tableList}
-										style={{ margin: 10, }}
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
 										pagination={paginationProps}
@@ -293,7 +287,6 @@ class Asset extends React.Component {
 									<Table rowClassName="table-list"
 										columns={columnsRevise}
 										dataSource={tableList}
-										style={{ margin: 10 }}
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
 										pagination={paginationProps}
@@ -303,7 +296,6 @@ class Asset extends React.Component {
 									<Table rowClassName="table-list"
 										columns={columnsRevise}
 										dataSource={tableList}
-										style={{ margin: 10 }}
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
 										pagination={paginationProps}

@@ -298,3 +298,11 @@ export const structurePython=(type,date)=> {
 export const pythonAmountIn31=(type)=> {
 	return axios.get("/api/statistical/assetDataCrawlingTimeDistributeAssistDetailsVO?type="+ type);
 };
+
+
+export const  getNewStructuredData = ()=>{
+	return axios.get("/api/asset/structured/control/getNewStructuredData");
+}
+export const  structuredCheckErrorNum = ()=>{
+	return axios.get("/api/asset/structured/control/structuredCheckErrorNum");
+}

@@ -2,7 +2,7 @@ import React from 'react'
 //引入路由
 import { Route } from 'react-router-dom';
 import DocumentSearch from "../pages/documentSearch";
-import Asset from "../pages/structure/assetStruc";
+import Asset from "../pages/assetStructureList/structureAccount";
 import StructureDetail from "../pages/documentDetail";
 
 class ContentMain extends React.Component {
