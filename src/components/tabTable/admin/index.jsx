@@ -6,7 +6,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Tabs, Table, Button } from 'antd';
 import { Columns } from "../../../static/columns";
 import createPaginationProps from "../../../utils/pagination";
-
+import { AssetTabTextWithNumber } from '../../../components/common'
 const { TabPane } = Tabs;
 
 class TabTable extends React.Component {
@@ -103,7 +103,6 @@ class TabTable extends React.Component {
                 ),
             }
         ];
-        console.log(this.props)
         return (
             <div>
                 <Tabs activeKey={tabIndex} onChange={this.changeTab} animated={false}>
@@ -143,9 +142,7 @@ class TabTable extends React.Component {
                             onChange={this.onTablePageChange}
                         />
                     </TabPane>
-                    <TabPane tab={
-                        <span>检查错误<span style={{ color: 'red', marginLeft: 2 }}>({checkErrorNum})</span></span>}
-                        key="4">
+                    <TabPane tab={<AssetTabTextWithNumber text={"检查错误"} num={checkErrorNum}/>} key="4">
                         <Table rowClassName="table-list"
                             columns={columnsCheckAdmin}
                             dataSource={data}
@@ -154,9 +151,7 @@ class TabTable extends React.Component {
                             onChange={this.onTablePageChange}
                         />
                     </TabPane>
-                    <TabPane tab={<span>已修改<span style={{ color: 'red', marginLeft: 2 }}>({editNum})</span></span>
-                    }
-                        key="5">
+                    <TabPane tab={<AssetTabTextWithNumber text={"已修改"} num={editNum}/>} key="5">
                         <Table rowClassName="table-list"
                             columns={columnsReviseAdmin}
                             dataSource={data}

@@ -48,35 +48,40 @@ export const Columns = [
 		width: 180,
 		render: (status) => (
 			<span>
-				{status.map((item, index) => {
-					let color = 'default';
-					let text = '';
-					if (item === 1) {
-						color = 'default';
-						text = '未检查';
-					}
-					else if (item === 2) {
-						color = 'success';
-						text = '检查无误';
-					} else if (item === 3) {
-						color = 'error';
-						text = '检查错误';
-					}
-					else if (item === 4) {
-						color = 'success';
-						text = '已修改';
-					}
-					else if (item === 5) {
-						color = 'error';
-						text = '待确认';
-					} else {
-						color = 'default';
-						text = '未标记';
-					}
-					return (
-						<Badge status={color} text={text} key={index} />
-					);
-				})}
+				{
+					(() => {
+						let color = 'default';
+						let text = '';
+						switch (status) {
+							case 1:
+								text = '未检查';
+								break;
+							case 2:
+								color = 'success';
+								text = '检查无误';
+								break;
+							case 3:
+								color = 'error';
+								text = '检查错误';
+								break;
+							case 4:
+								color = 'success';
+								text = '已修改';
+								break;
+							case 5:
+								color = 'error';
+								text = '待确认';
+								break;
+							default:
+								text = '未标记'
+								break;
+						}
+						return (
+							<Badge status={color} text={text} />
+						);
+					})()
+				}
+
 			</span>
 		),
 	},
