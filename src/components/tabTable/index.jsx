@@ -5,14 +5,11 @@ import React from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { Tabs, Table, Button } from 'antd';
 import { Columns } from "../../static/columns";
+import createPaginationProps from "../../utils/pagination";
 
 const { TabPane } = Tabs;
 
-
-
-
-
-class CheckTable extends React.Component {
+class TabTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -56,16 +53,7 @@ class CheckTable extends React.Component {
 
 	render() {
 		const { tableList, waitNum, checkErrorNum, editNum, total, currentPage, isCheck, tabIndex, status } = this.state;
-		// console.log(currentPage,typeof(currentPage));
-		const paginationProps = {
-			current: currentPage,
-			showQuickJumper: true,
-			total: total, // 数据总数
-			pageSize: 10, // 每页条数
-			showTotal: (() => {
-				return `共 ${total} 条`;
-			}),
-		};
+		const paginationProps = createPaginationProps(currentPage, total)
 		const columnsStructure = [
 			{
 				title: "结构化时间",
@@ -306,4 +294,4 @@ class CheckTable extends React.Component {
 		);
 	}
 }
-export default withRouter(CheckTable);
+export default withRouter(TabTable);

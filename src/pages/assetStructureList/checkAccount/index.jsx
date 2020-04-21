@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { message, Spin } from 'antd';
 import { getCheckList, adminStructuredList } from "../../../server/api";
 import SearchForm from "../../../components/searchInfo";
-import CheckTable from "../../../components/checkTable";
+import TabTable from "../../../components/tabTable";
 import '../../../pages/style.scss';
 import { BreadCrumb } from '../../../components/common'
 
@@ -340,7 +340,7 @@ class Check extends React.Component {
 					<p className="line" />
 					<div className="yc-tab">
 						<Spin tip="Loading..." spinning={loading}>
-							<CheckTable page={page}
+							<TabTable page={page}
 								status={status}
 								tabIndex={tabIndex}
 								total={total}

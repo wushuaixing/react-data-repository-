@@ -19,7 +19,7 @@ class index extends React.Component {
                         case '检查人员':
                             return <CheckTabTable></CheckTabTable>
                         case '管理员':
-                            return <CheckTabTable></CheckTabTable>
+                            return <AdminTabTable></AdminTabTable>
                         default:
                             return null;
                     }

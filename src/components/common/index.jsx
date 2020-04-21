@@ -34,15 +34,30 @@ function SearchAndClearButtonGroup(props) {
             <Button type="primary" htmlType="submit" className="yc-components-searchAndClearButtonGroup_search" >
                 搜索
             </Button>
-            <Button type="default"  onClick={props.handleClearSearch} className="yc-components-searchAndClearButtonGroup_clear">
+            <Button type="default" onClick={props.handleClearSearch} className="yc-components-searchAndClearButtonGroup_clear">
                 清空搜索条件
             </Button>
         </div>
     )
 }
 
+//Tab上面的文字说明  主要有两种 一种是常规文字 另外一种是带红色数字提示
+function AssetTabTextWithNumber(props = { num: null, text: '' }) {
+    if (props.num!=null) {
+        return (
+            <span>{props.text}<span className="yc-components-assetTabTextWithNumber">({props.num})</span></span>
+        )
+    } else {
+        return (
+            <span>{props.text}</span>
+        )
+    }
+}
+
+
 export {
     HotDotBeforeFormItem,
     BreadCrumb,
-    SearchAndClearButtonGroup
+    SearchAndClearButtonGroup,
+    AssetTabTextWithNumber
 }

@@ -4,8 +4,7 @@ import { Columns } from "../../../static/columns";
 import createPaginationProps from "../../../utils/pagination";
 import { structuredList, getNewStructuredData, structuredCheckErrorNum } from "../../../server/api";
 import { Link, withRouter } from "react-router-dom";
-import { BreadCrumb, SearchAndClearButtonGroup } from '../../../components/common'
-import resolve from 'resolve';
+import { BreadCrumb, SearchAndClearButtonGroup,AssetTabTextWithNumber } from '../../../components/common'
 const { TabPane } = Tabs;
 
 const searchForm = Form.create;
@@ -276,7 +275,7 @@ class Asset extends React.Component {
 										pagination={paginationProps}
 									/>
 								</TabPane>
-								<TabPane tab={<WaitUpdateTab waitNum={waitNum} />} key="2">
+								<TabPane tab={<AssetTabTextWithNumber num={waitNum} text={'待修改'}/>} key="2">
 									<Table rowClassName="table-list"
 										columns={columnsRevise}
 										dataSource={tableList}
