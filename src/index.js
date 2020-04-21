@@ -8,6 +8,7 @@ import App from './pages/App';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 
+
 moment.locale('zh-cn');
 
 ReactDOM.render(

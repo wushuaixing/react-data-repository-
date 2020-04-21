@@ -23,6 +23,8 @@
     "css-loader": "2.1.1",
     "dotenv": "6.2.0",
     "dotenv-expand": "5.1.0",
+    "dva": "^2.4.1",
+    "dva-loading": "^3.0.20",
     "echarts": "4.5",
     "eslint": "^6.1.0",
     "eslint-config-react-app": "^5.0.2",
@@ -76,12 +78,12 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "run":" cd build && anywhere 8858"
+    "run": " cd build && anywhere 8858"
   },
   "eslintConfig": {
     "extends": "react-app",
-    "rules":{
-      "jsx-a11y/anchor-is-valid":"off"
+    "rules": {
+      "jsx-a11y/anchor-is-valid": "off"
     }
   },
   "browserslist": {
