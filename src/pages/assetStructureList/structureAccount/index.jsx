@@ -8,12 +8,6 @@ import { BreadCrumb, SearchAndClearButtonGroup,AssetTabTextWithNumber } from '..
 const { TabPane } = Tabs;
 
 const searchForm = Form.create;
-function WaitUpdateTab(props = { waitNum: 0 }) {
-	return (
-		<span>待修改<span style={{ color: 'red', marginLeft: 2 }}>({props.waitNum})</span></span>
-	)
-}
-
 
 class Asset extends React.Component {
 	constructor(props) {
@@ -97,6 +91,8 @@ class Asset extends React.Component {
 				return 'bidNum';
 			case 2:
 				return 'modNum';
+			default:
+				return '';
 		}
 	}
 	//换页或者切tab 获取表格展示数据  tab值和页数  不用更新待修改数量

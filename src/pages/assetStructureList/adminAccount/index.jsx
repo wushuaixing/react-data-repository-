@@ -1,232 +1,183 @@
 /** check * */
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { message, Spin } from 'antd';
-import { getCheckList, adminStructuredList } from "../../../server/api";
+import { Spin } from 'antd';
+import { adminStructuredList } from "../../../server/api";
 import SearchForm from "../../../components/searchInfo";
 import AdminTable from "../../../components/tabTable/admin";
 import '../../../pages/style.scss';
 import { BreadCrumb } from '../../../components/common';
-let isCheck = (window.localStorage.userState === '管理员') ? false : true;
-
 
 class Admin extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            num: 10,
-            page: 1,
-            total: 0,
-            currentPage: 1,
-            tableList: [],
-            waitNum: 0,
-            editNmu: 0,
-            checkErrorNum: 0,
-            status: 0,
-            tabIndex: "0",
-            personnelList: [],
-            timeType: "结构化时间",
-            loading: false,
-        };
+    state = {
+        page: 1,
+        total: 0,
+        tableList: [],
+        editNmu: 0,  //已修改数字
+        checkErrorNum: 0,  //检查错误列数字
+        tabIndex: 0, //tab所在页
+        loading: false,
+    };
+    //根据所处tabIndex获取搜索时间栏的文字显示内容 然后传给搜索栏子组件
+    get searchTimeTypeInput() {
+        switch (this.state.tabIndex) {
+            case 0: case 1:
+                return '抓取时间';
+            case 2:
+                return '结构化时间';
+            case 3: case 4:
+                return '检查时间'
+            case 5:
+                return '修改时间'
+            default:
+                return ''
+        }
     }
 
     componentDidMount() {
-        const { status } = this.state;
+        const { tabIndex } = this.state;
         //详情页跳回路由
-        if (this.props.location.state) {
-            let { statusPath, pagePath, tabPath } = this.props.location.state;
-            let _status = parseInt(tabPath);
-
-            const option = this.setTimeType(_status);
-            this.setState({
-                tabIndex: tabPath,
-            });
-            let params = {
-                status: option.tab,
-                num: 10,
-                page: pagePath,
-                checkType: option.time,
-            };
-            this.getTableList(params);
-            if (!isCheck) {
-                this.setState({
-                    status: statusPath,
-                })
-            }
-        }
-        else {
-            const option = this.setTimeType(status);
-            let params = {
-                status: option.tab,
-                num: 10,
-                page: 1,
-                checkType: option.time,
-            };
-            this.getTableList(params);
-        }
+        const option = this.setTimeType(tabIndex);
+        let params = {
+            status: option.status,
+            checkType: option.checkType,
+        };
+        this.getTableList(params);
     };
     //根据status传不同时间类型
-    // checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
-    setTimeType = (status) => {
-        if (status === 0) {
-            this.setState({
-                timeType: "抓取时间",
-            });
+    // checkType = checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
+    // status 0：全部 1：未检查 2：检查无误 3：检查错误 4：已修改 5：待确认 6:未标记
+    setTimeType = (tabIndex) => {
+        if (tabIndex === 0) {
             return {
-                time: 3,
-                tab: 0,
+                checkType: 3,
+                status: 0,
             }
-        } else if (status === 1) {
-            this.setState({
-                timeType: "抓取时间",
-            });
+        } else if (tabIndex === 1) {
             return {
-                time: 3,
-                tab: 6,
+                checkType: 3,
+                status: 6,
             }
-        } else if (status === 2) {
-            this.setState({
-                timeType: "结构化时间",
-            });
+        } else if (tabIndex === 2) {
             return {
-                time: 1,
-                tab: 1,
+                checkType: 1,
+                status: 1,
             }
-        } else if (status === 3) {
-            this.setState({
-                timeType: "检查时间",
-            });
+        } else if (tabIndex === 3) {
             return {
-                time: 2,
-                tab: 2,
+                checkType: 2,
+                status: 2,
             }
-        } else if (status === 4) {
-            this.setState({
-                timeType: "检查时间",
-            });
+        } else if (tabIndex === 4) {
             return {
-                time: 2,
-                tab: 3,
+                checkType: 2,
+                status: 3,
             }
-        } else if (status === 5) {
-            this.setState({
-                timeType: "修改时间",
-            });
+        } else if (tabIndex === 5) {
             return {
-                time: 0,
-                tab: 4,
+                checkType: 0,
+                status: 4,
             }
         }
 
     };
-
+    //根据tabIndex获取参数 合并参数  设置默认tabIndex,仅当切换新tab 需要传递新tab进来  当换页传新param 包括page等
+    getParamsByTabIndex({tabIndex = this.state.tabIndex, extraParams} = {}) {
+        //判断page参数是否有
+        const params = (arguments[0].extraParams) ? Object.assign({}, extraParams) : {}
+        //根据不同的tabIndex 设置参数
+        switch (tabIndex) {
+            case 0:
+                params.checkType = 3; params.status = 0; break;
+            case 1:
+                params.checkType = 3; params.status = 6; break;
+            case 2:
+                params.checkType = 1; params.status = 1; break;
+            case 3:
+                params.checkType = 2; params.status = 2; break;
+            case 4:
+                params.checkType = 2; params.status = 3; break;
+            case 5:
+                params.checkType = 0; params.status = 4; break;
+            default:
+                break;
+        }
+        return params;
+    }
+    //改完
     getTableList = (params) => {
         this.setState({
-            status: params.status,
             loading: true,
         })
         adminStructuredList(params).then(res => {
-            this.setState({
-                loading: false,
-            });
-            if (res.data.code === 200 && res.data.data.result) {
-                let _list = res.data.data.result.list;
-                //待改
-                console.log(_list)
-                _list.map((item) => {
-                    let _temp = [];
-                    _temp.push(item.status);
-                    item.status = _temp;
-                    return null;
-                });
-                
-                this.setState({
-                    tableList: _list,
-                    total: res.data.data.result.total,
-                    checkErrorNum: res.data.data.checkErrorNum,
-                    editNum: res.data.data.alreadyEditedNum,
-                    page: res.data.data.result.page,
-                });
+            //判断状态码 判断结果是否存在 
+            if (res.data.code === 200) {
+                return res.data.data;
             } else {
-                message.error(res.data.message);
+                Promise.reject('请求出错')
             }
-        });
+        }).then((dataObject) => {
+            this.setState({
+                checkErrorNum: dataObject.checkErrorNum,
+                editNum: dataObject.alreadyEditedNum,
+                tableList: (dataObject.result) ? dataObject.result.list : [], //为空
+                total: (dataObject.result) ? dataObject.result.total : 0,
+                page: (dataObject.result) ? dataObject.result.page : 1,
+                loading: false
+            });
+        })
     };
 
     // 搜索框
     handleSearch = data => {
-        const { status } = this.state;
+        const { tabIndex } = this.state;
         let params = data;
-
-        const option = this.setTimeType(status);
-        params.checkType = option.time;
-        if (isCheck) {
-            this.getTableList(params);
-        }
-        else {
-            this.getTableList(params);
-        }
+        const option = this.setTimeType(tabIndex);
+        params.checkType = option.checkType;
+        this.getTableList(params);
 
     };
 
     //清空搜索条件
-    clearSearch = (status) => {
-        const option = this.setTimeType(status);
+    clearSearch = (tabIndex) => {
+        console.log(tabIndex)
+        const option = this.setTimeType(tabIndex);
         let params = {
-            status: option.tab,
-            num: 10,
-            page: 1,
-            checkType: option.time,
+            status: option.status,
+            checkType: option.checkType,
         };
         this.getTableList(params);
     };
 
-    //切换Tab
+    //切换Tab 改完
     changeTab = (key) => {
         const _key = parseInt(key);
-        const option = this.setTimeType(_key);
-        let params = {
-            status: option.tab,
-            num: 10,
-            page: 1,
-            checkType: option.time,
-        };
+        const params = this.getParamsByTabIndex({tabIndex:_key});
         this.getTableList(params);
-        const _tabIndex = _key.toString();
         this.setState({
-            tabIndex: _tabIndex,
+            tabIndex: _key
         });
-        if (!isCheck) {
-            this.setState({
-                status: _key,
-            })
-        }
     };
 
-    //换页
-    onTablePageChange = (num) => {
+    //换页 改完 
+    onTablePageChange = (page) => {
         const { tabIndex } = this.state;
-        const _tabIndex = parseInt(tabIndex);
-        const option = this.setTimeType(_tabIndex);
-        let params = {
-            status: option.tab,
-            num: 10,
-            page: num,
-            checkType: option.time,
-        };
-
+        let params = this.getParamsByTabIndex({extraParams:{page},tabIndex})
         this.getTableList(params);
+        this.setState({
+            page
+        })
     };
 
     render() {
-        const { tableList, waitNum, checkErrorNum, editNum, timeType, total, page, status, tabIndex, loading } = this.state;
+        const { tableList, checkErrorNum, editNum, total, page, tabIndex, loading } = this.state;
         return (
             <div className="yc-content-container">
                 <BreadCrumb texts={['资产结构化检查']}></BreadCrumb>
                 <div className="yc-detail-content">
                     <div className="yc-search-line">
-                        <SearchForm status={status}
-                            timeType={timeType}
+                        <SearchForm status={tabIndex}
+                            timeType={this.searchTimeTypeInput}
                             toSearch={this.handleSearch.bind(this)}
                             toClear={this.clearSearch.bind(this)}
                         />
@@ -234,15 +185,13 @@ class Admin extends React.Component {
                     <p className="line" />
                     <div className="yc-tab">
                         <Spin tip="Loading..." spinning={loading}>
-                            <AdminTable page={page}
-                                status={status}
-                                tabIndex={tabIndex}
+                            <AdminTable
+                                page={page}
+                                tabIndex={tabIndex.toString()}
                                 total={total}
-                                waitNum={waitNum}
                                 checkErrorNum={checkErrorNum}
                                 editNum={editNum}
                                 data={tableList}
-                                isCheck={isCheck}
                                 onPage={this.onTablePageChange.bind(this)}
                                 onTabs={this.changeTab.bind(this)}
                             />

@@ -11,19 +11,15 @@ const { TabPane } = Tabs;
 
 class TabTable extends React.Component {
     static defaultProps = {
-        currentPage: 1,
         data: [],
-        isCheck: true,
         total: 0,
-        waitNum: 0,
         checkErrorNum: 0,
         editNum: 0,
         tabIndex: "0",
     }
     //切换Tab
     changeTab = (key) => {
-        const _key = parseInt(key);
-        this.props.onTabs(_key)
+        this.props.onTabs(parseInt(key))
     };
 
     //换页
@@ -32,8 +28,8 @@ class TabTable extends React.Component {
     };
 
     render() {
-        const { data, checkErrorNum, editNum, total, currentPage, tabIndex, status } = this.props;
-        const paginationProps = createPaginationProps(currentPage, total)
+        const { data, checkErrorNum, editNum, total, tabIndex,page } = this.props;
+        const paginationProps = createPaginationProps(page, total)
         const columnsAdmin = [
             {
                 title: "抓取时间",
@@ -50,7 +46,7 @@ class TabTable extends React.Component {
                 width: 180,
                 render: (text, record) => (
                     <span>
-                        <Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
+                        <Link to={`/index/structureDetail/${record.id}`}>
                             <Button style={{ fontSize: 12 }}>查看</Button>
                         </Link>
                     </span>
@@ -73,7 +69,7 @@ class TabTable extends React.Component {
                 width: 180,
                 render: (text, record) => (
                     <span>
-                        <Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
+                        <Link to={`/index/structureDetail/${record.id}`}>
                             <Button style={{ fontSize: 12 }}>查看</Button>
                         </Link>
                     </span>
@@ -96,7 +92,7 @@ class TabTable extends React.Component {
                 width: 180,
                 render: (text, record) => (
                     <span>
-                        <Link to={`/index/${record.id}/${record.status}/${currentPage}/${status}`}>
+                        <Link to={`/index/structureDetail/${record.id}`}>
                             <Button style={{ fontSize: 12 }}>查看</Button>
                         </Link>
                     </span>

@@ -17,7 +17,7 @@ class ContentMain extends React.Component {
 				<Route path="/index/checkUser" exact component={CheckAccount} />
 				<Route path="/index/documentSearch" component={DocumentSearch} />
 				<Route path="/index/assetList" component={AssetList} />
-				<Route path="/index/:Id/:status/:page/:tabStatus" component={StructureDetail} />
+				<Route path="/index/structureDetail/:id" component={StructureDetail} />
 				<Route path="/index/syncMonitor" component={SyncMonitor} />
 				<Route path="/index/structureMonitor" component={StructMonitor} />
 			</div>
