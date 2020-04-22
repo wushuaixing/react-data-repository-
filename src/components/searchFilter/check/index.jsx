@@ -2,20 +2,12 @@
 
 //筛选栏 管理员能通过地区(省/市/区)以及抓取时间,结构化人员和检查人员进行表格筛选。
 import React from 'react';
-import { Form, Input, Button, DatePicker, Cascader, Select, message } from 'antd';
-import { getStructuredPersonnel, getCheckPersonnel } from "../../server/api";
-import { area } from "../../assets/area";
-import { filters } from "../../utils/common";
+import { Form, Input, Button, DatePicker, Select, message } from 'antd';
+import { getStructuredPersonnel } from "../../../server/api";
+import { filters } from "../../../utils/common";
 
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;
-let storage = window.localStorage;
-const role = storage.userState;
-let isCheck = true;
-if (role === "管理员") {
-	isCheck = false;
-}
-
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
@@ -24,7 +16,6 @@ class Index extends React.Component {
 			userList: [],
 			checkUserList: [],
 			timeType: "结构化时间",
-			area: area,
 		};
 	}
 
@@ -79,29 +70,6 @@ class Index extends React.Component {
 				message.error(res.data.message);
 			}
 		});
-		//检查人员列表(管理员获取)
-		if (!isCheck) {
-			getCheckPersonnel().then(res => {
-				if (res.data.code === 200) {
-					let checklist = [];
-					checklist.push({
-						value: "all",
-						label: "全部"
-					});
-					for (let key = 0; key < res.data.data.length; key++) {
-						checklist.push({
-							value: res.data.data[key]["id"],
-							label: res.data.data[key]["name"]
-						});
-					}
-					this.setState({
-						checkUserList: checklist,
-					})
-				} else {
-					message.error(res.data.message);
-				}
-			});
-		}
 	};
 
 	componentWillReceiveProps(nextProps) {
@@ -122,7 +90,6 @@ class Index extends React.Component {
 		const startTime = this.props.form.getFieldValue('startTime');
 		const endTime = this.props.form.getFieldValue('endTime');
 		const userId = this.props.form.getFieldValue('userId');
-		const area = this.props.form.getFieldValue('area');
 		let options = {
 			title: searchTitle,
 			page: 1,
@@ -133,21 +100,7 @@ class Index extends React.Component {
 		if (userId) {
 			options.userId = userId;
 		}
-		if (isCheck) {
-			options.approveStatus = status;
-		} else {
-			options.status = status;
-			//省 region 市 city 区 area
-			if (area) {
-				if (area[0]) {
-					options.region = area[0];
-				} else if (area[1]) {
-					options.city = area[1];
-				} else if (area[2]) {
-					options.area = area[2];
-				}
-			}
-		}
+		options.approveStatus = status;
 		console.log(options, 'options');
 		this.props.toSearch(options);
 	};
@@ -160,7 +113,7 @@ class Index extends React.Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { userList, checkUserList, timeType } = this.state;
+		const { userList, timeType } = this.state;
 		return (
 			<div>
 				<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{ marginLeft: 10, marginTop: 15 }}>
@@ -213,33 +166,6 @@ class Index extends React.Component {
 							</Select>
 						)}
 					</Form.Item>
-					{!isCheck &&
-						<Form.Item label="检查人员">
-							{getFieldDecorator('checkUserId', {})(
-								<Select style={{ width: 198, marginLeft: 4 }} transfer placeholder="请选择">
-									{
-										checkUserList && checkUserList.map((item) => {
-											return (
-												<Option
-													value={item.value}
-													key={item.value}
-												>
-													{item.label}
-												</Option>
-											);
-										})
-									}
-								</Select>
-							)}
-						</Form.Item>}
-					{!isCheck &&
-						<Form.Item label="地区">
-							{
-								getFieldDecorator('area', {})(
-									<Cascader options={area} placeholder="请选择" />
-								)}
-						</Form.Item>
-					}
 					<Form.Item>
 						<Button type="primary" htmlType="submit" style={{ backgroundColor: '#0099CC', marginLeft: 15, fontSize: 12 }}>
 							搜索

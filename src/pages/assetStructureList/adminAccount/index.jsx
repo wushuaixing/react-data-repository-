@@ -3,7 +3,7 @@ import React from 'react';
 import { withRouter } from "react-router-dom";
 import { Spin } from 'antd';
 import { adminStructuredList } from "../../../server/api";
-import SearchForm from "../../../components/searchInfo/admin";
+import SearchForm from "../../../components/searchFilter/admin";
 import AdminTable from "../../../components/tabTable/admin";
 import '../../../pages/style.scss';
 import { BreadCrumb } from '../../../components/common';

@@ -2,15 +2,11 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
 import { message, Spin } from 'antd';
-import { getCheckList, adminStructuredList } from "../../../server/api";
-import SearchForm from "../../../components/searchInfo";
-import TabTable from "../../../components/tabTable";
+import { getCheckList } from "../../../server/api";
+import SearchForm from "../../../components/searchFilter/check";
+import TabTable from "../../../components/tabTable/check";
 import '../../../pages/style.scss';
 import { BreadCrumb } from '../../../components/common'
-
-let isCheck = (window.localStorage.userState==='管理员')?false:true;
-
-
 class Check extends React.Component {
 	constructor(props) {
 		super(props);
@@ -24,7 +20,7 @@ class Check extends React.Component {
 			editNmu: 0,
 			checkErrorNum: 0,
 			status: 0,
-			tabIndex: "0",
+			tabIndex: 0,
 			personnelList: [],
 			timeType: "结构化时间",
 			loading: false,
@@ -35,7 +31,7 @@ class Check extends React.Component {
 		const { status } = this.state;
 		//详情页跳回路由
 		if (this.props.location.state) {
-			let { statusPath, pagePath, tabPath } = this.props.location.state;
+			let { pagePath, tabPath } = this.props.location.state;
 			let _status = parseInt(tabPath);
 
 			const option = this.setTimeType(_status);
@@ -49,11 +45,7 @@ class Check extends React.Component {
 				checkType: option.time,
 			};
 			this.getTableList(params);
-			if (!isCheck) {
-				this.setState({
-					status: statusPath,
-				})
-			}
+
 		}
 		else {
 			const option = this.setTimeType(status);
@@ -70,109 +62,52 @@ class Check extends React.Component {
 	// checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
 	setTimeType = (status) => {
 		if (status === 0) {
-			if (isCheck) {
-				this.setState({
-					timeType: "结构化时间",
-				});
-				return {
-					time: 1,
-					tab: 0,
-				}
-			} else {
-				this.setState({
-					timeType: "抓取时间",
-				});
-				return {
-					time: 3,
-					tab: 0,
-				}
+			this.setState({
+				timeType: "结构化时间",
+			});
+			return {
+				time: 1,
+				tab: 0,
 			}
 		} else if (status === 1) {
-			if (isCheck) {
-				this.setState({
-					timeType: "结构化时间",
-				});
-				return {
-					time: 1,
-					tab: 1,
-				}
-			} else {
-				this.setState({
-					timeType: "抓取时间",
-				});
-				return {
-					time: 3,
-					tab: 6,
-				}
+			this.setState({
+				timeType: "结构化时间",
+			});
+			return {
+				time: 1,
+				tab: 1,
 			}
 		} else if (status === 2) {
-			if (isCheck) {
-				this.setState({
-					timeType: "检查时间",
-				});
-				return {
-					time: 2,
-					tab: 2,
-				}
-			} else {
-				this.setState({
-					timeType: "结构化时间",
-				});
-				return {
-					time: 1,
-					tab: 1,
-				}
+			this.setState({
+				timeType: "检查时间",
+			});
+			return {
+				time: 2,
+				tab: 2,
 			}
 		} else if (status === 3) {
 			this.setState({
 				timeType: "检查时间",
 			});
-			if (isCheck) {
-				return {
-					time: 2,
-					tab: 3,
-				}
-			} else {
-				return {
-					time: 2,
-					tab: 2,
-				}
+			return {
+				time: 2,
+				tab: 3,
 			}
 		} else if (status === 4) {
-			if (isCheck) {
-				this.setState({
-					timeType: "修改时间",
-				});
-				return {
-					time: 0,
-					tab: 4,
-				}
-			} else {
-				this.setState({
-					timeType: "检查时间",
-				});
-				return {
-					time: 2,
-					tab: 3,
-				}
+			this.setState({
+				timeType: "修改时间",
+			});
+			return {
+				time: 0,
+				tab: 4,
 			}
 		} else if (status === 5) {
-			if (isCheck) {
-				this.setState({
-					timeType: "结构化时间",
-				});
-				return {
-					time: 1,
-					tab: 5,
-				}
-			} else {
-				this.setState({
-					timeType: "修改时间",
-				});
-				return {
-					time: 0,
-					tab: 4,
-				}
+			this.setState({
+				timeType: "结构化时间",
+			});
+			return {
+				time: 1,
+				tab: 5,
 			}
 		}
 
@@ -183,79 +118,44 @@ class Check extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		if (isCheck) {
+		this.setState({
+			approveStatus: params.status,
+		})
+		getCheckList(params).then(res => {
 			this.setState({
-				approveStatus: params.status,
-			})
-		} else {
-			this.setState({
-				status: params.status,
-			})
-		}
-		if (isCheck) {
-			getCheckList(params).then(res => {
-				this.setState({
-					loading: false,
-				});
-				if (res.data.code === 200) {
-					let data = res.data.data.result || {};
-					if (data.list) {
-						let _list = data.list;
-						//待改
-						_list.map((item) => {
-							let _temp = [];
-							_temp.push(item.status);
-							item.status = _temp;
-							return null;
-						});
-						this.setState({
-							tableList: _list,
-							total: res.data.data.result.total,
-							page: res.data.data.result.page,
-							waitNum: res.data.data.waitConfirmedNum,
-							checkErrorNum: res.data.data.checkErrorNum,
-							editNum: res.data.data.alreadyEditedNum,
-						});
-					}
-					else {
-						let _total = 0;
-						this.setState({
-							tableList: [],
-							total: _total,
-						});
-					}
-				} else {
-					message.error(res.data.message);
-				}
+				loading: false,
 			});
-		} else {
-			adminStructuredList(params).then(res => {
-				this.setState({
-					loading: false,
-				});
-				if (res.data.code === 200) {
-					if (res.data.data.result) {
-						let _list = res.data.data.result.list;
-						//待改
-						_list.map((item) => {
-							let _temp = [];
-							_temp.push(item.status);
-							item.status = _temp;
-							return null;
-						});
-						this.setState({
-							tableList: _list,
-							total: res.data.data.result.total,
-							checkErrorNum: res.data.data.checkErrorNum,
-							editNum: res.data.data.alreadyEditedNum,
-							page: res.data.data.result.page,
-						});
-					}
-				} else {
-					message.error(res.data.message);
+			if (res.data.code === 200) {
+				let data = res.data.data.result || {};
+				if (data.list) {
+					let _list = data.list;
+					//待改
+					_list.map((item) => {
+						let _temp = [];
+						_temp.push(item.status);
+						item.status = _temp;
+						return null;
+					});
+					this.setState({
+						tableList: _list,
+						total: res.data.data.result.total,
+						page: res.data.data.result.page,
+						waitNum: res.data.data.waitConfirmedNum,
+						checkErrorNum: res.data.data.checkErrorNum,
+						editNum: res.data.data.alreadyEditedNum,
+					});
 				}
-			});
-		}
+				else {
+					let _total = 0;
+					this.setState({
+						tableList: [],
+						total: _total,
+					});
+				}
+			} else {
+				message.error(res.data.message);
+			}
+		});
 
 	};
 
@@ -266,12 +166,7 @@ class Check extends React.Component {
 
 		const option = this.setTimeType(status);
 		params.checkType = option.time;
-		if (isCheck) {
-			this.getTableList(params);
-		}
-		else {
-			this.getTableList(params);
-		}
+		this.getTableList(params);
 
 	};
 
@@ -298,22 +193,15 @@ class Check extends React.Component {
 			checkType: option.time,
 		};
 		this.getTableList(params);
-		const _tabIndex = _key.toString();
 		this.setState({
-			tabIndex: _tabIndex,
+			tabIndex: _key,
 		});
-		if (!isCheck) {
-			this.setState({
-				status: _key,
-			})
-		}
 	};
 
 	//换页
 	onTablePageChange = (num) => {
 		const { tabIndex } = this.state;
-		const _tabIndex = parseInt(tabIndex);
-		const option = this.setTimeType(_tabIndex);
+		const option = this.setTimeType(tabIndex);
 		let params = {
 			status: option.tab,
 			num: 10,
@@ -348,7 +236,6 @@ class Check extends React.Component {
 								checkErrorNum={checkErrorNum}
 								editNum={editNum}
 								data={tableList}
-								isCheck={isCheck}
 								onPage={this.onTablePageChange.bind(this)}
 								onTabs={this.changeTab.bind(this)}
 							/>
