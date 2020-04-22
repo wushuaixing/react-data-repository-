@@ -19,6 +19,9 @@ const dateUtils = {
 	//获取当日日期
 	getTodayDate(ifmoment = false) {
 		return (ifmoment) ? moment() : moment().format('YYYY-MM-DD');
+	},
+	formatMomentToStandardDate(moment){
+		return moment.format('YYYY-MM-DD')
 	}
 }
 

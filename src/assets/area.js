@@ -1,4 +1,4 @@
-export const province = [
+export const area = [
   {
     value: 7460,
     label: "北京",

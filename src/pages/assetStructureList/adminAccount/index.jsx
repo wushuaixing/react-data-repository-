@@ -3,7 +3,7 @@ import React from 'react';
 import { withRouter } from "react-router-dom";
 import { Spin } from 'antd';
 import { adminStructuredList } from "../../../server/api";
-import SearchForm from "../../../components/searchInfo";
+import SearchForm from "../../../components/searchInfo/admin";
 import AdminTable from "../../../components/tabTable/admin";
 import '../../../pages/style.scss';
 import { BreadCrumb } from '../../../components/common';
@@ -18,73 +18,18 @@ class Admin extends React.Component {
         tabIndex: 0, //tab所在页
         loading: false,
     };
-    //根据所处tabIndex获取搜索时间栏的文字显示内容 然后传给搜索栏子组件
-    get searchTimeTypeInput() {
-        switch (this.state.tabIndex) {
-            case 0: case 1:
-                return '抓取时间';
-            case 2:
-                return '结构化时间';
-            case 3: case 4:
-                return '检查时间'
-            case 5:
-                return '修改时间'
-            default:
-                return ''
-        }
-    }
-
+    //改完 跳回详情功能要补充
     componentDidMount() {
-        const { tabIndex } = this.state;
-        //详情页跳回路由
-        const option = this.setTimeType(tabIndex);
-        let params = {
-            status: option.status,
-            checkType: option.checkType,
-        };
+        const params = this.getParamsByTabIndex()
         this.getTableList(params);
     };
-    //根据status传不同时间类型
-    // checkType = checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
-    // status 0：全部 1：未检查 2：检查无误 3：检查错误 4：已修改 5：待确认 6:未标记
-    setTimeType = (tabIndex) => {
-        if (tabIndex === 0) {
-            return {
-                checkType: 3,
-                status: 0,
-            }
-        } else if (tabIndex === 1) {
-            return {
-                checkType: 3,
-                status: 6,
-            }
-        } else if (tabIndex === 2) {
-            return {
-                checkType: 1,
-                status: 1,
-            }
-        } else if (tabIndex === 3) {
-            return {
-                checkType: 2,
-                status: 2,
-            }
-        } else if (tabIndex === 4) {
-            return {
-                checkType: 2,
-                status: 3,
-            }
-        } else if (tabIndex === 5) {
-            return {
-                checkType: 0,
-                status: 4,
-            }
-        }
-
-    };
-    //根据tabIndex获取参数 合并参数  设置默认tabIndex,仅当切换新tab 需要传递新tab进来  当换页传新param 包括page等
-    getParamsByTabIndex({tabIndex = this.state.tabIndex, extraParams} = {}) {
-        //判断page参数是否有
-        const params = (arguments[0].extraParams) ? Object.assign({}, extraParams) : {}
+    /* checkType 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
+       status 结构化所处阶段 0：全部 1：未检查 2：检查无误 3：检查错误 4：已修改 5：待确认 6:未标记
+    根据tabIndex获取参数并合并外部参数  设置默认tabIndex,仅当切换新tab 
+    需要传递新tab进来  当换页或搜索传外部param合并 包括page title等 */
+    getParamsByTabIndex({ tabIndex = this.state.tabIndex, extraParams = null } = {}) {
+        //判断是否有额外参数
+        const params = (extraParams) ? Object.assign({}, extraParams) : {}
         //根据不同的tabIndex 设置参数
         switch (tabIndex) {
             case 0:
@@ -128,31 +73,22 @@ class Admin extends React.Component {
         })
     };
 
-    // 搜索框
+    // 搜索框 改完
     handleSearch = data => {
-        const { tabIndex } = this.state;
-        let params = data;
-        const option = this.setTimeType(tabIndex);
-        params.checkType = option.checkType;
+        const params = this.getParamsByTabIndex({ extraParams: data })
         this.getTableList(params);
-
     };
 
-    //清空搜索条件
+    //清空搜索条件 改完
     clearSearch = (tabIndex) => {
-        console.log(tabIndex)
-        const option = this.setTimeType(tabIndex);
-        let params = {
-            status: option.status,
-            checkType: option.checkType,
-        };
+        const params = this.getParamsByTabIndex({ tabIndex });
         this.getTableList(params);
     };
 
     //切换Tab 改完
     changeTab = (key) => {
         const _key = parseInt(key);
-        const params = this.getParamsByTabIndex({tabIndex:_key});
+        const params = this.getParamsByTabIndex({ tabIndex: _key });
         this.getTableList(params);
         this.setState({
             tabIndex: _key
@@ -161,8 +97,7 @@ class Admin extends React.Component {
 
     //换页 改完 
     onTablePageChange = (page) => {
-        const { tabIndex } = this.state;
-        let params = this.getParamsByTabIndex({extraParams:{page},tabIndex})
+        let params = this.getParamsByTabIndex({ extraParams: { page } })
         this.getTableList(params);
         this.setState({
             page
@@ -176,8 +111,8 @@ class Admin extends React.Component {
                 <BreadCrumb texts={['资产结构化检查']}></BreadCrumb>
                 <div className="yc-detail-content">
                     <div className="yc-search-line">
-                        <SearchForm status={tabIndex}
-                            timeType={this.searchTimeTypeInput}
+                        <SearchForm 
+                            tabIndex={tabIndex}
                             toSearch={this.handleSearch.bind(this)}
                             toClear={this.clearSearch.bind(this)}
                         />
