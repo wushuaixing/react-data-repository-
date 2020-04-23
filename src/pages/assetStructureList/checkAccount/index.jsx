@@ -3,8 +3,8 @@ import React from 'react';
 import { withRouter } from "react-router-dom";
 import { Spin } from 'antd';
 import { getCheckList } from "@api";
-import SearchForm from "@/components/searchFilter/check";
-import TabTable from "@/components/tabTable/check";
+import SearchForm from "@/components/assetStructureList/searchFilter/check";
+import TabTable from "@/components/assetStructureList/tabTable/check";
 import '@/pages/style.scss';
 import { BreadCrumb } from '@commonComponents'
 class Check extends React.Component {
