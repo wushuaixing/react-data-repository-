@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, DatePicker, Tabs, Table, Spin } from 'antd';
+import { Form, Input, Button, DatePicker, Tabs, Table, Spin,message } from 'antd';
 import { Columns } from "../../../static/columns";
 import createPaginationProps from "../../../utils/pagination";
 import { structuredList, getNewStructuredData, structuredCheckErrorNum } from "../../../server/api";
@@ -68,13 +68,18 @@ class Asset extends React.Component {
 				return Promise.reject('此tab下无数据');
 			}
 		}).then((res) => {
-			if (res !== null && res.data.code === 200) {
+			if (res.data.code === 200) {
 				this.setState({
 					tableList: res.data.data,
 					total: res.data.total,
 					status: params.approveStatus,
 					loading: false
 				});
+			}else{
+				this.setState({
+					loading: false
+				})
+				message.error('后端状态码异常 请检查');
 			}
 		}).catch(err => {
 			console.log(err)
@@ -140,7 +145,7 @@ class Asset extends React.Component {
 		const { status } = this.state;
 		this.getTableList(status);
 	};
-	//还需加按钮屏蔽 重新刷新数据 功能
+	// 获取新数据 
 	getNewData() {
 		this.setState({
 			loading: true,
