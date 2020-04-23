@@ -3,20 +3,15 @@
 //筛选栏 管理员能通过地区(省/市/区)以及抓取时间,结构化人员和检查人员进行表格筛选。
 import React from 'react';
 import { Form, Input, DatePicker, Select, message } from 'antd';
-import { getStructuredPersonnel } from "../../../server/api";
+import { getStructuredPersonnel } from "@server/api";
 import { dateUtils } from "../../../utils/common";
 import { SearchAndClearButtonGroup } from '../../common/index'
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;
 class Index extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			userList: [],
-			checkUserList: [],
-		};
-	}
-
+	state = {
+		userList: []
+	};
 	componentDidMount() {
 		//结构化人员
 		getStructuredPersonnel().then(res => {

@@ -1,7 +1,7 @@
 /** check * */
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { message, Spin } from 'antd';
+import { Spin } from 'antd';
 import { getCheckList } from "../../../server/api";
 import SearchForm from "../../../components/searchFilter/check";
 import TabTable from "../../../components/tabTable/check";
