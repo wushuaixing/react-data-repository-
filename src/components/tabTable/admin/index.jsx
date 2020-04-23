@@ -26,60 +26,30 @@ class TabTable extends React.Component {
     onTablePageChange = (pagination) => {
         this.props.onPage(pagination.current)
     };
+    get columnShowObject() {
+        const showObject = {}
+		switch (this.props.tabIndex) {
+			case 0: case 1: 
+                showObject.title='抓取时间';showObject.dataIndex='grabTime';break;
+            case 2:
+                showObject.title='结构化时间';showObject.dataIndex='firstStructuredTime';break;
+			case 3: case 4:
+				showObject.title='检查时间';showObject.dataIndex='checkTime';break;
+			case 5:
+				showObject.title='修改时间';showObject.dataIndex='lastStructuredTime';break;
+			default:
+				break;
+        }
+        return showObject
+    }
 
     render() {
         const { data, checkErrorNum, editNum, total, tabIndex,page } = this.props;
         const paginationProps = createPaginationProps(page, total)
-        const columnsAdmin = [
+        const columns = [
             {
-                title: "抓取时间",
-                dataIndex: "grabTime",
-            },
-            Columns[0],
-            Columns[1],
-            Columns[2],
-            Columns[3],
-            {
-                title: "操作",
-                dataIndex: "action",
-                align: "center",
-                width: 180,
-                render: (text, record) => (
-                    <span>
-                        <Link to={`/index/structureDetail/${record.id}`}>
-                            <Button style={{ fontSize: 12 }}>查看</Button>
-                        </Link>
-                    </span>
-                ),
-            }
-        ];
-        const columnsCheckAdmin = [
-            {
-                title: "检查时间",
-                dataIndex: "checkTime",
-            },
-            Columns[0],
-            Columns[1],
-            Columns[2],
-            Columns[3],
-            {
-                title: "操作",
-                dataIndex: "action",
-                align: "center",
-                width: 180,
-                render: (text, record) => (
-                    <span>
-                        <Link to={`/index/structureDetail/${record.id}`}>
-                            <Button style={{ fontSize: 12 }}>查看</Button>
-                        </Link>
-                    </span>
-                ),
-            }
-        ];
-        const columnsReviseAdmin = [
-            {
-                title: "修改时间",
-                dataIndex: "lastStructuredTime",
+                title: this.columnShowObject.title,
+                dataIndex: this.columnShowObject.dataIndex,
             },
             Columns[0],
             Columns[1],
@@ -101,10 +71,10 @@ class TabTable extends React.Component {
         ];
         return (
             <div>
-                <Tabs activeKey={tabIndex} onChange={this.changeTab} animated={false}>
+                <Tabs activeKey={tabIndex.toString()} onChange={this.changeTab} animated={false}>
                     <TabPane tab="全部" key="0" >
                         <Table rowClassName="table-list"
-                            columns={columnsAdmin}
+                            columns={columns}
                             dataSource={data}
                             rowKey={record => record.id}
                             pagination={paginationProps}
@@ -113,7 +83,7 @@ class TabTable extends React.Component {
                     </TabPane>
                     <TabPane tab={"未标记"} key="1">
                         <Table rowClassName="table-list"
-                            columns={columnsAdmin}
+                            columns={columns}
                             dataSource={data}
                             rowKey={record => record.id}
                             pagination={paginationProps}
@@ -122,7 +92,7 @@ class TabTable extends React.Component {
                     </TabPane>
                     <TabPane tab={"未检查"} key="2">
                         <Table rowClassName="table-list"
-                            columns={columnsCheckAdmin}
+                            columns={columns}
                             dataSource={data}
                             rowKey={record => record.id}
                             pagination={paginationProps}
@@ -131,7 +101,7 @@ class TabTable extends React.Component {
                     </TabPane>
                     <TabPane tab={"检查无误"} key="3">
                         <Table rowClassName="table-list"
-                            columns={columnsCheckAdmin}
+                            columns={columns}
                             dataSource={data}
                             rowKey={record => record.id}
                             pagination={paginationProps}
@@ -140,7 +110,7 @@ class TabTable extends React.Component {
                     </TabPane>
                     <TabPane tab={<AssetTabTextWithNumber text={"检查错误"} num={checkErrorNum}/>} key="4">
                         <Table rowClassName="table-list"
-                            columns={columnsCheckAdmin}
+                            columns={columns}
                             dataSource={data}
                             rowKey={record => record.id}
                             pagination={paginationProps}
@@ -149,7 +119,7 @@ class TabTable extends React.Component {
                     </TabPane>
                     <TabPane tab={<AssetTabTextWithNumber text={"已修改"} num={editNum}/>} key="5">
                         <Table rowClassName="table-list"
-                            columns={columnsReviseAdmin}
+                            columns={columns}
                             dataSource={data}
                             rowKey={record => record.id}
                             pagination={paginationProps}

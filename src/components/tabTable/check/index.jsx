@@ -43,13 +43,28 @@ class TabTable extends React.Component {
 				return ''
 		}
 	}
+	get columnShowObject() {
+		const showObject = {}
+		switch (this.props.tabIndex) {
+			case 0: case 1: case 5:
+				showObject.title = '结构化时间'; showObject.dataIndex = 'firstStructuredTime'; break;
+			case 2: case 3:
+				showObject.title = '检查时间'; showObject.dataIndex = 'checkTime'; break;
+			case 4:
+				showObject.title = '修改时间'; showObject.dataIndex = 'lastStructuredTime'; break;
+			default:
+				break;
+		}
+		return showObject
+	}
+
 	render() {
 		const { data, waitNum, checkErrorNum, editNum, total, page, tabIndex } = this.props;
 		const paginationProps = createPaginationProps(page, total)
 		const columns = [
 			{
-				title: this.columnShowTimeType,
-				dataIndex: "firstStructuredTime",
+				title: this.columnShowObject.title,
+                dataIndex: this.columnShowObject.dataIndex,
 			},
 			Columns[0],
 			Columns[1],

@@ -122,7 +122,7 @@ class Admin extends React.Component {
                         <Spin tip="Loading..." spinning={loading}>
                             <AdminTable
                                 page={page}
-                                tabIndex={tabIndex.toString()}
+                                tabIndex={tabIndex}
                                 total={total}
                                 checkErrorNum={checkErrorNum}
                                 editNum={editNum}
