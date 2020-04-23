@@ -1,8 +1,8 @@
 /** right content for Account manage* */
 import React from 'react';
 import { Modal, Form, Button, Select, Checkbox, Radio, Input } from "antd";
-import { handleValidator } from "../../../utils/validators";
-import {HotDotBeforeFormItem} from '../../common'
+import { handleValidator } from "@/utils/validators";
+import {HotDotBeforeFormItem} from '@commonComponents'
 import '../style.scss'
 const { Option } = Select;
 const accountForm = Form.create;

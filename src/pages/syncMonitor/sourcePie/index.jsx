@@ -1,7 +1,7 @@
 /** sync monitor * */
 import React from 'react';
 import {message, Spin} from "antd";
-import {dataSourceData} from "../../../server/api";
+import {dataSourceData} from "@api";
 import {Legend} from "../legend";
 import {Series} from  "../series";
 import echarts from 'echarts/lib/echarts';
@@ -12,7 +12,7 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import '../style.scss';
-import {BreadCrumb} from '../../../components/common'
+import {BreadCrumb} from '@commonComponents'
 class Index extends React.Component {
   constructor(props) {
     super(props);

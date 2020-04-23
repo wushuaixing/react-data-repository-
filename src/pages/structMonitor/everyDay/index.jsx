@@ -1,10 +1,10 @@
 /** sync monitor * */
 import React from 'react';
 import {message, Radio, Spin} from "antd";
-import {addedAndStructured} from "../../../server/api";
-import {AxisStyle} from '../../../static/axisStyle';
+import {addedAndStructured} from "@api";
+import {AxisStyle} from '@/static/axisStyle';
 import echarts from 'echarts/lib/echarts';
-import {BreadCrumb} from '../../../components/common'
+import {BreadCrumb} from '@commonComponents'
 // 引入柱状图
 import  'echarts/lib/chart/line';
 import  'echarts/lib/chart/bar';

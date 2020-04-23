@@ -1,10 +1,10 @@
 /** sync monitor * */
 import React from 'react';
 import { message, Radio, Row, Col, Spin } from "antd";
-import { sqlMonitorText, sqlMonitorChart } from "../../../server/api";
-import { AxisStyle } from '../../../static/axisStyle';
+import { sqlMonitorText, sqlMonitorChart } from "@api";
+import { AxisStyle } from '@/static/axisStyle';
 import echarts from 'echarts/lib/echarts';
-import { BreadCrumb } from '../../../components/common'
+import { BreadCrumb } from '@commonComponents'
 // 引入柱状图
 import 'echarts/lib/chart/line';
 // 引入提示框和标题组件

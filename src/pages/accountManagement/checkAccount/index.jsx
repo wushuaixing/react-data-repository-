@@ -1,9 +1,9 @@
 /** right content for Account manage* */
 import React from 'react';
-import { userCreateCheck, userEditCheck, userResetCheck, userRemoveCheck, getCheckListCheck } from "../../../server/api";
+import { userCreateCheck, userEditCheck, userResetCheck, userRemoveCheck, getCheckListCheck } from "@api";
 import { message, Button,Table, Spin } from 'antd';
-import AccountModal from '../../../components/accountManagement/checkAccountModal';
-import {BreadCrumb} from '../../../components/common'
+import AccountModal from '@/components/accountManagement/checkAccountModal';
+import {BreadCrumb} from '@commonComponents'
 import '../style.scss'
 
 class Index extends React.Component {

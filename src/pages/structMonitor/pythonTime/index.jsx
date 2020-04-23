@@ -1,10 +1,10 @@
 /** python-now* */
 import React from 'react';
 import {message, Select, DatePicker, Spin} from "antd";
-import {pythonAmountIn31, structurePython} from "../../../server/api";
-import { dateUtils } from "../../../utils/common";
+import {pythonAmountIn31, structurePython} from "@api";
+import { dateUtils } from "@/utils/common";
 import echarts from 'echarts/lib/echarts';
-import {BreadCrumb} from '../../../components/common'
+import {BreadCrumb} from '@commonComponents'
 // 引入柱状图
 import  'echarts/lib/chart/line';
 import  'echarts/lib/chart/pie';

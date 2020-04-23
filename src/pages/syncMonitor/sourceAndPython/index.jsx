@@ -1,8 +1,8 @@
 /** sync monitor * */
 import React from 'react';
 import {message, Select, Radio, Spin} from "antd";
-import {detailsByDate} from "../../../server/api";
-import {AxisStyle} from '../../../static/axisStyle';
+import {detailsByDate} from "@api";
+import {AxisStyle} from '@/static/axisStyle';
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
 import  'echarts/lib/chart/line';

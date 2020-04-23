@@ -4,7 +4,7 @@ import { Form, Input, Button, Table, message, Spin } from 'antd';
 import { wenshuSearch } from "../../server/api";
 import { Link, withRouter } from "react-router-dom";
 import '../style.scss';
-import {BreadCrumb} from '../../components/common'
+import {BreadCrumb} from '@commonComponents'
 const searchForm = Form.create;
 //表column
 const columns = [

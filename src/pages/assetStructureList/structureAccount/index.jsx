@@ -1,10 +1,10 @@
 import React from 'react';
 import { Form, Input, Button, DatePicker, Tabs, Table, Spin,message } from 'antd';
-import { Columns } from "../../../static/columns";
-import createPaginationProps from "../../../utils/pagination";
-import { structuredList, getNewStructuredData, structuredCheckErrorNum } from "../../../server/api";
+import { Columns } from "@/static/columns";
+import createPaginationProps from "@/utils/pagination";
+import { structuredList, getNewStructuredData, structuredCheckErrorNum } from "@api";
 import { Link, withRouter } from "react-router-dom";
-import { BreadCrumb, SearchAndClearButtonGroup,AssetTabTextWithNumber } from '../../../components/common'
+import { BreadCrumb, SearchAndClearButtonGroup,AssetTabTextWithNumber } from '@commonComponents'
 const { TabPane } = Tabs;
 
 const searchForm = Form.create;

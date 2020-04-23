@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
 import { message, Anchor } from 'antd';
-import { htmlDetailInfo } from "../../../server/api";
+import { htmlDetailInfo } from "@api";
 import './style.scss';
 
 const { Link } = Anchor;

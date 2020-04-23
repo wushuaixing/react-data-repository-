@@ -1,10 +1,10 @@
 /** right content for Account manage* */
 import React from 'react';
-import {BreadCrumb} from '../../../components/common'
+import {BreadCrumb} from '@commonComponents'
 import { Tabs, Table, Spin,message } from "antd";
-import { userCreate, userView, userEdit, userReset, userRemove, userDelete } from "../../../server/api";
-import AccountModal from '../../../components/accountManagement/structureAccountModal';
-import SearchAccount from "../../../components/accountManagement/search";
+import { userCreate, userView, userEdit, userReset, userRemove, userDelete } from "@api";
+import AccountModal from '@/components/accountManagement/structureAccountModal';
+import SearchAccount from "@/components/accountManagement/search";
 import '../style.scss';
 // ==================
 // 所需的所有组件

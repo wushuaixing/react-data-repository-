@@ -7,7 +7,7 @@ import Checkbox from "antd/es/checkbox";
 import CheckboxGroup from "antd/es/checkbox/Group";
 import Radio from "antd/es/radio";
 import Input from "antd/es/input";
-import {reasonList,wrongTypeList} from "../../../static/dataList";
+import {reasonList,wrongTypeList} from "@/static/dataList";
 import './style.scss';
 
 const checkForm = Form.create;

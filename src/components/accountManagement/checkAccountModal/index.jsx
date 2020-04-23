@@ -1,7 +1,7 @@
 /** right content for Account manage* */
 import React from 'react';
 import { Modal, Form, Button, Input } from "antd";
-import { handleValidator } from "../../../utils/validators";
+import { handleValidator } from "@/utils/validators";
 import '../style.scss'
 const accountForm = Form.create;
 const formItemLayout = {

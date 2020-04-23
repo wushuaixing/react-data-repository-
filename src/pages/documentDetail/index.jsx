@@ -14,7 +14,7 @@ import BasicDetail from "../../components/basicDetail";
 import WrongReason from "../../components/wrongReason";
 import WsDetail from "../../components/wsDetail";
 import RoleDetail from "../../components/roleDetail";
-import { BreadCrumb } from '../../components/common'
+import { BreadCrumb } from '@commonComponents'
 import HouseDetail from "../../components/houseDetail";
 import Check from "./checkModal";
 import './style.scss';

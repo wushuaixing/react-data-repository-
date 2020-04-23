@@ -4,9 +4,9 @@
 import React from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { Tabs, Table, Button } from 'antd';
-import { Columns } from "../../../static/columns";
-import createPaginationProps from "../../../utils/pagination";
-import { AssetTabTextWithNumber } from '../../../components/common'
+import { Columns } from "@/static/columns";
+import createPaginationProps from "@/utils/pagination";
+import { AssetTabTextWithNumber } from '@commonComponents'
 const { TabPane } = Tabs;
 
 class TabTable extends React.Component {

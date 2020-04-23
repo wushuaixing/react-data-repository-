@@ -1,10 +1,10 @@
 //筛选栏 管理员能通过地区(省/市/区) 抓取时间 还有人员筛选
 import React from 'react';
 import { Form, Input, DatePicker, Cascader, Select, message } from 'antd';
-import { getStructuredPersonnel, getCheckPersonnel } from "../../../server/api";
-import { area } from "../../../assets/area";
-import { dateUtils } from "../../../utils/common";
-import { SearchAndClearButtonGroup } from '../../common/index'
+import { getStructuredPersonnel, getCheckPersonnel } from "@api";
+import { area } from "@/assets/area";
+import { dateUtils } from "@utils/common";
+import { SearchAndClearButtonGroup } from '@commonComponents'
 
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;

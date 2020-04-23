@@ -1,9 +1,9 @@
 /** sync monitor * */
 import React from 'react';
 import { message, Radio, Badge, Row, Col, Spin } from "antd";
-import { newAndStruc } from "../../../server/api";
+import { newAndStruc } from "@api";
 import echarts from 'echarts/lib/echarts';
-import { BreadCrumb } from '../../../components/common'
+import { BreadCrumb } from '@commonComponents'
 // 引入柱状图
 import 'echarts/lib/chart/pie';
 // 引入提示框和标题组件
