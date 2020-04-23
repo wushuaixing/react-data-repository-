@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import StructureAccount from "../pages/accountManagement/structureAccount";
 import CheckAccount from "../pages/accountManagement/checkAccount";
 import DocumentSearch from "../pages/documentSearch";
-import StructureDetail from "../pages/documentDetail";
+import StructureDetail from "../pages/assetStructureDetail";
 import SyncMonitor from "../pages/syncMonitor";
 import StructMonitor from "../pages/structMonitor";
 import AssetList from '../pages/assetStructureList'

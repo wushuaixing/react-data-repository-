@@ -1,9 +1,9 @@
 import React from 'react'
 //引入路由
 import { Route } from 'react-router-dom';
-import DocumentSearch from "../pages/documentSearch";
-import Asset from "../pages/assetStructureList/structureAccount";
-import StructureDetail from "../pages/documentDetail";
+import DocumentSearch from "@/pages/documentSearch";
+import Asset from "@/pages/assetStructureList/structureAccount";
+import StructureDetail from "@/pages/assetStructureDetail";
 
 class ContentMain extends React.Component {
   render() {
@@ -11,7 +11,7 @@ class ContentMain extends React.Component {
       <div>
           <Route path="/index" exact component={Asset} />
           <Route path="/index/documentSearch"  component={DocumentSearch} />
-          <Route path="/index/structureDetail/:id" component={StructureDetail} />
+          <Route path="/index/structureDetail" component={StructureDetail} />
       </div>
     )
   }

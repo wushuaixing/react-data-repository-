@@ -18,7 +18,7 @@ function BreadCrumb(props = { texts: [], buttonText: null, icon: null, note: nul
             <div className="yc-components-breadCrumb-body">{text}</div>
             {props.buttonText ?
                 <div className="yc-components-breadCrumb_button">
-                    {props.note ? <span class="yc-components-breadCrumb_button-note">{props.note}</span> : null}
+                    {props.note ? <span className="yc-components-breadCrumb_button-note">{props.note}</span> : null}
                     <Button type="default" onClick={props.handleClick} disabled={props.disabled}>
                         {props.icon ? <Icon type={props.icon} /> : null}
                         {props.buttonText}
