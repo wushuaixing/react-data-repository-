@@ -61,14 +61,14 @@ class TabTable extends React.Component {
 				render: (text, record) => (
 					<span>
 						<Link to={`/index/structureDetail/${record.id}`}>
-							{(record.status[0] === 2 || record.status[0] === 3 || record.status[0] === 4)
+							{(record.status === 2 || record.status === 3 || record.status === 4)
 								&& record.structPersonnelEnable
 								&& record.structPersonnel !== '自动标注'
 								&& <Button style={{ fontSize: 12 }} >修改检查</Button>}
 							{(!record.structPersonnelEnable
 								|| record.structPersonnel === '自动标注')
 								&& <Button style={{ fontSize: 12 }}>修改标注</Button>}
-							{record.status[0] === 1
+							{record.status === 1
 								&& record.structPersonnelEnable
 								&& record.structPersonnel !== '自动标注'
 								&& <Button style={{ fontSize: 12 }}>检查</Button>}

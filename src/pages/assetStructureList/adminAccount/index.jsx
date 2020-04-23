@@ -17,6 +17,7 @@ class Admin extends React.Component {
         checkErrorNum: 0,  //检查错误列数字
         tabIndex: 0, //tab所在页
         loading: false,
+        searchParams: {} //保存搜索框参数
     };
     //改完 跳回详情功能要补充
     componentDidMount() {
@@ -28,8 +29,8 @@ class Admin extends React.Component {
     根据tabIndex获取参数并合并外部参数  设置默认tabIndex,仅当切换新tab 
     需要传递新tab进来  当换页或搜索传外部param合并 包括page title等 */
     getParamsByTabIndex({ tabIndex = this.state.tabIndex, extraParams = null } = {}) {
-        //判断是否有额外参数
-        const params = (extraParams) ? Object.assign({}, extraParams) : {}
+        //判断是否有额外参数 将额外参数放外面 在更新新参数 覆盖原有参数
+		const params = (extraParams) ? Object.assign({}, this.state.searchParams, extraParams) : Object.assign({}, this.state.searchParams)
         //根据不同的tabIndex 设置参数
         switch (tabIndex) {
             case 0:
@@ -54,6 +55,7 @@ class Admin extends React.Component {
         this.setState({
             loading: true,
         })
+        console.log(params)
         adminStructuredList(params).then(res => {
             //判断状态码 判断结果是否存在 
             if (res.data.code === 200) {
@@ -74,26 +76,44 @@ class Admin extends React.Component {
     };
 
     // 搜索框 改完
-    handleSearch = data => {
-        const params = this.getParamsByTabIndex({ extraParams: data })
-        this.getTableList(params);
-    };
+    // 搜索框
+	handleSearch = data => {
+		this.setState({
+			searchParams: data
+		}, () => {
+			const params = this.getParamsByTabIndex()
+			this.getTableList(params);
+		})
 
-    //清空搜索条件 改完
-    clearSearch = () => {
-        const params = this.getParamsByTabIndex();
-        this.getTableList(params);
-    };
+	};
 
-    //切换Tab 改完
-    changeTab = (key) => {
-        const _key = parseInt(key);
-        const params = this.getParamsByTabIndex({ tabIndex: _key });
-        this.getTableList(params);
-        this.setState({
-            tabIndex: _key
-        });
-    };
+	//清空搜索条件
+	clearSearch = () => {
+		this.setState({
+			searchParams: {}
+		}, () => {
+			const params = this.getParamsByTabIndex();
+			this.getTableList(params);
+		})
+	};
+
+	//切换Tab
+	changeTab = (key) => {
+		const _key = parseInt(key);
+		const params = this.getParamsByTabIndex({ tabIndex: _key });
+		this.getTableList(params);
+		this.setState({
+			tabIndex: _key
+		});
+	};
+	//换页
+	onTablePageChange = (page) => {
+		let params = this.getParamsByTabIndex({ extraParams: { page } })
+		this.getTableList(params);
+		this.setState({
+			page
+		})
+	};
 
     //换页 改完 
     onTablePageChange = (page) => {
