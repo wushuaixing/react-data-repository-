@@ -18,31 +18,15 @@ class TabTable extends React.Component {
 		editNum: 0,
 		tabIndex: 0,
 		page: 1,
-		status: 0,
 	}
-
 	//切换Tab
 	changeTab = (key) => {
 		this.props.onTabs(parseInt(key))
 	};
-
 	//换页
 	onTablePageChange = (pagination) => {
 		this.props.onPage(pagination.current)
 	};
-	get columnShowTimeType() {
-		//console.log(this.props)
-		switch (this.props.tabIndex) {
-			case 0: case 1: case 5:
-				return '结构化时间';
-			case 2: case 3:
-				return '检查时间'
-			case 4:
-				return '修改时间'
-			default:
-				return ''
-		}
-	}
 	get columnShowObject() {
 		const showObject = {}
 		switch (this.props.tabIndex) {

@@ -2,90 +2,74 @@
 
 //筛选栏 管理员能通过地区(省/市/区)以及抓取时间,结构化人员和检查人员进行表格筛选。
 import React from 'react';
-import { Form, Input, Button, DatePicker, Select, message } from 'antd';
+import { Form, Input, DatePicker, Select, message } from 'antd';
 import { getStructuredPersonnel } from "../../../server/api";
 import { filters } from "../../../utils/common";
-
+import { SearchAndClearButtonGroup } from '../../common/index'
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			status: 0,
 			userList: [],
 			checkUserList: [],
-			timeType: "结构化时间",
 		};
 	}
 
 	componentDidMount() {
 		//结构化人员
-		getStructuredPersonnel("").then(res => {
-			if (res.data.code === 200) {
-				let id = res.data.data[0]["firstNameRank"];
-				let list = [];
-				let typeList = [];
-				typeList.push({
-					id: "",
-					array: [
-						{
-							value: 0,
-							label: "全部"
-						},
-						{
-							value: 1,
-							label: "已删除"
-						},
-						{
-							value: 2,
-							label: "自动标注"
-						}
-					]
-				});
-
-				for (let key = 0; key < res.data.data.length; key++) {
-					if (res.data.data[key]["firstNameRank"] === id) {
-						list.push({
-							value: res.data.data[key]["id"],
-							label: res.data.data[key]["name"]
-						});
-					} else {
-						typeList.push({
-							id: id,
-							array: list
-						});
-						id = res.data.data[key]["firstNameRank"];
-						list = [];
-						list.push({
-							value: res.data.data[key]["id"],
-							label: res.data.data[key]["name"]
-						});
-					}
-				}
-				this.setState({
-					userList: typeList,
-				});
-			} else {
-				message.error(res.data.message);
-			}
-		});
+		getStructuredPersonnel().then(res => {
+            if (res.data.code === 200) {
+                let data = res.data.data
+                this.setState({
+                    userList: this.getStructuredPersonnelTypeList(data),
+                });
+            } else {
+                message.error(res.data.message);
+            }
+        });
 	};
-
-	componentWillReceiveProps(nextProps) {
-		const { status, timeType } = nextProps;
-		this.setState({
-			status: status,
-			timeType: timeType,
-		});
-	}
-	//根据status传不同时间类型
-	// checkType| 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
+	getStructuredPersonnelTypeList(data) {
+        let typeMark = data[0]["firstNameRank"]  //类名
+        let typeList = [{
+            id: "用户类型",
+            array: [
+                {
+                    value: 'all',
+                    label: "全部"
+                },
+                {
+                    value: 'deleted',
+                    label: "已删除"
+                },
+                {
+                    value: 'auto',
+                    label: "自动标注"
+                }
+            ]
+        }] //类名数组 
+        let tempList = [] //类名数组的子集  负责暂时存放
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].firstNameRank !== typeMark) {
+                typeList.push({
+                    id: typeMark,
+                    array: tempList
+                })
+                typeMark = data[i].firstNameRank;
+                tempList = [];
+            }
+            tempList.push({
+                value: data[i].id,
+                label: data[i].name
+            })
+        }
+        return typeList;
+    }
 
 	// 搜索框
 	handleSearch = e => {
 		e.preventDefault();
-		const { status } = this.state;
 		const searchTitle = this.props.form.getFieldValue('title');
 		const startTime = this.props.form.getFieldValue('startTime');
 		const endTime = this.props.form.getFieldValue('endTime');
@@ -100,20 +84,29 @@ class Index extends React.Component {
 		if (userId) {
 			options.userId = userId;
 		}
-		options.approveStatus = status;
-		console.log(options, 'options');
 		this.props.toSearch(options);
 	};
 
 	//清空搜索条件
 	clearSearch = () => {
 		this.props.form.resetFields();
-		this.props.toClear(this.props.status);
+		this.props.toClear();
 	};
-
+	get columnShowTimeType() {
+		switch (this.props.tabIndex) {
+			case 0: case 1: case 5:
+				return '结构化时间';
+			case 2: case 3:
+				return '检查时间'
+			case 4:
+				return '修改时间'
+			default:
+				return ''
+		}
+	}
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { userList, timeType } = this.state;
+		const { userList } = this.state;
 		return (
 			<div>
 				<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{ marginLeft: 10, marginTop: 15 }}>
@@ -127,7 +120,7 @@ class Index extends React.Component {
 							/>)}
 					</Form.Item>
 
-					<Form.Item label={timeType}>
+					<Form.Item label={this.columnShowTimeType}>
 						{getFieldDecorator('startTime', {})
 							(<DatePicker
 								placeholder="开始时间"
@@ -167,12 +160,7 @@ class Index extends React.Component {
 						)}
 					</Form.Item>
 					<Form.Item>
-						<Button type="primary" htmlType="submit" style={{ backgroundColor: '#0099CC', marginLeft: 15, fontSize: 12 }}>
-							搜索
-						</Button>
-						<Button type="default" style={{ marginLeft: 5, fontSize: 12 }} onClick={this.clearSearch}>
-							清空搜索条件
-						</Button>
+						<SearchAndClearButtonGroup handleClearSearch={this.clearSearch} />
 					</Form.Item>
 				</Form>
 			</div>

@@ -80,8 +80,8 @@ class Admin extends React.Component {
     };
 
     //清空搜索条件 改完
-    clearSearch = (tabIndex) => {
-        const params = this.getParamsByTabIndex({ tabIndex });
+    clearSearch = () => {
+        const params = this.getParamsByTabIndex();
         this.getTableList(params);
     };
 
