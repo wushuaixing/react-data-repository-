@@ -1,30 +1,28 @@
 import React from 'react';
-import { Form, Input, Button, DatePicker, Tabs, Table, Spin,message } from 'antd';
+import { Form, Input, Button, DatePicker, Tabs, Table, Spin, message } from 'antd';
 import { Columns } from "@/static/columns";
 import createPaginationProps from "@/utils/pagination";
 import { structuredList, getNewStructuredData, structuredCheckErrorNum } from "@api";
 import { Link, withRouter } from "react-router-dom";
-import { BreadCrumb, SearchAndClearButtonGroup,AssetTabTextWithNumber } from '@commonComponents'
+import { BreadCrumb, SearchAndClearButtonGroup, AssetTabTextWithNumber } from '@commonComponents'
+import { dateUtils } from "@utils/common";
+
 const { TabPane } = Tabs;
+
 
 const searchForm = Form.create;
 
 class Asset extends React.Component {
-	constructor(props) {
-		super(props);
-		this.ifUpdateWaitNumber = true// 第一次搜索需要额外请求待修改数量接口
-		this.storeWaitMarkDataList = []//在没有任何筛选条件 待标记的资产结构化列表数据  当waitNum和此变量同时为0 button变成可以点击
-		this.state = {
-			page: 1,
-			total: 0,
-			tableList: [],  //表格数据
-			waitNum: 0,   //待修改tab 后边的红色数字
-			status: 0,  //所处statusTab 0.待标记 1.已标记 2.待修改  antdesign要求strign 后端接口是int
-			loading: false,
-			buttonDisabled: true,
-		};
-	}
-
+	state = {
+		page: 1,
+		total: 0,
+		tableList: [],  //表格数据
+		waitNum: 0,   //待修改tab 后边的红色数字
+		tabIndex: 0,  //所处statusTab 0.待标记 1.已标记 2.待修改  antdesign要求strign 后端接口是int
+		loading: false,
+		buttonDisabled: true,
+		searchTitle: {}
+	};
 	componentDidMount() {
 		/* //详情页跳回路由 如果是从待标记这跳回来 那存在刚修改完最后一条数据 所以button要变成能点击样式
 		if (this.props.location.state) {
@@ -46,6 +44,7 @@ class Asset extends React.Component {
 		this.setState({
 			loading: true,
 		});
+		//console.log(params)
 		//获取三列数量  如果当列数量》0  调获取数据接口  如果两列数据都为0  按钮改成可点
 		structuredCheckErrorNum().then(res => {
 			return res.data.data
@@ -54,7 +53,7 @@ class Asset extends React.Component {
 				buttonDisabled: (res.notBidNum === 0 && res.modNum === 0) ? false : true,
 				waitNum: res.modNum
 			})
-			let key = this.convertIndexToKey(params.approveStatus) //将index转换为后端返回对象字段
+			let key = this.convertIndexToKey(this.state.tabIndex) //将index转换为后端返回对象字段
 			let ifDataExist = res[key] > 0 ? true : false
 			if (ifDataExist) {
 				return (structuredList(params))
@@ -63,7 +62,6 @@ class Asset extends React.Component {
 					loading: false,
 					total: 0,
 					tableList: [],
-					status: params.approveStatus
 				})
 				return Promise.reject('此tab下无数据');
 			}
@@ -72,10 +70,9 @@ class Asset extends React.Component {
 				this.setState({
 					tableList: res.data.data,
 					total: res.data.total,
-					status: params.approveStatus,
 					loading: false
 				});
-			}else{
+			} else {
 				this.setState({
 					loading: false
 				})
@@ -87,7 +84,21 @@ class Asset extends React.Component {
 
 
 	};
-
+	getParamsByTabIndex({ tabIndex = this.state.tabIndex, page = this.state.page } = {}) {
+		const params = {
+			approveStatus: tabIndex,
+			page
+		}
+		const paramKeys = ['title', 'structuredStartTime', 'structuredEndTime']
+		const formParams = this.props.form.getFieldsValue(paramKeys)
+		Object.keys(formParams).forEach((key) => {
+			if (formParams[key] !== null && formParams[key] !== '' && formParams[key] !== undefined) {
+				//如果是日期 把Moment处理掉
+				params[key] = (key.indexOf('Time') >= 0) ? dateUtils.formatMomentToStandardDate(formParams[key]) : formParams[key]
+			}
+		})
+		return params
+	}
 	convertIndexToKey(index) {
 		switch (index) {
 			case 0:
@@ -101,49 +112,40 @@ class Asset extends React.Component {
 		}
 	}
 	//换页或者切tab 获取表格展示数据  tab值和页数  不用更新待修改数量
-	getTableList = (approveStatus = 0, page = 1) => {
-		let params = {
-			approveStatus, //传Int
-			page,
-		};
-		this.setState({
-			tabIndex: approveStatus.toString(),//转字符串
-			page,
-		});
+	getTableList = (params = {}, page = 1) => {
 		this.getApi(params);
 	};
 	//切换Tab 改完
 	changeTab = (key) => {
-		// approveStatus| 状态 0未标记 1已标记 2待修改
-		this.getTableList(parseInt(key));
+		this.setState({
+			tabIndex: parseInt(key)
+		}, () => {
+			this.getApi(this.getParamsByTabIndex())
+		})
 	};
-
 	//换页 改完
 	onChangePage = (pagination) => {
-		const { status } = this.state;
-		this.getTableList(status, pagination.current);
+		this.setState({
+			page: pagination.current
+		}, () => {
+			this.getApi(this.getParamsByTabIndex())
+		})
 	};
 
 	//搜索框 改
 	handleSearch = e => {
 		e.preventDefault();
-		const { status } = this.state;
-		let params = {
-			approveStatus: status,//所属tab分类
-			title: this.props.form.getFieldValue('title'), //搜索关键词
-		};
-		if (status !== 0) {
-			params.structuredStartTime = this.props.form.getFieldValue('start') //设置起始时间  默认值是''
-			params.structuredEndTime = this.props.form.getFieldValue('end')
-		}
+		const params = this.getParamsByTabIndex()
 		this.getApi(params)
+		this.setState({
+			searchTitle: params.title
+		})
 	};
 
 	//清空搜索条件 改完
 	clearSearch = () => {
 		this.props.form.resetFields();
-		const { status } = this.state;
-		this.getTableList(status);
+		this.getApi(this.getParamsByTabIndex())
 	};
 	// 获取新数据 
 	getNewData() {
@@ -153,9 +155,9 @@ class Asset extends React.Component {
 		getNewStructuredData().then((res) => {
 			this.setState({
 				loading: false,
-				status: 0
+				tabIndex: 0
 			});
-			this.getTableList(0)
+			this.getApi(this.getParamsByTabIndex())
 		})
 	}
 	//获取待修改列表数量
@@ -168,8 +170,7 @@ class Asset extends React.Component {
 	};
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { tableList, total, waitNum, page, status, tabIndex, loading } = this.state;
-
+		const { tableList, total, waitNum, page, tabIndex, loading } = this.state;
 		const columns = [
 			Columns[4],
 			Columns[5],
@@ -180,40 +181,21 @@ class Asset extends React.Component {
 				width: 180,
 				render: (text, record) => (
 					<span>
-						<Link to={`/index/${record.id}/${record.status}/${page}/${status}`}>
+						<Link to={`/index/structureDetail/${record.id}`}>
 							<Button>
-								标注
-						</Button>
-						</Link>
-					</span>
-				),
-			},
-
-		];
-		const columnsRevise = [
-			{
-				title: "结构化时间",
-				dataIndex: "completeTime",
-			},
-			Columns[4],
-			Columns[5],
-			{
-				title: "操作",
-				dataIndex: "action",
-				align: "center",
-				width: 180,
-				render: (text, record) => (
-					<span>
-						<Link to={`/index/${record.id}/${record.status}/${page}/${status}`}>
-							<Button>
-								修改标注
+								{tabIndex === 0 ? '标注' : '修改标注'}
 							</Button>
 						</Link>
 					</span>
 				),
-
-			}
+			},
 		];
+		if (tabIndex !== 0) {
+			columns.unshift({
+				title: "结构化完成时间",
+				dataIndex: "completeTime",
+			})
+		}
 		const paginationProps = createPaginationProps(page, total)
 		return (
 			<div className="yc-content-container">
@@ -231,9 +213,9 @@ class Asset extends React.Component {
 									/>)}
 							</Form.Item>
 							{
-								status !== 0 &&
+								tabIndex !== 0 &&
 								<Form.Item label="结构化时间">
-									{getFieldDecorator('start', { initialValue: null })
+									{getFieldDecorator('structuredStartTime', { initialValue: null })
 										(<DatePicker
 											placeholder="开始时间"
 											style={{ width: 108 }}
@@ -241,9 +223,9 @@ class Asset extends React.Component {
 								</Form.Item>
 							}
 							{
-								status !== 0 &&
+								tabIndex !== 0 &&
 								<Form.Item label="至">
-									{getFieldDecorator('end', { initialValue: null })
+									{getFieldDecorator('structuredEndTime', { initialValue: null })
 										(<DatePicker
 											placeholder="结束时间"
 											style={{ width: 108 }}
@@ -257,7 +239,7 @@ class Asset extends React.Component {
 					</div>
 					<div className="yc-tab">
 						<Spin tip="Loading..." spinning={loading}>
-							<Tabs activeKey={tabIndex} onChange={this.changeTab} animated={false}>
+							<Tabs activeKey={tabIndex.toString()} onChange={this.changeTab} animated={false}>
 								<TabPane tab="待标记" key="0">
 									<Table rowClassName="table-list"
 										columns={columns}
@@ -269,16 +251,16 @@ class Asset extends React.Component {
 								</TabPane>
 								<TabPane tab="已标记" key="1">
 									<Table rowClassName="table-list"
-										columns={columnsRevise}
+										columns={columns}
 										dataSource={tableList}
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
 										pagination={paginationProps}
 									/>
 								</TabPane>
-								<TabPane tab={<AssetTabTextWithNumber num={waitNum} text={'待修改'}/>} key="2">
+								<TabPane tab={<AssetTabTextWithNumber num={waitNum} text={'待修改'} />} key="2">
 									<Table rowClassName="table-list"
-										columns={columnsRevise}
+										columns={columns}
 										dataSource={tableList}
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
