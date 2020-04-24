@@ -1,0 +1,18 @@
+.assetStructureDetail-structure {
+    min-height: 1200px;
+    &_container {
+        padding: 11px 20px;
+        display: flex;
+        flex-direction: column;
+        &_header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        &_body {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+    }
+}

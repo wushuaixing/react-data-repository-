@@ -3,7 +3,7 @@ import React from 'react'
 import { Route } from 'react-router-dom';
 import DocumentSearch from "@/pages/documentSearch";
 import Asset from "@/pages/assetStructureList/structureAccount";
-import StructureDetail from "@/pages/assetStructureDetail";
+import StructureDetail from "@/pages/assetStructureDetail/structure";
 
 class ContentMain extends React.Component {
   render() {

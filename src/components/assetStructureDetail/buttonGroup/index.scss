@@ -1,0 +1,20 @@
+.yc-component-buttonGroup {
+    display: flex;
+    width: 50%;
+    justify-content:flex-end;
+    &-onlyMark {
+        margin-top: 8px;
+        margin-right:30px;
+        span{
+            font-size: 12px;
+        }
+    }
+    &-saveGet {
+        background-color: #cccccc;
+        border-radius: 2px;
+        width: 140px;
+        height: 32px;
+        color:#eee;
+        
+    }
+}
