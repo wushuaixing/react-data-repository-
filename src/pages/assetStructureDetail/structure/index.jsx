@@ -28,7 +28,6 @@ class StructureDetail extends React.Component {
                         <StructureDocumentDetail></StructureDocumentDetail>
                         <RoleDetail></RoleDetail>
                     </div>
-
                 </div>
             </div>
         )

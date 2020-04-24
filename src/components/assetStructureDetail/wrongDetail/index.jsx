@@ -7,8 +7,8 @@ const wrongDetail = (props) => {
             <div className="yc-components-assetStructureDetail_header">错误原因</div>
             <div className="yc-components-assetStructureDetail_body">
                 {
-                    props.wrongReasons.map(reason => (
-                        <WrongReasonRow reason={reason}></WrongReasonRow>
+                    props.wrongReasons.map((reason,index) => (
+                        <WrongReasonRow reason={reason} key={index}></WrongReasonRow>
                     ))
                 }
             </div>
