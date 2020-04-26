@@ -24,20 +24,6 @@ class Asset extends React.Component {
 		searchTitle: {}
 	};
 	componentDidMount() {
-		/* //详情页跳回路由 如果是从待标记这跳回来 那存在刚修改完最后一条数据 所以button要变成能点击样式
-		if (this.props.location.state) {
-			let { statusPath, pagePath, Id } = this.props.location.state;
-			let _status = parseInt(statusPath);
-			let _page = parseInt(pagePath);
-			if (Id) {
-				let _Id = parseInt(Id);
-				this.getApi({ _Id });
-			}
-			this.getTableList(_status, _page);
-		}
-		else {
-			this.getTableList(0);
-		} */
 		this.getTableList(0)
 	};
 	getApi = (params) => {
@@ -181,7 +167,7 @@ class Asset extends React.Component {
 				width: 180,
 				render: (text, record) => (
 					<span>
-						<Link to={`/index/structureDetail/${record.id}`}>
+						<Link to={`/index/structureDetail/${record.status}/${record.id}`}>
 							<Button>
 								{tabIndex === 0 ? '标注' : '修改标注'}
 							</Button>

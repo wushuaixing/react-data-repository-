@@ -5,7 +5,7 @@ import './index.scss'
 class StructureDocumentDetail extends React.Component {
 
     state = {
-        documentInputNumber: 2,
+        documentInputNumber: 1,
         linkInputNumber: 1
     }
     handleDeleteClick(e) {

@@ -306,3 +306,8 @@ export const  getNewStructuredData = ()=>{
 export const  structuredCheckErrorNum = ()=>{
 	return axios.get("/api/asset/structured/control/structuredCheckErrorNum");
 }
+
+export const  structuredById = (id,approveStatus)=>{
+	return axios.get("/api/asset/structured/control/structuredById?id="+id+'&approveStatus='+approveStatus);
+}
+
