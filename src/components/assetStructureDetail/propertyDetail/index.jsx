@@ -5,7 +5,7 @@ import '../index.scss'
 
 class StructurePropertyDetail extends React.Component{
     handleChange = (e) =>{
-        e.target.name==='collateral'?this.props.handleChange(e.target.name,e.target.checked*1):this.props.handleChange(e.target.name,e.target.value)
+        e.target.type==='checkbox'?this.props.handleChange(e.target.name,e.target.checked*1):this.props.handleChange(e.target.name,e.target.value)
     }
     render(){
         return (

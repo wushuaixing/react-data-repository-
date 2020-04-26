@@ -32,25 +32,54 @@ class StructureDetail extends React.Component {
             wsUrl: []
         }
     }
-    handleChange(key,value) {
+    handleChange(key, value) {
         this.setState({
-            [key]:value
+            [key]: value
+        }, () => {
+            console.log(this.state)
+        })
+    }
+    handleDocumentChange(combine,value){
+        const arr_index = combine.substr(combine.length-1,1)
+        const key = combine.substr(0,combine.length-1)
+        const arr = [...this.state[key]]
+        arr[arr_index].value = value
+        this.setState({
+            [key]:arr
         },()=>{
             console.log(this.state)
         })
-        //console.log(key,value)
     }
-    handleClick(){
+    handleClick() {
 
+    }
+    handleAddClick(key) {
+        const arr = [...this.state[key],{value:''}]
+        this.setState({
+            [key]:arr
+        },()=>{
+            console.log(this.state)
+        });
+    }
+    handleDeleteClick(key){
+        const arr = this.state[key].slice(0,-1)
+        this.setState({
+            [key]:arr
+        },()=>{
+            console.log(this.state)
+        });
     }
     componentWillMount() {
         const params = this.props.match.params
         structuredById(params.id, params.status).then(res => {
             this.setState({
-                ...res.data
+                ...res.data,
+                ah:res.data.ah.length===0?[{value:''}]:res.data.ah,
+                wsUrl:res.data.wsUrl.length===0?[{value:''}]:res.data.wsUrl,
             }, () => {
                 console.log(this.state)
             })
+            
         })
     }
     render() {
@@ -86,7 +115,13 @@ class StructureDetail extends React.Component {
                             collateral={state.collateral} buildingArea={state.buildingArea}
                             houseType={state.houseType} handleChange={this.handleChange.bind(this)}
                         ></StructurePropertyDetail>
-                        <StructureDocumentDetail></StructureDocumentDetail>
+                        <StructureDocumentDetail
+                            wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl} ah={state.ah} wsInAttach={state.wsInAttach}
+                            handleDocumentChange={this.handleDocumentChange.bind(this)} 
+                            handleChange={this.handleChange.bind(this)} 
+                            handleAddClick={this.handleAddClick.bind(this)}
+                            handleDeleteClick={this.handleDeleteClick.bind(this)}
+                        ></StructureDocumentDetail>
                         <RoleDetail></RoleDetail>
                     </div>
                 </div>
