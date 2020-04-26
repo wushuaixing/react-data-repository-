@@ -1,23 +1,17 @@
 import React from 'react'
-import { Icon, Input, Select, Button } from 'antd'
+import { Icon, Input, Select, Button, Form } from 'antd'
+import { SEX_TYPE, ROLE_TYPE } from '@/static/status'
 import '../index.scss'
-
-//功能还剩链接跳转  在父组件补上Prop和回调逻辑即可  另外要根据传入prop选择需要显示的row
+const { Option } = Select;
 class RoleDetail extends React.Component {
-    state = {
-        roleInputNumber: 1
+    handleChange(e) {
+        this.props.handleChange(e.target.name,e.target.value)
     }
-    handleAdd() {
-        const num = this.state.roleInputNumber
-        this.setState({
-            roleInputNumber: num + 1
-        })
+    handleDel(index){
+        this.props.handleDeleteClick('obligors',index)
     }
-    handleDel() {
-        const num = this.state.roleInputNumber
-        this.setState({
-            roleInputNumber: num - 1
-        })
+    get roleInputNumber() {
+        return this.props.obligors.length
     }
     render() {
         return (
@@ -36,17 +30,12 @@ class RoleDetail extends React.Component {
                         <span className="note">备注</span>
                         <span className="operation">操作</span>
                     </div>
-                    {
-                        (() => {
-                            const arr = []
-                            for (let i = 0; i < this.state.roleInputNumber; i++) {
-                                arr.push(<RoleInput key={i} index={i} handleDel={this.handleDel.bind(this)}></RoleInput>)
-                            }
-                            return arr;
-                        })()
-                    }
+                    <RoleInputs num={this.roleInputNumber} obligors={this.props.obligors}
+                        handleDel={this.handleDel.bind(this)}
+                        handleChange={this.handleChange.bind(this)}>
+                    </RoleInputs>
                     <div className="yc-components-assetStructureDetail_body-addRole">
-                        <Button type="dashed" icon="plus" onClick={this.handleAdd.bind(this)}>
+                        <Button type="dashed" icon="plus" onClick={this.props.handleAddClick.bind(this, 'obligors')}>
                             添加
                         </Button>
                     </div>
@@ -56,15 +45,34 @@ class RoleDetail extends React.Component {
     }
 }
 
+const RoleInputs = (props) => {
+    const arr = []
+    for (let i = 0; i < props.num; i++) {
+        arr.push(<RoleInput key={i} index={i} obligor={props.obligors[i]}
+            handleDel={props.handleDel.bind(this,i)}
+            handleChange={props.handleChange}
+        ></RoleInput>)
+    }
+    return arr;
+}
+
 const RoleInput = (props) => {
     return (
         <div className="yc-components-assetStructureDetail_body-roleInputRow">
-            <Input placeholder="请输入名称"></Input>
-            <Select placeholder="角色"></Select>
-            <Input placeholder="请输入证件号"></Input>
-            <Input placeholder="请输入年月日"></Input>
-            <Select placeholder="性别"></Select>
-            <Input placeholder="请输入备注"></Input>
+            <Input placeholder="请输入名称" onChange={(e)=>{e.persist();props.handleChange(e)}} name={`name${props.index}`} value={props.obligor.name}></Input>
+            <Select placeholder="角色" onChange={(value)=>{props.handleChange({target:{name:`labelType${props.index}`,value}})}} value={props.obligor.labelType}>
+                {Object.keys(ROLE_TYPE).map((key) => {
+                    return <Option key={key}>{ROLE_TYPE[key]}</Option>
+                })}
+            </Select>
+            <Input placeholder="请输入证件号" onChange={(e)=>{e.persist();props.handleChange(e)}} name={`number${props.index}`} value={props.obligor.number}></Input>
+            <Input placeholder="请输入年月日" onChange={(e)=>{e.persist();props.handleChange(e)}} name={`birthday${props.index}`} value={props.obligor.birthday}></Input>
+            <Select placeholder="性别" onChange={(value)=>{props.handleChange({target:{name:`gender${props.index}`,value}})}} value={props.obligor.gender}>
+                {Object.keys(SEX_TYPE).map((key) => {
+                    return <Option key={key}>{SEX_TYPE[key]}</Option>
+                })}
+            </Select>
+            <Input placeholder="请输入备注" onChange={(e)=>{e.persist();props.handleChange(e)}} name={`notes${props.index}`} value={props.obligor.notes}></Input>
             <Button type="danger" onClick={props.handleDel}>删除</Button>
         </div>
     )

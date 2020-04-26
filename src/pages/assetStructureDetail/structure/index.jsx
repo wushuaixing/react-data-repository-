@@ -8,6 +8,19 @@ import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import WrongDetail from '@/components/assetStructureDetail/wrongDetail'
 import { structuredById } from '@api'
 import './index.scss'
+
+
+function getObligor() {
+    return {
+        "birthday": '',
+        "gender": "0",
+        "labelType": "1",
+        "name": "lik",
+        "notes": "",
+        "number": "",
+        "type": "1"
+    }
+}
 class StructureDetail extends React.Component {
     constructor(props) {
         super(props)
@@ -39,14 +52,25 @@ class StructureDetail extends React.Component {
             console.log(this.state)
         })
     }
-    handleDocumentChange(combine,value){
-        const arr_index = combine.substr(combine.length-1,1)
-        const key = combine.substr(0,combine.length-1)
+    handleDocumentChange(combine, value) {
+        const arr_index = combine.substr(combine.length - 1, 1)
+        const key = combine.substr(0, combine.length - 1)
         const arr = [...this.state[key]]
         arr[arr_index].value = value
         this.setState({
-            [key]:arr
-        },()=>{
+            [key]: arr
+        }, () => {
+            console.log(this.state)
+        })
+    }
+    handleRoleChange(combine, value){
+        const arr_index = combine.substr(combine.length - 1, 1)
+        const key = combine.substr(0, combine.length - 1)
+        const arr = [...this.state.obligors]
+        arr[arr_index][key] = value
+        this.setState({
+            obligors: arr
+        }, () => {
             console.log(this.state)
         })
     }
@@ -54,18 +78,22 @@ class StructureDetail extends React.Component {
 
     }
     handleAddClick(key) {
-        const arr = [...this.state[key],{value:''}]
+        const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], {...getObligor()}]
         this.setState({
-            [key]:arr
-        },()=>{
+            [key]: arr
+        }, () => {
             console.log(this.state)
         });
     }
-    handleDeleteClick(key){
-        const arr = this.state[key].slice(0,-1)
+    handleDeleteClick(key,index=-1) {
+        //角色对应顺序删除  文书从下往上删
+        const arr = (index>=0)?this.state[key].slice(0):this.state[key].slice(0, -1)
+        if(index>=0){
+            arr.splice(index,1)
+        }
         this.setState({
-            [key]:arr
-        },()=>{
+            [key]: arr
+        }, () => {
             console.log(this.state)
         });
     }
@@ -74,12 +102,13 @@ class StructureDetail extends React.Component {
         structuredById(params.id, params.status).then(res => {
             this.setState({
                 ...res.data,
-                ah:res.data.ah.length===0?[{value:''}]:res.data.ah,
-                wsUrl:res.data.wsUrl.length===0?[{value:''}]:res.data.wsUrl,
+                ah: res.data.ah.length === 0 ? [{ value: '' }] : res.data.ah,
+                wsUrl: res.data.wsUrl.length === 0 ? [{ value: '' }] : res.data.wsUrl,
+                obligors: res.data.obligors.length === 0 ? [getObligor()] : res.data.obligors
             }, () => {
                 console.log(this.state)
             })
-            
+
         })
     }
     render() {
@@ -117,12 +146,17 @@ class StructureDetail extends React.Component {
                         ></StructurePropertyDetail>
                         <StructureDocumentDetail
                             wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl} ah={state.ah} wsInAttach={state.wsInAttach}
-                            handleDocumentChange={this.handleDocumentChange.bind(this)} 
-                            handleChange={this.handleChange.bind(this)} 
+                            handleDocumentChange={this.handleDocumentChange.bind(this)}
+                            handleChange={this.handleChange.bind(this)}
                             handleAddClick={this.handleAddClick.bind(this)}
                             handleDeleteClick={this.handleDeleteClick.bind(this)}
                         ></StructureDocumentDetail>
-                        <RoleDetail></RoleDetail>
+                        <RoleDetail
+                            obligors={state.obligors}
+                            handleChange={this.handleRoleChange.bind(this)}
+                            handleAddClick={this.handleAddClick.bind(this)}
+                            handleDeleteClick={this.handleDeleteClick.bind(this)}
+                        ></RoleDetail>
                     </div>
                 </div>
             </div>
