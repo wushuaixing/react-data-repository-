@@ -1,28 +1,23 @@
 .yc-login {
-  height: 100%;
   width: 100%;
-  min-width: 1200px;
   background: #fff;
   background-image: url(../../assets/img/bg.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   .yc-login-header {
-    margin-top: 30px;
     height: 100px;
-    .header-img {
-      margin: 0 auto;
-      width: 1200px;
-      padding: 25px 0;
-      img{
-        height: 50px;
-      }
+    margin: 0 auto;
+    width: 1200px;
+    padding: 25px 0;
+    img {
+      height: 50px;
+      vertical-align: top;
     }
   }
 
   .yc-login-container {
     height: 650px;
     padding-top: 85px;
-
     .yc-container-body {
       height: 600px;
       margin: 0 auto;
@@ -43,51 +38,56 @@
         float: right;
         margin-top: 100px;
         border-radius: 6px;
-        .yc-form-title{
+        .yc-form-title {
           margin-top: 37px;
           text-align: center;
           font-size: 16px;
           color: #293038;
         }
-        .login-form{
-          padding:27px 40px;
-          .yc-input{
+        .login-form {
+          padding: 27px 40px;
+          .yc-input {
             width: 320px;
             height: 40px;
           }
-          .yc-forget{
-            font-size:12px;
-            color:#293038;
+          .yc-forget {
+            font-size: 12px;
+            color: #293038;
           }
-          .yc-login-button{
+          .yc-login-button {
             width: 320px;
             height: 40px;
             font-size: 16px;
-            background-color: #0099CC;
+            background-color: #0099cc;
             margin-top: 37px;
           }
-          .yc-get-code{
-
-          }
         }
-      }
-      .yc-right-find{
-
       }
     }
   }
 
   .yc-login-footer {
     height: 100px;
-
+    margin-top: 30px;
+    margin-left: 300px;
+    color: #666666;
     .footer-container {
-      margin-top: 30px;
-      margin-left: 300px;
-      color: #666666;
-      font-size: 14px;
+      .lineStyle {
+        line-height: 21px;
+        height: 14px;
+      }
+      .footer-tech {
+        @extend .lineStyle;
+        &-logo {
+          width: 12px;
+          height: 12px;
+          margin-right:2px;
+        }
+      }
+      .footer-copyright {
+        @extend .lineStyle;
+        margin-top: 20px;
+      }
     }
   }
-
-
 }
-

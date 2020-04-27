@@ -1,9 +1,10 @@
 /** sync monitor * */
 import React from 'react';
 import {message, Spin} from "antd";
-import {dataTypeChange} from "../../../server/api";
-import {AxisStyle} from '../../../static/axisStyle';
+import {dataTypeChange} from "@api";
+import {AxisStyle} from '@/static/axisStyle';
 import echarts from 'echarts/lib/echarts';
+import {BreadCrumb} from '@commonComponents'
 // 引入柱状图
 import  'echarts/lib/chart/line';
 import  'echarts/lib/chart/bar';
@@ -106,9 +107,7 @@ class Index extends React.Component {
     return (
       <Spin tip="Loading..." spinning={loading}>
         <div>
-          <div className="yc-detail-title" >
-            <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>数据类型占比变动趋势</div>
-          </div>
+          <BreadCrumb texts={['数据类型占比变动趋势']}></BreadCrumb>
           <div className="yc-every-line" id="dataType" style={{height: 300}} />
         </div>
       </Spin>

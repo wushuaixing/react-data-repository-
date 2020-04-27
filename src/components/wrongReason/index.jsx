@@ -1,10 +1,5 @@
 /** 错误原因展示* */
 import React from 'react';
-import './style.scss';
-// ==================
-// 所需的所有组件
-// ==================
-
 
 class  WrongReason extends React.Component {
   constructor(props) {
@@ -24,7 +19,6 @@ class  WrongReason extends React.Component {
 
   //filterLevel 错误等级
   filterLevel=(level)=>{
-    // console.log('level',level);
       if (level === 1) {
         return "严重";
       } else if (level === 4) {
@@ -40,10 +34,8 @@ class  WrongReason extends React.Component {
         const role = storage.userState;
         const { errorList }=this.state;
         let reasonStruc,reasonCheck,reasonAdmin;
-        let need=false;
         if(role === "结构化人员"){
           reasonStruc=errorList;
-          need=true;
         }
         if(role === "检查人员"){
           reasonCheck=errorList;

@@ -1,8 +1,8 @@
 /** sync monitor * */
 import React from 'react';
 import {message, Select, Radio, Spin} from "antd";
-import {detailsByDate} from "../../../server/api";
-import {AxisStyle} from '../../../static/axisStyle';
+import {detailsByDate} from "@api";
+import {AxisStyle} from '@/static/axisStyle';
 import echarts from 'echarts/lib/echarts';
 // 引入柱状图
 import  'echarts/lib/chart/line';
@@ -164,8 +164,6 @@ class Index extends React.Component {
     let dataEveryMore=[];
     let dataEveryLess=[];
     let diffAllCount=[];
-    let ifAllData=false;
-    let ifDiffData=false;
     for (let key in data ){
       diffAllCount.push([
         data[key].date,
@@ -190,12 +188,6 @@ class Index extends React.Component {
           data[key].date,
           data[key].diffNegative
         ]);
-      }
-      if(data[key].sourceCount>0){
-        ifAllData=true;
-      }
-      if(data[key].diffAllCount>0){
-        ifDiffData=true;
       }
     }
     lineSP.setOption({

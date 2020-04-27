@@ -1,10 +1,10 @@
-/** python-time* */
+/** python-now* */
 import React from 'react';
 import {message, Select, DatePicker, Spin} from "antd";
-import moment from 'moment';
-import {pythonAmountIn31, structurePython} from "../../../server/api";
-import {dataFilter,getToday} from "../../../util/commonMethod";
+import {pythonAmountIn31, structurePython} from "@api";
+import { dateUtils } from "@/utils/common";
 import echarts from 'echarts/lib/echarts';
+import {BreadCrumb} from '@commonComponents'
 // 引入柱状图
 import  'echarts/lib/chart/line';
 import  'echarts/lib/chart/pie';
@@ -16,11 +16,6 @@ import 'echarts/lib/component/legend';
 import '../style.scss';
 
 const { Option } = Select;
-//当日日期：
-const nowDate=getToday();
-const dateFormat = 'YYYY-MM-DD';
-
-
 class Index extends React.Component {
   constructor(props) {
     super(props);
@@ -53,51 +48,50 @@ class Index extends React.Component {
         },
 
       ],
-      time:nowDate,
       sourceId:0,
+      now:dateUtils.getTodayDate(true)
     };
   }
 
   componentDidMount() {
-    const {sourceId,time}=this.state;
-
-    this.getSourceList(sourceId, time);
+    const {sourceId,now}=this.state;
+    this.getSourceList(sourceId, now);
 
   }
 
   onChangeDate=(e)=>{
-    let _date=dataFilter(e);
+    let _date= dateUtils.formatStandardDate(e);
     this.changeDate(_date);
     this.setState({
-      time:_date,
+      now:_date,
     })
   };
 
   //资产数据抓取时间段分布 数据源选择
   onChangeSelect=(value)=>{
-    const {time}=this.state;
+    const {now}=this.state;
     if (value === "全部") {
-      this.getSourceList(0,time);
+      this.getSourceList(0,now);
     } else if (value === "阿里司法拍卖") {
-      this.getSourceList(1,time);
+      this.getSourceList(1,now);
     } else if (value === "公拍网") {
-      this.getSourceList(3,time);
+      this.getSourceList(3,now);
     }else if (value === "京东司法拍卖") {
-      this.getSourceList(4,time);
+      this.getSourceList(4,now);
     }else if (value === "中国拍卖行业协会") {
-      this.getSourceList(5,time);
+      this.getSourceList(5,now);
     }else if (value === "人民法院诉讼资产网") {
-      this.getSourceList(6,time);
+      this.getSourceList(6,now);
     }
   };
 
   //资产数据抓取时间段
-  getSourceList=(id,time)=>{
+  getSourceList=(id,now)=>{
     this.setState({
       sourceId:id,
       loading:true,
     });
-    structurePython(id,time).then(res =>{
+    structurePython(id,now).then(res =>{
       this.setState({
         loading:false,
       });
@@ -155,7 +149,6 @@ class Index extends React.Component {
       }
       hourData.reverse();
     }
-    //
     pythonTime.setOption({
       color:['#1CAFE0FF','#FD9C26FF','#F03733FF','#126EC7FF','#16B45CFF','#8F56DFFF'],
       title : {
@@ -180,17 +173,6 @@ class Index extends React.Component {
           }
         }
       },
-      /*xAxis: {
-					 type: 'category',
-					 splitLine: {
-							 show: true,
-							 lineStyle: {
-									 color: '#999',
-									 type: 'dashed'
-							 }
-					 },
-			 },
-			 yAxis: yAxisStyle,*/
       xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -292,9 +274,7 @@ class Index extends React.Component {
     return (
       <Spin tip="Loading..." spinning={loading}>
         <div>
-              <div className="yc-detail-title" >
-                <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>资产数据抓取时间段分布</div>
-              </div>
+              <BreadCrumb texts={['资产数据抓取时间段分布']}></BreadCrumb>
               <div className="yc-left-chart" style={{backgroundColor:'#ffffff'}} >
                 <div style={{marginTop:20,marginBottom:20}}>
                     <span style={{display: 'inline-block', marginLeft: 26,color:'#293038'}}>数据源：</span>
@@ -325,8 +305,8 @@ class Index extends React.Component {
                       placeholder="开始时间"
                       style={{width:108,fontSize:12}}
                       onChange={this.onChangeDate}
-                      defaultValue={moment(nowDate, dateFormat)}
-                      format={dateFormat}
+                      defaultValue={this.state.now}
+                      format={'YYYY-MM-DD'}
                     />
                   </div>
                 </div>

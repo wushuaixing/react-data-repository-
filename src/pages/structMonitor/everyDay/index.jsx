@@ -1,9 +1,10 @@
 /** sync monitor * */
 import React from 'react';
 import {message, Radio, Spin} from "antd";
-import {addedAndStructured} from "../../../server/api";
-import {AxisStyle} from '../../../static/axisStyle';
+import {addedAndStructured} from "@api";
+import {AxisStyle} from '@/static/axisStyle';
 import echarts from 'echarts/lib/echarts';
+import {BreadCrumb} from '@commonComponents'
 // 引入柱状图
 import  'echarts/lib/chart/line';
 import  'echarts/lib/chart/bar';
@@ -115,8 +116,8 @@ class Index extends React.Component {
     return (
       <Spin tip="Loading..." spinning={loading}>
         <div>
-          <div className="yc-detail-title" >
-            <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>每日资产数据新增与标记</div>
+          <div>
+            <BreadCrumb texts={['每日资产数据新增与标记']}></BreadCrumb>
             <div style={{textAlign:'center',marginTop:-35}}>
             <Radio.Group
                 onChange={this.onChangeRadio}

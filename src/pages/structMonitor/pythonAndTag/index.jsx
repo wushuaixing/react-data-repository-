@@ -1,9 +1,10 @@
 /** sync monitor * */
 import React from 'react';
 import {message, Spin} from "antd";
-import {pythonAndTag} from "../../../server/api";
-import {AxisStyle} from '../../../static/axisStyle';
+import {pythonAndTag} from "@api";
+import {AxisStyle} from '@/static/axisStyle';
 import echarts from 'echarts/lib/echarts';
+import {BreadCrumb} from '@commonComponents'
 // 引入柱状图
 import  'echarts/lib/chart/line';
 import  'echarts/lib/chart/bar';
@@ -121,9 +122,7 @@ class Index extends React.Component {
     return (
       <Spin tip="Loading..." spinning={loading}>
         <div>
-          <div className="yc-detail-title" >
-            <div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>数据抓取与标记差值分析</div>
-          </div>
+          <BreadCrumb texts={['数据抓取与标记差值分析']}></BreadCrumb>
           <div className="yc-python-tag" id="pythonTag" />
         </div>
       </Spin>

@@ -1,0 +1,96 @@
+.externalSource-auction-container {
+  background-color: #fff;
+  width: 1200px;
+  margin: 0 auto;
+  .container_body {
+    width: 904px;
+    padding: 0 0 64px 40px;
+    &_linkTitle {
+      font-size: 22px;
+      color: #337ab7;
+      padding-top: 50px;
+      text-align: center;
+      font-weight: bold;
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+    &_eachPart {
+      margin-top: 50px;
+      position: relative;
+      .title {
+        font-size: 28px;
+        color: #ad0700;
+        line-height: 28px;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #fff;
+      }
+      .line {
+        position: relative;
+        top: 14px;
+        border-top: 1px solid #000000;
+      }
+      .content {
+        margin-top: 40px;
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .container_right {
+    z-index: 2;
+    box-shadow: 0 1px 6px 0 rgba(0, 16, 43, 0.17);
+    width: 216px;
+    min-height: 370px;
+    position: fixed;
+    top: 80px;
+    right: 0;
+    margin-right: calc((100% - 1120px) / 2);
+    padding: 24px 20px 10px 20px;
+    .accessory {
+      margin-bottom: 20px;
+      text-align: left;
+      padding-left: 5px;
+      word-break: break-all;
+      &_title {
+        color: #4d5566;
+        font-size: 16px;
+      }
+      &-notFound {
+        line-height: 20px;
+        color: #7d8699;
+        font-size: 14px;
+      }
+      &-list {
+        padding-left: 5px;
+        max-height: 343px;
+        width: 170px;
+        margin-top: 7px;
+        &_item span:nth-child(1) {
+          max-width: 136px;
+          margin-bottom: 12px;
+          list-style: none;
+          font-size: 12px;
+          color: #337ab7;
+          text-align: justify;
+          line-height: 12px;
+          &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+        &_item span:nth-child(2){
+          width:50px;
+          background: rgb(176, 184, 194);
+          color:rgb(255, 255, 255);
+          margin-left:5px;  
+        }
+      }
+    }
+  }
+}

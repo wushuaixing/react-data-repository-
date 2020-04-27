@@ -89,6 +89,7 @@ export const getCheckListCheck=(params)=> {
 		urlPlus = urlPlus + key + "=" + params[key] + "&";
 	}
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
+	//console.log(urlPlus)
 	return axios.get("/api/asset/admin/check/getCheckList?" + urlPlus);
 };
 
@@ -297,3 +298,16 @@ export const structurePython=(type,date)=> {
 export const pythonAmountIn31=(type)=> {
 	return axios.get("/api/statistical/assetDataCrawlingTimeDistributeAssistDetailsVO?type="+ type);
 };
+
+
+export const  getNewStructuredData = ()=>{
+	return axios.get("/api/asset/structured/control/getNewStructuredData");
+}
+export const  structuredCheckErrorNum = ()=>{
+	return axios.get("/api/asset/structured/control/structuredCheckErrorNum");
+}
+
+export const  structuredById = (id,approveStatus)=>{
+	return axios.get("/api/asset/structured/control/structuredById?id="+id+'&approveStatus='+approveStatus);
+}
+

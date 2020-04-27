@@ -1,9 +1,10 @@
 /** sync monitor * */
 import React from 'react';
 import {message,Row, Col} from "antd";
-import {sqlMonitorText,ruleMonitor} from "../../../server/api";
-import {AxisStyle} from '../../../static/axisStyle';
+import {sqlMonitorText,ruleMonitor} from "@api";
+import {AxisStyle} from '@/static/axisStyle';
 import echarts from 'echarts/lib/echarts';
+import {BreadCrumb} from '@commonComponents'
 // 引入柱状图
 import  'echarts/lib/chart/line';
 // 引入提示框和标题组件
@@ -132,9 +133,7 @@ class Index extends React.Component {
 		const {structureQueue,notFitStructure,ruleDiff,extractNumLast}=this.state;
 		return (
 			<div>
-				<div className="yc-detail-title" >
-					<div style={{ fontSize:16, color:'#293038',fontWeight:800,marginBottom:15 }}>规则正常度监控</div>
-				</div>
+				<BreadCrumb texts={['规则正常度监控']}></BreadCrumb>
 				<div className="yc-detail-amount">
 					<div>
 						<p style={{color:'#293038',fontWeight:800,marginLeft:20,marginTop:10}}>昨日数据情况</p>
