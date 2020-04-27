@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { BreadCrumb } from '@commonComponents'
 import StructureBasicDetail from '@/components/assetStructureDetail/basicDetail'
 import StructureButtonGroup from '@/components/assetStructureDetail/buttonGroup'
@@ -6,8 +7,10 @@ import StructurePropertyDetail from '@/components/assetStructureDetail/propertyD
 import StructureDocumentDetail from '@/components/assetStructureDetail/documentDetail'
 import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import WrongDetail from '@/components/assetStructureDetail/wrongDetail'
-import { structuredById,getNumberOfTags } from '@api'
+import { structuredById, getNumberOfTags, saveDetail } from '@api'
+import { filters } from '@utils/common'
 import './index.scss'
+import { message } from 'antd';
 
 
 function getObligor() {
@@ -43,10 +46,10 @@ class StructureDetail extends React.Component {
             wsFindStatus: 1,
             wsInAttach: 0,
             wsUrl: [],
-            preId:'', //保留上一条ID
-            onlyThis:0, //仅标记本条,
-            TOTAL:0,  //数据总量,
-            MARK:0  //当前标记数
+            preId: '', //保留上一条ID
+            onlyThis: 0, //仅标记本条,
+            TOTAL: 0,  //数据总量,
+            MARK: 0  //当前标记数
         }
     }
     handleChange(key, value) {
@@ -67,7 +70,7 @@ class StructureDetail extends React.Component {
             console.log(this.state)
         })
     }
-    handleRoleChange(combine, value){
+    handleRoleChange(combine, value) {
         const arr_index = combine.substr(combine.length - 1, 1)
         const key = combine.substr(0, combine.length - 1)
         const arr = [...this.state.obligors]
@@ -75,39 +78,82 @@ class StructureDetail extends React.Component {
         this.setState({
             obligors: arr
         }, () => {
-            console.log(this.state)
+            //console.log(this.state)
         })
     }
     handleClick(e) {
-        console.log(e)
+    }
+    handleSubmit() {
+        const { id, status } = this.props.match.params
+        //去空行
+        const keys = ['name', 'birthday', 'notes', 'number']
+        const state = this.state
+        state.obligors = filters.blockEmptyRow(this.state.obligors, keys)
+        // 如果是未找到文书 去掉文书链接 相关文书案号 见附件详情
+        if (state.wsFindStatus === 0) {
+            state.wsUrl = []
+            state.wsInAttach = 0
+            state.ah = []
+        } else {
+            state.ah = filters.blockEmptyRow(this.state.ah, ['value'])
+            state.wsUrl = filters.blockEmptyRow(this.state.wsUrl, ['value'])
+        }
+        const params = {
+            ah: state.ah,
+            buildingArea: state.buildingArea,
+            collateral: state.collateral,
+            houseType: state.houseType,
+            obligors: state.obligors,
+            onlyThis: state.onlyThis,
+            wsFindStatus: state.wsFindStatus,
+            wsInAttach: state.wsInAttach,
+            wsUrl: state.wsUrl
+
+        }
+        saveDetail(id, status, params).then((res) => {
+            if (res.data.code === 200) {
+                this.props.history.push({
+                    pathname:`/index/structureDetail/${status}/${res.data.data.id}`,
+                    query:{
+                        id
+                    }
+                })
+            }
+        })
     }
     handleAddClick(key) {
-        const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], {...getObligor()}]
+        const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], { ...getObligor() }]
         this.setState({
             [key]: arr
         }, () => {
-            console.log(this.state)
+            //console.log(this.state)
         });
     }
-    handleDeleteClick(key,index=-1) {
+    handleDeleteClick(key, index = -1) {
         //角色对应顺序删除  文书从下往上删
-        const arr = (index>=0)?this.state[key].slice(0):this.state[key].slice(0, -1)
-        if(index>=0){
-            arr.splice(index,1)
+        const arr = (index >= 0) ? this.state[key].slice(0) : this.state[key].slice(0, -1)
+        if (index >= 0) {
+            arr.splice(index, 1)
         }
         this.setState({
             [key]: arr
         }, () => {
-            console.log(this.state)
+            //console.log(this.state)
         });
     }
     componentWillMount() {
-        const params = this.props.match.params
+        this.getRecordData(this.props)
+    }
+    componentWillReceiveProps(newProps) {
+        this.getRecordData(newProps)
+    }
+    getRecordData(props) {
+        const params = props.match.params
         structuredById(params.id, params.status).then(res => {
-            for(let i=0;i<res.data.obligors;i++){
-                if(res.data.obligors[i].labelType==='4'){
+            for (let i = 0; i < res.data.obligors; i++) {
+                if (res.data.obligors[i].labelType === '4') {
                     //债务人和起诉人对应转换
-                    res.data.obligors[i].labelType='2'
+                    res.data.obligors[i].labelType = '2'
                 }
             }
             this.setState({
@@ -116,24 +162,38 @@ class StructureDetail extends React.Component {
                 wsUrl: res.data.wsUrl.length === 0 ? [{ value: '' }] : res.data.wsUrl,
                 obligors: res.data.obligors.length === 0 ? [getObligor()] : res.data.obligors
             }, () => {
-                console.log(this.state)
+                //console.log(this.state)
             })
 
         })
-        getNumberOfTags().then(res=>{
+        getNumberOfTags().then(res => {
             this.setState({
                 ...res.data.data
-            },()=>{
+            }, () => {
                 console.log(this.state)
             })
         })
     }
-
+    goPreviousRecord() {
+        if (this.props.history.location.query&&this.props.history.location.query.id) {
+            const id = this.props.history.location.query.id
+            const path = {
+                pathname: `/index/structureDetail/${this.props.match.params.status}/${id}`,
+            }
+            this.props.history.push(path)
+        }
+        else{
+            message.error('无法跳转')
+        }
+        //this.props.router.push({ path : '/sort' ,query : { name: ' sunny'} })
+    }
     render() {
         const state = this.state
         return (
             <div className="yc-content-container assetStructureDetail-structure">
-                <BreadCrumb texts={['资产结构化/详情']} note={`${state.MARK}/${state.TOTAL}`} buttonText={'返回上一条'} icon={'left'}></BreadCrumb>
+                <BreadCrumb texts={['资产结构化/详情']} note={`${state.MARK}/${state.TOTAL}`}
+                    handleClick={this.goPreviousRecord.bind(this)}
+                    buttonText={'返回上一条'} icon={'left'}></BreadCrumb>
                 <div className="assetStructureDetail-structure_container">
                     <div className="assetStructureDetail-structure_container_header">
                         {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
@@ -147,10 +207,10 @@ class StructureDetail extends React.Component {
                                 </StructureBasicDetail>
                         }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
-                        <StructureButtonGroup 
-                        handleChange={this.handleChange.bind(this)}
-                        status={0} 
-                        handleClick={this.handleSaveClick}>
+                        <StructureButtonGroup
+                            handleSubmit={this.handleSubmit.bind(this)}
+                            handleChange={this.handleChange.bind(this)}
+                            status={0} >
                         </StructureButtonGroup>
                     </div>
                     <div className="assetStructureDetail-structure_container_body">
@@ -185,5 +245,4 @@ class StructureDetail extends React.Component {
         )
     }
 }
-
-export default StructureDetail;
+export default withRouter(StructureDetail);
