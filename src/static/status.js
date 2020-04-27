@@ -31,7 +31,6 @@ export const ROLE_TYPE = {
 	1:'资产所有人',
 	2:'债务人',
 	3:'资产线索',
-	4:'债务人',
 	5:'竞买人'
 }
 export const SEX_TYPE = {

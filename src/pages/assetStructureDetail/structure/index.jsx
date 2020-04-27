@@ -6,7 +6,7 @@ import StructurePropertyDetail from '@/components/assetStructureDetail/propertyD
 import StructureDocumentDetail from '@/components/assetStructureDetail/documentDetail'
 import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import WrongDetail from '@/components/assetStructureDetail/wrongDetail'
-import { structuredById } from '@api'
+import { structuredById,getNumberOfTags } from '@api'
 import './index.scss'
 
 
@@ -15,7 +15,7 @@ function getObligor() {
         "birthday": '',
         "gender": "0",
         "labelType": "1",
-        "name": "lik",
+        "name": "",
         "notes": "",
         "number": "",
         "type": "1"
@@ -32,7 +32,7 @@ class StructureDetail extends React.Component {
             collateral: 0,
             firstExtractTime: "-",
             houseType: 0,
-            id: 3106814,
+            id: null, //结构化ID
             obligors: [],
             reasonForWithdrawal: "",
             sign: "",
@@ -42,7 +42,11 @@ class StructureDetail extends React.Component {
             wrongReason: [],
             wsFindStatus: 1,
             wsInAttach: 0,
-            wsUrl: []
+            wsUrl: [],
+            preId:'', //保留上一条ID
+            onlyThis:0, //仅标记本条,
+            TOTAL:0,  //数据总量,
+            MARK:0  //当前标记数
         }
     }
     handleChange(key, value) {
@@ -74,8 +78,8 @@ class StructureDetail extends React.Component {
             console.log(this.state)
         })
     }
-    handleClick() {
-
+    handleClick(e) {
+        console.log(e)
     }
     handleAddClick(key) {
         const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], {...getObligor()}]
@@ -100,6 +104,12 @@ class StructureDetail extends React.Component {
     componentWillMount() {
         const params = this.props.match.params
         structuredById(params.id, params.status).then(res => {
+            for(let i=0;i<res.data.obligors;i++){
+                if(res.data.obligors[i].labelType==='4'){
+                    //债务人和起诉人对应转换
+                    res.data.obligors[i].labelType='2'
+                }
+            }
             this.setState({
                 ...res.data,
                 ah: res.data.ah.length === 0 ? [{ value: '' }] : res.data.ah,
@@ -110,12 +120,20 @@ class StructureDetail extends React.Component {
             })
 
         })
+        getNumberOfTags().then(res=>{
+            this.setState({
+                ...res.data.data
+            },()=>{
+                console.log(this.state)
+            })
+        })
     }
+
     render() {
         const state = this.state
         return (
             <div className="yc-content-container assetStructureDetail-structure">
-                <BreadCrumb texts={['资产结构化/详情']} note={`1/50`} buttonText={'返回上一条'} icon={'left'}></BreadCrumb>
+                <BreadCrumb texts={['资产结构化/详情']} note={`${state.MARK}/${state.TOTAL}`} buttonText={'返回上一条'} icon={'left'}></BreadCrumb>
                 <div className="assetStructureDetail-structure_container">
                     <div className="assetStructureDetail-structure_container_header">
                         {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
@@ -129,7 +147,11 @@ class StructureDetail extends React.Component {
                                 </StructureBasicDetail>
                         }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
-                        <StructureButtonGroup status={1} handleClick={this.handleClick}></StructureButtonGroup>
+                        <StructureButtonGroup 
+                        handleChange={this.handleChange.bind(this)}
+                        status={0} 
+                        handleClick={this.handleSaveClick}>
+                        </StructureButtonGroup>
                     </div>
                     <div className="assetStructureDetail-structure_container_body">
                         {

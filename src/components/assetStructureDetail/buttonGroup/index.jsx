@@ -2,24 +2,31 @@ import React from 'react'
 import { Checkbox,Button} from 'antd'
 import './index.scss'
 
-const StructureButtonGroup = (props) =>{
-    return (
-        <div className="yc-component-buttonGroup">
-            <OnlyMarkButton></OnlyMarkButton>
-            {
-                (props.status === 0 || props.status === 2)?
-                <Button onClick={props.handleClick.bind(this,1)}>保存并标记下一条</Button>:
-                <Button onClick={props.handleClick.bind(this,2)}>保存</Button>
-            }
-        </div>
-    )
+class StructureButtonGroup extends React.Component{
+    handleChange(e) {
+        this.props.handleChange(e.target.name, e.target.checked * 1)
+    }
+    handleClick(){
+        console.log(this)
+    }
+    render(){
+        return (
+            <div className="yc-component-buttonGroup">
+                <OnlyMarkButton handleChange={this.handleChange.bind(this)}></OnlyMarkButton>
+                {
+                    (this.props.status === 0 || this.props.status === 2)?
+                    <Button onClick={this.handleClick}>保存并标记下一条</Button>:
+                    <Button onClick={this.handleClick}>保存</Button>
+                }
+            </div>
+        )
+    }
 }
 
-
-const OnlyMarkButton = () =>{
+const OnlyMarkButton = (props) =>{
     return (
         <div className="yc-component-buttonGroup-onlyMark">
-            <Checkbox>仅标记本条</Checkbox>
+            <Checkbox onChange={props.handleChange} name="onlyThis">仅标记本条</Checkbox>
         </div>
     )
 }

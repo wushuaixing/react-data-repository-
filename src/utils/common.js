@@ -20,9 +20,25 @@ const dateUtils = {
 	getTodayDate(ifmoment = false) {
 		return (ifmoment) ? moment() : moment().format('YYYY-MM-DD');
 	},
-	formatMomentToStandardDate(moment){
+	formatMomentToStandardDate(moment) {
 		return moment.format('YYYY-MM-DD')
+	},
+	//补全日期 arr
+	formatDateComplete(arr) {
+		let format = ''
+		switch (arr.length) {
+			case 1:
+				format = 'YYYY';break;
+			case 2:
+				format = 'YYYY-MM';break;
+			case 3:
+				format = 'YYYY-MM-DD';break;
+			default:
+				break;
+		}
+		return moment(arr.join('-')).format(format)
 	}
+
 }
 
 const clone = obj => {
