@@ -7,7 +7,7 @@ class StructureButtonGroup extends React.Component{
         this.props.handleChange(e.target.name, e.target.checked * 1)
     }
     handleClick(){
-        console.log(this)
+        this.props.handleSubmit()
     }
     render(){
         return (
@@ -15,8 +15,8 @@ class StructureButtonGroup extends React.Component{
                 <OnlyMarkButton handleChange={this.handleChange.bind(this)}></OnlyMarkButton>
                 {
                     (this.props.status === 0 || this.props.status === 2)?
-                    <Button onClick={this.handleClick}>保存并标记下一条</Button>:
-                    <Button onClick={this.handleClick}>保存</Button>
+                    <Button onClick={this.handleClick.bind(this)}>保存并标记下一条</Button>:
+                    <Button onClick={this.handleClick.bind(this)}>保存</Button>
                 }
             </div>
         )

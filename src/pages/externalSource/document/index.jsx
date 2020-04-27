@@ -78,19 +78,19 @@ class DocumentDetail extends React.Component {
 							<div>
 								<div className="message-line">
 									<p className="message-line-left">审理法院:</p>
-									<p className="message-line-right">{filters.blockNullByBar(data.court)}</p>
+									<p className="message-line-right">{filters.blockNullData(data.court,'--')}</p>
 								</div>
 								<div className="message-line">
 									<p className="message-line-left">案件类型:</p>
-									<p className="message-line-right">{filters.blockNullByBar(data.caseType)}</p>
+									<p className="message-line-right">{filters.blockNullData(data.caseType,'--')}</p>
 								</div>
 								<div className="message-line">
 									<p className="message-line-left">案由:</p>
-									<p className="message-line-right" >{filters.blockNullByBar(data.reason)}</p>
+									<p className="message-line-right" >{filters.blockNullData(data.reason,'--')}</p>
 								</div>
 								<div className="message-line">
 									<p className="message-line-left">审理程序:</p>
-									<p className="message-line-right">{filters.blockNullByBar(data.trialRound)}</p>
+									<p className="message-line-right">{filters.blockNullData(data.trialRound,'--')}</p>
 								</div>
 								<div className="message-line">
 									<p className="message-line-left">裁判日期:</p>
@@ -99,7 +99,7 @@ class DocumentDetail extends React.Component {
 								<div className="message-line">
 									<p className="message-line-left">当事人:</p>
 									<input type="checkbox" name="toggle" id="toggle" style={{ display: 'none' }} />
-									<p className="message-line-right">{filters.blockNullByBar(data.appellors)}</p>
+									<p className="message-line-right">{filters.blockNullData(data.appellors)}</p>
 									{ellipsisButtonVisible && <label htmlFor="toggle" className="message-line-right" />}
 								</div>
 							</div>

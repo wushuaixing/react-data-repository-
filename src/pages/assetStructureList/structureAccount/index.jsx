@@ -24,7 +24,7 @@ class Asset extends React.Component {
 		searchTitle: {}
 	};
 	componentDidMount() {
-		this.getTableList(0)
+		this.getApi(this.getParamsByTabIndex())
 	};
 	getApi = (params) => {
 		this.setState({
@@ -97,10 +97,6 @@ class Asset extends React.Component {
 				return '';
 		}
 	}
-	//换页或者切tab 获取表格展示数据  tab值和页数  不用更新待修改数量
-	getTableList = (params = {}, page = 1) => {
-		this.getApi(params);
-	};
 	//切换Tab 改完
 	changeTab = (key) => {
 		this.setState({

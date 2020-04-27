@@ -166,14 +166,6 @@ export const structuredObligorTypeList=()=> {
 	return axios.get("/api/common/structuredObligorTypeList");
 };
 
-// 保存结构化对象
-export const saveDetail=(id, params)=> {
-	return axios.post(
-		"/api/asset/structured/control/" + id + "/saveDetail",
-		params
-	);
-};
-
 //已标记数/总数
 export const getNumberOfTags=()=> {
 	return axios.get("/api/asset/structured/control/getNumberOfTags");
@@ -219,7 +211,7 @@ export const inspectorCheck=(params)=> {
 //已删除&自动标注的检查保存
 export const notEnableSave=(id, params)=> {
 	return axios.post(
-		"/api/asset/inspector/control/" + id + "/saveDetail", params
+		"/api/asset/inspector/control/" + id + "/@", params
 	);
 };
 ////////////
@@ -311,3 +303,10 @@ export const  structuredById = (id,approveStatus)=>{
 	return axios.get("/api/asset/structured/control/structuredById?id="+id+'&approveStatus='+approveStatus);
 }
 
+export const  getLastSaveById = (id)=>{
+	return axios.get("/api/asset/structured/control/getLastSaveById?id="+id);
+}
+
+export const saveDetail =(id,approveStatus,params)=>{
+	return axios.post(`/api/asset/structured/control/${id}/${approveStatus}/saveDetail`,params);
+}

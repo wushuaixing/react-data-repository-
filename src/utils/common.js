@@ -3,12 +3,37 @@ import moment from 'moment'
 
 const filters = {
 	//判断输入是否为空  为空返回--
-	blockNullByBar(input) {
+	blockNullData(input,returnVal=''){
 		if (input === '' || input === undefined || input === null) {
-			return '--';
+			return returnVal;
 		} else {
 			return input;
 		}
+	},
+	judgeEmptyRow(input){
+		if (input !== '' && input !== undefined && input !== null) {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	//去掉空行  参数1是对象数组  参数2是判断的键名数组
+	blockEmptyRow(rows=[],keys=[]){
+		let records = rows.slice(0) //记录处理后的数组
+		for(let i=0;i<rows.length;i++){
+			let rowObj = rows[i]
+			let flag = true//标记用 如果字段全为空则设置为true是空行 默认是空行
+			for(let j=0;j<keys.length;j++){
+				let value = rowObj[keys[j]]
+				if(value!==''){
+					flag = false;break;
+				}
+				if(j===keys.length-1&&flag===true){	
+					records.splice(i,1)
+				}
+			}
+		}
+		return records;
 	}
 }
 const dateUtils = {
