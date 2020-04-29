@@ -61,13 +61,14 @@
           margin-bottom: 8px;
           position: relative;
           input[name="toggle"]:checked {
-            & + p {
+            & + div {
               -webkit-line-clamp: unset;
             }
             & ~ label {
               &::after {
                 content: "收起";
                 color:#0099CC;
+                cursor: pointer;
               }
             }
           }
@@ -76,9 +77,10 @@
             &::after {
               content: "更多";
               color:#0099CC;
+              cursor: pointer;
             }
           }
-          > p {
+          > div {
             display: inline-block;
             display: -webkit-box;
             -webkit-line-clamp: 3;

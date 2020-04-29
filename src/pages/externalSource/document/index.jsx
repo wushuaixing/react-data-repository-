@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { message, Button, Spin } from 'antd';
 import { wenshuDetail } from '@api';
 import { filters, dateUtils } from "@/utils/common";
+import copy from 'copy-to-clipboard'
 import './style.scss';
 
 class DocumentDetail extends React.Component {
@@ -25,10 +26,10 @@ class DocumentDetail extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		console.log(this.props.match.params)
 		wenshuDetail(Id).then(res => {
 			if (res.data.code === 200) {
 				let data = res.data.data;
+				console.log(data)
 				this.setState({
 					data,
 					loading: false
@@ -44,12 +45,9 @@ class DocumentDetail extends React.Component {
 		});
 	}
 	copy = () => {
-		let text = document.getElementById("link-detail").innerText; //
-		let clipBoard = document.querySelectorAll('.container_rightInfo textarea')[0];//隐藏的剪切板
-		clipBoard.value = text; // 修改文本框的内                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        容
-		clipBoard.select(); // 选中剪切板
-		document.execCommand("copy"); // 执行浏览器复制命令
-		message.info("复制成功");
+		let text = document.getElementById("link-detail").innerText;
+		copy(text)
+		message.success("复制成功"); 
 	};
 	openLink = (url) => {
 		window.open(url);
@@ -73,7 +71,6 @@ class DocumentDetail extends React.Component {
 						</div>
 					</div>
 					<div className="container_rightInfo">
-						<textarea />
 						<div>
 							<div className="title">基本信息</div>
 							<div>
@@ -100,7 +97,7 @@ class DocumentDetail extends React.Component {
 								<div className="message-line">
 									<p className="message-line-left">当事人:</p>
 									<input type="checkbox" name="toggle" id="toggle" style={{ display: 'none' }} />
-									<p className="message-line-right">{filters.blockNullData(data.appellors,'--')}</p>
+									<div className="message-line-right">{filters.blockNullData(data.appellors,'--')}</div>
 									{ellipsisButtonVisible && <label htmlFor="toggle" className="message-line-right" />}
 								</div>
 							</div>
