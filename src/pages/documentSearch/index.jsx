@@ -50,7 +50,6 @@ class Check extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			num: 20,  //每页条数，固定默认20  
 			page: 1,  //初始页数
 			total: 0,  //数据总量
 			tableList: [], //表数据的source
@@ -103,8 +102,7 @@ class Check extends React.Component {
 			url : this.props.form.getFieldValue('url')
 		};
 		this.setState({
-			searchParams: params,
-			page:1
+			searchParams: params
 		});
 		this.getTableList(params);
 	};
