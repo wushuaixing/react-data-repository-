@@ -1,10 +1,13 @@
 /** document search * */
 import React from 'react';
-import { Form, Input, Button, Table, message, Spin } from 'antd';
+import { Form, Input, Button, Table, message, Spin, Row, Col } from 'antd';
 import { wenshuSearch } from "../../server/api";
 import { Link, withRouter } from "react-router-dom";
 import '../style.scss';
-import {BreadCrumb} from '@commonComponents'
+import { BreadCrumb } from '@commonComponents'
+import createPaginationProps from '@utils/pagination'
+import { filters } from '@utils/common'
+import moment from 'moment'
 const searchForm = Form.create;
 //表column
 const columns = [
@@ -50,7 +53,6 @@ class Check extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			num: 20,  //每页条数，固定默认20  
 			page: 1,  //初始页数
 			total: 0,  //数据总量
 			tableList: [], //表数据的source
@@ -59,21 +61,16 @@ class Check extends React.Component {
 		};
 	}
 	//get table dataSource
-	getTableList = (search, page) => {
+	getTableList = () => {
 		let params = {
-			ah: "",
-			content: "",
-			court: "",
-			url: "",
-			num: 20,
-			page: page?page:1,
-		};
-		Object.assign(params,search);
-		for (let key in params) {
-			if (params[key] !== 0 && params[key] !== false && !params[key]) {
-				delete params[key];
-			}
+			page: this.state.page
 		}
+		let { searchParams } = this.state
+		Object.keys(searchParams).forEach((key) => {
+			if (filters.filterNullKey(searchParams[key])) {
+				params[key] = searchParams[key]
+			}
+		})
 		this.setState({
 			loading: true,
 		});
@@ -82,8 +79,13 @@ class Check extends React.Component {
 				loading: false,
 			});
 			if (res.data.code === 200) {
+				let data = res.data.data
+				for (let i = 0; i < data.length; i++) {
+					data[i].publishTime = moment.unix(data[i].publishTime).format('YYYY-MM-DD')
+				}
+
 				this.setState({
-					tableList: res.data.data,
+					tableList: data,
 					total: res.data.total,
 				});
 			} else {
@@ -97,16 +99,18 @@ class Check extends React.Component {
 	handleSearch = e => {
 		e.preventDefault();
 		let params = {
-			content:this.props.form.getFieldValue('whole'),
-			ah : this.props.form.getFieldValue('ah'),
-			court : this.props.form.getFieldValue('court'),
-			url : this.props.form.getFieldValue('url')
+			content: this.props.form.getFieldValue('whole'),
+			ah: this.props.form.getFieldValue('ah'),
+			court: this.props.form.getFieldValue('court'),
+			url: this.props.form.getFieldValue('url')
 		};
 		this.setState({
 			searchParams: params,
-			page:1
+			page: 1
+		}, () => {
+			this.getTableList();
 		});
-		this.getTableList(params);
+
 	};
 	//清空搜索条件
 	clearSearch = () => {
@@ -115,38 +119,30 @@ class Check extends React.Component {
 			ah: "",
 			content: "",
 			court: "",
-			num: 20,
-			page: 1,
 			url: ""
 		};
 		this.setState({
-			searchParams:params
+			searchParams: params,
+			page: 1
+		}, () => {
+			this.getTableList();
 		})
-		this.getTableList(params);
 	};
 	//换页
 	onTablePageChange = (pagination) => {
-		const { searchParams, page } = this.state;
 		this.setState({
 			page: pagination.current,
+		}, () => {
+			this.getTableList();
 		});
-		this.getTableList(searchParams, page+1);
 	};
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { tableList, total, page, loading } = this.state;
-		const paginationProps = {
-			current: page,
-			showQuickJumper: true,
-			total: total, // 数据总数
-			pageSize: 20, // 每页条数
-			showTotal: (() => {
-				return `共 ${total} 条`;
-			}),
-		};
+		const paginationProps = createPaginationProps(page, total)
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['文书搜索']}></BreadCrumb>
+				<BreadCrumb texts={['文书搜索']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
 						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{ marginLeft: 20, marginTop: 15 }}>
@@ -155,8 +151,8 @@ class Check extends React.Component {
 									(<Input
 										type="text"
 										size='default'
-										style={{ width: 1100 }}
 										placeholder="姓名、公司、地址关键词等"
+										style={{ width: '1100px' }}
 									/>)}
 							</Form.Item>
 
@@ -165,7 +161,6 @@ class Check extends React.Component {
 									(<Input
 										type="text"
 										size='default'
-										style={{ width: 230 }}
 										placeholder="案号"
 									/>)}
 							</Form.Item>
@@ -174,7 +169,6 @@ class Check extends React.Component {
 									(<Input
 										type="text"
 										size='default'
-										style={{ width: 230 }}
 										placeholder="法院"
 									/>)}
 							</Form.Item>
@@ -183,8 +177,7 @@ class Check extends React.Component {
 									(<Input
 										type="text"
 										size='default'
-										style={{ width: 230 }}
-										placeholder="文书链接"
+										placeholder="文书源链接"
 									/>)}
 							</Form.Item>
 							<Form.Item>

@@ -10,11 +10,11 @@ const filters = {
 			return input;
 		}
 	},
-	judgeEmptyRow(input){
-		if (input !== '' && input !== undefined && input !== null) {
-			return true;
-		} else {
-			return false;
+	filterNullKey(input){
+		if(input !== '' && input !== undefined && input !== null){
+			return true
+		}else{
+			return false
 		}
 	},
 	//去掉空行  参数1是对象数组  参数2是判断的键名数组
@@ -34,7 +34,9 @@ const filters = {
 			}
 		}
 		return records;
-	}
+	},
+	//去除表单参数中的空值
+	
 }
 const dateUtils = {
 	//时间戳转换为标准日期	

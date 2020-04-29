@@ -85,6 +85,44 @@ class StructureDetail extends React.Component {
     }
 
     handleSubmit() {
+        const nextMarkid = this.props.history.location.query
+        console.log(nextMarkid)
+        this.saveRecordData()
+    }
+
+    handleAddClick(key) {
+        const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], { ...getObligor() }]
+        this.setState({
+            [key]: arr
+        }, () => {
+            //console.log(this.state)
+        });
+    }
+    handleDeleteClick(key, index = -1) {
+        //角色对应顺序删除  文书从下往上删
+        const arr = (index >= 0) ? this.state[key].slice(0) : this.state[key].slice(0, -1)
+        if (index >= 0) {
+            arr.splice(index, 1)
+        }
+        this.setState({
+            [key]: arr
+        }, () => {
+            //console.log(this.state)
+        });
+    }
+    componentDidMount() {
+        this.getRecordData(this.props)
+    }
+    componentWillReceiveProps(newProps) {
+        if(this.props.history.location.query&&this.props.history.location.query.id){
+            sessionStorage.setItem('id',this.props.history.location.query.id)
+        }
+        this.getRecordData(newProps)
+    }
+    componentWillUnmount(){
+        sessionStorage.removeItem('id')
+    }
+    saveRecordData(){
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
         保存无效并弹出“债权人备注待完善”非模态框提示； */
         for (let i = 0; i < this.state.obligors.length; i++) {
@@ -126,12 +164,10 @@ class StructureDetail extends React.Component {
 
         }
         saveDetail(id, status, params).then((res) => {
-            console.log(res)
             if (res.data.code === 200) {
                 message.success('保存成功!')
-                //如果是待标记或待修改并且有新id 跳转新路径
-                if ((status === '0'||status === '1')&&res.data.data.id!==0) {
-                    console.log(res.data.data.id)
+                //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
+                if ((status === '0'||status === '2')&&res.data.data.id!==0) {
                     this.props.history.push({
                         pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
                         query: {
@@ -139,45 +175,28 @@ class StructureDetail extends React.Component {
                         }
                     }) 
                 }
-                //否则跳转回tabTable
-                else if(status === '2'&&res.data.data.id===0){
+                //在已标记页面下保存 有两种可能
+                else if(status === '1'){
+                    //如果是从已标记未检查跳来直接回table 否则继续下一条标记数据
+                    let nextMarkid = sessionStorage.getItem('id')
+                    if(nextMarkid){
+                        this.props.history.push({
+                            pathname: `/index/structureDetail/0/${nextMarkid}`,
+                            query: {
+                                id
+                            }
+                        }) 
+                    }else{
+                        this.props.history.push('/index')
+                    }
+                }
+                else{
                     this.props.history.push('/index')
                 }
             }else{
                 message.danger('保存失败!')
             }
         })
-    }
-    handleAddClick(key) {
-        const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], { ...getObligor() }]
-        this.setState({
-            [key]: arr
-        }, () => {
-            //console.log(this.state)
-        });
-    }
-    handleDeleteClick(key, index = -1) {
-        //角色对应顺序删除  文书从下往上删
-        const arr = (index >= 0) ? this.state[key].slice(0) : this.state[key].slice(0, -1)
-        if (index >= 0) {
-            arr.splice(index, 1)
-        }
-        this.setState({
-            [key]: arr
-        }, () => {
-            //console.log(this.state)
-        });
-    }
-    componentWillMount(){
-        console.log(this.props.history.location.query)
-        
-    }
-    componentDidMount() {
-        this.getRecordData(this.props)
-    }
-    componentWillReceiveProps(newProps) {
-        console.log(this.props.history.location.query)
-        this.getRecordData(newProps)
     }
     getRecordData(props) {
         const params = props.match.params
@@ -242,7 +261,7 @@ class StructureDetail extends React.Component {
     render() {
         const state = this.state
         const { status } = this.props.match.params
-        const breadButtonText = (status === '0') ? '返回上一条' : null //结构化人员status 0时候才显示面包屑的按钮组
+        const breadButtonText = (status === '0'&&state.MARK!==1) ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb 
