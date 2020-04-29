@@ -25,6 +25,7 @@ class DocumentDetail extends React.Component {
 		this.setState({
 			loading: true,
 		});
+		console.log(this.props.match.params)
 		wenshuDetail(Id).then(res => {
 			if (res.data.code === 200) {
 				let data = res.data.data;
@@ -99,7 +100,7 @@ class DocumentDetail extends React.Component {
 								<div className="message-line">
 									<p className="message-line-left">当事人:</p>
 									<input type="checkbox" name="toggle" id="toggle" style={{ display: 'none' }} />
-									<p className="message-line-right">{filters.blockNullData(data.appellors)}</p>
+									<p className="message-line-right">{filters.blockNullData(data.appellors,'--')}</p>
 									{ellipsisButtonVisible && <label htmlFor="toggle" className="message-line-right" />}
 								</div>
 							</div>

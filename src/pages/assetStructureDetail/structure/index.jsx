@@ -168,11 +168,15 @@ class StructureDetail extends React.Component {
             //console.log(this.state)
         });
     }
-    componentWillMount() {
+    componentWillMount(){
+        console.log(this.props.history.location.query)
+        
+    }
+    componentDidMount() {
         this.getRecordData(this.props)
     }
     componentWillReceiveProps(newProps) {
-        //console.log(newProps.match.params)
+        console.log(this.props.history.location.query)
         this.getRecordData(newProps)
     }
     getRecordData(props) {
@@ -224,7 +228,10 @@ class StructureDetail extends React.Component {
         if (this.props.history.location.query && this.props.history.location.query.id) {
             const id = this.props.history.location.query.id
             const path = {
-                pathname: `/index/structureDetail/${this.props.match.params.status}/${id}`,
+                pathname: `/index/structureDetail/1/${id}`,
+                query:{  
+                    id:this.props.match.params.id //指示去的方向  如果是带这个标志 则在未检查队列中下一对是去未标记的下一条
+                }
             }
             this.props.history.push(path)
         }
@@ -234,7 +241,7 @@ class StructureDetail extends React.Component {
     }
     render() {
         const state = this.state
-        const { id, status } = this.props.match.params
+        const { status } = this.props.match.params
         const breadButtonText = (status === '0') ? '返回上一条' : null //结构化人员status 0时候才显示面包屑的按钮组
         return (
             <div className="yc-content-container assetStructureDetail-structure">
