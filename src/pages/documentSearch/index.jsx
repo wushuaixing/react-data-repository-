@@ -44,7 +44,8 @@ const columns = [
 	},
 	{
 		title: "案件类型",
-		dataIndex: "caseType"
+		dataIndex: "caseType",
+		width:'200px'
 	}
 ];
 
