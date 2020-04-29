@@ -1,5 +1,6 @@
 import React from 'react'
 import { Checkbox,Button} from 'antd'
+import {STRUCTURE_SAVE_BUTTON_TEXT} from '@/static/status'
 import './index.scss'
 
 class StructureButtonGroup extends React.Component{
@@ -10,13 +11,13 @@ class StructureButtonGroup extends React.Component{
         this.props.handleSubmit()
     }
     render(){
+        const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[this.props.status]
+        //console.log(this.props.status)
         return (
             <div className="yc-component-buttonGroup">
                 <OnlyMarkButton handleChange={this.handleChange.bind(this)}></OnlyMarkButton>
                 {
-                    (this.props.status === 0 || this.props.status === 2)?
-                    <Button onClick={this.handleClick.bind(this)}>保存并标记下一条</Button>:
-                    <Button onClick={this.handleClick.bind(this)}>保存</Button>
+                    <Button onClick={this.handleClick.bind(this)}>{buttonText}</Button>
                 }
             </div>
         )

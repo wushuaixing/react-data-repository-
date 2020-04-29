@@ -12,12 +12,12 @@ const StructureBasicDetail = (props) => {
                 <BasicDetailRow title={'标题'} content={props.title} url={props.url}></BasicDetailRow>
                 <BasicDetailRow title={'拍卖状态'} content={AUCTION_STATUS[props.auctionStatus]}></BasicDetailRow>
                 {
-                    props.reasonForWithdrawal!==''?
+                    (props.auctionStatus===9||props.auctionStatus===11)?
                     <BasicDetailRow title={'撤回原因'} content={props.reasonForWithdrawal}></BasicDetailRow>:
                     null
                 }
                 {
-                    props.associatedAnnotationId!==''?
+                    props.type===2?
                     <BasicDetailRow title={'关联标注'} content={'链接'} url={props.wsUrl}></BasicDetailRow>:
                     null
                 }

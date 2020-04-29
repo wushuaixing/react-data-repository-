@@ -83,7 +83,22 @@ class StructureDetail extends React.Component {
     }
     handleClick(e) {
     }
+
     handleSubmit() {
+        /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
+        保存无效并弹出“债权人备注待完善”非模态框提示； */
+        for (let i = 0; i < this.state.obligors.length; i++) {
+            let name = this.state.obligors[i].name
+            if (this.state.obligors[i].notes === '' && name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
+                message.warning('保存无效,债权人备注待完善')
+                return false;
+            }
+            if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '3') {
+                message.warning('资产线索备注待完善')
+                return false;
+            }
+        }
+        /* 资产标注详情页存在备注为空的资产线索时，点击保存，保存无效并弹出“资产线索备注待完善”非模态框提示 */
         const { id, status } = this.props.match.params
         //去空行
         const keys = ['name', 'birthday', 'notes', 'number']
@@ -111,13 +126,25 @@ class StructureDetail extends React.Component {
 
         }
         saveDetail(id, status, params).then((res) => {
+            console.log(res)
             if (res.data.code === 200) {
-                this.props.history.push({
-                    pathname:`/index/structureDetail/${status}/${res.data.data.id}`,
-                    query:{
-                        id
-                    }
-                })
+                message.success('保存成功!')
+                //如果是待标记或待修改并且有新id 跳转新路径
+                if ((status === '0'||status === '1')&&res.data.data.id!==0) {
+                    console.log(res.data.data.id)
+                    this.props.history.push({
+                        pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
+                        query: {
+                            id
+                        }
+                    }) 
+                }
+                //否则跳转回tabTable
+                else if(status === '2'&&res.data.data.id===0){
+                    this.props.history.push('/index')
+                }
+            }else{
+                message.danger('保存失败!')
             }
         })
     }
@@ -141,59 +168,88 @@ class StructureDetail extends React.Component {
             //console.log(this.state)
         });
     }
-    componentWillMount() {
+    componentWillMount(){
+        console.log(this.props.history.location.query)
+        
+    }
+    componentDidMount() {
         this.getRecordData(this.props)
     }
     componentWillReceiveProps(newProps) {
+        console.log(this.props.history.location.query)
         this.getRecordData(newProps)
     }
     getRecordData(props) {
         const params = props.match.params
-        structuredById(params.id, params.status).then(res => {
-            for (let i = 0; i < res.data.obligors; i++) {
-                if (res.data.obligors[i].labelType === '4') {
-                    //债务人和起诉人对应转换
-                    res.data.obligors[i].labelType = '2'
+        if(params.id&&params.status){
+            structuredById(params.id, params.status).then(res => {
+                for (let i = 0; i < res.data.obligors; i++) {
+                    if (res.data.obligors[i].labelType === '4') {
+                        //债务人和起诉人对应转换
+                        res.data.obligors[i].labelType = '2'
+                    }
                 }
-            }
-            this.setState({
-                ...res.data,
-                ah: res.data.ah.length === 0 ? [{ value: '' }] : res.data.ah,
-                wsUrl: res.data.wsUrl.length === 0 ? [{ value: '' }] : res.data.wsUrl,
-                obligors: res.data.obligors.length === 0 ? [getObligor()] : res.data.obligors
-            }, () => {
-                //console.log(this.state)
+                const data = res.data
+                this.setState({
+                    associatedAnnotationId:data.associatedAnnotationId,
+                    auctionStatus:data.auctionStatus,
+                    buildingArea:data.buildingArea,
+                    collateral:data.collateral,
+                    firstExtractTime:data.firstExtractTime,
+                    houseType:data.houseType,
+                    reasonForWithdrawal:data.reasonForWithdrawal,
+                    sign:data.sign,
+                    type:data.type,
+                    title:data.title,
+                    url:data.url,
+                    wrongReason:data.wrongReason,
+                    wsFindStatus:data.wsFindStatus,
+                    wsInAttach:data.wsInAttach,
+                    ah: data.ah.length === 0 ? [{ value: '' }] : data.ah,
+                    wsUrl: data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
+                    obligors: data.obligors.length === 0 ? [getObligor()] : data.obligors
+                }, () => {
+                    //console.log(this.state)
+                })
+    
             })
-
-        })
-        getNumberOfTags().then(res => {
-            this.setState({
-                ...res.data.data
-            }, () => {
-                console.log(this.state)
+            getNumberOfTags().then(res => {
+                this.setState({
+                    ...res.data.data
+                }, () => {
+                    //console.log(this.state)
+                })
             })
-        })
+        }else{
+            message.error('请求参数错误,请刷新页面或回到上一级')
+        }
     }
     goPreviousRecord() {
-        if (this.props.history.location.query&&this.props.history.location.query.id) {
+        if (this.props.history.location.query && this.props.history.location.query.id) {
             const id = this.props.history.location.query.id
             const path = {
-                pathname: `/index/structureDetail/${this.props.match.params.status}/${id}`,
+                pathname: `/index/structureDetail/1/${id}`,
+                query:{  
+                    id:this.props.match.params.id //指示去的方向  如果是带这个标志 则在未检查队列中下一对是去未标记的下一条
+                }
             }
             this.props.history.push(path)
         }
-        else{
+        else {
             message.error('无法跳转')
         }
-        //this.props.router.push({ path : '/sort' ,query : { name: ' sunny'} })
     }
     render() {
         const state = this.state
+        const { status } = this.props.match.params
+        const breadButtonText = (status === '0') ? '返回上一条' : null //结构化人员status 0时候才显示面包屑的按钮组
         return (
             <div className="yc-content-container assetStructureDetail-structure">
-                <BreadCrumb texts={['资产结构化/详情']} note={`${state.MARK}/${state.TOTAL}`}
+                <BreadCrumb 
+                    breadButtonText = {breadButtonText}
+                    texts={['资产结构化/详情']} note={`${state.MARK}/${state.TOTAL}`}
                     handleClick={this.goPreviousRecord.bind(this)}
-                    buttonText={'返回上一条'} icon={'left'}></BreadCrumb>
+                    icon={'left'}></BreadCrumb>
                 <div className="assetStructureDetail-structure_container">
                     <div className="assetStructureDetail-structure_container_header">
                         {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
@@ -201,6 +257,7 @@ class StructureDetail extends React.Component {
                             state.wrongReasons && state.wrongReasons.length > 0 ?
                                 <WrongDetail wrongReasons={state.wrongReasons}></WrongDetail> :
                                 <StructureBasicDetail
+                                    type={state.type}
                                     title={state.title} auctionStatus={state.auctionStatus}
                                     reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}
                                     associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
@@ -210,7 +267,7 @@ class StructureDetail extends React.Component {
                         <StructureButtonGroup
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
-                            status={0} >
+                            status={status} >
                         </StructureButtonGroup>
                     </div>
                     <div className="assetStructureDetail-structure_container_body">

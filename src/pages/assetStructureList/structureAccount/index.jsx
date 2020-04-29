@@ -175,13 +175,13 @@ class Asset extends React.Component {
 		if (tabIndex !== 0) {
 			columns.unshift({
 				title: "结构化完成时间",
-				dataIndex: "completeTime",
+				dataIndex: "firstExtractTime",
 			})
 		}
 		const paginationProps = createPaginationProps(page, total)
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['资产结构化']} buttonText={'获取新数据'} handleClick={this.getNewData.bind(this)} disabled={this.state.buttonDisabled}></BreadCrumb>
+				<BreadCrumb texts={['资产结构化']} breadButtonText={'获取新数据'} handleClick={this.getNewData.bind(this)} disabled={this.state.buttonDisabled}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
 						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{ marginLeft: 10, marginTop: 15 }}>
