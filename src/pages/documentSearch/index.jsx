@@ -17,11 +17,17 @@ const columns = [
 	},
 	{
 		title: "标题",
-		dataIndex: "title",
 		render: (text, record) => (
 			<span>
 				<Link to={`/documentDetail/${record.wenshuId}`} target="_blank" >
-					<span className="ws-link">{record.title}</span>
+					<span className="ws-link" style={{
+						maxWidth: 200,
+						WebkitLineClamp: 2,
+						WebkitBoxOrient: 'vertical',
+						overflow: 'hidden',
+						display: '-webkit-box',
+						textOverflow: 'ellipsis'
+					}}>{record.title}</span>
 				</Link>
 			</span>
 		),
@@ -32,7 +38,17 @@ const columns = [
 	},
 	{
 		title: "相关人员",
-		dataIndex: "appellors"
+		dataIndex: "appellors",
+		render: (text, record) => (
+			<span className="ws-link" style={{
+				maxWidth: 160,
+				WebkitLineClamp: 3,
+				WebkitBoxOrient: 'vertical',
+				overflow: 'hidden',
+				display: '-webkit-box',
+				textOverflow: 'ellipsis'
+			}}>{record.appellors}</span>
+		)
 	},
 	{
 		title: "法院",
@@ -44,8 +60,7 @@ const columns = [
 	},
 	{
 		title: "案件类型",
-		dataIndex: "caseType",
-		width:'200px'
+		dataIndex: "caseType"
 	}
 ];
 
