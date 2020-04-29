@@ -38,3 +38,9 @@ export const SEX_TYPE = {
 	1:'男性',
 	2:'女性'
 }
+
+export const STRUCTURE_SAVE_BUTTON_TEXT = {
+	0:'保存并标记下一条',  //待标记
+	1:'保存',
+	2:'保存并修改下一条'
+}
