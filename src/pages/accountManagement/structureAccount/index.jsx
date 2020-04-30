@@ -1,10 +1,11 @@
 /** right content for Account manage* */
 import React from 'react';
-import {BreadCrumb} from '@commonComponents'
-import { Tabs, Table, Spin,message } from "antd";
+import { BreadCrumb } from '@commonComponents'
+import { Tabs, Table, Spin, message } from "antd";
 import { userCreate, userView, userEdit, userReset, userRemove, userDelete } from "@api";
 import AccountModal from '@/components/accountManagement/structureAccountModal';
 import SearchAccount from "@/components/accountManagement/search";
+import createPaginationProps from '@/utils/pagination'
 import '../style.scss';
 // ==================
 // 所需的所有组件
@@ -25,20 +26,6 @@ class AccountManage extends React.Component {
 			visible: false,
 			action: 'add',
 			info: {},
-			characterList: [
-				{
-					value: 1,
-					label: "正式"
-				},
-				{
-					value: 0,
-					label: "试用"
-				},
-				{
-					value: '',
-					label: "全部"
-				}
-			],
 			columns: [
 				{
 					title: "ID",
@@ -235,10 +222,11 @@ class AccountManage extends React.Component {
 	//弹窗确定
 	handleOk = (data, id) => {
 		const { action } = this.state;
+		
 		//默认初始传入正常账号
 		this.setState({
 			visible: false,
-			laoding: true,
+			loading: true
 		});
 		if (action === 'add') {
 			//确定前还需验证
@@ -264,7 +252,7 @@ class AccountManage extends React.Component {
 				}
 			});
 		}
-		setTimeout(this.getTableList, 100);
+		//setTimeout(this.getTableList, 100);
 	};
 
 	//弹窗取消
@@ -311,18 +299,10 @@ class AccountManage extends React.Component {
 
 	render() {
 		const { tableList, total, page, visible, action, columns, columnsDelete, info, loading } = this.state;
-		const paginationProps = {
-			current: page, //当前页
-			showQuickJumper: true, //跳转
-			total: total, // 数据总数
-			pageSize: 10, // 每页条数
-			showTotal: (() => {
-				return `共 ${total} 条`;
-			}),
-		};
+		const paginationProps = createPaginationProps(page, total, true, 10)
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['账号管理','结构化账号']}></BreadCrumb>
+				<BreadCrumb texts={['账号管理', '结构化账号']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<Spin tip="Loading..." spinning={loading}>
 						<Tabs defaultActiveKey="1" onChange={this.changeTab} animated={false} className="role-tab">

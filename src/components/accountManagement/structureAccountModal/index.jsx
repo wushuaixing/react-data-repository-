@@ -64,7 +64,13 @@ class AccountManage extends React.Component {
     this.setState({
       visible: false,
     });
-    this.props.ok(options, info.id);
+    //this.props.ok(options, info.id);
+    const { form } = this.props
+		form.validateFields().then((res)=>{
+      this.props.ok(options, info.id);
+    })
+    .catch(err=>{
+    })
   };
   //取消
   modalCancel = () => {
