@@ -114,15 +114,15 @@ class StructureDetail extends React.Component {
         this.getRecordData(this.props)
     }
     componentWillReceiveProps(newProps) {
-        if(this.props.history.location.query&&this.props.history.location.query.id){
-            sessionStorage.setItem('id',this.props.history.location.query.id)
+        if (this.props.history.location.query && this.props.history.location.query.id) {
+            sessionStorage.setItem('id', this.props.history.location.query.id)
         }
         this.getRecordData(newProps)
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         sessionStorage.removeItem('id')
     }
-    saveRecordData(){
+    saveRecordData() {
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
         保存无效并弹出“债权人备注待完善”非模态框提示； */
         for (let i = 0; i < this.state.obligors.length; i++) {
@@ -167,40 +167,36 @@ class StructureDetail extends React.Component {
             if (res.data.code === 200) {
                 message.success('保存成功!')
                 //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
-                if ((status === '0'||status === '2')&&res.data.data.id!==0) {
+                if ((status === '0' || status === '2') && res.data.data.id !== 0) {
+                    sessionStorage.setItem('id', id)
                     this.props.history.push({
-                        pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
-                        query: {
-                            id
-                        }
-                    }) 
+                        pathname: `/index/structureDetail/${status}/${res.data.data.id}`
+                    })
                 }
                 //在已标记页面下保存 有两种可能
-                else if(status === '1'){
+                else if (status === '1') {
                     //如果是从已标记未检查跳来直接回table 否则继续下一条标记数据
                     let nextMarkid = sessionStorage.getItem('id')
-                    if(nextMarkid){
+                    if (nextMarkid) {
+                        sessionStorage.setItem('id', id)
                         this.props.history.push({
-                            pathname: `/index/structureDetail/0/${nextMarkid}`,
-                            query: {
-                                id
-                            }
-                        }) 
-                    }else{
+                            pathname: `/index/structureDetail/0/${nextMarkid}`
+                        })
+                    } else {
                         this.props.history.push('/index')
                     }
                 }
-                else{
+                else {
                     this.props.history.push('/index')
                 }
-            }else{
+            } else {
                 message.danger('保存失败!')
             }
         })
     }
     getRecordData(props) {
         const params = props.match.params
-        if(params.id&&params.status){
+        if (params.id && params.status) {
             structuredById(params.id, params.status).then(res => {
                 for (let i = 0; i < res.data.obligors; i++) {
                     if (res.data.obligors[i].labelType === '4') {
@@ -210,27 +206,27 @@ class StructureDetail extends React.Component {
                 }
                 const data = res.data
                 this.setState({
-                    associatedAnnotationId:data.associatedAnnotationId,
-                    auctionStatus:data.auctionStatus,
-                    buildingArea:data.buildingArea,
-                    collateral:data.collateral,
-                    firstExtractTime:data.firstExtractTime,
-                    houseType:data.houseType,
-                    reasonForWithdrawal:data.reasonForWithdrawal,
-                    sign:data.sign,
-                    type:data.type,
-                    title:data.title,
-                    url:data.url,
-                    wrongReason:data.wrongReason,
-                    wsFindStatus:data.wsFindStatus,
-                    wsInAttach:data.wsInAttach,
+                    associatedAnnotationId: data.associatedAnnotationId,
+                    auctionStatus: data.auctionStatus,
+                    buildingArea: data.buildingArea,
+                    collateral: data.collateral,
+                    firstExtractTime: data.firstExtractTime,
+                    houseType: data.houseType,
+                    reasonForWithdrawal: data.reasonForWithdrawal,
+                    sign: data.sign,
+                    type: data.type,
+                    title: data.title,
+                    url: data.url,
+                    wrongReason: data.wrongReason,
+                    wsFindStatus: data.wsFindStatus,
+                    wsInAttach: data.wsInAttach,
                     ah: data.ah.length === 0 ? [{ value: '' }] : data.ah,
                     wsUrl: data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                     obligors: data.obligors.length === 0 ? [getObligor()] : data.obligors
                 }, () => {
                     //console.log(this.state)
                 })
-    
+
             })
             getNumberOfTags().then(res => {
                 this.setState({
@@ -239,19 +235,16 @@ class StructureDetail extends React.Component {
                     //console.log(this.state)
                 })
             })
-        }else{
+        } else {
             message.error('请求参数错误,请刷新页面或回到上一级')
         }
     }
     goPreviousRecord() {
-        if (this.props.history.location.query && this.props.history.location.query.id) {
-            const id = this.props.history.location.query.id
+        if (sessionStorage.getItem('id')) {
             const path = {
-                pathname: `/index/structureDetail/1/${id}`,
-                query:{  
-                    id:this.props.match.params.id //指示去的id  如果是带这个标志 则在未检查队列中下一对是去未标记的下一条
-                }
+                pathname: `/index/structureDetail/1/${sessionStorage.getItem('id')}`
             }
+            sessionStorage.setItem('id', this.props.match.params.id)
             this.props.history.push(path)
         }
         else {
@@ -260,15 +253,15 @@ class StructureDetail extends React.Component {
     }
     render() {
         const state = this.state
-        const { status,id } = this.props.match.params
-        const breadButtonText = (status === '0'&&state.MARK!==1) ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组
+        const { status, id } = this.props.match.params
+        const breadButtonText = (status === '0' && state.MARK !== 1) ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组
         const preId = sessionStorage.getItem('id')
-        console.log(this.props.history.location.query)
+        console.log(preId)
         return (
             <div className="yc-content-container assetStructureDetail-structure">
-                <BreadCrumb 
-                    disabled = {preId?false:true} 
-                    breadButtonText = {breadButtonText}
+                <BreadCrumb
+                    disabled={preId ? false : true}
+                    breadButtonText={breadButtonText}
                     texts={['资产结构化/详情']} note={`${state.MARK}/${state.TOTAL}`}
                     handleClick={this.goPreviousRecord.bind(this)}
                     icon={'left'}></BreadCrumb>
