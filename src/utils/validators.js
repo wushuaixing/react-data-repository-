@@ -8,6 +8,7 @@ export const handleValidator = (rule, val, callback) => {
 			callback("姓名最大长度为20个字符");
 		}
 	}
+	callback("姓名最大长度为20个字符");
 	if (rule.field === "username") {
 		if(!val){
 			callback('');

@@ -174,7 +174,7 @@ class Asset extends React.Component {
 		];
 		if (tabIndex !== 0) {
 			columns.unshift({
-				title: "结构化完成时间",
+				title: "结构化时间",
 				dataIndex: "firstExtractTime",
 			})
 		}

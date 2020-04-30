@@ -13,6 +13,7 @@ function HotDotBeforeFormItem(props = { top: 0, left: 0 }) {
 function BreadCrumb(props = { texts: [], breadButtonText: null, icon: null, note: null, handleClick: null, disabled: false }) {
     //数据格式是数组['账号管理','结构化账号']表示层级显示账号管理 > 结构化账号
     let text = props.texts.length > 1 ? props.texts.join(' > ') : props.texts[0]
+    //console.log(props.note)
     return (
         <div className="yc-components-breadCrumb" >
             <div className="yc-components-breadCrumb-body">{text}</div>
@@ -24,6 +25,7 @@ function BreadCrumb(props = { texts: [], breadButtonText: null, icon: null, note
                         {props.breadButtonText}
                     </Button>
                 </div> : null}
+            
         </div>
     )
 }

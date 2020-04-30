@@ -249,7 +249,7 @@ class StructureDetail extends React.Component {
             const path = {
                 pathname: `/index/structureDetail/1/${id}`,
                 query:{  
-                    id:this.props.match.params.id //指示去的方向  如果是带这个标志 则在未检查队列中下一对是去未标记的下一条
+                    id:this.props.match.params.id //指示去的id  如果是带这个标志 则在未检查队列中下一对是去未标记的下一条
                 }
             }
             this.props.history.push(path)
@@ -260,11 +260,14 @@ class StructureDetail extends React.Component {
     }
     render() {
         const state = this.state
-        const { status } = this.props.match.params
+        const { status,id } = this.props.match.params
         const breadButtonText = (status === '0'&&state.MARK!==1) ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组
+        const preId = sessionStorage.getItem('id')
+        console.log(this.props.history.location.query)
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb 
+                    disabled = {preId?false:true} 
                     breadButtonText = {breadButtonText}
                     texts={['资产结构化/详情']} note={`${state.MARK}/${state.TOTAL}`}
                     handleClick={this.goPreviousRecord.bind(this)}
@@ -286,7 +289,7 @@ class StructureDetail extends React.Component {
                         <StructureButtonGroup
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
-                            status={status} >
+                            status={status} key={id}>
                         </StructureButtonGroup>
                     </div>
                     <div className="assetStructureDetail-structure_container_body">
