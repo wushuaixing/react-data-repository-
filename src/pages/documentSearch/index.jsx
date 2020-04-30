@@ -1,6 +1,6 @@
 /** document search * */
 import React from 'react';
-import { Form, Input, Button, Table, message, Spin, Row, Col } from 'antd';
+import { Form, Input, Button, Table, message, Spin, Row, Col, Popover } from 'antd';
 import { wenshuSearch } from "../../server/api";
 import { Link, withRouter } from "react-router-dom";
 import '../style.scss';
@@ -15,6 +15,7 @@ const columns = [
 	{
 		title: "发布日期",
 		dataIndex: 'publishTime',
+		width: 110,
 		render(record) {
 			return (
 				<span>
@@ -25,20 +26,24 @@ const columns = [
 	},
 	{
 		title: "标题",
-		render: (record) => (
-			<span>
+		render(record) {
+			const temp = <span className="ws-link"
+				style={{
+					width: 160,
+					WebkitLineClamp: 2,
+					WebkitBoxOrient: 'vertical',
+					overflow: 'hidden',
+					display: '-webkit-box',
+					textOverflow: 'ellipsis'
+				}}>{filters.blockNullData(record.title, '——')}</span>;
+			return (
 				<Link to={`/documentDetail/${record.wenshuId}`} target="_blank" >
-					<span className="ws-link" style={{
-						maxWidth: 200,
-						WebkitLineClamp: 2,
-						WebkitBoxOrient: 'vertical',
-						overflow: 'hidden',
-						display: '-webkit-box',
-						textOverflow: 'ellipsis'
-					}}>{record.title}</span>
+					{
+						record.title && record.title.length > 30 ? <Popover content={record.title}>{temp}</Popover> : temp
+					}
 				</Link>
-			</span>
-		),
+			)
+		}
 	},
 	{
 		title: "案号",
@@ -47,16 +52,24 @@ const columns = [
 	{
 		title: "相关人员",
 		dataIndex: "appellors",
-		render: (record) => (
-			<span className="ws-link" style={{
-				maxWidth: 160,
-				WebkitLineClamp: 3,
-				WebkitBoxOrient: 'vertical',
-				overflow: 'hidden',
-				display: '-webkit-box',
-				textOverflow: 'ellipsis'
-			}}>{filters.blockNullData(record.appellors, '——')}</span>
-		)
+		render(record) {
+			const temp = <span className="ws-link"
+				style={{
+					width: 160,
+					WebkitLineClamp: 2,
+					WebkitBoxOrient: 'vertical',
+					overflow: 'hidden',
+					display: '-webkit-box',
+					textOverflow: 'ellipsis'
+				}}>{filters.blockNullData(record, '——')}</span>;
+			return (
+				<span>
+					{
+						record && record.length > 25 ? <Popover content={record}>{temp}</Popover> : temp
+					}
+				</span>
+			)
+		},
 	},
 	{
 		title: "法院",
@@ -74,7 +87,8 @@ const columns = [
 	},
 	{
 		title: "案件类型",
-		dataIndex: "caseType"
+		dataIndex: "caseType",
+		width: 125
 	}
 ];
 
@@ -213,7 +227,7 @@ class Check extends React.Component {
 											/>)}
 									</Form.Item>
 								</Col>
-								<Col span={5} style={{textAlign:'right'}}>
+								<Col span={5} style={{ textAlign: 'right' }}>
 									<Form.Item>
 										<Button type="primary" htmlType="submit" style={{ backgroundColor: '#0099CC', marginLeft: 15 }}>
 											搜索
