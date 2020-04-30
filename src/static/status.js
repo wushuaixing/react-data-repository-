@@ -29,7 +29,7 @@ export const HOUSE_TYPE = {
 
 export const ROLE_TYPE = {
 	1:'资产所有人',
-	2:'债务人',
+	2:'债权人',
 	3:'资产线索',
 	5:'竞买人'
 }

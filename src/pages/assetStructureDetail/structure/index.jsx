@@ -127,7 +127,7 @@ class StructureDetail extends React.Component {
         保存无效并弹出“债权人备注待完善”非模态框提示； */
         for (let i = 0; i < this.state.obligors.length; i++) {
             let name = this.state.obligors[i].name
-            if (this.state.obligors[i].notes === '' && name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
+            if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '2' && name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
                 message.warning('保存无效,债权人备注待完善')
                 return false;
             }
@@ -205,6 +205,7 @@ class StructureDetail extends React.Component {
                     }
                 }
                 const data = res.data
+                console.log(data)
                 this.setState({
                     associatedAnnotationId: data.associatedAnnotationId,
                     auctionStatus: data.auctionStatus,
@@ -256,7 +257,6 @@ class StructureDetail extends React.Component {
         const { status, id } = this.props.match.params
         const breadButtonText = (status === '0' && state.MARK !== 1) ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组
         const preId = sessionStorage.getItem('id')
-        console.log(preId)
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
@@ -280,6 +280,7 @@ class StructureDetail extends React.Component {
                         }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
                         <StructureButtonGroup
+                            type={state.type}
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
                             status={status} key={id}>

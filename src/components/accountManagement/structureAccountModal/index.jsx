@@ -2,7 +2,7 @@
 import React from 'react';
 import { Modal, Form, Button, Select, Checkbox, Radio, Input } from "antd";
 import { handleValidator } from "@/utils/validators";
-import {HotDotBeforeFormItem} from '@commonComponents'
+import { HotDotBeforeFormItem } from '@commonComponents'
 import '../style.scss'
 const { Option } = Select;
 const accountForm = Form.create;
@@ -51,25 +51,21 @@ class AccountManage extends React.Component {
   }
   //确定
   modalOk = () => {
-    const { info, action } = this.state;
-    let options = this.props.form.getFieldsValue();
-    console.log(options, 'options');
-    if (action === 'add') {
-      options.structuredObject = [8];
-    }
-    else {
-      options.functionId = [8];
-      options.username = info.username;
-    }
-    this.setState({
-      visible: false,
-    });
-    //this.props.ok(options, info.id);
     const { form } = this.props
-		form.validateFields().then((res)=>{
-      this.props.ok(options, info.id);
-    })
-    .catch(err=>{
+    form.validateFields().then(() => {
+        const { info, action } = this.state;
+        let options = this.props.form.getFieldsValue();
+        if (action === 'add') {
+          options.structuredObject = [8];
+        }
+        else {
+          options.functionId = [8];
+          options.username = info.username;
+        }
+        this.setState({
+          visible: false,
+        });
+        this.props.ok(options, info.id);
     })
   };
   //取消
