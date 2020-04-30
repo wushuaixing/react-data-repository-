@@ -4,6 +4,7 @@ import { Form, Input, Button, Table, message, Spin, Row, Col } from 'antd';
 import { wenshuSearch } from "../../server/api";
 import { Link, withRouter } from "react-router-dom";
 import '../style.scss';
+import './style.scss'
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from '@utils/pagination'
 import { filters } from '@utils/common'
@@ -13,11 +14,18 @@ const searchForm = Form.create;
 const columns = [
 	{
 		title: "发布日期",
-		dataIndex: "publishTime"
+		dataIndex: 'publishTime',
+		render(record) {
+			return (
+				<span>
+					{filters.blockNullData(record, '——')}
+				</span>
+			)
+		}
 	},
 	{
 		title: "标题",
-		render: (text, record) => (
+		render: (record) => (
 			<span>
 				<Link to={`/documentDetail/${record.wenshuId}`} target="_blank" >
 					<span className="ws-link" style={{
@@ -39,7 +47,7 @@ const columns = [
 	{
 		title: "相关人员",
 		dataIndex: "appellors",
-		render: (text, record) => (
+		render: (record) => (
 			<span className="ws-link" style={{
 				maxWidth: 160,
 				WebkitLineClamp: 3,
@@ -47,7 +55,7 @@ const columns = [
 				overflow: 'hidden',
 				display: '-webkit-box',
 				textOverflow: 'ellipsis'
-			}}>{record.appellors}</span>
+			}}>{filters.blockNullData(record.appellors, '——')}</span>
 		)
 	},
 	{
@@ -56,7 +64,13 @@ const columns = [
 	},
 	{
 		title: "案由",
-		dataIndex: "reason"
+		render(record) {
+			return (
+				<span>
+					{filters.blockNullData(record.reason, '——')}
+				</span>
+			)
+		}
 	},
 	{
 		title: "案件类型",
@@ -160,50 +174,56 @@ class Check extends React.Component {
 			<div className="yc-content-container">
 				<BreadCrumb texts={['文书搜索']}></BreadCrumb>
 				<div className="yc-detail-content">
-					<div className="yc-search-line">
-						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{ marginLeft: 20, marginTop: 15 }}>
-							<Form.Item label="全文">
+					<div className="yc-search-line document-search">
+						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
+							<Form.Item label="全文" style={{ width: '100%' }}>
 								{getFieldDecorator('whole', {})
 									(<Input
+										style={{ width: '100%' }}
 										type="text"
 										size='default'
 										placeholder="姓名、公司、地址关键词等"
-										style={{ width: '1100px' }}
-									/>)}
-							</Form.Item>
 
-							<Form.Item label="案号">
-								{getFieldDecorator('ah', {})
-									(<Input
-										type="text"
-										size='default'
-										placeholder="案号"
 									/>)}
 							</Form.Item>
-							<Form.Item label="法院">
-								{getFieldDecorator('court', {})
-									(<Input
-										type="text"
-										size='default'
-										placeholder="法院"
-									/>)}
-							</Form.Item>
-							<Form.Item label="链接">
-								{getFieldDecorator('url', {})
-									(<Input
-										type="text"
-										size='default'
-										placeholder="文书源链接"
-									/>)}
-							</Form.Item>
-							<Form.Item>
-								<Button type="primary" htmlType="submit" style={{ backgroundColor: '#0099CC', marginLeft: 15 }}>
-									搜索
+							<Row>
+								<Col span={19}>
+									<Form.Item label="案号">
+										{getFieldDecorator('ah', {})
+											(<Input
+												type="text"
+												size='default'
+												placeholder="案号"
+											/>)}
+									</Form.Item>
+									<Form.Item label="法院">
+										{getFieldDecorator('court', {})
+											(<Input
+												type="text"
+												size='default'
+												placeholder="法院"
+											/>)}
+									</Form.Item>
+									<Form.Item label="链接">
+										{getFieldDecorator('url', {})
+											(<Input
+												type="text"
+												size='default'
+												placeholder="文书源链接"
+											/>)}
+									</Form.Item>
+								</Col>
+								<Col span={5} style={{textAlign:'right'}}>
+									<Form.Item>
+										<Button type="primary" htmlType="submit" style={{ backgroundColor: '#0099CC', marginLeft: 15 }}>
+											搜索
 									</Button>
-								<Button type="default" style={{ marginLeft: 5 }} onClick={this.clearSearch}>
-									清空搜索条件
+										<Button type="default" style={{ marginLeft: 5 }} onClick={this.clearSearch}>
+											清空搜索条件
 									</Button>
-							</Form.Item>
+									</Form.Item>
+								</Col>
+							</Row>
 						</Form>
 					</div>
 					<p className="line" />
@@ -212,7 +232,7 @@ class Check extends React.Component {
 							<Table rowClassName="table-list"
 								columns={columns}
 								dataSource={tableList}
-								rowKey={record => record.wid}
+								rowKey={record => record.wenshuId}
 								pagination={paginationProps}
 								onChange={this.onTablePageChange}
 							/>

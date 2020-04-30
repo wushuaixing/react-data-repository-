@@ -1,0 +1,8 @@
+.document-search {
+    .ant-form-item-control-wrapper:nth-child(2) {
+        width: calc(100% - 40px);
+    }
+    .ant-input{
+        width:240px;
+    }
+}

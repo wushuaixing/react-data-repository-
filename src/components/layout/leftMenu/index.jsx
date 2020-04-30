@@ -169,7 +169,7 @@ class Sider extends React.Component {
         <Menu
           mode="inline"
           theme="dark"
-          style={{ width: 180}}
+          style={{ width: 150}}
           openKeys={openKeys}
           onOpenChange={this.onOpenChange}
           defaultSelectedKeys={defaultKey}
