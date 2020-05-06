@@ -60,7 +60,7 @@ class TabTable extends React.Component {
 				width: 180,
 				render: (text, record) => (
 					<span>
-						<Link to={`/index/structureDetail/${record.id}`}>
+						<Link to={`/index/structureDetail/${record.status}/${record.id}`}>
 							{(record.status === 2 || record.status === 3 || record.status === 4)
 								&& record.structPersonnelEnable
 								&& record.structPersonnel !== '自动标注'

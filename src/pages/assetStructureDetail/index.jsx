@@ -686,7 +686,8 @@ class StructureDetail extends React.Component {
 
 	//待标记--》详情页
 	render() {
-		const { status } = this.props.match.params;
+		const status = "2";
+		
 		const { dataMark, dataTotal, buttonText, buttonStyle, data, dataStatus, tabStatus, dataPage } = this.state;
 		const { wenshuNum, wenshuUrl, wsFindStatus, ifAttach, wsStyle } = this.state;
 		const basic = data;

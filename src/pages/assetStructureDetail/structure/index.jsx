@@ -280,7 +280,7 @@ class StructureDetail extends React.Component {
                         }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
                         <StructureButtonGroup
-                            type={state.type}
+                            type={state.type} role={'structure'}
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
                             status={status} key={id}>
