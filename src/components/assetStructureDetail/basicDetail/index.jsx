@@ -5,7 +5,7 @@ import './index.scss'
 
 //功能还剩链接跳转  在父组件补上Prop和回调逻辑即可  另外要根据传入prop选择需要显示的row
 const StructureBasicDetail = (props) => {
-    console.log(props.records)
+    //console.log(props.records)
     return (
         <div className="yc-components-assetStructureDetail" id="yc-components-basicDetail">
             <div className="yc-components-assetStructureDetail_header">基本信息</div>

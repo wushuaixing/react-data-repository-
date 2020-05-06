@@ -27,10 +27,15 @@ class Check extends React.Component {
         url: "",
         wsFindStatus: 1,
         wsInAttach: 0,
-        wsUrl: []
+        wsUrl: [],
+
     }
     componentDidMount() {
         const { id } = this.props.match.params
+        if (!sessionStorage.getItem('structPersonnelEnable') && this.props.location.query && this.props.location.query.enable !== undefined) {
+            //console.log(this.props.location.query.enable)
+            sessionStorage.setItem('structPersonnelEnable', this.props.location.query.enable)
+        }
         getCheckDetail(id).then((res) => {
             this.setState({
                 ...res.data.data
@@ -39,15 +44,35 @@ class Check extends React.Component {
             })
         })
     }
+    componentWillUnmount() {
+        sessionStorage.removeItem('structPersonnelEnable')
+    }
     handleSubmit() {
 
     }
     handleChange() {
 
     }
+
+    onClickToTable() {
+        this.props.history.push('/index');
+    }
     //检查错误弹窗按钮接口
     handleModalSubmit = (data) => {
-        console.log(data)
+        const { id } = this.props.match.params
+        let params = {
+            checkWrongLog: Object.assign({}, data),
+            checkError: true,
+            id
+        }
+        inspectorCheck(params).then(res => {
+            if (res.data.code === 200) {
+                message.success("操作成功");
+                this.onClickToTable()
+            } else {
+                message.error("操作失败");
+            }
+        });
         /* const { dataId, dataStatus, dataPage, tabStatus } = this.state;
         if (dataStatus === 5 || dataStatus === 4 || dataStatus === 1) {
             let params = {
@@ -114,7 +139,9 @@ class Check extends React.Component {
     };
     render() {
         const state = this.state
-        const { status, id } = this.props.match.params
+        const { status } = this.props.match.params
+        const enable = JSON.parse(sessionStorage.getItem('structPersonnelEnable'))
+        console.log(state)
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
@@ -138,6 +165,7 @@ class Check extends React.Component {
                     </div>
                     <div className="assetStructureDetail-structure_container_body">
                         <CheckPropertyDetail
+                            enable={enable}
                             collateral={state.collateral} buildingArea={state.buildingArea}
                             houseType={state.houseType} handleChange={this.handleChange.bind(this)}
                         ></CheckPropertyDetail>
@@ -150,6 +178,7 @@ class Check extends React.Component {
                         ></StructureDocumentDetail>
                         <RoleDetail
                             obligors={state.obligors}
+                            enable={enable}
                             handleChange={this.handleChange.bind(this)}
                             handleAddClick={this.handleChange.bind(this)}
                             handleDeleteClick={this.handleChange.bind(this)}
