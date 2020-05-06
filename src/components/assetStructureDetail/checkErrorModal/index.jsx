@@ -1,99 +1,59 @@
 /** right content for Account manage* */
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { Form, Modal } from "antd";
-import Button from "antd/es/button";
-import Checkbox from "antd/es/checkbox";
 import CheckboxGroup from "antd/es/checkbox/Group";
-import Radio from "antd/es/radio";
-import Input from "antd/es/input";
-import { reasonList, wrongTypeList } from "@/static/dataList";
+import { Input, Radio, Checkbox, Button, Form, Modal, Icon } from 'antd'
+import { REASON_LIST, WRONG_TYPE_LIST } from "@/static/status";
 import './style.scss';
 
 const checkForm = Form.create;
-
 class Check extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			visible: false,
-			dataStatus: 0,
-			dataId: 0,
-			remark: "",
-			reasonList: reasonList,
-			wrongTypeList: wrongTypeList,
-		};
-	}
-
-	componentDidMount() {
-
-	}
-	componentWillReceiveProps(nextProps) {
-		const { visible, status, id } = nextProps;
-		// console.log(nextProps,'next');
-		this.setState({
-			visible: visible,
-			dataStatus: status,
-			dataId: id,
-		});
-	}
-
 	modalOk = () => {
 		const options = this.props.form.getFieldsValue();
-		console.log(options, 'options');
-		const { visible } = this.state;
-		this.setState({
-			visible: false,
-		});
-		this.props.ok(options, visible);
+		this.props.handleModalSubmit(options);
 	};
 
 	modalCancel = () => {
-		this.setState({
-			visible: false,
-		});
-		this.props.cancel(false);
+		this.props.handleModalCancel();
 	};
 
-
-	// onChangeReason=(checkedValues)=>{
-	// 	console.log('checked = ', checkedValues);
-	// };
-
-	addRemark(data) {
-		const { remark } = this.state;
-		let _remark = remark + data + "\n";
-		this.setState({
-			remark: _remark,
-		});
+	addRemark(text) {
+		const val = this.props.form.getFieldValue('remark')?this.props.form.getFieldValue('remark'):'';
 		this.props.form.setFieldsValue({
-			remark: _remark,
+			remark: `${val}${text}:\n`
 		});
 	};
 	//待标记--》详情页
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { visible, reasonList, wrongTypeList } = this.state;
+		const wrongReasonList = []
+		WRONG_TYPE_LIST.forEach((wrongType, index) => {
+			const title = <div className="part-error-title" key={index}>{wrongType.type}</div>
+			const WrongReasons = wrongType.children.map((child, index) => {
+				return <div key={index} className="part-error-content"  onClick={() => this.addRemark(child.text)}>{`${child.text}：`}</div>
+			})
+			wrongReasonList.push(<div key={index}>{[title,WrongReasons]}</div>)
+		})
 		return (
 			<div>
 				<Modal
-					visible={visible}
+					visible={this.props.visible}
 					destroyOnClose={true}
 					closable={true}
 					footer={null}
-					title="确认本条结构化数据标注结果有误吗？"
+					title={<span><Icon type="exclamation-circle" theme="twoTone" twoToneColor="#f5222d" /> 确认本条结构化数据标注结果有误吗？</span>}
 					maskClosable
 					onCancel={this.modalCancel}
 				>
 					<div className="check-modal">
 						<div className="part">
-							<span
-							>点击确定，本条结构化数据将被标记为检查错误，并将退回给结构化人员</span
-							>
+							<span>点击确定，本条结构化数据将被标记为检查错误，并将退回给结构化人员</span>
 						</div>
 						<Form style={{ width: 347 }}>
 							<Form.Item className="part" label="备注">
-								{getFieldDecorator('remark', {})(
+								{getFieldDecorator('remark', {
+									initialValue:''
+								})(
 									<Input.TextArea
 										style={{ height: 136 }}
 										maxLength="136"
@@ -119,9 +79,11 @@ class Check extends React.Component {
 								)}
 							</Form.Item>
 							<Form.Item className="part" label="出错原因">
-								{getFieldDecorator('reason', {})(
+								{getFieldDecorator('auctionExtractWrongTypes', {
+									initialValue:[]
+								})(
 									<CheckboxGroup onChange={this.onChangeReason}>
-										{reasonList && reasonList.map((item) => {
+										{REASON_LIST && REASON_LIST.map((item) => {
 											return (
 												<Checkbox value={item.value} key={item.label}>
 													<span>{item.value}</span>
@@ -132,20 +94,12 @@ class Check extends React.Component {
 									</CheckboxGroup>
 								)}
 							</Form.Item>
-							<div className="part">
+							<div className="part" >
 								<p className="part-title">错误类型</p>
 								<div className="part-error-detail">
-									{wrongTypeList && wrongTypeList.map((item) => {
-										return (
-											<p
-												key={item.label}
-												className="part-error-content"
-												onClick={() => this.addRemark(item.value)}
-											>
-												{item.value}
-											</p>
-										)
-									})}
+									{
+										wrongReasonList
+									}
 								</div>
 							</div>
 							<div className="footer">

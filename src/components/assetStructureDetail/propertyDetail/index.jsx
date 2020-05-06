@@ -26,7 +26,12 @@ class StructurePropertyDetail extends React.Component{
                     </div>
                     <div className="yc-components-assetStructureDetail_body-row">
                         <span className='yc-components-assetStructureDetail_body-row_title'>建筑面积：</span>
-                        <span ><Input placeholder="请输入建筑面积" name="buildingArea" onChange={this.handleChange}/></span>
+                        <span>
+                            {
+                                
+                                <Input placeholder="请输入建筑面积" name="buildingArea" onChange={this.handleChange} />
+                            }
+                        </span>
                     </div>
                 </div>
             </div>
