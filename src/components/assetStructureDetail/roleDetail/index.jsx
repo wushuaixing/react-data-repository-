@@ -19,10 +19,10 @@ class RoleDetail extends React.Component {
         this.props.handleChange(e.target.name, result)
     }
     get roleInputNumber() {
-        return this.props.obligors.length
+        return this.props.obligors instanceof Array?this.props.obligors.length:0
     }
     render() {
-        console.log(this.props.enable)
+        /* console.log(this.props.enable) */
         return (
             <div className="yc-components-assetStructureDetail yc-components-roleDetail">
                 <div className="yc-components-assetStructureDetail_header">

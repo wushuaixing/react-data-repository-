@@ -56,7 +56,7 @@ class StructureDetail extends React.Component {
         this.setState({
             [key]: value
         }, () => {
-            console.log(this.state)
+            //console.log(this.state)
         })
     }
     handleDocumentChange(combine, value) {
@@ -86,7 +86,7 @@ class StructureDetail extends React.Component {
 
     handleSubmit() {
         const nextMarkid = this.props.history.location.query
-        console.log(nextMarkid)
+        /* console.log(nextMarkid) */
         this.saveRecordData()
     }
 
@@ -99,6 +99,7 @@ class StructureDetail extends React.Component {
         });
     }
     handleDeleteClick(key, index = -1) {
+        console.log(key,index)
         //角色对应顺序删除  文书从下往上删
         const arr = (index >= 0) ? this.state[key].slice(0) : this.state[key].slice(0, -1)
         if (index >= 0) {
@@ -128,7 +129,7 @@ class StructureDetail extends React.Component {
         for (let i = 0; i < this.state.obligors.length; i++) {
             let name = this.state.obligors[i].name
             if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '2' && name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
-                message.warning('保存无效,债权人备注待完善')
+                message.warning('债权人备注待完善')
                 return false;
             }
             if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '3') {
@@ -163,6 +164,7 @@ class StructureDetail extends React.Component {
             wsUrl: state.wsUrl
 
         }
+        console.log(params)
         saveDetail(id, status, params).then((res) => {
             if (res.data.code === 200) {
                 message.success('保存成功!')
@@ -190,7 +192,7 @@ class StructureDetail extends React.Component {
                     this.props.history.push('/index')
                 }
             } else {
-                message.danger('保存失败!')
+                message.error('保存失败!')
             }
         })
     }
@@ -205,7 +207,7 @@ class StructureDetail extends React.Component {
                     }
                 }
                 const data = res.data
-                console.log(data)
+                /* console.log(data) */
                 this.setState({
                     associatedAnnotationId: data.associatedAnnotationId,
                     auctionStatus: data.auctionStatus,
@@ -221,9 +223,9 @@ class StructureDetail extends React.Component {
                     wrongReason: data.wrongReason,
                     wsFindStatus: data.wsFindStatus,
                     wsInAttach: data.wsInAttach,
-                    ah: data.ah.length === 0 ? [{ value: '' }] : data.ah,
-                    wsUrl: data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
-                    obligors: data.obligors.length === 0 ? [getObligor()] : data.obligors
+                    ah: data.ah&&data.ah.length === 0 ? [{ value: '' }] : data.ah,
+                    wsUrl: data.wsUrl&&data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
+                    obligors: data.obligors&&data.obligors.length === 0&&params.status==='0' ? [getObligor()] : data.obligors
                 }, () => {
                     //console.log(this.state)
                 })
@@ -255,7 +257,8 @@ class StructureDetail extends React.Component {
     render() {
         const state = this.state
         const { status, id } = this.props.match.params
-        const breadButtonText = (status === '0' && state.MARK !== 1) ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组
+        /* const breadButtonText = (status === '0' && state.MARK !== 1) ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组 */
+        const breadButtonText = '返回上一条'
         const preId = sessionStorage.getItem('id')
         return (
             <div className="yc-content-container assetStructureDetail-structure">

@@ -14,7 +14,9 @@ class StructureDocumentDetail extends React.Component {
             this.props.handleChange(e.target.name,e.target.value)
         }
     }
-    
+    handleDeleteClick(i,attr){
+        this.props.handleDeleteClick(attr,i)
+    }
     get documentInputNumber(){
         return this.props.ah.length;
     }
@@ -46,7 +48,7 @@ class StructureDocumentDetail extends React.Component {
                                 text={'相关文书案号'} 
                                 num={this.documentInputNumber} 
                                 handleChange={this.handleChange}
-                                handleDeleteClick={this.props.handleDeleteClick.bind(this,'ah')} 
+                                handleDeleteClick={this.handleDeleteClick.bind(this)} 
                                 handleAddClick={this.props.handleAddClick.bind(this,'ah')}>
                                 </DocumentLinkInputs>
                                 <DocumentLinkInputs 
@@ -55,7 +57,7 @@ class StructureDocumentDetail extends React.Component {
                                 text={'文书链接地址'} 
                                 num={this.linkInputNumber} 
                                 handleChange={this.handleChange}
-                                handleDeleteClick={this.props.handleDeleteClick.bind(this,'wsUrl')} 
+                                handleDeleteClick={this.handleDeleteClick.bind(this)} 
                                 handleAddClick={this.props.handleAddClick.bind(this,'wsUrl')}>>
                                 </DocumentLinkInputs>
                                 <div className="yc-components-assetStructureDetail_body-row">
@@ -81,7 +83,7 @@ const DocumentLinkInputs = (props) => {
                         arr.push(
                             <DocumentLinkInput attr={props.attr} value={props.values[i]}
                             key={i} index={i} text={props.text} num={props.num} handleChange={props.handleChange}
-                            handleDeleteClick={props.handleDeleteClick} handleAddClick={props.handleAddClick}
+                            handleDeleteClick={props.handleDeleteClick.bind(this,i,props.attr)} handleAddClick={props.handleAddClick}
                             ></DocumentLinkInput>
                         )
                     }

@@ -11,7 +11,7 @@ class ButtonGroup extends React.Component {
         }
     }
     get checkButtonTextArray() {
-        const checkButtons  = this.checkButtons
+        const checkButtons = this.checkButtons
         return [
             {
                 status: '1',
@@ -83,26 +83,40 @@ class ButtonGroup extends React.Component {
     handleClick() {
         this.props.handleSubmit()
     }
+    handleCountDown() {
+        if (this.state.countDown > 0) {
+            const countDown = this.state.countDown - 1
+            this.setState({
+                countDown
+            })
+        } else {
+            this.setState({
+                buttonDisabled: false
+            })
+            clearInterval()
+        }
+
+    }
     componentDidMount() {
         //如果是在未标记中的 普通数据 需要设置15s后才可以点击保存
         if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
             this.setState({
-                buttonDisabled: true
+                buttonDisabled: true,
+                countDown: 3
             }, () => {
-                this.timeId = setTimeout(() => {
-                    this.setState({
-                        buttonDisabled: false
-                    })
-                }, 15000)
+                setInterval(() => {
+                    this.handleCountDown()
+                }, 1000)
             })
         }
     }
     componentWillUnmount() {
-        const result = this.timeId ? clearInterval(this.timeId) : null
-        return result;
+        /* const result = this.timeId ? clearInterval(this.timeId) : null
+        return result; */
     }
     render() {
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[this.props.status]
+        const { countDown } = this.state
         return (
             <div className="yc-component-buttonGroup">
                 {
@@ -110,9 +124,9 @@ class ButtonGroup extends React.Component {
                         switch (this.props.role) {
                             case 'structure':
                                 return (
-                                    <div>
+                                    <div className="yc-component-buttonGroup-structure">
                                         <OnlyMarkButton handleChange={this.handleChange.bind(this)}></OnlyMarkButton>
-                                        <Button onClick={this.handleClick.bind(this)} disabled={this.state.buttonDisabled}>{buttonText}</Button>
+                                        <Button onClick={this.handleClick.bind(this)} disabled={this.state.buttonDisabled}>{`${buttonText}${(countDown > 0) ? '('+countDown+'s)':''}`}</Button>
                                     </div>
                                 )
                             case 'check':
