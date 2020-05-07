@@ -2,7 +2,7 @@ import React from 'react'
 import CheckBasicDetail from '@/components/assetStructureDetail/basicDetail'
 import CheckButtonGroup from '@/components/assetStructureDetail/buttonGroup'
 import CheckPropertyDetail from '@/components/assetStructureDetail/propertyDetail'
-import StructureDocumentDetail from '@/components/assetStructureDetail/documentDetail'
+import CheckDocumentDetail from '@/components/assetStructureDetail/documentDetail'
 import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
 import './index.scss'
@@ -137,11 +137,26 @@ class Check extends React.Component {
             visible: true,
         });
     };
+    handleNoErr(){
+        const { id } = this.props.match.params
+        let params = {
+            checkWrongLog: {},
+            checkError: false,
+            id
+        }
+        inspectorCheck(params).then(res => {
+            if (res.data.code === 200) {
+                message.success("操作成功");
+                this.onClickToTable()
+            } else {
+                message.error("操作失败");
+            }
+        });
+    }
     render() {
         const state = this.state
         const { status } = this.props.match.params
         const enable = JSON.parse(sessionStorage.getItem('structPersonnelEnable'))
-        console.log(state)
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
@@ -158,6 +173,7 @@ class Check extends React.Component {
                             role={'check'}
                             handleErrorModal={this.handleErrorModal.bind(this)}
                             type={state.type}
+                            handleNoErr={this.handleNoErr.bind(this)}
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
                             status={status}>
@@ -169,13 +185,14 @@ class Check extends React.Component {
                             collateral={state.collateral} buildingArea={state.buildingArea}
                             houseType={state.houseType} handleChange={this.handleChange.bind(this)}
                         ></CheckPropertyDetail>
-                        <StructureDocumentDetail
+                        <CheckDocumentDetail
+                            enable={enable}
                             wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl} ah={state.ah} wsInAttach={state.wsInAttach}
                             handleDocumentChange={this.handleChange.bind(this)}
                             handleChange={this.handleChange.bind(this)}
                             handleAddClick={this.handleChange.bind(this)}
                             handleDeleteClick={this.handleChange.bind(this)}
-                        ></StructureDocumentDetail>
+                        ></CheckDocumentDetail>
                         <RoleDetail
                             obligors={state.obligors}
                             enable={enable}

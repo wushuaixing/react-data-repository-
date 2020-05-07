@@ -85,8 +85,8 @@ class StructureDetail extends React.Component {
     }
 
     handleSubmit() {
-        const nextMarkid = this.props.history.location.query
-        /* console.log(nextMarkid) */
+        /* const nextMarkid = this.props.history.location.query
+        console.log(nextMarkid) */
         this.saveRecordData()
     }
 
@@ -121,7 +121,7 @@ class StructureDetail extends React.Component {
         this.getRecordData(newProps)
     }
     componentWillUnmount() {
-        sessionStorage.removeItem('id')
+        sessionStorage.clear()
     }
     saveRecordData() {
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
@@ -164,7 +164,6 @@ class StructureDetail extends React.Component {
             wsUrl: state.wsUrl
 
         }
-        console.log(params)
         saveDetail(id, status, params).then((res) => {
             if (res.data.code === 200) {
                 message.success('保存成功!')
@@ -181,6 +180,7 @@ class StructureDetail extends React.Component {
                     let nextMarkid = sessionStorage.getItem('id')
                     if (nextMarkid) {
                         sessionStorage.setItem('id', id)
+                        sessionStorage.removeItem('backTime')
                         this.props.history.push({
                             pathname: `/index/structureDetail/0/${nextMarkid}`
                         })
@@ -248,6 +248,7 @@ class StructureDetail extends React.Component {
                 pathname: `/index/structureDetail/1/${sessionStorage.getItem('id')}`
             }
             sessionStorage.setItem('id', this.props.match.params.id)
+            sessionStorage.setItem('backTime', 1) //返回次数 默认只能返回一层
             this.props.history.push(path)
         }
         else {
@@ -260,10 +261,11 @@ class StructureDetail extends React.Component {
         /* const breadButtonText = (status === '0' && state.MARK !== 1) ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组 */
         const breadButtonText = '返回上一条'
         const preId = sessionStorage.getItem('id')
+        const backEnable = sessionStorage.getItem('backTime') === '1'?false:true //是否能返回上一层 如果已经返回一次则为false
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
-                    disabled={preId ? false : true}
+                    disabled={preId&&backEnable ? false : true} 
                     breadButtonText={breadButtonText}
                     texts={['资产结构化/详情']} note={`${state.MARK}/${state.TOTAL}`}
                     handleClick={this.goPreviousRecord.bind(this)}

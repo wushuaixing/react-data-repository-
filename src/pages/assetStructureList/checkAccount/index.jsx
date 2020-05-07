@@ -1,7 +1,7 @@
 /** check * */
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { Spin } from 'antd';
+import { Spin,message } from 'antd';
 import { getCheckList } from "@api";
 import SearchForm from "@/components/assetStructureList/searchFilter/check";
 import TabTable from "@/components/assetStructureList/tabTable/check";
@@ -58,7 +58,7 @@ class Check extends React.Component {
 		});
 		console.log(params)
 		getCheckList(params).then(res => {
-			//判断状态码 判断结果是否存在 
+			//判断状态码 判断结果是否存在
 			if (res.data.code === 200) {
 				return res.data.data;
 			} else {
@@ -74,6 +74,11 @@ class Check extends React.Component {
 				page: (dataObject.result) ? dataObject.result.page : 1,
 				loading: false
 			});
+		}).catch(err=>{
+			message.error('请求异常')
+			this.setState({
+				loading:false
+			})
 		})
 	};
 

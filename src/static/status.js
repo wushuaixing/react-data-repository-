@@ -83,7 +83,7 @@ export const WRONG_TYPE_LIST = [
 		]
 	},
 	{
-		type:'不计入错误率',
+		type:'不计入错误',
 		children:[
 			{
 				text:'不能确定的身份信息'
