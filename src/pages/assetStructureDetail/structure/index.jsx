@@ -261,7 +261,7 @@ class StructureDetail extends React.Component {
         const breadButtonText = '返回上一条'
         const preId = sessionStorage.getItem('id')
         const backEnable = sessionStorage.getItem('backTime') === '1'?false:true //是否能返回上一层 如果已经返回一次则为false
-        console.log(state.type)
+        /* console.log(state.type) */
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
@@ -288,7 +288,7 @@ class StructureDetail extends React.Component {
                             type={state.type} role={'structure'}
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
-                            status={status} key={id}>
+                            status={status}>
                         </StructureButtonGroup>
                     </div>
                     <div className="assetStructureDetail-structure_container_body">

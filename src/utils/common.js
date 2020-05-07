@@ -30,6 +30,7 @@ const filters = {
 				}
 			}
 		}
+		console.log(records)
 		return records;
 	},
 	//去除表单参数中的空值
@@ -49,8 +50,8 @@ const dateUtils = {
 	},
 	//补全日期 arr
 	formatDateComplete(arr) {
-		let format = ''
-		switch (arr.length) {
+		/* let format = 'YYYYMMDD' */
+		/* switch (arr.length) {
 			case 1:
 				format = 'YYYY'; break;
 			case 2:
@@ -59,8 +60,8 @@ const dateUtils = {
 				format = 'YYYY-MM-DD'; break;
 			default:
 				break;
-		}
-		return moment(arr.join('-')).format(format)
+		} */
+		return arr.join('').substring(0,8)
 	}
 
 }
