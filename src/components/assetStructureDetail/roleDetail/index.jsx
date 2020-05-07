@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon, Input, Select, Button } from 'antd'
+import { Icon, Input, Select, Button, Table } from 'antd'
 import { SEX_TYPE, ROLE_TYPE } from '@/static/status'
 import { dateUtils } from '@utils/common'
 import '../index.scss'
@@ -19,9 +19,52 @@ class RoleDetail extends React.Component {
         this.props.handleChange(e.target.name, result)
     }
     get roleInputNumber() {
-        return this.props.obligors instanceof Array?this.props.obligors.length:0
+        return this.props.obligors instanceof Array ? this.props.obligors.length : 0
     }
     render() {
+        const dataSource = this.props.obligors
+        const columns = [
+            {
+                title: '名称',
+                dataIndex: 'name',
+                key: 'name',
+            },
+            {
+                title: '角色',
+                dataIndex: 'labelType',
+                key: 'labelType',
+                render(text){
+                    return (
+                        <span>{ROLE_TYPE[text]}</span>
+                    )
+                }
+            },
+            {
+                title: '证件号',
+                dataIndex: 'number',
+                key: 'number',
+            },
+            {
+                title: '生日',
+                dataIndex: 'birthday',
+                key: 'birthday',
+            },
+            {
+                title: '性别',
+                dataIndex: 'gender',
+                key: 'gender',
+                render(text){
+                    return (
+                        <span>{SEX_TYPE[text]}</span>
+                    )
+                }
+            },
+            {
+                title: '备注',
+                dataIndex: 'notes',
+                key: 'notes',
+            },
+        ];
         /* console.log(this.props.enable) */
         return (
             <div className="yc-components-assetStructureDetail yc-components-roleDetail">
@@ -30,21 +73,21 @@ class RoleDetail extends React.Component {
                     <span className="role_mark"><Icon type="exclamation-circle" /></span>
                 </div>
                 <div className="yc-components-basicDetail_body">
-                    <div className="yc-components-assetStructureDetail_body-roleRow">
-                        <span className="name">名称</span>
-                        <span className="role">角色</span>
-                        <span className="certification">证件号</span>
-                        <span className="birth">生日</span>
-                        <span className="sex">性别</span>
-                        <span className="note">备注</span>
-                        <span className="operation">操作</span>
-                    </div>
                     {
                         this.props.enable ?
                             <div>
-                                <RoleInfo obligors={this.props.obligors}></RoleInfo>
-                            </div>:
+                                <Table dataSource={dataSource} columns={columns} pagination={false} rowKey={record => Math.random() + record.number} />;
+                            </div> :
                             <div>
+                                <div className="yc-components-assetStructureDetail_body-roleRow">
+                                    <div className="name">名称</div>
+                                    <div className="role">角色</div>
+                                    <div className="certification">证件号</div>
+                                    <div className="birth">生日</div>
+                                    <div className="sex">性别</div>
+                                    <div className="note">备注</div>
+                                    <div className="operation">操作</div>
+                                </div>
                                 <RoleInputs num={this.roleInputNumber} obligors={this.props.obligors}
                                     handleDel={this.handleDel.bind(this)}
                                     handleChange={this.handleChange.bind(this)}
@@ -63,21 +106,28 @@ class RoleDetail extends React.Component {
     }
 }
 
-const RoleInfo = (props) => {
+const RoleInfos = (props) => {
     const roleArr = []
-    props.obligors.forEach((role)=>{
-        Object.keys(role).forEach((key)=>{
-            console.log(key)
-        })
+    Object.keys(props.obligor).forEach((key, index) => {
+        roleArr.push(<RoleInfo info={props.obligor[key]} key={index}></RoleInfo>)
     })
     return (
-        props.obligors.map((item)=>{
-            return <div>{'123'}</div>
-        })
+        <div className="role-info_row">
+            {roleArr}
+            <hr></hr>
+        </div>
     )
 
 }
 
+const RoleInfo = (props) => {
+    return (
+        <span className="role-info_col">
+            {props.info}
+
+        </span>
+    )
+}
 const RoleInputs = (props) => {
     const arr = []
     for (let i = 0; i < props.num; i++) {
