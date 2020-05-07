@@ -170,7 +170,7 @@ class Check extends React.Component {
                             associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
                         </CheckBasicDetail>
                         <CheckButtonGroup
-                            role={'check'}
+                            role={'check'} enable={enable}
                             handleErrorModal={this.handleErrorModal.bind(this)}
                             type={state.type}
                             handleNoErr={this.handleNoErr.bind(this)}

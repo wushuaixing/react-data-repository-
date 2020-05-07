@@ -7,7 +7,8 @@ class ButtonGroup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            buttonDisabled: true
+            buttonDisabled: true,
+            timer:null
         }
     }
     get checkButtonTextArray() {
@@ -72,7 +73,7 @@ class ButtonGroup extends React.Component {
         this.props.handleErrorModal()
     }
     //检查无误
-    handleNoErr(){
+    handleNoErr() {
         this.props.handleNoErr()
     }
     //返回
@@ -95,38 +96,37 @@ class ButtonGroup extends React.Component {
             })
         } else {
             this.setState({
-                buttonDisabled: false
+                buttonDisabled: false,
+                timer:null
             })
             clearInterval()
         }
 
     }
     componentWillReceiveProps() {
-        console.log(this.props.type)
-        //如果是在未标记中的 普通数据 需要设置15s后才可以点击保存
-        if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
-            this.setState({
-                buttonDisabled: true,
-                countDown: 15
-            }, () => {
-                setInterval(() => {
-                    this.handleCountDown()
-                }, 1000)
-            })
+        console.log(this.props)
+        if (this.props.type !== null && this.state.timer === null) {
+            //如果是在未标记中的 普通数据 需要设置15s后才可以点击保存
+            if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
+                this.setState({
+                    buttonDisabled: true,
+                    countDown: 15,
+                    timer:setInterval(() => {
+                        this.handleCountDown()
+                    }, 1000)
+                })
+            }
+            if (this.props.type !== 0 && this.props.status === '0') {
+                this.setState({
+                    buttonDisabled: false
+                })
+            }
         }
-        if(this.props.type !== 0 && this.props.status === '0'){
-            this.setState({
-                buttonDisabled: false
-            })
-        }
-    }
-    componentWillUnmount() {
-        /* const result = this.timeId ? clearInterval(this.timeId) : null
-        return result; */
     }
     render() {
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[this.props.status]
         const { countDown } = this.state
+        const { enable } = this.props
         return (
             <div className="yc-component-buttonGroup">
                 {
@@ -136,17 +136,25 @@ class ButtonGroup extends React.Component {
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
                                         <OnlyMarkButton handleChange={this.handleChange.bind(this)}></OnlyMarkButton>
-                                        <Button onClick={this.handleClick.bind(this)} disabled={this.state.buttonDisabled}>{`${buttonText}${(countDown > 0) ? '('+countDown+'s)':''}`}</Button>
+                                        <Button onClick={this.handleClick.bind(this)} disabled={this.state.buttonDisabled}>{`${buttonText}${(countDown > 0) ? '(' + countDown + 's)' : ''}`}</Button>
                                     </div>
                                 )
                             case 'check':
-                                return (
-                                    <div>
+                                if (enable) {
+                                    return <div>
                                         {
                                             this.checkButtonTextArray[0].btns
                                         }
                                     </div>
-                                )
+                                } else {
+                                    return (
+                                        <div className="btnText_1">
+                                            {
+                                                this.checkButtonTextArray[1].btns
+                                            }
+                                        </div>
+                                    )
+                                }
                             default:
                                 return (
                                     null
