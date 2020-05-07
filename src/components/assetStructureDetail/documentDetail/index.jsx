@@ -28,7 +28,7 @@ class StructureDocumentDetail extends React.Component {
     }
     render() {
         const enable = this.props.enable
-        console.log(enable)
+        /* console.log(enable) */
         return (
             <div className="yc-components-assetStructureDetail">
                 <div className="yc-components-assetStructureDetail_header">文书信息</div>
@@ -98,7 +98,7 @@ const DocumentLinkInputs = (props) => {
     )
 }
 const DocumentLinkInput = (props) => {
-    console.log(props)
+    /* console.log(props) */
     return (
         <div className="yc-components-assetStructureDetail_body-row">
             {

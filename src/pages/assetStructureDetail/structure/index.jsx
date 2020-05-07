@@ -40,7 +40,7 @@ class StructureDetail extends React.Component {
             reasonForWithdrawal: "",
             sign: "",
             title: "",
-            type: 0,
+            type: null,
             url: "",
             wrongReason: [],
             wsFindStatus: 1,
@@ -207,7 +207,6 @@ class StructureDetail extends React.Component {
                     }
                 }
                 const data = res.data
-                /* console.log(data) */
                 this.setState({
                     associatedAnnotationId: data.associatedAnnotationId,
                     auctionStatus: data.auctionStatus,
@@ -227,7 +226,7 @@ class StructureDetail extends React.Component {
                     wsUrl: data.wsUrl&&data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                     obligors: data.obligors&&data.obligors.length === 0&&params.status==='0' ? [getObligor()] : data.obligors
                 }, () => {
-                    //console.log(this.state)
+                    console.log(this.state)
                 })
 
             })
@@ -262,6 +261,7 @@ class StructureDetail extends React.Component {
         const breadButtonText = '返回上一条'
         const preId = sessionStorage.getItem('id')
         const backEnable = sessionStorage.getItem('backTime') === '1'?false:true //是否能返回上一层 如果已经返回一次则为false
+        console.log(state.type)
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
