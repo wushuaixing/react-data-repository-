@@ -76,7 +76,7 @@ class RoleDetail extends React.Component {
                     {
                         this.props.enable ?
                             <div>
-                                <Table dataSource={dataSource} columns={columns} pagination={false} rowKey={record => Math.random() + record.number} />;
+                                <Table dataSource={dataSource} columns={columns} pagination={false} rowKey={record => Math.random() + record.number} />
                             </div> :
                             <div>
                                 <div className="yc-components-assetStructureDetail_body-roleRow">
@@ -146,7 +146,7 @@ const RoleInput = (props) => {
             <Input placeholder="请输入名称" onChange={(e) => { e.persist(); props.handleChange(e) }} name={`name${props.index}`} value={props.obligor.name}></Input>
             <Select placeholder="角色" onChange={(value) => { props.handleChange({ target: { name: `labelType${props.index}`, value } }) }} value={props.obligor.labelType}>
                 {Object.keys(ROLE_TYPE).map((key) => {
-                    return <Option key={key}>{ROLE_TYPE[key]}</Option>
+                    return <Option key={key} style={{fontSize:12}}>{ROLE_TYPE[key]}</Option>
                 })}
             </Select>
             <Input placeholder="请输入证件号" onChange={(e) => { e.persist(); props.handleChange(e) }} name={`number${props.index}`} value={props.obligor.number}></Input>

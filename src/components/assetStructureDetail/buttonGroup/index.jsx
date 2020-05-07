@@ -7,7 +7,7 @@ class ButtonGroup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            buttonDisabled: false
+            buttonDisabled: true
         }
     }
     get checkButtonTextArray() {
@@ -59,7 +59,7 @@ class ButtonGroup extends React.Component {
     get checkButtons() {
         return {
             err: <Button onClick={this.handleErrorModal.bind(this)} key="0" style={{ marginRight: 10 }}>{'检查有误'}</Button>,
-            noErr: <Button onClick={this.handleBack} key="1" style={{ marginRight: 10 }}>{'检查无误'}</Button>,
+            noErr: <Button onClick={this.handleNoErr.bind(this)} key="1" style={{ marginRight: 10 }}>{'检查无误'}</Button>,
             onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" ></OnlyMarkButton>,
             save: <Button onClick={this.handleBack} key="3" style={{ marginRight: 10 }}>{'保存'}</Button>,
             confirm: <Button onClick={this.handleBack} key="4">{'确认'}</Button>,
@@ -70,6 +70,10 @@ class ButtonGroup extends React.Component {
     //打开检查人员错误选择对话框
     handleErrorModal() {
         this.props.handleErrorModal()
+    }
+    //检查无误
+    handleNoErr(){
+        this.props.handleNoErr()
     }
     //返回
     handleBack() {
@@ -97,7 +101,8 @@ class ButtonGroup extends React.Component {
         }
 
     }
-    componentDidMount() {
+    componentWillReceiveProps() {
+        console.log(this.props.type)
         //如果是在未标记中的 普通数据 需要设置15s后才可以点击保存
         if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
             this.setState({
@@ -107,6 +112,11 @@ class ButtonGroup extends React.Component {
                 setInterval(() => {
                     this.handleCountDown()
                 }, 1000)
+            })
+        }
+        if(this.props.type !== 0 && this.props.status === '0'){
+            this.setState({
+                buttonDisabled: false
             })
         }
     }
