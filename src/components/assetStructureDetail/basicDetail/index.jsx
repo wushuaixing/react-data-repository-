@@ -47,7 +47,7 @@ const BasicDetailRow = (props) => {
                                     props.content.map((record, index) => {
                                         return (
                                             <span className={'yc-components-assetStructureDetail_body-row_content'} key={index} style={index!==0?{marginLeft:76,display:'inline-block',marginTop:5}:null}>
-                                                {`${record.time} ${record.user} ${index === 0 ? '初次结构化' : '修改'}\n`}
+                                                {`${record.time} ${record.user} ${index === 0 ? '初次结构化' : '修改'}`}
                                             </span>
                                         )
 

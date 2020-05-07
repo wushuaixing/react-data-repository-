@@ -102,7 +102,7 @@ class ButtonGroup extends React.Component {
         if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
             this.setState({
                 buttonDisabled: true,
-                countDown: 3
+                countDown: 15
             }, () => {
                 setInterval(() => {
                     this.handleCountDown()

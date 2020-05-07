@@ -22,7 +22,7 @@
 
 .yc-components-roleDetail {
     min-width: 1210px;
-    width:100%;
+    width: 100%;
     .role-info_row {
         font-size: 12px;
         height: 40px;
@@ -46,7 +46,7 @@
         margin-right: 4px;
     }
     &_content {
-        width: 291px;
+        width: 100%;
         white-space: pre;
     }
 
@@ -70,7 +70,7 @@
     min-width: 1210px;
     .name {
         width: 200px;
-        padding:0 0 0 10px;
+        padding: 0 0 0 10px;
     }
     .role {
         margin-left: 20px;
@@ -80,12 +80,12 @@
     .certification {
         margin-left: 20px;
         width: 200px;
-        padding-left:10px;
+        padding-left: 10px;
     }
     .birth {
         margin-left: 20px;
         width: 200px;
-        padding-left:10px;
+        padding-left: 10px;
     }
     .sex {
         margin-left: 20px;
@@ -96,12 +96,12 @@
     .note {
         width: 233px;
         margin-left: 20px;
-        padding-left:30px;
+        padding-left: 30px;
     }
     .operation {
         width: 66px;
         text-align: center;
-        padding-left:0px;
+        padding-left: 0px;
     }
 }
 .yc-components-assetStructureDetail_body-roleInputRow {
@@ -123,11 +123,11 @@
         margin-left: 20px;
         width: 66px;
     }
-    .ant-select-selection__rendered{
-        width:60px;
+    .ant-select-selection__rendered {
+        width: 60px;
     }
-    .ant-select-arrow{
-        right:5px;
+    .ant-select-arrow {
+        right: 5px;
     }
 }
 
@@ -137,10 +137,4 @@
     .ant-btn {
         width: 100%;
     }
-}
-.ant-checkbox-wrapper span {
-    font-size: 12px;
-}
-.ant-radio-group span {
-    font-size: 12px;
 }
