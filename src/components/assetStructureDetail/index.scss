@@ -12,8 +12,8 @@
             margin-left: 4px;
         }
     }
-    .danger-info{
-        color:#FB0037;
+    .danger-info {
+        color: #fb0037;
     }
     .ant-input {
         width: 225px;
@@ -21,7 +21,23 @@
 }
 
 .yc-components-roleDetail {
-    width: 100%;
+    min-width: 1210px;
+    width:100%;
+    .role-info_row {
+        font-size: 12px;
+        height: 40px;
+        padding: 14px 0 20px 14px;
+    }
+    .role-info_col {
+        display: inline-block;
+        width: 200px;
+        height: 12px;
+        font-size: 12px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: rgba(41, 48, 56, 1);
+        line-height: 12px;
+    }
 }
 .yc-components-assetStructureDetail_body-row {
     line-height: 12px;
@@ -31,14 +47,14 @@
     }
     &_content {
         width: 291px;
-        white-space:pre;
+        white-space: pre;
     }
 
     &_link {
         color: #0099cc;
     }
-    .addition-ah{
-        margin-left:88px;
+    .addition-ah {
+        margin-left: 88px;
     }
     .ant-input {
         width: 225px;
@@ -46,67 +62,79 @@
 }
 
 .yc-components-assetStructureDetail_body-roleRow {
-    width: 100%;
     height: 40px;
     background: rgba(237, 239, 243, 1);
-    padding:14px 0 14px 20px;
-    .name{
-        width:48px;
-        display: inline-block;
+    padding: 14px 0 14px 20px;
+    display: flex;
+    flex-direction: row;
+    min-width: 1210px;
+    .name {
+        width: 200px;
+        padding:0 0 0 10px;
     }
-    .role{
-        margin-left:158px;
-        display: inline-block;
-        width:102px;
+    .role {
+        margin-left: 20px;
+        width: 90px;
+        padding-left: 28px;
     }
-    .certification{
-        margin-left:42px;
-        display: inline-block;
-        width:52px;
+    .certification {
+        margin-left: 20px;
+        width: 200px;
+        padding-left:10px;
     }
-    .birth{
-        margin-left:152px;
-        display: inline-block;
-        width:62px;
+    .birth {
+        margin-left: 20px;
+        width: 200px;
+        padding-left:10px;
     }
-    .sex{
-        margin-left:142px;
-        display: inline-block;
-        width:62px;
+    .sex {
+        margin-left: 20px;
+        width: 70px;
+        text-align: center;
+        //padding-left:29px;
     }
-    .note{
-        display: inline-block;
-        width:62px;
-        margin-left:78px;
+    .note {
+        width: 233px;
+        margin-left: 20px;
+        padding-left:30px;
     }
-    .operation{
-        display: inline-block;
-        width:52px;
-        margin-left:142px;
+    .operation {
+        width: 66px;
+        text-align: center;
+        padding-left:0px;
     }
 }
-.yc-components-assetStructureDetail_body-roleInputRow{
-    height:64px;
-    padding:11px 44px 0px 0px;
-    border-bottom: 1px #E2E4E9 solid;
+.yc-components-assetStructureDetail_body-roleInputRow {
+    height: 64px;
+    padding: 11px 44px 0px 0px;
+    border-bottom: 1px #e2e4e9 solid;
+    display: flex;
+    min-width: 1210px;
     .ant-input {
-        width: 150px;
-        margin-left:20px;
+        width: 200px;
+        margin-left: 20px;
     }
-    .ant-select{
-        width: 120px;
-        margin-left:20px;
+    .ant-select {
+        width: 90px;
+        margin-left: 20px;
+        font-size: 12px;
     }
-    .ant-btn{
-        margin-left:20px;
+    .ant-btn {
+        margin-left: 20px;
         width: 66px;
+    }
+    .ant-select-selection__rendered{
+        width:60px;
+    }
+    .ant-select-arrow{
+        right:5px;
     }
 }
 
-.yc-components-assetStructureDetail_body-addRole{
+.yc-components-assetStructureDetail_body-addRole {
     width: 100%;
-    margin-top:20px;
-    .ant-btn{
+    margin-top: 20px;
+    .ant-btn {
         width: 100%;
     }
 }

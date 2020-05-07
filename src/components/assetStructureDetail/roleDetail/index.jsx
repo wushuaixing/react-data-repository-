@@ -19,7 +19,7 @@ class RoleDetail extends React.Component {
         this.props.handleChange(e.target.name, result)
     }
     get roleInputNumber() {
-        return this.props.obligors instanceof Array?this.props.obligors.length:0
+        return this.props.obligors instanceof Array ? this.props.obligors.length : 0
     }
     render() {
         /* console.log(this.props.enable) */
@@ -31,19 +31,26 @@ class RoleDetail extends React.Component {
                 </div>
                 <div className="yc-components-basicDetail_body">
                     <div className="yc-components-assetStructureDetail_body-roleRow">
-                        <span className="name">名称</span>
-                        <span className="role">角色</span>
-                        <span className="certification">证件号</span>
-                        <span className="birth">生日</span>
-                        <span className="sex">性别</span>
-                        <span className="note">备注</span>
-                        <span className="operation">操作</span>
+                        <div className="name">名称</div>
+                        <div className="role">角色</div>
+                        <div className="certification">证件号</div>
+                        <div className="birth">生日</div>
+                        <div className="sex">性别</div>
+                        <div className="note">备注</div>
+                        <div className="operation">操作</div>
                     </div>
                     {
                         this.props.enable ?
                             <div>
-                                <RoleInfo obligors={this.props.obligors}></RoleInfo>
-                            </div>:
+                                {
+                                    this.props.obligors && this.props.obligors.length > 0 ?
+                                        this.props.obligors.map((obligor,index) => {
+                                            return <RoleInfos obligor={obligor} key={index}></RoleInfos>
+                                        })
+                                        : null
+                                }
+                                {/* <RoleInfos obligors={this.props.obligors}></RoleInfos> */}
+                            </div> :
                             <div>
                                 <RoleInputs num={this.roleInputNumber} obligors={this.props.obligors}
                                     handleDel={this.handleDel.bind(this)}
@@ -63,21 +70,26 @@ class RoleDetail extends React.Component {
     }
 }
 
-const RoleInfo = (props) => {
+const RoleInfos = (props) => {
     const roleArr = []
-    props.obligors.forEach((role)=>{
-        Object.keys(role).forEach((key)=>{
-            console.log(key)
-        })
+    Object.keys(props.obligor).forEach((key,index) => {
+        roleArr.push(<RoleInfo info={props.obligor[key]} key={index}></RoleInfo>)
     })
     return (
-        props.obligors.map((item)=>{
-            return <div>{'123'}</div>
-        })
+        <div className="role-info_row">
+            {roleArr}
+        </div>
     )
 
 }
 
+const RoleInfo = (props) => {
+    return (
+        <span className="role-info_col">
+            {props.info}
+        </span>
+    )
+}
 const RoleInputs = (props) => {
     const arr = []
     for (let i = 0; i < props.num; i++) {
