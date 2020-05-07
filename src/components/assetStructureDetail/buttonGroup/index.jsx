@@ -97,7 +97,7 @@ class ButtonGroup extends React.Component {
         } else {
             this.setState({
                 buttonDisabled: false,
-                timer:null
+                timer:0 //已经计时过了
             })
             clearInterval()
         }
