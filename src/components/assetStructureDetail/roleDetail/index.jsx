@@ -10,18 +10,19 @@ class RoleDetail extends React.Component {
     }
     handleDel(index) {
         this.props.handleDeleteClick('obligors', index)
-    }   
-    handleBlur(e){
+    }
+    handleBlur(e) {
         //日期格式转换 补全
         let reg = /\d{1,4}/g
         let timeArr = e.target.value.match(reg)
-        let result = (timeArr&&timeArr.length>0)?dateUtils.formatDateComplete(timeArr):e.target.value
+        let result = (timeArr && timeArr.length > 0) ? dateUtils.formatDateComplete(timeArr) : e.target.value
         this.props.handleChange(e.target.name, result)
     }
     get roleInputNumber() {
-        return this.props.obligors.length
+        return this.props.obligors instanceof Array?this.props.obligors.length:0
     }
     render() {
+        /* console.log(this.props.enable) */
         return (
             <div className="yc-components-assetStructureDetail yc-components-roleDetail">
                 <div className="yc-components-assetStructureDetail_header">
@@ -38,20 +39,43 @@ class RoleDetail extends React.Component {
                         <span className="note">备注</span>
                         <span className="operation">操作</span>
                     </div>
-                    <RoleInputs num={this.roleInputNumber} obligors={this.props.obligors}
-                        handleDel={this.handleDel.bind(this)}
-                        handleChange={this.handleChange.bind(this)}
-                        handleBlur={this.handleBlur.bind(this)}>
-                    </RoleInputs>
-                    <div className="yc-components-assetStructureDetail_body-addRole">
-                        <Button type="dashed" icon="plus" onClick={this.props.handleAddClick.bind(this, 'obligors')}>
-                            添加
-                        </Button>
-                    </div>
+                    {
+                        this.props.enable ?
+                            <div>
+                                <RoleInfo obligors={this.props.obligors}></RoleInfo>
+                            </div>:
+                            <div>
+                                <RoleInputs num={this.roleInputNumber} obligors={this.props.obligors}
+                                    handleDel={this.handleDel.bind(this)}
+                                    handleChange={this.handleChange.bind(this)}
+                                    handleBlur={this.handleBlur.bind(this)}>
+                                </RoleInputs>
+                                <div className="yc-components-assetStructureDetail_body-addRole">
+                                    <Button type="dashed" icon="plus" onClick={this.props.handleAddClick.bind(this, 'obligors')}>
+                                        添加
+                                    </Button>
+                                </div>
+                            </div>
+                    }
                 </div>
             </div>
         )
     }
+}
+
+const RoleInfo = (props) => {
+    const roleArr = []
+    props.obligors.forEach((role)=>{
+        Object.keys(role).forEach((key)=>{
+            console.log(key)
+        })
+    })
+    return (
+        props.obligors.map((item)=>{
+            return <div>{'123'}</div>
+        })
+    )
+
 }
 
 const RoleInputs = (props) => {
@@ -76,7 +100,7 @@ const RoleInput = (props) => {
                 })}
             </Select>
             <Input placeholder="请输入证件号" onChange={(e) => { e.persist(); props.handleChange(e) }} name={`number${props.index}`} value={props.obligor.number}></Input>
-            <Input placeholder="请输入年月日" onChange={(e) => { e.persist(); props.handleChange(e) }} name={`birthday${props.index}`} value={props.obligor.birthday} onBlur={(e) => { e.persist();props.handleBlur(e)}}></Input>
+            <Input placeholder="请输入年月日" onChange={(e) => { e.persist(); props.handleChange(e) }} name={`birthday${props.index}`} value={props.obligor.birthday} onBlur={(e) => { e.persist(); props.handleBlur(e) }}></Input>
             <Select placeholder="性别" onChange={(value) => { props.handleChange({ target: { name: `gender${props.index}`, value } }) }} value={props.obligor.gender}>
                 {Object.keys(SEX_TYPE).map((key) => {
                     return <Option key={key}>{SEX_TYPE[key]}</Option>

@@ -16,7 +16,6 @@ import WsDetail from "../../components/wsDetail";
 import RoleDetail from "../../components/roleDetail";
 import { BreadCrumb } from '@commonComponents'
 import HouseDetail from "../../components/houseDetail";
-import Check from "./checkModal";
 import './style.scss';
 
 const storage = window.localStorage;
@@ -686,7 +685,8 @@ class StructureDetail extends React.Component {
 
 	//待标记--》详情页
 	render() {
-		const { status } = this.props.match.params;
+		const status = "2";
+		
 		const { dataMark, dataTotal, buttonText, buttonStyle, data, dataStatus, tabStatus, dataPage } = this.state;
 		const { wenshuNum, wenshuUrl, wsFindStatus, ifAttach, wsStyle } = this.state;
 		const basic = data;
@@ -781,12 +781,6 @@ class StructureDetail extends React.Component {
 					</div>
 				</div>
 				<div>
-					<Check visible={visible}
-						ok={this.handleOk.bind(this)}
-						cancel={this.handleCancel.bind(this)}
-						show={this.showModal.bind(this)}
-						style={{ width: 430 }}
-					/>
 				</div>
 			</div>
 		);

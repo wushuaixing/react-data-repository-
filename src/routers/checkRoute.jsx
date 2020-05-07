@@ -2,7 +2,7 @@ import React from 'react'
 //引入路由
 import {Route} from 'react-router-dom';
 import AssetList from "../pages/assetStructureList/checkAccount";
-import StructureDetail from "../pages/assetStructureDetail";
+import StructureDetail from "@/pages/assetStructureDetail/check";
 import DocumentSearch from "../pages/documentSearch";
 
 
@@ -12,7 +12,7 @@ class Index extends React.Component {
       <div>
 				<Route path="/index" exact component={AssetList} />
         <Route path="/index/documentSearch"  component={DocumentSearch} />
-        <Route path="/index/structureDetail/:id" component={StructureDetail} />
+        <Route path="/index/structureDetail/:status/:id" component={StructureDetail} />
       </div>
     )
   }

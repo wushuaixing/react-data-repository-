@@ -3,40 +3,37 @@ import moment from 'moment'
 
 const filters = {
 	//判断输入是否为空  为空返回--
-	blockNullData(input,returnVal=''){
+	blockNullData(input, returnVal = '') {
 		if (input === '' || input === undefined || input === null) {
 			return returnVal;
 		} else {
 			return input;
 		}
 	},
-	filterNullKey(input){
-		if(input !== '' && input !== undefined && input !== null){
+	filterNullKey(input) {
+		if (input !== '' && input !== undefined && input !== null) {
 			return true
-		}else{
+		} else {
 			return false
 		}
 	},
 	//去掉空行  参数1是对象数组  参数2是判断的键名数组
-	blockEmptyRow(rows=[],keys=[]){
-		let records = rows.slice(0) //记录处理后的数组
-		for(let i=0;i<rows.length;i++){
+	blockEmptyRow(rows = [], keys = []) {
+		let records = [] //记录处理后的数组
+		for (let i = 0; i < rows.length; i++) {
 			let rowObj = rows[i]
-			let flag = true//标记用 如果字段全为空则设置为true是空行 默认是空行
-			for(let j=0;j<keys.length;j++){
+			//let flag = true//标记用 如果字段全为空则设置为true是空行 默认是空行
+			for (let j = 0; j < keys.length; j++) {
 				let value = rowObj[keys[j]]
-				if(value!==''){
-					flag = false;break;
-				}
-				if(j===keys.length-1&&flag===true){	
-					records.splice(i,1)
+				if (value !== '' && value !== undefined && value !== null) {
+					records.push(rowObj); break;
 				}
 			}
 		}
 		return records;
 	},
 	//去除表单参数中的空值
-	
+
 }
 const dateUtils = {
 	//时间戳转换为标准日期	
@@ -55,11 +52,11 @@ const dateUtils = {
 		let format = ''
 		switch (arr.length) {
 			case 1:
-				format = 'YYYY';break;
+				format = 'YYYY'; break;
 			case 2:
-				format = 'YYYY-MM';break;
+				format = 'YYYY-MM'; break;
 			case 3:
-				format = 'YYYY-MM-DD';break;
+				format = 'YYYY-MM-DD'; break;
 			default:
 				break;
 		}
