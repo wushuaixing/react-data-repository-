@@ -1,7 +1,7 @@
 import React from 'react'
 import { AUCTION_STATUS } from '@/static/status'
 import './index.scss'
-
+import { Link, withRouter } from "react-router-dom";
 
 //功能还剩链接跳转  在父组件补上Prop和回调逻辑即可  另外要根据传入prop选择需要显示的row
 const StructureBasicDetail = (props) => {
@@ -10,7 +10,7 @@ const StructureBasicDetail = (props) => {
         <div className="yc-components-assetStructureDetail" id="yc-components-basicDetail">
             <div className="yc-components-assetStructureDetail_header">基本信息</div>
             <div className="yc-components-basicDetail_body">
-                <BasicDetailRow title={'标题'} content={props.title} url={props.url}></BasicDetailRow>
+                <BasicDetailRow title={'标题'} content={props.title} url={props.url} auctionID={props.auctionID}></BasicDetailRow>
                 <BasicDetailRow title={'拍卖状态'} content={AUCTION_STATUS[props.auctionStatus]}></BasicDetailRow>
                 {
                     (props.auctionStatus === 9 || props.auctionStatus === 11) ?
@@ -38,7 +38,7 @@ const BasicDetailRow = (props) => {
             {
                 props.url ?
                     <span>
-                        <a className='yc-components-assetStructureDetail_body-row_link' rel="noopener noreferrer" href={props.url} target="_blank">{props.content}</a>
+                        <Link className='yc-components-assetStructureDetail_body-row_link' to={`/auctionDetail/${props.auctionID}`} target="_blank">{props.content}</Link>
                     </span> :
                     (
                         (props.content instanceof Array) ?
@@ -88,5 +88,4 @@ function StructureRecord(props) {
         </span>
     )
 }
-
-export default StructureBasicDetail
+export default withRouter(StructureBasicDetail);
