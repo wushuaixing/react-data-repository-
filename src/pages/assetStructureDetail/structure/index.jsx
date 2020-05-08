@@ -261,20 +261,21 @@ class StructureDetail extends React.Component {
         const preId = sessionStorage.getItem('id')
         const backEnable = sessionStorage.getItem('backTime') === '1'?false:true //是否能返回上一层 如果已经返回一次则为false
         /* console.log(state.type) */
+        const tag = `${state.MARK}/${state.TOTAL}`
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
                     disabled={preId&&backEnable ? false : true} 
                     breadButtonText={breadButtonText}
-                    texts={['资产结构化/详情']} note={`${state.MARK}/${state.TOTAL}`}
+                    texts={['资产结构化/详情']} note={sessionStorage.getItem("backTime")!=="1"?tag:null}
                     handleClick={this.goPreviousRecord.bind(this)}
                     icon={'left'}></BreadCrumb>
                 <div className="assetStructureDetail-structure_container">
                     <div className="assetStructureDetail-structure_container_header">
                         {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
                         {
-                            state.wrongReasons && state.wrongReasons.length > 0 ?
-                                <WrongDetail wrongReasons={state.wrongReasons}></WrongDetail> :
+                            state.wrongReason && state.wrongReason.length > 0 ?
+                                <WrongDetail wrongReasons={state.wrongReason}></WrongDetail> :
                                 <StructureBasicDetail
                                     type={state.type}
                                     title={state.title} auctionStatus={state.auctionStatus}

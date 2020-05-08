@@ -118,7 +118,7 @@ class ButtonGroup extends React.Component {
                     }, 1000)
                 })
             }
-            if (this.props.type !== 0 && this.props.status === '0') {
+            if ((this.props.type !== 0 && this.props.status === '0')||this.props.status !== '0') {
                 this.setState({
                     buttonDisabled: false
                 })
