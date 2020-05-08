@@ -162,7 +162,6 @@ class StructureDetail extends React.Component {
             wsFindStatus: state.wsFindStatus,
             wsInAttach: state.wsInAttach,
             wsUrl: state.wsUrl
-
         }
         saveDetail(id, status, params).then((res) => {
             if (res.data.code === 200) {

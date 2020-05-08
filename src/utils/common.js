@@ -50,18 +50,23 @@ const dateUtils = {
 	},
 	//补全日期 arr
 	formatDateComplete(arr) {
-		/* let format = 'YYYYMMDD' */
-		/* switch (arr.length) {
-			case 1:
-				format = 'YYYY'; break;
-			case 2:
-				format = 'YYYY-MM'; break;
-			case 3:
-				format = 'YYYY-MM-DD'; break;
-			default:
-				break;
-		} */
-		return arr.join('').substring(0,8)
+		//如果是纯数字
+		if (typeof arr.join('') === 'number' && !isNaN(arr.join(''))) {
+			return arr.join('').substring(0,8)
+		} else {
+			let temp = arr.map((text,i)=>{
+				console.log(text,text.length,i)
+				if (text.length === 1 && i !== 0) {
+					return '0' + text
+				}
+				if (text.length > 2 && i > 0) {
+					return text.substring(0, 2)
+				} else {
+					return text
+				}
+			})
+			return temp.join('').substring(0,8)
+		}
 	}
 
 }

@@ -310,3 +310,11 @@ export const  getLastSaveById = (id)=>{
 export const saveDetail =(id,approveStatus,params)=>{
 	return axios.post(`/api/asset/structured/control/${id}/${approveStatus}/saveDetail`,params);
 }
+
+export const inspectorUpdateData =(id,params)=>{
+	return axios.post(`/api/asset/inspector/control/updateErrorReason/${id}`,params);
+}
+
+export const saveInspectorStructureDetail =(id,params)=>{
+	return axios.post(`/api/asset/inspector/control/${id}/saveDetail`,params);
+}
