@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon, Input, Select, Button, Table } from 'antd'
+import { Icon, Input, Select, Button, Table,Popover } from 'antd'
 import { SEX_TYPE, ROLE_TYPE } from '@/static/status'
 import { dateUtils } from '@utils/common'
 import '../index.scss'
@@ -33,7 +33,7 @@ class RoleDetail extends React.Component {
                 title: '角色',
                 dataIndex: 'labelType',
                 key: 'labelType',
-                render(text){
+                render(text) {
                     return (
                         <span>{ROLE_TYPE[text]}</span>
                     )
@@ -53,7 +53,7 @@ class RoleDetail extends React.Component {
                 title: '性别',
                 dataIndex: 'gender',
                 key: 'gender',
-                render(text){
+                render(text) {
                     return (
                         <span>{SEX_TYPE[text]}</span>
                     )
@@ -65,12 +65,22 @@ class RoleDetail extends React.Component {
                 key: 'notes',
             },
         ];
+        const text = 
+        <div>
+            <div>（1）生日原文复制到“生日”框内会自动转化为简版：20120103</div>
+            <div>（2）如若转化失败，可自行进行填写，填写格式为：20180912</div>
+            <div>（3）“生日”也可直接进行填写，格式为：20181012</div>
+        </div>
         /* console.log(this.props.enable) */
         return (
             <div className="yc-components-assetStructureDetail yc-components-roleDetail">
                 <div className="yc-components-assetStructureDetail_header">
                     <span>角色信息</span>
-                    <span className="role_mark"><Icon type="exclamation-circle" /></span>
+                    <span className="role_mark">
+                        <Popover content={text}>
+                            <Icon type="exclamation-circle"></Icon>
+                        </Popover>
+                    </span>
                 </div>
                 <div className="yc-components-basicDetail_body">
                     {
@@ -146,7 +156,7 @@ const RoleInput = (props) => {
             <Input placeholder="请输入名称" onChange={(e) => { e.persist(); props.handleChange(e) }} name={`name${props.index}`} value={props.obligor.name}></Input>
             <Select placeholder="角色" onChange={(value) => { props.handleChange({ target: { name: `labelType${props.index}`, value } }) }} value={props.obligor.labelType}>
                 {Object.keys(ROLE_TYPE).map((key) => {
-                    return <Option key={key} style={{fontSize:12}}>{ROLE_TYPE[key]}</Option>
+                    return <Option key={key} style={{ fontSize: 12 }}>{ROLE_TYPE[key]}</Option>
                 })}
             </Select>
             <Input placeholder="请输入证件号" onChange={(e) => { e.persist(); props.handleChange(e) }} name={`number${props.index}`} value={props.obligor.number}></Input>

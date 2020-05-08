@@ -35,7 +35,6 @@ class StructureDetail extends React.Component {
             collateral: 0,
             firstExtractTime: "-",
             houseType: 0,
-            id: null, //结构化ID
             obligors: [],
             reasonForWithdrawal: "",
             sign: "",
@@ -85,8 +84,6 @@ class StructureDetail extends React.Component {
     }
 
     handleSubmit() {
-        /* const nextMarkid = this.props.history.location.query
-        console.log(nextMarkid) */
         this.saveRecordData()
     }
 
@@ -99,7 +96,7 @@ class StructureDetail extends React.Component {
         });
     }
     handleDeleteClick(key, index = -1) {
-        console.log(key,index)
+        console.log(key, index)
         //角色对应顺序删除  文书从下往上删
         const arr = (index >= 0) ? this.state[key].slice(0) : this.state[key].slice(0, -1)
         if (index >= 0) {
@@ -134,6 +131,10 @@ class StructureDetail extends React.Component {
             }
             if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '3') {
                 message.warning('资产线索备注待完善')
+                return false;
+            }
+            if (this.state.obligors[i].birthday !== '' && (this.state.obligors[i].birthday.length !== 8 || isNaN(this.state.obligors[i].birthday))) {
+                message.warning('生日格式不正确')
                 return false;
             }
         }
@@ -207,6 +208,7 @@ class StructureDetail extends React.Component {
                 }
                 const data = res.data
                 this.setState({
+                    id:data.id,
                     associatedAnnotationId: data.associatedAnnotationId,
                     auctionStatus: data.auctionStatus,
                     buildingArea: data.buildingArea,
@@ -221,9 +223,9 @@ class StructureDetail extends React.Component {
                     wrongReason: data.wrongReason,
                     wsFindStatus: data.wsFindStatus,
                     wsInAttach: data.wsInAttach,
-                    ah: data.ah&&data.ah.length === 0 ? [{ value: '' }] : data.ah,
-                    wsUrl: data.wsUrl&&data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
-                    obligors: data.obligors&&data.obligors.length === 0&&params.status==='0' ? [getObligor()] : data.obligors
+                    ah: data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+                    wsUrl: data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
+                    obligors: data.obligors && data.obligors.length === 0 && params.status === '0' ? [getObligor()] : data.obligors
                 }, () => {
                     console.log(this.state)
                 })
@@ -259,15 +261,23 @@ class StructureDetail extends React.Component {
         /* const breadButtonText = (status === '0' && state.MARK !== 1) ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组 */
         const breadButtonText = '返回上一条'
         const preId = sessionStorage.getItem('id')
-        const backEnable = sessionStorage.getItem('backTime') === '1'?false:true //是否能返回上一层 如果已经返回一次则为false
+        const backEnable = sessionStorage.getItem('backTime') === '1' ? false : true //是否能返回上一层 如果已经返回一次则为false
         /* console.log(state.type) */
         const tag = `${state.MARK}/${state.TOTAL}`
+        const basicDetail = <StructureBasicDetail
+            auctionID={state.id}
+            type={state.type}
+            title={state.title} auctionStatus={state.auctionStatus}
+            reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}
+            associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
+        </StructureBasicDetail>
+
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
-                    disabled={preId&&backEnable ? false : true} 
+                    disabled={preId && backEnable ? false : true}
                     breadButtonText={breadButtonText}
-                    texts={['资产结构化/详情']} note={sessionStorage.getItem("backTime")!=="1"?tag:null}
+                    texts={['资产结构化/详情']} note={sessionStorage.getItem("backTime") !== "1" ? tag : null}
                     handleClick={this.goPreviousRecord.bind(this)}
                     icon={'left'}></BreadCrumb>
                 <div className="assetStructureDetail-structure_container">
@@ -276,12 +286,7 @@ class StructureDetail extends React.Component {
                         {
                             state.wrongReason && state.wrongReason.length > 0 ?
                                 <WrongDetail wrongReasons={state.wrongReason}></WrongDetail> :
-                                <StructureBasicDetail
-                                    type={state.type}
-                                    title={state.title} auctionStatus={state.auctionStatus}
-                                    reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}
-                                    associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
-                                </StructureBasicDetail>
+                                basicDetail
                         }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
                         <StructureButtonGroup
@@ -294,11 +299,7 @@ class StructureDetail extends React.Component {
                     <div className="assetStructureDetail-structure_container_body">
                         {
                             state.wrongReasons && state.wrongReasons.length > 0 ?
-                                <StructureBasicDetail
-                                    title={state.title} auctionStatus={state.auctionStatus}
-                                    reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}
-                                    associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
-                                </StructureBasicDetail> : null
+                                basicDetail : null
                         }
                         <StructurePropertyDetail
                             collateral={state.collateral} buildingArea={state.buildingArea}
