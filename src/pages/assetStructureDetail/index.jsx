@@ -692,7 +692,7 @@ class StructureDetail extends React.Component {
 		const basic = data;
 		const { errorReason, recordsForCheck, autionStatus, needWrongReason, needRecord } = this.state;
 		const { obligors, obligorList, checkedCollateral, houseType } = this.state;
-		const { visible, needStruc } = this.state;
+		const { needStruc } = this.state;
 		let isAdmin;
 		let need = needWrongReason;
 		let _buttonText = buttonText;

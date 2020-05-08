@@ -98,7 +98,7 @@ const DocumentLinkInputs = (props) => {
     )
 }
 const DocumentLinkInput = (props) => {
-    /* console.log(props) */
+    //console.log(props) 
     return (
         <div className="yc-components-assetStructureDetail_body-row">
             {
@@ -109,7 +109,7 @@ const DocumentLinkInput = (props) => {
             <span className={props.index !== 0 ? 'addition-ah' : null}>
                 {
                     props.enable ?
-                        <span>{props.value}</span>
+                        <span>{props.value.value}</span>
                         : <Input placeholder={`请输入${props.text}`} onChange={props.handleChange} name={`${props.attr}${props.index}`} value={props.value.value} />
                 }
                 {

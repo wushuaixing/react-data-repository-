@@ -8,7 +8,7 @@ class ButtonGroup extends React.Component {
         super(props)
         this.state = {
             buttonDisabled: true,
-            timer:null
+            timer: null
         }
     }
     get checkButtonTextArray() {
@@ -62,9 +62,9 @@ class ButtonGroup extends React.Component {
             err: <Button onClick={this.handleErrorModal.bind(this)} key="0" style={{ marginRight: 10 }}>{'检查有误'}</Button>,
             noErr: <Button onClick={this.handleNoErr.bind(this)} key="1" style={{ marginRight: 10 }}>{'检查无误'}</Button>,
             onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" ></OnlyMarkButton>,
-            save: <Button onClick={this.handleBack} key="3" style={{ marginRight: 10 }}>{'保存'}</Button>,
+            save: <Button onClick={this.handleStructureUpdate.bind(this)} key="3" style={{ marginRight: 10 }}>{'保存'}</Button>,
             confirm: <Button onClick={this.handleBack} key="4">{'确认'}</Button>,
-            modify: <Button onClick={this.handleBack} key="5" style={{ marginRight: 10 }}>{'修改错误原因'}</Button>,
+            modify: <Button onClick={this.handleErrorModal.bind(this)} key="5" style={{ marginRight: 10 }}>{'修改错误原因'}</Button>,
             back: <Button onClick={this.handleBack} key="6" style={{ marginRight: 10 }}>{'返回'}</Button>
         }
     }
@@ -78,7 +78,7 @@ class ButtonGroup extends React.Component {
     }
     //返回
     handleBack() {
-        console.log(13)
+        this.props.handleBack()
     }
     //改变仅标记此栏的checkbox
     handleChange(e) {
@@ -97,26 +97,28 @@ class ButtonGroup extends React.Component {
         } else {
             this.setState({
                 buttonDisabled: false,
-                timer:0 //已经计时过了
+                timer: 0 //已经计时过了
             })
             clearInterval()
         }
 
     }
+    handleStructureUpdate() {
+        this.props.handleStructureUpdate()
+    }
     componentWillReceiveProps() {
-        console.log(this.props)
         if (this.props.type !== null && this.state.timer === null) {
             //如果是在未标记中的 普通数据 需要设置15s后才可以点击保存
             if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
                 this.setState({
                     buttonDisabled: true,
                     countDown: 15,
-                    timer:setInterval(() => {
+                    timer: setInterval(() => {
                         this.handleCountDown()
                     }, 1000)
                 })
             }
-            if (this.props.type !== 0 && this.props.status === '0') {
+            if ((this.props.type !== 0 && this.props.status === '0')||this.props.status !== '0') {
                 this.setState({
                     buttonDisabled: false
                 })
@@ -126,7 +128,7 @@ class ButtonGroup extends React.Component {
     render() {
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[this.props.status]
         const { countDown } = this.state
-        const { enable } = this.props
+        const { enable, status } = this.props
         return (
             <div className="yc-component-buttonGroup">
                 {
@@ -141,11 +143,18 @@ class ButtonGroup extends React.Component {
                                 )
                             case 'check':
                                 if (enable) {
-                                    return <div>
-                                        {
-                                            this.checkButtonTextArray[0].btns
-                                        }
-                                    </div>
+                                    switch (status) {
+                                        case "1":
+                                            return <div>{this.checkButtonTextArray[0].btns}</div>
+                                        case "2":
+                                            return <div>{this.checkButtonTextArray[2].btns}</div>
+                                        case "3":
+                                            return <div>{this.checkButtonTextArray[3].btns}</div>
+                                        case "4":
+                                            return <div>{this.checkButtonTextArray[4].btns}</div>
+                                        default:
+                                            return null;
+                                    }
                                 } else {
                                     return (
                                         <div className="btnText_1">

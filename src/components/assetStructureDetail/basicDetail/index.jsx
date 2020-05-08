@@ -46,8 +46,8 @@ const BasicDetailRow = (props) => {
                                 {
                                     props.content.map((record, index) => {
                                         return (
-                                            <span className={'yc-components-assetStructureDetail_body-row_content'} key={index} style={index!==0?{marginLeft:76,display:'inline-block',marginTop:5}:null}>
-                                                {`${record.time} ${record.user} ${index === 0 ? '初次结构化' : '修改'}`}
+                                            <span className={'yc-components-assetStructureDetail_body-row_content'} key={index} style={index !== 0 ? { marginLeft: 76, display: 'inline-block', marginTop: 5 } : null}>
+                                                <StructureRecord record={record} key={index} index={index}></StructureRecord>
                                             </span>
                                         )
 
@@ -62,4 +62,31 @@ const BasicDetailRow = (props) => {
         </div>
     )
 }
+
+function StructureRecord(props) {
+    const { index, record } = props
+    let classType = 'structure-record'
+    let temp = null;
+    if(record.desc==='结构化'){
+        if(index===0){
+            temp = '初次结构化'
+        }else{
+            temp = '修改'
+        }
+    }else{
+        if(record.error){
+            temp = '有误'
+            classType = 'structure-record-error'
+        }else{
+            temp = '无误'
+            classType = 'structure-record-noErr'
+        }
+    }
+    return (
+        <span>
+            {`${record.time} ${record.user}`} <span className={classType}>{temp}</span>
+        </span>
+    )
+}
+
 export default StructureBasicDetail

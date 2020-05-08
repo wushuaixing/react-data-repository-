@@ -56,7 +56,7 @@ class Check extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		console.log(params)
+		//console.log(params)
 		getCheckList(params).then(res => {
 			//判断状态码 判断结果是否存在
 			if (res.data.code === 200) {

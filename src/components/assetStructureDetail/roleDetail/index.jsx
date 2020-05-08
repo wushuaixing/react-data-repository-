@@ -13,7 +13,7 @@ class RoleDetail extends React.Component {
     }
     handleBlur(e) {
         //日期格式转换 补全
-        let reg = /\d{1,4}/g
+        let reg = /(^\d{1,4}|\d{1,2})/g
         let timeArr = e.target.value.match(reg)
         let result = (timeArr && timeArr.length > 0) ? dateUtils.formatDateComplete(timeArr) : e.target.value
         this.props.handleChange(e.target.name, result)
