@@ -25,6 +25,8 @@ class Check extends React.Component {
 	};
 	//待标记--》详情页
 	render() {
+		console.log(this.props)
+		const { wrongReasons } = this.props
 		const { getFieldDecorator } = this.props.form;
 		const wrongReasonList = []
 		WRONG_TYPE_LIST.forEach((wrongType, index) => {
@@ -52,7 +54,7 @@ class Check extends React.Component {
 						<Form style={{ width: 347 }}>
 							<Form.Item className="part" label="备注">
 								{getFieldDecorator('remark', {
-									initialValue:''
+									initialValue:wrongReasons.remark?wrongReasons.remark.join('\n'):'',
 								})(
 									<Input.TextArea
 										style={{ height: 136 }}
@@ -63,7 +65,7 @@ class Check extends React.Component {
 							</Form.Item>
 							<Form.Item className="part" label="错误等级" style={{ fontSize: 12 }}>
 								{getFieldDecorator('wrongLevel', {
-									initialValue: 7,
+									initialValue: wrongReasons.wrongLevel?wrongReasons.wrongLevel:7,
 								})(
 									<Radio.Group initialValue={7}>
 										<Radio value={7}>
@@ -80,7 +82,7 @@ class Check extends React.Component {
 							</Form.Item>
 							<Form.Item className="part" label="出错原因">
 								{getFieldDecorator('auctionExtractWrongTypes', {
-									initialValue:[]
+									initialValue:wrongReasons.auctionExtractWrongTypes?wrongReasons.auctionExtractWrongTypes:[],
 								})(
 									<CheckboxGroup onChange={this.onChangeReason}>
 										{REASON_LIST && REASON_LIST.map((item) => {

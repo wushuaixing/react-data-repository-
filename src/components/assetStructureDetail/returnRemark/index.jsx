@@ -7,9 +7,7 @@ export default class ReturnRemark extends React.Component {
             <div className="yc-components-assetStructureDetail">
                 <div className="yc-components-assetStructureDetail_header">退回备注</div>
                 <div className="yc-components-assetStructureDetail_body">
-                    {
-                        '123'
-                    }
+                    <div className="yc-components-assetStructureDetail_body-row danger-info">{this.props.notes}</div>
                 </div>
             </div>
         )

@@ -63,10 +63,13 @@ class ButtonGroup extends React.Component {
             noErr: <Button onClick={this.handleNoErr.bind(this)} key="1" style={{ marginRight: 10 }}>{'检查无误'}</Button>,
             onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" ></OnlyMarkButton>,
             save: <Button onClick={this.handleStructureUpdate.bind(this)} key="3" style={{ marginRight: 10 }}>{'保存'}</Button>,
-            confirm: <Button onClick={this.handleBack} key="4">{'确认'}</Button>,
+            confirm: <Button onClick={this.handleConfirm.bind(this)} key="4">{'确认'}</Button>,
             modify: <Button onClick={this.handleErrorModal.bind(this)} key="5" style={{ marginRight: 10 }}>{'修改错误原因'}</Button>,
             back: <Button onClick={this.handleBack} key="6" style={{ marginRight: 10 }}>{'返回'}</Button>
         }
+    }
+    handleConfirm(){
+        this.props.handleConfirm()
     }
     //打开检查人员错误选择对话框
     handleErrorModal() {

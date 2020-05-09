@@ -141,3 +141,10 @@ export const REASON_LIST =[
 		value:	"其他"
 	}
 ];
+
+export const WRONG_LEVEL = {
+	0:'检查无误',
+	1:'严重',
+	4:'普通',
+	7:'不计入错误'
+}

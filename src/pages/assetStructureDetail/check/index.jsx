@@ -9,7 +9,13 @@ import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
 import './index.scss'
 import {
-    getCheckDetail, inspectorCheck, changeWrongType, inspectorUpdateData,saveInspectorStructureDetail
+    changeWrongType,//在结构化人员未修改前 再次修改错误
+    beConfirmed, //待确认列表中点击确认
+    getFeedBackRemark, //获取退回备注
+    getCheckDetail,//获取检查人员结构化详情信息
+    inspectorCheck,  // 检查提交
+    saveInspectorStructureDetail, //保存已删除的结构化账号的结构化信息
+    getWrongTypeAndLevel //获取错误原因和类型
 } from '@api';
 import CheckModal from "@/components/assetStructureDetail/checkErrorModal";
 import { message } from "antd";
@@ -24,6 +30,11 @@ function getObligor() {
         "number": "",
         "type": "1"
     }
+}
+function CheckWrongLog(){
+    this.auctionExtractWrongTypes = []
+	this.remark = ''
+	this.wrongLevel = 0
 }
 class Check extends React.Component {
     state = {
@@ -42,33 +53,54 @@ class Check extends React.Component {
         wsFindStatus: 1,
         wsInAttach: 0,
         wsUrl: [],
-        onlyThis: 0
+        onlyThis: 0,
+        wrongReasons: {},
+        returnRemarks: {}
+    }
+    get updateOrSubmitCheck() {
+        const length = this.state.records.length
+        return (this.state.records[length - 1].desc === '结构化') ? 'submit' : 'update'
     }
     componentDidMount() {
-        const { id } = this.props.match.params
+        const { id, status } = this.props.match.params
         if (!sessionStorage.getItem('structPersonnelEnable') && this.props.location.query && this.props.location.query.enable !== undefined) {
             //console.log(this.props.location.query.enable)
             sessionStorage.setItem('structPersonnelEnable', this.props.location.query.enable)
         }
         getCheckDetail(id).then((res) => {
-
             const data = res.data.data
-            console.log(data)
             this.setState({
                 ...res.data.data,
                 ah: data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
                 wsUrl: data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
             }, () => {
-                /* console.log(this.state) */
+                console.log(this.state)
             })
         })
+        if (parseInt(status) >= 3) {
+            getWrongTypeAndLevel(id).then((res) => {
+                this.setState({
+                    wrongReasons: {
+                        ...res.data.data
+                    }
+                })
+            })
+        }
+        if (parseInt(status) === 5) {
+            getFeedBackRemark(id).then((res) => {
+                console.log(res)
+                this.setState({
+                    returnRemarks: {
+                        ...res.data.data
+                    }
+                })
+            })
+        }
     }
     componentWillUnmount() {
         sessionStorage.removeItem('structPersonnelEnable')
     }
     handleSubmit() {
-        /* const nextMarkid = this.props.history.location.query
-        console.log(nextMarkid) */
         this.saveRecordData()
     }
     handleChange(key, value) {
@@ -103,103 +135,50 @@ class Check extends React.Component {
     onClickToTable() {
         this.props.history.push('/index');
     }
-    submitWrongRecord(data) {
+    submitWrongRecord(data, checkError = true) {
         const { id } = this.props.match.params
-        let params = {
-            checkWrongLog: Object.assign({}, data),
-            checkError: true,
-            id
-        }
-        inspectorCheck(params).then(res => {
-            if (res.data.code === 200) {
-                message.success("操作成功");
-                this.onClickToTable()
-            } else {
-                message.error("操作失败");
-            }
-        });
-    }
-    updateWrongRecord(data) {
-        const { id } = this.props.match.params
-        let params = {
-            ...data
-        }
-        inspectorUpdateData(id, params).then(res => {
-            if (res.data.code === 200) {
-                message.success("操作成功");
-                this.onClickToTable()
-            } else {
-                message.error("操作失败");
-            }
-        });
-    }
-    //检查错误弹窗按钮接口
-    handleModalSubmit = (data) => {
-        const { status } = this.props.match.params
-        switch (parseInt(status)) {
-            case 1:
-                this.submitWrongRecord(data); break;
-            case 2:
-                this.updateWrongRecord(data); break;
-            case 3:
-                this.updateWrongRecord(data); break;
-            default:
-                return null;
-        }
-        /* const { dataId, dataStatus, dataPage, tabStatus } = this.state;
-        if (dataStatus === 5 || dataStatus === 4 || dataStatus === 1) {
+        if (this.updateOrSubmitCheck === 'submit') {
             let params = {
-                checkError: true,
-                checkWrongLog: {
-                    auctionExtractWrongTypes: data.reason,
-                    remark: data.remark,
-                    wrongLevel: data.wrongLevel
-                },
-                id: dataId
-            };
+                checkWrongLog: Object.assign({}, data),
+                checkError,
+                id
+            }
             inspectorCheck(params).then(res => {
                 if (res.data.code === 200) {
-                    this.onClickToTable(dataStatus, dataPage, tabStatus);
-                    message.info("操作成功");
-
+                    message.success("操作成功");
+                    this.onClickToTable()
                 } else {
                     message.error("操作失败");
                 }
             });
-        }
-        else if (dataStatus === 2) {
-            let params = {
-                auctionExtractWrongTypes: data.reason,
-                desc: data.remark,
-                level: data.wrongLevel
-            };
-            changeWrongType(dataId, params).then(res => {
+        } else {
+            let params = (checkError)?{...data}:new CheckWrongLog();
+            changeWrongType(id,params).then(res => {
                 if (res.data.code === 200) {
-                    this.onClickToTable(dataStatus, dataPage, tabStatus);
-                    message.info("操作成功");
+                    message.success("操作成功");
+                    this.onClickToTable()
+                } else {
+                    message.error("操作失败");
+                }
+            })
+        }
 
-                } else {
-                    message.error(res.data.message);
-                }
-            });
-        }
-        if (dataStatus === 3) {
-            let params = {
-                auctionExtractWrongTypes: data.reason,
-                desc: data.remark,
-                level: data.wrongLevel
-            };
-            changeWrongType(dataId, params).then(res => {
-                if (res.data.code === 200) {
-                    this.onClickToTable(dataStatus, dataPage, tabStatus);
-                    message.info("操作成功");
-                } else {
-                    message.error(res.data.message);
-                }
-            });
-        } */
+    }
+    handleConfirm(){
+        const { id } = this.props.match.params
+        beConfirmed(id).then((res)=>{
+            if (res.data.code === 200) {
+                message.success("操作成功");
+                this.onClickToTable()
+            } else {
+                message.error("操作失败");
+            }
+        })
+    }
+    //检查错误弹窗按钮接口
+    handleModalSubmit = (data) => {
+        this.submitWrongRecord(data, true)
     };
-
     handleModalCancel = () => {
         this.setState({
             visible: false,
@@ -211,20 +190,7 @@ class Check extends React.Component {
         });
     };
     handleNoErr() {
-        const { id } = this.props.match.params
-        let params = {
-            checkWrongLog: {},
-            checkError: false,
-            id
-        }
-        inspectorCheck(params).then(res => {
-            if (res.data.code === 200) {
-                message.success("操作成功");
-                this.onClickToTable()
-            } else {
-                message.error("操作失败");
-            }
-        });
+        this.submitWrongRecord({}, false)
     }
     handleAddClick(key) {
         const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], { ...getObligor() }]
@@ -305,21 +271,21 @@ class Check extends React.Component {
         const enable = JSON.parse(sessionStorage.getItem('structPersonnelEnable'))
         const moduleOrder = [
             <CheckBasicDetail
-                key={0}
+                key={0} auctionID={state.id}
                 type={state.type} records={state.records}
                 title={state.title} auctionStatus={state.auctionStatus}
                 reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}
                 associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
             </CheckBasicDetail>
         ]
-        if(parseInt(status)>=3){
+        if (parseInt(status) >= 3) {
             moduleOrder.unshift(
-                <CheckWrongDetail wrongReasons={[]} key={1}></CheckWrongDetail>
+                <CheckWrongDetail wrongReasons={state.wrongReasons} key={1} role={'check'}></CheckWrongDetail>
             )
         }
-        if(parseInt(status)===5){
+        if (parseInt(status) === 5) {
             moduleOrder.unshift(
-                <ReturnRemark key={2}></ReturnRemark>
+                <ReturnRemark key={2} notes={'可找到文书文书链接:xxxx'}></ReturnRemark>
             )
         }
         return (
@@ -337,13 +303,14 @@ class Check extends React.Component {
                             handleNoErr={this.handleNoErr.bind(this)}
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
+                            handleConfirm={this.handleConfirm.bind(this)}
                             status={status}>
                         </CheckButtonGroup>
                     </div>
                     <div className="assetStructureDetail-structure_container_body">
                         {
-                            moduleOrder.length>0?
-                            moduleOrder.slice(1):null
+                            moduleOrder.length > 0 ?
+                                moduleOrder.slice(1) : null
                         }
                         <CheckPropertyDetail
                             enable={enable}
@@ -369,6 +336,7 @@ class Check extends React.Component {
 
                 </div>
                 <CheckModal visible={state.visible}
+                    wrongReasons={state.wrongReasons}
                     handleModalSubmit={this.handleModalSubmit.bind(this)}
                     handleModalCancel={this.handleModalCancel.bind(this)}
                     style={{ width: 430 }}
