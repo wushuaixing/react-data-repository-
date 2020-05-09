@@ -167,6 +167,12 @@ class ButtonGroup extends React.Component {
                                         </div>
                                     )
                                 }
+                            case 'admin':
+                                return (
+                                    <div className="yc-component-buttonGroup-structure">
+                                        <Button onClick={this.handleBack.bind(this)}>返回</Button>
+                                    </div>
+                                )
                             default:
                                 return (
                                     null

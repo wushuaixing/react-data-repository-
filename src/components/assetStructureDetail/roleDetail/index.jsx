@@ -5,6 +5,11 @@ import { dateUtils } from '@utils/common'
 import '../index.scss'
 const { Option } = Select;
 class RoleDetail extends React.Component {
+    static defaultProps = {
+        handleDeleteClick:()=>{},
+        handleChange:()=>{},
+        handleAddClick:()=>{}
+    }
     handleChange(e) {
         this.props.handleChange(e.target.name, e.target.value)
     }
