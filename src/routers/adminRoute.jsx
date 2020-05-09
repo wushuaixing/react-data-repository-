@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import StructureAccount from "../pages/accountManagement/structureAccount";
 import CheckAccount from "../pages/accountManagement/checkAccount";
 import DocumentSearch from "../pages/documentSearch";
-import StructureDetail from "../pages/assetStructureDetail";
+import StructureDetail from "../pages/assetStructureDetail/admin/index";
 import SyncMonitor from "../pages/syncMonitor";
 import StructMonitor from "../pages/structMonitor";
 import AssetList from '../pages/assetStructureList'
@@ -17,7 +17,7 @@ class ContentMain extends React.Component {
 				<Route path="/index/checkUser" exact component={CheckAccount} />
 				<Route path="/index/documentSearch" component={DocumentSearch} />
 				<Route path="/index/assetList" component={AssetList} />
-				<Route path="/index/structureDetail/:id" component={StructureDetail} />
+				<Route path="/index/structureDetail/:status/:id" component={StructureDetail} />
 				<Route path="/index/syncMonitor" component={SyncMonitor} />
 				<Route path="/index/structureMonitor" component={StructMonitor} />
 			</div>
