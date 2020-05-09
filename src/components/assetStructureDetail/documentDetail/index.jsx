@@ -3,6 +3,11 @@ import { Button, Input, Radio, Checkbox } from 'antd'
 import './index.scss'
 
 class StructureDocumentDetail extends React.Component {
+    static defaultProps = {
+        handleDeleteClick:()=>{},
+        handleDocumentChange:()=>{},
+        handleAddClick:()=>{}
+    }
     handleChange = (e) => {
         if (e.target.type === 'checkbox') {
             this.props.handleChange(e.target.name, e.target.checked * 1)

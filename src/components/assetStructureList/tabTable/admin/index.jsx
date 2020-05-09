@@ -1,6 +1,4 @@
-/** 5.1 checkTable(资产结构化检查-6个tab栏下的表格-检察人员)
-
-全部/未检查/检查无误/检查错误/已修改/待确认 * */
+/* 全部/未检查/检查无误/检查错误/已修改/待确认 */
 import React from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { Tabs, Table, Button } from 'antd';
@@ -28,23 +26,23 @@ class TabTable extends React.Component {
     };
     get columnShowObject() {
         const showObject = {}
-		switch (this.props.tabIndex) {
-			case 0: case 1: 
-                showObject.title='抓取时间';showObject.dataIndex='grabTime';break;
+        switch (this.props.tabIndex) {
+            case 0: case 1:
+                showObject.title = '抓取时间'; showObject.dataIndex = 'grabTime'; break;
             case 2:
-                showObject.title='结构化时间';showObject.dataIndex='firstStructuredTime';break;
-			case 3: case 4:
-				showObject.title='检查时间';showObject.dataIndex='checkTime';break;
-			case 5:
-				showObject.title='修改时间';showObject.dataIndex='lastStructuredTime';break;
-			default:
-				break;
+                showObject.title = '结构化时间'; showObject.dataIndex = 'firstStructuredTime'; break;
+            case 3: case 4:
+                showObject.title = '检查时间'; showObject.dataIndex = 'checkTime'; break;
+            case 5:
+                showObject.title = '修改时间'; showObject.dataIndex = 'lastStructuredTime'; break;
+            default:
+                break;
         }
         return showObject
     }
 
     render() {
-        const { data, checkErrorNum, editNum, total, tabIndex,page } = this.props;
+        const { data, checkErrorNum, editNum, total, tabIndex, page } = this.props;
         const paginationProps = createPaginationProps(page, total)
         const columns = [
             {
@@ -60,13 +58,18 @@ class TabTable extends React.Component {
                 dataIndex: "action",
                 align: "center",
                 width: 180,
-                render: (text, record) => (
-                    <span>
-                        <Link to={`/index/structureDetail/${record.id}`}>
-                            <Button style={{ fontSize: 12 }}>查看</Button>
-                        </Link>
-                    </span>
-                ),
+                render: (text, record) => {
+                    console.log(record.status)
+                    return (
+                        <span>
+                            <Link to={{
+								pathname: `/index/structureDetail/${record.status}/${record.id}`
+							}}>
+                                <Button style={{ fontSize: 12 }}>查看</Button>
+                            </Link>
+                        </span>
+                    )
+                }
             }
         ];
         return (
@@ -108,7 +111,7 @@ class TabTable extends React.Component {
                             onChange={this.onTablePageChange}
                         />
                     </TabPane>
-                    <TabPane tab={<AssetTabTextWithNumber text={"检查错误"} num={checkErrorNum}/>} key="4">
+                    <TabPane tab={<AssetTabTextWithNumber text={"检查错误"} num={checkErrorNum} />} key="4">
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
@@ -117,7 +120,7 @@ class TabTable extends React.Component {
                             onChange={this.onTablePageChange}
                         />
                     </TabPane>
-                    <TabPane tab={<AssetTabTextWithNumber text={"已修改"} num={editNum}/>} key="5">
+                    <TabPane tab={<AssetTabTextWithNumber text={"已修改"} num={editNum} />} key="5">
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
