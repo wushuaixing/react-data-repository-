@@ -133,7 +133,7 @@ class StructureDetail extends React.Component {
                 message.warning('资产线索备注待完善')
                 return false;
             }
-            if (this.state.obligors[i].birthday !== '' && (this.state.obligors[i].birthday.length !== 8 || isNaN(this.state.obligors[i].birthday))) {
+            if (this.state.obligors[i].birthday !== '' && !/^\d{8}$/.test(this.state.obligors[i].birthday)) {
                 message.warning('生日格式不正确')
                 return false;
             }
@@ -257,9 +257,8 @@ class StructureDetail extends React.Component {
     }
     render() {
         const state = this.state
-        const { status, id } = this.props.match.params
-        /* const breadButtonText = (status === '0' && state.MARK !== 1) ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组 */
-        const breadButtonText = '返回上一条'
+        const { status } = this.props.match.params
+        const breadButtonText = (status !== '2') ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组 */
         const preId = sessionStorage.getItem('id')
         const backEnable = sessionStorage.getItem('backTime') === '1' ? false : true //是否能返回上一层 如果已经返回一次则为false
         /* console.log(state.type) */
@@ -285,7 +284,7 @@ class StructureDetail extends React.Component {
                         {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
                         {
                             state.wrongReason && state.wrongReason.length > 0 ?
-                                <WrongDetail wrongReasons={state.wrongReason}></WrongDetail> :
+                                <WrongDetail wrongReasons={state.wrongReason} role={'structure'}></WrongDetail> :
                                 basicDetail
                         }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
