@@ -1,10 +1,17 @@
 import React from 'react'
 import { WRONG_LEVEL } from '@/static/status'
 import '../index.scss'
-
+function WrongTypeAndLevel(){
+    this.auctionExtractWrongTypes = []
+    this.date = ''
+    this.name = ''
+    this.remark = []
+    this.wrongLevel = 0
+}
 const wrongDetail = (props) => {
     /* console.log(props) */
-    const { wrongReasons } = props
+    let wrongReasons = props.wrongReasons
+    wrongReasons = (wrongReasons&&wrongReasons instanceof Array&&wrongReasons.length>0)?wrongReasons[0]:[new WrongTypeAndLevel()][0]
     return (
         <div className="yc-components-assetStructureDetail">
             <div className="yc-components-assetStructureDetail_header">错误原因</div>
