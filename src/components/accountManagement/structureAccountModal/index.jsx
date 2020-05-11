@@ -3,6 +3,7 @@ import React from 'react';
 import { Modal, Form, Button, Select, Checkbox, Radio, Input } from "antd";
 import { handleValidator } from "@/utils/validators";
 import { HotDotBeforeFormItem } from '@commonComponents'
+import { ADD_CHARACTER_LIST, AUCTION_DATA_TYPE } from '@/static/status'
 import '../style.scss'
 const { Option } = Select;
 const accountForm = Form.create;
@@ -11,99 +12,44 @@ const formItemLayout = {
     sm: { span: 3, offset: -1 },
   },
 };
-
+const structureList = ["资产结构化", "破产重组结构化"]
 class AccountManage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      action: 'add',
-      visible: false,
-      initialPsw: '',
-      info: {},
-      characterList: [
-        {
-          value: 1,
-          label: "正式"
-        },
-        {
-          value: 0,
-          label: "试用"
-        }
-      ],
-      structureList: ["资产结构化", "破产重组结构化"],
-      auctionDataTypeList: ["非初标数据", "普通数据", "相似数据"],
-      auctionDataTypeData: {
-        '非初标数据': 3,
-        '普通数据': 1,
-        '相似数据': 2
-      }
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { visible, action, info } = nextProps;
-    // console.log(nextProps,'next');
-    this.setState({
-      visible: visible,
-      action: action,
-      info: info,
-    });
-  }
   //确定
-  modalOk = () => {
+  modalOk = (e) => {
+    e.preventDefault();
     const { form } = this.props
-    form.validateFields().then(() => {
-        const { info, action } = this.state;
-        let options = this.props.form.getFieldsValue();
-        if (action === 'add') {
-          options.structuredObject = [8];
-        }
-        else {
-          options.functionId = [8];
-          options.username = info.username;
-        }
-        this.setState({
-          visible: false,
-        });
-        this.props.ok(options, info.id);
-    })
+    const { info, action } = this.props;
+    let options = this.props.form.getFieldsValue();
+    if (action === 'add') {
+      options.structuredObject = [8];
+    }
+    else {
+      options.functionId = [8];
+      options.username = info.username;
+    }
+    this.props.handleSubmit(options, info.id);
+    console.log(options)
   };
   //取消
   modalCancel = () => {
-    this.setState({
-      visible: false,
-    });
-    this.props.cancel(false);
+    this.props.handleCancel();
   };
-
-  //编辑账号-返回信息是字符串
-  filterRoleId = (label) => {
-    if (label === "试用") {
-      return 0
-    }
-    else { return 1 }
-  };
-  filterDataType = (label) => {
-    if (label === "非初标数据") {
-      return 0
-    } else if (label === "普通数据") {
-      return 1
-    }
-    else { return 2 }
-  };
-
-  setPwd = (val) => {
-    let password = val.substring(
-      5,
-      val.length
-    );
-    this.setState({
-      initialPsw: password
-    });
-  };
-
+  findKeyByValue(obj, value) {
+    let i = null;
+    Object.keys(obj).forEach((key, index) => {
+      if (obj[key] === value) {
+        i = parseInt(key)
+      }
+    })
+    return i;
+  }
+  handleAutoCompletePsw() {
+    const account = this.props.form.getFieldValue('username')
+    let defautlPsw = (account.length > 6) ? account.substring(account.length - 6) : account
+    this.props.form.setFieldsValue({ password: defautlPsw });
+  }
   render() {
-    const { visible, characterList, structureList, initialPsw, action, info } = this.state;
+    const { visible, info, action } = this.props
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
@@ -113,28 +59,25 @@ class AccountManage extends React.Component {
           visible={visible}
           destroyOnClose={true}
           footer={null}
-          onCancel={this.modalCancel}
+          onCancel={this.modalCancel.bind(this)}
           maskClosable
         >
-          <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout}>
+          <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout} onSubmit={this.modalOk.bind(this)}>
             <Form.Item className="yc-form-item" label="角色：" >
               {getFieldDecorator('roleId', {
                 rules: [
                   { required: true, message: "请选择角色", },
                 ],
-                initialValue: action === 'add' ? 0 : this.filterRoleId(info.role)
+                initialValue: action === 'add' ? 0 : this.findKeyByValue(ADD_CHARACTER_LIST, info.role)
               })(
                 <Select style={{ width: 70, marginLeft: 4 }} transfer>
                   {
-                    characterList && characterList.map((item) => {
+                    Object.keys(ADD_CHARACTER_LIST).map((key) => {
                       return (
-                        <Option
-                          value={item.value}
-                          key={item.value}
-                        >
-                          {item.label}
+                        <Option value={parseInt(key)} key={key}>
+                          {ADD_CHARACTER_LIST[key]}
                         </Option>
-                      );
+                      )
                     })
                   }
                 </Select>
@@ -168,6 +111,7 @@ class AccountManage extends React.Component {
                   action === 'add'
                     ?
                     <Input
+                      onBlur={this.handleAutoCompletePsw.bind(this)}
                       className="yc-form-input"
                       placeholder="请输入手机号"
                     />
@@ -188,7 +132,6 @@ class AccountManage extends React.Component {
                 })(
                   <Input
                     className="yc-form-input"
-                    initialvalue={initialPsw}
                     type="password"
                     placeholder="密码默认为账号后六位"
                     autoComplete="new-password"
@@ -209,29 +152,33 @@ class AccountManage extends React.Component {
                   >
                   </Checkbox.Group>
                   <p className="structureObject-dataType" style={{ marginLeft: 6, color: 'rgba(0, 0, 0, 0.85)' }}>数据类型:</p>
-                  <HotDotBeforeFormItem left={20} top={75} />
+                  <HotDotBeforeFormItem left={20} top={55} />
                 </div>
                 <Form.Item>
                   {getFieldDecorator('auctionDataType', {
                     rules: [
                       { required: true },
                     ],
-                    initialValue: action === 'add' ? '' : this.filterDataType(info.dataType)
+                    initialValue: action === 'add' ? '' : this.findKeyByValue(AUCTION_DATA_TYPE, info.dataType)
                   })(
-                    <Radio.Group
-                      style={{ marginLeft: 5, display: 'inline-block' }}
-                    >
-                      <Radio value={0}>非初标数据</Radio>
-                      <Radio value={1}>普通数据</Radio>
-                      <Radio value={2}>相似数据</Radio>
+                    <Radio.Group style={{ marginLeft: 5, display: 'inline-block' }}>
+                      {
+                        Object.keys(AUCTION_DATA_TYPE).map(key => {
+                          return (
+                            <Radio value={parseInt(key)} key={key}>
+                              {AUCTION_DATA_TYPE[key]}
+                            </Radio>
+                          )
+                        })
+                      }
                     </Radio.Group>,
                   )}
                 </Form.Item>
               </div>
             </div>
             <div className="yc-modal-footer">
-              <Button type="primary" onClick={this.modalOk}>确定</Button>
-              <Button onClick={this.modalCancel}>取消</Button>
+              <Button type="primary" htmlType="submit">确定</Button>
+              <Button onClick={this.modalCancel.bind(this)}>取消</Button>
             </div>
           </Form>
         </Modal>

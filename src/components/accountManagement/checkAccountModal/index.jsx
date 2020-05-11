@@ -22,8 +22,13 @@ class AccountManage extends React.Component {
   handleCancel = () => {
     this.props.handleCancel();
   };
+  handleAutoCompletePsw(){
+    const account = this.props.form.getFieldValue('mobile')
+    let defautlPsw = (account.length>6)?account.substring(account.length-6):account
+    this.props.form.setFieldsValue({ password:defautlPsw });
+  }
   render() {
-    const { visible, initialPsw, action, info } = this.props;
+    const { visible, action, info } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
@@ -53,25 +58,28 @@ class AccountManage extends React.Component {
             </Form.Item>
             <Form.Item className="yc-form-item" label="账号:">
               {
+                action==='add'?
                 getFieldDecorator('mobile', {
                   rules: [
-                    { required: true, message: "手机号不能为空", },
+                    { required: true, message: "账号不能为空", },
                     { validator: handleValidator }
                   ],
                   validateTrigger: 'onBlur',
                   initialValue: ''
                 })(
-                  action === 'add' ?
+                  
                     <Input
+                      onBlur={this.handleAutoCompletePsw.bind(this)}
                       className="yc-form-input"
                       placeholder="请输入手机号"
                     />
-                    : <div style={{paddingLeft:5}}>{info.accountNo}</div>
-                )}
+                ):
+                <div style={{paddingLeft:5}}>{info.accountNo}</div>
+              }
             </Form.Item>
             {action === 'add' ?
               <Form.Item className="yc-form-item" label="密码：">
-                {getFieldDecorator('passwd', {
+                {getFieldDecorator('password', {
                   rules: [
                     { required: true, message: '请输入密码', },
                     { validator: handleValidator }
@@ -81,7 +89,6 @@ class AccountManage extends React.Component {
                 })(
                   <Input
                     className="yc-form-input"
-                    initialvalue={initialPsw}
                     type="password"
                     placeholder="密码默认为账号后六位"
                     autoComplete="new-password"

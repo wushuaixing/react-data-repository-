@@ -149,3 +149,29 @@ export const WRONG_LEVEL = {
 	4:'普通',
 	7:'不计入错误'
 }
+
+export const CHARACTER_LIST = [
+	{
+		value: 1,
+		label: "正式"
+	},
+	{
+		value: 0,
+		label: "试用"
+	},
+	{
+		value: '',
+		label: "全部"
+	}
+]
+
+export const ADD_CHARACTER_LIST = {
+	0:'试用',
+	1:'正式'
+}
+
+export const AUCTION_DATA_TYPE = {
+	0:'普通数据',
+	2:'相似数据',
+	3:'非初标数据'
+}

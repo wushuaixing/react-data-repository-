@@ -18,11 +18,11 @@ class AccountManage extends React.Component {
 		this.state = {
 			loading: false,
 			isEnabledUser: true,
-			taleList: [],
-			total: 1,
+			num:10,
 			page: 1,
-			searchRole: '',
-			searchUser: '',
+			role: '',
+			username: '',
+			total: 1,
 			visible: false,
 			action: 'add',
 			info: {},
@@ -58,9 +58,9 @@ class AccountManage extends React.Component {
 					width: 180,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)} href="">编辑</a>
-							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)} href="">重置密码</a>
-							<a onClick={() => this.deleteUser(record.id)} href="#">删除</a>
+							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)}>编辑</a>
+							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)}>重置密码</a>
+							<a onClick={() => this.deleteUser(record.id)}>删除</a>
 						</span>
 					),
 				}
@@ -108,22 +108,22 @@ class AccountManage extends React.Component {
 	}
 
 	componentDidMount() {
-		const { isEnabledUser, searchRole, searchUser } = this.state;
 		//默认初始传入正常账号+全部
-		this.getTableList(isEnabledUser, 1, searchRole, searchUser);
+		this.getTableList();
 	}
 	//账号添加／编辑弹窗
 	showModal = (action) => {
 		this.setState({
 			visible: true,
-			action: action,
+			action,
 		});
 	};
 
 	editAccount = (info) => {
 		this.setState({
-			info: info,
+			info,
 		});
+		//console.log(info)
 		this.showModal('edit');
 	};
 
@@ -137,7 +137,7 @@ class AccountManage extends React.Component {
 				loading: false,
 			});
 			if (res.data.code === 200) {
-				message.info("重置密码成功");
+				message.success("重置密码成功");
 			} else {
 				message.error(res.data.message);
 			}
@@ -146,7 +146,7 @@ class AccountManage extends React.Component {
 
 	//删除账号
 	deleteUser(id) {
-		const { isEnabledUser, searchRole, searchUser } = this.state;
+		console.log(id)
 		this.setState({
 			loading: true,
 		});
@@ -155,58 +155,44 @@ class AccountManage extends React.Component {
 				loading: false,
 			});
 			if (res.data.code === 200) {
-				message.info("删除成功");
-				this.getTableList(isEnabledUser, 1, searchRole, searchUser);
+				message.success("删除成功");
+				this.getTableList();
 			} else {
 				message.error(res.data.message);
 			}
 		});
 	};
-
 	//已删除账号移除操作
 	remove(id) {
-		const { isEnabledUser, searchRole, searchUser } = this.state;
 		this.setState({
 			loading: true,
 		});
 		userDelete(id).then(res => {
+			this.setState({
+				loading: false,
+			});
 			if (res.data.code === 200) {
-				this.setState({
-					loading: false,
-				});
-				message.info("删除成功");
-				this.getTableList(isEnabledUser, 1, searchRole, searchUser);
+				message.success("移除成功");
+				this.getTableList();
 			} else {
 				message.error(res.data.message);
 			}
 		});
 	};
-
-	//get table dataSource
-	getTableList = (isEnabledUser, page, searchRole, searchUser) => {
-		const { action } = this.state;
+	getTableList = () => {
+		const { isEnabledUser, num, page,role, username } = this.state;
 		let params = {
-			isEnabledUser: true,
-			num: 10,
-			page: 1,
-			role: '',
-			username: ''
+			isEnabledUser,
+			num,
+			page,
+			role,
+			username
 		};
-		if (action !== 'edit') {
-			params = {
-				isEnabledUser: isEnabledUser,
-				num: 10,
-				page: page,
-				role: searchRole,
-				username: searchUser
-			};
-		}
 		this.setState({
 			loading: true,
 		});
 		userView(params).then(res => {
 			if (res.data.code === 200) {
-				// this.loading = false;
 				this.setState({
 					loading: false,
 					tableList: res.data.data,
@@ -218,16 +204,14 @@ class AccountManage extends React.Component {
 		});
 
 	};
-
 	//弹窗确定
-	handleOk = (data, id) => {
+	handleSubmit = (data, id) => {
 		const { action } = this.state;
-		
-		//默认初始传入正常账号
 		this.setState({
 			visible: false,
 			loading: true
 		});
+		console.log(data)
 		if (action === 'add') {
 			//确定前还需验证
 			userCreate(data).then(res => {
@@ -252,7 +236,7 @@ class AccountManage extends React.Component {
 				}
 			});
 		}
-		//setTimeout(this.getTableList, 100);
+		setTimeout(this.getTableList, 100);
 	};
 
 	//弹窗取消
@@ -261,42 +245,39 @@ class AccountManage extends React.Component {
 			visible: false,
 		});
 	};
-
 	//搜索
 	searchAccount = (value) => {
-		const { isEnabledUser, searchRole, searchUser } = this.state;
 		this.setState({
-			searchUser: value,
+			username: value,
+		},()=>{
+			this.getTableList();
 		});
-		this.getTableList(isEnabledUser, 1, searchRole, searchUser);
 	};
 	//角色选择
 	selectRole = (value) => {
+		console.log(value)
 		this.setState({
-			searchRole: value,
+			role: value,
+		},()=>{
+			this.getTableList();
 		})
 	};
-
 	//切换Tab
-	changeTab = (key) => {
-		const { searchRole, searchUser } = this.state;
-		if (key === "1") {
-			this.getTableList(true, 1, searchRole, searchUser);
-		} else if (key === "2") {
-			this.getTableList(false, 1, searchRole, searchUser);
-		}
-
+	changeTab = (tabIndex) => {
+		this.setState({
+			isEnabledUser:tabIndex===1?true:false
+		},()=>{
+			this.getTableList();
+		})
 	};
-
 	//换页
 	onChangePage = (pagination) => {
-		const { isEnabledUser, page, searchRole, searchUser } = this.state;
 		this.setState({
 			page: pagination.current,
+		},()=>{
+			this.getTableList();
 		});
-		this.getTableList(isEnabledUser, page, searchRole, searchUser);
 	};
-
 	render() {
 		const { tableList, total, page, visible, action, columns, columnsDelete, info, loading } = this.state;
 		const paginationProps = createPaginationProps(page, total, true, 10)
@@ -307,10 +288,10 @@ class AccountManage extends React.Component {
 					<Spin tip="Loading..." spinning={loading}>
 						<Tabs defaultActiveKey="1" onChange={this.changeTab} animated={false} className="role-tab">
 							<TabPane tab="正常账号" key="1">
-								<SearchAccount showModal={this.showModal.bind(this)}
+								<SearchAccount 
+									handleShowModal={this.showModal.bind(this)}
 									searchFn={this.searchAccount.bind(this)}
 									roleFn={this.selectRole.bind(this)}
-
 								/>
 								<Table rowClassName="table-list" columns={columns} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
@@ -319,7 +300,7 @@ class AccountManage extends React.Component {
 								/>
 							</TabPane>
 							<TabPane tab="已删除账号" key="2">
-								<SearchAccount showModal={this.showModal.bind(this)}
+								<SearchAccount handleShowModal={this.showModal.bind(this)}
 									searchFn={this.searchAccount.bind(this)}
 									roleFn={this.selectRole.bind(this)}
 								/>
@@ -335,9 +316,8 @@ class AccountManage extends React.Component {
 				<div>
 					<AccountModal
 						visible={visible}
-						ok={this.handleOk.bind(this)}
-						cancel={this.handleCancel.bind(this)}
-						show={this.showModal.bind(this)}
+						handleSubmit={this.handleSubmit.bind(this)}
+						handleCancel={this.handleCancel.bind(this)}
 						action={action}
 						info={info}
 					/>

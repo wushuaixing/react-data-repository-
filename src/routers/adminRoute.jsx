@@ -13,6 +13,7 @@ class ContentMain extends React.Component {
 	render() {
 		return (
 			<div>
+				<Route path="/index"  exact component={StructureAccount} />
 				<Route path="/index/structureUser"  component={StructureAccount} />
 				<Route path="/index/checkUser" exact component={CheckAccount} />
 				<Route path="/index/documentSearch" component={DocumentSearch} />
