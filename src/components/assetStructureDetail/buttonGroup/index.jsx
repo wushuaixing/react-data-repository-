@@ -68,7 +68,7 @@ class ButtonGroup extends React.Component {
             back: <Button onClick={this.handleBack} key="6" style={{ marginRight: 10 }}>{'返回'}</Button>
         }
     }
-    handleConfirm(){
+    handleConfirm() {
         this.props.handleConfirm()
     }
     //打开检查人员错误选择对话框
@@ -98,19 +98,23 @@ class ButtonGroup extends React.Component {
                 countDown
             })
         } else {
+            clearInterval(this.state.timer)
             this.setState({
                 buttonDisabled: false,
                 timer: 0 //已经计时过了
             })
-            clearInterval()
         }
 
     }
     handleStructureUpdate() {
         this.props.handleStructureUpdate()
     }
-    componentWillReceiveProps() {
-        if (this.props.type !== null && this.state.timer === null) {
+    componentWillReceiveProps(newProps) {
+        //newProps.id !== this.props.id
+        //console.log(newProps.id,this.props.id)
+        //如果是刚进去第一条那么sessionStorage中的id为空  要计时
+        //如果是切换了下一条  那么两个prop的id不同 要计时
+        if (this.props.type !== null &&  (this.state.timer === null)) {
             //如果是在未标记中的 普通数据 需要设置15s后才可以点击保存
             if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
                 this.setState({
@@ -121,7 +125,7 @@ class ButtonGroup extends React.Component {
                     }, 1000)
                 })
             }
-            if ((this.props.type !== 0 && this.props.status === '0')||this.props.status !== '0') {
+            if ((this.props.type !== 0 && this.props.status === '0') || this.props.status !== '0') {
                 this.setState({
                     buttonDisabled: false
                 })

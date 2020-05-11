@@ -16,7 +16,7 @@ class StructurePropertyDetail extends React.Component{
                 <div className="yc-components-assetStructureDetail_body">
                     <div className="yc-components-assetStructureDetail_body-row">
                         <span className='yc-components-assetStructureDetail_body-row_title'>抵押情况：</span>
-                        <Checkbox name="collateral" onChange={this.handleChange} disabled={enable}>无抵押</Checkbox>
+                        <Checkbox name="collateral" onChange={this.handleChange} disabled={enable} checked={this.props.collateral}>无抵押</Checkbox>
                     </div>
                     <div className="yc-components-assetStructureDetail_body-row">
                         <span className='yc-components-assetStructureDetail_body-row_title'>房产/土地类型：</span>
@@ -34,7 +34,7 @@ class StructurePropertyDetail extends React.Component{
                             {   
                                 enable?
                                 <span>{`${this.props.buildingArea} `}m<sup>2</sup></span>:
-                                <span><Input placeholder="请输入建筑面积" name="buildingArea" onChange={this.handleChange} />&nbsp;&nbsp;m<sup>2</sup></span>
+                                <span><Input placeholder="请输入建筑面积" name="buildingArea" onChange={this.handleChange} value={this.props.buildingArea} />&nbsp;&nbsp;m<sup>2</sup></span>
                             }
                         </span>
                     </div>
