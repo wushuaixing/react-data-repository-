@@ -89,7 +89,6 @@ export const getCheckListCheck=(params)=> {
 		urlPlus = urlPlus + key + "=" + params[key] + "&";
 	}
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
-	//console.log(urlPlus)
 	return axios.get("/api/asset/admin/check/getCheckList?" + urlPlus);
 };
 

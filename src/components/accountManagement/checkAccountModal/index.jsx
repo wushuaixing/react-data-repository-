@@ -11,53 +11,19 @@ const formItemLayout = {
 };
 
 class AccountManage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      action: 'add',
-      visible: false,
-      initialPsw: '',
-      info: {},
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { visible, action, info } = nextProps;
-    this.setState({
-      visible: visible,
-      action: action,
-      info: info,
-    });
-  }
   //确定
-  modalOk = () => {
-    const { info } = this.state;
+  handleSubmit = () => {
+    const { info } = this.props;
     let options = this.props.form.getFieldsValue();
-    this.setState({
-      visible: false,
-    });
-    this.props.ok(options, info.id);
+    console.log(info,options)
+    this.props.handleSubmit(options, info.id);
   };
   //取消
-  modalCancel = () => {
-    this.setState({
-      visible: false,
-    });
-    this.props.cancel(false);
+  handleCancel = () => {
+    this.props.handleCancel();
   };
-
-  setPwd = (val) => {
-    let password = val.substring(
-      5,
-      val.length
-    );
-    this.setState({
-      initialPsw: password
-    });
-  };
-
   render() {
-    const { visible, initialPsw, action, info } = this.state;
+    const { visible, initialPsw, action, info } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
@@ -67,7 +33,7 @@ class AccountManage extends React.Component {
           destroyOnClose={true}
           footer={null}
           maskClosable
-          onCancel={this.modalCancel}
+          onCancel={this.handleCancel.bind(this)}
         >
           <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout}>
             <Form.Item className="yc-form-item" label="姓名：">
@@ -100,7 +66,7 @@ class AccountManage extends React.Component {
                       className="yc-form-input"
                       placeholder="请输入手机号"
                     />
-                    : <p>{info.accountNo}</p>
+                    : <div style={{paddingLeft:5}}>{info.accountNo}</div>
                 )}
             </Form.Item>
             {action === 'add' ?
@@ -124,8 +90,8 @@ class AccountManage extends React.Component {
               </Form.Item> : ''}
 
             <div className="yc-modal-footer">
-              <Button type="primary" onClick={this.modalOk}>确定</Button>
-              <Button  onClick={this.modalCancel}>取消</Button>
+              <Button type="primary" onClick={this.handleSubmit.bind(this)}>确定</Button>
+              <Button  onClick={this.handleCancel.bind(this)}>取消</Button>
             </div>
           </Form>
         </Modal>

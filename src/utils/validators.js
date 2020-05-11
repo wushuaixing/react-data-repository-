@@ -1,6 +1,7 @@
 //验证账号密码-输入框格式
 export const handleValidator = (rule, val, callback) => {
 	if (rule.field === "name") {
+		console.log(val)
 		if(!val){
 			callback('');
 		}
@@ -8,7 +9,6 @@ export const handleValidator = (rule, val, callback) => {
 			callback("姓名最大长度为20个字符");
 		}
 	}
-	callback("姓名最大长度为20个字符");
 	if (rule.field === "username") {
 		if(!val){
 			callback('');
@@ -84,5 +84,8 @@ export const validatorLogin = (rule, val, callback) => {
 		else if(val.length>20 || val.length<6){
 			callback('密码长度为6-20位');
 		}
+	}
+	if(rule.field === ''){
+		
 	}
 };

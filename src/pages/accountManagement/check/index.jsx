@@ -12,7 +12,7 @@ class Index extends React.Component {
 		super(props);
 		this.state = {
 			loading: false,
-			isEnabledUser: true,
+			num:10, //每页显示条数
 			total: 1,
 			page: 1,
 			visible: false,
@@ -47,9 +47,7 @@ class Index extends React.Component {
 			],
 		};
 	}
-
 	componentDidMount() {
-		//默认初始传入正常账号+全部
 		this.getTableList();
 	}
 	//账号添加／编辑弹窗
@@ -59,18 +57,16 @@ class Index extends React.Component {
 			action,
 		});
 	};
-
 	addAccount = () => {
 		this.showModal('add');
 	};
-
 	editAccount = (info) => {
 		this.setState({
-			info: info,
+			info,
+		},()=>{
+			this.showModal('edit');
 		});
-		this.showModal('edit');
 	};
-
 	//重置密码
 	resetPassword(id) {
 		this.setState({
@@ -108,7 +104,8 @@ class Index extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		getCheckListCheck({ num: 1000 }).then(res => {
+		const { num,page } = this.state
+		getCheckListCheck({ num,page }).then(res => {
 			if (res.data.code === 200) {
 				const data = res.data.data
 				this.setState({
@@ -122,7 +119,7 @@ class Index extends React.Component {
 		});
 	};
 	//弹窗确定
-	handleOk = (data, id) => {
+	handleSubmit = (data, id) => {
 		const { action } = this.state;
 		//默认初始传入正常账号
 		this.setState({
@@ -136,26 +133,28 @@ class Index extends React.Component {
 					loading: false,
 				});
 				if (res.data.code === 200) {
-					message.info("账号添加成功");
+					message.success("账号添加成功");
+					setTimeout(this.getTableList, 100);
 				} else {
 					message.error(res.data.message);
 				}
 			});
 		} else {
 			userEditCheck(id, data).then(res => {
+				this.setState({
+					loading: false,
+				});
 				if (res.data.code === 200) {
-					message.info("修改成功");
-					this.setState({
-						loading: false,
-					});
+					message.success("修改成功");
+					setTimeout(this.getTableList, 100);
 				} else {
 					message.error(res.data.message);
 				}
 			});
 		}
-		//setTimeout(this.getTableList, 100);
+		
 	};
-
+	
 	//弹窗取消
 	handleCancel = () => {
 		this.setState({
@@ -165,16 +164,16 @@ class Index extends React.Component {
 
 	//换页
 	onChangePage = (pagination) => {
-		const { page } = this.state;
 		this.setState({
 			page: pagination.current,
+		},()=>{
+			this.getTableList();
 		});
-		this.getTableList({ page });
 	};
 
 	render() {
-		const { tableList, total, page, visible, action, columns, info, loading } = this.state;
-		const paginationProps = createPaginationProps(page, total, true, 10);
+		const { tableList, total, page, visible, action, columns, info, loading,num } = this.state;
+		const paginationProps = createPaginationProps(page, total, true, num);
 		return (
 			<div className="yc-content-container">
 				<BreadCrumb texts={['账号管理', '检查账号']}></BreadCrumb>
@@ -196,12 +195,10 @@ class Index extends React.Component {
 				</div>
 				<div>
 					<AccountModal
-						visible={visible}
-						ok={this.handleOk.bind(this)}
-						cancel={this.handleCancel.bind(this)}
+						visible={visible} action={action} info={info}
+						handleSubmit={this.handleSubmit.bind(this)}
+						handleCancel={this.handleCancel.bind(this)}
 						show={this.showModal.bind(this)}
-						action={action}
-						info={info}
 					/>
 				</div>
 			</div>
