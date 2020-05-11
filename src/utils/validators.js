@@ -1,7 +1,6 @@
 //验证账号密码-输入框格式
 export const handleValidator = (rule, val, callback) => {
 	if (rule.field === "name") {
-		console.log(val)
 		if(!val){
 			callback('');
 		}
@@ -13,11 +12,8 @@ export const handleValidator = (rule, val, callback) => {
 		if(!val){
 			callback('');
 		}
-		else if (!val.match(/^\d{11}$/)) {
-			callback("请输入11位数字");
-		}
-		else{
-			this.setPwd(val);
+		if(!(/^\d{11}$/.test(val))){
+			callback('账户格式不正确，需为11位手机数字号码')
 		}
 	}
 	if (rule.field === "password") {
@@ -55,6 +51,15 @@ export const handleValidator = (rule, val, callback) => {
 			}
 		}
 	}
+	//console.log(val)
+	if(rule.field === 'mobile'){
+		if(!val){
+			callback('');
+		}
+		if(!(/^\d{11}$/.test(val))){
+			callback('账户格式不正确，需为11位手机数字号码')
+		}
+	}
 };
 export const validatorLogin = (rule, val, callback) => {
 	if(val.toString().indexOf(' ')>=0){
@@ -84,8 +89,5 @@ export const validatorLogin = (rule, val, callback) => {
 		else if(val.length>20 || val.length<6){
 			callback('密码长度为6-20位');
 		}
-	}
-	if(rule.field === ''){
-		
 	}
 };
