@@ -59,7 +59,7 @@ class TabTable extends React.Component {
                 align: "center",
                 width: 180,
                 render: (text, record) => {
-                    console.log(record.status)
+                    //console.log(record.status)
                     return (
                         <span>
                             <Link to={{

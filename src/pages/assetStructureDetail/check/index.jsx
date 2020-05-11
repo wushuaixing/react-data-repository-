@@ -54,7 +54,7 @@ class Check extends React.Component {
         wsInAttach: 0,
         wsUrl: [],
         onlyThis: 0,
-        wrongReasons: {},
+        wrongReasons: [],
         returnRemarks: {}
     }
     get updateOrSubmitCheck() {
@@ -74,21 +74,21 @@ class Check extends React.Component {
                 ah: data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
                 wsUrl: data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
             }, () => {
-                console.log(this.state)
+                /* console.log(this.state) */
             })
         })
         if (parseInt(status) >= 3) {
             getWrongTypeAndLevel(id).then((res) => {
                 this.setState({
-                    wrongReasons: {
-                        ...res.data.data
-                    }
+                    wrongReasons: [...res.data.data]
+                },()=>{
+
                 })
             })
         }
         if (parseInt(status) === 5) {
             getFeedBackRemark(id).then((res) => {
-                console.log(res)
+                //console.log(res)
                 this.setState({
                     returnRemarks: {
                         ...res.data.data
@@ -118,7 +118,7 @@ class Check extends React.Component {
         this.setState({
             [key]: arr
         }, () => {
-            console.log(this.state)
+            //console.log(this.state)
         })
     }
     handleRoleChange(combine, value) {
@@ -279,8 +279,9 @@ class Check extends React.Component {
             </CheckBasicDetail>
         ]
         if (parseInt(status) >= 3) {
+            //console.log(state.wrongReasons)
             moduleOrder.unshift(
-                <CheckWrongDetail wrongReasons={state.wrongReasons} key={1} role={'check'}></CheckWrongDetail>
+                <CheckWrongDetail wrongReasons={state.wrongReasons.slice(-1)} key={1} role={'check'}></CheckWrongDetail>
             )
         }
         if (parseInt(status) === 5) {

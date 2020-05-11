@@ -22,9 +22,10 @@ export const COLLATERAL = {
 	0:"未知"
 }
 export const HOUSE_TYPE = {
+	0:"未知",
 	1:"商用",
 	2:"住宅",
-	0:"未知"
+	3:"工业"
 }
 
 export const ROLE_TYPE = {

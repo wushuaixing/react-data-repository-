@@ -1,5 +1,6 @@
 import React from 'react'
 import { Checkbox, Input, Radio } from 'antd'
+import { HOUSE_TYPE } from '@/static/status'
 import './index.scss'
 import '../index.scss'
 
@@ -20,9 +21,11 @@ class StructurePropertyDetail extends React.Component{
                     <div className="yc-components-assetStructureDetail_body-row">
                         <span className='yc-components-assetStructureDetail_body-row_title'>房产/土地类型：</span>
                         <Radio.Group  value={this.props.houseType} onChange={this.handleChange} name="houseType" disabled={enable}>
-                            <Radio value={1}>商用</Radio>
-                            <Radio value={2}>住宅</Radio>
-                            <Radio value={0}>未知</Radio>
+                            {
+                                Object.keys(HOUSE_TYPE).map((key)=>{
+                                    return <Radio value={parseInt(key)} key={parseInt(key)}>{HOUSE_TYPE[key]}</Radio>
+                                })
+                            }
                         </Radio.Group>
                     </div>
                     <div className="yc-components-assetStructureDetail_body-row">
@@ -31,7 +34,7 @@ class StructurePropertyDetail extends React.Component{
                             {   
                                 enable?
                                 <span>{`${this.props.buildingArea} `}m<sup>2</sup></span>:
-                                <Input placeholder="请输入建筑面积" name="buildingArea" onChange={this.handleChange} />
+                                <span><Input placeholder="请输入建筑面积" name="buildingArea" onChange={this.handleChange} />&nbsp;&nbsp;m<sup>2</sup></span>
                             }
                         </span>
                     </div>

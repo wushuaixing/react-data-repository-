@@ -1,9 +1,10 @@
 /** right content for Account manage* */
 import React from 'react';
 import { userCreateCheck, userEditCheck, userResetCheck, userRemoveCheck, getCheckListCheck } from "@api";
-import { message, Button,Table, Spin } from 'antd';
+import { message, Button, Table, Spin } from 'antd';
 import AccountModal from '@/components/accountManagement/checkAccountModal';
-import {BreadCrumb} from '@commonComponents'
+import { BreadCrumb } from '@commonComponents'
+import createPaginationProps from "@/utils/pagination";
 import '../style.scss'
 
 class Index extends React.Component {
@@ -12,14 +13,11 @@ class Index extends React.Component {
 		this.state = {
 			loading: false,
 			isEnabledUser: true,
-			taleList: [],
 			total: 1,
 			page: 1,
-			searchRole: '',
-			searchUser: '',
 			visible: false,
-			action: 'add',
-			info: {},
+			action: 'add', //编辑edit 添加add
+			info: {},  //传入对话框的账户信息
 			columns: [
 				{
 					title: "ID",
@@ -40,9 +38,9 @@ class Index extends React.Component {
 					width: 180,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)} href="">编辑</a>
-							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)} href="">重置密码</a>
-							<a onClick={() => this.deleteUser(record.id)} href="">删除</a>
+							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)}>编辑</a>
+							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)}>重置密码</a>
+							<a onClick={() => this.deleteUser(record.id)}>删除</a>
 						</span>
 					),
 				}
@@ -51,9 +49,8 @@ class Index extends React.Component {
 	}
 
 	componentDidMount() {
-		const { isEnabledUser, searchRole, searchUser } = this.state;
 		//默认初始传入正常账号+全部
-		this.getTableList(isEnabledUser, 1, searchRole, searchUser);
+		this.getTableList();
 	}
 	//账号添加／编辑弹窗
 	showModal = (action) => {
@@ -84,13 +81,12 @@ class Index extends React.Component {
 				loading: false,
 			});
 			if (res.data.code === 200) {
-				message.info("重置密码成功");
+				message.success("重置密码成功");
 			} else {
 				message.error(res.data.message);
 			}
 		});
 	};
-
 	//删除账号
 	deleteUser(id) {
 		this.setState({
@@ -101,24 +97,23 @@ class Index extends React.Component {
 				loading: false,
 			});
 			if (res.data.code === 200) {
-				message.info("删除成功");
+				message.success("删除成功");
 				this.getTableList();
 			} else {
 				message.error(res.data.message);
 			}
 		});
 	};
-
-	//get table dataSource
 	getTableList = () => {
 		this.setState({
 			loading: true,
 		});
 		getCheckListCheck({ num: 1000 }).then(res => {
 			if (res.data.code === 200) {
+				const data = res.data.data
 				this.setState({
-					tableList: res.data.data.list,
-					total: res.data.data.total,
+					tableList: data.list,
+					total: data.total,
 					loading: false,
 				});
 			} else {
@@ -126,7 +121,6 @@ class Index extends React.Component {
 			}
 		});
 	};
-
 	//弹窗确定
 	handleOk = (data, id) => {
 		const { action } = this.state;
@@ -149,17 +143,17 @@ class Index extends React.Component {
 			});
 		} else {
 			userEditCheck(id, data).then(res => {
-				this.setState({
-					loading: false,
-				});
 				if (res.data.code === 200) {
 					message.info("修改成功");
+					this.setState({
+						loading: false,
+					});
 				} else {
 					message.error(res.data.message);
 				}
 			});
 		}
-		setTimeout(this.getTableList, 100);
+		//setTimeout(this.getTableList, 100);
 	};
 
 	//弹窗取消
@@ -175,23 +169,15 @@ class Index extends React.Component {
 		this.setState({
 			page: pagination.current,
 		});
-		this.getTableList({ page: page });
+		this.getTableList({ page });
 	};
 
 	render() {
 		const { tableList, total, page, visible, action, columns, info, loading } = this.state;
-		const paginationProps = {
-			current: page, //当前页
-			showQuickJumper: true, //跳转
-			total: total, // 数据总数
-			pageSize: 10, // 每页条数
-			showTotal: (() => {
-				return `共 ${total} 条`;
-			}),
-		};
+		const paginationProps = createPaginationProps(page, total, true, 10);
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['账号管理','检查账号']}></BreadCrumb>
+				<BreadCrumb texts={['账号管理', '检查账号']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div>
 						<div className="addUser-button">

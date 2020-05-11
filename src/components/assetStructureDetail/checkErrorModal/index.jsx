@@ -25,7 +25,7 @@ class Check extends React.Component {
 	};
 	//待标记--》详情页
 	render() {
-		console.log(this.props)
+		//console.log(this.props)
 		const { wrongReasons } = this.props
 		const { getFieldDecorator } = this.props.form;
 		const wrongReasonList = []

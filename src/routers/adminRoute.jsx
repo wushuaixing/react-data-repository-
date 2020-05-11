@@ -1,8 +1,8 @@
 import React from 'react'
 //引入路由
 import { Route } from 'react-router-dom';
-import StructureAccount from "../pages/accountManagement/structureAccount";
-import CheckAccount from "../pages/accountManagement/checkAccount";
+import StructureAccount from "../pages/accountManagement/structure";
+import CheckAccount from "../pages/accountManagement/check";
 import DocumentSearch from "../pages/documentSearch";
 import StructureDetail from "@/pages/assetStructureDetail/admin";
 import SyncMonitor from "../pages/syncMonitor";
@@ -13,7 +13,7 @@ class ContentMain extends React.Component {
 	render() {
 		return (
 			<div>
-				<Route path="/index" exact component={StructureAccount} />
+				<Route path="/index/structureUser"  component={StructureAccount} />
 				<Route path="/index/checkUser" exact component={CheckAccount} />
 				<Route path="/index/documentSearch" component={DocumentSearch} />
 				<Route path="/index/assetList" component={AssetList} />

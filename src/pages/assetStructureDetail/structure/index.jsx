@@ -11,6 +11,7 @@ import { structuredById, getNumberOfTags, saveDetail } from '@api'
 import { filters } from '@utils/common'
 import './index.scss'
 import { message } from 'antd';
+import { parse } from '@babel/core';
 
 
 function getObligor() {
@@ -208,7 +209,7 @@ class StructureDetail extends React.Component {
                 }
                 const data = res.data
                 this.setState({
-                    id:data.id,
+                    id: data.id,
                     associatedAnnotationId: data.associatedAnnotationId,
                     auctionStatus: data.auctionStatus,
                     buildingArea: data.buildingArea,
@@ -263,14 +264,18 @@ class StructureDetail extends React.Component {
         const backEnable = sessionStorage.getItem('backTime') === '1' ? false : true //是否能返回上一层 如果已经返回一次则为false
         /* console.log(state.type) */
         const tag = `${state.MARK}/${state.TOTAL}`
-        const basicDetail = <StructureBasicDetail
-            auctionID={state.id}
-            type={state.type}
-            title={state.title} auctionStatus={state.auctionStatus}
-            reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}
-            associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
-        </StructureBasicDetail>
-
+        const moduleOrder = [
+            <StructureBasicDetail
+                auctionID={state.id}
+                type={state.type}
+                title={state.title} auctionStatus={state.auctionStatus}
+                reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}
+                associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
+            </StructureBasicDetail>
+        ]
+        if(parseInt(status)===2){
+            moduleOrder.unshift(<WrongDetail wrongReasons={state.wrongReason} role={'structure'}></WrongDetail>)
+        }
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
@@ -283,9 +288,7 @@ class StructureDetail extends React.Component {
                     <div className="assetStructureDetail-structure_container_header">
                         {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
                         {
-                            state.wrongReason && state.wrongReason.length > 0 ?
-                                <WrongDetail wrongReasons={state.wrongReason} role={'structure'}></WrongDetail> :
-                                basicDetail
+                            moduleOrder[0]
                         }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
                         <StructureButtonGroup
@@ -297,8 +300,8 @@ class StructureDetail extends React.Component {
                     </div>
                     <div className="assetStructureDetail-structure_container_body">
                         {
-                            state.wrongReasons && state.wrongReasons.length > 0 ?
-                                basicDetail : null
+                            moduleOrder.length>1?
+                            moduleOrder[1]:null
                         }
                         <StructurePropertyDetail
                             collateral={state.collateral} buildingArea={state.buildingArea}
