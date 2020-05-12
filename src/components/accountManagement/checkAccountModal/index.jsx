@@ -15,8 +15,11 @@ class AccountManage extends React.Component {
   handleSubmit = () => {
     const { info } = this.props;
     let options = this.props.form.getFieldsValue();
-    console.log(info,options)
-    this.props.handleSubmit(options, info.id);
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.handleSubmit(options, info.id);
+      }
+    });
   };
   //取消
   handleCancel = () => {
@@ -45,7 +48,7 @@ class AccountManage extends React.Component {
               {getFieldDecorator('name', {
                 rules: [
                   { required: true, message: "姓名不能为空", },
-                  { validator: handleValidator }
+                  { max:20,message:'姓名最大长度为20个字符' }
                 ],
                 validateTrigger: 'onBlur',
                 initialValue: action === 'edit' ? info.name : ''
@@ -62,7 +65,7 @@ class AccountManage extends React.Component {
                 getFieldDecorator('mobile', {
                   rules: [
                     { required: true, message: "账号不能为空", },
-                    { validator: handleValidator }
+                    { pattern: /^\d{11}$/, message: '账户格式不正确，需为11位手机号码' }
                   ],
                   validateTrigger: 'onBlur',
                   initialValue: ''
@@ -81,8 +84,8 @@ class AccountManage extends React.Component {
               <Form.Item className="yc-form-item" label="密码：">
                 {getFieldDecorator('password', {
                   rules: [
-                    { required: true, message: '请输入密码', },
-                    { validator: handleValidator }
+                    { required: true, message: '密码不可为空', },
+                    { max: 20, min: 6, message: '密码长度应为6-20位' }
                   ],
                   validateTrigger: 'onBlur',
                   initialValue: ''

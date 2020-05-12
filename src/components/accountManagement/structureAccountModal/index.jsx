@@ -17,18 +17,20 @@ class AccountManage extends React.Component {
   //确定
   modalOk = (e) => {
     e.preventDefault();
-    const { form } = this.props
-    const { info, action } = this.props;
-    let options = this.props.form.getFieldsValue();
-    if (action === 'add') {
-      options.structuredObject = [8];
-    }
-    else {
-      options.functionId = [8];
-      options.username = info.username;
-    }
-    this.props.handleSubmit(options, info.id);
-    console.log(options)
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { info, action } = this.props;
+        let options = this.props.form.getFieldsValue();
+        if (action === 'add') {
+          options.structuredObject = [8];
+        }
+        else {
+          options.functionId = [8];
+          options.username = info.username;
+        }
+        this.props.handleSubmit(options, info.id);
+      }
+    });
   };
   //取消
   modalCancel = () => {
@@ -86,11 +88,11 @@ class AccountManage extends React.Component {
             <Form.Item className="yc-form-item" label="姓名：">
               {getFieldDecorator('name', {
                 rules: [
-                  { required: true, message: "姓名不能为空", },
-                  { validator: handleValidator }
+                  { required: true, message: "名字不可为空" },
+                  { max: 20, message: '姓名最大长度为20个字符' }
                 ],
                 validateTrigger: 'onBlur',
-                initialValue: action === 'edit' ? info.name : ''
+                initialValue: action === 'add' ? '' : info.name
               })(
                 <Input
                   className="yc-form-input"
@@ -98,34 +100,37 @@ class AccountManage extends React.Component {
                 />,
               )}
             </Form.Item>
-            <Form.Item className="yc-form-item" label="账号:">
-              {
-                getFieldDecorator('username', {
-                  rules: [
-                    { required: true, message: "手机号不能为空", },
-                    { validator: handleValidator }
-                  ],
-                  validateTrigger: 'onBlur',
-                  initialValue: ''
-                })(
-                  action === 'add'
-                    ?
-                    <Input
-                      onBlur={this.handleAutoCompletePsw.bind(this)}
-                      className="yc-form-input"
-                      placeholder="请输入手机号"
-                    />
-                    : <p
-                      style={{ lineHeight: 3, fontSize: 12, marginLeft: 6, marginTop: 2, color: 'rgba(0, 0, 0, 0.85)' }}>
-                      {info.username}</p>
-                )}
-            </Form.Item>
+            {
+              action === 'add' ?
+                <Form.Item className="yc-form-item" label="账号:">
+                  {
+                    getFieldDecorator('username', {
+                      rules: [
+                        { required: true, message: "账号不能为空", },
+                        { pattern: /^\d{11}$/, message: '账户格式不正确，需为11位手机号码' }
+                      ],
+                      validateTrigger: 'onBlur',
+                      initialValue: ''
+                    })(
+                      <Input
+                        onBlur={this.handleAutoCompletePsw.bind(this)}
+                        className="yc-form-input"
+                        placeholder="请输入手机号"
+                      />
+                    )}
+                </Form.Item> :
+                <Form.Item className="yc-form-item" label="账号:" required={true}>
+                  <p
+                    style={{ lineHeight: 3, fontSize: 12, marginLeft: 6, marginTop: 2, color: 'rgba(0, 0, 0, 0.85)' }}>
+                    {info.username}</p>
+                </Form.Item>
+            }
             {action === 'add' ?
               <Form.Item className="yc-form-item" label="密码：">
                 {getFieldDecorator('password', {
                   rules: [
-                    { required: true, message: '请输入密码', },
-                    { validator: handleValidator }
+                    { required: true, message: '密码不可为空', },
+                    { max: 20, min: 6, message: '密码长度应为6-20位' }
                   ],
                   validateTrigger: 'onBlur',
                   initialValue: ''
@@ -157,7 +162,7 @@ class AccountManage extends React.Component {
                 <Form.Item>
                   {getFieldDecorator('auctionDataType', {
                     rules: [
-                      { required: true },
+                      { required: true, message: '数据类型不能为空' }
                     ],
                     initialValue: action === 'add' ? '' : this.findKeyByValue(AUCTION_DATA_TYPE, info.dataType)
                   })(
