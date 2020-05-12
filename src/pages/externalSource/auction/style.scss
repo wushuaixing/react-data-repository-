@@ -33,6 +33,9 @@
     top:133px;
     &_eachPart {
       position: relative;
+      table{
+        width:100%;
+      }
       .title {
         font-size: 28px;
         color: #ad0700;

@@ -25,8 +25,8 @@ class Check extends React.Component {
 	};
 	//待标记--》详情页
 	render() {
-		console.log(this.props)
-		const { wrongReasons } = this.props
+		//console.log(this.props)
+		let { wrongReasons } = this.props
 		const { getFieldDecorator } = this.props.form;
 		const wrongReasonList = []
 		WRONG_TYPE_LIST.forEach((wrongType, index) => {
@@ -36,6 +36,7 @@ class Check extends React.Component {
 			})
 			wrongReasonList.push(<div key={index}>{[title,WrongReasons]}</div>)
 		})
+    	wrongReasons = (wrongReasons&&wrongReasons instanceof Array&&wrongReasons.length>0)?wrongReasons[wrongReasons.length-1]:{}
 		return (
 			<div>
 				<Modal

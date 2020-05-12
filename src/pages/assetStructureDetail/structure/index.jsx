@@ -48,7 +48,8 @@ class StructureDetail extends React.Component {
             preId: '', //保留上一条ID
             onlyThis: 0, //仅标记本条,
             TOTAL: 0,  //数据总量,
-            MARK: 0  //当前标记数
+            MARK: 0,  //当前标记数
+            isSendRequest:false //是否已经发送了请求
         }
     }
     handleChange(key, value) {
@@ -123,7 +124,6 @@ class StructureDetail extends React.Component {
     saveRecordData() {
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
         保存无效并弹出“债权人备注待完善”非模态框提示； */
-        console.log(this.state.obligors)
         for (let i = 0; i < this.state.obligors.length; i++) {
             let name = this.state.obligors[i].name
             if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '2' && name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
@@ -165,7 +165,13 @@ class StructureDetail extends React.Component {
             wsInAttach: state.wsInAttach,
             wsUrl: state.wsUrl
         }
+        this.setState({
+            isSendRequest:true
+        })
         saveDetail(id, status, params).then((res) => {
+            this.setState({
+                isSendRequest:false
+            })
             if (res.data.code === 200) {
                 message.success('保存成功!')
                 //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
@@ -292,6 +298,7 @@ class StructureDetail extends React.Component {
                             type={state.type} role={'structure'} id={id}
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
+                            isSendRequest={state.isSendRequest}
                             status={status}>
                         </StructureButtonGroup>
                     </div>

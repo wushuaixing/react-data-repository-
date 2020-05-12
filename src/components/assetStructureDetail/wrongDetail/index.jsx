@@ -9,9 +9,8 @@ function WrongTypeAndLevel(){
     this.wrongLevel = 0
 }
 const wrongDetail = (props) => {
-    /* console.log(props) */
     let wrongReasons = props.wrongReasons
-    wrongReasons = (wrongReasons&&wrongReasons instanceof Array&&wrongReasons.length>0)?wrongReasons[0]:[new WrongTypeAndLevel()][0]
+    wrongReasons = (wrongReasons&&wrongReasons instanceof Array&&wrongReasons.length>0)?wrongReasons[wrongReasons.length-1]:[new WrongTypeAndLevel()][0]
     return (
         <div className="yc-components-assetStructureDetail">
             <div className="yc-components-assetStructureDetail_header">错误原因</div>

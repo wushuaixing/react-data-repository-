@@ -1,12 +1,13 @@
 import React from 'react'
 import { Button, Input, Radio, Checkbox } from 'antd'
+import { filters } from '@/utils/common'
 import './index.scss'
 
 class StructureDocumentDetail extends React.Component {
     static defaultProps = {
-        handleDeleteClick:()=>{},
-        handleDocumentChange:()=>{},
-        handleAddClick:()=>{}
+        handleDeleteClick: () => { },
+        handleDocumentChange: () => { },
+        handleAddClick: () => { }
     }
     handleChange = (e) => {
         if (e.target.type === 'checkbox') {
@@ -38,14 +39,20 @@ class StructureDocumentDetail extends React.Component {
             <div className="yc-components-assetStructureDetail">
                 <div className="yc-components-assetStructureDetail_header">文书信息</div>
                 <div className="yc-components-basicDetail_body">
-
-                    <div className="yc-components-assetStructureDetail_body-row">
-                        <span className='yc-components-assetStructureDetail_body-row_title'>查找情况：</span>
-                        <Radio.Group value={this.props.wsFindStatus} name="wsFindStatus" onChange={this.handleChange} disabled={enable}>
-                            <Radio value={1}>找到文书</Radio>
-                            <Radio value={0}>未找到文书</Radio>
-                        </Radio.Group>
-                    </div>
+                    {
+                        enable ?
+                            <div className="yc-components-assetStructureDetail_body-row">
+                                <span className='yc-components-assetStructureDetail_body-row_title'>查找情况：</span>
+                                <span>{parseInt(this.props.wsFindStatus) === 1 ? '找到文书' : '未找到文书'}</span>
+                            </div> :
+                            <div className="yc-components-assetStructureDetail_body-row">
+                                <span className='yc-components-assetStructureDetail_body-row_title'>查找情况：</span>
+                                <Radio.Group value={this.props.wsFindStatus} name="wsFindStatus" onChange={this.handleChange} disabled={enable}>
+                                    <Radio value={1}>找到文书</Radio>
+                                    <Radio value={0}>未找到文书</Radio>
+                                </Radio.Group>
+                            </div>
+                    }
                     {
                         this.props.wsFindStatus === 1 ?
                             <div>
@@ -71,9 +78,15 @@ class StructureDocumentDetail extends React.Component {
                                 </DocumentLinkInputs>
                                 <div className="yc-components-assetStructureDetail_body-row">
                                     <span className='yc-components-assetStructureDetail_body-row_title'></span>
-                                    <span className='seeDetail'>
-                                        <Checkbox name="wsInAttach" onChange={this.handleChange} checked={this.wsInAttach} disabled={enable}>详情见资产拍卖附件</Checkbox>
-                                    </span>
+                                    {
+                                        enable ?
+                                            <span className='seeDetail'>
+                                                {this.wsInAttach?'详情见资产拍卖附件':''}
+                                            </span> :
+                                            <span className='seeDetail'>
+                                                <Checkbox name="wsInAttach" onChange={this.handleChange} checked={this.wsInAttach} disabled={enable}>详情见资产拍卖附件</Checkbox>
+                                            </span>
+                                    }
                                 </div>
                             </div> : null
                     }
@@ -114,7 +127,7 @@ const DocumentLinkInput = (props) => {
             <span className={props.index !== 0 ? 'addition-ah' : null}>
                 {
                     props.enable ?
-                        <span>{props.value.value}</span>
+                        <span>{filters.blockNullData(props.value.value, '-')}</span>
                         : <Input placeholder={`请输入${props.text}`} onChange={props.handleChange} name={`${props.attr}${props.index}`} value={props.value.value} />
                 }
                 {
@@ -131,5 +144,4 @@ const DocumentLinkInput = (props) => {
         </div>
     )
 }
-
 export default StructureDocumentDetail

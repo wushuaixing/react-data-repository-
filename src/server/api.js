@@ -315,7 +315,7 @@ export const saveInspectorStructureDetail =(id,params)=>{
 }
 
 export const getWrongTypeAndLevel = (id)=>{
-	return axios.get(`/api/asset/inspector/control/getWrongTypeAndLevel?id=${id}`);
+	return axios.get(`/api/getWrongTypeAndLevel?id=${id}`);
 }
 
 export const getFeedBackRemark = (id)=>{
