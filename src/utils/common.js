@@ -30,11 +30,8 @@ const filters = {
 				}
 			}
 		}
-		console.log(records)
 		return records;
 	},
-	//去除表单参数中的空值
-
 }
 const dateUtils = {
 	//时间戳转换为标准日期	

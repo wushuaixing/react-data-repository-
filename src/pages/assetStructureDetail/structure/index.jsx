@@ -123,6 +123,7 @@ class StructureDetail extends React.Component {
     saveRecordData() {
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
         保存无效并弹出“债权人备注待完善”非模态框提示； */
+        console.log(this.state.obligors)
         for (let i = 0; i < this.state.obligors.length; i++) {
             let name = this.state.obligors[i].name
             if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '2' && name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
@@ -133,7 +134,7 @@ class StructureDetail extends React.Component {
                 message.warning('资产线索备注待完善')
                 return false;
             }
-            if (this.state.obligors[i].birthday !== '' && !/^\d{8}$/.test(this.state.obligors[i].birthday)) {
+            if (this.state.obligors[i].birthday && !/^\d{8}$/.test(this.state.obligors[i].birthday)) {
                 message.warning('生日格式不正确')
                 return false;
             }
