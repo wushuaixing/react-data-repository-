@@ -111,7 +111,7 @@ class StructureDetail extends React.Component {
     componentDidMount() {
         this.getRecordData(this.props)
     }
-    componentWillReceiveProps(newProps) {
+    async componentWillReceiveProps(newProps) {
         if (this.props.history.location.query && this.props.history.location.query.id) {
             sessionStorage.setItem('id', this.props.history.location.query.id)
         }
@@ -197,7 +197,7 @@ class StructureDetail extends React.Component {
             }
         })
     }
-    getRecordData(props) {
+    async getRecordData(props) {
         const params = props.match.params
         if (params.id && params.status) {
             structuredById(params.id, params.status).then(res => {
