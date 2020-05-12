@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { BreadCrumb } from '@commonComponents'
+import  BreadCrumb  from '@/components/common/breadCrumb'
 import StructureBasicDetail from '@/components/assetStructureDetail/basicDetail'
 import StructureButtonGroup from '@/components/assetStructureDetail/buttonGroup'
 import StructurePropertyDetail from '@/components/assetStructureDetail/propertyDetail'
@@ -245,11 +245,12 @@ class StructureDetail extends React.Component {
     }
     goPreviousRecord() {
         if (sessionStorage.getItem('id')) {
+            const toStatus = sessionStorage.getItem("backTime")==="1"?0:1
             const path = {
-                pathname: `/index/structureDetail/1/${sessionStorage.getItem('id')}`
+                pathname: `/index/structureDetail/${toStatus}/${sessionStorage.getItem('id')}`
             }
             sessionStorage.setItem('id', this.props.match.params.id)
-            sessionStorage.setItem('backTime', 1) //返回次数 默认只能返回一层
+            sessionStorage.getItem("backTime")==="1"?sessionStorage.removeItem('backTime'):sessionStorage.setItem('backTime', 1) //返回次数 默认只能返回一层
             this.props.history.push(path)
         }
         else {
@@ -258,11 +259,8 @@ class StructureDetail extends React.Component {
     }
     render() {
         const state = this.state
-        const { status,id } = this.props.match.params
-        const breadButtonText = (status !== '2') ? '返回上一条' : null //结构化人员status 0并且mark不为第一条才显示面包屑的按钮组 */
+        const { status, id } = this.props.match.params
         const preId = sessionStorage.getItem('id')
-        const backEnable = sessionStorage.getItem('backTime') === '1' ? false : true //是否能返回上一层 如果已经返回一次则为false
-        /* console.log(state.type) */
         const tag = `${state.MARK}/${state.TOTAL}`
         const moduleOrder = [
             <StructureBasicDetail
@@ -273,15 +271,14 @@ class StructureDetail extends React.Component {
                 associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
             </StructureBasicDetail>
         ]
-        if(parseInt(status)===2){
+        if (parseInt(status) === 2) {
             moduleOrder.unshift(<WrongDetail wrongReasons={state.wrongReason} role={'structure'}></WrongDetail>)
         }
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
-                    disabled={preId && backEnable ? false : true}
-                    breadButtonText={breadButtonText}
-                    texts={['资产结构化/详情']} note={sessionStorage.getItem("backTime") !== "1" ? tag : null}
+                    disabled={preId ? false : true}
+                    texts={['资产结构化/详情']} note={tag}
                     handleClick={this.goPreviousRecord.bind(this)}
                     icon={'left'}></BreadCrumb>
                 <div className="assetStructureDetail-structure_container">
@@ -300,8 +297,8 @@ class StructureDetail extends React.Component {
                     </div>
                     <div className="assetStructureDetail-structure_container_body">
                         {
-                            moduleOrder.length>1?
-                            moduleOrder[1]:null
+                            moduleOrder.length > 1 ?
+                                moduleOrder[1] : null
                         }
                         <StructurePropertyDetail
                             collateral={state.collateral} buildingArea={state.buildingArea}

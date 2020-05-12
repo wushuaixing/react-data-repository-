@@ -1,6 +1,7 @@
 import React from 'react'
 import { Checkbox, Button } from 'antd'
 import { STRUCTURE_SAVE_BUTTON_TEXT } from '@/static/status'
+import { withRouter } from 'react-router-dom';
 import './index.scss'
 
 class ButtonGroup extends React.Component {
@@ -124,7 +125,7 @@ class ButtonGroup extends React.Component {
             if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
                 this.setState({
                     buttonDisabled: true,
-                    countDown: 15,
+                    countDown: 5,
                     timer: setInterval(() => {
                         this.handleCountDown()
                     }, 1000)
@@ -204,4 +205,4 @@ const OnlyMarkButton = (props) => {
     )
 }
 
-export default ButtonGroup;
+export default withRouter(ButtonGroup);
