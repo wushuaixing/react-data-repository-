@@ -265,13 +265,6 @@ class Check extends React.Component {
             }
         })
     }
-    recentWrongReasons(){
-        if(this.state.wrongReasons&&this.state.wrongReasons.length>0){
-            return this.state.wrongReasons.slice(-1)
-        }else{
-            return []
-        }
-    }
     render() {
         const state = this.state
         const { status } = this.props.match.params
@@ -288,7 +281,7 @@ class Check extends React.Component {
         if (parseInt(status) >= 3) {
             //console.log(state.wrongReasons)
             moduleOrder.unshift(
-                <CheckWrongDetail wrongReasons={this.recentWrongReasons} key={1} role={'check'}></CheckWrongDetail>
+                <CheckWrongDetail wrongReasons={state.wrongReasons} key={1} role={'check'}></CheckWrongDetail>
             )
         }
         if (parseInt(status) === 5) {
@@ -344,7 +337,7 @@ class Check extends React.Component {
 
                 </div>
                 <CheckModal visible={state.visible}
-                    wrongReasons={this.recentWrongReasons}
+                    wrongReasons={state.wrongReasons.slice(-1)}
                     handleModalSubmit={this.handleModalSubmit.bind(this)}
                     handleModalCancel={this.handleModalCancel.bind(this)}
                     style={{ width: 430 }}
