@@ -211,7 +211,6 @@ class AccountManage extends React.Component {
 			visible: false,
 			loading: true
 		});
-		console.log(data)
 		if (action === 'add') {
 			//确定前还需验证
 			userCreate(data).then(res => {

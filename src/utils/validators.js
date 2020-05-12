@@ -2,7 +2,7 @@
 export const handleValidator = (rule, val, callback) => {
 	if (rule.field === "name") {
 		if(!val){
-			callback('');
+			callback('姓名不可为空');
 		}
 		else if (val.length > 20) {
 			callback("姓名最大长度为20个字符");
@@ -10,7 +10,7 @@ export const handleValidator = (rule, val, callback) => {
 	}
 	if (rule.field === "username") {
 		if(!val){
-			callback('');
+			callback('不可为空');
 		}
 		if(!(/^\d{11}$/.test(val))){
 			callback('账户格式不正确，需为11位手机数字号码')
@@ -18,7 +18,7 @@ export const handleValidator = (rule, val, callback) => {
 	}
 	if (rule.field === "password") {
 		if(!val){
-			callback('');
+			callback('不可为空');
 		}
 		else if (val.length > 20 || val.length < 6) {
 			callback('密码长度为6-20位');
@@ -51,16 +51,25 @@ export const handleValidator = (rule, val, callback) => {
 			}
 		}
 	}
-	//console.log(val)
+	console.log(val)
 	if(rule.field === 'mobile'){
 		if(!val){
-			callback('');
+			callback('不可为空');
 		}
 		if(!(/^\d{11}$/.test(val))){
 			callback('账户格式不正确，需为11位手机数字号码')
 		}
 	}
+	if(rule.field==='roleId'){
+		callback(new ('问题1'))
+	}
+	if(rule.field==='auctionDataType'){
+		callback('问题2')
+	}
 };
+
+
+
 export const validatorLogin = (rule, val, callback) => {
 	if(val.toString().indexOf(' ')>=0){
 		callback('账号密码不能含有空格')
