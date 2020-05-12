@@ -5,7 +5,6 @@ import Login from "./login";
 import Home from "./home";
 import DocumentDetail from "../pages/externalSource/document";
 import AuctionDetail from "../pages/externalSource/auction";
-import AttachFile from "../pages/externalSource/attachFile";
 import NotFound from './notFound'
 
 class App extends React.Component {
@@ -19,7 +18,6 @@ class App extends React.Component {
 						<Route path="/index" component={Home} />
 						<Route path="/documentDetail/:Id" component={DocumentDetail} />
 						<Route path="/auctionDetail/:auctionID" component={AuctionDetail} />
-						<Route path="/attachFile/:fileId" component={AttachFile} />
 						<Route path="*" component={NotFound} />
 					</Switch>
 				</div>

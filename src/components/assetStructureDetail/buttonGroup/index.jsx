@@ -143,7 +143,8 @@ class ButtonGroup extends React.Component {
     render() {
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[this.props.status]
         const { countDown } = this.state
-        const { enable, status } = this.props
+        const { enable, status,isSendRequest } = this.props
+        const disabled = this.state.buttonDisabled||isSendRequest //当已经发送了请求或特殊处理情况下 按钮不可点击
         return (
             <div className="yc-component-buttonGroup">
                 {
@@ -153,7 +154,7 @@ class ButtonGroup extends React.Component {
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
                                         <OnlyMarkButton handleChange={this.handleChange.bind(this)}></OnlyMarkButton>
-                                        <Button onClick={this.handleClick.bind(this)} disabled={this.state.buttonDisabled}>{`${buttonText}${(countDown > 0) ? '(' + countDown + 's)' : ''}`}</Button>
+                                        <Button onClick={this.handleClick.bind(this)} disabled={disabled}>{`${buttonText}${(countDown > 0) ? '(' + countDown + 's)' : ''}`}</Button>
                                     </div>
                                 )
                             case 'check':

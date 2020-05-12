@@ -57,7 +57,7 @@ function AttachListItem(props) {
   return (
     <div onClick={props.handleClick} className="accessory-list_item">
       <span>{props.name}</span>
-      {!props.transcodingToHtml && <span>未解析</span>}
+      {/* {!props.transcodingToHtml && <span>未解析</span>} */}
     </div>
   )
 }
@@ -113,11 +113,7 @@ class Index extends React.Component {
     window.open(this.state.titleUrl)
   }
   downloadAttachFile(data) {
-    if(!data.transcodingToHtml){
-      window.open(data.url)//如果未解析为网页 直接下载
-    }else{  
-      this.props.history.push(`/attachFile/${data.fileId}`)
-    }
+    window.open(data.url)//如果未解析为网页 直接下载
   }
   render() {
     const { title, attachList, showAnchors } = this.state;
