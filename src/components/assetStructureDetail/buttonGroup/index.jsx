@@ -1,6 +1,7 @@
 import React from 'react'
 import { Checkbox, Button } from 'antd'
 import { STRUCTURE_SAVE_BUTTON_TEXT } from '@/static/status'
+import { withRouter } from 'react-router-dom';
 import './index.scss'
 
 class ButtonGroup extends React.Component {
@@ -110,25 +111,32 @@ class ButtonGroup extends React.Component {
         this.props.handleStructureUpdate()
     }
     componentWillReceiveProps(newProps) {
-        //newProps.id !== this.props.id
-        //console.log(newProps.id,this.props.id)
-        //如果是刚进去第一条那么sessionStorage中的id为空  要计时
-        //如果是切换了下一条  那么两个prop的id不同 要计时
+        //如果切换了id 则设置计时器可重新刷新
+        if(newProps.id!==this.props.id){
+            clearInterval(this.state.timer)
+            this.setState({
+                timer:null,
+                countDown:null
+            })
+        }
+        //如果收到了type数据且现在计时器可更新则进入判断
         if (this.props.type !== null &&  (this.state.timer === null)) {
             //如果是在未标记中的 普通数据 需要设置15s后才可以点击保存
             if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
                 this.setState({
                     buttonDisabled: true,
-                    countDown: 15,
+                    countDown: 5,
                     timer: setInterval(() => {
                         this.handleCountDown()
                     }, 1000)
                 })
             }
+            //在待标记的初标数据类型时或不在待标记时候 不需要计时  
             if ((this.props.type !== 0 && this.props.status === '0') || this.props.status !== '0') {
                 this.setState({
-                    buttonDisabled: false
-                })
+                    buttonDisabled: false,
+                    countDown:null 
+                });
             }
         }
     }
@@ -197,4 +205,4 @@ const OnlyMarkButton = (props) => {
     )
 }
 
-export default ButtonGroup;
+export default withRouter(ButtonGroup);

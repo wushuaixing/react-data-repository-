@@ -1,12 +1,17 @@
 import React from 'react'
-import { Checkbox, Input, Radio } from 'antd'
+import { Checkbox, InputNumber, Radio } from 'antd'
 import { HOUSE_TYPE } from '@/static/status'
 import './index.scss'
 import '../index.scss'
 
 class StructurePropertyDetail extends React.Component{
     handleChange = (e) =>{
-        e.target.type==='checkbox'?this.props.handleChange(e.target.name,e.target.checked*1):this.props.handleChange(e.target.name,e.target.value)
+        if(e&&e.target){
+            e.target.type==='checkbox'?this.props.handleChange(e.target.name,e.target.checked*1):this.props.handleChange(e.target.name,e.target.value)
+        }else{
+            //数值输入框onChange返回val
+            this.props.handleChange('buildingArea',e)
+        }
     }
     render(){
         const enable = this.props.enable
@@ -34,7 +39,12 @@ class StructurePropertyDetail extends React.Component{
                             {   
                                 enable?
                                 <span>{`${this.props.buildingArea} `}m<sup>2</sup></span>:
-                                <span><Input placeholder="请输入建筑面积" name="buildingArea" onChange={this.handleChange} value={this.props.buildingArea} />&nbsp;&nbsp;m<sup>2</sup></span>
+                                <span>
+                                    <InputNumber 
+                                        precision={2} style={{width:200}}
+                                        placeholder="请输入建筑面积" name="buildingArea" 
+                                        onChange={this.handleChange} value={this.props.buildingArea} />&nbsp;&nbsp;m<sup>2</sup>
+                                        </span>
                             }
                         </span>
                     </div>

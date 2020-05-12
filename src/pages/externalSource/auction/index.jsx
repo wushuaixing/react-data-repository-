@@ -112,8 +112,12 @@ class Index extends React.Component {
   openTitleUrl() {
     window.open(this.state.titleUrl)
   }
-  downloadAttachFile(url) {
-    window.open(url)
+  downloadAttachFile(data) {
+    if(!data.transcodingToHtml){
+      window.open(data.url)//如果未解析为网页 直接下载
+    }else{  
+      this.props.history.push(`/attachFile/${data.fileId}`)
+    }
   }
   render() {
     const { title, attachList, showAnchors } = this.state;
@@ -134,7 +138,7 @@ class Index extends React.Component {
                 <div className="accessory-list">
                   {
                     attachList.map((item, index) =>
-                      <AttachListItem handleClick={this.downloadAttachFile.bind(this, item.url)} name={item.name} key={index} transcodingToHtml={item.transcodingToHtml}></AttachListItem>
+                      <AttachListItem handleClick={this.downloadAttachFile.bind(this, item)} name={item.name} key={index} transcodingToHtml={item.transcodingToHtml}></AttachListItem>
                     )
                   }
                 </div> :
