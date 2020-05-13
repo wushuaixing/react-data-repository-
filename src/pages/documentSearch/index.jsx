@@ -185,75 +185,80 @@ class Check extends React.Component {
 		const { tableList, total, page, loading } = this.state;
 		const paginationProps = createPaginationProps(page, total)
 		return (
-			<div className="yc-content-container">
-				<BreadCrumb texts={['文书搜索']}></BreadCrumb>
-				<div className="yc-detail-content">
-					<div className="yc-search-line document-search">
-						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
-							<Form.Item label="全文" style={{ width: '100%' }}>
-								{getFieldDecorator('whole', {})
-									(<Input
-										style={{ width: '100%' }}
-										type="text"
-										size='default'
-										placeholder="姓名、公司、地址关键词等"
+			<div className="yc-main-body">
+				<div className="yc-right-content">
+					<div className="yc-content-container">
+						<BreadCrumb texts={['文书搜索']}></BreadCrumb>
+						<div className="yc-detail-content">
+							<div className="yc-search-line document-search">
+								<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
+									<Form.Item label="全文" style={{ width: '100%' }}>
+										{getFieldDecorator('whole', {})
+											(<Input
+												style={{ width: '100%' }}
+												type="text"
+												size='default'
+												placeholder="姓名、公司、地址关键词等"
 
-									/>)}
-							</Form.Item>
-							<Row>
-								<Col span={19}>
-									<Form.Item label="案号">
-										{getFieldDecorator('ah', {})
-											(<Input
-												type="text"
-												size='default'
-												placeholder="案号"
 											/>)}
 									</Form.Item>
-									<Form.Item label="法院">
-										{getFieldDecorator('court', {})
-											(<Input
-												type="text"
-												size='default'
-												placeholder="法院"
-											/>)}
-									</Form.Item>
-									<Form.Item label="链接">
-										{getFieldDecorator('url', {})
-											(<Input
-												type="text"
-												size='default'
-												placeholder="文书源链接"
-											/>)}
-									</Form.Item>
-								</Col>
-								<Col span={5} style={{ textAlign: 'right' }}>
-									<Form.Item>
-										<Button type="primary" htmlType="submit" style={{ backgroundColor: '#0099CC', marginLeft: 15 }}>
-											搜索
+									<Row>
+										<Col span={19}>
+											<Form.Item label="案号">
+												{getFieldDecorator('ah', {})
+													(<Input
+														type="text"
+														size='default'
+														placeholder="案号"
+													/>)}
+											</Form.Item>
+											<Form.Item label="法院">
+												{getFieldDecorator('court', {})
+													(<Input
+														type="text"
+														size='default'
+														placeholder="法院"
+													/>)}
+											</Form.Item>
+											<Form.Item label="链接">
+												{getFieldDecorator('url', {})
+													(<Input
+														type="text"
+														size='default'
+														placeholder="文书源链接"
+													/>)}
+											</Form.Item>
+										</Col>
+										<Col span={5} style={{ textAlign: 'right' }}>
+											<Form.Item>
+												<Button type="primary" htmlType="submit" style={{ backgroundColor: '#0099CC', marginLeft: 15 }}>
+													搜索
 									</Button>
-										<Button type="default" style={{ marginLeft: 5 }} onClick={this.clearSearch}>
-											清空搜索条件
+												<Button type="default" style={{ marginLeft: 5 }} onClick={this.clearSearch}>
+													清空搜索条件
 									</Button>
-									</Form.Item>
-								</Col>
-							</Row>
-						</Form>
-					</div>
-					<p className="line" />
-					<div className="yc-tab">
-						<Spin tip="Loading..." spinning={loading}>
-							<Table rowClassName="table-list"
-								columns={columns}
-								dataSource={tableList}
-								rowKey={record => record.wenshuId}
-								pagination={paginationProps}
-								onChange={this.onTablePageChange}
-							/>
-						</Spin>
+											</Form.Item>
+										</Col>
+									</Row>
+								</Form>
+							</div>
+							<p className="line" />
+							<div className="yc-tab">
+								<Spin tip="Loading..." spinning={loading}>
+									<Table rowClassName="table-list"
+										columns={columns}
+										dataSource={tableList}
+										rowKey={record => record.wenshuId}
+										pagination={paginationProps}
+										onChange={this.onTablePageChange}
+									/>
+								</Spin>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
+
 		);
 	}
 }

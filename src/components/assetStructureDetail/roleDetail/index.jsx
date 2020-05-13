@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon, Input, Select, Button, Table,Popover } from 'antd'
 import { SEX_TYPE, ROLE_TYPE } from '@/static/status'
-import { dateUtils } from '@utils/common'
+import { dateUtils,filters } from '@utils/common'
 import '../index.scss'
 const { Option } = Select;
 class RoleDetail extends React.Component {
@@ -33,6 +33,9 @@ class RoleDetail extends React.Component {
                 title: '名称',
                 dataIndex: 'name',
                 key: 'name',
+                render:(text)=>(
+                    <span>{filters.blockNullData(text,'-')}</span>
+                )
             },
             {
                 title: '角色',
@@ -48,11 +51,17 @@ class RoleDetail extends React.Component {
                 title: '证件号',
                 dataIndex: 'number',
                 key: 'number',
+                render:(text)=>(
+                    <span>{filters.blockNullData(text,'-')}</span>
+                )
             },
             {
                 title: '生日',
                 dataIndex: 'birthday',
                 key: 'birthday',
+                render:(text)=>(
+                    <span>{filters.blockNullData(text,'-')}</span>
+                )
             },
             {
                 title: '性别',
@@ -68,6 +77,9 @@ class RoleDetail extends React.Component {
                 title: '备注',
                 dataIndex: 'notes',
                 key: 'notes',
+                render:(text)=>(
+                    <span>{filters.blockNullData(text,'-')}</span>
+                )
             },
         ];
         const text = 

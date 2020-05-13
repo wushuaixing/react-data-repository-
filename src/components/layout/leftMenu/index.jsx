@@ -17,8 +17,8 @@ const menuRoute = {
   15: "/index",//资产结构化列表检查（检查人员）
   20: "/index/assetList",//资产结构化列表（管理员）
   // 17: "/index/documentSearch",//文书搜索（检查人员）
-  16: "/index/documentSearch",//文书搜索（管理员+检查人员）
-  9: "/index/documentSearch",//文书搜索（结构化人员）
+  16: "/documentSearch",//文书搜索（管理员+检查人员）
+  9: "/documentSearch",//文书搜索（结构化人员）
   21: "/index/syncMonitor",//抓取与同步监控（管理员）
   22: "/index/structureMonitor",//结构化情况监控（管理员）
 };
@@ -38,7 +38,6 @@ class Sider extends React.Component {
     // this.getMenu();
     getAvailableNav().then(res => {
       let menuIcon;
-      console.log(res)
       if (storage["userState"] === "管理员") {
         menuIcon = admin;
         this.setState({

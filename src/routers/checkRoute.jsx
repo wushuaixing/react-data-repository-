@@ -3,7 +3,6 @@ import React from 'react'
 import {Route} from 'react-router-dom';
 import AssetList from "../pages/assetStructureList/checkAccount";
 import StructureDetail from "@/pages/assetStructureDetail/check";
-import DocumentSearch from "../pages/documentSearch";
 
 
 class Index extends React.Component {
@@ -11,7 +10,6 @@ class Index extends React.Component {
     return (
       <div>
 				<Route path="/index" exact component={AssetList} />
-        <Route path="/index/documentSearch"  component={DocumentSearch} />
         <Route path="/index/structureDetail/:status/:id" component={StructureDetail} />
       </div>
     )
