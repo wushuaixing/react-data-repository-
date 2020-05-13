@@ -1,7 +1,7 @@
 import React from 'react'
 import { WRONG_LEVEL } from '@/static/status'
 import '../index.scss'
-function WrongTypeAndLevel(){
+function WrongTypeAndLevel() {
     this.auctionExtractWrongTypes = []
     this.date = ''
     this.name = ''
@@ -9,36 +9,33 @@ function WrongTypeAndLevel(){
     this.wrongLevel = 0
 }
 const wrongDetail = (props) => {
-    let wrongReasons = props.wrongReasons
-    wrongReasons = (wrongReasons&&wrongReasons instanceof Array&&wrongReasons.length>0)?wrongReasons[wrongReasons.length-1]:[new WrongTypeAndLevel()][0]
+    let wrongData  = (props.wrongData&&props.wrongData.length>0)?props.wrongData:[new WrongTypeAndLevel()]
+    
     return (
         <div className="yc-components-assetStructureDetail">
             <div className="yc-components-assetStructureDetail_header">错误原因</div>
             {
-                props.role === 'structure' ?
-                    <div className="yc-components-assetStructureDetail_body">
-                        {
-                            props.wrongReasons.map((reason, index) => (
-                                <WrongReasonRow text={reason} key={index}></WrongReasonRow>
-                            ))
-                        }
-                    </div> :
-                    <div>
-                        <div className="yc-components-assetStructureDetail_body-row">
-                            <span className='yc-components-assetStructureDetail_body-row_title'>错误等级：</span>
-                            <WrongReasonRow text={WRONG_LEVEL[wrongReasons.wrongLevel]} inline={true}></WrongReasonRow>
+                wrongData.map((wrongDetail,index) => {
+                    return (
+                        <div key={index}>
+                            <div className="yc-components-assetStructureDetail_body-row">
+                                <span className='yc-components-assetStructureDetail_body-row_title'>错误等级：</span>
+                                <WrongReasonRow text={WRONG_LEVEL[wrongDetail.wrongLevel]} inline={true}></WrongReasonRow>
+                            </div>
+                            <div className="yc-components-assetStructureDetail_body-row">
+                                {
+                                    wrongDetail.remark && wrongDetail.remark.length > 0 ?
+                                        wrongDetail.remark.map((item, index) => {
+                                            return (
+                                                <WrongReasonTitleRow title={'错误原因：'} text={item} index={index} key={index}></WrongReasonTitleRow>
+                                            )
+                                        }) : 
+                                        <WrongReasonTitleRow title={'错误原因：'} index={0} text={'-'}></WrongReasonTitleRow>
+                                }
+                            </div>
                         </div>
-                        <div className="yc-components-assetStructureDetail_body-row">
-                            {
-                                wrongReasons.remark&&wrongReasons.remark.length>0?
-                                wrongReasons.remark.map((item,index)=>{
-                                    return (
-                                        <WrongReasonTitleRow title={'错误原因：'} text={item} index={index} key={index}></WrongReasonTitleRow>
-                                    )
-                                }):null
-                            }
-                        </div>
-                    </div>
+                    )
+                })
             }
         </div>
     )
@@ -46,7 +43,7 @@ const wrongDetail = (props) => {
 const WrongReasonTitleRow = (props) => {
     return (
         <div>
-            <span className='yc-components-assetStructureDetail_body-row_title' style={props.index===0?null:{visibility:'hidden'}}>{props.title}</span>
+            <span className='yc-components-assetStructureDetail_body-row_title' style={props.index === 0 ? null : { visibility: 'hidden' }}>{props.title}</span>
             <WrongReasonRow text={props.text} inline={true}></WrongReasonRow><br></br>
         </div>
     )
