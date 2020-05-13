@@ -47,7 +47,7 @@ class StructurePropertyDetail extends React.Component {
                         <span>
                             {
                                 enable ?
-                                    <span>{`${this.props.buildingArea} `}m<sup>2</sup></span> :
+                                    <span>{`${this.props.buildingArea.toFixed(2)} `}m<sup>2</sup></span> :
                                     <span>
                                         <InputNumber
                                             precision={2} style={{ width: 200 }}

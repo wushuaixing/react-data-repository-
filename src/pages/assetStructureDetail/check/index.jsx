@@ -55,7 +55,8 @@ class Check extends React.Component {
         wsUrl: [],
         onlyThis: 0,
         wrongData: [],
-        returnRemarks: {}
+        returnRemarks: {},
+        isUpdateRecord:false
     }
     get updateOrSubmitCheck() {
         const length = this.state.records.length
@@ -105,7 +106,8 @@ class Check extends React.Component {
     }
     handleChange(key, value) {
         this.setState({
-            [key]: value
+            [key]: value,
+            isUpdateRecord:true
         }, () => {
             //console.log(this.state)
         })
@@ -116,7 +118,8 @@ class Check extends React.Component {
         const arr = [...this.state[key]]
         arr[arr_index].value = value
         this.setState({
-            [key]: arr
+            [key]: arr,
+            isUpdateRecord:true
         }, () => {
             //console.log(this.state)
         })
@@ -127,7 +130,8 @@ class Check extends React.Component {
         const arr = [...this.state.obligors]
         arr[arr_index][key] = value
         this.setState({
-            obligors: arr
+            obligors: arr,
+            isUpdateRecord:true
         }, () => {
             //console.log(this.state)
         })
@@ -195,7 +199,8 @@ class Check extends React.Component {
     handleAddClick(key) {
         const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], { ...getObligor() }]
         this.setState({
-            [key]: arr
+            [key]: arr,
+            isUpdateRecord:true
         }, () => {
             //console.log(this.state)
         });
@@ -208,13 +213,18 @@ class Check extends React.Component {
             arr.splice(index, 1)
         }
         this.setState({
-            [key]: arr
+            [key]: arr,
+            isUpdateRecord:true
         }, () => {
             //console.log(this.state)
         });
     }
     handleStructureUpdate() {
-        //对已删除账号可以更新结构化信息
+        if(!this.enable&&!this.state.isUpdateRecord){
+            //如果是已删除账号的检查结构化详情 并且未做修改 不能保存
+            message.warning('未做修改，不能保存')
+            return false;
+        }
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
         保存无效并弹出“债权人备注待完善”非模态框提示； */
         for (let i = 0; i < this.state.obligors.length; i++) {
@@ -265,10 +275,14 @@ class Check extends React.Component {
             }
         })
     }
+    get enable(){
+        return JSON.parse(sessionStorage.getItem('structPersonnelEnable'));
+    }
     render() {
         const state = this.state
         const { status } = this.props.match.params
-        const enable = JSON.parse(sessionStorage.getItem('structPersonnelEnable'))
+        const enable = this.enable;
+        console.log(this.state)
         const moduleOrder = [
             <CheckBasicDetail
                 key={0} auctionID={state.id}

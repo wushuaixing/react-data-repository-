@@ -6,7 +6,7 @@ import Home from "./home";
 import DocumentDetail from "../pages/externalSource/document";
 import AuctionDetail from "../pages/externalSource/auction";
 import NotFound from './notFound'
-
+import DocumentSearch from "../pages/documentSearch";
 class App extends React.Component {
 	render(){
 		return(
@@ -16,6 +16,7 @@ class App extends React.Component {
 						<Route path="/" exact component={Login} />
 						<Route path="/login" component={Login} />
 						<Route path="/index" component={Home} />
+						<Route path="/documentSearch" component={DocumentSearch} />
 						<Route path="/documentDetail/:Id" component={DocumentDetail} />
 						<Route path="/auctionDetail/:auctionID" component={AuctionDetail} />
 						<Route path="*" component={NotFound} />

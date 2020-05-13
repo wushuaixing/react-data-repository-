@@ -48,6 +48,7 @@ class StructureDetail extends React.Component {
             onlyThis: 0, //仅标记本条,
             TOTAL: 0,  //数据总量,
             MARK: 0,  //当前标记数
+            wrongData:[],
             isSendRequest: false, //是否已经发送了请求
             isUpdateRecord: false //判断是否修改了记录 没修改不让保存
         }

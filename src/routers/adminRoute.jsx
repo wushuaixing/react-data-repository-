@@ -3,7 +3,6 @@ import React from 'react'
 import { Route } from 'react-router-dom';
 import StructureAccount from "../pages/accountManagement/structure";
 import CheckAccount from "../pages/accountManagement/check";
-import DocumentSearch from "../pages/documentSearch";
 import StructureDetail from "@/pages/assetStructureDetail/admin";
 import SyncMonitor from "../pages/syncMonitor";
 import StructMonitor from "../pages/structMonitor";
@@ -16,7 +15,6 @@ class ContentMain extends React.Component {
 				<Route path="/index"  exact component={StructureAccount} />
 				<Route path="/index/structureUser"  component={StructureAccount} />
 				<Route path="/index/checkUser" exact component={CheckAccount} />
-				<Route path="/index/documentSearch" component={DocumentSearch} />
 				<Route path="/index/assetList" component={AssetList} />
 				<Route path="/index/structureDetail/:status/:id" component={StructureDetail} />
 				<Route path="/index/syncMonitor" component={SyncMonitor} />

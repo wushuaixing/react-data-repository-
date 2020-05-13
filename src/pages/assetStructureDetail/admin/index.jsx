@@ -117,7 +117,7 @@ export default class AdminStructure extends React.Component {
                                 moduleOrder.slice(1) : null
                         }
                         <AdminPropertyDetail
-                            enable={true}
+                            enable={true} houseType={state.houseType}
                             collateral={state.collateral} buildingArea={state.buildingArea}
                         ></AdminPropertyDetail>
                         <AdminDocumentDetail
