@@ -9,96 +9,99 @@ import { SearchAndClearButtonGroup } from '@commonComponents'
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;
 class Index extends React.Component {
-	state = {
-		userList: []
-	};
+	constructor(props) {
+		super(props)
+		this.state = {
+			userList: []
+		}
+	}
 	componentDidMount() {
 		//结构化人员
 		getStructuredPersonnel().then(res => {
-            if (res.data.code === 200) {
-                let data = res.data.data
-                this.setState({
-                    userList: this.getStructuredPersonnelTypeList(data),
-                });
-            } else {
-                message.error(res.data.message);
-            }
-        });
+			if (res.data.code === 200) {
+				let data = res.data.data
+				this.setState({
+					userList: this.getStructuredPersonnelTypeList(data),
+				});
+			} else {
+				message.error(res.data.message);
+			}
+		});
 	};
 	getStructuredPersonnelTypeList(data) {
-        let typeMark = data[0]["firstNameRank"]  //类名
-        let typeList = [{
-            id: "用户类型",
-            array: [
-                {
-                    value: 'all',
-                    label: "全部"
-                },
-                {
-                    value: 'deleted',
-                    label: "已删除"
-                },
-                {
-                    value: 'auto',
-                    label: "自动标注"
-                }
-            ]
-        }] //类名数组 
-        let tempList = [] //类名数组的子集  负责暂时存放
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].firstNameRank !== typeMark) {
-                typeList.push({
-                    id: typeMark,
-                    array: tempList
-                })
-                typeMark = data[i].firstNameRank;
-                tempList = [];
-            }
-            tempList.push({
-                value: data[i].id,
-                label: data[i].name
-            })
-        }
-        return typeList;
-    }
+		let typeMark = data[0]["firstNameRank"]  //类名
+		let typeList = [{
+			id: "用户类型",
+			array: [
+				{
+					value: 'all',
+					label: "全部"
+				},
+				{
+					value: 'deleted',
+					label: "已删除"
+				},
+				{
+					value: 'auto',
+					label: "自动标注"
+				}
+			]
+		}] //类名数组 
+		let tempList = [] //类名数组的子集  负责暂时存放
+		for (let i = 0; i < data.length; i++) {
+			if (data[i].firstNameRank !== typeMark) {
+				typeList.push({
+					id: typeMark,
+					array: tempList
+				})
+				typeMark = data[i].firstNameRank;
+				tempList = [];
+			}
+			tempList.push({
+				value: data[i].id,
+				label: data[i].name
+			})
+		}
+		return typeList;
+	}
 
 	// 搜索框
 	handleSearch = e => {
 		e.preventDefault();
 		const paramKeys = ['title', 'structuredStartTime', 'structuredEndTime', 'checkStartTime', 'checkEndTime', 'userId']
-        const formParams = this.props.form.getFieldsValue(paramKeys)
-        const params = {
-            page: 1
+		const formParams = this.props.form.getFieldsValue(paramKeys)
+		const params = {
+			page: 1
 		}
 		//参数清洗
 		Object.keys(formParams).forEach((key) => {
-            //判断各种情况为空 清理空参数
-            if (formParams[key] !== null && formParams[key] !== '' && formParams[key] !== undefined) {
-                //如果是日期 把Moment处理掉
-                if (key.indexOf('Time')>=0) {
-                    params[key] = dateUtils.formatMomentToStandardDate(formParams[key])
-                }
-                //如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType 
-                //isNaN()判断的缺点就在于 null、空格以及空串会被按照0来处理 但外层已经处理
-                else if (key === 'userId' && isNaN(parseInt[formParams[key]])) {
-                    console.log(formParams[key])
-                    switch (formParams[key]) {
-                        case 'all':
-                            params.userType = 0; break;
-                        case 'deleted':
-                            params.userType = 1; break;
-                        case 'auto':
-                            params.userType = 2; break;
-                        default:
-                            break;
-                    }
-                }
-                //无特殊情况 正常赋值
-                else {
-                    params[key] = formParams[key]
-                }
-            }
-        })
+			//判断各种情况为空 清理空参数
+			if (formParams[key] !== null && formParams[key] !== '' && formParams[key] !== undefined) {
+				//如果是日期 把Moment处理掉
+				if (key.indexOf('Time') >= 0) {
+					params[key] = dateUtils.formatMomentToStandardDate(formParams[key])
+				}
+				//如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType 
+				//isNaN()判断的缺点就在于 null、空格以及空串会被按照0来处理 但外层已经处理
+				else if (key === 'userId' && isNaN(parseInt[formParams[key]])) {
+					console.log(formParams[key])
+					switch (formParams[key]) {
+						case 'all':
+							params.userType = 0; break;
+						case 'deleted':
+							params.userType = 1; break;
+						case 'auto':
+							params.userType = 2; break;
+						default:
+							break;
+					}
+				}
+				//无特殊情况 正常赋值
+				else {
+					params[key] = formParams[key]
+				}
+			}
+		})
 		this.props.toSearch(params);
 	};
 
@@ -177,12 +180,17 @@ class Index extends React.Component {
 						{getFieldDecorator('userId', {
 							initialValue: ''
 						})(
-							<Select style={{ width: 198, marginLeft: 4 }} transfer placeholder="请选择">
+							<Select style={{ width: 198, marginLeft: 4 }}
+								showSearch optionFilterProp="children.props.children"
+								filterOption={(input, option) =>
+									option.props.children.indexOf(input) >= 0
+								  }
+								transfer placeholder="请选择">
 								{
-									userList && userList.map((item, index) => {
-										return (
-											<OptGroup label={item.id} key={index}>
-												{item.array.map((ele, index) => {
+									userList && userList.map((item, index) =>
+										<OptGroup label={item.id} key={index}>
+											{
+												item.array.map((ele, index) => {
 													return (
 														<Option
 															value={ele.value}
@@ -192,9 +200,9 @@ class Index extends React.Component {
 														</Option>
 													)
 												})
-												}
-											</OptGroup>)
-									})
+											}
+										</OptGroup>
+									)
 								}
 							</Select>
 						)}

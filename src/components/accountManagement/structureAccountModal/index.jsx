@@ -1,7 +1,6 @@
 /** right content for Account manage* */
 import React from 'react';
 import { Modal, Form, Button, Select, Checkbox, Radio, Input } from "antd";
-import { handleValidator } from "@/utils/validators";
 import { HotDotBeforeFormItem } from '@commonComponents'
 import { ADD_CHARACTER_LIST, AUCTION_DATA_TYPE } from '@/static/status'
 import '../style.scss'
@@ -12,7 +11,7 @@ const formItemLayout = {
     sm: { span: 3, offset: -1 },
   },
 };
-const structureList = ["资产结构化", "破产重组结构化"]
+const structureList = ["资产", /* "破产重组结构化" */]
 class AccountManage extends React.Component {
   //确定
   modalOk = (e) => {
@@ -47,8 +46,10 @@ class AccountManage extends React.Component {
   }
   handleAutoCompletePsw() {
     const account = this.props.form.getFieldValue('username')
-    let defautlPsw = (account.length > 6) ? account.substring(account.length - 6) : account
-    this.props.form.setFieldsValue({ password: defautlPsw });
+    if (/^\d{11}$/.test(account)) {
+      let defautlPsw = (account.length > 6) ? account.substring(account.length - 6) : account
+      this.props.form.setFieldsValue({ password: defautlPsw });
+    }
   }
   render() {
     const { visible, info, action } = this.props
@@ -144,15 +145,12 @@ class AccountManage extends React.Component {
                 )}
               </Form.Item> : ''}
             <div>
-              <div className="yc-form-item" >
-                <HotDotBeforeFormItem left={0} />
-              </div>
               <p style={{ marginLeft: 18, color: 'rgba(0, 0, 0, 0.85)' }}>结构化对象:</p>
               <div className="structureObject" style={{ marginLeft: 18 }}>
                 <div>
                   <Checkbox.Group
                     options={structureList}
-                    defaultValue={["资产结构化"]}
+                    defaultValue={["资产"]}
                     disabled
                   >
                   </Checkbox.Group>

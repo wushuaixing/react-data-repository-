@@ -26,7 +26,7 @@ class Index extends React.Component {
 				<div className="search-container">
 					<div className="search-container_body">
 						<Search
-							placeholder="输入账号/姓名"
+							placeholder="请输入账号/姓名"
 							onSearch={this.searchAccount}
 							style={{ width: 240 }}
 						/>

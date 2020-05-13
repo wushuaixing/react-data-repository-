@@ -27,8 +27,10 @@ class AccountManage extends React.Component {
   };
   handleAutoCompletePsw(){
     const account = this.props.form.getFieldValue('mobile')
-    let defautlPsw = (account.length>6)?account.substring(account.length-6):account
-    this.props.form.setFieldsValue({ password:defautlPsw });
+    if (/^\d{11}$/.test(account)) {
+      let defautlPsw = (account.length > 6) ? account.substring(account.length - 6) : account
+      this.props.form.setFieldsValue({ password: defautlPsw });
+    }
   }
   render() {
     const { visible, action, info } = this.props;
