@@ -1,8 +1,8 @@
 import React from 'react';
 import { Menu } from 'antd';
 import 'antd/dist/antd.css';
-import {getAvailableNav,} from "@api";
-import {Link,withRouter} from "react-router-dom";
+import { getAvailableNav, } from "@api";
+import { Link, withRouter } from "react-router-dom";
 import admin from "@/assets/img/admin.png";
 import check from "@/assets/img/check.png";
 import user from "@/assets/img/user.png";
@@ -10,7 +10,7 @@ import sync from "@/assets/img/sync.png";
 import structure from "@/assets/img/structure.png";
 
 let storage = window.localStorage;
-const menuRoute= {
+const menuRoute = {
   7: "/index", //结构化账号（管理员）
   18: "/index/checkUser",//检查账号（管理员）
   8: "/index",//资产结构化列表（结构化人员）
@@ -19,8 +19,8 @@ const menuRoute= {
   // 17: "/index/documentSearch",//文书搜索（检查人员）
   16: "/index/documentSearch",//文书搜索（管理员+检查人员）
   9: "/index/documentSearch",//文书搜索（结构化人员）
-  21:"/index/syncMonitor",//抓取与同步监控（管理员）
-  22:"/index/structureMonitor",//结构化情况监控（管理员）
+  21: "/index/syncMonitor",//抓取与同步监控（管理员）
+  22: "/index/structureMonitor",//结构化情况监控（管理员）
 };
 
 class Sider extends React.Component {
@@ -30,34 +30,35 @@ class Sider extends React.Component {
     this.state = {
       openKeys: ["0"],
       menuList: [],
-      defaultKey:[],
+      defaultKey: [],
     };
   }
 
   componentDidMount() {
     // this.getMenu();
-    getAvailableNav().then(res=>{
+    getAvailableNav().then(res => {
       let menuIcon;
+      console.log(res)
       if (storage["userState"] === "管理员") {
         menuIcon = admin;
         this.setState({
-          defaultKey:["7"],
+          defaultKey: ["7"],
         })
       } else if (storage["userState"] === "结构化人员") {
         menuIcon = user;
         this.setState({
-          defaultKey:["8"],
+          defaultKey: ["8"],
         })
       } else if (storage["userState"] === "检查人员") {
         menuIcon = check;
         this.setState({
-          defaultKey:["15"],
+          defaultKey: ["15"],
         })
       } else {
         this.props.history.push("/login");
       }
-      if(res.data.code === 200 && storage["userState"]){
-        let mainMenu=[];
+      if (res.data.code === 200 && storage["userState"]) {
+        let mainMenu = [];
         for (let key in res.data.data) {
           if (storage["userState"] === "管理员" && key === "账号管理") {
             menuIcon = admin;
@@ -71,53 +72,57 @@ class Sider extends React.Component {
           else if (storage["userState"] === "管理员" && key === "资产结构化") {
             menuIcon = user;
           }
-          let list={
-            title:key,
-            icon:menuIcon,
-            subs:res.data.data[key],
-          };
-
-          mainMenu.push(list);
+          //暂时设置管理员两个模块和资产结构化下文书详情不可见
+          if ((key === "结构化情况数据监控" || key === "数据抓取与同步监控"||key==="资产结构化")) {
+            if(key==="资产结构化"){
+              let list = {
+                title: key,
+                icon: menuIcon,
+                subs: res.data.data[key].slice(1),
+              };
+              mainMenu.push(list);
+            }
+          } else {
+            let list = {
+              title: key,
+              icon: menuIcon,
+              subs: res.data.data[key],
+            };
+            mainMenu.push(list);
+          }
         }
         this.setState({
-          menuList:mainMenu,
+          menuList: mainMenu,
         });
-      }else if(res.data.code === 403){
+      } else if (res.data.code === 403) {
         localStorage.removeItem("userState");
         localStorage.removeItem("userName");
         this.props.history.push('/login');
       }
-    }).catch(()=>{
-      // 异常处理
     })
   }
 
-  // async getMenu(){
-  //   const res = await getAvailableNav();
-
-  // };
-
-  renderSubMenu = ({id, title, icon, subs},index) => {
-    let _index=index.toString();
+  renderSubMenu = ({ id, title, icon, subs }, index) => {
+    let _index = index.toString();
     return (
       <Menu.SubMenu key={_index}
-                    title={
-                      <span>
-                        <img style={{marginLeft:-10, marginRight:6,marginTop:-3 }} src={icon} width="15" height="16" alt="" />
-                        <span>{title}</span>
-                      </span>
-                    }
+        title={
+          <span>
+            <img style={{ marginLeft: -10, marginRight: 6, marginTop: -3 }} src={icon} width="15" height="16" alt="" />
+            <span>{title}</span>
+          </span>
+        }
 
       >
         {
           subs && subs.map(item => {
-            if(item.id === 7 || item.id === 8 || item.id === 9 ||
-              item.id === 15 || item.id === 16 ||item.id === 17 ||
-              item.id === 18||item.id === 20 ||
-              item.id === 21 || item.id === 22){
+            if (item.id === 7 || item.id === 8 || item.id === 9 ||
+              item.id === 15 || item.id === 16 || item.id === 17 ||
+              item.id === 18 || item.id === 20 ||
+              item.id === 21 || item.id === 22) {
               return this.renderMenuItem(item)
             }
-            else{
+            else {
               return null;
             }
           })
@@ -126,15 +131,17 @@ class Sider extends React.Component {
     )
   };
 
-  renderMenuItem = ({id, icon, title}) => {
-      let key = menuRoute[id];
-      return (
-        <Menu.Item key={id}>
-          <Link to={key}>
-            <span>{title}</span>
-          </Link>
-        </Menu.Item>
-      )
+  renderMenuItem = ({ id, icon, title }) => {
+    let key = menuRoute[id];
+    let target = ([9, 16].indexOf(id) >= 0) ? '_blank' : '_self' //文书搜索新开页
+    //console.log(id, key)
+    return (
+      <Menu.Item key={id}>
+        <Link to={key} target={target}>
+          <span>{title}</span>
+        </Link>
+      </Menu.Item>
+    )
   };
 
   onOpenChange = key => {
@@ -150,7 +157,7 @@ class Sider extends React.Component {
     }
   };
 
-  getDefaultKey=()=>{
+  getDefaultKey = () => {
     if (storage["userState"] === "管理员") {
       return ["7"]
     } else if (storage["userState"] === "结构化人员") {
@@ -163,21 +170,21 @@ class Sider extends React.Component {
   render() {
     const { menuList, openKeys } = this.state;
     const defaultKey = this.getDefaultKey();
-
+    //console.log(openKeys)
     return (
       <div>
         <Menu
           mode="inline"
           theme="dark"
-          style={{ width: 150}}
+          style={{ width: 150 }}
           openKeys={openKeys}
+          selectable={false}
           onOpenChange={this.onOpenChange}
-          defaultSelectedKeys={defaultKey}
         >
           {
-            menuList.map((item,index) => {
-            return item.subs && item.subs.length > 0 ? this.renderSubMenu(item,index) : this.renderMenuItem(item)
-          })}
+            menuList.map((item, index) => {
+              return item.subs && item.subs.length > 0 ? this.renderSubMenu(item, index) : this.renderMenuItem(item)
+            })}
         </Menu>
       </div>
     );

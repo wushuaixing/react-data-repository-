@@ -54,7 +54,7 @@ class Check extends React.Component {
         wsInAttach: 0,
         wsUrl: [],
         onlyThis: 0,
-        wrongReasons: [],
+        wrongData: [],
         returnRemarks: {}
     }
     get updateOrSubmitCheck() {
@@ -80,7 +80,7 @@ class Check extends React.Component {
         if (parseInt(status) >= 3) {
             getWrongTypeAndLevel(id).then((res) => {
                 this.setState({
-                    wrongReasons: [...res.data.data]
+                    wrongData: res.data.data
                 },()=>{
 
                 })
@@ -279,9 +279,8 @@ class Check extends React.Component {
             </CheckBasicDetail>
         ]
         if (parseInt(status) >= 3) {
-            //console.log(state.wrongReasons)
             moduleOrder.unshift(
-                <CheckWrongDetail wrongReasons={state.wrongReasons} key={1} role={'check'}></CheckWrongDetail>
+                <CheckWrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></CheckWrongDetail>
             )
         }
         if (parseInt(status) === 5) {
@@ -337,7 +336,7 @@ class Check extends React.Component {
 
                 </div>
                 <CheckModal visible={state.visible}
-                    wrongReasons={state.wrongReasons.slice(-1)}
+                    wrongReasons={state.wrongData.slice(-1)}
                     handleModalSubmit={this.handleModalSubmit.bind(this)}
                     handleModalCancel={this.handleModalCancel.bind(this)}
                     style={{ width: 430 }}

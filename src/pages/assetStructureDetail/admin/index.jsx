@@ -42,7 +42,7 @@ export default class AdminStructure extends React.Component {
         wsInAttach: 0,
         wsUrl: [],
         onlyThis: 0,
-        wrongReasons: {},
+        wrongData: [],
         returnRemarks: {}
     }
     componentDidMount() {
@@ -59,9 +59,7 @@ export default class AdminStructure extends React.Component {
         if (parseInt(status) >= 3) {
             getWrongTypeAndLevel(id).then((res) => {
                 this.setState({
-                    wrongReasons: {
-                        ...res.data.data
-                    }
+                    wrongData: res.data.data
                 })
             })
         }
@@ -93,7 +91,7 @@ export default class AdminStructure extends React.Component {
         ]
         if (parseInt(status) >= 3) {
             moduleOrder.unshift(
-                <AdminWrongDetail wrongReasons={state.wrongReasons} key={1} role={'check'}></AdminWrongDetail>
+                <AdminWrongDetail wrongData={state.wrongData} key={1} role={'check'}></AdminWrongDetail>
             )
         }
         if (parseInt(status) === 5) {

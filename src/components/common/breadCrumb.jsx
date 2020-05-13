@@ -34,7 +34,7 @@ class BreadCrumb extends React.Component {
         }
     }
     render() {
-        console.log(this.showTag)
+        //console.log(this.showTag)
         let text = this.props.texts.length > 1 ? this.props.texts.join(' > ') : this.props.texts[0]
         return (
             <div className="yc-components-breadCrumb" >
