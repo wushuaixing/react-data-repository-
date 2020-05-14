@@ -110,7 +110,7 @@ class Login extends React.Component {
 				});
 				storage.setItem("userState", res.data.data.ROLE);
 				storage.setItem("userName", res.data.data.NAME);
-				history.push('/index');
+				history.push({pathname:'/index',query:{info:'success'}});
 			} else {
 				this.setState({
 					loading: false,

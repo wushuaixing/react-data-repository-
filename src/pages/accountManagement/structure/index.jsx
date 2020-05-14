@@ -91,7 +91,7 @@ class AccountManage extends React.Component {
 					title: "当前错误条数",
 					dataIndex: "totalWrongNum",
 					defaultSortOrder: 'descend',
-					sorter: (a, b) => a.totalWrongNum - b.totalWrongNum,
+					//sorter: (a, b) => a.totalWrongNum - b.totalWrongNum,
 				},
 				{
 					title: "操作",

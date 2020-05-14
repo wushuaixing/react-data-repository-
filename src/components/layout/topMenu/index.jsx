@@ -63,7 +63,7 @@ class topMenu extends React.Component {
 				logout().then(res => {
 					if (res.data.code === 200) {
 						window.localStorage.removeItem("userState");
-						setTimeout(() => { this.props.history.push('/login'); }, 500)
+						setTimeout(() => { this.props.history.push('/login'); }, 250)
 					} else {
 						message.error(res.data.message);
 					}

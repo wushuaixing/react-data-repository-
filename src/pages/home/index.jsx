@@ -6,7 +6,13 @@ import StructureRoute from "../../routers/structureRoute";
 import AdminRoute from "../../routers/adminRoute";
 import CheckRoute from "../../routers/checkRoute";
 import './style.scss'
+import { message } from 'antd';
 class  Index extends React.Component {
+  componentDidMount(){
+    if(this.props.history.location.query&&this.props.history.location.query.info==='success'){
+      message.success('登录成功!')
+    }
+  }
   render() {
       const user = window.localStorage.userName;
       const role = window.localStorage.userState;
