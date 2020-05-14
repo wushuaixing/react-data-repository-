@@ -65,7 +65,7 @@ class AccountManage extends React.Component {
           onCancel={this.modalCancel.bind(this)}
           maskClosable
         >
-          <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout} onSubmit={this.modalOk.bind(this)}>
+          <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout}>
             <Form.Item className="yc-form-item" label="角色：" >
               {getFieldDecorator('roleId', {
                 rules: [
@@ -180,7 +180,7 @@ class AccountManage extends React.Component {
               </div>
             </div>
             <div className="yc-modal-footer">
-              <Button type="primary" htmlType="submit">确定</Button>
+              <Button type="primary" htmlType="submit" onMouseDown={this.modalOk.bind(this)}>确定</Button>
               <Button onClick={this.modalCancel.bind(this)}>取消</Button>
             </div>
           </Form>

@@ -34,6 +34,7 @@ class topMenu extends React.Component {
 	};
 
 	handleSubmit() {
+		console.log(123)
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				changePassword(values).then(res => {
@@ -86,7 +87,7 @@ class topMenu extends React.Component {
 			<Button key="submit"
 				type="primary"
 				htmlType="submit"
-				onClick={this.handleSubmit.bind(this)}
+				onMouseDown={this.handleSubmit.bind(this)}
 				style={{ backgroundColor: '#0099CC', width: 120, height: 36, marginRight: 15 }}>
 				确定
 			</Button>,
@@ -132,13 +133,13 @@ class topMenu extends React.Component {
 						<Form.Item label="原密码">
 							{getFieldDecorator('oldPassword', {
 								rules: [
-									{ required: true, whitespace: true, message: "密码不能为空" },
+									{ required: true, whitespace: true, message: "原密码不能为空" },
 									{ min: 6, message: '密码小于6位' },
 									{ pattern: /^\S*$/, message: "不能有空格" },
 									{ max: 20, message: '密码大于20位' },
 								],
 								validateFirst: true,
-								validateTrigger: ['onChange', 'onBlur', 'onSubmit'],
+								validateTrigger: ['onSubmit', 'onBlur', 'onChange'],
 							})(
 								<Input
 									style={{ marginLeft: 8, width: 265, height: 32 }}
@@ -153,14 +154,14 @@ class topMenu extends React.Component {
 									{getFieldDecorator('newPassword',
 										{
 											rules: [
-												{ required: true, whitespace: true, message: "密码不能为空" },
+												{ required: true, whitespace: true, message: "新密码不能为空" },
 												{ min: 6, message: '密码小于6位' },
 												{ pattern: /^\S*$/, message: "不能有空格" },
 												{ max: 20, message: '密码大于20位' },
 												{ validator: oldAndNewPasswordValidator.bind(this) }
 											],
 											validateFirst: true,
-											validateTrigger: ['onChange', 'onBlur', 'onSubmit'],
+											validateTrigger: ['onSubmit', 'onBlur', 'onChange'],
 										})(
 											<Input
 												/* onChange={(e)=>{e.persist();this.ReValidConfirmNewPassword(e)}} */
@@ -180,7 +181,7 @@ class topMenu extends React.Component {
 									{ validator: twoNewPasswordValidator.bind(this) }
 								],
 								validateFirst: true,
-								validateTrigger: ['onChange', 'onBlur', 'onSubmit'],
+								validateTrigger: ['onSubmit', 'onBlur', 'onChange'],
 							})(
 								<Input
 									style={{ marginLeft: 8, width: 265, height: 32 }}
