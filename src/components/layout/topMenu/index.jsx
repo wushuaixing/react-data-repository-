@@ -8,6 +8,8 @@ import { twoNewPasswordValidator, oldAndNewPasswordValidator } from "@/utils/val
 import 'antd/dist/antd.css';
 import './style.scss';
 
+
+const { confirm } = Modal;
 const pswForm = Form.create;
 const formItemLayout = {
 	labelCol: {
@@ -54,13 +56,18 @@ class topMenu extends React.Component {
 		});
 	};
 
-	logOut = () => {
-		logout().then(res => {
-			if (res.data.code === 200) {
-				this.props.history.push('/login');
-				window.localStorage.removeItem("userState");
-			} else {
-				message.error(res.data.message);
+	logOut(){
+		confirm({
+			content: '确定要退出登录吗?',
+			onOk:()=>{
+				logout().then(res => {
+					if (res.data.code === 200) {
+						window.localStorage.removeItem("userState");
+						setTimeout(() => { this.props.history.push('/login'); }, 500)
+					} else {
+						message.error(res.data.message);
+					}
+				});
 			}
 		});
 	};
@@ -73,7 +80,7 @@ class topMenu extends React.Component {
 		const { user } = this.props;
 		const { visible } = this.state;
 		const { getFieldDecorator } = this.props.form;
-		const label = 
+		const label =
 			<span>
 				请确认新密码
 			</span>
@@ -96,7 +103,7 @@ class topMenu extends React.Component {
 					<div onClick={this.showModal} className="yc-components-topMenu_item">修改密码</div>
 				</Menu.Item>
 				<Menu.Item key="1">
-					<div onClick={this.logOut} className="yc-components-topMenu_item">退出登录</div>
+					<div onClick={this.logOut.bind(this)} className="yc-components-topMenu_item">退出登录</div>
 				</Menu.Item>
 			</Menu>
 		);
@@ -168,7 +175,7 @@ class topMenu extends React.Component {
 								</span>
 							</Tooltip>
 						</Form.Item>
-						<span className="yc-components-hotDot" style={{display:'relative',left:5,top:187}}>*</span>
+						<span className="yc-components-hotDot" style={{ display: 'relative', left: 5, top: 187 }}>*</span>
 						<Form.Item label={label}>
 							{getFieldDecorator('confirmNewPassword', {
 								rules: [

@@ -1,75 +1,3 @@
-//验证账号密码-输入框格式
-export const handleValidator = (rule, val, callback) => {
-	if (rule.field === "name") {
-		if(!val){
-			callback('姓名不可为空');
-		}
-		else if (val.length > 20) {
-			callback("姓名最大长度为20个字符");
-		}
-	}
-	if (rule.field === "username") {
-		if(!val){
-			callback('不可为空');
-		}
-		if(!(/^\d{11}$/.test(val))){
-			callback('账户格式不正确，需为11位手机数字号码')
-		}
-	}
-	if (rule.field === "password") {
-		if(!val){
-			callback('不可为空');
-		}
-		else if (val.length > 20 || val.length < 6) {
-			callback('密码长度为6-20位');
-		}
-	}
-	//修改密码
-	if (rule.field === "newPassword") {
-		if(!val){
-			callback('请输入新密码');
-		}
-		else if (val.length > 20 || val.length < 6) {
-			let pattern = new RegExp(/\s+/g);
-			if(pattern.test(val)){
-				callback('不允许有空格');
-			}else{
-				callback('长度为6-20位');
-			}
-		}
-	}
-	if (rule.field === "confirmNewPassword") {
-		if(!val){
-			callback('请确认新密码');
-		}
-		else if (val.length > 20 || val.length < 6) {
-			let pattern = new RegExp(/\s+/g);
-			if(pattern.test(val)){
-				callback('不允许有空格');
-			}else{
-				callback('长度为6-20位');
-			}
-		}
-	}
-	console.log(val)
-	if(rule.field === 'mobile'){
-		if(!val){
-			callback('不可为空');
-		}
-		if(!(/^\d{11}$/.test(val))){
-			callback('账户格式不正确，需为11位手机数字号码')
-		}
-	}
-	if(rule.field==='roleId'){
-		callback(new ('问题1'))
-	}
-	if(rule.field==='auctionDataType'){
-		callback('问题2')
-	}
-};
-
-
-
 export const validatorLogin = (rule, val, callback) => {
 	if(val.toString().indexOf(' ')>=0){
 		callback('账号密码不能含有空格')
@@ -112,7 +40,6 @@ export function twoNewPasswordValidator(rule, val, callback){
 
 export function oldAndNewPasswordValidator(rule,val,callback){
 	const oldPassword = this.props.form.getFieldValue('oldPassword')
-	console.log(oldPassword,val)
 	if(oldPassword&&val===oldPassword){
 		callback(new Error('新密码不能与原密码一致'))
 	}else{

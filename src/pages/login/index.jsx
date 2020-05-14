@@ -60,7 +60,11 @@ class Login extends React.Component {
 			wait: 0, //设置计时时间 保存两次短信的等待时间
 			loading: false, //提交表单的loading样式
 			iconColor: 'rgba(0,0,0,.25)', //图标背景色相同 设置变量统一管理
+			timer:null // 短信计时器
 		};
+	}
+	componentWillUnmount(){
+		clearTimeout(this.state.timer)
 	}
 	componentDidMount() {
 		const myState = localStorage.getItem("userState");
@@ -86,7 +90,7 @@ class Login extends React.Component {
 	}
 	//切换登录和找回密码表单
 	switchToFindPassword = () => {
-		let showForm = this.state.showForm === 'login' ? 'findPassword' : 'login'
+		let showForm = (this.state.showForm === 'login') ? 'findPassword' : 'login'
 		this.setState({
 			showForm
 		})
@@ -95,7 +99,7 @@ class Login extends React.Component {
 	async handleSubmit(info) {
 		const { history } = this.props;
 		console.log(history)
-		/* try {
+		try {
 			this.setState({
 				loading: true,
 			});
@@ -116,7 +120,7 @@ class Login extends React.Component {
 			}
 		} catch (error) {
 			console.error(error);
-		} */
+		} 
 
 	};
 
@@ -191,7 +195,9 @@ class Login extends React.Component {
 				wait: temp,
 				phoneCodeButton: 'again'
 			});
-			setTimeout(this.newSend, 1000);
+			this.setState({
+				timer:setTimeout(this.newSend, 1000)
+			})
 		}
 	};
 
@@ -279,7 +285,7 @@ class Login extends React.Component {
 												valuePropName: 'checked',
 												initialValue: true,
 											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12 }}>下次自动登录</Checkbox>)}
-											<a className="yc-forget" href="" onClick={this.switchToFindPassword} style={{ marginLeft: 145, display: 'none' }}>
+											<a className="yc-forget" href="" onClick={this.switchToFindPassword} style={{ marginLeft: 145 }}>
 												忘记密码
 										</a>
 											<Button type="primary" htmlType="submit" className="yc-login-button">
@@ -372,7 +378,6 @@ class Login extends React.Component {
 											{getFieldDecorator('pswConfirm', {
 												rules: [
 													// { required: true, message: '请输入密码', },
-													// { validator: this.handleValidator }
 												],
 												// validateTrigger:'onBlur',
 											})(
