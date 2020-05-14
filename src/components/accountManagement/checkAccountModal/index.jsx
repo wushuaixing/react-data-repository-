@@ -101,7 +101,7 @@ class AccountManage extends React.Component {
               </Form.Item> : ''}
 
             <div className="yc-modal-footer">
-              <Button type="primary" onClick={this.handleSubmit.bind(this)}>确定</Button>
+              <Button type="primary" onMouseDown={this.handleSubmit.bind(this)} htmlType="submit">确定</Button>
               <Button  onClick={this.handleCancel.bind(this)}>取消</Button>
             </div>
           </Form>
