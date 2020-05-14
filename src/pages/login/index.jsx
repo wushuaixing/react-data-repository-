@@ -129,15 +129,14 @@ class Login extends React.Component {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				console.log(values)
+				const values = {
+					username: this.props.form.getFieldValue('username'),
+					password: this.props.form.getFieldValue('password'),
+					rememberMe: false,
+				};
+				this.handleSubmit(values); 
 			}
 		});
-		const values = {
-			username: this.props.form.getFieldValue('username'),
-			password: this.props.form.getFieldValue('password'),
-			rememberMe: false,
-		};
-		this.handleSubmit(values); 
 	};
 
 	//点击刷新图形验证码
@@ -249,7 +248,7 @@ class Login extends React.Component {
 													{ len:11,message:'账号小于11位'}
 												],
 												getValueFromEvent(event) {
-													return event.target.value.replace(/\D+/g, "")
+													return event.target.value.replace(/\D/g, "")
 												},
 												validateTrigger: ['onSubmit'],
 											})(
@@ -267,7 +266,7 @@ class Login extends React.Component {
 													{ required: true, whitespace: true, message: "请输入密码" },
 												],
 												getValueFromEvent(event) {
-													return event.target.value.replace(/\s+/g, "")
+													return event.target.value.replace(/\s/g, "")
 												},
 												validateTrigger: ['onSubmit'],
 											})(

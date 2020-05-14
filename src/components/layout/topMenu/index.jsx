@@ -80,10 +80,7 @@ class topMenu extends React.Component {
 		const { user } = this.props;
 		const { visible } = this.state;
 		const { getFieldDecorator } = this.props.form;
-		const label =
-			<span>
-				请确认新密码
-			</span>
+		const label = <span>确认新密码</span>
 		const footer = [
 			// 定义右下角 按钮的地方 可根据需要使用 一个或者 2个按钮
 			<Button key="submit"
@@ -175,10 +172,11 @@ class topMenu extends React.Component {
 								</span>
 							</Tooltip>
 						</Form.Item>
-						<span className="yc-components-hotDot" style={{ display: 'relative', left: 5, top: 187 }}>*</span>
+						{/* <span className="yc-components-hotDot" style={{ display: 'relative', left: 5, top: 187 }}>*</span> */}
 						<Form.Item label={label}>
 							{getFieldDecorator('confirmNewPassword', {
 								rules: [
+									{ required: true, whitespace: true, message: "两次新密码不一致" },
 									{ validator: twoNewPasswordValidator.bind(this) }
 								],
 								validateFirst: true,
