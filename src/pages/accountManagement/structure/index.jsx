@@ -26,6 +26,7 @@ class AccountManage extends React.Component {
 			visible: false,
 			action: 'add',
 			info: {},
+			tabIndex:1,
 			columns: [
 				{
 					title: "ID",
@@ -90,7 +91,7 @@ class AccountManage extends React.Component {
 					title: "当前错误条数",
 					dataIndex: "totalWrongNum",
 					defaultSortOrder: 'descend',
-					sorter: (a, b) => a.totalWrongNum - b.totalWrongNum,
+					//sorter: (a, b) => a.totalWrongNum - b.totalWrongNum,
 				},
 				{
 					title: "操作",
@@ -264,7 +265,8 @@ class AccountManage extends React.Component {
 	//切换Tab
 	changeTab = (tabIndex) => {
 		this.setState({
-			isEnabledUser:tabIndex===1?true:false
+			isEnabledUser:tabIndex===1?true:false,
+			tabIndex:parseInt(tabIndex)
 		},()=>{
 			this.getTableList();
 		})
@@ -288,6 +290,7 @@ class AccountManage extends React.Component {
 						<Tabs defaultActiveKey="1" onChange={this.changeTab} animated={false} className="role-tab">
 							<TabPane tab="正常账号" key="1">
 								<SearchAccount 
+									tabIndex={this.state.tabIndex}	
 									handleShowModal={this.showModal.bind(this)}
 									searchFn={this.searchAccount.bind(this)}
 									roleFn={this.selectRole.bind(this)}
@@ -300,6 +303,7 @@ class AccountManage extends React.Component {
 							</TabPane>
 							<TabPane tab="已删除账号" key="2">
 								<SearchAccount handleShowModal={this.showModal.bind(this)}
+									tabIndex={this.state.tabIndex}
 									searchFn={this.searchAccount.bind(this)}
 									roleFn={this.selectRole.bind(this)}
 								/>

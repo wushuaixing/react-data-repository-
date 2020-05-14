@@ -128,7 +128,7 @@ class StructureDetail extends React.Component {
         保存无效并弹出“债权人备注待完善”非模态框提示； */
         const { id, status } = this.props.match.params
         if (!this.state.isUpdateRecord && status !== '0') {
-            message.warning('未修改任何内容不能保存')
+            message.warning('当前页面未作修改，请修改后再保存')
             return false;
         }
         for (let i = 0; i < this.state.obligors.length; i++) {
