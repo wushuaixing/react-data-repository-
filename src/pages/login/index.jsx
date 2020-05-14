@@ -94,7 +94,8 @@ class Login extends React.Component {
 	//接口异步 验证账号密码
 	async handleSubmit(info) {
 		const { history } = this.props;
-		try {
+		console.log(history)
+		/* try {
 			this.setState({
 				loading: true,
 			});
@@ -115,19 +116,24 @@ class Login extends React.Component {
 			}
 		} catch (error) {
 			console.error(error);
-		}
+		} */
 
 	};
 
 	//提交账号密码
 	handleCorrect = e => {
 		e.preventDefault();
+		this.props.form.validateFields((err, values) => {
+			if (!err) {
+				console.log(values)
+			}
+		});
 		const values = {
 			username: this.props.form.getFieldValue('username'),
 			password: this.props.form.getFieldValue('password'),
 			rememberMe: false,
 		};
-		this.handleSubmit(values);
+		this.handleSubmit(values); 
 	};
 
 	//点击刷新图形验证码
@@ -233,29 +239,34 @@ class Login extends React.Component {
 										<Form.Item>
 											{getFieldDecorator('username', {
 												rules: [
-													{
-														validator: validatorLogin,
-													}
+													{ required: true, whitespace: true, message: "请输入账号" },
+													{ len:11,message:'账号小于11位'}
 												],
-												validateTrigger: 'onBlur',
+												getValueFromEvent(event) {
+													return event.target.value.replace(/\D+/g, "")
+												},
+												validateTrigger: ['onSubmit'],
 											})(
 												<Input
+													maxLength={11}
 													className="yc-input"
 													prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
-													placeholder="请输入账号"
+													placeholder="请输入11位账号"
 												/>,
 											)}
 										</Form.Item>
 										<Form.Item>
 											{getFieldDecorator('password', {
 												rules: [
-													{
-														validator: validatorLogin,
-													}
+													{ required: true, whitespace: true, message: "请输入密码" },
 												],
-												validateTrigger: 'onBlur',
+												getValueFromEvent(event) {
+													return event.target.value.replace(/\s+/g, "")
+												},
+												validateTrigger: ['onSubmit'],
 											})(
 												<Input
+													maxLength={20}
 													className="yc-input"
 													prefix={<Icon type="lock" style={{ color: this.state.iconColor }} />}
 													type="password"

@@ -222,7 +222,7 @@ class Check extends React.Component {
     handleStructureUpdate() {
         if(!this.enable&&!this.state.isUpdateRecord){
             //如果是已删除账号的检查结构化详情 并且未做修改 不能保存
-            message.warning('未做修改，不能保存')
+            message.warning('当前页面未作修改，请修改后再保存')
             return false;
         }
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，

@@ -45,7 +45,10 @@ class Index extends React.Component {
 							}
 						</Select>
 					</div>
-					<Button onClick={this.addAccount.bind(this)} style={{ marginRight: 10 }}>+ 添加账号</Button>
+					{
+						this.props.tabIndex===1?
+						<Button onClick={this.addAccount.bind(this)} style={{ marginRight: 10 }}>+ 添加账号</Button>:null
+					}
 				</div>
 			</div>
 		);

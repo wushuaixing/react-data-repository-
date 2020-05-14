@@ -100,3 +100,22 @@ export const validatorLogin = (rule, val, callback) => {
 		}
 	}
 };
+
+export function twoNewPasswordValidator(rule, val, callback){
+	const newPassword = this.props.form.getFieldValue('newPassword')
+	if(newPassword&&val!==newPassword){
+		callback(new Error('两次新密码不一致'))
+	}else{
+		callback()
+	}
+}
+
+export function oldAndNewPasswordValidator(rule,val,callback){
+	const oldPassword = this.props.form.getFieldValue('oldPassword')
+	console.log(oldPassword,val)
+	if(oldPassword&&val===oldPassword){
+		callback(new Error('新密码不能与原密码一致'))
+	}else{
+		callback()
+	}
+}
