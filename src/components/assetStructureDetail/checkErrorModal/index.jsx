@@ -26,7 +26,7 @@ class Check extends React.Component {
 	//待标记--》详情页
 	render() {
 		//console.log(this.props)
-		let { wrongReasons } = this.props
+		let { wrongReasons,returnRemarks } = this.props
 		const { getFieldDecorator } = this.props.form;
 		const wrongReasonList = []
 		WRONG_TYPE_LIST.forEach((wrongType, index) => {
@@ -55,7 +55,7 @@ class Check extends React.Component {
 						<Form style={{ width: 347 }}>
 							<Form.Item className="part" label="备注">
 								{getFieldDecorator('remark', {
-									initialValue:wrongReasons.remark?wrongReasons.remark.join('\n'):'',
+									initialValue:`${returnRemarks?returnRemarks+'\n':''}${(wrongReasons.remark)?wrongReasons.remark.join('\n'):''}`,
 								})(
 									<Input.TextArea
 										style={{ height: 136 }}

@@ -4,8 +4,8 @@ import axios from './index';
 //////////////////
 //登录（账号-密码-下次是否自动登录）
 export const login = async (params) => {
-	let data = JSON.stringify(params);
-	return axios.post('/api/login', data);
+	//let data = JSON.stringify(params);
+	return axios.post('/api/login', params);
 };
 
 //判断是否登录过

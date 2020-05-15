@@ -60,16 +60,17 @@ class Login extends React.Component {
 			wait: 0, //设置计时时间 保存两次短信的等待时间
 			loading: false, //提交表单的loading样式
 			iconColor: 'rgba(0,0,0,.25)', //图标背景色相同 设置变量统一管理
-			timer:null // 短信计时器
+			timer: null, // 短信计时器
+			errorCount:0 //错误次数
 		};
 	}
-	componentWillUnmount(){
+	componentWillUnmount() {
 		clearTimeout(this.state.timer)
 	}
 	componentDidMount() {
 		const myState = localStorage.getItem("userState");
 		const { history } = this.props;
-		isLogin().then(res => {
+		/* isLogin().then(res => {
 			if (res.data.code === 200 && myState) {
 				history.push('/index');
 				if (res.data.data === assetUser) {
@@ -86,7 +87,7 @@ class Login extends React.Component {
 			}
 		});
 		//获取图形验证码
-		this.toRefreshImg();
+		this.toRefreshImg(); */
 	}
 	//切换登录和找回密码表单
 	switchToFindPassword = () => {
@@ -95,48 +96,36 @@ class Login extends React.Component {
 			showForm
 		})
 	};
-	//接口异步 验证账号密码
-	async handleSubmit(info) {
-		const { history } = this.props;
-		console.log(history)
-		try {
-			this.setState({
-				loading: true,
-			});
-			const res = await login(info);
-			if (res.data.code === 200) {
-				this.setState({
-					loading: false,
-				});
-				storage.setItem("userState", res.data.data.ROLE);
-				storage.setItem("userName", res.data.data.NAME);
-				history.push({pathname:'/index',query:{info:'success'}});
-			} else {
-				this.setState({
-					loading: false,
-				}, () => {
-					message.error(res.data.message)
-				});
-			}
-		} catch (error) {
-			console.error(error);
-		} 
-
-	};
-
-	//提交账号密码
-	handleCorrect = e => {
-		e.preventDefault();
+	handleCorrect(){
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				const values = {
-					username: this.props.form.getFieldValue('username'),
-					password: this.props.form.getFieldValue('password'),
-					rememberMe: false,
-				};
-				this.handleSubmit(values); 
+				this.handleSubmit(values);
 			}
 		});
+	}
+	//接口异步 验证账号密码
+	async handleSubmit(params) {
+		params.rememberMe = false
+		console.log(params)
+		this.setState({
+			loading: true,
+		});
+		const res = await login(params);
+		this.setState({
+			loading: false,
+		});
+		if (res.data.code === 200) {
+			storage.setItem("userState", res.data.data.ROLE);
+			storage.setItem("userName", res.data.data.NAME);
+			this.props.history.push({ pathname: '/index', query: { info: 'success' } });
+		} else {
+			message.error(res.data.message)
+			this.toRefreshImg()
+			this.setState({
+				errorCount:res.data.data.errCount
+			})
+		}
+
 	};
 
 	//点击刷新图形验证码
@@ -195,7 +184,7 @@ class Login extends React.Component {
 				phoneCodeButton: 'again'
 			});
 			this.setState({
-				timer:setTimeout(this.newSend, 1000)
+				timer: setTimeout(this.newSend, 1000)
 			})
 		}
 	};
@@ -228,7 +217,7 @@ class Login extends React.Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { codeImgSrc, wait, loading } = this.state;
+		const { codeImgSrc, wait, loading,errorCount } = this.state;
 		return (
 			<Spin tip="Loading..." spinning={loading}>
 				<div className="yc-login">
@@ -238,14 +227,14 @@ class Login extends React.Component {
 							<LoginPagePresentationImg />
 							{
 								this.state.showForm === 'login' &&
-								<div className="yc-right-login">
-									<p className="yc-form-title">用户登录</p>
-									<Form onSubmit={this.handleCorrect} className="login-form" >
+								<div className={errorCount<=3?'yc-right-login-noCode':'yc-right-login-withCode'}>
+									<div className="yc-form-title">用户登录</div>
+									<Form className="login-form" >
 										<Form.Item>
 											{getFieldDecorator('username', {
 												rules: [
 													{ required: true, whitespace: true, message: "请输入账号" },
-													{ len:11,message:'账号小于11位'}
+													{ len: 11, message: '账号小于11位' }
 												],
 												getValueFromEvent(event) {
 													return event.target.value.replace(/\D/g, "")
@@ -279,15 +268,35 @@ class Login extends React.Component {
 												/>,
 											)}
 										</Form.Item>
+										{
+											errorCount>3?
+											<Form.Item>
+												{getFieldDecorator('imageVerifyCode', {
+													rules: [
+														{ required: true, whitespace:true,message: '请输入验证码', }
+													],
+													validateTrigger: 'onSubmit',
+												})(
+													<Input
+														style={{width:175}}
+														className="yc-input"
+														prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+														type="password"
+														placeholder="请输入图片验证码"
+													/>,
+												)}
+												<span><img src={this.state.codeImgSrc} style={{width:140,height:38,marginLeft:5}} /></span>
+											</Form.Item>:null
+										}
 										<Form.Item style={{ marginTop: -20 }}>
-											{getFieldDecorator('remember', {
+											{getFieldDecorator('rememberMe', {
 												valuePropName: 'checked',
 												initialValue: true,
 											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12 }}>下次自动登录</Checkbox>)}
 											<a className="yc-forget" href="" onClick={this.switchToFindPassword} style={{ marginLeft: 145 }}>
 												忘记密码
 										</a>
-											<Button type="primary" htmlType="submit" className="yc-login-button">
+											<Button type="primary" htmlType="submit" className="yc-login-button" onMouseDown={this.handleCorrect.bind(this)}>
 												登录
 										</Button>
 										</Form.Item>
@@ -388,6 +397,7 @@ class Login extends React.Component {
 												/>,
 											)}
 										</Form.Item>
+
 										<Form.Item style={{ marginTop: -25 }}>
 											<a className="yc-forget" href="" onClick={this.ifFindPsw} style={{ marginLeft: 270 }}>
 												返回登录

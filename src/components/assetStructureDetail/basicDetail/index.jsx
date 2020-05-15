@@ -24,7 +24,7 @@ const StructureBasicDetail = (props) => {
                 }
                 {
                     props.records && props.records.length > 0 ?
-                        <BasicDetailRow title={'结构化记录'} content={props.records}></BasicDetailRow> : null
+                        <BasicDetailRow title={'结构化/检查记录'} content={props.records}></BasicDetailRow> : null
                 }
             </div>
         </div>
