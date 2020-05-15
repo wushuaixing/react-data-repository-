@@ -34,7 +34,6 @@ class topMenu extends React.Component {
 	};
 
 	handleSubmit() {
-		console.log(123)
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				changePassword(values).then(res => {

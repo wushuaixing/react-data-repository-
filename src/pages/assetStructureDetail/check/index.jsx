@@ -81,7 +81,7 @@ class Check extends React.Component {
         if (parseInt(status) >= 3) {
             getWrongTypeAndLevel(id).then((res) => {
                 this.setState({
-                    wrongData: res.data.data
+                    wrongData: (res.data.data!==null)?res.data.data:[]
                 },()=>{
 
                 })
