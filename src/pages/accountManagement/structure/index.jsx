@@ -264,8 +264,9 @@ class AccountManage extends React.Component {
 	};
 	//切换Tab
 	changeTab = (tabIndex) => {
+		console.log(tabIndex)
 		this.setState({
-			isEnabledUser:tabIndex===1?true:false,
+			isEnabledUser:tabIndex==="1"?true:false,
 			tabIndex:parseInt(tabIndex)
 		},()=>{
 			this.getTableList();
