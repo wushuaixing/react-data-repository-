@@ -33,7 +33,6 @@
       .yc-right-login {
         width: 400px;
         background-color: #ffffff;
-        height: 360px;
         position: relative;
         float: right;
         margin-top: 100px;
@@ -65,7 +64,14 @@
       }
     }
   }
-
+  .yc-right-login-noCode{
+    @extend .yc-right-login;
+    height: 360px;
+  }
+  .yc-right-login-withCode{
+    @extend .yc-right-login;
+    height: 424px;
+  }
   .yc-login-footer {
     height: 100px;
     margin-top: 30px;

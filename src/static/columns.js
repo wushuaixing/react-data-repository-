@@ -8,39 +8,42 @@ export const Columns = [
 	{
 		title: "拍卖信息",
 		dataIndex: "info",
-		render: (text, record) => (
-			<span>
-				{
-					<div className="info">
-						<p className="link" style={{ display: 'inline-block' }}>
-							{record.info.title}
-						</p>
-						<div className="info-line">
-							<p>处置法院/单位:{record.info.court}</p>
+		render: (text, record) => {
+			return (
+				<span>
+					{
+						record&&record.info&&
+						<div className="info">
+							<p className="link" style={{ display: 'inline-block' }}>
+								{record.info.title}
+							</p>
+							<div className="info-line">
+								<p>处置法院/单位:{record.info.court}</p>
+							</div>
+							<div className="info-line">
+								<div className="line-half">
+									<p>拍卖时间:{record.info.start}</p>
+								</div>
+								<div className="line-half">
+									<p style={{ margin: 10 }}>拍卖状态:</p>
+									<p>{record.info.status}</p>
+								</div>
+							</div>
+							<div className="info-line">
+								<div className="line-half">
+									<p>评估价:</p>
+									<p>{record.info.consultPrice}</p>
+								</div>
+								<div className="line-half">
+									<p style={{ margin: 10 }}>起拍价:</p>
+									<p>{record.info.initialPrice}</p>
+								</div>
+							</div>
 						</div>
-						<div className="info-line">
-							<div className="line-half">
-								<p>拍卖时间:{record.info.start}</p>
-							</div>
-							<div className="line-half">
-								<p style={{ margin: 10 }}>拍卖状态:</p>
-								<p>{record.info.status}</p>
-							</div>
-						</div>
-						<div className="info-line">
-							<div className="line-half">
-								<p>评估价:</p>
-								<p>{record.info.consultPrice}</p>
-							</div>
-							<div className="line-half">
-								<p style={{ margin: 10 }}>起拍价:</p>
-								<p>{record.info.initialPrice}</p>
-							</div>
-						</div>
-					</div>
-				}
-			</span>
-		)
+					}
+				</span>
+			)
+		}
 	},
 	{
 		title: "状态",

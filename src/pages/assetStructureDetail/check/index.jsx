@@ -55,7 +55,7 @@ class Check extends React.Component {
         wsUrl: [],
         onlyThis: 0,
         wrongData: [],
-        returnRemarks: {},
+        returnRemarks: '退回链接地址是///',
         isUpdateRecord:false
     }
     get updateOrSubmitCheck() {
@@ -63,7 +63,7 @@ class Check extends React.Component {
         return (this.state.records[length - 1].desc === '结构化') ? 'submit' : 'update'
     }
     componentDidMount() {
-        const { id, status } = this.props.match.params
+        const { id, status,isNotConfirm } = this.props.match.params
         if (!sessionStorage.getItem('structPersonnelEnable') && this.props.location.query && this.props.location.query.enable !== undefined) {
             //console.log(this.props.location.query.enable)
             sessionStorage.setItem('structPersonnelEnable', this.props.location.query.enable)
@@ -87,13 +87,11 @@ class Check extends React.Component {
                 })
             })
         }
-        if (parseInt(status) === 5) {
+        if (parseInt(isNotConfirm) === 1) {
             getFeedBackRemark(id).then((res) => {
                 //console.log(res)
                 this.setState({
-                    returnRemarks: {
-                        ...res.data.data
-                    }
+                    returnRemarks: res.data.data
                 })
             })
         }
@@ -280,7 +278,7 @@ class Check extends React.Component {
     }
     render() {
         const state = this.state
-        const { status } = this.props.match.params
+        const { status,isNotConfirm } = this.props.match.params
         const enable = this.enable;
         console.log(this.state)
         const moduleOrder = [
@@ -297,9 +295,9 @@ class Check extends React.Component {
                 <CheckWrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></CheckWrongDetail>
             )
         }
-        if (parseInt(status) === 5) {
+        if (parseInt(isNotConfirm) === 1) {
             moduleOrder.unshift(
-                <ReturnRemark key={2} notes={'可找到文书文书链接:xxxx'}></ReturnRemark>
+                <ReturnRemark key={2} notes={this.state.returnRemarks}></ReturnRemark>
             )
         }
         return (
@@ -350,6 +348,7 @@ class Check extends React.Component {
 
                 </div>
                 <CheckModal visible={state.visible}
+                    returnRemarks={state.returnRemarks}
                     wrongReasons={state.wrongData.slice(-1)}
                     handleModalSubmit={this.handleModalSubmit.bind(this)}
                     handleModalCancel={this.handleModalCancel.bind(this)}
