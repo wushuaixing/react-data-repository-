@@ -25,8 +25,16 @@ export const codeImage=()=> {
 };
 
 //验证图形验证码
+export const validSmsCode=(params)=> {
+    return axios.post('/api/validSmsCode',params)
+};
+//验证图形验证码
 export const validateImgCode=(params)=> {
     return axios.post('/api/validImageCode',params)
+};
+//获取图形验证码
+export const getSmsCode=(params)=> {
+    return axios.post('/api/getSmsCode',params)
 };
 
 //重置密码

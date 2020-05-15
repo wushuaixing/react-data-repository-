@@ -60,15 +60,22 @@
             background-color: #0099cc;
             margin-top: 37px;
           }
+          .login-getCode_Button {
+            font-size: 14px;
+            background: #0099cc;
+            width: 120px;
+            height: 32px;
+            border-radius: 2px;
+          }
         }
       }
     }
   }
-  .yc-right-login-noCode{
+  .yc-right-login-noCode {
     @extend .yc-right-login;
     height: 360px;
   }
-  .yc-right-login-withCode{
+  .yc-right-login-withCode {
     @extend .yc-right-login;
     height: 424px;
   }
@@ -87,7 +94,7 @@
         &-logo {
           width: 12px;
           height: 12px;
-          margin-right:2px;
+          margin-right: 2px;
         }
       }
       .footer-copyright {
