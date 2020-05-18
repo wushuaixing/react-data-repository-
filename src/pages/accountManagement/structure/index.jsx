@@ -18,8 +18,6 @@ class AccountManage extends React.Component {
 		this.state = {
 			loading: false,
 			isEnabledUser: true,
-			num:10,
-			page: 1,
 			role: '',
 			username: '',
 			total: 1,
@@ -27,6 +25,9 @@ class AccountManage extends React.Component {
 			action: 'add',
 			info: {},
 			tabIndex:1,
+			num:10,
+			page: 1,
+			totalWrongNumAsc:'', //排序  null:自然顺序 true:升序 false:降序
 			columns: [
 				{
 					title: "ID",
@@ -89,9 +90,8 @@ class AccountManage extends React.Component {
 				},
 				{
 					title: "当前错误条数",
-					dataIndex: "totalWrongNum",
-					defaultSortOrder: 'descend',
-					//sorter: (a, b) => a.totalWrongNum - b.totalWrongNum,
+					dataIndex: "wrongNum",
+					sorter:true
 				},
 				{
 					title: "操作",
@@ -181,7 +181,7 @@ class AccountManage extends React.Component {
 		});
 	};
 	getTableList = () => {
-		const { isEnabledUser, num, page,role, username } = this.state;
+		const { isEnabledUser, num, page,role, username,totalWrongNumAsc } = this.state;
 		let params = {
 			isEnabledUser,
 			num,
@@ -189,6 +189,9 @@ class AccountManage extends React.Component {
 			role,
 			username
 		};
+		if(parseInt(this.state.tabIndex)===2){
+			params.totalWrongNumAsc = totalWrongNumAsc
+		}
 		this.setState({
 			loading: true,
 		});
@@ -264,7 +267,6 @@ class AccountManage extends React.Component {
 	};
 	//切换Tab
 	changeTab = (tabIndex) => {
-		console.log(tabIndex)
 		this.setState({
 			isEnabledUser:tabIndex==="1"?true:false,
 			tabIndex:parseInt(tabIndex)
@@ -272,10 +274,15 @@ class AccountManage extends React.Component {
 			this.getTableList();
 		})
 	};
-	//换页
-	onChangePage = (pagination) => {
+	//换页和切换排序
+	handleTableChange = (pagination,filter,sorter) => {
+		let totalWrongNumAsc = ''
+		if(sorter.order){
+			totalWrongNumAsc = sorter.order==='descend'?false:true
+		}
 		this.setState({
 			page: pagination.current,
+			totalWrongNumAsc
 		},()=>{
 			this.getTableList();
 		});
@@ -298,7 +305,7 @@ class AccountManage extends React.Component {
 								/>
 								<Table rowClassName="table-list" columns={columns} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
-									onChange={this.onChangePage}
+									onChange={this.handleTableChange}
 									pagination={paginationProps}
 								/>
 							</TabPane>
@@ -308,9 +315,10 @@ class AccountManage extends React.Component {
 									searchFn={this.searchAccount.bind(this)}
 									roleFn={this.selectRole.bind(this)}
 								/>
-								<Table rowClassName="table-list" columns={columnsDelete} dataSource={tableList} className="role-table"
+								<Table 
+									rowClassName="table-list" columns={columnsDelete} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
-									onChange={this.onChangePage}
+									onChange={this.handleTableChange}
 									pagination={paginationProps}
 								/>
 							</TabPane>
