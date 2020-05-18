@@ -29,7 +29,6 @@ class Index extends React.Component {
 		});
 	};
 	getStructuredPersonnelTypeList(data) {
-		let typeMark = data[0]["firstNameRank"]  //类名
 		let typeList = [{
 			id: "用户类型",
 			array: [
@@ -48,21 +47,24 @@ class Index extends React.Component {
 			]
 		}] //类名数组 
 		let tempList = [] //类名数组的子集  负责暂时存放
-		for (let i = 0; i < data.length; i++) {
-			if (data[i].firstNameRank !== typeMark) {
-				typeList.push({
-					id: typeMark,
-					array: tempList
+		for(let key in data){
+			let typeData = data[key] //包含两类 chineseLetter和digit
+			let typeMark = data[key][0]["firstNameRank"]  //类名 */
+			for(let i=0;i<typeData.length;i++){
+				if (typeData[i].firstNameRank !== typeMark) {
+					typeList.push({
+						id: typeMark,
+						array: tempList
+					})
+					typeMark = typeData[i].firstNameRank;
+					tempList = [];
+				}
+				tempList.push({
+					value: typeData[i].id,
+					label: typeData[i].name
 				})
-				typeMark = data[i].firstNameRank;
-				tempList = [];
 			}
-			tempList.push({
-				value: data[i].id,
-				label: data[i].name
-			})
 		}
-		console.log(typeList)
 		return typeList;
 	}
 

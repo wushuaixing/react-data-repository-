@@ -72,19 +72,14 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showForm: 'findPassword', //展示表单  1.login 登录表单 2.findPassword 找回密码表单 
+			showForm: 'login', //展示表单  1.login 登录表单 2.findPassword 找回密码表单 
 			phoneCodeButton: 'get', // 获取手机验证码按钮展现样式 1.get 获取 2.again 重新获取需要s秒(倒计时)
 			ifAutoLogin: false, //设置是否自动登录
 			codeImgSrc: '',  //图片验证码
-			wait: 0, //设置计时时间 保存两次短信的等待时间
 			loading: false, //提交表单的loading样式
 			iconColor: 'rgba(0,0,0,.25)', //图标背景色相同 设置变量统一管理
-			timer: null, // 短信计时器
 			errorCount: 0 //错误次数
 		};
-	}
-	componentWillUnmount() {
-		clearTimeout(this.state.timer)
 	}
 	componentDidMount() {
 		const myState = localStorage.getItem("userState");
@@ -181,7 +176,7 @@ class Login extends React.Component {
 	};
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { codeImgSrc, wait, loading, errorCount, showForm } = this.state;
+		const { codeImgSrc, loading, errorCount, showForm } = this.state;
 		return (
 			<Spin tip="Loading..." spinning={loading}>
 				<div className="yc-login">
