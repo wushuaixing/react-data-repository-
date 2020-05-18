@@ -11,7 +11,8 @@ const formItemLayout = {
 
 class AccountManage extends React.Component {
   //确定
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
     const { info } = this.props;
     let options = this.props.form.getFieldsValue();
     this.props.form.validateFields((err, values) => {
@@ -88,18 +89,16 @@ class AccountManage extends React.Component {
                     { required: true, message: '密码不可为空', },
                     { max: 20, min: 6, message: '密码长度应为6-20位' }
                   ],
-                  validateTrigger: 'onBlur',
+                  validateTrigger: ['onBlur','onSubmit'],
                   initialValue: ''
                 })(
                   <Input
                     className="yc-form-input"
                     type="password"
                     placeholder="密码默认为账号后六位"
-                    autoComplete="new-password"
                   />,
                 )}
               </Form.Item> : ''}
-
             <div className="yc-modal-footer">
               <Button type="primary" onMouseDown={this.handleSubmit.bind(this)} htmlType="submit">确定</Button>
               <Button  onClick={this.handleCancel.bind(this)}>取消</Button>

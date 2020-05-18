@@ -92,6 +92,9 @@ class AccountManage extends React.Component {
                   { required: true, message: "名字不可为空" },
                   { max: 20, message: '姓名最大长度为20个字符' }
                 ],
+                getValueFromEvent(event) {
+                  return event.target.value.replace(/\s/g, "")
+                },
                 validateTrigger: 'onBlur',
                 initialValue: action === 'add' ? '' : info.name
               })(
@@ -133,12 +136,14 @@ class AccountManage extends React.Component {
                     { required: true, message: '密码不可为空', },
                     { max: 20, min: 6, message: '密码长度应为6-20位' }
                   ],
+                  getValueFromEvent(event) {
+                    return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
+                  },
                   validateTrigger: 'onBlur',
                   initialValue: ''
                 })(
                   <Input
                     className="yc-form-input"
-                    type="password"
                     placeholder="密码默认为账号后六位"
                     autoComplete="new-password"
                   />,
