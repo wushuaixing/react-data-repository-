@@ -30,7 +30,7 @@ export const validatorLogin = (rule, val, callback) => {
 };
 
 export function twoNewPasswordValidator(rule, val, callback){
-	const newPassword = this.props.form.getFieldValue('newPassword')
+	const newPassword = this.props.form.getFieldValue('newPassword')||this.props.form.getFieldValue('password')
 	if(newPassword&&val!==newPassword){
 		callback(new Error('两次新密码不一致'))
 	}else{
@@ -45,4 +45,9 @@ export function oldAndNewPasswordValidator(rule,val,callback){
 	}else{
 		callback()
 	}
+}
+
+export function validPhoneNumber(string){
+	const reg = /^[1][3,4,5,7,8][0-9]{9}$/
+	return reg.test(string)
 }

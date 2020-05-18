@@ -280,7 +280,6 @@ class Check extends React.Component {
         const state = this.state
         const { status,isNotConfirm } = this.props.match.params
         const enable = this.enable;
-        console.log(this.state)
         const moduleOrder = [
             <CheckBasicDetail
                 key={0} auctionID={state.id}

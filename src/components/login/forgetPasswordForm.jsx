@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Icon, Input, Button, Tooltip, message, Modal } from 'antd';
-import { codeImage,validateImgCode,validSmsCode,resetPassword,getSmsCode } from '@api';
-import { twoNewPasswordValidator } from "@/utils/validators";
+import { codeImage, validateImgCode, validSmsCode, resetPassword, getSmsCode } from '@api';
+import { twoNewPasswordValidator,validPhoneNumber } from "@/utils/validators";
 import './style.scss'
 const forgetPasswordForm = Form.create;
 const { info } = Modal
@@ -11,15 +11,19 @@ class ForgetPasswordForm extends React.Component {
         this.state = {
             step: 0,
             wait: 0,
-            isSendPhoneCode:false,
-            countDown:0,
-            timer:null,
+            countDown: 0,
+            timer: null,
+            isSendPhoneCode: false,
+            usernameValid:false, //手机号是否合法
             username: '',  //验证的手机号
             codeImgSrc: '',  //图片验证码
         }
     }
-    get phoneDisableVisible() {
+    get phoneDisableTextVisible() {
         return this.state.step === 1 ? true : false
+    }
+    get getPhoenCodeButtonDisabled(){
+        return this.state.usernameValid&&this.state.step === 1 ? false : true
     }
     get formTitle() {
         switch (this.state.step) {
@@ -36,21 +40,22 @@ class ForgetPasswordForm extends React.Component {
     componentDidMount() {
         this.toRefreshImg()
     }
-    refreshTime(){
+    refreshTime() {
         let coutnDown = this.state.countDown
-        if(coutnDown>0){
+        if (coutnDown > 0) {
             this.setState({
-                countDown:coutnDown-1
+                countDown: --coutnDown
             })
-        }else{
+        } else {
             clearInterval(this.state.timer)
             this.setState({
-                timer:null
+                timer: null,
+                isSendPhoneCode:false
             })
         }
     }
-    componentWillUnmount(){
-        this.state.timer&&clearInterval(this.state.timer)
+    componentWillUnmount() {
+        this.state.timer && clearInterval(this.state.timer)
     }
     toRefreshImg = () => {
         codeImage().then(res => {
@@ -63,15 +68,16 @@ class ForgetPasswordForm extends React.Component {
             }
         });
     };
-    toRefreshPhoneCode(){
-        getSmsCode().then(res => {
-            console.log(res.data)
-            if (res.data === 200) {
+    toRefreshPhoneCode() {
+        getSmsCode({ username: this.state.username }).then(res => {
+            if (res.data.code === 200) {
+                console.log(this)
                 this.setState({
-                    isSendPhoneCode:true,
-                    timer:setInterval(this.refreshTime, 6000)
-                },()=>{
-                    
+                    isSendPhoneCode: true,
+                    timer: setInterval(this.refreshTime.bind(this), 1000),
+                    countDown:20
+                }, () => {
+
                 });
             } else {
                 //message.error(res.data.message)
@@ -80,46 +86,63 @@ class ForgetPasswordForm extends React.Component {
     }
     handleSubmit() {
         this.props.form.validateFields((err, values) => {
-            console.log(values)
             if (!err) {
                 const step = this.state.step
-                this.handleRequest(step,values)
+                this.handleRequest(step, values)
             }
         });
     }
-    handleRequest(step,formValues){
-        console.log(formValues)
-        if(step===0){
-            validateImgCode(formValues).then(res=>{
-                if(res.data.code===200){
-                    message.success('验证成功')
+    handleRequest(step, formValues) {
+        if (step === 0) {
+            validateImgCode(formValues).then(res => {
+                if (res.data.code === 200) {
+                    message.success('验证成功');
+                    const usernameValid = validPhoneNumber(formValues.username);
                     this.setState({
-                        step:step+1,
-                        username:formValues.username
-                    },()=>{
-                        this.props.form.resetFields()
-                        this.toRefreshPhoneCode()
+                        step: ++step,
+                        username: formValues.username,
+                        usernameValid
+                    }, () => {
+                        this.props.form.resetFields() //重置表格
+                        this.props.form.setFields({
+                            username:{
+                                value:this.state.username,
+                                errors:this.state.usernameValid?null:[new Error('手机号格式不正确,手机号不可用?')]
+                            }
+                        })
+                        /* this.toRefreshPhoneCode() */
                     })
-                }else{
-                    message.info('账号不存在')
+                } else {
+                    message.info(res.data.message)
                     this.toRefreshImg()
                 }
             })
-        }else if(step===1){
-            validSmsCode(formValues).then(res=>{
-                if(res.data.code===200){
+        } else if (step === 1) {
+            validSmsCode(formValues).then(res => {
+                if (res.data.code === 200) {
                     message.success('验证成功')
+                    this.state.timer && clearInterval(this.state.timer)
                     this.setState({
-                        step:step+1
-                    },()=>{
+                        step: ++step,
+                        isSendPhoneCode:false,
+                        timer:null
+                    }, () => {
                         this.props.form.resetFields()
                     })
-                }else{
+                } else {
                     message.info('验证失败')
                 }
             })
-        }else{
-
+        } else {
+            formValues.username = this.state.username
+            resetPassword(formValues).then(res=>{
+                if(res.data.code===200){
+                    message.success('重置成功')
+                    this.props.resetPasswordSuccess()
+                }else{
+                    message.info(res.data.message)
+                }
+            })
         }
     }
     openDisabledPhoneModal() {
@@ -133,8 +156,21 @@ class ForgetPasswordForm extends React.Component {
             passwordTipVisible: status
         })
     }
+    handleBackForm(){
+        let { step } = this.state
+        this.props.form.resetFields()
+        this.setState({
+            step:--step,
+            usernameValid:false,
+            isSendPhoneCode:false,
+            countDown:0
+        },()=>{
+            this.toRefreshImg()
+        })
+
+    }
     render() {
-        const { wait, codeImgSrc, step } = this.state;
+        const { codeImgSrc, step } = this.state;
         const { getFieldDecorator } = this.props.form;
         console.log(this.state)
         return (
@@ -188,15 +224,29 @@ class ForgetPasswordForm extends React.Component {
                         step === 1 &&
                         <div>
                             <Form.Item>
-                                <Icon type="mobile" style={{ marginLeft: 9 }} />
-                                <span style={{ marginLeft: 6, display: 'inline-block', width: 164 }}>{this.state.username}</span>
-                                <span>
-                                    {
-                                        this.state.timer?
-                                        <Button type="primary" disabled className="login-getCode_Button">{`${this.state.codeImgSrc}s后可再次获取`}</Button>:
-                                        <Button type="primary" onClick={this.toRefreshPhoneCode.bind(this)} className="login-getCode_Button">获取验证码</Button>
-                                    }
-                                </span>
+                                {/*  <Icon type="mobile" style={{ marginLeft: 9 }} />
+                                <span style={{ marginLeft: 6, display: 'inline-block', width: 164 }}>{this.state.username}</span> */}
+                                {getFieldDecorator('username', {
+                                    rules: [
+                                        { required: true, whitespace: true, message: "请输入验证码" }
+                                    ],
+                                    validateTrigger: 'onSubmit',
+                                })(
+                                    <Input
+                                        disabled
+                                        suffix={
+                                            <span>
+                                                {
+                                                    this.state.isSendPhoneCode ?
+                                                        <Button type="primary" disabled className="login-getCode_Button">{`${this.state.countDown}s后可再次获取`}</Button> :
+                                                        <Button type="primary" onClick={this.toRefreshPhoneCode.bind(this)} className="login-getCode_Button" disabled={this.getPhoenCodeButtonDisabled}>获取验证码</Button>
+                                                }
+                                            </span>
+                                        }
+                                        className="yc-input"
+                                        prefix={<Icon type="mobile" />}
+                                    />,
+                                )}
                             </Form.Item>
                             <Form.Item>
                                 {getFieldDecorator('code', {
@@ -265,9 +315,13 @@ class ForgetPasswordForm extends React.Component {
                         </div>
                     }
                     <Form.Item style={{ marginTop: -25 }}>
-                        <a className="yc-forget" onClick={this.openDisabledPhoneModal} style={{ marginLeft: 240, visibility: this.phoneDisableVisible ? 'visible' : 'hidden' }}>手机号不可用</a>
-                        <Button type="primary" htmlType="submit" className="yc-login-button" style={{ marginTop: -20 }} onMouseDown={this.handleSubmit.bind(this)}>{this.state.step !== 2 ? '下一步' : '确定'}</Button>
-                        <a className="yc-forget" onClick={this.props.handleSwitchBack} style={{ marginLeft: 265 }}>返回登录</a>
+                        <a className="yc-forget" onClick={this.openDisabledPhoneModal} style={{ marginLeft: 240, visibility: this.phoneDisableTextVisible ? 'visible' : 'hidden' }}>手机号不可用</a>
+                        <Button disabled={!this.state.usernameValid&&step===1} type="primary" htmlType="submit" className="yc-login-button" style={{ marginTop: -20 }} onMouseDown={this.handleSubmit.bind(this)}>{this.state.step !== 2 ? '下一步' : '确定'}</Button>
+                        {
+                            step===1?
+                            <a className="yc-forget" onClick={this.handleBackForm.bind(this)} style={{ marginLeft: 5 }}>上一页</a>:null
+                        }
+                        <a className="yc-forget" onClick={this.props.handleSwitchBack} style={{ marginLeft: step===1?225:265 }}>返回登录</a>
                     </Form.Item>
                 </Form>
 

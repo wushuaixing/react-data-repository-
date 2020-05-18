@@ -2,7 +2,7 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox, Tooltip, message, Spin, Modal } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { login, isLogin, codeImage, validateImgCode, resetPassword } from '../../server/api';
+import { login, isLogin, codeImage  } from '../../server/api';
 import ForgetPasswordForm from '@/components/login/forgetPasswordForm'
 import { codeMessage } from "../../static/status";
 import box from '../../assets/img/loginPage-box.png';
@@ -33,6 +33,9 @@ function showManyTimeErroConfirm(num) {
 		content: `账号或密码多次错误，您还可以尝试${10 - num}次，是否需要找回密码?`,
 		onOk: () => {
 			//找回密码的逻辑
+			this.setState({
+				showForm:'findPassword'
+			})
 		},
 		okText: '忘记密码'
 	});
@@ -69,7 +72,7 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showForm: 'login', //展示表单  1.login 登录表单 2.findPassword 找回密码表单 
+			showForm: 'findPassword', //展示表单  1.login 登录表单 2.findPassword 找回密码表单 
 			phoneCodeButton: 'get', // 获取手机验证码按钮展现样式 1.get 获取 2.again 重新获取需要s秒(倒计时)
 			ifAutoLogin: false, //设置是否自动登录
 			codeImgSrc: '',  //图片验证码
@@ -121,6 +124,11 @@ class Login extends React.Component {
 			}
 		});
 	}
+	handleResetPasswordSuccess(){
+		this.setState({
+			showForm:'login'
+		})
+	}
 	//接口异步 验证账号密码
 	async handleSubmit(params) {
 		this.setState({
@@ -171,81 +179,6 @@ class Login extends React.Component {
 			}
 		});
 	};
-
-	//点击按钮验证图形验证码，若成功则获取手机验证码
-	validateImgAndSendMobileCode = () => {
-		let params = {
-			imageCode: this.props.form.getFieldValue('imgCode'),
-			username: this.props.form.getFieldValue('phone'),
-		};
-
-		if (params.username && params.imageCode) {
-			validateImgCode(params).then(res => {
-				if (res.data.code === 200) {
-					message.success("验证码发送成功，请查收短信");
-					this.setState({
-						phoneCodeButton: 'again',
-						wait: 60
-					}, () => {
-						this.newSend()
-					});
-				} else {
-					if (res.data.message === "非法请求,请获取图形验证码") {
-						res.data.message = "请点击刷新图形验证码";
-						message.info(res.data.message);
-					}
-					message.error(res.data.message)
-				}
-			});
-		}
-
-	};
-	//60秒后重新获取验证码
-	newSend = () => {
-		const { wait } = this.state;
-		if (wait === 0) {
-			this.setState({
-				phoneCodeButton: 'get'
-			});
-		}
-		else {
-			let temp = wait - 1;
-			this.setState({
-				wait: temp,
-				phoneCodeButton: 'again'
-			});
-			this.setState({
-				timer: setTimeout(this.newSend, 1000)
-			})
-		}
-	};
-
-	//提交 找回密码
-	toSubmitFindPsw = () => {
-		let findPsw = {
-			imageCode: this.props.form.getFieldValue('imgCode'),
-			username: this.props.form.getFieldValue('phone'),
-			smsCode: this.props.form.getFieldValue('mobileCode'),
-			password: this.props.form.getFieldValue('psw'),
-			confirmPassword: this.props.form.getFieldValue('pswConfirm'),
-		};
-		resetPassword(findPsw).then(res => {
-			// this.loading = false;
-			if (res.data.code === 200) {
-				message.success("修改成功");
-				findPsw = Object.assign({}, {
-					username: "",
-					imageCode: "",
-					smsCode: "",
-					password: "",
-					confirmPassword: ""
-				});
-			} else {
-				message.error(res.data.message)
-			}
-		});
-	};
-
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { codeImgSrc, wait, loading, errorCount, showForm } = this.state;
@@ -336,7 +269,7 @@ class Login extends React.Component {
 							}
 							{
 								showForm === 'findPassword' &&
-								<ForgetPasswordForm handleSwitchBack={this.switchForm.bind(this)}></ForgetPasswordForm>
+								<ForgetPasswordForm handleSwitchBack={this.switchForm.bind(this)} resetPasswordSuccess={this.handleResetPasswordSuccess.bind(this)}></ForgetPasswordForm>
 							}
 						</div>
 						<ContainerFooter></ContainerFooter>

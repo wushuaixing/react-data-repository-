@@ -28,6 +28,7 @@ class Check extends React.Component {
 		//console.log(this.props)
 		let { wrongReasons,returnRemarks } = this.props
 		const { getFieldDecorator } = this.props.form;
+		const { status } = this.props.match.params
 		const wrongReasonList = []
 		WRONG_TYPE_LIST.forEach((wrongType, index) => {
 			const title = <div className="part-error-title" key={index}>{wrongType.type}</div>
@@ -37,6 +38,7 @@ class Check extends React.Component {
 			wrongReasonList.push(<div key={index}>{[title,WrongReasons]}</div>)
 		})
     	wrongReasons = (wrongReasons&&wrongReasons instanceof Array&&wrongReasons.length>0)?wrongReasons[wrongReasons.length-1]:{}
+		const isShowWrongRemark = (wrongReasons.remark&&parseInt(status)===3)?true:false
 		return (
 			<div>
 				<Modal
@@ -55,7 +57,8 @@ class Check extends React.Component {
 						<Form style={{ width: 347 }}>
 							<Form.Item className="part" label="备注">
 								{getFieldDecorator('remark', {
-									initialValue:`${returnRemarks?returnRemarks+'\n':''}${(wrongReasons.remark)?wrongReasons.remark.join('\n'):''}`,
+									/* initialValue:`${returnRemarks?returnRemarks+'\n':''}${(wrongReasons.remark)?wrongReasons.remark.join('\n'):''}`, */
+									initialValue:`${(isShowWrongRemark)?wrongReasons.remark.join('\n'):''}`
 								})(
 									<Input.TextArea
 										style={{ height: 136 }}
