@@ -106,11 +106,11 @@ class Login extends React.Component {
 		this.toRefreshImg(); */
 	}
 	//切换登录和找回密码表单
-	switchForm(){
+	switchForm() {
 		let showForm = (this.state.showForm === 'login') ? 'findPassword' : 'login'
 		this.setState({
 			showForm
-		},()=>{
+		}, () => {
 			console.log(this.state)
 		})
 	};
@@ -137,7 +137,7 @@ class Login extends React.Component {
 		} else {
 			this.setState({
 				errorCount: res.data.data.errCount
-			},()=>{
+			}, () => {
 				this.handleErrorModalAndInfoByTime(res.data.message)
 			})
 		}
@@ -152,10 +152,10 @@ class Login extends React.Component {
 		} else if (errorCount > 10) {
 			showFreezeConfirm.bind(this)()
 			this.toRefreshImg()
-		} else if(errorCount>3){
+		} else if (errorCount > 3) {
 			message.error(messageText)
 			this.toRefreshImg()
-		}else {
+		} else {
 			message.error(messageText)
 		}
 	}
@@ -248,7 +248,7 @@ class Login extends React.Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { codeImgSrc, wait, loading, errorCount,showForm } = this.state;
+		const { codeImgSrc, wait, loading, errorCount, showForm } = this.state;
 		return (
 			<Spin tip="Loading..." spinning={loading}>
 				<div className="yc-login">
@@ -323,10 +323,10 @@ class Login extends React.Component {
 											{getFieldDecorator('rememberMe', {
 												valuePropName: 'checked',
 												initialValue: false,
-											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12 }} disabled>下次自动登录</Checkbox>)}
+											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12,visibility:'hidden' }} disabled>下次自动登录</Checkbox>)}
 											<a className="yc-forget" onClick={this.switchForm.bind(this)} style={{ marginLeft: 145 }}>
 												忘记密码
-										</a>
+											</a>
 											<Button type="primary" htmlType="submit" className="yc-login-button" onMouseDown={this.handleCorrect.bind(this)}>
 												登录
 										</Button>

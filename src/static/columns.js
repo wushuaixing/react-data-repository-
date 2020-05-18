@@ -1,6 +1,6 @@
 import React from "react";
 import { Badge } from "antd";
-
+import { AUCTION_STATUS } from './status'
 /**
  * created by anran on 2020-02-20.
  */
@@ -12,32 +12,25 @@ export const Columns = [
 			return (
 				<span>
 					{
-						record&&record.info&&
+						record && record.info &&
 						<div className="info">
-							<p className="link" style={{ display: 'inline-block' }}>
-								{record.info.title}
-							</p>
+							<div className="info-line">
+								<a href={record.info.url} target="_target">{record.info.title}</a>
+							</div>
 							<div className="info-line">
 								<p>处置法院/单位:{record.info.court}</p>
 							</div>
 							<div className="info-line">
-								<div className="line-half">
-									<p>拍卖时间:{record.info.start}</p>
-								</div>
-								<div className="line-half">
-									<p style={{ margin: 10 }}>拍卖状态:</p>
-									<p>{record.info.status}</p>
-								</div>
+							<p>拍卖时间:{record.info.start}</p>
 							</div>
 							<div className="info-line">
-								<div className="line-half">
-									<p>评估价:</p>
-									<p>{record.info.consultPrice}</p>
-								</div>
-								<div className="line-half">
-									<p style={{ margin: 10 }}>起拍价:</p>
-									<p>{record.info.initialPrice}</p>
-								</div>
+								<p>拍卖状态:{AUCTION_STATUS[record.info.status]}</p>
+							</div>
+							<div className="info-line">
+								<p>{`评估价:${record.info.consultPrice}元`}</p>
+							</div>
+							<div className="info-line">
+								<p>{`起拍价:${record.info.initialPrice}元`}</p>
 							</div>
 						</div>
 					}

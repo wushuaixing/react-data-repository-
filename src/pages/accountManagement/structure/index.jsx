@@ -124,7 +124,6 @@ class AccountManage extends React.Component {
 		this.setState({
 			info,
 		});
-		//console.log(info)
 		this.showModal('edit');
 	};
 
