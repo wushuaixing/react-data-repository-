@@ -62,10 +62,13 @@
           }
           .login-getCode_Button {
             font-size: 14px;
-            background: #0099cc;
-            width: 120px;
-            height: 32px;
+            //background: #0099cc;
+            width: 132px;
+            height: 40px;
             border-radius: 2px;
+          }
+          .ant-input-affix-wrapper .ant-input-suffix{
+            right:0
           }
         }
       }

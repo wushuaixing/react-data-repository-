@@ -34,12 +34,12 @@ export const validateImgCode=(params)=> {
 };
 //获取图形验证码
 export const getSmsCode=(params)=> {
-    return axios.post('/api/getSmsCode',params)
+    return axios.post('/api/getSmsCode?username='+params.username)
 };
 
 //重置密码
 export const resetPassword=(params)=> {
-    return axios.post('／api/resetPassword', params);
+    return axios.post('/api/resetPassword', params);
 };
 
 //修改密码
