@@ -187,7 +187,7 @@ class Check extends React.Component {
 		return (
 			<div className="yc-main-body">
 				<div className="yc-right-content">
-					<div className="yc-content-container">
+					<div className="yc-content-container-newPage" style={{width:1250}}>
 						<BreadCrumb texts={['文书搜索']}></BreadCrumb>
 						<div className="yc-detail-content">
 							<div className="yc-search-line document-search">

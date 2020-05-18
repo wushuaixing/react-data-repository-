@@ -46,23 +46,17 @@
         font-size: 12px;
       }
       .info {
+        color: #808387;
+        :first-child {
+          margin-bottom: 6px;
+        }
         .info-line {
-          height: 20px;
-
-          :first-child {
-            color: #808387;
-          }
-
+          line-height: 16px;
           .line-half {
-            :first-child {
-              color: #808387;
-            }
-
             display: inline-block;
             width: 170px;
             position: relative;
             top: -13px;
-
             > p {
               display: inline-block;
             }
@@ -96,7 +90,11 @@
   background-color: #ffffff;
   margin: 20px;
 }
-
+//新开页文书搜索 特殊样式
+.yc-content-container-newPage{
+  margin:20px auto;
+  background-color: #ffffff;
+}
 //模态框底部
 .yc-modal-footer {
   margin-top: 30px;

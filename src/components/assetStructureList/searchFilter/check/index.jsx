@@ -62,6 +62,7 @@ class Index extends React.Component {
 				label: data[i].name
 			})
 		}
+		console.log(typeList)
 		return typeList;
 	}
 
@@ -178,7 +179,7 @@ class Index extends React.Component {
 					</Form.Item>
 					<Form.Item label="结构化人员">
 						{getFieldDecorator('userId', {
-							initialValue: ''
+							initialValue: 'all'
 						})(
 							<Select style={{ width: 198, marginLeft: 4 }}
 								showSearch optionFilterProp="children.props.children"
