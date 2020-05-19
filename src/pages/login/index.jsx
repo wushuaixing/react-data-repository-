@@ -99,9 +99,9 @@ class Login extends React.Component {
 			}
 			else {
 			}
-		});
+		});*/
 		//获取图形验证码
-		this.toRefreshImg(); */
+		this.toRefreshImg();
 	}
 	//切换登录和找回密码表单
 	switchForm() {
@@ -149,13 +149,13 @@ class Login extends React.Component {
 	//根据错误次数显示对应消息,验证码,对话框
 	handleErrorModalAndInfoByTime(messageText) {
 		const { errorCount } = this.state
-		if (errorCount > 5 && errorCount <= 10) {
+		if (errorCount >= 5 && errorCount < 10) {
 			showManyTimeErroConfirm.bind(this)(errorCount)
 			this.toRefreshImg()
-		} else if (errorCount > 10) {
+		} else if (errorCount >= 10) {
 			showFreezeConfirm.bind(this)()
 			this.toRefreshImg()
-		} else if (errorCount > 3) {
+		} else if (errorCount >= 3) {
 			message.error(messageText)
 			this.toRefreshImg()
 		} else {
@@ -186,7 +186,7 @@ class Login extends React.Component {
 							<LoginPagePresentationImg />
 							{
 								showForm === 'login' &&
-								<div className={errorCount <= 3 ? 'yc-right-login-noCode' : 'yc-right-login-withCode'}>
+								<div className={errorCount < 3 ? 'yc-right-login-noCode' : 'yc-right-login-withCode'}>
 									<div className="yc-form-title">用户登录</div>
 									<Form className="login-form" >
 										<Form.Item>
@@ -227,7 +227,7 @@ class Login extends React.Component {
 											)}
 										</Form.Item>
 										{
-											errorCount > 3 ?
+											errorCount >= 3 ?
 												<Form.Item>
 													{getFieldDecorator('imageVerifyCode', {
 														rules: [
@@ -243,7 +243,7 @@ class Login extends React.Component {
 															placeholder="请输入图片验证码"
 														/>,
 													)}
-													<span><img src={codeImgSrc} style={{ width: 140, height: 38, marginLeft: 5 }} /></span>
+													<span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} style={{ width: 140, height: 38, marginLeft: 5 }} /></span>
 												</Form.Item> : null
 										}
 										<Form.Item style={{ marginTop: -20 }}>
@@ -252,7 +252,7 @@ class Login extends React.Component {
 												initialValue: false,
 											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12, visibility: 'hidden' }} disabled>下次自动登录</Checkbox>)}
 											<a className="yc-forget" onClick={this.switchForm.bind(this)} style={{ marginLeft: 145 }}>
-												忘记密码
+												忘记密码?
 											</a>
 											<Button type="primary" htmlType="submit" className="yc-login-button" onMouseDown={this.handleCorrect.bind(this)}>
 												登录
