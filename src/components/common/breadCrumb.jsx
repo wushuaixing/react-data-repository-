@@ -42,7 +42,7 @@ class BreadCrumb extends React.Component {
                     <div className="yc-components-breadCrumb_button">
                         {this.showTag ? <span className="yc-components-breadCrumb_button-note">{this.props.note}</span> : null}
                         <Button type="default" onClick={this.props.handleClick} disabled={this.props.disabled}>
-                            {this.props.icon ? <Icon type={this.props.icon} /> : null}
+                            {this.props.icon ? <span><img className="icon" src={this.props.icon} /></span>: null}
                             {this.breadButtonText}
                         </Button>
                     </div> : null}

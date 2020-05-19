@@ -11,8 +11,8 @@ import { structuredById, getNumberOfTags, saveDetail } from '@api'
 import { filters } from '@utils/common'
 import './index.scss'
 import { message } from 'antd';
-
-
+import icon from '@/assets/img/backPrevious.png'
+import iconGrey from '@/assets/img/backPrevious-grey.png'
 function getObligor() {
     return {
         "birthday": '',
@@ -293,7 +293,7 @@ class StructureDetail extends React.Component {
                     disabled={preId ? false : true}
                     texts={['资产结构化/详情']} note={tag}
                     handleClick={this.goPreviousRecord.bind(this)}
-                    icon={'left'}></BreadCrumb>
+                    icon={preId ?icon:iconGrey}></BreadCrumb>
                 <div className="assetStructureDetail-structure_container">
                     <div className="assetStructureDetail-structure_container_header">
                         {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
