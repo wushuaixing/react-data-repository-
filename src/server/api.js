@@ -211,8 +211,8 @@ export const changeWrongType=(id,params)=> {
 };
 
 //检查确认
-export const inspectorCheck=(params)=> {
-	return axios.post("/api/asset/inspector/control/inspectorCheck", params);
+export const inspectorCheck=(params,status)=> {
+	return axios.post("/api/asset/inspector/control/inspectorCheck/"+status, params);
 };
 
 //已删除&自动标注的检查保存

@@ -70,7 +70,7 @@ export const WRONG_TYPE_LIST = [
 				text:'角色类别错误'
 			},
 			{
-				text:'身份信息填写错误'
+				text:'身份信息遗漏'
 			},
 			{
 				text:'起诉人遗漏或名字填写错误'

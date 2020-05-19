@@ -55,7 +55,7 @@ class Check extends React.Component {
         wsUrl: [],
         onlyThis: 0,
         wrongData: [],
-        returnRemarks: '退回链接地址是///',
+        returnRemarks: '',
         isUpdateRecord:false
     }
     get updateOrSubmitCheck() {
@@ -138,14 +138,14 @@ class Check extends React.Component {
         this.props.history.push('/index');
     }
     submitWrongRecord(data, checkError = true) {
-        const { id } = this.props.match.params
+        const { id,status } = this.props.match.params
         if (this.updateOrSubmitCheck === 'submit') {
             let params = {
                 checkWrongLog: Object.assign({}, data),
                 checkError,
                 id
             }
-            inspectorCheck(params).then(res => {
+            inspectorCheck(params,status).then(res => {
                 if (res.data.code === 200) {
                     message.success("操作成功");
                     this.onClickToTable()
