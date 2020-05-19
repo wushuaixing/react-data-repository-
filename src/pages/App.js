@@ -7,6 +7,7 @@ import DocumentDetail from "../pages/externalSource/document";
 import AuctionDetail from "../pages/externalSource/auction";
 import NotFound from './notFound'
 import DocumentSearch from "../pages/documentSearch";
+import NotFirstMark from '@/pages/assetStructureDetailNewPage/notFirstMark/index'
 class App extends React.Component {
 	render(){
 		return(
@@ -19,6 +20,8 @@ class App extends React.Component {
 						<Route path="/documentSearch" component={DocumentSearch} />
 						<Route path="/documentDetail/:Id" component={DocumentDetail} />
 						<Route path="/auctionDetail/:auctionID" component={AuctionDetail} />
+						<Route path="/auctionDetail" component={AuctionDetail} />
+						<Route path="/notFirstMark" component={NotFirstMark} />
 						<Route path="*" component={NotFound} />
 					</Switch>
 				</div>

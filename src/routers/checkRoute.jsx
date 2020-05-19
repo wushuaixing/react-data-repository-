@@ -4,7 +4,6 @@ import {Route} from 'react-router-dom';
 import AssetList from "../pages/assetStructureList/checkAccount";
 import StructureDetail from "@/pages/assetStructureDetail/check";
 
-
 class Index extends React.Component {
   render() {
     return (

@@ -110,17 +110,23 @@ class ButtonGroup extends React.Component {
     handleStructureUpdate() {
         this.props.handleStructureUpdate()
     }
+    handleClosePage() {
+        console.log(window)
+        window.opener = null;
+        window.open('', '_self');
+        window.close();
+    }
     componentWillReceiveProps(newProps) {
         //如果切换了id 则设置计时器可重新刷新
-        if(newProps.id!==this.props.id){
+        if (newProps.id !== this.props.id) {
             clearInterval(this.state.timer)
             this.setState({
-                timer:null,
-                countDown:null
+                timer: null,
+                countDown: null
             })
         }
         //如果收到了type数据且现在计时器可更新则进入判断
-        if (this.props.type !== null &&  (this.state.timer === null)) {
+        if (this.props.type !== null && (this.state.timer === null)) {
             //如果是在未标记中的 普通数据 需要设置15s后才可以点击保存
             if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
                 this.setState({
@@ -135,7 +141,7 @@ class ButtonGroup extends React.Component {
             if ((this.props.type !== 0 && this.props.status === '0') || this.props.status !== '0') {
                 this.setState({
                     buttonDisabled: false,
-                    countDown:null 
+                    countDown: null
                 });
             }
         }
@@ -143,8 +149,8 @@ class ButtonGroup extends React.Component {
     render() {
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[this.props.status]
         const { countDown } = this.state
-        const { enable, status,isSendRequest } = this.props
-        const disabled = this.state.buttonDisabled||isSendRequest //当已经发送了请求或特殊处理情况下 按钮不可点击
+        const { enable, status, isSendRequest } = this.props
+        const disabled = this.state.buttonDisabled || isSendRequest //当已经发送了请求或特殊处理情况下 按钮不可点击
         return (
             <div className="yc-component-buttonGroup">
                 {
@@ -188,7 +194,9 @@ class ButtonGroup extends React.Component {
                                 )
                             default:
                                 return (
-                                    null
+                                    <div className="yc-component-buttonGroup-structure">
+                                        <Button onClick={this.handleClosePage.bind(this)}>关闭</Button>
+                                    </div>
                                 )
                         }
                     })()
