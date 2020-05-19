@@ -28,7 +28,7 @@ class ButtonGroup extends React.Component {
             },
             {
                 status: '2',
-                name: '未检查-已删除',
+                name: '检查无误',
                 texts: ['检查有误', '返回'],
                 btns: [checkButtons['err'], checkButtons['back']]
             },
@@ -58,6 +58,35 @@ class ButtonGroup extends React.Component {
             }
         ]
     }
+    //非初标数据关联标注
+    get checkButtonTextArrayForNotFirstMark(){
+        const checkButtons = this.checkButtons
+        return [
+            {
+                status: '1',
+                name: '未检查',
+                btns: [checkButtons['err'], checkButtons['noErr']]
+            },
+            {
+                status: '2',
+                name: '检查无误',
+                texts: ['检查有误', '关闭'],
+                btns: [checkButtons['err'], checkButtons['close']]
+            },
+            {
+                status: '3',
+                name: '检查错误',
+                texts: ['修改错误原因', '检查无误'],
+                btns: [checkButtons['modify'], checkButtons['noErr']]
+            },
+            {
+                status: '4',
+                name: '已修改',
+                texts: ['检查有误', '检查无误'],
+                btns: [checkButtons['err'], checkButtons['noErr']]
+            }
+        ]
+    }
     get checkButtons() {
         return {
             err: <Button onClick={this.handleErrorModal.bind(this)} key="0" style={{ marginRight: 10 }}>{'检查有误'}</Button>,
@@ -66,7 +95,8 @@ class ButtonGroup extends React.Component {
             save: <Button onClick={this.handleStructureUpdate.bind(this)} key="3" style={{ marginRight: 10 }}>{'保存'}</Button>,
             confirm: <Button onClick={this.handleConfirm.bind(this)} key="4">{'确认'}</Button>,
             modify: <Button onClick={this.handleErrorModal.bind(this)} key="5" style={{ marginRight: 10 }}>{'修改错误原因'}</Button>,
-            back: <Button onClick={this.handleBack} key="6" style={{ marginRight: 10 }}>{'返回'}</Button>
+            back: <Button onClick={this.handleBack} key="6" style={{ marginRight: 10 }}>{'返回'}</Button>,
+            close:<Button onClick={this.handleClosePage.bind(this)} key="7" style={{ marginRight: 10 }}>{'关闭'}</Button>
         }
     }
     handleConfirm() {
@@ -111,10 +141,7 @@ class ButtonGroup extends React.Component {
         this.props.handleStructureUpdate()
     }
     handleClosePage() {
-        console.log(window)
-        window.opener = null;
-        window.open('', '_self');
-        window.close();
+        this.props.handleClosePage()
     }
     componentWillReceiveProps(newProps) {
         //如果切换了id 则设置计时器可重新刷新
@@ -151,6 +178,7 @@ class ButtonGroup extends React.Component {
         const { countDown } = this.state
         const { enable, status, isSendRequest } = this.props
         const disabled = this.state.buttonDisabled || isSendRequest //当已经发送了请求或特殊处理情况下 按钮不可点击
+        const notFirstMarkStatus = this.props.status?this.props.status:0
         return (
             <div className="yc-component-buttonGroup">
                 {
@@ -192,10 +220,22 @@ class ButtonGroup extends React.Component {
                                         <Button onClick={this.handleBack.bind(this)}>返回</Button>
                                     </div>
                                 )
+                            case 'notFirstMark-check':
+                                return (
+                                    <div className="yc-component-buttonGroup-structure">
+                                        <div>{this.checkButtonTextArrayForNotFirstMark[notFirstMarkStatus].btns}</div>
+                                    </div>
+                                )
+                            case 'notFirstMark-other':
+                                return (
+                                    <div className="yc-component-buttonGroup-structure">
+                                        {this.checkButtons['close']}
+                                    </div>
+                                )
                             default:
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
-                                        <Button onClick={this.handleClosePage.bind(this)}>关闭</Button>
+                                        {this.checkButtons['close']}
                                     </div>
                                 )
                         }

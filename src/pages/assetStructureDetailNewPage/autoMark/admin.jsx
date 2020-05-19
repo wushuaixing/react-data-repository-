@@ -45,18 +45,17 @@ class Other extends React.Component {
     }
     render() {
         const state = this.state
-        const role = this.props.history.location.pathname.split('/').slice(-1)[0]
         const basicDetails = {
             title: state.title,
             url: state.url,
             auctionStatus: state.auctionStatus,
-            reasonForWithdrawal: state.reasonForWithdrawal
+            reasonForWithdrawal: state.reasonForWithdrawal,
+            records:state.records
         }
-        basicDetails.records = role === 'admin' ? state.records : []
         const moduleOrder = [
             <BasicDetail key={0} {...basicDetails}></BasicDetail>
         ]
-        if (parseInt(state.status) >= 2 && role === 'admin') {
+        if (parseInt(state.status) >= 2) {
             moduleOrder.unshift(
                 <WrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></WrongDetail>
             )
