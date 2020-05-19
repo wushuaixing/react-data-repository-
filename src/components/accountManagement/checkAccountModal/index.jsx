@@ -52,6 +52,9 @@ class AccountManage extends React.Component {
                   { required: true, message: "姓名不能为空", },
                   { max:20,message:'姓名最大长度为20个字符' }
                 ],
+                getValueFromEvent(event) {
+                  return event.target.value.replace(/\s/g, "")
+                },
                 validateTrigger: 'onBlur',
                 initialValue: action === 'edit' ? info.name : ''
               })(
@@ -89,6 +92,9 @@ class AccountManage extends React.Component {
                     { required: true, message: '密码不可为空', },
                     { max: 20, min: 6, message: '密码长度应为6-20位' }
                   ],
+                  getValueFromEvent(event) {
+                    return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
+                  },
                   validateTrigger: ['onBlur','onSubmit'],
                   initialValue: ''
                 })(
