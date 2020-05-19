@@ -2,7 +2,7 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox, Tooltip, message, Spin, Modal } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { login, isLogin, codeImage  } from '../../server/api';
+import { login, isLogin, codeImage } from '../../server/api';
 import ForgetPasswordForm from '@/components/login/forgetPasswordForm'
 import { codeMessage } from "../../static/status";
 import box from '../../assets/img/loginPage-box.png';
@@ -34,7 +34,7 @@ function showManyTimeErroConfirm(num) {
 		onOk: () => {
 			//找回密码的逻辑
 			this.setState({
-				showForm:'findPassword'
+				showForm: 'findPassword'
 			})
 		},
 		okText: '忘记密码'
@@ -119,9 +119,9 @@ class Login extends React.Component {
 			}
 		});
 	}
-	handleResetPasswordSuccess(){
+	handleResetPasswordSuccess() {
 		this.setState({
-			showForm:'login'
+			showForm: 'login'
 		})
 	}
 	//接口异步 验证账号密码
@@ -192,13 +192,12 @@ class Login extends React.Component {
 										<Form.Item>
 											{getFieldDecorator('username', {
 												rules: [
-													{ required: true, whitespace: true, message: "请输入账号" },
-													{ len: 11, message: '账号小于11位' }
+													{ required: true, whitespace: true, message: "请输入账号" }
 												],
 												getValueFromEvent(event) {
 													return event.target.value.replace(/\D/g, "")
 												},
-												validateTrigger: ['onSubmit'],
+												validateTrigger: ['onSubmit','onBlur'],
 											})(
 												<Input
 													maxLength={11}
@@ -214,9 +213,9 @@ class Login extends React.Component {
 													{ required: true, whitespace: true, message: "请输入密码" },
 												],
 												getValueFromEvent(event) {
-													return event.target.value.replace(/\s/g, "")
+													return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
 												},
-												validateTrigger: ['onSubmit'],
+												validateTrigger: ['onSubmit','onBlur'],
 											})(
 												<Input
 													maxLength={20}
@@ -234,7 +233,7 @@ class Login extends React.Component {
 														rules: [
 															{ required: true, whitespace: true, message: '请输入验证码', }
 														],
-														validateTrigger: 'onSubmit',
+														validateTrigger: ['onSubmit','onBlur'],
 													})(
 														<Input
 															style={{ width: 175 }}
@@ -251,7 +250,7 @@ class Login extends React.Component {
 											{getFieldDecorator('rememberMe', {
 												valuePropName: 'checked',
 												initialValue: false,
-											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12,visibility:'hidden' }} disabled>下次自动登录</Checkbox>)}
+											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12, visibility: 'hidden' }} disabled>下次自动登录</Checkbox>)}
 											<a className="yc-forget" onClick={this.switchForm.bind(this)} style={{ marginLeft: 145 }}>
 												忘记密码
 											</a>
