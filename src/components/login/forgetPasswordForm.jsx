@@ -189,7 +189,7 @@ class ForgetPasswordForm extends React.Component {
                                     getValueFromEvent(event) {
                                         return event.target.value.replace(/\D/g, "")
                                     },
-                                    validateTrigger: 'onSubmit',
+                                    validateTrigger: ['onSubmit','onBlur'],
                                 })(
                                     <Input
                                         maxLength={11}
@@ -207,7 +207,7 @@ class ForgetPasswordForm extends React.Component {
                                     getValueFromEvent(event) {
                                         return event.target.value.replace(/\s/g, "")
                                     },
-                                    validateTrigger: 'onSubmit',
+                                    validateTrigger: ['onSubmit','onBlur'],
                                 })(
                                     <Input
                                         style={{ width: 175 }}
@@ -230,7 +230,7 @@ class ForgetPasswordForm extends React.Component {
                                     rules: [
                                         { required: true, whitespace: true, message: "请输入验证码" }
                                     ],
-                                    validateTrigger: 'onSubmit',
+                                    validateTrigger: ['onSubmit','onBlur'],
                                 })(
                                     <Input
                                         disabled
@@ -256,7 +256,7 @@ class ForgetPasswordForm extends React.Component {
                                     getValueFromEvent(event) {
                                         return event.target.value.replace(/\s/g, "")
                                     },
-                                    validateTrigger: 'onSubmit',
+                                    validateTrigger: ['onSubmit','onBlur'],
                                 })(
                                     <Input
                                         maxLength={11}

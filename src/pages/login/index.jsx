@@ -233,6 +233,9 @@ class Login extends React.Component {
 														rules: [
 															{ required: true, whitespace: true, message: '请输入验证码', }
 														],
+														getValueFromEvent(event) {
+															return event.target.value.replace(/\s/g, "")
+														},
 														validateTrigger: ['onSubmit','onBlur'],
 													})(
 														<Input

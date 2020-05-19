@@ -17,8 +17,6 @@
             text-align: center;
             &-note {
                 margin-right: 5px;
-            }
-            span {
                 font-size: 9px;
                 width: 60px;
             }
@@ -27,11 +25,11 @@
                 height: 32px;
                 padding: 0;
             }
-            i {
+            .icon{
                 height: 12px;
                 width: 7px;
                 position: relative;
-                left: 1px;
+                left: -1px;
             }
         }
     }
