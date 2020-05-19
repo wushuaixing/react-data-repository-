@@ -15,7 +15,7 @@ class StructurePropertyDetail extends React.Component {
         }
     }
     render() {
-        const enable = this.props.enable
+        const { collateral,enable,buildingArea } = this.props
         return (
             <div className="yc-components-assetStructureDetail">
                 <div className="yc-components-assetStructureDetail_header">房产/土地信息</div>
@@ -24,7 +24,7 @@ class StructurePropertyDetail extends React.Component {
                         <span className='yc-components-assetStructureDetail_body-row_title'>抵押情况：</span>
                         {
                             enable?
-                            <span>{parseInt(this.props.collateral)===0?'-':'无抵押'}</span>:
+                            <span>{parseInt(collateral)===1?'无抵押':'-'}</span>:
                             <Checkbox name="collateral" onChange={this.handleChange} disabled={enable} checked={this.props.collateral}>无抵押</Checkbox>
                         }
                     </div>
@@ -32,7 +32,7 @@ class StructurePropertyDetail extends React.Component {
                         <span className='yc-components-assetStructureDetail_body-row_title'>房产/土地类型：</span>
                         {
                             enable ?
-                                <span>{HOUSE_TYPE[this.props.houseType]}</span> :
+                                <span>{this.props.houseType?HOUSE_TYPE[this.props.houseType]:'-'}</span> :
                                 <Radio.Group value={this.props.houseType} onChange={this.handleChange} name="houseType" disabled={enable}>
                                     {
                                         Object.keys(HOUSE_TYPE).map((key) => {
@@ -47,7 +47,7 @@ class StructurePropertyDetail extends React.Component {
                         <span>
                             {
                                 enable ?
-                                    <span>{`${this.props.buildingArea.toFixed(2)} `}m<sup>2</sup></span> :
+                                    <span>{buildingArea&&parseInt(buildingArea)!==-1?<span>{this.props.buildingArea.toFixed(2)} m<sup>2</sup></span>:'-'}</span> :
                                     <span>
                                         <InputNumber
                                             precision={2} style={{ width: 200 }}
