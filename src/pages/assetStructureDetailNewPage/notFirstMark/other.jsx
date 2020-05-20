@@ -14,21 +14,21 @@ class Other extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            status: 3,
+            status: 0,
             wrongData: [],
-            records: [{ desc: "结构化", error: false, errorLevel: 0, time: "2020-05-19 10:55:20", user: "邵颖结构化" }],
-            title: '测试111',
-            reasonForWithdrawal: '测试撤回原因',
-            auctionStatus: 9,
-            url: 'http://www.baidu.com',
+            records: [],
+            title: '',
+            reasonForWithdrawal: '',
+            auctionStatus: 0,
+            url: '',
             collateral: 1,
-            buildingArea: 1.3,
-            houseType: 1,
-            wsFindStatus: 1,
-            wsUrl: [{ value: '测试文书1' }],
-            ah: [{ value: '测试案号1' }, { value: '测试案号2' }],
+            buildingArea: null,
+            houseType: null,
+            wsFindStatus: 0,
+            wsUrl: [],
+            ah: [],
             wsInAttach: 1,
-            obligors: [{ birthday: 0, gender: "0", labelType: "2", name: "中国建设银行", notes: "", number: "", type: "4" }]
+            obligors: []
         }
     }
     handleClosePage() {
@@ -56,7 +56,10 @@ class Other extends React.Component {
             getCheckDetail(associatedAnnotationId).then((res) => {
                 if (res.data) {
                     this.setState({
-                        ...res.data
+                        ...res.data.data,
+                        status:this.state.detailStatus
+                    },()=>{
+                        console.log(this.state)
                     })
                 }
 
