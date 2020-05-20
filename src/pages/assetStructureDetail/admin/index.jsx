@@ -51,8 +51,8 @@ export default class AdminStructure extends React.Component {
             const data = res.data.data
             this.setState({
                 ...res.data.data,
-                ah: data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
-                wsUrl: data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
+                ah: data && data.ah && data.ah instanceof Array && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+                wsUrl: data && data.wsUrl && data.ah instanceof Array && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
             }, () => {
             })
         })

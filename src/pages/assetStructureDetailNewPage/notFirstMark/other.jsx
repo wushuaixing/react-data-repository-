@@ -9,7 +9,7 @@ import WrongDetail from '@/components/assetStructureDetail/wrongDetail'
 import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
 import { message } from 'antd'
-import { getCheckDetail,structuredById } from '@api'
+import { getCheckDetail, structuredById } from '@api'
 class Other extends React.Component {
     constructor(props) {
         super(props)
@@ -32,44 +32,41 @@ class Other extends React.Component {
         }
     }
     handleClosePage() {
-        if(window.opener){
+        if (window.opener) {
             window.opener = null;
             window.open('', '_self');
             window.close();
-        }else{
+        } else {
             //如果不是新开页打开的 无法关闭
             message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面。')
-            setTimeout(()=>{
+            setTimeout(() => {
                 window.location.href = "about:blank";
-            },1500)
+            }, 1500)
         }
     }
-    get role(){
-        return this.props.history.location.pathname.split('/').slice(-1)[0]
+    get role() {
+        return this.props.history.location.pathname.split('/')[2]
     }
-    componentDidMount(){
+    componentDidMount() {
         this.loadData()
     }
-    loadData(){
-        const { associatedAnnotationId,associatedStatus } = this.props.match.params
-        if(this.role==='admin'){
-            getCheckDetail(associatedAnnotationId).then((res)=>{
-                if(res.data.code===200){
+    loadData() {
+        const { associatedAnnotationId, associatedStatus } = this.props.match.params
+        if (this.role === 'admin') {
+            getCheckDetail(associatedAnnotationId).then((res) => {
+                if (res.data) {
                     this.setState({
-                        ...res.data.data
+                        ...res.data
                     })
-                }else{
-                    message.error(res.data.message)
                 }
+
             })
-        }else{
-            structuredById(associatedAnnotationId,associatedStatus).then((res)=>{
-                if(res.data.code===200){
+        } else {
+            structuredById(associatedAnnotationId, associatedStatus).then((res) => {
+                if (res.data) {
                     this.setState({
-                        ...res.data.data
+                        ...res.data
                     })
-                }else{
-                    message.error(res.data.message)
                 }
             })
         }

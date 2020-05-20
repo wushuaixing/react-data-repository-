@@ -132,8 +132,7 @@ class topMenu extends React.Component {
 						<Form.Item label="原密码">
 							{getFieldDecorator('oldPassword', {
 								rules: [
-									{ required: true, whitespace: true, message: "原密码不能为空" },
-									{ min: 6, message: '密码小于6位' },
+									{ required: true, whitespace: true, message: "原密码不能为空" }
 								],
 								getValueFromEvent(event) {
 									return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
