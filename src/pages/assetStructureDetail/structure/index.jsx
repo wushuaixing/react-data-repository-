@@ -221,6 +221,7 @@ class StructureDetail extends React.Component {
                 }
                 const data = res.data
                 this.setState({
+                    associatedStatus:data.associatedStatus,
                     id: data.id,
                     associatedAnnotationId: data.associatedAnnotationId,
                     auctionStatus: data.auctionStatus,
@@ -236,9 +237,9 @@ class StructureDetail extends React.Component {
                     wrongData: data.wrongData,
                     wsFindStatus: data.wsFindStatus,
                     wsInAttach: data.wsInAttach,
-                    ah: data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
-                    wsUrl: data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
-                    obligors: data.obligors && data.obligors.length === 0 && params.status === '0' ? [getObligor()] : data.obligors
+                    ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+                    wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
+                    obligors: data && data.obligors && data.obligors.length === 0 && params.status === '0' ? [getObligor()] : data.obligors
                 }, () => {
                     console.log(this.state)
                 })
