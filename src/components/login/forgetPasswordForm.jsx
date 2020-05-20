@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Icon, Input, Button, Tooltip, message, Modal } from 'antd';
 import { codeImage, validateImgCode, validSmsCode, resetPassword, getSmsCode } from '@api';
-import { twoNewPasswordValidator,validPhoneNumber } from "@/utils/validators";
+import { twoNewPasswordValidator, validPhoneNumber } from "@/utils/validators";
 import './style.scss'
 const forgetPasswordForm = Form.create;
 const { info } = Modal
@@ -14,7 +14,7 @@ class ForgetPasswordForm extends React.Component {
             countDown: 0,
             timer: null,
             isSendPhoneCode: false,
-            usernameValid:false, //手机号是否合法
+            usernameValid: false, //手机号是否合法
             username: '',  //验证的手机号
             codeImgSrc: '',  //图片验证码
         }
@@ -22,8 +22,8 @@ class ForgetPasswordForm extends React.Component {
     get phoneDisableTextVisible() {
         return this.state.step === 1 ? true : false
     }
-    get getPhoenCodeButtonDisabled(){
-        return this.state.usernameValid&&this.state.step === 1 ? false : true
+    get getPhoenCodeButtonDisabled() {
+        return this.state.usernameValid && this.state.step === 1 ? false : true
     }
     get formTitle() {
         switch (this.state.step) {
@@ -50,7 +50,7 @@ class ForgetPasswordForm extends React.Component {
             clearInterval(this.state.timer)
             this.setState({
                 timer: null,
-                isSendPhoneCode:false
+                isSendPhoneCode: false
             })
         }
     }
@@ -75,7 +75,7 @@ class ForgetPasswordForm extends React.Component {
                 this.setState({
                     isSendPhoneCode: true,
                     timer: setInterval(this.refreshTime.bind(this), 1000),
-                    countDown:20
+                    countDown: 20
                 }, () => {
 
                 });
@@ -98,20 +98,22 @@ class ForgetPasswordForm extends React.Component {
                 if (res.data.code === 200) {
                     message.success('验证成功');
                     const usernameValid = validPhoneNumber(formValues.username);
-                    this.setState({
-                        step: ++step,
-                        username: formValues.username,
-                        usernameValid
-                    }, () => {
-                        this.props.form.resetFields() //重置表格
-                        this.props.form.setFields({
-                            username:{
-                                value:this.state.username,
-                                errors:this.state.usernameValid?null:[new Error('手机号格式不正确,手机号不可用?')]
-                            }
+                    setTimeout(() => {
+                        this.setState({
+                            step: ++step,
+                            username: formValues.username,
+                            usernameValid
+                        }, () => {
+                            this.props.form.resetFields() //重置表格
+                            this.props.form.setFields({
+                                username: {
+                                    value: this.state.username,
+                                    errors: this.state.usernameValid ? null : [new Error('手机号格式不正确,手机号不可用?')]
+                                }
+                            })
+                            /* this.toRefreshPhoneCode() */
                         })
-                        /* this.toRefreshPhoneCode() */
-                    })
+                    }, 1000)
                 } else {
                     message.error(res.data.message)
                     this.toRefreshImg()
@@ -119,27 +121,32 @@ class ForgetPasswordForm extends React.Component {
             })
         } else if (step === 1) {
             validSmsCode(formValues).then(res => {
+
                 if (res.data.code === 200) {
                     message.success('验证成功')
                     this.state.timer && clearInterval(this.state.timer)
-                    this.setState({
-                        step: ++step,
-                        isSendPhoneCode:false,
-                        timer:null
-                    }, () => {
-                        this.props.form.resetFields()
-                    })
+                    setTimeout(() => {
+                        this.setState({
+                            step: ++step,
+                            isSendPhoneCode: false,
+                            timer: null
+                        }, () => {
+                            this.props.form.resetFields()
+                        })
+                    }, 1000)
                 } else {
                     message.error(res.data.message)
                 }
             })
         } else {
             formValues.username = this.state.username
-            resetPassword(formValues).then(res=>{
-                if(res.data.code===200){
+            resetPassword(formValues).then(res => {
+                if (res.data.code === 200) {
                     message.success('重置成功')
-                    this.props.resetPasswordSuccess()
-                }else{
+                    setTimeout(() => {
+                        this.props.resetPasswordSuccess()
+                    }, 1000)
+                } else {
                     message.error(res.data.message)
                 }
             })
@@ -156,15 +163,15 @@ class ForgetPasswordForm extends React.Component {
             passwordTipVisible: status
         })
     }
-    handleBackForm(){
+    handleBackForm() {
         let { step } = this.state
         this.props.form.resetFields()
         this.setState({
-            step:--step,
-            usernameValid:false,
-            isSendPhoneCode:false,
-            countDown:0
-        },()=>{
+            step: --step,
+            usernameValid: false,
+            isSendPhoneCode: false,
+            countDown: 0
+        }, () => {
             this.toRefreshImg()
         })
 
@@ -189,7 +196,7 @@ class ForgetPasswordForm extends React.Component {
                                     getValueFromEvent(event) {
                                         return event.target.value.replace(/\D/g, "")
                                     },
-                                    validateTrigger: ['onSubmit','onBlur'],
+                                    validateTrigger: ['onSubmit', 'onBlur'],
                                 })(
                                     <Input
                                         maxLength={11}
@@ -207,7 +214,7 @@ class ForgetPasswordForm extends React.Component {
                                     getValueFromEvent(event) {
                                         return event.target.value.replace(/\s/g, "")
                                     },
-                                    validateTrigger: ['onSubmit','onBlur'],
+                                    validateTrigger: ['onSubmit', 'onBlur'],
                                 })(
                                     <Input
                                         style={{ width: 175 }}
@@ -230,7 +237,7 @@ class ForgetPasswordForm extends React.Component {
                                     rules: [
                                         { required: true, whitespace: true, message: "请输入验证码" }
                                     ],
-                                    validateTrigger: ['onSubmit','onBlur'],
+                                    validateTrigger: ['onSubmit', 'onBlur'],
                                 })(
                                     <Input
                                         disabled
@@ -256,7 +263,7 @@ class ForgetPasswordForm extends React.Component {
                                     getValueFromEvent(event) {
                                         return event.target.value.replace(/\s/g, "")
                                     },
-                                    validateTrigger: ['onSubmit','onBlur'],
+                                    validateTrigger: ['onSubmit', 'onBlur'],
                                 })(
                                     <Input
                                         className="yc-input"
@@ -281,8 +288,8 @@ class ForgetPasswordForm extends React.Component {
                                                     { min: 6, message: '密码小于6位' }
                                                 ],
                                                 getValueFromEvent(event) {
-													return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
-												},
+                                                    return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
+                                                },
                                                 validateFirst: true,
                                                 validateTrigger: ['onSubmit', 'onBlur', 'onChange'],
                                             })(
@@ -319,12 +326,12 @@ class ForgetPasswordForm extends React.Component {
                     }
                     <Form.Item style={{ marginTop: -25 }}>
                         <a className="yc-forget" onClick={this.openDisabledPhoneModal} style={{ marginLeft: 240, visibility: this.phoneDisableTextVisible ? 'visible' : 'hidden' }}>手机号不可用?</a>
-                        <Button disabled={!this.state.usernameValid&&step===1} type="primary" htmlType="submit" className="yc-login-button" style={{ marginTop: -20 }} onMouseDown={this.handleSubmit.bind(this)}>{this.state.step !== 2 ? '下一步' : '确定'}</Button>
+                        <Button disabled={!this.state.usernameValid && step === 1} type="primary" htmlType="submit" className="yc-login-button" style={{ marginTop: -20 }} onMouseDown={this.handleSubmit.bind(this)}>{this.state.step !== 2 ? '下一步' : '确定'}</Button>
                         {
-                            step===1?
-                            <a className="yc-forget" onClick={this.handleBackForm.bind(this)} style={{ marginLeft: 5 }}>上一页</a>:null
+                            step === 1 ?
+                                <a className="yc-forget" onClick={this.handleBackForm.bind(this)} style={{ marginLeft: 5 }}>上一页</a> : null
                         }
-                        <a className="yc-forget" onClick={this.props.handleSwitchBack} style={{ marginLeft: step===1?225:265 }}>返回登录</a>
+                        <a className="yc-forget" onClick={this.props.handleSwitchBack} style={{ marginLeft: step === 1 ? 225 : 265 }}>返回登录</a>
                     </Form.Item>
                 </Form>
 

@@ -60,7 +60,8 @@ class Check extends React.Component {
     }
     get updateOrSubmitCheck() {
         const length = this.state.records.length
-        return (this.state.records[length - 1].desc === '结构化') ? 'submit' : 'update'
+        const desc = this.state.records[length - 1].desc
+        return (['结构化','自动标注'].indexOf(desc)>=0) ? 'submit' : 'update'
     }
     componentDidMount() {
         const { id, status,isNotConfirm } = this.props.match.params
@@ -283,6 +284,7 @@ class Check extends React.Component {
         const moduleOrder = [
             <CheckBasicDetail
                 key={0} auctionID={state.id}
+                associatedAnnotationId={state.associatedAnnotationId}
                 type={state.type} records={state.records}
                 title={state.title} auctionStatus={state.auctionStatus}
                 reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}

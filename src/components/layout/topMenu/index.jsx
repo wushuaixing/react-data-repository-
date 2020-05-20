@@ -134,13 +134,15 @@ class topMenu extends React.Component {
 								rules: [
 									{ required: true, whitespace: true, message: "原密码不能为空" },
 									{ min: 6, message: '密码小于6位' },
-									{ pattern: /^\S*$/, message: "不能有空格" },
-									{ max: 20, message: '密码大于20位' },
 								],
+								getValueFromEvent(event) {
+									return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
+								},
 								validateFirst: true,
 								validateTrigger: ['onSubmit', 'onBlur', 'onChange'],
 							})(
 								<Input
+									maxLength={20}
 									style={{ marginLeft: 8, width: 265, height: 32 }}
 									className="yc-input"
 									placeholder="请输入原密码"
@@ -155,15 +157,16 @@ class topMenu extends React.Component {
 											rules: [
 												{ required: true, whitespace: true, message: "新密码不能为空" },
 												{ min: 6, message: '密码小于6位' },
-												{ pattern: /^\S*$/, message: "不能有空格" },
-												{ max: 20, message: '密码大于20位' },
 												{ validator: oldAndNewPasswordValidator.bind(this) }
 											],
+											getValueFromEvent(event) {
+												return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
+											},
 											validateFirst: true,
 											validateTrigger: ['onSubmit', 'onBlur', 'onChange'],
 										})(
 											<Input
-												/* onChange={(e)=>{e.persist();this.ReValidConfirmNewPassword(e)}} */
+												maxLength={20}
 												onFocus={this.handlePasswordTipVisible.bind(this, false)}
 												style={{ marginLeft: 8, width: 265, height: 32 }}
 												className="yc-input"
@@ -179,10 +182,14 @@ class topMenu extends React.Component {
 									{ required: true, whitespace: true, message: "两次新密码不一致" },
 									{ validator: twoNewPasswordValidator.bind(this) }
 								],
+								getValueFromEvent(event) {
+									return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
+								},
 								validateFirst: true,
 								validateTrigger: ['onSubmit', 'onBlur', 'onChange'],
 							})(
 								<Input
+									maxLength={20}
 									style={{ marginLeft: 8, width: 265, height: 32 }}
 									className="yc-input"
 									placeholder="请确认新密码，长度为6-20位，不允许有空格"
