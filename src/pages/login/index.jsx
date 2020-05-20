@@ -72,7 +72,7 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showForm: 'login', //展示表单  1.login 登录表单 2.findPassword 找回密码表单 
+			showForm: 'findPassword', //展示表单  1.login 登录表单 2.findPassword 找回密码表单 
 			phoneCodeButton: 'get', // 获取手机验证码按钮展现样式 1.get 获取 2.again 重新获取需要s秒(倒计时)
 			ifAutoLogin: false, //设置是否自动登录
 			codeImgSrc: '',  //图片验证码

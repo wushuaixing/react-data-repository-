@@ -57,8 +57,11 @@
             width: 320px;
             height: 40px;
             font-size: 16px;
-            background-color: #0099cc;
+            background-color: #016AA9;
             margin-top: 37px;
+          }
+          .yc-login-button:disabled{
+            background: #f5f5f5;
           }
           .login-getCode_Button {
             font-size: 14px;

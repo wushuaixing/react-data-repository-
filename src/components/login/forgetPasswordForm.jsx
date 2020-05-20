@@ -9,7 +9,7 @@ class ForgetPasswordForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            step: 0,
+            step: 1,
             wait: 0,
             countDown: 0,
             timer: null,
@@ -113,7 +113,7 @@ class ForgetPasswordForm extends React.Component {
                         /* this.toRefreshPhoneCode() */
                     })
                 } else {
-                    message.info(res.data.message)
+                    message.error(res.data.message)
                     this.toRefreshImg()
                 }
             })
@@ -130,7 +130,7 @@ class ForgetPasswordForm extends React.Component {
                         this.props.form.resetFields()
                     })
                 } else {
-                    message.info('验证失败')
+                    message.error('验证失败')
                 }
             })
         } else {
@@ -140,7 +140,7 @@ class ForgetPasswordForm extends React.Component {
                     message.success('重置成功')
                     this.props.resetPasswordSuccess()
                 }else{
-                    message.info(res.data.message)
+                    message.error(res.data.message)
                 }
             })
         }
@@ -259,7 +259,6 @@ class ForgetPasswordForm extends React.Component {
                                     validateTrigger: ['onSubmit','onBlur'],
                                 })(
                                     <Input
-                                        maxLength={11}
                                         className="yc-input"
                                         prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
                                         placeholder="请输入手机验证码"
@@ -315,7 +314,7 @@ class ForgetPasswordForm extends React.Component {
                         </div>
                     }
                     <Form.Item style={{ marginTop: -25 }}>
-                        <a className="yc-forget" onClick={this.openDisabledPhoneModal} style={{ marginLeft: 240, visibility: this.phoneDisableTextVisible ? 'visible' : 'hidden' }}>手机号不可用</a>
+                        <a className="yc-forget" onClick={this.openDisabledPhoneModal} style={{ marginLeft: 240, visibility: this.phoneDisableTextVisible ? 'visible' : 'hidden' }}>手机号不可用?</a>
                         <Button disabled={!this.state.usernameValid&&step===1} type="primary" htmlType="submit" className="yc-login-button" style={{ marginTop: -20 }} onMouseDown={this.handleSubmit.bind(this)}>{this.state.step !== 2 ? '下一步' : '确定'}</Button>
                         {
                             step===1?
