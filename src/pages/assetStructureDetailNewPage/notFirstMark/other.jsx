@@ -9,6 +9,7 @@ import WrongDetail from '@/components/assetStructureDetail/wrongDetail'
 import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
 import { message } from 'antd'
+import { getCheckDetail,structuredById } from '@api'
 class Other extends React.Component {
     constructor(props) {
         super(props)
@@ -43,20 +44,49 @@ class Other extends React.Component {
             },1500)
         }
     }
+    get role(){
+        return this.props.history.location.pathname.split('/').slice(-1)[0]
+    }
+    componentDidMount(){
+        this.loadData()
+    }
+    loadData(){
+        const { associatedAnnotationId,associatedStatus } = this.props.match.params
+        if(this.role==='admin'){
+            getCheckDetail(associatedAnnotationId).then((res)=>{
+                if(res.data.code===200){
+                    this.setState({
+                        ...res.data.data
+                    })
+                }else{
+                    message.error(res.data.message)
+                }
+            })
+        }else{
+            structuredById(associatedAnnotationId,associatedStatus).then((res)=>{
+                if(res.data.code===200){
+                    this.setState({
+                        ...res.data.data
+                    })
+                }else{
+                    message.error(res.data.message)
+                }
+            })
+        }
+    }
     render() {
         const state = this.state
-        const role = this.props.history.location.pathname.split('/').slice(-1)[0]
         const basicDetails = {
             title: state.title,
             url: state.url,
             auctionStatus: state.auctionStatus,
             reasonForWithdrawal: state.reasonForWithdrawal
         }
-        basicDetails.records = role === 'admin' ? state.records : []
+        basicDetails.records = this.role === 'admin' ? state.records : []
         const moduleOrder = [
             <BasicDetail key={0} {...basicDetails}></BasicDetail>
         ]
-        if (parseInt(state.status) >= 2 && role === 'admin') {
+        if (parseInt(state.status) >= 2 && this.role === 'admin') {
             moduleOrder.unshift(
                 <WrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></WrongDetail>
             )

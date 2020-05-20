@@ -50,6 +50,21 @@ class Check extends React.Component {
         const length = this.state.records.length
         return (this.state.records[length - 1].desc === '结构化') ? 'submit' : 'update'
     }
+    componentDidMount(){
+        this.loadData()
+    }
+    loadData(){
+        const { associatedAnnotationId } = this.props.match.params
+        getCheckDetail(associatedAnnotationId).then((res)=>{
+            if(res.data.code===200){
+                this.setState({
+                    ...res.data.data
+                })
+            }else{
+                message.error(res.data.message)
+            }
+        })
+    }
     handleErrorModal = () => {
         this.setState({
             visible: true,

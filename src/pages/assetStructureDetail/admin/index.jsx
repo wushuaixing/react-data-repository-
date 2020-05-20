@@ -83,6 +83,7 @@ export default class AdminStructure extends React.Component {
         const moduleOrder = [
             <AdminBasicDetail
                 key={0} auctionID={state.id}
+                associatedAnnotationId={state.associatedAnnotationId}
                 type={state.type} records={state.records}
                 title={state.title} auctionStatus={state.auctionStatus}
                 reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}

@@ -21,6 +21,7 @@ class  Index extends React.Component {
               <TopMenu user={user}/>
               <div className="yc-main-body">
                 <div className="yc-left-menu" >
+                  
                   <LeftMenu role={role} />
                 </div>
                 <div className="yc-right-content">

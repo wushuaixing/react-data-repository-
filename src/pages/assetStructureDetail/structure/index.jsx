@@ -276,6 +276,7 @@ class StructureDetail extends React.Component {
         const tag = `${state.MARK}/${state.TOTAL}`
         const moduleOrder = [
             <StructureBasicDetail
+                associatedAnnotationId={state.associatedAnnotationId} associatedStatus={state.associatedStatus}
                 auctionID={state.id}
                 type={state.type}
                 title={state.title} auctionStatus={state.auctionStatus}

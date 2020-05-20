@@ -7,12 +7,14 @@ import 'moment/locale/zh-cn';
 import App from './pages/App';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
-
+import ErrorBoundary from './pages/errorPage/exceptionPage'
 
 moment.locale('zh-cn');
 
 ReactDOM.render(
-	<ConfigProvider locale={zh_CN}><App /></ConfigProvider>,
+	<ConfigProvider locale={zh_CN}>
+		<ErrorBoundary><App /></ErrorBoundary>
+	</ConfigProvider>,
 	document.getElementById('root'));
 
 serviceWorker.unregister();

@@ -7,9 +7,9 @@ class index extends React.Component {
         return (
             <div className="yc-right-content">
                 <Switch>
-                    <Route path="/notFirstMark/check" component={Check} />
-				    <Route path="/notFirstMark/admin"  component={Other} />
-                    <Route path="/notFirstMark/structure"  component={Other} />
+                    <Route path="/notFirstMark/check/:associatedAnnotationId" component={Check} />
+				    <Route path="/notFirstMark/admin/:associatedAnnotationId"  component={Other} />
+                    <Route path="/notFirstMark/structure/:associatedAnnotationId/:associatedStatus"  component={Other} />
                 </Switch>
             </div>
         );
