@@ -9,7 +9,7 @@ class ForgetPasswordForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            step: 1,
+            step: 0,
             wait: 0,
             countDown: 0,
             timer: null,
@@ -130,7 +130,7 @@ class ForgetPasswordForm extends React.Component {
                         this.props.form.resetFields()
                     })
                 } else {
-                    message.error('验证失败')
+                    message.error(res.data.message)
                 }
             })
         } else {
@@ -281,8 +281,8 @@ class ForgetPasswordForm extends React.Component {
                                                     { min: 6, message: '密码小于6位' }
                                                 ],
                                                 getValueFromEvent(event) {
-                                                    return event.target.value.replace(/\s/g, "")
-                                                },
+													return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
+												},
                                                 validateFirst: true,
                                                 validateTrigger: ['onSubmit', 'onBlur', 'onChange'],
                                             })(
@@ -301,10 +301,14 @@ class ForgetPasswordForm extends React.Component {
                                         { required: true, whitespace: true, message: "两次新密码不一致" },
                                         { validator: twoNewPasswordValidator.bind(this) }
                                     ],
+                                    getValueFromEvent(event) {
+                                        return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
+                                    },
                                     validateFirst: true,
                                     validateTrigger: ['onSubmit', 'onBlur', 'onChange'],
                                 })(
                                     <Input
+                                        maxLength={20}
                                         className="yc-input"
                                         placeholder="再次输入新密码"
                                         autoComplete="new-password"
