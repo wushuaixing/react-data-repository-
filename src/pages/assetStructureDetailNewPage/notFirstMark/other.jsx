@@ -9,7 +9,7 @@ import WrongDetail from '@/components/assetStructureDetail/wrongDetail'
 import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
 import { message } from 'antd'
-import { getCheckDetail, structuredById } from '@api'
+import { getCheckDetail, structuredById,getWrongTypeAndLevel } from '@api'
 class Other extends React.Component {
     constructor(props) {
         super(props)
@@ -50,6 +50,17 @@ class Other extends React.Component {
     componentDidMount() {
         this.loadData()
     }
+    getWrongReason(associatedAnnotationId){
+        getWrongTypeAndLevel(associatedAnnotationId).then((res)=>{
+            if(res.data.code===200&&res.data.data){
+                this.setState({
+                    wrongData:res.data.data
+                })
+            }else{
+                message.error(res.data.message)
+            }
+        })
+    }
     loadData() {
         const { associatedAnnotationId, associatedStatus } = this.props.match.params
         if (this.role === 'admin') {
@@ -59,7 +70,9 @@ class Other extends React.Component {
                         ...res.data.data,
                         status:this.state.detailStatus
                     },()=>{
-                        console.log(this.state)
+                        if(this.state.detailStatus>=3){
+                            this.getWrongReason(associatedAnnotationId)
+                        }
                     })
                 }
 
@@ -90,7 +103,7 @@ class Other extends React.Component {
         ]
         if (parseInt(state.status) >= 2 && this.role === 'admin') {
             moduleOrder.unshift(
-                <WrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></WrongDetail>
+                <WrongDetail wrongData={state.wrongData} key={1} ></WrongDetail>
             )
         }
         return (

@@ -90,7 +90,7 @@ class Other extends React.Component {
         ]
         if (parseInt(state.status) >= 2) {
             moduleOrder.unshift(
-                <WrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></WrongDetail>
+                <WrongDetail wrongData={state.wrongData} key={1} ></WrongDetail>
             )
         }
         return (
