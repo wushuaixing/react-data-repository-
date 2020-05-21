@@ -75,7 +75,7 @@ class ForgetPasswordForm extends React.Component {
                 this.setState({
                     isSendPhoneCode: true,
                     timer: setInterval(this.refreshTime.bind(this), 1000),
-                    countDown: 20
+                    countDown: 60
                 }, () => {
 
                 });
