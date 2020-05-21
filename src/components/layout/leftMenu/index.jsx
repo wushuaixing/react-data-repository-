@@ -1,6 +1,5 @@
 import React from 'react';
 import { Menu } from 'antd';
-import 'antd/dist/antd.css';
 import { getAvailableNav, } from "@api";
 import { Link, withRouter } from "react-router-dom";
 import admin from "@/assets/img/admin.png";

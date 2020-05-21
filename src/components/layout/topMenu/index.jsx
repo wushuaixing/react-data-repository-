@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import logo from "@/assets/img/top_logo.png";
 import { changePassword, logout } from "@api";
 import { twoNewPasswordValidator, oldAndNewPasswordValidator } from "@/utils/validators";
-import 'antd/dist/antd.css';
+
 import './style.scss';
 
 

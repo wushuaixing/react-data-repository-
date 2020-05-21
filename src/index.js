@@ -6,6 +6,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import App from './pages/App';
 import * as serviceWorker from './serviceWorker';
+import './assets/css/antd.less';
 import './index.css';
 import ErrorBoundary from './pages/errorPage/exceptionPage'
 
