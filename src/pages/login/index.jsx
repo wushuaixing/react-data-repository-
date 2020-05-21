@@ -8,7 +8,7 @@ import { codeMessage } from "../../static/status";
 import box from '../../assets/img/loginPage-box.png';
 import logo from '../../assets/img/loginPage-logoText.png';
 import miniLogo from '../../assets/img/loginPage-logo.png';
-import 'antd/dist/antd.css';
+
 import './style.scss';
 
 const { confirm, info } = Modal;
