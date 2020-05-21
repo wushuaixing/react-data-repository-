@@ -152,7 +152,7 @@ class Check extends React.Component {
                 auctionStatus={state.auctionStatus} key={0}
                 reasonForWithdrawal={state.reasonForWithdrawal}></BasicDetail>
         ]
-        if (parseInt(state.status) >= 2) {
+        if (parseInt(state.status) >= 3) {
             moduleOrder.unshift(
                 <WrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></WrongDetail>
             )

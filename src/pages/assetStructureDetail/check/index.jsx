@@ -291,7 +291,7 @@ class Check extends React.Component {
                 associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
             </CheckBasicDetail>
         ]
-        if (parseInt(status) >= 3) {
+        if (parseInt(status) >= 3&&state.wrongData&&state.wrongData.length>0) {
             moduleOrder.unshift(
                 <CheckWrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></CheckWrongDetail>
             )

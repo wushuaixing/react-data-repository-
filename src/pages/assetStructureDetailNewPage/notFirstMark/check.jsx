@@ -89,27 +89,28 @@ class Check extends React.Component {
         }
     }
     submitWrongRecord(data, checkError = true) {
-        const { id, status } = this.state
+        const { status } = this.state
+        const { associatedAnnotationId } = this.props.match.params
         if (this.updateOrSubmitCheck === 'submit') {
             let params = {
                 checkWrongLog: Object.assign({}, data),
                 checkError,
-                id
+                id:associatedAnnotationId
             }
             inspectorCheck(params, status).then(res => {
                 if (res.data.code === 200) {
                     message.success("操作成功,2秒后为您关闭页面");
-                    /* setTimeout(this.handleClosePage, 2000) */
+                    setTimeout(this.handleClosePage, 2000)
                 } else {
                     message.error("操作失败");
                 }
             });
         } else {
             let params = (checkError) ? { ...data } : new CheckWrongLog();
-            changeWrongType(id, params).then(res => {
+            changeWrongType(associatedAnnotationId, params).then(res => {
                 if (res.data.code === 200) {
                     message.success("操作成功,2秒后为您关闭页面");
-                    /* setTimeout(this.handleClosePage, 2000) */
+                    setTimeout(this.handleClosePage, 2000)
                 } else {
                     message.error("操作失败");
                 }
@@ -135,7 +136,7 @@ class Check extends React.Component {
                 auctionStatus={state.auctionStatus} key={0}
                 reasonForWithdrawal={state.reasonForWithdrawal}></BasicDetail>
         ]
-        if (parseInt(state.status) >= 2) {
+        if (parseInt(state.status) >= 3) {
             moduleOrder.unshift(
                 <WrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></WrongDetail>
             )

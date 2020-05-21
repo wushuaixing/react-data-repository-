@@ -68,9 +68,9 @@ class Other extends React.Component {
                 if (res.data) {
                     this.setState({
                         ...res.data.data,
-                        status:this.state.detailStatus
+                        status:res.data.data.detailStatus
                     },()=>{
-                        if(this.state.detailStatus>=3){
+                        if(this.role==='admin'&&this.state.status!==1){
                             this.getWrongReason(associatedAnnotationId)
                         }
                     })
@@ -101,9 +101,12 @@ class Other extends React.Component {
         const moduleOrder = [
             <BasicDetail key={0} {...basicDetails}></BasicDetail>
         ]
-        if (parseInt(state.status) >= 2 && this.role === 'admin') {
+        if (this.state.wrongData.length>0 && this.role === 'admin') {
+            const wrongData = state.wrongData.filter((item)=>{
+                return item.wrongLevel!==0
+            })
             moduleOrder.unshift(
-                <WrongDetail wrongData={state.wrongData} key={1} ></WrongDetail>
+                <WrongDetail wrongData={wrongData} key={1} ></WrongDetail>
             )
         }
         return (
