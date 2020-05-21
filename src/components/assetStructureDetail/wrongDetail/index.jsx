@@ -9,15 +9,23 @@ function WrongTypeAndLevel() {
     this.wrongLevel = 0
 }
 const wrongDetail = (props) => {
-    let wrongData  = (props.wrongData&&props.wrongData.length>0)?props.wrongData:[new WrongTypeAndLevel()]
+    let wrongData = (props.wrongData && props.wrongData.length > 0) ? props.wrongData : [new WrongTypeAndLevel()]
+    const role = (localStorage.getItem('userState') === '管理员' || this.props.role === 'admin') ? 'admin' : 'no'
     
     return (
         <div className="yc-components-assetStructureDetail">
             <div className="yc-components-assetStructureDetail_header">错误原因</div>
             {
-                wrongData.map((wrongDetail,index) => {
+                wrongData.map((wrongDetail, index) => {
                     return (
                         <div key={index}>
+                            {
+                                role === 'admin' &&
+                                <div className="yc-components-assetStructureDetail_body-row">
+                                    <span className='yc-components-assetStructureDetail_body-row_title' style={{marginRight:15}}>{`${wrongDetail.date} ${wrongDetail.name}检查`}</span>
+                                    <WrongReasonRow text={'有误'} inline={true}></WrongReasonRow>
+                                </div>
+                            }
                             <div className="yc-components-assetStructureDetail_body-row">
                                 <span className='yc-components-assetStructureDetail_body-row_title'>错误等级：</span>
                                 <WrongReasonRow text={WRONG_LEVEL[wrongDetail.wrongLevel]} inline={true}></WrongReasonRow>
@@ -29,7 +37,7 @@ const wrongDetail = (props) => {
                                             return (
                                                 <WrongReasonTitleRow title={'错误原因：'} text={item} index={index} key={index}></WrongReasonTitleRow>
                                             )
-                                        }) : 
+                                        }) :
                                         <WrongReasonTitleRow title={'错误原因：'} index={0} text={'-'}></WrongReasonTitleRow>
                                 }
                             </div>

@@ -19,15 +19,15 @@ class Other extends React.Component {
             records: [],
             title: '',
             reasonForWithdrawal: '',
-            auctionStatus: 0,
+            auctionStatus: null,
             url: '',
-            collateral: 1,
+            collateral: null,
             buildingArea: null,
             houseType: null,
-            wsFindStatus: 0,
+            wsFindStatus: null,
             wsUrl: [],
             ah: [],
-            wsInAttach: 1,
+            wsInAttach: null,
             obligors: []
         }
     }
@@ -80,7 +80,9 @@ class Other extends React.Component {
             title: state.title,
             url: state.url,
             auctionStatus: state.auctionStatus,
-            reasonForWithdrawal: state.reasonForWithdrawal
+            reasonForWithdrawal: state.reasonForWithdrawal,
+            auctionID:state.id,
+            role:this.role
         }
         basicDetails.records = this.role === 'admin' ? state.records : []
         const moduleOrder = [

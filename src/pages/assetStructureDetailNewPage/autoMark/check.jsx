@@ -27,28 +27,58 @@ class Check extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            visible: false,
-            records: [{ desc: "结构化", error: false, errorLevel: 0, time: "2020-05-19 10:55:20", user: "邵颖结构化" }],
-            title: '测试111',
-            reasonForWithdrawal: '测试撤回原因',
-            auctionStatus: 9,
-            url: 'http://www.baidu.com',
-            collateral: 1,
-            buildingArea: 1.3,
-            houseType: 1,
-            wsFindStatus: 1,
-            wsUrl: [{ value: '测试文书1' }],
-            ah: [{ value: '测试案号1' }, { value: '测试案号2' }],
-            wsInAttach: 1,
-            obligors: [{ birthday: 0, gender: "0", labelType: "2", name: "中国建设银行", notes: "", number: "", type: "4" }],
+            status: 0,
             wrongData: [],
-            returnRemarks: '',
-            status: 0 //测试状态  0 未检查 1 检查无误 2 检查错误 3 已修改
+            records: [],
+            title: '',
+            reasonForWithdrawal: '',
+            auctionStatus: null,
+            url: '',
+            collateral: null,
+            buildingArea: null,
+            houseType: null,
+            wsFindStatus: null,
+            wsUrl: [],
+            ah: [],
+            wsInAttach: null,
+            obligors: [],
+            wrongData: [],
         }
     }
     get updateOrSubmitCheck() {
         const length = this.state.records.length
         return (this.state.records[length - 1].desc === '结构化') ? 'submit' : 'update'
+    }
+    loadData(){
+        const { associatedAnnotationId } = this.props.match.params
+        getCheckDetail(associatedAnnotationId).then((res)=>{
+            if(res.data.code===200&&res.data.data){
+                this.setState({
+                    ...res.data.data,
+                    status:res.data.data.detailStatus
+                },()=>{
+                    if(this.state.detailStatus>=3){
+                        this.getWrongReason(associatedAnnotationId)
+                    }
+                })
+            }else{
+                message.error(res.data.message)
+            }
+        })
+    }
+    getWrongReason(associatedAnnotationId){
+        getWrongTypeAndLevel(associatedAnnotationId).then((res)=>{
+            if(res.data.code===200&&res.data.data){
+                this.setState({
+                    wrongData:res.data.data
+                })
+            }else{
+                message.error(res.data.message)
+            }
+        })
+    }
+    componentDidMount(){
+        this.loadData()
     }
     handleErrorModal = () => {
         this.setState({
@@ -75,24 +105,26 @@ class Check extends React.Component {
         }
     }
     submitWrongRecord(data, checkError = true) {
-        const { id, status } = this.state
+        const { status } = this.state
+        const { associatedAnnotationId } = this.props.match.params
+        console.log(this.state)
         if (this.updateOrSubmitCheck === 'submit') {
             let params = {
                 checkWrongLog: Object.assign({}, data),
                 checkError,
-                id
+                id:associatedAnnotationId
             }
             inspectorCheck(params, status).then(res => {
                 if (res.data.code === 200) {
                     message.success("操作成功,2秒后为您关闭页面");
-                    setTimeout(this.handleClosePage, 2000)
+                    //setTimeout(this.handleClosePage, 2000)
                 } else {
                     message.error("操作失败");
                 }
             });
         } else {
             let params = (checkError) ? { ...data } : new CheckWrongLog();
-            changeWrongType(id, params).then(res => {
+            changeWrongType(associatedAnnotationId, params).then(res => {
                 if (res.data.code === 200) {
                     message.success("操作成功,2秒后为您关闭页面");
                     setTimeout(this.handleClosePage, 2000)

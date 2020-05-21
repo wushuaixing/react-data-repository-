@@ -131,6 +131,7 @@ class Check extends React.Component {
         const state = this.state
         const moduleOrder = [
             <BasicDetail
+                auctionID={state.id}
                 records={state.records} title={state.title} url={state.url}
                 auctionStatus={state.auctionStatus} key={0}
                 reasonForWithdrawal={state.reasonForWithdrawal}></BasicDetail>
