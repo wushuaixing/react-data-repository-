@@ -9,25 +9,27 @@ import WrongDetail from '@/components/assetStructureDetail/wrongDetail'
 import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
 import { message } from 'antd'
+import {getCheckDetail,getWrongTypeAndLevel} from '@api';
 class Other extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            status: 3,
+            status: 0,
             wrongData: [],
-            records: [{ desc: "结构化", error: false, errorLevel: 0, time: "2020-05-19 10:55:20", user: "邵颖结构化" }],
-            title: '测试111',
-            reasonForWithdrawal: '测试撤回原因',
-            auctionStatus: 9,
-            url: 'http://www.baidu.com',
-            collateral: 1,
-            buildingArea: 1.3,
-            houseType: 1,
-            wsFindStatus: 1,
-            wsUrl: [{ value: '测试文书1' }],
-            ah: [{ value: '测试案号1' }, { value: '测试案号2' }],
-            wsInAttach: 1,
-            obligors: [{ birthday: 0, gender: "0", labelType: "2", name: "中国建设银行", notes: "", number: "", type: "4" }]
+            records: [],
+            title: '',
+            reasonForWithdrawal: '',
+            auctionStatus: null,
+            url: '',
+            collateral: null,
+            buildingArea: null,
+            houseType: null,
+            wsFindStatus: null,
+            wsUrl: [],
+            ah: [],
+            wsInAttach: null,
+            obligors: [],
+            wrongData: [],
         }
     }
     handleClosePage() {
@@ -42,6 +44,37 @@ class Other extends React.Component {
                 window.location.href = "about:blank";
             },1500)
         }
+    }
+    componentDidMount(){
+        this.loadData()
+    }
+    loadData(){
+        const { associatedAnnotationId } = this.props.match.params
+        getCheckDetail(associatedAnnotationId).then((res)=>{
+            if(res.data.code===200&&res.data.data){
+                this.setState({
+                    ...res.data.data,
+                    status:res.data.data.detailStatus
+                },()=>{
+                    if(this.state.detailStatus>=3){
+                        this.getWrongReason(associatedAnnotationId)
+                    }
+                })
+            }else{
+                message.error(res.data.message)
+            }
+        })
+    }
+    getWrongReason(associatedAnnotationId){
+        getWrongTypeAndLevel(associatedAnnotationId).then((res)=>{
+            if(res.data.code===200&&res.data.data){
+                this.setState({
+                    wrongData:res.data.data
+                })
+            }else{
+                message.error(res.data.message)
+            }
+        })
     }
     render() {
         const state = this.state

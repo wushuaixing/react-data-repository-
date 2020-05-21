@@ -305,7 +305,6 @@ class ForgetPasswordForm extends React.Component {
                             <Form.Item>
                                 {getFieldDecorator('confirmPassword', {
                                     rules: [
-                                        { required: true, whitespace: true, message: "两次新密码不一致" },
                                         { validator: twoNewPasswordValidator.bind(this) }
                                     ],
                                     getValueFromEvent(event) {
