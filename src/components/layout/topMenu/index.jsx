@@ -128,7 +128,7 @@ class topMenu extends React.Component {
 					onCancel={this.handleCancel}
 					footer={footer}
 				>
-					<Form {...formItemLayout}>
+					<Form {...formItemLayout} hideRequiredMark={true}>
 						<Form.Item label="原密码">
 							{getFieldDecorator('oldPassword', {
 								rules: [
@@ -178,7 +178,6 @@ class topMenu extends React.Component {
 						<Form.Item label={label}>
 							{getFieldDecorator('confirmNewPassword', {
 								rules: [
-									{ required: true, whitespace: true, message: "两次新密码不一致" },
 									{ validator: twoNewPasswordValidator.bind(this) }
 								],
 								getValueFromEvent(event) {

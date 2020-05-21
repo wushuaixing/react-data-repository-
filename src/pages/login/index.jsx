@@ -150,7 +150,7 @@ class Login extends React.Component {
 	handleErrorModalAndInfoByTime(messageText) {
 		const { errorCount } = this.state
 		if (errorCount >= 6 && errorCount < 10) {
-			showManyTimeErroConfirm.bind(this)(errorCount)
+			messageText==='图形验证码输入错误'?message.error(messageText):showManyTimeErroConfirm.bind(this)(errorCount)
 			this.toRefreshImg()
 		} else if (errorCount >= 10) {
 			showFreezeConfirm.bind(this)()
@@ -242,7 +242,6 @@ class Login extends React.Component {
 															style={{ width: 175 }}
 															className="yc-input"
 															prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
-															type="password"
 															placeholder="请输入图片验证码"
 														/>,
 													)}
