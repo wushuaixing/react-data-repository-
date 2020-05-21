@@ -56,13 +56,11 @@ export default class AdminStructure extends React.Component {
             }, () => {
             })
         })
-        if (parseInt(status) >= 3) {
-            getWrongTypeAndLevel(id).then((res) => {
-                this.setState({
-                    wrongData: res.data.data
-                })
+        getWrongTypeAndLevel(id).then((res) => {
+            this.setState({
+                wrongData: res.data.data
             })
-        }
+        })
         if (parseInt(status) === 5) {
             getFeedBackRemark(id).then((res) => {
                 console.log(res)
@@ -90,14 +88,17 @@ export default class AdminStructure extends React.Component {
                 associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
                 ></AdminBasicDetail>
         ]
-        if (parseInt(status) >= 3) {
+        if (state.wrongData&&state.wrongData.length>0) {
+            const wrongData = state.wrongData.filter((item)=>{
+                return item.wrongLevel!==0
+            })
             moduleOrder.unshift(
-                <AdminWrongDetail wrongData={state.wrongData} key={1} role={'check'}></AdminWrongDetail>
+                <AdminWrongDetail wrongData={wrongData} key={1} role={'admin'}></AdminWrongDetail>
             )
         }
         if (parseInt(status) === 5) {
             moduleOrder.unshift(
-                <ReturnRemark key={2} notes={'可找到文书文书链接:xxxx'}></ReturnRemark>
+                <ReturnRemark key={2} notes={''}></ReturnRemark>
             )
         }
         return (
