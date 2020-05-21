@@ -63,6 +63,11 @@ class ButtonGroup extends React.Component {
         const checkButtons = this.checkButtons
         return [
             {
+                status: '0',
+                name: '初始',
+                btns: []
+            },
+            {
                 status: '1',
                 name: '未检查',
                 btns: [checkButtons['err'], checkButtons['noErr']]

@@ -61,7 +61,7 @@ class Check extends React.Component {
     get updateOrSubmitCheck() {
         const length = this.state.records.length
         const desc = this.state.records[length - 1].desc
-        return (['结构化','自动标注'].indexOf(desc)>=0) ? 'submit' : 'update'
+        return (['结构化','自动标注'].indexOf(desc)>=0||length===0) ? 'submit' : 'update'
     }
     componentDidMount() {
         const { id, status,isNotConfirm } = this.props.match.params

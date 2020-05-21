@@ -10,7 +10,7 @@ function WrongTypeAndLevel() {
 }
 const wrongDetail = (props) => {
     let wrongData = (props.wrongData && props.wrongData.length > 0) ? props.wrongData : [new WrongTypeAndLevel()]
-    const role = (localStorage.getItem('userState') === '管理员' || this.props.role === 'admin') ? 'admin' : 'no'
+    const role = (localStorage.getItem('userState') === '管理员' || props.role === 'admin') ? 'admin' : 'no'
     
     return (
         <div className="yc-components-assetStructureDetail">

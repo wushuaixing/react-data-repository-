@@ -47,7 +47,8 @@ class Check extends React.Component {
     }
     get updateOrSubmitCheck() {
         const length = this.state.records.length
-        return (this.state.records[length - 1].desc === '结构化') ? 'submit' : 'update'
+        const desc = this.state.records[length - 1].desc
+        return (['结构化','自动标注'].indexOf(desc)>=0||length===0) ? 'submit' : 'update'
     }
     loadData(){
         const { associatedAnnotationId } = this.props.match.params
@@ -107,7 +108,6 @@ class Check extends React.Component {
     submitWrongRecord(data, checkError = true) {
         const { status } = this.state
         const { associatedAnnotationId } = this.props.match.params
-        console.log(this.state)
         if (this.updateOrSubmitCheck === 'submit') {
             let params = {
                 checkWrongLog: Object.assign({}, data),
@@ -117,7 +117,7 @@ class Check extends React.Component {
             inspectorCheck(params, status).then(res => {
                 if (res.data.code === 200) {
                     message.success("操作成功,2秒后为您关闭页面");
-                    //setTimeout(this.handleClosePage, 2000)
+                    setTimeout(this.handleClosePage, 2000)
                 } else {
                     message.error("操作失败");
                 }
@@ -165,10 +165,10 @@ class Check extends React.Component {
                     <div className="assetStructureDetail-structure_container_header">
                         {moduleOrder[0]}
                         <ButtonGroup
+                            handleClosePage={this.handleClosePage.bind(this)}
                             handleErrorModal={this.handleErrorModal.bind(this)}
                             handleNoErr={this.handleNoErr.bind(this)}
                             role={'notFirstMark-check'} status={state.status}>
-
                         </ButtonGroup>
                     </div>
                     <div className="assetStructureDetail-structure_container_body">
@@ -187,7 +187,7 @@ class Check extends React.Component {
                     </div>
                 </div>
                 <CheckModal visible={state.visible}
-                    returnRemarks={state.returnRemarks}
+                    status={state.status}
                     wrongReasons={state.wrongData.slice(-1)}
                     handleModalSubmit={this.handleModalSubmit.bind(this)}
                     handleModalCancel={this.handleModalCancel.bind(this)}
