@@ -99,11 +99,7 @@ export const Columns = [
 		dataIndex: "checkPersonnel",
 		render: (text, record) => (
 			<span>
-				{!record.checkPersonnelEnable ?
-					<p style={{ fontSize: 12 }}>{record.checkPersonnel ? record.checkPersonnel : '--'}
-						<span style={{ color: 'rgb(177, 177, 177)' }}>(已删除)</span></p>
-					: <p style={{ fontSize: 12 }}>{record.checkPersonnel}</p>
-				}
+				<p style={{ fontSize: 12 }}>{record.checkPersonnel}</p>
 			</span>
 		),
 	},
