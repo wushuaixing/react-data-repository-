@@ -103,42 +103,42 @@ class Index extends React.Component {
 
     getStructuredPersonnelTypeList(data) {
         let typeList = [{
-			id: "用户类型",
-			array: [
-				{
-					value: 'all',
-					label: "全部"
-				},
-				{
-					value: 'deleted',
-					label: "已删除"
-				},
-				{
-					value: 'auto',
-					label: "自动标注"
-				}
-			]
-		}] //类名数组 
-		let tempList = [] //类名数组的子集  负责暂时存放
-		for(let key in data){
-			let typeData = data[key] //包含两类 chineseLetter和digit
-			let typeMark = data[key][0]["firstNameRank"]  //类名 */
-			for(let i=0;i<typeData.length;i++){
-				if (typeData[i].firstNameRank !== typeMark) {
-					typeList.push({
-						id: typeMark,
-						array: tempList
-					})
-					typeMark = typeData[i].firstNameRank;
-					tempList = [];
-				}
-				tempList.push({
-					value: typeData[i].id,
-					label: typeData[i].name
-				})
-			}
-		}
-		return typeList;
+            id: "用户类型",
+            array: [
+                {
+                    value: 'all',
+                    label: "全部"
+                },
+                {
+                    value: 'deleted',
+                    label: "已删除"
+                },
+                {
+                    value: 'auto',
+                    label: "自动标注"
+                }
+            ]
+        }] //类名数组 
+        let tempList = [] //类名数组的子集  负责暂时存放
+        for (let key in data) {
+            let typeData = data[key] //包含两类 chineseLetter和digit
+            let typeMark = data[key][0]["firstNameRank"]  //类名 */
+            for (let i = 0; i < typeData.length; i++) {
+                if (typeData[i].firstNameRank !== typeMark) {
+                    typeList.push({
+                        id: typeMark,
+                        array: tempList
+                    })
+                    typeMark = typeData[i].firstNameRank;
+                    tempList = [];
+                }
+                tempList.push({
+                    value: typeData[i].id,
+                    label: typeData[i].name
+                })
+            }
+        }
+        return typeList;
     }
     getCheckPersonnelList(data) {
         let checklist = [];
@@ -209,7 +209,12 @@ class Index extends React.Component {
                         {getFieldDecorator('userId', {
                             initialValue: null
                         })(
-                            <Select style={{ width: 198, marginLeft: 4 }} transfer placeholder="请选择">
+                            <Select
+                                showSearch optionFilterProp="children.props.children"
+                                filterOption={(input, option) =>
+                                    option.props.children.indexOf(input) >= 0
+                                }
+                                style={{ width: 198, marginLeft: 4 }} transfer placeholder="请选择">
                                 {
                                     userList.map((item, index) => {
                                         return (
@@ -235,7 +240,8 @@ class Index extends React.Component {
                         {getFieldDecorator('checkUserId', {
                             initialValue: null
                         })(
-                            <Select style={{ width: 198, marginLeft: 4 }} transfer placeholder="请选择">
+                            <Select
+                                style={{ width: 198, marginLeft: 4 }} transfer placeholder="请选择">
                                 {
                                     checkUserList.map((item) => {
                                         return (
