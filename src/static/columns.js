@@ -99,7 +99,7 @@ export const Columns = [
 		dataIndex: "checkPersonnel",
 		render: (text, record) => (
 			<span>
-				<p style={{ fontSize: 12 }}>{record.checkPersonnel}</p>
+				<p style={{ fontSize: 12 }}>{record.checkPersonnel ? record.checkPersonnel : '--'}</p>
 			</span>
 		),
 	},
