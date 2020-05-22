@@ -42,7 +42,6 @@ class Check extends React.Component {
 			<div>
 				<Modal
 					visible={this.props.visible}
-					destroyOnClose={true}
 					closable={true}
 					footer={null}
 					title={<span><Icon type="exclamation-circle" theme="twoTone" twoToneColor="#f5222d" /> 确认本条结构化数据标注结果有误吗？</span>}
