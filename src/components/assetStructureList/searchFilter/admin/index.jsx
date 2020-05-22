@@ -207,7 +207,7 @@ class Index extends React.Component {
                     </Form.Item>
                     <Form.Item label="结构化人员">
                         {getFieldDecorator('userId', {
-                            initialValue: null
+                            initialValue: 'all'
                         })(
                             <Select
                                 showSearch optionFilterProp="children.props.children"
@@ -238,7 +238,7 @@ class Index extends React.Component {
                     </Form.Item>
                     <Form.Item label="检查人员">
                         {getFieldDecorator('checkUserId', {
-                            initialValue: null
+                            initialValue: ''
                         })(
                             <Select
                                 style={{ width: 198, marginLeft: 4 }} transfer placeholder="请选择">
