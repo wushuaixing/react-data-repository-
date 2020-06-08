@@ -7,6 +7,7 @@ import CheckWrongDetail from '@/components/assetStructureDetail/wrongDetail'
 import ReturnRemark from '@/components/assetStructureDetail/returnRemark'
 import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
+import { withRouter } from 'react-router-dom'
 import './index.scss'
 import {
     changeWrongType,//在结构化人员未修改前 再次修改错误
@@ -311,7 +312,7 @@ class Check extends React.Component {
                         <CheckButtonGroup
                             role={'check'} enable={enable} type={state.type}
                             handleErrorModal={this.handleErrorModal.bind(this)}
-                            handleBack={this.onClickToTable}
+                            handleBack={this.onClickToTable.bind(this)}
                             handleStructureUpdate={this.handleStructureUpdate.bind(this)}
                             handleNoErr={this.handleNoErr.bind(this)}
                             handleSubmit={this.handleSubmit.bind(this)}
@@ -360,4 +361,4 @@ class Check extends React.Component {
     }
 }
 
-export default Check;
+export default withRouter(Check);
