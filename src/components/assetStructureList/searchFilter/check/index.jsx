@@ -197,8 +197,7 @@ class Index extends React.Component {
 													return (
 														<Option
 															value={ele.value}
-															key={index}
-														>
+															key={index}>
 															{ele.label}
 														</Option>
 													)
