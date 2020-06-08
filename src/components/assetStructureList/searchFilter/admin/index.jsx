@@ -107,15 +107,18 @@ class Index extends React.Component {
             array: [
                 {
                     value: 'all',
-                    label: "全部"
+                    label: "全部",
+                    enable:true
                 },
                 {
                     value: 'deleted',
-                    label: "已删除"
+                    label: "已删除",
+                    enable:true
                 },
                 {
                     value: 'auto',
-                    label: "自动标注"
+                    label: "自动标注",
+                    enable:true
                 }
             ]
         }] //类名数组 
@@ -232,7 +235,7 @@ class Index extends React.Component {
                                                             <Option
                                                                 value={ele.value} key={index}>
                                                                 {ele.label}
-                                                                {ele.enable && <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
+                                                                {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
                                                             </Option>
                                                         )
                                                     })
