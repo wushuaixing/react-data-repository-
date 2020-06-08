@@ -2,8 +2,8 @@ import React from 'react';
 import { Form, Input, Button, DatePicker, Tabs, Table, Spin, message } from 'antd';
 import { Columns } from "@/static/columns";
 import createPaginationProps from "@/utils/pagination";
-import { structuredList, getNewStructuredData, structuredCheckErrorNum } from "@api";
-import { Link, withRouter } from "react-router-dom";
+import { structuredList, getNewStructuredData, structuredCheckErrorNum,getAutoBidding } from "@api";
+import { withRouter } from "react-router-dom";
 import { BreadCrumb, SearchAndClearButtonGroup, AssetTabTextWithNumber } from '@commonComponents'
 import { dateUtils } from "@utils/common";
 
@@ -150,6 +150,23 @@ class Asset extends React.Component {
 			})
 		})
 	};
+
+	checkIsAutoMarked(record) {
+		getAutoBidding(record.id).then((res)=>{
+			if(res.data.code===200){
+				if(!res.data.data){
+					//未被自动标注
+					this.props.history.push(`/index/structureDetail/${record.status}/${record.id}`)
+				}else{
+					message.warning('数据已被自动标注,2s后为您刷新界面')
+				}
+			}else{
+				Promise.reject('接口错误')
+			}
+		}).catch(err=>{
+			message.error(err);
+		})
+	}
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { tableList, total, waitNum, page, tabIndex, loading } = this.state;
@@ -163,11 +180,9 @@ class Asset extends React.Component {
 				width: 180,
 				render: (text, record) => (
 					<span>
-						<Link to={`/index/structureDetail/${record.status}/${record.id}`}>
-							<Button>
-								{tabIndex === 0 ? '标注' : '修改标注'}
-							</Button>
-						</Link>
+						<Button onClick={this.checkIsAutoMarked.bind(this,record)}>
+							{tabIndex === 0 ? '标注' : '修改标注'}
+						</Button>
 					</span>
 				),
 			},
@@ -181,7 +196,7 @@ class Asset extends React.Component {
 		const paginationProps = createPaginationProps(page, total)
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['资产结构化']} breadButtonText={'获取新数据'} handleClick={this.getNewData.bind(this)} disabled={this.state.loading||this.state.buttonDisabled}></BreadCrumb>
+				<BreadCrumb texts={['资产结构化']} breadButtonText={'获取新数据'} handleClick={this.getNewData.bind(this)} disabled={this.state.loading || this.state.buttonDisabled}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
 						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{ marginLeft: 10, marginTop: 15 }}>

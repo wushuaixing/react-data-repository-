@@ -329,3 +329,7 @@ export const getWrongTypeAndLevel = (id)=>{
 export const getFeedBackRemark = (id)=>{
 	return axios.get(`/api/asset/inspector/control/getFeedBackRemark?id=${id}`);
 }
+
+export const getAutoBidding = (id)=>{
+	return axios.get(`/api/asset/structured/control/getAutoBidding?id=${id}`);
+}
