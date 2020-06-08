@@ -100,7 +100,7 @@ class ButtonGroup extends React.Component {
             save: <Button onClick={this.handleStructureUpdate.bind(this)} key="3" style={{ marginRight: 10 }}>{'保存'}</Button>,
             confirm: <Button onClick={this.handleConfirm.bind(this)} key="4">{'确认'}</Button>,
             modify: <Button onClick={this.handleErrorModal.bind(this)} key="5" style={{ marginRight: 10 }}>{'修改错误原因'}</Button>,
-            back: <Button onClick={this.handleBack} key="6" style={{ marginRight: 10 }}>{'返回'}</Button>,
+            back: <Button onClick={this.handleBack.bind(this)} key="6" style={{ marginRight: 10 }}>{'返回'}</Button>,
             close:<Button onClick={this.handleClosePage.bind(this)} key="7" style={{ marginRight: 10 }}>{'关闭'}</Button>
         }
     }

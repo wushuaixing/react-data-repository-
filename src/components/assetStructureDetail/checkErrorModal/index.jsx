@@ -67,7 +67,7 @@ class Check extends React.Component {
 							</Form.Item>
 							<Form.Item className="part" label="错误等级" style={{ fontSize: 12 }}>
 								{getFieldDecorator('wrongLevel', {
-									initialValue: wrongReasons.wrongLevel?wrongReasons.wrongLevel:7,
+									initialValue: wrongReasons.wrongLevel&&isShowWrongRemark?wrongReasons.wrongLevel:7,
 								})(
 									<Radio.Group initialValue={7}>
 										<Radio value={7}>
@@ -84,7 +84,7 @@ class Check extends React.Component {
 							</Form.Item>
 							<Form.Item className="part" label="出错原因">
 								{getFieldDecorator('auctionExtractWrongTypes', {
-									initialValue:wrongReasons.auctionExtractWrongTypes?wrongReasons.auctionExtractWrongTypes:[],
+									initialValue:wrongReasons.auctionExtractWrongTypes&&isShowWrongRemark?wrongReasons.auctionExtractWrongTypes:[],
 								})(
 									<CheckboxGroup onChange={this.onChangeReason}>
 										{REASON_LIST && REASON_LIST.map((item) => {
