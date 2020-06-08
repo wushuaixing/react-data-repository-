@@ -29,44 +29,54 @@ class Index extends React.Component {
 		});
 	};
 	getStructuredPersonnelTypeList(data) {
-		let typeList = [{
-			id: "用户类型",
-			array: [
-				{
-					value: 'all',
-					label: "全部"
-				},
-				{
-					value: 'deleted',
-					label: "已删除"
-				},
-				{
-					value: 'auto',
-					label: "自动标注"
-				}
-			]
-		}] //类名数组 
-		let tempList = [] //类名数组的子集  负责暂时存放
-		for(let key in data){
-			let typeData = data[key] //包含两类 chineseLetter和digit
-			let typeMark = data[key][0]["firstNameRank"]  //类名 */
-			for(let i=0;i<typeData.length;i++){
-				if (typeData[i].firstNameRank !== typeMark) {
-					typeList.push({
-						id: typeMark,
-						array: tempList
-					})
-					typeMark = typeData[i].firstNameRank;
-					tempList = [];
-				}
-				tempList.push({
-					value: typeData[i].id,
-					label: typeData[i].name
-				})
-			}
-		}
-		return typeList;
-	}
+        let personnelTypeList = [{
+            id: "用户类型",
+            array: [
+                {
+                    value: 'all',
+                    label: "全部",
+                    enable:true
+                },
+                {
+                    value: 'deleted',
+                    label: "已删除",
+                    enable:true
+                },
+                {
+                    value: 'auto',
+                    label: "自动标注",
+                    enable:true
+                }
+            ]
+        }] //类名数组 
+        let typeData = data.chineseLetter //包含两类 chineseLetter和digit
+        for (let i = 0; i < typeData.length; i++) {
+            const item = typeData[i]
+            if (item.firstNameRank === personnelTypeList.slice(-1)[0].id) {
+                personnelTypeList[personnelTypeList.length - 1].array.push({
+                    value: item.id,
+                    label: item.name,
+                    enable: item.enable
+                })
+            } else {
+                personnelTypeList.push({
+                    id: item.firstNameRank,
+                    array: []
+                })
+            }
+        }
+        personnelTypeList.push({
+            id: '#',
+            array: data.digit.map((item) => (
+                {
+                    value: item.id,
+                    label: item.name,
+                    enable: item.enable
+                }
+            ))
+        })
+        return personnelTypeList;
+    }
 
 	// 搜索框
 	handleSearch = e => {
@@ -190,22 +200,22 @@ class Index extends React.Component {
 								  }
 								transfer placeholder="请选择">
 								{
-									userList && userList.map((item, index) =>
-										<OptGroup label={item.id} key={index}>
-											{
-												item.array.map((ele, index) => {
-													return (
-														<Option
-															value={ele.value}
-															key={index}
-														>
-															{ele.label}
-														</Option>
-													)
-												})
-											}
-										</OptGroup>
-									)
+									userList.map((item, index) => {
+                                        return (
+                                            <OptGroup label={item.id} key={index}>
+                                                {
+                                                    item.array.map((ele, index) => {
+                                                        return (
+                                                            <Option
+                                                                value={ele.value} key={index}>
+                                                                {ele.label}
+                                                                {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
+                                                            </Option>
+                                                        )
+                                                    })
+                                                }
+                                            </OptGroup>)
+                                    })
 								}
 							</Select>
 						)}

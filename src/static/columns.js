@@ -88,7 +88,7 @@ export const Columns = [
 			<span>
 				{!record.structPersonnelEnable ?
 					<p style={{ fontSize: 12 }}>{record.structPersonnel ? record.structPersonnel : '--'}
-						<span style={{ color: 'rgb(177, 177, 177)' }}>(已删除)</span></p>
+						{record.structPersonnel!=='自动标注'&&<span style={{ color: 'rgb(177, 177, 177)' }}>(已删除)</span>}</p>
 					: <p style={{ fontSize: 12 }}>{record.structPersonnel}</p>
 				}
 			</span>

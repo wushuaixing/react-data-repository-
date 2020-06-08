@@ -333,10 +333,10 @@ class Check extends React.Component {
                         <CheckDocumentDetail
                             enable={enable}
                             wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl} ah={state.ah} wsInAttach={state.wsInAttach}
-                            handleDocumentChange={this.handleChange.bind(this)}
+                            handleDocumentChange={this.handleDocumentChange.bind(this)}
                             handleChange={this.handleChange.bind(this)}
-                            handleAddClick={this.handleChange.bind(this)}
-                            handleDeleteClick={this.handleChange.bind(this)}
+                            handleAddClick={this.handleAddClick.bind(this)}
+                            handleDeleteClick={this.handleDeleteClick.bind(this)}
                         ></CheckDocumentDetail>
                         <RoleDetail
                             obligors={state.obligors}
