@@ -56,10 +56,10 @@ class topMenu extends React.Component {
 		});
 	};
 
-	logOut(){
+	logOut() {
 		confirm({
 			content: '确定要退出登录吗?',
-			onOk:()=>{
+			onOk: () => {
 				logout().then(res => {
 					if (res.data.code === 200) {
 						window.localStorage.removeItem("userState");
@@ -108,13 +108,13 @@ class topMenu extends React.Component {
 		return (
 			<div>
 				<div className="top-title">
-					<img src={logo} alt="" />
-					<p className="title">
-						源诚数据资产平台
-					</p>
+					<div className="title">
+						<img src={logo} alt="" />
+						<span>源诚数据资产平台</span>
+					</div>
 					<div className="user-message">
 						<Dropdown className="user-drop" overlay={menu} trigger={['click']}>
-							<a className="dropdown-link" href="" style={{ marginRight: 10 }}>
+							<a className="dropdown-link" href="">
 								Hi, {user} <Icon type="down" />
 							</a>
 						</Dropdown>
