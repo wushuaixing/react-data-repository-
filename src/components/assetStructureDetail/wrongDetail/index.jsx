@@ -34,10 +34,10 @@ const wrongDetail = (props) => {
                                     wrongDetail.remark && wrongDetail.remark.length > 0 ?
                                         wrongDetail.remark.map((item, index) => {
                                             return (
-                                                <WrongReasonTitleRow title={'错误原因：'} text={item} index={index} key={index}></WrongReasonTitleRow>
+                                                <WrongReasonTitleRow title={'错误详情：'} text={item} index={index} key={index}></WrongReasonTitleRow>
                                             )
                                         }) :
-                                        <WrongReasonTitleRow title={'错误原因：'} index={0} text={'-'}></WrongReasonTitleRow>
+                                        <WrongReasonTitleRow title={'错误详情：'} index={0} text={'-'}></WrongReasonTitleRow>
                                 }
                             </div>
                         </div>

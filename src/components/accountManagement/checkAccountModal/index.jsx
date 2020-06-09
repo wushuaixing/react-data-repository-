@@ -25,7 +25,7 @@ class AccountManage extends React.Component {
   handleCancel = () => {
     this.props.handleCancel();
   };
-  handleAutoCompletePsw(){
+  handleAutoCompletePsw() {
     const account = this.props.form.getFieldValue('mobile')
     if (/^\d{11}$/.test(account)) {
       let defautlPsw = (account.length > 6) ? account.substring(account.length - 6) : account
@@ -35,13 +35,18 @@ class AccountManage extends React.Component {
   render() {
     const { visible, action, info } = this.props;
     const { getFieldDecorator } = this.props.form;
+    const footer =
+      <div className="yc-modal-footer">
+        <Button type="primary" onMouseDown={this.handleSubmit.bind(this)} htmlType="submit">确定</Button>
+        <Button onClick={this.handleCancel.bind(this)}>取消</Button>
+      </div>
     return (
       <div>
         <Modal
           title="添加检查账号"
           visible={visible}
           destroyOnClose={true}
-          footer={null}
+          footer={footer}
           maskClosable
           onCancel={this.handleCancel.bind(this)}
         >
@@ -50,7 +55,7 @@ class AccountManage extends React.Component {
               {getFieldDecorator('name', {
                 rules: [
                   { required: true, message: "姓名不能为空", },
-                  { max:20,message:'姓名最大长度为20个字符' }
+                  { max: 20, message: '姓名最大长度为20个字符' }
                 ],
                 getValueFromEvent(event) {
                   return event.target.value.replace(/\s/g, "")
@@ -66,23 +71,23 @@ class AccountManage extends React.Component {
             </Form.Item>
             <Form.Item className="yc-form-item" label="账号:">
               {
-                action==='add'?
-                getFieldDecorator('mobile', {
-                  rules: [
-                    { required: true, message: "账号不能为空", },
-                    { pattern: /^\d{11}$/, message: '账户格式不正确，需为11位手机号码' }
-                  ],
-                  validateTrigger: 'onBlur',
-                  initialValue: ''
-                })(
-                  
+                action === 'add' ?
+                  getFieldDecorator('mobile', {
+                    rules: [
+                      { required: true, message: "账号不能为空", },
+                      { pattern: /^\d{11}$/, message: '账户格式不正确，需为11位手机号码' }
+                    ],
+                    validateTrigger: 'onBlur',
+                    initialValue: ''
+                  })(
+
                     <Input
                       onBlur={this.handleAutoCompletePsw.bind(this)}
                       className="yc-form-input"
                       placeholder="请输入手机号"
                     />
-                ):
-                <div style={{paddingLeft:5}}>{info.accountNo}</div>
+                  ) :
+                  <div style={{ paddingLeft: 5 }}>{info.accountNo}</div>
               }
             </Form.Item>
             {action === 'add' ?
@@ -95,7 +100,7 @@ class AccountManage extends React.Component {
                   getValueFromEvent(event) {
                     return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
                   },
-                  validateTrigger: ['onBlur','onSubmit'],
+                  validateTrigger: ['onBlur', 'onSubmit'],
                   initialValue: ''
                 })(
                   <Input
@@ -105,10 +110,7 @@ class AccountManage extends React.Component {
                   />,
                 )}
               </Form.Item> : ''}
-            <div className="yc-modal-footer">
-              <Button type="primary" onMouseDown={this.handleSubmit.bind(this)} htmlType="submit">确定</Button>
-              <Button  onClick={this.handleCancel.bind(this)}>取消</Button>
-            </div>
+
           </Form>
         </Modal>
       </div>

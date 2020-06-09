@@ -81,19 +81,19 @@ class topMenu extends React.Component {
 		const { visible } = this.state;
 		const { getFieldDecorator } = this.props.form;
 		const label = <span>确认新密码</span>
-		const footer = [
-			// 定义右下角 按钮的地方 可根据需要使用 一个或者 2个按钮
+		const footer = 
+		<div className="yc-modal-footer">
 			<Button key="submit"
 				type="primary"
 				htmlType="submit"
-				onMouseDown={this.handleSubmit.bind(this)}
-				style={{ backgroundColor: '#0099CC', width: 120, height: 36, marginRight: 15 }}>
+				onMouseDown={this.handleSubmit.bind(this)}>
 				确定
-			</Button>,
+			</Button>
 			<Button key="back"
-				onClick={this.handleCancel}
-				style={{ width: 120, height: 36, marginLeft: 0 }}>
-				取消</Button>]
+				onClick={this.handleCancel}>
+				取消
+			</Button>
+		</div>
 		const menu = (
 			<Menu className="yc-components-topMenu" style={{ marginTop: 8, }}>
 				<Menu.Item key="0">
