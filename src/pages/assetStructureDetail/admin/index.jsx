@@ -56,14 +56,16 @@ export default class AdminStructure extends React.Component {
             }, () => {
             })
         })
-        getWrongTypeAndLevel(id).then((res) => {
-            this.setState({
-                wrongData: res.data.data
+        if (parseInt(status)>=2){
+            getWrongTypeAndLevel(id).then((res) => {
+                const wrongData = res.data.data.filter((item)=>item.wrongLevel!==0)
+                this.setState({
+                    wrongData
+                })
             })
-        })
+        }
         if (parseInt(status) === 5) {
             getFeedBackRemark(id).then((res) => {
-                console.log(res)
                 this.setState({
                     returnRemarks: {
                         ...res.data.data
