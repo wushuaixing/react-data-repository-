@@ -294,7 +294,7 @@ class Check extends React.Component {
         ]
         if (parseInt(status) >= 3&&state.wrongData&&state.wrongData.length>0) {
             moduleOrder.unshift(
-                <CheckWrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></CheckWrongDetail>
+                <CheckWrongDetail wrongData={state.wrongData.slice(0,1)} key={1} ></CheckWrongDetail>
             )
         }
         if (parseInt(isNotConfirm) === 1) {

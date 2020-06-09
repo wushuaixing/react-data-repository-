@@ -85,19 +85,21 @@ function StructureRecord(props) {
     const { index, record } = props
     let classType = 'structure-record'
     let temp = null;
+    let userType = 0;
     if (record.desc === '结构化') {
-        temp = index === 0 ? '初次结构化':'修改'
+        temp = index === 0 ? '初次结构化':'修改';
     } 
     else if (record.desc === '自动标注'){
-        temp = '自动标注'
+        temp = '自动标注';
     }
     else {
-        temp = record.error?'有误':'无误'
-        classType = record.error?'structure-record-error':'structure-record-noErr'
+        temp = record.error?'有误':'无误';
+        userType = 1;
+        classType = record.error?'structure-record-error':'structure-record-noErr';
     }
     return (
         <span>
-            {`${record.time} ${record.user}`} <span className={classType}>{temp}</span>
+            {`${record.time} ${record.user}${userType===1?'检查':''}`} <span className={classType}>{temp}</span>
             {
                 record.desc==='自动标注'?
                 <span style={{marginLeft:20}}>
