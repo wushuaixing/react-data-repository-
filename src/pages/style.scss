@@ -4,9 +4,6 @@
   .yc-search-line {
     > div {
       display: inline-block;
-      margin-bottom: 16px;
-      margin-right: 20px;
-      margin-left: 20px;
       > p {
         display: inline-block;
         margin-right: 10px;
@@ -32,9 +29,9 @@
   }
 
   .yc-tab {
-    margin: 10px;
+    margin-left:4px;
+    margin-top:20px;
     .tab-title {
-      margin: 10px 10px;
       font-size: 16px;
       color: #293038;
       width: 90%;
@@ -124,4 +121,8 @@
 //覆盖ant表单输入项错误下方提示样式 跟label对齐
 .ant-form-explain {
   margin-left: 15px;
+}
+
+.yc-search-form{
+  margin:21px 0px 0px 20px !important;
 }

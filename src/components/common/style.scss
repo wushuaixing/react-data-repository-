@@ -1,13 +1,12 @@
 .yc-components {
     &-breadCrumb {
         border-bottom: 1px solid #e2e4e9;
-        padding: 16px 0 0 20px;
+        padding: 16px 0 16px 20px;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
         &-body {
-            margin: 10px;
             font-size: 16px;
             color: #293038;
             font-weight: 800;

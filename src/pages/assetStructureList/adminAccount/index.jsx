@@ -137,7 +137,6 @@ class Admin extends React.Component {
                             toClear={this.clearSearch.bind(this)}
                         />
                     </div>
-                    <p className="line" />
                     <div className="yc-tab">
                         <Spin tip="Loading..." spinning={loading}>
                             <AdminTable

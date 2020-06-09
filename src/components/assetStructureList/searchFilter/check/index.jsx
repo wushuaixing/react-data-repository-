@@ -140,7 +140,7 @@ class Index extends React.Component {
 		const { userList } = this.state;
 		return (
 			<div>
-				<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form" style={{ marginLeft: 10, marginTop: 15 }}>
+				<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
 					<Form.Item label="标题">
 						{getFieldDecorator('title', {
 							initialValue: ''
@@ -152,7 +152,6 @@ class Index extends React.Component {
 								style={{ width: 240 }}
 							/>)}
 					</Form.Item>
-
 					<Form.Item label={this.columnShowTimeType}>
 						{getFieldDecorator('structuredStartTime', {
 							initialValue: null
