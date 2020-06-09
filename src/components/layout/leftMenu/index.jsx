@@ -176,9 +176,8 @@ class Sider extends React.Component {
           theme="dark"
           style={{ width: 150 }}
           openKeys={openKeys}
-          selectable={false}
-          onOpenChange={this.onOpenChange}
-        >
+          selectable={true}
+          onOpenChange={this.onOpenChange}>
           {
             menuList.map((item, index) => {
               return item.subs && item.subs.length > 0 ? this.renderSubMenu(item, index) : this.renderMenuItem(item)
