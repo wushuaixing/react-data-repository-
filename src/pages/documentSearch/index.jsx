@@ -231,7 +231,7 @@ class Check extends React.Component {
 										</Col>
 										<Col span={5} style={{ textAlign: 'right' }}>
 											<Form.Item>
-												<Button type="primary" htmlType="submit" style={{ backgroundColor: '#0099CC', marginLeft: 15 }}>
+												<Button type="primary" htmlType="submit" style={{ marginLeft: 15 }}>
 													搜索
 									</Button>
 												<Button type="default" style={{ marginLeft: 5 }} onClick={this.clearSearch}>

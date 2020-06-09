@@ -107,7 +107,7 @@ class Check extends React.Component {
 								</div>
 							</div>
 							<div className="footer">
-								<Button type="primary" onClick={this.modalOk} style={{ backgroundColor: '#0099CC' }}>确定</Button>
+								<Button type="primary" onClick={this.modalOk}>确定</Button>
 								<Button onClick={this.modalCancel}>取消</Button>
 							</div>
 						</Form>

@@ -9,18 +9,13 @@
         margin-right: 10px;
       }
     }
-
     .ant-form label {
       font-size: 12px;
     }
     .ant-input {
       font-size: 12px;
     }
-    .ant-select-selection {
-      font-size: 12px;
-    }
   }
-
   .line {
     margin: 10px;
     width: 100%;
@@ -95,17 +90,13 @@
 }
 //模态框底部
 .yc-modal-footer {
-  margin-top: 30px;
+  margin-top: 0px;
   text-align: center;
   > button {
     width: 120px;
     height: 36px;
     margin-left: 10px;
     margin-right: 10px;
-  }
-  & .ant-btn:nth-of-type(1) {
-    background-color: #0099cc;
-    font-size: 16px;
   }
 }
 //是input的父元素
@@ -115,8 +106,7 @@
 //全局表单输入框样式
 .yc-form-input {
   margin-left: 4px;
-  width: 260px;
-  height: 32px;
+  width: 260px !important;
 }
 //覆盖ant表单输入项错误下方提示样式 跟label对齐
 .ant-form-explain {
@@ -129,4 +119,13 @@
 
 .ant-pagination{
   padding-top:14px !important;
+}
+
+.ant-modal-title{
+  font-weight: bold !important;
+  color: #293038 !important;
+  line-height: 16px !important;
+}
+.ant-modal-header{
+  padding:20px !important;
 }
