@@ -69,7 +69,11 @@ class TabTable extends React.Component {
 									enable:record.structPersonnelEnable
 								}
 							}}>
-								{(record.status === 2 || record.status === 3 || record.status === 4)
+								{(record.status === 2 || record.status === 3 )
+									&& record.structPersonnelEnable
+									&& record.structPersonnel !== '自动标注'
+									&& <Button style={{ fontSize: 12 }} >修改检查</Button>}
+								{(record.status === 4)
 									&& record.structPersonnelEnable
 									&& record.structPersonnel !== '自动标注'
 									&& <Button style={{ fontSize: 12 }} >再次检查</Button>}
