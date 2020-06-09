@@ -184,7 +184,8 @@ class Index extends React.Component {
 						</div>
 						<Spin tip="Loading..." spinning={loading}>
 							<div>
-								<Table rowClassName="table-list" columns={columns} dataSource={tableList} className="role-table"
+								<Table 
+									columns={columns} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
 									onChange={this.onChangePage}
 									pagination={paginationProps}
