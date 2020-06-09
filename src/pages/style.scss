@@ -29,8 +29,8 @@
   }
 
   .yc-tab {
-    margin-left:4px;
     margin-top:20px;
+    padding:0 20px;
     .tab-title {
       font-size: 16px;
       color: #293038;
@@ -48,14 +48,14 @@
           margin-bottom: 6px;
         }
         .info-line {
-          line-height: 16px;
           .line-half {
             display: inline-block;
             width: 170px;
             position: relative;
             top: -13px;
-            > p {
+            span{
               display: inline-block;
+              line-height: 16px;
             }
           }
         }
