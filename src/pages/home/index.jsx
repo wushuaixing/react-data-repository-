@@ -21,8 +21,8 @@ class  Index extends React.Component {
               <TopMenu user={user}/>
               <div className="yc-main-body">
                 <div className="yc-left-menu" >
-                  
                   <LeftMenu role={role} />
+                  {/* <div style={{color:'red'}}>123</div> */}
                 </div>
                 <div className="yc-right-content">
                   { role === '结构化人员' && <StructureRoute />}

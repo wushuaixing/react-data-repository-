@@ -91,7 +91,8 @@ class AccountManage extends React.Component {
 				{
 					title: "当前错误条数",
 					dataIndex: "wrongNum",
-					sorter:true
+					sorter:true,
+					align:'center'
 				},
 				{
 					title: "操作",
