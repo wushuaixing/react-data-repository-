@@ -6,7 +6,7 @@
     width: 50%;
     &_header {
         font-size: 14px;
-        font-weight: 500;
+        font-weight: bold;
         margin-bottom: 20px;
         .role_mark {
             margin-left: 4px;
@@ -139,4 +139,21 @@
     .ant-btn {
         width: 100%;
     }
+}
+@mixin titleRightAlign($width:50px){
+    width:$width;
+    display: inline-block;
+    text-align: right;
+}
+
+.basicDetail_row{
+    @include titleRightAlign(100px);
+}
+
+.propertyDetail_row{
+    @include titleRightAlign(88px);
+}
+
+.documentDetail_row{
+    @include titleRightAlign(84px);
 }

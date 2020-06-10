@@ -21,7 +21,7 @@ class StructurePropertyDetail extends React.Component {
                 <div className="yc-components-assetStructureDetail_header">房产/土地信息</div>
                 <div className="yc-components-assetStructureDetail_body">
                     <div className="yc-components-assetStructureDetail_body-row">
-                        <span className='yc-components-assetStructureDetail_body-row_title'>抵押情况：</span>
+                        <span className='yc-components-assetStructureDetail_body-row_title propertyDetail_row'>抵押情况：</span>
                         {
                             enable?
                             <span>{parseInt(collateral)===1?'无抵押':'-'}</span>:
@@ -29,7 +29,7 @@ class StructurePropertyDetail extends React.Component {
                         }
                     </div>
                     <div className="yc-components-assetStructureDetail_body-row" style={{paddingTop:10}}>
-                        <span className='yc-components-assetStructureDetail_body-row_title'>房产/土地类型：</span>
+                        <span className='yc-components-assetStructureDetail_body-row_title propertyDetail_row'>房产/土地类型：</span>
                         {
                             enable ?
                                 <span>{this.props.houseType?HOUSE_TYPE[this.props.houseType]:'-'}</span> :
@@ -43,7 +43,7 @@ class StructurePropertyDetail extends React.Component {
                         }
                     </div>
                     <div className="yc-components-assetStructureDetail_body-row" style={{paddingTop:6}}>
-                        <span className='yc-components-assetStructureDetail_body-row_title'>建筑面积：</span>
+                        <span className='yc-components-assetStructureDetail_body-row_title propertyDetail_row'>建筑面积：</span>
                         <span>
                             {
                                 enable ?

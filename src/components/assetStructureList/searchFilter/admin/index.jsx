@@ -224,7 +224,7 @@ class Index extends React.Component {
                                 filterOption={(input, option) =>
                                     option.props.children.indexOf(input) >= 0
                                 }
-                                style={{ width: 198, marginLeft: 4 }} transfer placeholder="请选择">
+                                style={{ width: 178, marginLeft: 4 }} transfer placeholder="请选择">
                                 {
                                     userList.map((item, index) => {
                                         return (
@@ -251,7 +251,7 @@ class Index extends React.Component {
                             initialValue: ''
                         })(
                             <Select
-                                style={{ width: 198, marginLeft: 4 }} transfer placeholder="请选择">
+                                style={{ width: 178, marginLeft: 4 }} transfer placeholder="请选择">
                                 {
                                     checkUserList.map((item) => {
                                         return (

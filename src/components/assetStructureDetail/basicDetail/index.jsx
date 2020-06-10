@@ -52,12 +52,12 @@ const StructureBasicDetail = (props) => {
 const BasicDetailRow = (props) => {
     return (
         <div className="yc-components-assetStructureDetail_body-row">
-            <span className='yc-components-assetStructureDetail_body-row_title'>{`${props.title}：`}</span>
+            <span className='yc-components-assetStructureDetail_body-row_title basicDetail_row'>{`${props.title}：`}</span>
             {
                 props.to ?
                     <span>
                         <Link className='yc-components-assetStructureDetail_body-row_link' to={props.to} target="_blank">{props.content}</Link>
-                    </span> :
+                    </span>:
                     (
                         (props.content instanceof Array) ?
                             <span>
