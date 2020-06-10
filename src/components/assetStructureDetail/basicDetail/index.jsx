@@ -64,7 +64,7 @@ const BasicDetailRow = (props) => {
                                 {
                                     props.content.map((record, index) => {
                                         return (
-                                            <span className={'yc-components-assetStructureDetail_body-row_content'} key={index} style={index !== 0 ? { marginLeft: 103.4, display: 'inline-block', marginTop: 5 } : null}>
+                                            <span className={'yc-components-assetStructureDetail_body-row_content'} key={index} style={index !== 0 ? { marginLeft: 113.4, display: 'inline-block', marginTop: 5 } : null}>
                                                 <StructureRecord record={record} key={index} index={index} autoMarkRoute={props.autoMarkRoute}></StructureRecord>
                                             </span>
                                         )
