@@ -147,11 +147,11 @@
 }
 
 .basicDetail_row{
-    @include titleRightAlign(100px);
+    @include titleRightAlign(110px);
 }
 
 .propertyDetail_row{
-    @include titleRightAlign(100px);
+    @include titleRightAlign(110px);
 }
 
 .documentDetail_row{
@@ -159,5 +159,5 @@
 }
 
 .wrongDetail_row{
-    margin-left:40px;
+    margin-left:50px;
 }
