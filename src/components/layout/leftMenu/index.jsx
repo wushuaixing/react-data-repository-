@@ -105,8 +105,8 @@ class Sider extends React.Component {
     return (
       <Menu.SubMenu key={_index}
         title={
-          <span>
-            <img style={{ marginLeft: -10, marginRight: 6, marginTop: -3 }} src={icon} width="15" height="16" alt="" />
+          <span style={{position:'relative',left:-6}}>
+            <img style={{ marginRight: 6, marginTop: -3 }} src={icon} width="15" height="16" alt="" />
             <span>{title}</span>
           </span>
         }
@@ -174,7 +174,7 @@ class Sider extends React.Component {
         <Menu
           mode="inline"
           theme="dark"
-          style={{ width: 150 }}
+          inlineIndent={16}
           openKeys={openKeys}
           selectable={true}
           onOpenChange={this.onOpenChange}>
