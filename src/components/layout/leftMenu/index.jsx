@@ -169,7 +169,7 @@ class Sider extends React.Component {
   render() {
     const { menuList, openKeys } = this.state;
     const defaultKey = this.getDefaultKey();
-    //console.log(openKeys)
+    console.log(menuList)
     return (
       <div>
         <Menu
@@ -177,6 +177,7 @@ class Sider extends React.Component {
           theme="dark"
           inlineIndent={16}
           openKeys={openKeys}
+          defaultOpenKeys={defaultKey}
           selectable={true}
           onOpenChange={this.onOpenChange}>
           {
