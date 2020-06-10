@@ -8,7 +8,7 @@
     height: 100px;
     margin: 0 auto;
     width: 1200px;
-    padding: 25px 0;
+    padding: 60px 0 25px 0;
     img {
       height: 50px;
       vertical-align: top;
@@ -17,7 +17,7 @@
 
   .yc-login-container {
     height: 650px;
-    padding-top: 85px;
+    padding-top: 35px;
     .yc-container-body {
       height: 600px;
       margin: 0 auto;
@@ -36,12 +36,14 @@
         position: relative;
         float: right;
         margin-top: 100px;
-        border-radius: 6px;
+        box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
         .yc-form-title {
           margin-top: 37px;
           text-align: center;
           font-size: 16px;
           color: #293038;
+          font-weight: bold;
         }
         .login-form {
           padding: 27px 40px;
@@ -49,20 +51,24 @@
             width: 320px;
             height: 40px;
           }
-          button{
-            background-color: #016AA9;
+          button {
+            background-color: #016aa9;
             height: 40px;
           }
           .yc-forget {
             font-size: 12px;
             color: #293038;
+            &:hover {
+              text-decoration: underline;
+              color: #016aa9;
+            }
           }
           .yc-login-button {
             width: 320px;
             font-size: 16px;
             margin-top: 37px;
           }
-          button:disabled{
+          button:disabled {
             background: #f5f5f5;
           }
           .login-getCode_Button {
@@ -70,8 +76,8 @@
             width: 132px;
             border-radius: 2px;
           }
-          .ant-input-affix-wrapper .ant-input-suffix{
-            right:0
+          .ant-input-affix-wrapper .ant-input-suffix {
+            right: 0;
           }
         }
       }
@@ -87,7 +93,7 @@
   }
   .yc-login-footer {
     height: 100px;
-    margin-top: 30px;
+    margin-top: 60px;
     margin-left: 300px;
     color: #666666;
     .footer-container {
