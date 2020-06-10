@@ -32,7 +32,7 @@ const StructureBasicDetail = (props) => {
                 <BasicDetailRow title={'拍卖状态'} content={AUCTION_STATUS[props.auctionStatus]}></BasicDetailRow>
                 {
                     (props.auctionStatus === 9 || props.auctionStatus === 11) ?
-                        <BasicDetailRow title={'撤回原因'} content={props.reasonForWithdrawal}></BasicDetailRow> :
+                        <BasicDetailRow title={'撤回原因'} content={props.reasonForWithdrawal?props.reasonForWithdrawal:'-'}></BasicDetailRow> :
                         null
                 }
                 {

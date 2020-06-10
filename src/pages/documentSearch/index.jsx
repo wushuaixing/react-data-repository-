@@ -234,7 +234,7 @@ class Check extends React.Component {
 												<Button type="primary" htmlType="submit" style={{ marginLeft: 15 }}>
 													搜索
 									</Button>
-												<Button type="default" style={{ marginLeft: 5 }} onClick={this.clearSearch}>
+												<Button type="default" style={{ marginLeft: 10 }} onClick={this.clearSearch}>
 													清空搜索条件
 									</Button>
 											</Form.Item>
