@@ -104,6 +104,7 @@ class Sider extends React.Component {
     let _index = index.toString();
     return (
       <Menu.SubMenu key={_index}
+
         title={
           <span style={{position:'relative',left:-6}}>
             <img style={{ marginRight: 6, marginTop: -3 }} src={icon} width="15" height="16" alt="" />
@@ -136,7 +137,7 @@ class Sider extends React.Component {
     return (
       <Menu.Item key={id}>
         <Link to={key} target={target}>
-          <span>{title}</span>
+          <span style={{fontSize:14}}>{title}</span>
         </Link>
       </Menu.Item>
     )
