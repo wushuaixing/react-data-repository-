@@ -20,13 +20,13 @@ const wrongDetail = (props) => {
                         <div key={index}>
                             {
                                 role === 'admin' &&
-                                <div className="yc-components-assetStructureDetail_body-row">
+                                <div className="yc-components-assetStructureDetail_body-row wrongDetail_row">
                                     <span className='yc-components-assetStructureDetail_body-row_title' style={{marginRight:15}}>{`${wrongDetail.date} ${wrongDetail.name}检查`}</span>
                                     <WrongReasonRow text={'有误'} inline={true}></WrongReasonRow>
                                 </div>
                             }
                             <div className="yc-components-assetStructureDetail_body-row">
-                                <span className='yc-components-assetStructureDetail_body-row_title'>错误等级：</span>
+                                <span className='yc-components-assetStructureDetail_body-row_title basicDetail_row'>错误等级：</span>
                                 <WrongReasonRow text={WRONG_LEVEL[wrongDetail.wrongLevel]} inline={true}></WrongReasonRow>
                             </div>
                             <div className="yc-components-assetStructureDetail_body-row">
@@ -50,7 +50,7 @@ const wrongDetail = (props) => {
 const WrongReasonTitleRow = (props) => {
     return (
         <div>
-            <span className='yc-components-assetStructureDetail_body-row_title' style={props.index === 0 ? null : { visibility: 'hidden' }}>{props.title}</span>
+            <span className='yc-components-assetStructureDetail_body-row_title basicDetail_row' style={props.index === 0 ? null : { visibility: 'hidden' }}>{props.title}</span>
             <WrongReasonRow text={props.text} inline={true}></WrongReasonRow><br></br>
         </div>
     )

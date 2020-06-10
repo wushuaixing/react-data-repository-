@@ -151,9 +151,13 @@
 }
 
 .propertyDetail_row{
-    @include titleRightAlign(88px);
+    @include titleRightAlign(100px);
 }
 
 .documentDetail_row{
     @include titleRightAlign(84px);
+}
+
+.wrongDetail_row{
+    margin-left:40px;
 }
