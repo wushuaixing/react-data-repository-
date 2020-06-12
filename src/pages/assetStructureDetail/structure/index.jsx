@@ -48,7 +48,7 @@ class StructureDetail extends React.Component {
             onlyThis: 0, //仅标记本条,
             TOTAL: 0,  //数据总量,
             MARK: 0,  //当前标记数
-            wrongData:[],
+            wrongData: [],
             isSendRequest: false, //是否已经发送了请求
             isUpdateRecord: false //判断是否修改了记录 没修改不让保存
         }
@@ -178,7 +178,7 @@ class StructureDetail extends React.Component {
             this.setState({
                 isSendRequest: false
             })
-            if (res.data.code === 200) {
+            if (res.data.code === 200 && res.data.data.sign !== '1') {
                 message.success('保存成功!')
                 //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
                 if ((status === '0' || status === '2') && res.data.data.id !== 0) {
@@ -204,7 +204,14 @@ class StructureDetail extends React.Component {
                 else {
                     this.props.history.push('/index')
                 }
-            } else {
+            }
+            else if (res.data.data.sign === '1') {
+                message.error('保存失败,数据已被自动标注,为您跳转至下一条')
+                this.props.history.push({
+                    pathname: `/index/structureDetail/${status}/${res.data.data.id}`
+                })
+            }
+            else {
                 message.error('保存失败!')
             }
         })
@@ -221,7 +228,7 @@ class StructureDetail extends React.Component {
                 }
                 const data = res.data
                 this.setState({
-                    associatedStatus:data.associatedStatus,
+                    associatedStatus: data.associatedStatus,
                     id: data.id,
                     associatedAnnotationId: data.associatedAnnotationId,
                     auctionStatus: data.auctionStatus,
@@ -295,7 +302,7 @@ class StructureDetail extends React.Component {
                     disabled={preId ? false : true}
                     texts={['资产结构化/详情']} note={tag}
                     handleClick={this.goPreviousRecord.bind(this)}
-                    icon={preId ?icon:iconGrey}></BreadCrumb>
+                    icon={preId ? icon : iconGrey}></BreadCrumb>
                 <div className="assetStructureDetail-structure_container">
                     <div className="assetStructureDetail-structure_container_header">
                         {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
