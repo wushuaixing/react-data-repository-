@@ -104,7 +104,6 @@ class topMenu extends React.Component {
 				</Menu.Item>
 			</Menu>
 		);
-
 		return (
 			<div>
 				<div className="top-title">
