@@ -170,24 +170,6 @@ class Index extends React.Component {
 								style={{ width: 108 }}
 							/>)}
 					</Form.Item>
-					<Form.Item label='检查时间'>
-						{getFieldDecorator('checkStartTime', {
-							initialValue: null
-						})
-							(<DatePicker
-								placeholder="检查开始时间"
-								style={{ width: 116 }}
-							/>)}
-					</Form.Item>
-					<Form.Item label="至">
-						{getFieldDecorator('checkEndTime', {
-							initialValue: null
-						})
-							(<DatePicker
-								placeholder="检查结束时间"
-								style={{ width: 116 }}
-							/>)}
-					</Form.Item>
 					<Form.Item label="结构化人员">
 						{getFieldDecorator('userId', {
 							initialValue: 'all'
