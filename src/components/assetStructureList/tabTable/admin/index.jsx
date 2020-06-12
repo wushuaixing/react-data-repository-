@@ -44,15 +44,18 @@ class TabTable extends React.Component {
     render() {
         const { data, checkErrorNum, editNum, total, tabIndex, page } = this.props;
         const paginationProps = createPaginationProps(page, total)
+        let dynamic_column_index = 4
+        if(tabIndex===1){
+            dynamic_column_index = 2
+        }else if(tabIndex===2){
+            dynamic_column_index = 3
+        }//根据不同的标签页显示不同的column
         const columns = [
             {
                 title: this.columnShowObject.title,
                 dataIndex: this.columnShowObject.dataIndex,
             },
-            Columns[0],
-            Columns[1],
-            Columns[2],
-            Columns[3],
+            ...Columns.slice(0,dynamic_column_index),
             {
                 title: "操作",
                 dataIndex: "action",
@@ -63,7 +66,7 @@ class TabTable extends React.Component {
                     return (
                         <span>
                             <Link to={{
-								pathname: `/index/structureDetail/${record.status}/${record.id}`
+								pathname: `/index/structureDetail/${record.status}/${record.info.id}`
 							}}>
                                 <Button style={{ fontSize: 12 }}>查看</Button>
                             </Link>
@@ -79,7 +82,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -88,7 +91,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -97,7 +100,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -106,7 +109,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -115,7 +118,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -124,7 +127,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />

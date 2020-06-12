@@ -181,6 +181,8 @@ class Index extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { userList, checkUserList } = this.state;
+        const { tabIndex } = this.props
+        console.log(tabIndex)
         return (
             <div>
                 <Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
@@ -214,7 +216,7 @@ class Index extends React.Component {
                                 style={{ width: 108 }}
                             />)}
                     </Form.Item>
-                    <Form.Item label="结构化人员">
+                    {tabIndex!==1&&<Form.Item label="结构化人员">
                         {getFieldDecorator('userId', {
                             initialValue: 'all'
                         })(
@@ -244,8 +246,8 @@ class Index extends React.Component {
                                 }
                             </Select>
                         )}
-                    </Form.Item>
-                    <Form.Item label="检查人员">
+                    </Form.Item>}
+                    {tabIndex!==1&&tabIndex!==2&&<Form.Item label="检查人员">
                         {getFieldDecorator('checkUserId', {
                             initialValue: ''
                         })(
@@ -266,7 +268,7 @@ class Index extends React.Component {
                                 }
                             </Select>
                         )}
-                    </Form.Item>
+                    </Form.Item>}
                     <Form.Item label="地区">
                         {
                             getFieldDecorator('area', {

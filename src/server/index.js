@@ -27,9 +27,7 @@ axios.interceptors.response.use(
 		if (response.data.code !== 200) {
 			// debugger
 			if (response.data.code === 401 ) {
-				// window.location.reload();
-				//history.push("/login");
-				// window.location.href = '/login';
+				window.location.href = '/login';
 			} else {
 				return response;
 			}
