@@ -74,7 +74,7 @@ class StructureDocumentDetail extends React.Component {
                                     num={this.linkInputNumber}
                                     handleChange={this.handleChange}
                                     handleDeleteClick={this.handleDeleteClick.bind(this)}
-                                    handleAddClick={this.props.handleAddClick.bind(this, 'wsUrl')}>>
+                                    handleAddClick={this.props.handleAddClick.bind(this, 'wsUrl')}>
                                 </DocumentLinkInputs>
                                 <div className="yc-components-assetStructureDetail_body-row">
                                     <span className='yc-components-assetStructureDetail_body-row_title'></span>
