@@ -68,6 +68,53 @@ const dateUtils = {
 
 }
 
+const formUtils = {
+	//array输入数组  default默认值 
+	processEmptyArray(array, defaultArray = []) {
+		if (array && (array instanceof Array) && array.length > 0) {
+			return array
+		}
+		else {
+			return defaultArray
+		}
+	},
+	//将null和undefined值统一改为''
+	replaceEmptyValue(data) {
+		if (typeof data === 'string') {
+			const dataString = JSON.stringify(data).replace(/null|undefined/g, '""')
+			return JSON.parse(dataString);
+		} else {
+			return data;
+		}
+	},
+	//去掉空行  参数1是对象数组  参数2是判断的键名数组
+	blockEmptyRow(rows = [], keys = []) {
+		let records = [] //记录处理后的数组
+		for (let i = 0; i < rows.length; i++) {
+			let rowObj = rows[i]
+			//let flag = true//标记用 如果字段全为空则设置为true是空行 默认是空行
+			for (let j = 0; j < keys.length; j++) {
+				let value = rowObj[keys[j]]
+				if (value !== '' && value !== undefined && value !== null) {
+					records.push(rowObj); break;
+				}
+			}
+		}
+		return records;
+	},
+	//过滤对象中的空属性
+	removeObjectNullVal(obj){
+		const newObj = {}
+		Object.keys(obj).forEach((key)=>{
+			const value = obj[key];
+			if(value !== '' && value !== undefined && value !== null){
+				newObj[key] = value
+			}
+		})
+		return newObj;
+	}
+}
+
 const clone = obj => {
 	var o;
 	// 如果  他是对象object的话  , 因为null,object,array  也是'object';
@@ -98,5 +145,5 @@ const clone = obj => {
 };
 
 export {
-	clone, filters, dateUtils
+	clone, filters, dateUtils,formUtils
 };

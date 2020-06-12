@@ -72,8 +72,7 @@ class Index extends React.Component {
                 }
                 //如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType 
                 //isNaN()判断的缺点就在于 null、空格以及空串会被按照0来处理 但外层已经处理
-                else if (key === 'userId' && isNaN(parseInt[formParams[key]])) {
-                    console.log(formParams[key])
+                else if (key === 'userId') {
                     switch (formParams[key]) {
                         case 'all':
                             params.userType = 0; break;
@@ -82,7 +81,7 @@ class Index extends React.Component {
                         case 'auto':
                             params.userType = 2; break;
                         default:
-                            break;
+                            params.userId = formParams[key]; break;
                     }
                 }
                 //无特殊情况 正常赋值

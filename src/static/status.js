@@ -152,16 +152,16 @@ export const WRONG_LEVEL = {
 
 export const CHARACTER_LIST = [
 	{
+		value: '',
+		label: "全部"
+	},
+	{
 		value: 1,
 		label: "正式"
 	},
 	{
 		value: 0,
 		label: "试用"
-	},
-	{
-		value: '',
-		label: "全部"
 	}
 ]
 

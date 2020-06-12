@@ -1,33 +1,33 @@
 /** right content for Account manage* */
 import React from 'react';
 import { BreadCrumb } from '@commonComponents'
-import { Tabs, Table, Spin, message } from "antd";
+import { Tabs, Table, Spin, message,Button,Modal } from "antd";
 import { userCreate, userView, userEdit, userReset, userRemove, userDelete } from "@api";
 import AccountModal from '@/components/accountManagement/structureAccountModal';
 import SearchAccount from "@/components/accountManagement/search";
-import createPaginationProps from '@/utils/pagination'
+import createPaginationProps from '@/utils/pagination';
+import { formUtils } from '@/utils/common';
 import '../style.scss';
 // ==================
 // 所需的所有组件
 // ==================
 const { TabPane } = Tabs;
-
+const { confirm } = Modal;
 class AccountManage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			action: 'add',
+			userInfo: {},
 			loading: false,
 			isEnabledUser: true,
 			role: '',
 			username: '',
 			total: 1,
 			visible: false,
-			action: 'add',
-			info: {},
-			tabIndex:1,
-			num:10,
+			tabIndex: "1",
 			page: 1,
-			totalWrongNumAsc:'', //排序  null:自然顺序 true:升序 false:降序
+			totalWrongNumAsc: '', //排序  null:自然顺序 true:升序 false:降序
 			columns: [
 				{
 					title: "ID",
@@ -91,8 +91,8 @@ class AccountManage extends React.Component {
 				{
 					title: "当前错误条数",
 					dataIndex: "wrongNum",
-					sorter:true,
-					align:'center'
+					sorter: true,
+					align: 'center'
 				},
 				{
 					title: "操作",
@@ -108,7 +108,16 @@ class AccountManage extends React.Component {
 			],
 		};
 	}
-
+	get searchParams() {
+		const { isEnabledUser, page, role, username,totalWrongNumAsc } = this.state
+		return formUtils.removeObjectNullVal({
+			isEnabledUser,
+			page,
+			role,
+			username:username.trim(),
+			totalWrongNumAsc:parseInt(this.state.tabIndex) === 2?totalWrongNumAsc:''
+		})
+	}
 	componentDidMount() {
 		//默认初始传入正常账号+全部
 		this.getTableList();
@@ -121,45 +130,56 @@ class AccountManage extends React.Component {
 		});
 	};
 
-	editAccount = (info) => {
+	editAccount = (userInfo) => {
 		this.setState({
-			info,
+			userInfo,
 		});
 		this.showModal('edit');
 	};
 
 	//重置密码
 	resetPassword(id) {
-		this.setState({
-			loading: true,
-		});
-		userReset(id).then(res => {
-			this.setState({
-				loading: false,
-			});
-			if (res.data.code === 200) {
-				message.success("重置密码成功");
-			} else {
-				message.error(res.data.message);
+		confirm({
+			title: '确认重置密码?',
+			content:'重置密码后,该账号密码为账号后6位',
+			onOk: () => {
+				this.setState({
+					loading: true,
+				});
+				userReset(id).then(res => {
+					this.setState({
+						loading: false,
+					});
+					if (res.data.code === 200) {
+						message.success("重置密码成功");
+					} else {
+						message.error(res.data.message);
+					}
+				});
 			}
 		});
 	};
 
 	//删除账号
 	deleteUser(id) {
-		console.log(id)
-		this.setState({
-			loading: true,
-		});
-		userRemove(id).then(res => {
-			this.setState({
-				loading: false,
-			});
-			if (res.data.code === 200) {
-				message.success("删除成功");
-				this.getTableList();
-			} else {
-				message.error(res.data.message);
+		confirm({
+			title: '确认删除账号?',
+			content:'删除后,该账户将无法在数据资产平台登录',
+			onOk: () => {
+				this.setState({
+					loading: true,
+				});
+				userRemove(id).then(res => {
+					this.setState({
+						loading: false,
+					});
+					if (res.data.code === 200) {
+						message.success("删除成功");
+						this.getTableList();
+					} else {
+						message.error(res.data.message);
+					}
+				});
 			}
 		});
 	};
@@ -181,21 +201,10 @@ class AccountManage extends React.Component {
 		});
 	};
 	getTableList = () => {
-		const { isEnabledUser, num, page,role, username,totalWrongNumAsc } = this.state;
-		let params = {
-			isEnabledUser,
-			num,
-			page,
-			role,
-			username
-		};
-		if(parseInt(this.state.tabIndex)===2){
-			params.totalWrongNumAsc = totalWrongNumAsc
-		}
 		this.setState({
 			loading: true,
 		});
-		userView(params).then(res => {
+		userView(this.searchParams).then(res => {
 			if (res.data.code === 200) {
 				this.setState({
 					loading: false,
@@ -223,6 +232,9 @@ class AccountManage extends React.Component {
 				});
 				if (res.data.code === 200) {
 					message.success("账号添加成功");
+					this.setState({
+						page:1
+					})
 				} else {
 					message.error(res.data.message);
 				}
@@ -249,59 +261,60 @@ class AccountManage extends React.Component {
 		});
 	};
 	//搜索
-	searchAccount = (value) => {
+	handleSearch = (formData) => {
 		this.setState({
-			username: value,
-		},()=>{
+			...formData
+		}, () => {
 			this.getTableList();
 		});
-	};
-	//角色选择
-	selectRole = (value) => {
-		console.log(value)
-		this.setState({
-			role: value,
-		},()=>{
-			this.getTableList();
-		})
 	};
 	//切换Tab
 	changeTab = (tabIndex) => {
 		this.setState({
-			isEnabledUser:tabIndex==="1"?true:false,
-			tabIndex:parseInt(tabIndex)
-		},()=>{
+			isEnabledUser: tabIndex === "1",
+			tabIndex
+		}, () => {
 			this.getTableList();
 		})
 	};
 	//换页和切换排序
-	handleTableChange = (pagination,filter,sorter) => {
+	handleTableChange = (pagination, filter, sorter) => {
 		let totalWrongNumAsc = ''
-		if(sorter.order){
-			totalWrongNumAsc = sorter.order==='descend'?false:true
+		if (sorter.order) {
+			totalWrongNumAsc = sorter.order === 'descend' ? false : true
 		}
 		this.setState({
 			page: pagination.current,
 			totalWrongNumAsc
-		},()=>{
+		}, () => {
 			this.getTableList();
 		});
 	};
+	handleClear(){
+		this.setState({
+			username:'',
+			role:'',
+			page:1
+		},()=>{
+			this.getTableList();
+		})
+	}
 	render() {
-		const { tableList, total, page, visible, action, columns, columnsDelete, info, loading } = this.state;
-		const paginationProps = createPaginationProps(page, total, true, 10)
+		const { role,username,tableList, total, page, visible, action, columns, columnsDelete, userInfo, loading,tabIndex } = this.state;
+		const paginationProps = createPaginationProps(page, total, true)
+		const roleButtons = this.state.tabIndex === "1" ?<Button onClick={this.showModal.bind(this,'add')}>+ 添加账号</Button>:null
 		return (
 			<div className="yc-content-container">
 				<BreadCrumb texts={['账号管理', '结构化账号']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<Spin tip="Loading..." spinning={loading}>
-						<Tabs defaultActiveKey="1" onChange={this.changeTab} animated={false} className="role-tab">
-							<TabPane tab="正常账号" key="1">
-								<SearchAccount 
-									tabIndex={this.state.tabIndex}	
-									handleShowModal={this.showModal.bind(this)}
-									searchFn={this.searchAccount.bind(this)}
-									roleFn={this.selectRole.bind(this)}
+						<Tabs defaultActiveKey={tabIndex} onChange={this.changeTab} animated={false} className="role-tab" tabBarExtraContent={roleButtons}>
+							<TabPane tab="正常账号" key={"1"}>
+								<SearchAccount
+									role={role} username={username}
+									tabIndex={this.state.tabIndex}
+									handleClear={this.handleClear.bind(this)}
+									handleSearch={this.handleSearch.bind(this)}
 								/>
 								<Table rowClassName="table-list" columns={columns} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
@@ -309,13 +322,14 @@ class AccountManage extends React.Component {
 									pagination={paginationProps}
 								/>
 							</TabPane>
-							<TabPane tab="已删除账号" key="2">
-								<SearchAccount handleShowModal={this.showModal.bind(this)}
+							<TabPane tab="已删除账号" key={"2"}>
+								<SearchAccount 
+									role={role} username={username}
 									tabIndex={this.state.tabIndex}
-									searchFn={this.searchAccount.bind(this)}
-									roleFn={this.selectRole.bind(this)}
+									handleClear={this.handleClear.bind(this)}
+									handleSearch={this.handleSearch.bind(this)}
 								/>
-								<Table 
+								<Table
 									rowClassName="table-list" columns={columnsDelete} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
 									onChange={this.handleTableChange}
@@ -331,7 +345,7 @@ class AccountManage extends React.Component {
 						handleSubmit={this.handleSubmit.bind(this)}
 						handleCancel={this.handleCancel.bind(this)}
 						action={action}
-						info={info}
+						info={userInfo}
 					/>
 				</div>
 			</div>
