@@ -16,16 +16,15 @@ class AccountManage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			action: 'add',
+			userInfo: {},
 			loading: false,
 			isEnabledUser: true,
 			role: '',
 			username: '',
 			total: 1,
 			visible: false,
-			action: 'add',
-			info: {},
 			tabIndex:1,
-			num:10,
 			page: 1,
 			totalWrongNumAsc:'', //排序  null:自然顺序 true:升序 false:降序
 			columns: [
@@ -108,7 +107,11 @@ class AccountManage extends React.Component {
 			],
 		};
 	}
+	get searchParams(){
+		return {
 
+		}
+	}
 	componentDidMount() {
 		//默认初始传入正常账号+全部
 		this.getTableList();
@@ -121,9 +124,9 @@ class AccountManage extends React.Component {
 		});
 	};
 
-	editAccount = (info) => {
+	editAccount = (userInfo) => {
 		this.setState({
-			info,
+			userInfo,
 		});
 		this.showModal('edit');
 	};
@@ -147,7 +150,6 @@ class AccountManage extends React.Component {
 
 	//删除账号
 	deleteUser(id) {
-		console.log(id)
 		this.setState({
 			loading: true,
 		});
@@ -181,10 +183,9 @@ class AccountManage extends React.Component {
 		});
 	};
 	getTableList = () => {
-		const { isEnabledUser, num, page,role, username,totalWrongNumAsc } = this.state;
+		const { isEnabledUser, page,role, username,totalWrongNumAsc } = this.state;
 		let params = {
 			isEnabledUser,
-			num,
 			page,
 			role,
 			username
@@ -258,7 +259,6 @@ class AccountManage extends React.Component {
 	};
 	//角色选择
 	selectRole = (value) => {
-		console.log(value)
 		this.setState({
 			role: value,
 		},()=>{
@@ -268,7 +268,7 @@ class AccountManage extends React.Component {
 	//切换Tab
 	changeTab = (tabIndex) => {
 		this.setState({
-			isEnabledUser:tabIndex==="1"?true:false,
+			isEnabledUser:parseInt(tabIndex)===1,
 			tabIndex:parseInt(tabIndex)
 		},()=>{
 			this.getTableList();
@@ -288,8 +288,8 @@ class AccountManage extends React.Component {
 		});
 	};
 	render() {
-		const { tableList, total, page, visible, action, columns, columnsDelete, info, loading } = this.state;
-		const paginationProps = createPaginationProps(page, total, true, 10)
+		const { tableList, total, page, visible, action, columns, columnsDelete, userInfo, loading } = this.state;
+		const paginationProps = createPaginationProps(page, total, true)
 		return (
 			<div className="yc-content-container">
 				<BreadCrumb texts={['账号管理', '结构化账号']}></BreadCrumb>
@@ -331,7 +331,7 @@ class AccountManage extends React.Component {
 						handleSubmit={this.handleSubmit.bind(this)}
 						handleCancel={this.handleCancel.bind(this)}
 						action={action}
-						info={info}
+						info={userInfo}
 					/>
 				</div>
 			</div>

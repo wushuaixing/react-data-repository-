@@ -159,6 +159,9 @@ class Asset extends React.Component {
 					this.props.history.push(`/index/structureDetail/${record.status}/${record.id}`)
 				}else{
 					message.warning('数据已被自动标注,2s后为您刷新界面')
+					setTimeout(()=>{
+						window.location.reload()
+					},2000)
 				}
 			}else{
 				Promise.reject('接口错误')

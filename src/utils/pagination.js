@@ -1,4 +1,4 @@
-export default function createPaginationProps(current=1, total, showQuickJumper = true,pageSize=20) {
+export default function createPaginationProps(current=1, total, showQuickJumper = true,pageSize=10) {
     return {
         current,  //当前页数
         showQuickJumper, //是否显示快速跳转工具
