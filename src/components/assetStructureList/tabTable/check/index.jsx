@@ -60,7 +60,7 @@ class TabTable extends React.Component {
 				width: 180,
 				render: (text, record) => {
 					const isNotConfirm = this.props.tabIndex===5?1:0 //是否在待确认队列 需要特殊处理 因为status跟数据队列不符合
-					console.log(record)
+					
 					return (
 						<span>
 							<Link to={{

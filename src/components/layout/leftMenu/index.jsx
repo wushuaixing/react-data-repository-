@@ -28,12 +28,12 @@ class Sider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openKeys: ["0","1"],
+      openKeys: ["0", "1"],
       menuList: [],
       defaultKey: [],
     };
   }
-  handleClick(){
+  handleClick() {
     //console.log(this)
   }
   componentDidMount() {
@@ -92,6 +92,10 @@ class Sider extends React.Component {
             mainMenu.push(list);
           }
         }
+        storage["userState"] !== "管理员" && mainMenu[0].subs.push({
+          id: '文书搜索',
+          title: '文书搜索'
+        })
         this.setState({
           menuList: mainMenu,
         });
@@ -119,7 +123,7 @@ class Sider extends React.Component {
             if (item.id === 7 || item.id === 8 || item.id === 9 ||
               item.id === 15 || item.id === 16 || item.id === 17 ||
               item.id === 18 || item.id === 20 ||
-              item.id === 21 || item.id === 22) {
+              item.id === 21 || item.id === 22 || item.id === '文书搜索') {
               return this.renderMenuItem(item)
             }
             else {
@@ -133,13 +137,18 @@ class Sider extends React.Component {
 
   renderMenuItem = ({ id, icon, title }) => {
     let key = menuRoute[id];
-    let target = ([9, 16].indexOf(id) >= 0) ? '_blank' : '_self' //文书搜索新开页
-    //console.log(id, key)
     return (
-      <Menu.Item key={id} onClick={this.handleClick}>
-        <Link to={key} target={target}>
-          <span style={{ fontSize: 14 }}>{title}</span>
-        </Link>
+      <Menu.Item key={id} className='item_position' >
+        {
+          id === '文书搜索' ?
+            <div onClick={(e) => { e.stopPropagation();window.open('/documentSearch') }}>
+              <div className='item_remark' />
+              <span style={{ fontSize: 14 }}>{title}</span>
+            </div> :
+            <Link to={key}>
+              <span style={{ fontSize: 14 }}>{title}</span>
+            </Link>
+        }
       </Menu.Item>
     )
   };
@@ -147,7 +156,7 @@ class Sider extends React.Component {
   onOpenChange(key) {
     const { openKeys } = this.state;
     this.setState({
-      openKeys:key
+      openKeys: key
     })
   };
 
@@ -177,7 +186,8 @@ class Sider extends React.Component {
           {
             menuList.map((item, index) => {
               return item.subs && item.subs.length > 0 ? this.renderSubMenu(item, index) : this.renderMenuItem(item)
-            })}
+            })
+          }
         </Menu>
       </div>
     );
