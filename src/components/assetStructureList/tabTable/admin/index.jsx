@@ -63,7 +63,7 @@ class TabTable extends React.Component {
                     return (
                         <span>
                             <Link to={{
-								pathname: `/index/structureDetail/${record.status}/${record.id}`
+								pathname: `/index/structureDetail/${record.status}/${record.info.id}`
 							}}>
                                 <Button style={{ fontSize: 12 }}>查看</Button>
                             </Link>
@@ -79,7 +79,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -88,7 +88,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -97,7 +97,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -106,7 +106,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -115,7 +115,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -124,7 +124,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.id}
+                            rowKey={record => record.info.id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
