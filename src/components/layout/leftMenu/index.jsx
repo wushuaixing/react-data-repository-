@@ -169,7 +169,6 @@ class Sider extends React.Component {
   render() {
     const { menuList, openKeys } = this.state;
     const defaultKey = this.getDefaultKey();
-    console.log(menuList)
     return (
       <div>
         <Menu

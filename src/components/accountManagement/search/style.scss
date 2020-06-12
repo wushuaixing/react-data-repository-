@@ -1,30 +1,8 @@
 .yc-components-accountManagement-search {
+  display: flex;
+  justify-content: space-between;
   .search-container {
-    text-align: left;
     margin: 4px 0 14px 0;
-    > div {
-      display: inline-block;
-    }
-    .search-container_body {
-      width: 240px;
-      margin-right: 20px;
-      .ant-input-suffix {
-        width: 18px;
-        height: 18px;
-      }
-    }
-    .search-container_right {
-      > p {
-        display: inline-block;
-        width: 36px;
-        font-size: 14px;
-        color: #293038;
-        letter-spacing: 0;
-        line-height: 12px;
-      }
-    }
-    > button {
-      float: right;
-    }
   }
+
 }
