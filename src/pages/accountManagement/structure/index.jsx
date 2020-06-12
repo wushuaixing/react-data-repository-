@@ -1,7 +1,7 @@
 /** right content for Account manage* */
 import React from 'react';
 import { BreadCrumb } from '@commonComponents'
-import { Tabs, Table, Spin, message,Button } from "antd";
+import { Tabs, Table, Spin, message,Button,Modal } from "antd";
 import { userCreate, userView, userEdit, userReset, userRemove, userDelete } from "@api";
 import AccountModal from '@/components/accountManagement/structureAccountModal';
 import SearchAccount from "@/components/accountManagement/search";
@@ -12,7 +12,7 @@ import '../style.scss';
 // 所需的所有组件
 // ==================
 const { TabPane } = Tabs;
-
+const { confirm } = Modal;
 class AccountManage extends React.Component {
 	constructor(props) {
 		super(props);
@@ -139,35 +139,47 @@ class AccountManage extends React.Component {
 
 	//重置密码
 	resetPassword(id) {
-		this.setState({
-			loading: true,
-		});
-		userReset(id).then(res => {
-			this.setState({
-				loading: false,
-			});
-			if (res.data.code === 200) {
-				message.success("重置密码成功");
-			} else {
-				message.error(res.data.message);
+		confirm({
+			title: '确认重置密码?',
+			content:'重置密码后,该账号密码为账号后6位',
+			onOk: () => {
+				this.setState({
+					loading: true,
+				});
+				userReset(id).then(res => {
+					this.setState({
+						loading: false,
+					});
+					if (res.data.code === 200) {
+						message.success("重置密码成功");
+					} else {
+						message.error(res.data.message);
+					}
+				});
 			}
 		});
 	};
 
 	//删除账号
 	deleteUser(id) {
-		this.setState({
-			loading: true,
-		});
-		userRemove(id).then(res => {
-			this.setState({
-				loading: false,
-			});
-			if (res.data.code === 200) {
-				message.success("删除成功");
-				this.getTableList();
-			} else {
-				message.error(res.data.message);
+		confirm({
+			title: '确认删除账号?',
+			content:'删除后,该账户将无法在数据资产平台登录',
+			onOk: () => {
+				this.setState({
+					loading: true,
+				});
+				userRemove(id).then(res => {
+					this.setState({
+						loading: false,
+					});
+					if (res.data.code === 200) {
+						message.success("删除成功");
+						this.getTableList();
+					} else {
+						message.error(res.data.message);
+					}
+				});
 			}
 		});
 	};
