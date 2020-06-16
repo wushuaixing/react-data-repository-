@@ -49,7 +49,7 @@ class Index extends React.Component {
         }
         Object.keys(formParams).forEach((key) => {
             //判断各种情况为空 清理空参数
-            if (formParams[key] !== null && formParams[key] !== '' && formParams[key].length !== 0) {
+            if (formParams[key] !== null && formParams[key] !== '' && formParams[key] !== undefined && formParams[key].length !== 0) {
                 //如果选择了地点级联  对应赋值参数
                 if (key === 'area') {
                     const location = formParams[key]
@@ -124,18 +124,17 @@ class Index extends React.Component {
         let typeData = data.chineseLetter //包含两类 chineseLetter和digit
         for (let i = 0; i < typeData.length; i++) {
             const item = typeData[i]
-            if (item.firstNameRank === personnelTypeList.slice(-1)[0].id) {
-                personnelTypeList[personnelTypeList.length - 1].array.push({
-                    value: item.id,
-                    label: item.name,
-                    enable: item.enable
-                })
-            } else {
+            if (item.firstNameRank !== personnelTypeList.slice(-1)[0].id)  {
                 personnelTypeList.push({
                     id: item.firstNameRank,
                     array: []
                 })
             }
+            personnelTypeList[personnelTypeList.length - 1].array.push({
+                value: item.id,
+                label: item.name,
+                enable: item.enable
+            })
         }
         personnelTypeList.push({
             id: '#',
