@@ -52,18 +52,17 @@ class Index extends React.Component {
         let typeData = data.chineseLetter //包含两类 chineseLetter和digit
         for (let i = 0; i < typeData.length; i++) {
             const item = typeData[i]
-            if (item.firstNameRank === personnelTypeList.slice(-1)[0].id) {
-                personnelTypeList[personnelTypeList.length - 1].array.push({
-                    value: item.id,
-                    label: item.name,
-                    enable: item.enable
-                })
-            } else {
+            if (item.firstNameRank !== personnelTypeList.slice(-1)[0].id) {
                 personnelTypeList.push({
                     id: item.firstNameRank,
                     array: []
                 })
-            }
+			}
+			personnelTypeList[personnelTypeList.length - 1].array.push({
+				value: item.id,
+				label: item.name,
+				enable: item.enable
+			})
         }
         personnelTypeList.push({
             id: '#',
