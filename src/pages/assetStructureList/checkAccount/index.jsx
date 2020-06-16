@@ -89,7 +89,8 @@ class Check extends React.Component {
 	// 搜索框
 	handleSearch = data => {
 		this.setState({
-			searchParams: data
+			searchParams: data,
+			page:1
 		}, () => {
 			this.getTableList();
 		})
