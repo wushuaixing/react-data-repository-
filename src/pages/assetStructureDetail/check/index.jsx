@@ -350,7 +350,7 @@ class Check extends React.Component {
                 </div>
                 <CheckModal visible={state.visible}
                     returnRemarks={state.returnRemarks}
-                    wrongReasons={state.wrongData.slice(-1)}
+                    wrongReasons={state.wrongData.slice(0,1)}
                     handleModalSubmit={this.handleModalSubmit.bind(this)}
                     handleModalCancel={this.handleModalCancel.bind(this)}
                     style={{ width: 430 }}

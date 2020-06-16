@@ -278,7 +278,11 @@ class StructureDetail extends React.Component {
             }
             sessionStorage.setItem('id', this.props.match.params.id)
             sessionStorage.getItem("backTime") === "1" ? sessionStorage.removeItem('backTime') : sessionStorage.setItem('backTime', 1) //返回次数 默认只能返回一层
-            this.props.history.push(path)
+            this.setState({
+                isUpdateRecord:false
+            },()=>{
+                this.props.history.push(path)
+            })
         }
         else {
             message.error('无法跳转')
