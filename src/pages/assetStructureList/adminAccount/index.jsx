@@ -116,7 +116,6 @@ class Admin extends React.Component {
 	onTablePageChange = (page) => {
 		this.setState({
             page,
-            searchParams:{}
 		},()=>{
             this.getTableList();
         })
