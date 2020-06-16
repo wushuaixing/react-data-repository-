@@ -55,9 +55,12 @@ class Check extends React.Component {
         const { associatedAnnotationId } = this.props.match.params
         getCheckDetail(associatedAnnotationId).then((res) => {
             if (res.data.code === 200) {
+                const data = res.data.data
                 this.setState({
-                    ...res.data.data,
-                    status:res.data.data.detailStatus
+                    ...data,
+                    status:data.detailStatus,
+                    ah: data && data.ah && data.ah instanceof Array && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+                    wsUrl: data && data.wsUrl && data.ah instanceof Array && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                 })
             } else {
                 message.error(res.data.message)

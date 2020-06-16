@@ -176,12 +176,7 @@ export const getNewStructureData=()=> {
 /////////////////////////////
 //获取检查人员结构化列表
 export const getCheckList=(params)=> {
-	let urlPlus = "";
-	for (let key in params) {
-		urlPlus = urlPlus + key + "=" + params[key] + "&";
-	}
-	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
-	return axios.get("/api/asset/inspector/control/getCheckList?" + urlPlus);
+	return axios.post("/api/asset/inspector/control/getCheckList",params);
 };
 
 //结构化人员列表
