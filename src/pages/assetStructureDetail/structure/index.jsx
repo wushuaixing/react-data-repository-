@@ -226,7 +226,7 @@ class StructureDetail extends React.Component {
     async getRecordData(props) {
         const params = props.match.params
         if (params.id && params.status) {
-            structuredById(params.id, params.status).then(res => {
+            structuredById(params.id, params.status,0).then(res => {
                 for (let i = 0; i < res.data.obligors; i++) {
                     if (res.data.obligors[i].labelType === '4') {
                         //债务人和起诉人对应转换

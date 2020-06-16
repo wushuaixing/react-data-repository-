@@ -1,12 +1,12 @@
 /** right content for Account manage* */
 import React from 'react';
 import { userCreateCheck, userEditCheck, userResetCheck, userRemoveCheck, getCheckListCheck } from "@api";
-import { message, Button, Table, Spin } from 'antd';
+import { message, Button, Table, Spin,Modal } from 'antd';
 import AccountModal from '@/components/accountManagement/checkAccountModal';
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from "@/utils/pagination";
 import '../style.scss'
-
+const { confirm } = Modal;
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
@@ -67,36 +67,47 @@ class Index extends React.Component {
 			this.showModal('edit');
 		});
 	};
-	//重置密码
 	resetPassword(id) {
-		this.setState({
-			loading: true,
-		});
-		userResetCheck(id).then(res => {
-			this.setState({
-				loading: false,
-			});
-			if (res.data.code === 200) {
-				message.success("重置密码成功");
-			} else {
-				message.error(res.data.message);
+		confirm({
+			title: '确认重置密码?',
+			content:'重置密码后,该账号密码为账号后6位',
+			onOk: () => {
+				this.setState({
+					loading: true,
+				});
+				userResetCheck(id).then(res => {
+					this.setState({
+						loading: false,
+					});
+					if (res.data.code === 200) {
+						message.success("重置密码成功");
+					} else {
+						message.error(res.data.message);
+					}
+				});
 			}
 		});
 	};
 	//删除账号
 	deleteUser(id) {
-		this.setState({
-			loading: true,
-		});
-		userRemoveCheck(id).then(res => {
-			this.setState({
-				loading: false,
-			});
-			if (res.data.code === 200) {
-				message.success("删除成功");
-				this.getTableList();
-			} else {
-				message.error(res.data.message);
+		confirm({
+			title: '确认删除账号?',
+			content:'删除后,该账户将无法在数据资产平台登录',
+			onOk: () => {
+				this.setState({
+					loading: true,
+				});
+				userRemoveCheck(id).then(res => {
+					this.setState({
+						loading: false,
+					});
+					if (res.data.code === 200) {
+						message.success("删除成功");
+						this.getTableList();
+					} else {
+						message.error(res.data.message);
+					}
+				});
 			}
 		});
 	};

@@ -128,7 +128,7 @@ const DocumentLinkInput = (props) => {
                 {
                     props.enable ?
                         <span>{filters.blockNullData(props.value.value, '-')}</span>
-                        : <Input placeholder={`请输入${props.text}`} onChange={props.handleChange} name={`${props.attr}${props.index}`} value={props.value.value} />
+                        : <Input placeholder={`请输入${props.text}`} onChange={props.handleChange} name={`${props.attr}${props.index}`} value={props.value.value} maxLength={50} />
                 }
                 {
                     props.num < 3 && !props.enable ?

@@ -50,7 +50,7 @@ class StructurePropertyDetail extends React.Component {
                                     <span>{buildingArea&&parseInt(buildingArea)!==-1?<span>{this.props.buildingArea.toFixed(2)} m<sup>2</sup></span>:'-'}</span> :
                                     <span>
                                         <InputNumber
-                                            precision={2} style={{ width: 200 }}
+                                            precision={2} style={{ width: 200 }} max={999999999.99}
                                             placeholder="请输入建筑面积" name="buildingArea"
                                             onChange={this.handleChange} value={this.props.buildingArea} />&nbsp;&nbsp;m<sup>2</sup>
                                     </span>
