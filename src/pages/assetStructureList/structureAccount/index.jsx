@@ -168,7 +168,11 @@ class Asset extends React.Component {
 				Promise.reject('接口错误')
 			}
 		}).catch(err=>{
-			message.error(err);
+			this.setState({
+				loading:false
+			},()=>{
+				message.error(err)
+			})
 		})
 	}
 	render() {

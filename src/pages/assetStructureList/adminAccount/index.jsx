@@ -1,7 +1,7 @@
 /** check * */
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { Spin } from 'antd';
+import { Spin,message } from 'antd';
 import { adminStructuredList } from "@api";
 import SearchForm from "@/components/assetStructureList/searchFilter/admin";
 import AdminTable from "@/components/assetStructureList/tabTable/admin";
@@ -74,7 +74,13 @@ class Admin extends React.Component {
                 page: (dataObject.result) ? dataObject.result.page : 1,
                 loading: false
             });
-        })
+        }).catch(err=>{
+			this.setState({
+				loading:false
+			},()=>{
+				message.error(err)
+			})
+		})
     };
     // 搜索框
 	handleSearch = data => {

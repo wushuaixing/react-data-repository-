@@ -77,9 +77,10 @@ class Check extends React.Component {
 				loading: false
 			});
 		}).catch(err=>{
-			message.error('请求异常')
 			this.setState({
 				loading:false
+			},()=>{
+				message.error(err)
 			})
 		})
 	};
