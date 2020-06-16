@@ -67,8 +67,6 @@ class Asset extends React.Component {
 		}).catch(err => {
 			console.log(err)
 		})
-
-
 	};
 	getParamsByTabIndex({ tabIndex = this.state.tabIndex, page = this.state.page } = {}) {
 		const params = {
