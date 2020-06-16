@@ -99,6 +99,7 @@ class Asset extends React.Component {
 	}
 	//切换Tab 改完
 	changeTab = (key) => {
+		this.props.form.resetFields();
 		this.setState({
 			tabIndex: parseInt(key)
 		}, () => {
@@ -167,7 +168,11 @@ class Asset extends React.Component {
 				Promise.reject('接口错误')
 			}
 		}).catch(err=>{
-			message.error(err);
+			this.setState({
+				loading:false
+			},()=>{
+				message.error(err)
+			})
 		})
 	}
 	render() {

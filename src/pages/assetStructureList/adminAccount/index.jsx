@@ -1,7 +1,7 @@
 /** check * */
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { Spin } from 'antd';
+import { Spin,message } from 'antd';
 import { adminStructuredList } from "@api";
 import SearchForm from "@/components/assetStructureList/searchFilter/admin";
 import AdminTable from "@/components/assetStructureList/tabTable/admin";
@@ -19,6 +19,9 @@ class Admin extends React.Component {
         loading: false,
         searchParams: {} //保存搜索框参数
     };
+    get searchFilterForm(){
+        return this.searchFormRef.props.form
+    }
     //改完 跳回详情功能要补充
     componentDidMount() {
         const params = this.getParamsByTabIndex()
@@ -71,10 +74,14 @@ class Admin extends React.Component {
                 page: (dataObject.result) ? dataObject.result.page : 1,
                 loading: false
             });
-        })
+        }).catch(err=>{
+			this.setState({
+				loading:false
+			},()=>{
+				message.error(err)
+			})
+		})
     };
-
-    // 搜索框 改完
     // 搜索框
 	handleSearch = data => {
 		this.setState({
@@ -98,11 +105,13 @@ class Admin extends React.Component {
 
 	//切换Tab
 	changeTab = (key) => {
+        this.searchFilterForm.resetFields()
 		const _key = parseInt(key);
 		const params = this.getParamsByTabIndex({ tabIndex: _key });
 		this.getTableList(params);
 		this.setState({
-			tabIndex: _key
+            tabIndex: _key,
+            searchParams:{}
 		});
 	};
 	//换页
@@ -110,18 +119,10 @@ class Admin extends React.Component {
 		let params = this.getParamsByTabIndex({ extraParams: { page } })
 		this.getTableList(params);
 		this.setState({
-			page
+            page,
+            searchParams:{}
 		})
 	};
-
-    //换页 改完 
-    onTablePageChange = (page) => {
-        let params = this.getParamsByTabIndex({ extraParams: { page } })
-        this.getTableList(params);
-        this.setState({
-            page
-        })
-    };
 
     render() {
         const { tableList, checkErrorNum, editNum, total, page, tabIndex, loading } = this.state;
@@ -131,6 +132,7 @@ class Admin extends React.Component {
                 <div className="yc-detail-content">
                     <div className="yc-search-line">
                         <SearchForm 
+                            wrappedComponentRef={(inst)=>this.searchFormRef = inst}
                             tabIndex={tabIndex}
                             toSearch={this.handleSearch.bind(this)}
                             toClear={this.clearSearch.bind(this)}
