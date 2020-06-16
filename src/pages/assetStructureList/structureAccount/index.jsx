@@ -99,6 +99,7 @@ class Asset extends React.Component {
 	}
 	//切换Tab 改完
 	changeTab = (key) => {
+		this.props.form.resetFields();
 		this.setState({
 			tabIndex: parseInt(key)
 		}, () => {

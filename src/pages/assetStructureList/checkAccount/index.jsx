@@ -25,7 +25,9 @@ class Check extends React.Component {
 			searchParams: {} //保存搜索框参数
 		};
 	}
-
+	get searchFilterForm(){
+        return this.searchFormRef.props.form
+    }
 	componentDidMount() {
 		const params = this.getParamsByTabIndex()
 		this.getTableList(params);
@@ -105,6 +107,7 @@ class Check extends React.Component {
 
 	//切换Tab
 	changeTab = (key) => {
+		this.searchFilterForm.resetFields()
 		const _key = parseInt(key);
 		const params = this.getParamsByTabIndex({ tabIndex: _key });
 		this.getTableList(params);
@@ -128,7 +131,9 @@ class Check extends React.Component {
 				<BreadCrumb texts={['资产结构化检查']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
-						<SearchForm status={status}
+						<SearchForm 
+							wrappedComponentRef={(inst)=>this.searchFormRef = inst}
+							status={status}
 							tabIndex={tabIndex}
 							toSearch={this.handleSearch.bind(this)}
 							toClear={this.clearSearch.bind(this)}
