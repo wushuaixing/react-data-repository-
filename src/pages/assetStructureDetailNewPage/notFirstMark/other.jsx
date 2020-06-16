@@ -78,7 +78,7 @@ class Other extends React.Component {
 
             })
         } else {
-            structuredById(associatedAnnotationId, associatedStatus).then((res) => {
+            structuredById(associatedAnnotationId, associatedStatus,1).then((res) => {
                 if (res.data) {
                     this.setState({
                         ...res.data

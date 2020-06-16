@@ -162,7 +162,7 @@ class Sider extends React.Component {
 
   getDefaultKey = () => {
     if (storage["userState"] === "管理员") {
-      return ["20"]
+      return ["7"]
     } else if (storage["userState"] === "结构化人员") {
       return ["8"]
     } else if (storage["userState"] === "检查人员") {
@@ -172,7 +172,15 @@ class Sider extends React.Component {
 
   render() {
     const { menuList, openKeys } = this.state;
-    const defaultKey = this.getDefaultKey();
+    const { pathname } = this.props.location;
+    let defaultKey = this.getDefaultKey();
+    if(pathname!=='/index'){
+      for(let i in menuRoute){
+        if(menuRoute[i]===pathname){
+          defaultKey = [i.toString()];break;
+        }
+      }
+    }
     return (
       <div>
         <Menu
