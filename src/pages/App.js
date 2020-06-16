@@ -18,7 +18,7 @@ class App extends React.Component {
 					<Route path="/login" component={Login} />
 					<Route path="/index" component={Home} />
 					<Route path="/documentSearch" component={DocumentSearch} />
-					<Route path="/documentDetail/:Id" component={DocumentDetail} />
+					<Route path="/documentDetail/:Id/:content" component={DocumentDetail} />
 					<Route path="/auctionDetail/:auctionID" component={AuctionDetail} />
 					<Route path="/auctionDetail" component={AuctionDetail} />
 					<Route path="/notFirstMark" component={NotFirstMark} />

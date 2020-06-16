@@ -1,8 +1,8 @@
 /** Login * */
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox, Tooltip, message, Spin, Modal } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, message, Spin, Modal } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { login, isLogin, codeImage } from '../../server/api';
+import { login, codeImage } from '../../server/api';
 import ForgetPasswordForm from '@/components/login/forgetPasswordForm'
 import { codeMessage } from "../../static/status";
 import box from '../../assets/img/loginPage-box.png';

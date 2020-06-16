@@ -10,88 +10,6 @@ import createPaginationProps from '@utils/pagination'
 import { filters } from '@utils/common'
 import moment from 'moment'
 const searchForm = Form.create;
-//表column
-const columns = [
-	{
-		title: "发布日期",
-		dataIndex: 'publishTime',
-		width: 110,
-		render(record) {
-			return (
-				<span>
-					{filters.blockNullData(record, '——')}
-				</span>
-			)
-		}
-	},
-	{
-		title: "标题",
-		render(record) {
-			const temp = <span className="ws-link"
-				style={{
-					width: 160,
-					WebkitLineClamp: 2,
-					WebkitBoxOrient: 'vertical',
-					overflow: 'hidden',
-					display: '-webkit-box',
-					textOverflow: 'ellipsis'
-				}}>{filters.blockNullData(record.title, '——')}</span>;
-			return (
-				<Link to={`/documentDetail/${record.wenshuId}`} target="_blank" >
-					{
-						record.title && record.title.length > 30 ? <Popover content={record.title}>{temp}</Popover> : temp
-					}
-				</Link>
-			)
-		}
-	},
-	{
-		title: "案号",
-		dataIndex: "ah"
-	},
-	{
-		title: "相关人员",
-		dataIndex: "appellors",
-		render(record) {
-			const temp = <span className="ws-link"
-				style={{
-					width: 160,
-					WebkitLineClamp: 2,
-					WebkitBoxOrient: 'vertical',
-					overflow: 'hidden',
-					display: '-webkit-box',
-					textOverflow: 'ellipsis'
-				}}>{filters.blockNullData(record, '——')}</span>;
-			return (
-				<span>
-					{
-						record && record.length > 25 ? <Popover content={record}>{temp}</Popover> : temp
-					}
-				</span>
-			)
-		},
-	},
-	{
-		title: "法院",
-		dataIndex: "court"
-	},
-	{
-		title: "案由",
-		render(record) {
-			return (
-				<span>
-					{filters.blockNullData(record.reason, '——')}
-				</span>
-			)
-		}
-	},
-	{
-		title: "案件类型",
-		dataIndex: "caseType",
-		width: 125
-	}
-];
-
 
 class Check extends React.Component {
 	constructor(props) {
@@ -101,7 +19,8 @@ class Check extends React.Component {
 			total: 0,  //数据总量
 			tableList: [], //表数据的source
 			searchParams: {},  //搜索参数 包括全文/案号/法院/链接
-			loading: false,
+			loading: false,//表column
+			
 		};
 	}
 	//get table dataSource
@@ -184,6 +103,86 @@ class Check extends React.Component {
 		const { getFieldDecorator } = this.props.form;
 		const { tableList, total, page, loading } = this.state;
 		const paginationProps = createPaginationProps(page, total)
+		const columns = [
+			{
+				title: "发布日期",
+				dataIndex: 'publishTime',
+				width: 110,
+				render(record) {
+					return (
+						<span>
+							{filters.blockNullData(record, '——')}
+						</span>
+					)
+				}
+			},
+			{
+				title: "标题",
+				render(record) {
+					const temp = <span className="ws-link"
+						style={{
+							width: 160,
+							WebkitLineClamp: 2,
+							WebkitBoxOrient: 'vertical',
+							overflow: 'hidden',
+							display: '-webkit-box',
+							textOverflow: 'ellipsis'
+						}}>{filters.blockNullData(record.title, '——')}</span>;
+					return (
+						<Link to={`/documentDetail/${record.wenshuId}/123`} target="_blank" >
+							{
+								record.title && record.title.length > 30 ? <Popover content={record.title}>{temp}</Popover> : temp
+							}
+						</Link>
+					)
+				}
+			},
+			{
+				title: "案号",
+				dataIndex: "ah"
+			},
+			{
+				title: "相关人员",
+				dataIndex: "appellors",
+				render(record) {
+					const temp = <span className="ws-link"
+						style={{
+							width: 160,
+							WebkitLineClamp: 2,
+							WebkitBoxOrient: 'vertical',
+							overflow: 'hidden',
+							display: '-webkit-box',
+							textOverflow: 'ellipsis'
+						}}>{filters.blockNullData(record, '——')}</span>;
+					return (
+						<span>
+							{
+								record && record.length > 25 ? <Popover content={record}>{temp}</Popover> : temp
+							}
+						</span>
+					)
+				},
+			},
+			{
+				title: "法院",
+				dataIndex: "court"
+			},
+			{
+				title: "案由",
+				render(record) {
+					return (
+						<span>
+							{filters.blockNullData(record.reason, '——')}
+						</span>
+					)
+				}
+			},
+			{
+				title: "案件类型",
+				dataIndex: "caseType",
+				width: 125
+			}
+		]
 		return (
 			<div className="yc-main-body">
 				<div className="yc-right-content">
