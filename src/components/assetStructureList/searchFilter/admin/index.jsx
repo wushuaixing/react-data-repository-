@@ -182,7 +182,6 @@ class Index extends React.Component {
         const { getFieldDecorator } = this.props.form;
         const { userList, checkUserList } = this.state;
         const { tabIndex } = this.props
-        console.log(tabIndex)
         return (
             <div>
                 <Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
