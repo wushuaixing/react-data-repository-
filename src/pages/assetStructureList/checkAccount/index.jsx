@@ -37,20 +37,21 @@ class Check extends React.Component {
         //根据不同的tabIndex 设置参数
         switch (tabIndex) {
             case 0:
-                params.checkType = 3; params.status = 0; break;
+                params.checkType = 3; break;
             case 1:
-                params.checkType = 3; params.status = 6; break;
+                params.checkType = 3; break;
             case 2:
-                params.checkType = 1; params.status = 1; break;
+                params.checkType = 1; break;
             case 3:
-                params.checkType = 2; params.status = 2; break;
+                params.checkType = 2; break;
             case 4:
-                params.checkType = 2; params.status = 3; break;
+                params.checkType = 2; break;
             case 5:
-                params.checkType = 0; params.status = 4; break;
+                params.checkType = 0; break;
             default:
                 break;
-        }
+		}
+		params.status = parseInt(tabIndex)
         return params;
     }
 	componentDidMount() {
