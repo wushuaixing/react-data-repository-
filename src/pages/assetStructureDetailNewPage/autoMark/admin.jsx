@@ -53,7 +53,7 @@ class Other extends React.Component {
             if(res.data.code===200&&res.data.data){
                 this.setState({
                     ...res.data.data,
-                    status:res.data.data.detailStatus
+                    status:res.data.data.detailStatus,
                 },()=>{
                     if(this.role==='admin'&&this.state.status!==1){
                         this.getWrongReason(associatedAnnotationId)

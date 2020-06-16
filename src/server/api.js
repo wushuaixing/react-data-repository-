@@ -129,12 +129,7 @@ export const userRemoveCheck=(id)=> {
 /////////////////////////////
 //管理员资产结构化列表-
 export const adminStructuredList=(params)=> {
-	let urlPlus = "";
-	for (let key in params) {
-		urlPlus = urlPlus + key + "=" + params[key] + "&";
-	}
-	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
-	return axios.get("/api/asset/admin/structured/structuredList?" + urlPlus);
+	return axios.post("/api/asset/admin/structured/structuredList",params);
 };
 //检查人员列表(仅管理员)
 export const getCheckPersonnel=(params)=> {
@@ -150,12 +145,7 @@ export const getCheckPersonnel=(params)=> {
 /////////////////////////////
 //资产结构化列表
 export const structuredList=(params)=> {
-	let urlPlus = "";
-	for (let key in params) {
-		urlPlus = urlPlus + key + "=" + params[key] + "&";
-	}
-	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
-	return axios.get("/api/asset/structured/control/structuredList?" + urlPlus);
+	return axios.post("/api/asset/structured/control/structuredList",params);
 };
 
 //源链接提取页
