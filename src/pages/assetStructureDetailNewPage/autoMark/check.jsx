@@ -56,12 +56,13 @@ class Check extends React.Component {
             if(res.data.code===200&&res.data.data){
                 this.setState({
                     ...res.data.data,
-                    status:res.data.data.detailStatus
+                    status:res.data.data.detailStatus,
+                   /*  wsUrl:[{value:''}], */
                 },()=>{
                     if(this.state.detailStatus>=3){
                         this.getWrongReason(associatedAnnotationId)
                     }
-                })
+                }) 
             }else{
                 message.error(res.data.message)
             }
@@ -154,7 +155,7 @@ class Check extends React.Component {
         ]
         if (parseInt(state.status) >= 3) {
             moduleOrder.unshift(
-                <WrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></WrongDetail>
+                <WrongDetail wrongData={state.wrongData.slice(0,1)} key={1} ></WrongDetail>
             )
         }
         return (
@@ -188,7 +189,7 @@ class Check extends React.Component {
                 </div>
                 <CheckModal visible={state.visible}
                     status={state.status}
-                    wrongReasons={state.wrongData.slice(-1)}
+                    wrongReasons={state.wrongData.slice(0,1)}
                     handleModalSubmit={this.handleModalSubmit.bind(this)}
                     handleModalCancel={this.handleModalCancel.bind(this)}
                     style={{ width: 430 }}

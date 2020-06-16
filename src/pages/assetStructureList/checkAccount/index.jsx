@@ -27,39 +27,40 @@ class Check extends React.Component {
 	}
 	get searchFilterForm(){
         return this.searchFormRef.props.form
+	}
+	get params() {
+        /* checkType 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
+        status 结构化所处阶段 0：全部 1：未检查 2：检查无误 3：检查错误 4：已修改 5：待确认 6:未标记
+        根据tabIndex获取参数  需要传递新tab进来  当换页或搜索传外部param合并 包括page title等 */
+        let { tabIndex, page } = this.state
+        let params = Object.assign(this.state.searchParams, { page })
+        //根据不同的tabIndex 设置参数
+        switch (tabIndex) {
+            case 0:
+                params.checkType = 3; params.status = 0; break;
+            case 1:
+                params.checkType = 3; params.status = 6; break;
+            case 2:
+                params.checkType = 1; params.status = 1; break;
+            case 3:
+                params.checkType = 2; params.status = 2; break;
+            case 4:
+                params.checkType = 2; params.status = 3; break;
+            case 5:
+                params.checkType = 0; params.status = 4; break;
+            default:
+                break;
+        }
+        return params;
     }
 	componentDidMount() {
-		const params = this.getParamsByTabIndex()
-		this.getTableList(params);
+		this.getTableList();
 	};
-	getParamsByTabIndex({ tabIndex = this.state.tabIndex, extraParams = null } = {}) {
-		//判断是否有额外参数 合并额外参数（只有page 后续可能添加)
-		const params = (extraParams) ? Object.assign({}, this.state.searchParams, extraParams) : Object.assign({}, this.state.searchParams)
-		//根据不同的tabIndex 设置参数
-		switch (tabIndex) {
-			case 0:
-				params.checkType = 1; params.status = 0; break;
-			case 1:
-				params.checkType = 1; params.status = 1; break;
-			case 2:
-				params.checkType = 2; params.status = 2; break;
-			case 3:
-				params.checkType = 2; params.status = 3; break;
-			case 4:
-				params.checkType = 0; params.status = 4; break;
-			case 5:
-				params.checkType = 1; params.status = 5; break;
-			default:
-				break;
-		}
-		return params;
-	}
-	getTableList = (params) => {
+	getTableList = () => {
 		this.setState({
 			loading: true,
 		});
-		//console.log(params)
-		getCheckList(params).then(res => {
+		getCheckList(this.params).then(res => {
 			//判断状态码 判断结果是否存在
 			if (res.data.code === 200) {
 				return res.data.data;
@@ -90,39 +91,33 @@ class Check extends React.Component {
 		this.setState({
 			searchParams: data
 		}, () => {
-			const params = this.getParamsByTabIndex()
-			this.getTableList(params);
+			this.getTableList();
 		})
-
 	};
-
-	//清空搜索条件
 	clearSearch = () => {
 		this.setState({
 			searchParams: {}
 		}, () => {
-			const params = this.getParamsByTabIndex();
-			this.getTableList(params);
+			this.getTableList();
 		})
 	};
-
-	//切换Tab
 	changeTab = (key) => {
 		this.searchFilterForm.resetFields()
-		const _key = parseInt(key);
-		const params = this.getParamsByTabIndex({ tabIndex: _key });
-		this.getTableList(params);
 		this.setState({
-			tabIndex: _key
-		});
+            tabIndex: parseInt(key),
+            searchParams:{},
+            page:1
+		},()=>{
+            this.getTableList()
+        });
 	};
-	//换页
 	onTablePageChange = (page) => {
-		let params = this.getParamsByTabIndex({ extraParams: { page } })
-		this.getTableList(params);
 		this.setState({
-			page
-		})
+            page,
+            searchParams:{}
+		},()=>{
+            this.getTableList();
+        })
 	};
 
 	render() {
