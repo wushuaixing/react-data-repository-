@@ -101,7 +101,7 @@ class Check extends React.Component {
 	};
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { tableList, total, page, loading } = this.state;
+		const { tableList, total, page, loading,searchParams:{content} } = this.state;
 		const paginationProps = createPaginationProps(page, total)
 		const columns = [
 			{
@@ -129,7 +129,7 @@ class Check extends React.Component {
 							textOverflow: 'ellipsis'
 						}}>{filters.blockNullData(record.title, '——')}</span>;
 					return (
-						<Link to={`/documentDetail/${record.wenshuId}/123`} target="_blank" >
+						<Link to={`/documentDetail/${record.wenshuId}/${content?content:''}`} target="_blank" >
 							{
 								record.title && record.title.length > 30 ? <Popover content={record.title}>{temp}</Popover> : temp
 							}

@@ -132,3 +132,11 @@
 .ant-modal-header{
   padding:20px !important;
 }
+
+//覆盖去除表格排序特殊样式
+.ant-table-tbody > tr > td.ant-table-column-sort{
+  background: #fff !important;
+}
+.ant-table-thead > tr > th.ant-table-column-sort{
+  background: #EDEFF3 !important;
+}

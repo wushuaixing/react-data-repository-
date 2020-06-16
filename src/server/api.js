@@ -306,8 +306,8 @@ export const  structuredCheckErrorNum = ()=>{
 	return axios.get("/api/asset/structured/control/structuredCheckErrorNum");
 }
 
-export const  structuredById = (id,approveStatus)=>{
-	return axios.get("/api/asset/structured/control/structuredById?id="+id+'&approveStatus='+approveStatus);
+export const  structuredById = (id,approveStatus,flag)=>{
+	return axios.get("/api/asset/structured/control/structuredById?id="+id+'&approveStatus='+approveStatus+'&flag='+flag);
 }
 
 export const  getLastSaveById = (id)=>{
