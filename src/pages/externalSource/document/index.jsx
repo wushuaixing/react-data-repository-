@@ -22,11 +22,14 @@ class DocumentDetail extends React.Component {
 		}
 	};
 	componentDidMount() {
-		const { Id } = this.props.match.params;
+		const { Id,content } = this.props.match.params;
+		const params = {
+			content
+		}
 		this.setState({
 			loading: true,
 		});
-		wenshuDetail(Id).then(res => {
+		wenshuDetail(Id,params).then(res => {
 			if (res.data.code === 200) {
 				let data = res.data.data;
 				console.log(data)

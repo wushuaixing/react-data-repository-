@@ -15,7 +15,6 @@ class Other extends React.Component {
         super(props)
         this.state = {
             status: 0,
-            wrongData: [],
             records: [],
             title: '',
             reasonForWithdrawal: '',

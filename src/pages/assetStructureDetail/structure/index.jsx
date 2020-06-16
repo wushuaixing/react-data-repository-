@@ -10,9 +10,11 @@ import WrongDetail from '@/components/assetStructureDetail/wrongDetail'
 import { structuredById, getNumberOfTags, saveDetail } from '@api'
 import { filters } from '@utils/common'
 import './index.scss'
-import { message } from 'antd';
+import { message,Modal } from 'antd';
 import icon from '@/assets/img/backPrevious.png'
 import iconGrey from '@/assets/img/backPrevious-grey.png'
+const { error } = Modal;
+
 function getObligor() {
     return {
         "birthday": '',
@@ -206,10 +208,15 @@ class StructureDetail extends React.Component {
                 }
             }
             else if (res.data.data.sign === '1') {
-                message.error('保存失败,数据已被自动标注,为您跳转至下一条')
-                this.props.history.push({
-                    pathname: `/index/structureDetail/${status}/${res.data.data.id}`
-                })
+                error({
+                    content: '保存失败,数据已被自动标注,为您跳转至下一条',
+                    onOk: () => {
+                        this.props.history.push({
+                            pathname: `/index/structureDetail/${status}/${res.data.data.id}`
+                        })
+                    },
+                    okText: '我知道了'
+                });
             }
             else {
                 message.error('保存失败!')
@@ -288,8 +295,7 @@ class StructureDetail extends React.Component {
                 auctionID={state.id}
                 type={state.type}
                 title={state.title} auctionStatus={state.auctionStatus}
-                reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}
-                associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
+                reasonForWithdrawal={state.reasonForWithdrawal} url={state.url} wsUrl={state.wsUrl}>
             </StructureBasicDetail>
         ]
         if (parseInt(status) === 2) {

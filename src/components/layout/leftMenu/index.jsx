@@ -11,7 +11,7 @@ import './index.scss'
 const { SubMenu } = Menu;
 let storage = window.localStorage;
 const menuRoute = {
-  7: "/index", //结构化账号（管理员）
+  7: "/index/structureUser", //结构化账号（管理员）
   18: "/index/checkUser",//检查账号（管理员）
   8: "/index",//资产结构化列表（结构化人员）
   15: "/index",//资产结构化列表检查（检查人员）

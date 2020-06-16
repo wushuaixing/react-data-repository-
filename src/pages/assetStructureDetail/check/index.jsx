@@ -288,8 +288,7 @@ class Check extends React.Component {
                 associatedAnnotationId={state.associatedAnnotationId}
                 type={state.type} records={state.records}
                 title={state.title} auctionStatus={state.auctionStatus}
-                reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}
-                associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
+                reasonForWithdrawal={state.reasonForWithdrawal} url={state.url} wsUrl={state.wsUrl}>
             </CheckBasicDetail>
         ]
         if (parseInt(status) >= 3&&state.wrongData&&state.wrongData.length>0) {
