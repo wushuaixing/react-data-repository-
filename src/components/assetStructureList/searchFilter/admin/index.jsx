@@ -220,20 +220,21 @@ class Index extends React.Component {
                             initialValue: 'all'
                         })(
                             <Select
-                                showSearch optionFilterProp="children.props.children"
-                                filterOption={(input, option) =>
-                                    option.props.children.indexOf(input) >= 0
-                                }
+                                showSearch
+                                filterOption={(input, option) =>{
+                                    if(!isNaN(option.key)){ //去除optGroup项和用户类型选项 不进行筛选
+                                        return option.props.children[0].indexOf(input)>=0
+                                    }
+                                }}
                                 style={{ width: 178, marginLeft: 4 }} transfer placeholder="请选择">
                                 {
-                                    userList.map((item, index) => {
+                                    userList.map((item) => {
                                         return (
-                                            <OptGroup label={item.id} key={index}>
+                                            <OptGroup label={item.id} key={item.id}>
                                                 {
-                                                    item.array.map((ele, index) => {
+                                                    item.array.map((ele) => {
                                                         return (
-                                                            <Option
-                                                                value={ele.value} key={index}>
+                                                            <Option value={ele.value} key={ele.value}>
                                                                 {ele.label}
                                                                 {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
                                                             </Option>
