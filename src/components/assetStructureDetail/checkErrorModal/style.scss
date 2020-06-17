@@ -1,6 +1,5 @@
 .ant-modal {
   .ant-modal-content {
-    width: 394px;
     .check-modal {
       padding: 4px 25px 25px 15px;
       .ant-checkbox-wrapper {
@@ -77,8 +76,10 @@
     .ant-modal-body {
       padding: 15px;
     }
-    .ant-modal-footer {
-      text-align: center;
-    }
   }
+}
+
+
+.checkError-modal{
+  
 }

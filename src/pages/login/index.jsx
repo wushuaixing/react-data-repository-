@@ -3,8 +3,7 @@ import React from 'react';
 import { Form, Icon, Input, Button, Checkbox, message, Spin, Modal } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { login, codeImage } from '../../server/api';
-import ForgetPasswordForm from '@/components/login/forgetPasswordForm'
-import { codeMessage } from "../../static/status";
+import ForgetPasswordForm from '@/components/login/forgetPasswordForm';
 import box from '../../assets/img/loginPage-box.png';
 import logo from '../../assets/img/loginPage-logoText.png';
 import miniLogo from '../../assets/img/loginPage-logo.png';
@@ -67,7 +66,6 @@ function ContainerFooter() {
 
 const loginForm = Form.create;
 let storage = window.localStorage;
-const { assetUser, adminUser, checkUser } = codeMessage;
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
@@ -82,25 +80,6 @@ class Login extends React.Component {
 		};
 	}
 	componentDidMount() {
-		const myState = localStorage.getItem("userState");
-		const { history } = this.props;
-		/* isLogin().then(res => {
-			if (res.data.code === 200 && myState) {
-				history.push('/index');
-				if (res.data.data === assetUser) {
-					localStorage.setItem("userState", "结构化人员");
-				}
-				if (res.data.data === adminUser) {
-					localStorage.setItem("userState", "管理员");
-				}
-				if (res.data.data === checkUser) {
-					localStorage.setItem("userState", "检查人员");
-				}
-			}
-			else {
-			}
-		});*/
-		//获取图形验证码
 		this.toRefreshImg();
 	}
 	//切换登录和找回密码表单
@@ -258,7 +237,7 @@ class Login extends React.Component {
 											</a>
 											<Button type="primary" htmlType="submit" className="yc-login-button" onMouseDown={this.handleCorrect.bind(this)}>
 												登录
-										</Button>
+											</Button>
 										</Form.Item>
 									</Form>
 								</div>

@@ -37,17 +37,17 @@ class Check extends React.Component {
         //根据不同的tabIndex 设置参数
         switch (tabIndex) {
             case 0:
-                params.checkType = 3; break;
-            case 1:
-                params.checkType = 3; break;
-            case 2:
                 params.checkType = 1; break;
+            case 1:
+                params.checkType = 1; break;
+            case 2:
+                params.checkType = 2; break;
             case 3:
                 params.checkType = 2; break;
             case 4:
-                params.checkType = 2; break;
-            case 5:
                 params.checkType = 0; break;
+            case 5:
+                params.checkType = 1; break;
             default:
                 break;
 		}
@@ -150,8 +150,7 @@ class Check extends React.Component {
 								editNum={editNum}
 								data={tableList}
 								onPage={this.onTablePageChange.bind(this)}
-								onTabs={this.changeTab.bind(this)}
-							/>
+								onTabs={this.changeTab.bind(this)}/>
 						</Spin>
 					</div>
 				</div>
