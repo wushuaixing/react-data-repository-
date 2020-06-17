@@ -25,16 +25,9 @@
   }
 }
 .ant-modal {
-  padding: 5px 15px;
   .ant-modal-content{
     .ant-form-item{
       margin-bottom: 14px;
-    }
-    .ant-modal-body{
-      padding: 5px 15px;
-    }
-    .ant-modal-footer{
-      text-align:center;
     }
   }
 }
@@ -48,4 +41,9 @@
     display: table-cell;
     font-size:14px;
   }
+}
+
+
+.forgetPassword-form{
+  padding-top:15px !important;
 }

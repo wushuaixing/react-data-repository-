@@ -9,6 +9,9 @@ import NotFound from './errorPage/notFound'
 import DocumentSearch from "../pages/documentSearch";
 import NotFirstMark from '@/pages/assetStructureDetailNewPage/notFirstMark/index'
 import AutoMark from '@/pages/assetStructureDetailNewPage/autoMark/index'
+import { message } from 'antd'
+
+
 class App extends React.Component {
 	render() {
 		return (

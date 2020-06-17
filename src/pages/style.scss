@@ -131,4 +131,20 @@
 }
 .ant-modal-footer{
   border:none !important;
+  padding-top:0px !important;
+  padding-bottom: 30px !important; 
+}
+
+.ant-modal-confirm-body{
+  font-weight: bold !important;
+  line-height: 24px !important;
+}
+.ant-modal-confirm-content{
+  font-size:16px !important;
+}
+.ant-modal-confirm-body-wrapper{
+  padding:15px !important;
+}
+.ant-modal-confirm-btns{
+  margin-top: 32px !important;
 }

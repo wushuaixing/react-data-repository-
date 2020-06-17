@@ -127,7 +127,7 @@ class topMenu extends React.Component {
 					closable={true}
 					onCancel={this.handleCancel}
 					footer={footer}>
-					<Form {...formItemLayout} hideRequiredMark={true}>
+					<Form {...formItemLayout} hideRequiredMark={true} className="forgetPassword-form">
 						<Form.Item label="原密码">
 							{getFieldDecorator('oldPassword', {
 								rules: [
