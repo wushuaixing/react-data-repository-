@@ -47,7 +47,7 @@ class StructurePropertyDetail extends React.Component {
                         <span>
                             {
                                 enable ?
-                                    <span>{buildingArea&&parseInt(buildingArea)!==-1?<span>{this.props.buildingArea.toFixed(2)} m<sup>2</sup></span>:'-'}</span> :
+                                    <span>{filters.filterNullKey(buildingArea)&&parseInt(buildingArea)!==-1?<span>{this.props.buildingArea.toFixed(2)} m<sup>2</sup></span>:'-'}</span> :
                                     <span>
                                         <InputNumber
                                             precision={2} style={{ width: 200 }} max={999999999.99}

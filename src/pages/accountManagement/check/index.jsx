@@ -80,7 +80,6 @@ class Index extends React.Component {
 						loading: false,
 					});
 					if (res.data.code === 200) {
-						message.destroy();
 						message.success("重置密码成功");
 					} else {
 						message.error(res.data.message);
@@ -103,7 +102,6 @@ class Index extends React.Component {
 						loading: false,
 					});
 					if (res.data.code === 200) {
-						message.destroy();
 						message.success("删除成功");
 						this.getTableList();
 					} else {

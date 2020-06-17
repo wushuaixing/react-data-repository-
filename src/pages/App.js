@@ -10,7 +10,9 @@ import DocumentSearch from "../pages/documentSearch";
 import NotFirstMark from '@/pages/assetStructureDetailNewPage/notFirstMark/index'
 import AutoMark from '@/pages/assetStructureDetailNewPage/autoMark/index'
 import { message } from 'antd'
-
+message.config({
+	maxCount:1
+})
 
 class App extends React.Component {
 	render() {

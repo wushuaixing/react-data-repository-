@@ -107,11 +107,11 @@ class Check extends React.Component {
 			{
 				title: "发布日期",
 				dataIndex: 'publishTime',
-				width: 110,
+				width: 120,
 				render(record) {
 					return (
 						<span>
-							{filters.blockNullData(record, '——')}
+							{filters.blockNullData(record, '—')}
 						</span>
 					)
 				}
@@ -127,7 +127,7 @@ class Check extends React.Component {
 							overflow: 'hidden',
 							display: '-webkit-box',
 							textOverflow: 'ellipsis'
-						}}>{filters.blockNullData(record.title, '——')}</span>;
+						}}>{filters.blockNullData(record.title, '—')}</span>;
 					return (
 						<Link to={`/documentDetail/${record.wenshuId}/${content?content:''}`} target="_blank" >
 							{
@@ -153,7 +153,7 @@ class Check extends React.Component {
 							overflow: 'hidden',
 							display: '-webkit-box',
 							textOverflow: 'ellipsis'
-						}}>{filters.blockNullData(record, '——')}</span>;
+						}}>{filters.blockNullData(record, '—')}</span>;
 					return (
 						<span>
 							{
@@ -172,7 +172,7 @@ class Check extends React.Component {
 				render(record) {
 					return (
 						<span>
-							{filters.blockNullData(record.reason, '——')}
+							{filters.blockNullData(record.reason, '—')}
 						</span>
 					)
 				}
@@ -201,7 +201,7 @@ class Check extends React.Component {
 
 											/>)}
 									</Form.Item>
-									<Row>
+									<Row style={{marginTop:8}}>
 										<Col span={19}>
 											<Form.Item label="案号">
 												{getFieldDecorator('ah', {})
@@ -241,7 +241,6 @@ class Check extends React.Component {
 									</Row>
 								</Form>
 							</div>
-							<p className="line" />
 							<div className="yc-tab">
 								<Spin tip="Loading..." spinning={loading}>
 									<Table rowClassName="table-list"
