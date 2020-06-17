@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from "antd/es/button";
 import { Select, Form, Input } from 'antd';
 import { CHARACTER_LIST } from '@/static/status'
 import './style.scss';

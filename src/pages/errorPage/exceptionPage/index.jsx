@@ -1,7 +1,6 @@
 
 import React from 'react'
-import { withRouter } from 'react-router-dom';
-import { Result, Button } from 'antd';
+import { Result } from 'antd';
 class Exception extends React.Component {
     constructor(props) {
         super(props);

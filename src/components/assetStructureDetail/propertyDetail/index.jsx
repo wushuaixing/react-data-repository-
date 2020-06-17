@@ -28,7 +28,7 @@ class StructurePropertyDetail extends React.Component {
                             <Checkbox name="collateral" onChange={this.handleChange} disabled={enable} checked={this.props.collateral}>无抵押</Checkbox>
                         }
                     </div>
-                    <div className="yc-components-assetStructureDetail_body-row" style={{paddingTop:10}}>
+                    <div className="yc-components-assetStructureDetail_body-row">
                         <span className='yc-components-assetStructureDetail_body-row_title propertyDetail_row'>房产/土地类型：</span>
                         {
                             enable ?
@@ -42,7 +42,7 @@ class StructurePropertyDetail extends React.Component {
                                 </Radio.Group>
                         }
                     </div>
-                    <div className="yc-components-assetStructureDetail_body-row" style={{paddingTop:6}}>
+                    <div className="yc-components-assetStructureDetail_body-row">
                         <span className='yc-components-assetStructureDetail_body-row_title propertyDetail_row'>建筑面积：</span>
                         <span>
                             {

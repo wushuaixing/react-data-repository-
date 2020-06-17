@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Button } from 'antd';
+import { Menu } from 'antd';
 import { getAvailableNav, } from "@api";
 import { Link, withRouter } from "react-router-dom";
 import admin from "@/assets/img/admin.png";
@@ -8,7 +8,6 @@ import user from "@/assets/img/user.png";
 import sync from "@/assets/img/sync.png";
 import structure from "@/assets/img/structure.png";
 import './index.scss'
-const { SubMenu } = Menu;
 let storage = window.localStorage;
 const menuRoute = {
   7: "/index/structureUser", //结构化账号（管理员）
@@ -154,7 +153,6 @@ class Sider extends React.Component {
   };
 
   onOpenChange(key) {
-    const { openKeys } = this.state;
     this.setState({
       openKeys: key
     })

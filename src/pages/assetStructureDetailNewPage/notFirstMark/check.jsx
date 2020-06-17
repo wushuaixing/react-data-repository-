@@ -12,7 +12,6 @@ import {
     changeWrongType,//在结构化人员未修改前 再次修改错误
     getCheckDetail,//获取检查人员结构化详情信息
     inspectorCheck,  // 检查提交
-    getWrongTypeAndLevel //获取错误原因和类型
 } from '@api';
 import { message } from "antd";
 function CheckWrongLog() {

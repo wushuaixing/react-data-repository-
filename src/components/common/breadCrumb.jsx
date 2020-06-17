@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon } from 'antd'
+import { Button } from 'antd'
 import { withRouter } from 'react-router-dom';
 import './style.scss'
 class BreadCrumb extends React.Component {
@@ -42,7 +42,7 @@ class BreadCrumb extends React.Component {
                     <div className="yc-components-breadCrumb_button">
                         {this.showTag ? <span className="yc-components-breadCrumb_button-note">{this.props.note}</span> : null}
                         <Button type="default" onClick={this.props.handleClick} disabled={this.props.disabled}>
-                            {this.props.icon ? <span><img className="icon" src={this.props.icon} /></span>: null}
+                            {this.props.icon ? <span><img className="icon" src={this.props.icon} alt="" /></span>: null}
                             {this.breadButtonText}
                         </Button>
                     </div> : null}

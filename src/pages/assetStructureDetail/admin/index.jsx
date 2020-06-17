@@ -12,18 +12,6 @@ import {
     getCheckDetail,//获取检查人员结构化详情信息
     getWrongTypeAndLevel //获取错误原因和类型
 } from '@api';
-import { message } from "antd";
-function getObligor() {
-    return {
-        "birthday": '',
-        "gender": "0",
-        "labelType": "1",
-        "name": "",
-        "notes": "",
-        "number": "",
-        "type": "1"
-    }
-}
 export default class AdminStructure extends React.Component {
     state = {
         ah: [],
@@ -83,12 +71,10 @@ export default class AdminStructure extends React.Component {
         const moduleOrder = [
             <AdminBasicDetail
                 key={0} auctionID={state.id}
-                associatedAnnotationId={state.associatedAnnotationId}
                 type={state.type} records={state.records}
                 title={state.title} auctionStatus={state.auctionStatus}
                 reasonForWithdrawal={state.reasonForWithdrawal} url={state.url}
-                associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}>
-                ></AdminBasicDetail>
+                associatedAnnotationId={state.associatedAnnotationId} wsUrl={state.wsUrl}></AdminBasicDetail>
         ]
         if (state.wrongData&&state.wrongData.length>0) {
             const wrongData = state.wrongData.filter((item)=>{
