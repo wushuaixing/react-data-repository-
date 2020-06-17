@@ -48,6 +48,7 @@ class AccountManage extends React.Component {
           destroyOnClose={true}
           footer={footer}
           maskClosable
+          width={372}
           onCancel={this.handleCancel.bind(this)}
         >
           <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout}>

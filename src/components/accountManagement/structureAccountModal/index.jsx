@@ -62,7 +62,7 @@ class AccountManage extends React.Component {
     return (
       <div>
         <Modal
-          style={{ width: 387 }}
+          width={372}
           title="添加结构化账号"
           visible={visible}
           destroyOnClose={true}

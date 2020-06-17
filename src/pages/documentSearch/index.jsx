@@ -107,7 +107,7 @@ class Check extends React.Component {
 			{
 				title: "发布日期",
 				dataIndex: 'publishTime',
-				width: 120,
+				width: 130,
 				render(record) {
 					return (
 						<span>
