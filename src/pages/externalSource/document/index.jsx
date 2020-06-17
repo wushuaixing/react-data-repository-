@@ -36,8 +36,7 @@ class DocumentDetail extends React.Component {
 					data,
 					loading: false
 				});
-				console.log(this.getHeight())
-				if (data.appellors && this.getHeight() >= 63) {
+				if (data.appellors && data.appellors.length>24) {
 					this.setState({
 						ellipsisButtonVisible: true,
 					})

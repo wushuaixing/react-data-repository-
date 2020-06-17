@@ -18,19 +18,19 @@ export const Columns = [
 								<a href={record.info.url} target="_target">{record.info.title}</a>
 							</div>
 							<div className="info-line">
-								<span>处置法院/单位:{record.info.court}</span>
+								<span>处置法院/单位：{record.info.court}</span>
 							</div>
 							<div className="info-line">
-								<span>拍卖时间:{record.info.start}</span>
+								<span>拍卖时间：{record.info.start}</span>
 							</div>
 							<div className="info-line">
-								<span>拍卖状态:{AUCTION_STATUS[record.info.status]}</span>
+								<span>拍卖状态：{AUCTION_STATUS[record.info.status]}</span>
 							</div>
 							<div className="info-line">
-								<span>{`评估价:${record.info.consultPrice}元`}</span>
+								<span>{`评估价：${record.info.consultPrice}元`}</span>
 							</div>
 							<div className="info-line">
-								<span>{`起拍价:${record.info.initialPrice}元`}</span>
+								<span>{`起拍价：${record.info.initialPrice}元`}</span>
 							</div>
 						</div>
 					}

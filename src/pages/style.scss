@@ -40,6 +40,9 @@
           margin-bottom: 6px;
         }
         .info-line {
+          a:hover{
+            text-decoration: underline;
+          }
           .line-half {
             display: inline-block;
             width: 170px;
@@ -135,13 +138,17 @@
   padding-bottom: 30px !important; 
 }
 
-.ant-modal-confirm-body{
+.ant-modal-confirm-title{
   font-weight: bold !important;
   line-height: 24px !important;
+  font-size: 16px !important;
 }
 .ant-modal-confirm-content{
-  font-size:16px !important;
+  font-size:14px !important;
+  font-weight: normal;
 }
+
+
 .ant-modal-confirm-body-wrapper{
   padding:15px !important;
 }
@@ -150,4 +157,5 @@
 }
 .ant-table-thead > tr > th{
   border-bottom: none !important;
+  font-weight:normal !important;
 }
