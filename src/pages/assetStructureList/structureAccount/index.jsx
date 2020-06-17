@@ -28,7 +28,7 @@ class Asset extends React.Component {
 	};
 	getApi = (params) => {
 		const formParams = this.props.form.getFieldsValue()
-		if(formParams['structuredStartTime']&&formParams['structuredEndTime']&&formParams['structuredStartTime']>=formParams['structuredEndTime']){
+		if(formParams['structuredStartTime']&&formParams['structuredEndTime']&&formParams['structuredStartTime']>formParams['structuredEndTime']){
 			message.error('开始时间不能大于结束时间');
 			return false;
 		}

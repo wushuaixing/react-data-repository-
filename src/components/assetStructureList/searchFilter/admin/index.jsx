@@ -273,7 +273,7 @@ class Index extends React.Component {
                             getFieldDecorator('area', {
                                 initialValue: []
                             })(
-                                <Cascader options={area} placeholder="请选择" changeOnSelect />
+                                <Cascader options={area} placeholder="请选择" changeOnSelect style={{ width: 178, marginLeft: 4 }} />
                             )}
                     </Form.Item>
                     <Form.Item>
