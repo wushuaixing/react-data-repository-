@@ -88,12 +88,12 @@ export const Columns = [
 			<span>
 				{
 					record.status === -1 ?
-						<div style={{ fontSize: 12 }}>--</div> :
-						<div style={{ fontSize: 12 }}>
+						<div>--</div> :
+						<div>
 							{
 								record.structPersonnelEnable ?
-									<div style={{ fontSize: 12 }}>{record.structPersonnel}</div> :
-									<div style={{ fontSize: 12 }}>
+									<div>{record.structPersonnel}</div> :
+									<div>
 										{record.structPersonnel ? record.structPersonnel : '--'}
 										{record.structPersonnel !== '自动标注' && <span style={{ color: 'rgb(177, 177, 177)' }}>(已删除)</span>}
 									</div>

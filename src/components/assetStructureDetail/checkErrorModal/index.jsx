@@ -41,6 +41,8 @@ class Check extends React.Component {
 		return (
 			<div>
 				<Modal
+					width={394}
+					className="checkError-modal"
 					visible={this.props.visible}
 					closable={true}
 					footer={null}

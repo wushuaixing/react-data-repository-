@@ -90,7 +90,7 @@ class Index extends React.Component {
                 }
             }
         })
-        //console.log(params)
+        console.log(params)
         this.props.toSearch(params);
     };
 

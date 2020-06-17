@@ -120,13 +120,13 @@ class topMenu extends React.Component {
 					</div>
 				</div>
 				<Modal
+					width={480}
 					title="修改密码"
 					visible={visible}
 					destroyOnClose={true}
 					closable={true}
 					onCancel={this.handleCancel}
-					footer={footer}
-				>
+					footer={footer}>
 					<Form {...formItemLayout} hideRequiredMark={true}>
 						<Form.Item label="原密码">
 							{getFieldDecorator('oldPassword', {
@@ -141,7 +141,7 @@ class topMenu extends React.Component {
 							})(
 								<Input
 									maxLength={20}
-									style={{ marginLeft: 8, width: 265, height: 32 }}
+									style={{ marginLeft: 8, width: 305, height: 32 }}
 									className="yc-input"
 									placeholder="请输入原密码"
 								/>,
@@ -166,14 +166,13 @@ class topMenu extends React.Component {
 											<Input
 												maxLength={20}
 												onFocus={this.handlePasswordTipVisible.bind(this, false)}
-												style={{ marginLeft: 8, width: 265, height: 32 }}
+												style={{ marginLeft: 8, width: 305, height: 32 }}
 												className="yc-input"
 												placeholder="请输入新密码，长度为6-20位，不允许有空格" />
 										)}
 								</span>
 							</Tooltip>
 						</Form.Item>
-						{/* <span className="yc-components-hotDot" style={{ display: 'relative', left: 5, top: 187 }}>*</span> */}
 						<Form.Item label={label}>
 							{getFieldDecorator('confirmNewPassword', {
 								rules: [
@@ -187,7 +186,7 @@ class topMenu extends React.Component {
 							})(
 								<Input
 									maxLength={20}
-									style={{ marginLeft: 8, width: 265, height: 32 }}
+									style={{ marginLeft: 8, width: 305, height: 32 }}
 									className="yc-input"
 									placeholder="请确认新密码，长度为6-20位，不允许有空格"
 									autoComplete="new-password"

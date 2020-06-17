@@ -27,6 +27,11 @@ class Asset extends React.Component {
 		this.getApi(this.getParamsByTabIndex())
 	};
 	getApi = (params) => {
+		const formParams = this.props.form.getFieldsValue()
+		if(formParams['structuredStartTime']&&formParams['structuredEndTime']&&formParams['structuredStartTime']>=formParams['structuredEndTime']){
+			message.error('开始时间不能大于结束时间');
+			return false;
+		}
 		this.setState({
 			loading: true,
 		});
@@ -99,7 +104,8 @@ class Asset extends React.Component {
 	changeTab = (key) => {
 		this.props.form.resetFields();
 		this.setState({
-			tabIndex: parseInt(key)
+			tabIndex: parseInt(key),
+			page:1
 		}, () => {
 			this.getApi(this.getParamsByTabIndex())
 		})
@@ -117,9 +123,11 @@ class Asset extends React.Component {
 	handleSearch = e => {
 		e.preventDefault();
 		const params = this.getParamsByTabIndex()
-		this.getApi(params)
 		this.setState({
+			page:1,
 			searchTitle: params.title
+		},()=>{
+			this.getApi(params)
 		})
 	};
 
