@@ -189,7 +189,7 @@ class Index extends React.Component {
 			<div className="yc-content-container">
 				<BreadCrumb texts={['账号管理', '检查账号']}></BreadCrumb>
 				<div className="yc-detail-content">
-					<div>
+					<div style={{padding:'12px 20px 0'}}>
 						<div className="addUser-button">
 							<Button onClick={this.addAccount}>+ 添加账号</Button>
 						</div>

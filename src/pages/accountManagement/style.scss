@@ -1,10 +1,9 @@
 .yc-detail-content{
     .addUser-button{
-        margin:10px;
         text-align:right;
     }
     .role-table{
-        margin: 10px; 
+        margin-top: 16px; 
         font-size: 12px;
         a:hover{
             text-decoration: underline;
@@ -12,8 +11,7 @@
         }
     }
     .role-tab{
-        margin: 15px; 
-        margin-top:8px;
+        margin: 8px 20px 0 20px;
         font-size: 12px;
     }
 }
