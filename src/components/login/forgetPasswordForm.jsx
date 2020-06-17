@@ -223,7 +223,7 @@ class ForgetPasswordForm extends React.Component {
                                         placeholder="请输入图片验证码"
                                     />,
                                 )}
-                                <span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} style={{ width: 140, height: 38, marginLeft: 5 }} /></span>
+                                <span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} style={{ width: 140, height: 38, marginLeft: 5 }} alt="" /></span>
                             </Form.Item>
                         </div>
                     }

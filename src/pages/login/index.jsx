@@ -224,7 +224,7 @@ class Login extends React.Component {
 															placeholder="请输入图片验证码"
 														/>,
 													)}
-													<span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} style={{ width: 140, height: 38, marginLeft: 5 }} /></span>
+													<span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} alt="" style={{ width: 140, height: 38, marginLeft: 5 }} /></span>
 												</Form.Item> : null
 										}
 										<Form.Item style={{ marginTop: -20 }}>

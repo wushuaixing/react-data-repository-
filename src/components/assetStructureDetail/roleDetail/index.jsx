@@ -133,7 +133,7 @@ class RoleDetail extends React.Component {
     }
 }
 
-const RoleInfos = (props) => {
+/* const RoleInfos = (props) => {
     const roleArr = []
     Object.keys(props.obligor).forEach((key, index) => {
         roleArr.push(<RoleInfo info={props.obligor[key]} key={index}></RoleInfo>)
@@ -144,8 +144,7 @@ const RoleInfos = (props) => {
             <hr></hr>
         </div>
     )
-
-}
+} 
 
 const RoleInfo = (props) => {
     return (
@@ -154,7 +153,8 @@ const RoleInfo = (props) => {
 
         </span>
     )
-}
+} */
+
 const RoleInputs = (props) => {
     const arr = []
     for (let i = 0; i < props.num; i++) {

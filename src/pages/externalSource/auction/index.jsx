@@ -116,7 +116,7 @@ class Index extends React.Component {
     window.open(data.url)//如果未解析为网页 直接下载
   }
   render() {
-    const { title, attachList, showAnchors } = this.state;
+    const { title, attachList } = this.state;
     return (
       <div className="externalSource-auction">
         <div className="linkTitle" onClick={this.openTitleUrl.bind(this)}>{title}</div>

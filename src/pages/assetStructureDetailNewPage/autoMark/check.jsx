@@ -10,11 +10,8 @@ import { BreadCrumb } from '@commonComponents'
 import CheckModal from "@/components/assetStructureDetail/checkErrorModal";
 import {
     changeWrongType,//在结构化人员未修改前 再次修改错误
-    beConfirmed, //待确认列表中点击确认
-    getFeedBackRemark, //获取退回备注
     getCheckDetail,//获取检查人员结构化详情信息
     inspectorCheck,  // 检查提交
-    saveInspectorStructureDetail, //保存已删除的结构化账号的结构化信息
     getWrongTypeAndLevel //获取错误原因和类型
 } from '@api';
 import { message } from "antd";
@@ -42,7 +39,6 @@ class Check extends React.Component {
             ah: [],
             wsInAttach: null,
             obligors: [],
-            wrongData: [],
         }
     }
     get updateOrSubmitCheck() {

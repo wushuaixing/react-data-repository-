@@ -1,9 +1,6 @@
-/**
- * created by anran on 2020-02-17.
- */
+
 // axios 应该做一些封装和拦截，统一判断接口请求是否接通，可以去参考小程序项目
 import axios from "axios";
-import history from "../history";
 
 axios.processData = false;
 axios.defaults.withCredentials = true;
