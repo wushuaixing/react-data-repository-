@@ -58,6 +58,10 @@ class Check extends React.Component {
 		this.getTableList();
 	};
 	getTableList = () => {
+		if(this.params['structuredStartTime']&&this.params['structuredEndTime']&&this.params['structuredStartTime']>=this.params['structuredEndTime']){
+			message.error('开始时间不能大于结束时间');
+			return false;
+		}
 		this.setState({
 			loading: true,
 		});

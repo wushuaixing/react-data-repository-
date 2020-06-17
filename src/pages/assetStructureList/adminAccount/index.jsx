@@ -54,6 +54,10 @@ class Admin extends React.Component {
     /* checkType 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
        status 结构化所处阶段 0：全部 1：未检查 2：检查无误 3：检查错误 4：已修改 5：待确认 6:未标记*/
     getTableList = () => {
+        if(this.params['structuredStartTime']&&this.params['structuredEndTime']&&this.params['structuredStartTime']>=this.params['structuredEndTime']){
+			message.error('开始时间不能大于结束时间');
+			return false;
+		}
         this.setState({
             loading: true,
         })

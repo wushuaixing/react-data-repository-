@@ -52,17 +52,17 @@ class Index extends React.Component {
         let typeData = data.chineseLetter //包含两类 chineseLetter和digit
         for (let i = 0; i < typeData.length; i++) {
             const item = typeData[i]
-            if (item.firstNameRank !== personnelTypeList.slice(-1)[0].id) {
+            if (item.firstNameRank !== personnelTypeList.slice(-1)[0].id)  {
                 personnelTypeList.push({
                     id: item.firstNameRank,
                     array: []
                 })
-			}
-			personnelTypeList[personnelTypeList.length - 1].array.push({
-				value: item.id,
-				label: item.name,
-				enable: item.enable
-			})
+            }
+            personnelTypeList[personnelTypeList.length - 1].array.push({
+                value: item.id,
+                label: item.name,
+                enable: item.enable
+            })
         }
         personnelTypeList.push({
             id: '#',
@@ -95,19 +95,18 @@ class Index extends React.Component {
 				}
 				//如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType 
 				//isNaN()判断的缺点就在于 null、空格以及空串会被按照0来处理 但外层已经处理
-				else if (key === 'userId' && isNaN(parseInt[formParams[key]])) {
-					console.log(formParams[key])
-					switch (formParams[key]) {
-						case 'all':
-							params.userType = 0; break;
-						case 'deleted':
-							params.userType = 1; break;
-						case 'auto':
-							params.userType = 2; break;
-						default:
-							break;
-					}
-				}
+				else if (key === 'userId') {
+                    switch (formParams[key]) {
+                        case 'all':
+                            params.userType = 0; break;
+                        case 'deleted':
+                            params.userType = 1; break;
+                        case 'auto':
+                            params.userType = 2; break;
+                        default:
+                            params.userId = formParams[key]; break;
+                    }
+                }
 				//无特殊情况 正常赋值
 				else {
 					params[key] = formParams[key]
@@ -174,15 +173,17 @@ class Index extends React.Component {
 							initialValue: 'all'
 						})(
 							<Select style={{ width: 198, marginLeft: 4 }}
-								showSearch optionFilterProp="children.props.children"
-								filterOption={(input, option) =>
-									option.props.children.indexOf(input) >= 0
-								  }
+								showSearch
+								filterOption={(input, option) =>{
+                                    if(!isNaN(option.key)){ //去除optGroup项和用户类型选项 不进行筛选
+                                        return option.props.children[0].indexOf(input)>=0
+                                    }
+                                }}
 								transfer placeholder="请选择">
 								{
 									userList.map((item, index) => {
                                         return (
-                                            <OptGroup label={item.id} key={index}>
+                                            <OptGroup label={item.id} key={item.id}>
                                                 {
                                                     item.array.map((ele, index) => {
                                                         return (
