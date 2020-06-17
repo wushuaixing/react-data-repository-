@@ -32,12 +32,12 @@ class DocumentDetail extends React.Component {
 		wenshuDetail(Id,params).then(res => {
 			if (res.data.code === 200) {
 				let data = res.data.data;
-				console.log(data)
 				this.setState({
 					data,
 					loading: false
 				});
-				if (data.appellors && this.getHeight() > 50) {
+				console.log(this.getHeight())
+				if (data.appellors && this.getHeight() >= 63) {
 					this.setState({
 						ellipsisButtonVisible: true,
 					})

@@ -8,7 +8,7 @@ import StructureDocumentDetail from '@/components/assetStructureDetail/documentD
 import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import WrongDetail from '@/components/assetStructureDetail/wrongDetail'
 import { structuredById, getNumberOfTags, saveDetail } from '@api'
-import { filters } from '@utils/common'
+import { filters,clone } from '@utils/common'
 import './index.scss'
 import { message,Modal } from 'antd';
 import icon from '@/assets/img/backPrevious.png'
@@ -151,8 +151,8 @@ class StructureDetail extends React.Component {
         /* 资产标注详情页存在备注为空的资产线索时，点击保存，保存无效并弹出“资产线索备注待完善”非模态框提示 */
         //去空行
         const keys = ['name', 'birthday', 'notes', 'number']
-        const state = this.state
-        state.obligors = filters.blockEmptyRow(this.state.obligors, keys)
+        const state = clone(this.state)
+        state.obligors = filters.blockEmptyRow(state.obligors, keys)
         // 如果是未找到文书 去掉文书链接 相关文书案号 见附件详情
         if (state.wsFindStatus === 0) {
             state.wsUrl = []
