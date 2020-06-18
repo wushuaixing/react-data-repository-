@@ -15,7 +15,6 @@ install_deps:
   tags:
     - font-group-runner
   only:
-    - wwy-data
     - master
   script:
     - node -v
@@ -29,7 +28,6 @@ build_step:
     tags:
         - font-group-runner
     only:
-        - wwy-data
         - master
     script:
         - CI=false yarn build
@@ -40,7 +38,6 @@ deploy_step:
   tags:
     - font-group-runner
   only:
-    - wwy-data
     - master
   script:
     - eval $(ssh-agent -s)
