@@ -11,23 +11,8 @@ import miniLogo from '../../assets/img/loginPage-logo.png';
 import './style.scss';
 
 const { confirm, info } = Modal;
-//头部图标和公司文字
-function Header() {
-	return (
-		<div className="yc-login-header">
-			<img src={logo} alt="" />
-		</div>
-	)
-}
-//登录页展示图片中的小"盒子"
-function LoginPagePresentationImg() {
-	return (
-		<div className="yc-left">
-			<img src={box} width="650" height="600" alt="" />
-		</div>
-	)
-}
-function showManyTimeErroConfirm(num) {
+
+function showManyTimeErrorConfirm(num) {
 	confirm({
 		content: `账号或密码多次错误，您还可以尝试${10 - num}次，是否需要找回密码?`,
 		onOk: () => {
@@ -64,13 +49,12 @@ function ContainerFooter() {
 	)
 }
 
-const loginForm = Form.create;
 let storage = window.localStorage;
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showForm: 'login', //展示表单  1.login 登录表单 2.findPassword 找回密码表单 
+			showForm: 'login', //展示表单  1.login 登录表单 2.findPassword 找回密码表单
 			phoneCodeButton: 'get', // 获取手机验证码按钮展现样式 1.get 获取 2.again 重新获取需要s秒(倒计时)
 			ifAutoLogin: false, //设置是否自动登录
 			codeImgSrc: '',  //图片验证码
@@ -84,11 +68,9 @@ class Login extends React.Component {
 	}
 	//切换登录和找回密码表单
 	switchForm() {
-		let showForm = (this.state.showForm === 'login') ? 'findPassword' : 'login'
+		const { showForm } = this.state;
 		this.setState({
-			showForm
-		}, () => {
-			console.log(this.state)
+			showForm:showForm==='login'? 'findPassword' : 'login'
 		})
 	};
 	handleCorrect() {
@@ -127,15 +109,15 @@ class Login extends React.Component {
 	};
 	//根据错误次数显示对应消息,验证码,对话框
 	handleErrorModalAndInfoByTime(messageText) {
-		const { errorCount } = this.state
+		const { errorCount } = this.state;
 		if (errorCount >= 6 && errorCount < 10) {
-			messageText==='图形验证码输入错误'?message.error(messageText):showManyTimeErroConfirm.bind(this)(errorCount)
+			messageText==='图形验证码输入错误'?message.error(messageText):showManyTimeErrorConfirm.bind(this)(errorCount);
 			this.toRefreshImg()
 		} else if (errorCount >= 10) {
-			showFreezeConfirm.bind(this)()
+			showFreezeConfirm.bind(this)();
 			this.toRefreshImg()
 		} else if (errorCount >= 3) {
-			message.error(messageText)
+			message.error(messageText);
 			this.toRefreshImg()
 		} else {
 			message.error(messageText)
@@ -159,10 +141,12 @@ class Login extends React.Component {
 		return (
 			<Spin tip="Loading..." spinning={loading}>
 				<div className="yc-login">
-					<Header></Header>
+					<div className="yc-login-header" data-remark='头部图标和公司文字'><img src={logo} alt="" /></div>
 					<div className="yc-login-container">
 						<div className="yc-container-body">
-							<LoginPagePresentationImg />
+							<div className="yc-left" data-remark='登录页展示图片中的小"盒子"'>
+								<img src={box} width="650" height="600" alt="" />
+							</div>
 							{
 								showForm === 'login' &&
 								<div className={errorCount < 3 ? 'yc-right-login-noCode' : 'yc-right-login-withCode'}>
@@ -188,9 +172,7 @@ class Login extends React.Component {
 										</Form.Item>
 										<Form.Item>
 											{getFieldDecorator('password', {
-												rules: [
-													{ required: true, whitespace: true, message: "请输入密码" },
-												],
+												rules: [ { required: true, whitespace: true, message: "请输入密码" }],
 												getValueFromEvent(event) {
 													return event.target.value.replace(/[\s|\u4e00-\u9fa5]/g, "")
 												},
@@ -209,9 +191,7 @@ class Login extends React.Component {
 											errorCount >= 3 ?
 												<Form.Item>
 													{getFieldDecorator('imageVerifyCode', {
-														rules: [
-															{ required: true, whitespace: true, message: '请输入验证码', }
-														],
+														rules: [{ required: true, whitespace: true, message: '请输入验证码', }],
 														getValueFromEvent(event) {
 															return event.target.value.replace(/\s/g, "")
 														},
@@ -244,10 +224,10 @@ class Login extends React.Component {
 							}
 							{
 								showForm === 'findPassword' &&
-								<ForgetPasswordForm handleSwitchBack={this.switchForm.bind(this)} resetPasswordSuccess={this.handleResetPasswordSuccess.bind(this)}></ForgetPasswordForm>
+								<ForgetPasswordForm handleSwitchBack={this.switchForm.bind(this)} resetPasswordSuccess={this.handleResetPasswordSuccess.bind(this)}/>
 							}
 						</div>
-						<ContainerFooter></ContainerFooter>
+						<ContainerFooter/>
 					</div>
 				</div>
 			</Spin>
@@ -255,4 +235,4 @@ class Login extends React.Component {
 	}
 }
 
-export default withRouter(loginForm()(Login));
+export default withRouter(Form.create()(Login));
