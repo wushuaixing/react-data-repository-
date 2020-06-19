@@ -6,14 +6,14 @@ import './index.scss'
 
 class ButtonGroup extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             buttonDisabled: true,
             timer: null
         }
     }
     get checkButtonTextArray() {
-        const checkButtons = this.checkButtons
+        const checkButtons = this.checkButtons;
         return [
             {
                 status: '1',
@@ -60,7 +60,7 @@ class ButtonGroup extends React.Component {
     }
     //非初标数据关联标注
     get checkButtonTextArrayForNotFirstMark(){
-        const checkButtons = this.checkButtons
+        const checkButtons = this.checkButtons;
         return [
             {
                 status: '0',
@@ -96,7 +96,7 @@ class ButtonGroup extends React.Component {
         return {
             err: <Button onClick={this.handleErrorModal.bind(this)} key="0" style={{ marginRight: 10 }}>{'检查有误'}</Button>,
             noErr: <Button onClick={this.handleNoErr.bind(this)} key="1" style={{ marginRight: 10 }}>{'检查无误'}</Button>,
-            onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" ></OnlyMarkButton>,
+            onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" />,
             save: <Button onClick={this.handleStructureUpdate.bind(this)} key="3" style={{ marginRight: 10 }}>{'保存'}</Button>,
             confirm: <Button onClick={this.handleConfirm.bind(this)} key="4">{'确认'}</Button>,
             modify: <Button onClick={this.handleErrorModal.bind(this)} key="5" style={{ marginRight: 10 }}>{'修改错误原因'}</Button>,
@@ -129,12 +129,12 @@ class ButtonGroup extends React.Component {
     }
     handleCountDown() {
         if (this.state.countDown > 0) {
-            const countDown = this.state.countDown - 1
+            const countDown = this.state.countDown - 1;
             this.setState({
                 countDown
             })
         } else {
-            clearInterval(this.state.timer)
+            clearInterval(this.state.timer);
             this.setState({
                 buttonDisabled: false,
                 timer: 0 //已经计时过了
@@ -151,7 +151,7 @@ class ButtonGroup extends React.Component {
     componentWillReceiveProps(newProps) {
         //如果切换了id 则设置计时器可重新刷新
         if (newProps.id !== this.props.id) {
-            clearInterval(this.state.timer)
+            clearInterval(this.state.timer);
             this.setState({
                 timer: null,
                 countDown: null
@@ -163,13 +163,13 @@ class ButtonGroup extends React.Component {
             if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
                 this.setState({
                     buttonDisabled: true,
-                    countDown: 2,
+                    countDown: 15,
                     timer: setInterval(() => {
                         this.handleCountDown()
                     }, 1000)
                 })
             }
-            //在待标记的初标数据类型时或不在待标记时候 不需要计时  
+            //在待标记的初标数据类型时或不在待标记时候 不需要计时
             if ((this.props.type !== 0 && this.props.status === '0') || this.props.status !== '0') {
                 this.setState({
                     buttonDisabled: false,
@@ -179,11 +179,11 @@ class ButtonGroup extends React.Component {
         }
     }
     render() {
-        const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[this.props.status]
-        const { countDown } = this.state
-        const { enable, status, isSendRequest } = this.props
-        const disabled = this.state.buttonDisabled || isSendRequest //当已经发送了请求或特殊处理情况下 按钮不可点击
-        const notFirstMarkStatus = this.props.status?this.props.status:0
+        const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[this.props.status];
+        const { countDown } = this.state;
+        const { enable, status, isSendRequest } = this.props;
+        const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
+        const notFirstMarkStatus = this.props.status?this.props.status:0;
         return (
             <div className="yc-component-buttonGroup">
                 {
@@ -192,21 +192,21 @@ class ButtonGroup extends React.Component {
                             case 'structure':
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
-                                        <OnlyMarkButton handleChange={this.handleChange.bind(this)}></OnlyMarkButton>
+                                        <OnlyMarkButton handleChange={this.handleChange.bind(this)}/>
                                         <Button onClick={this.handleClick.bind(this)} disabled={disabled}>{`${buttonText}${(countDown > 0) ? '(' + countDown + 's)' : ''}`}</Button>
                                     </div>
-                                )
+                                );
                             case 'check':
                                 if (enable) {
                                     switch (status) {
                                         case "1":
-                                            return <div>{this.checkButtonTextArray[0].btns}</div>
+                                            return <div>{this.checkButtonTextArray[0].btns}</div>;
                                         case "2":
-                                            return <div>{this.checkButtonTextArray[2].btns}</div>
+                                            return <div>{this.checkButtonTextArray[2].btns}</div>;
                                         case "3":
-                                            return <div>{this.checkButtonTextArray[3].btns}</div>
+                                            return <div>{this.checkButtonTextArray[3].btns}</div>;
                                         case "4":
-                                            return <div>{this.checkButtonTextArray[4].btns}</div>
+                                            return <div>{this.checkButtonTextArray[4].btns}</div>;
                                         default:
                                             return null;
                                     }
@@ -224,19 +224,19 @@ class ButtonGroup extends React.Component {
                                     <div className="yc-component-buttonGroup-structure">
                                         <Button onClick={this.handleBack.bind(this)}>返回</Button>
                                     </div>
-                                )
+                                );
                             case 'notFirstMark-check':
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
                                         <div>{this.checkButtonTextArrayForNotFirstMark[notFirstMarkStatus].btns}</div>
                                     </div>
-                                )
+                                );
                             case 'notFirstMark-other':
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
                                         {this.checkButtons['close']}
                                     </div>
-                                )
+                                );
                             default:
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
@@ -257,6 +257,6 @@ const OnlyMarkButton = (props) => {
             <Checkbox onChange={props.handleChange} name="onlyThis">仅标记本条</Checkbox>
         </div>
     )
-}
+};
 
 export default withRouter(ButtonGroup);
