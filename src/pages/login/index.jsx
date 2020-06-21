@@ -73,13 +73,13 @@ class Login extends React.Component {
 			showForm:showForm==='login'? 'findPassword' : 'login'
 		})
 	};
-	handleCorrect() {
+	handleCorrect=()=> {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				this.handleSubmit(values);
 			}
 		});
-	}
+	};
 	handleResetPasswordSuccess() {
 		this.setState({
 			showForm: 'login'
@@ -167,6 +167,7 @@ class Login extends React.Component {
 													className="yc-input"
 													prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
 													placeholder="请输入11位账号"
+													onPressEnter={this.handleCorrect}
 												/>,
 											)}
 										</Form.Item>
@@ -183,6 +184,7 @@ class Login extends React.Component {
 													className="yc-input"
 													prefix={<Icon type="lock" style={{ color: this.state.iconColor }} />}
 													type="password"
+													onPressEnter={this.handleCorrect}
 													placeholder="请输入密码"
 												/>,
 											)}
@@ -200,6 +202,7 @@ class Login extends React.Component {
 														<Input
 															style={{ width: 175 }}
 															className="yc-input"
+															onPressEnter={this.handleCorrect}
 															prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
 															placeholder="请输入图片验证码"
 														/>,
@@ -215,7 +218,7 @@ class Login extends React.Component {
 											<a className="yc-forget" onClick={this.switchForm.bind(this)} style={{ marginLeft: 145 }}>
 												忘记密码?
 											</a>
-											<Button type="primary" htmlType="submit" className="yc-login-button" onMouseDown={this.handleCorrect.bind(this)}>
+											<Button type="primary" htmlType="submit" className="yc-login-button" onMouseDown={this.handleCorrect}>
 												登录
 											</Button>
 										</Form.Item>
