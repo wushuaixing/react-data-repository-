@@ -129,13 +129,15 @@ class StructureDetail extends React.Component {
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
         保存无效并弹出“债权人备注待完善”非模态框提示； */
         const { id, status } = this.props.match.params;
+        console.log(this.state.isUpdateRecord);
         if (!this.state.isUpdateRecord && status !== '0') {
             message.warning('当前页面未作修改，请修改后再保存');
             return false;
         }
         for (let i = 0; i < this.state.obligors.length; i++) {
             let name = this.state.obligors[i].name;
-            if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '2' && name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
+            if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '2'
+              && name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
                 message.warning('债权人备注待完善');
                 return false;
             }
@@ -185,6 +187,7 @@ class StructureDetail extends React.Component {
                 //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
                 if ((status === '0' || status === '2') && res.data.data.id !== 0) {
                     sessionStorage.setItem('id', id);
+                    this.setState({isUpdateRecord:false});
                     this.props.history.push({
                         pathname: `/index/structureDetail/${status}/${res.data.data.id}`
                     })
@@ -303,7 +306,6 @@ class StructureDetail extends React.Component {
             </StructureBasicDetail>
         ];
         if (parseInt(status) === 2) {
-            console.log(state);
             moduleOrder.unshift(<WrongDetail wrongData={state.wrongData.slice(-1)} role={'structure'}/>)
         }
         return (
