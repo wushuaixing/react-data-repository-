@@ -138,6 +138,7 @@ class Login extends React.Component {
 	render() {
 		const { getFieldDecorator,setFieldsValue:set } = this.props.form;
 		const { codeImgSrc, loading, errorCount, showForm } = this.state;
+		const isLocal = /localhost/.test(window.location.host);
 		return (
 			<Spin tip="Loading..." spinning={loading}>
 				<div className="yc-login">
@@ -223,15 +224,17 @@ class Login extends React.Component {
 											</Button>
 										</Form.Item>
 									</Form>
-									<div className='temp-module'>
-										<Button onClick={()=>set({username:'18358141463',password:'123456'})}>结构化管理人员</Button>
-										<Button onClick={()=>set({username:'55555555555',password:'555555'})}>检查人员</Button>
-										<Button onClick={()=>set({username:'15386196726',password:'111111'})}>结构化人员</Button>
-									</div>
+									{
+										isLocal && (
+											<div className='temp-module'>
+												<Button onClick={()=>set({username:'18358141463',password:'123456'})}>管理员</Button>
+												<Button onClick={()=>set({username:'55555555555',password:'555555'})}>检查人员</Button>
+												<Button onClick={()=>set({username:'15386196726',password:'111111'})}>结构化人员</Button>
+											</div>
+										)
+									}
 								</div>
 							}
-
-
 							{
 								showForm === 'findPassword' &&
 								<ForgetPasswordForm handleSwitchBack={this.switchForm.bind(this)} resetPasswordSuccess={this.handleResetPasswordSuccess.bind(this)}/>
