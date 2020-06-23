@@ -20,7 +20,7 @@ import {
     updateBackStatus,
 } from '@api';
 import CheckModal from "@/components/assetStructureDetail/checkErrorModal";
-import { message } from "antd";
+import { message,Modal,Icon } from "antd";
 import { filters } from '@utils/common'
 function getObligor() {
     return {
@@ -75,7 +75,6 @@ class Check extends React.Component {
 
     componentDidMount() {
         const { id, status,isNotConfirm } = this.props.match.params;
-        console.log(this.props.location.query);
         if (!sessionStorage.getItem('structPersonnelEnable') && this.props.location.query && this.props.location.query.enable !== undefined) {
             //console.log(this.props.location.query.enable)
             sessionStorage.setItem('structPersonnelEnable', this.props.location.query.enable)
@@ -207,7 +206,15 @@ class Check extends React.Component {
         });
     };
     handleNoErr() {
-        this.submitWrongRecord({}, false)
+	    Modal.confirm({
+		    icon:<Icon type="info-circle" style={{color:'#faad14'}} />,
+		    title: '确认将本次错误修改为无误吗？',
+		    content: '点击确定，本条结构化信息本次错误记录将被删除',
+		    okText: '确认',
+		    cancelText: '取消',
+		    onOk:()=>this.submitWrongRecord({}, false)
+	    });
+
     }
     handleAddClick(key) {
         const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], { ...getObligor() }];

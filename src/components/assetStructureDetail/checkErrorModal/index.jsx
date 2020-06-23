@@ -25,19 +25,19 @@ class Check extends React.Component {
 	};
 	//待标记--》详情页
 	render() {
-		let { wrongReasons } = this.props
+		let { wrongReasons } = this.props;
 		const { getFieldDecorator } = this.props.form;
-		const  status  = this.props.match.params.status||this.props.status
-		const wrongReasonList = []
+		const  status  = this.props.match.params.status||this.props.status;
+		const wrongReasonList = [];
 		WRONG_TYPE_LIST.forEach((wrongType, index) => {
-			const title = <div className="part-error-title" key={index}>{wrongType.type}</div>
+			const title = <div className="part-error-title" key={index}>{wrongType.type}</div>;
 			const WrongReasons = wrongType.children.map((child, index) => {
 				return <div key={index} className="part-error-content"  onClick={() => this.addRemark(child.text)}>{`${child.text}：`}</div>
-			})
+			});
 			wrongReasonList.push(<div key={index}>{[title,WrongReasons]}</div>)
-		})
-    	wrongReasons = (wrongReasons&&wrongReasons instanceof Array&&wrongReasons.length>0)?wrongReasons[wrongReasons.length-1]:{}
-		const isShowWrongRemark = (wrongReasons.remark&&parseInt(status)===3)?true:false
+		});
+    	wrongReasons = (wrongReasons&&wrongReasons instanceof Array&&wrongReasons.length>0)?wrongReasons[wrongReasons.length-1]:{};
+		const isShowWrongRemark = !!(wrongReasons.remark && parseInt(status) === 3);
 		return (
 			<div>
 				<Modal
