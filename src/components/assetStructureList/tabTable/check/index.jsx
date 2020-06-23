@@ -18,7 +18,7 @@ class TabTable extends React.Component {
 		editNum: 0,
 		tabIndex: 0,
 		page: 1,
-	}
+	};
 	//切换Tab
 	changeTab = (key) => {
 		this.props.onTabs(parseInt(key))
@@ -28,7 +28,7 @@ class TabTable extends React.Component {
 		this.props.onPage(pagination.current)
 	};
 	get columnShowObject() {
-		const showObject = {}
+		const showObject = {};
 		switch (this.props.tabIndex) {
 			case 0: case 1: case 5:
 				showObject.title = '结构化时间'; showObject.dataIndex = 'firstStructuredTime'; break;
@@ -44,7 +44,7 @@ class TabTable extends React.Component {
 
 	render() {
 		const { data, waitNum, checkErrorNum, editNum, total, page, tabIndex } = this.props;
-		const paginationProps = createPaginationProps(page, total)
+		const paginationProps = createPaginationProps(page, total);
 		const columns = [
 			{
 				title: this.columnShowObject.title,
@@ -59,15 +59,12 @@ class TabTable extends React.Component {
 				align: "center",
 				width: 180,
 				render: (text, record) => {
-					const isNotConfirm = this.props.tabIndex===5?1:0 //是否在待确认队列 需要特殊处理 因为status跟数据队列不符合
-					
+					const isNotConfirm = this.props.tabIndex===5?1:0; //是否在待确认队列 需要特殊处理 因为status跟数据队列不符合
 					return (
 						<span>
 							<Link to={{
-								pathname: `/index/structureDetail/${record.status}/${record.info.id}/${isNotConfirm}`,
-								query:{
-									enable:record.structPersonnelEnable
-								}
+								pathname: `/index/structureDetail/${record.status}/${record.info.id}/${isNotConfirm}/${tabIndex}`,
+								query:{ enable:record.structPersonnelEnable }
 							}}>
 								{(record.status === 2 || record.status === 3 )
 									&& record.structPersonnelEnable

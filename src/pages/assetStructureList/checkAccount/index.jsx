@@ -32,8 +32,8 @@ class Check extends React.Component {
         /* checkType 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
         status 结构化所处阶段 0：全部 1：未检查 2：检查无误 3：检查错误 4：已修改 5：待确认 6:未标记
         根据tabIndex获取参数  需要传递新tab进来  当换页或搜索传外部param合并 包括page title等 */
-        let { tabIndex, page } = this.state
-        let params = Object.assign(this.state.searchParams, { page })
+        let { tabIndex, page } = this.state;
+        let params = Object.assign(this.state.searchParams, { page });
         //根据不同的tabIndex 设置参数
         switch (tabIndex) {
             case 0:
@@ -51,7 +51,7 @@ class Check extends React.Component {
             default:
                 break;
 		}
-		params.status = parseInt(tabIndex)
+		params.status = parseInt(tabIndex);
         return params;
     }
 	componentDidMount() {
@@ -93,6 +93,7 @@ class Check extends React.Component {
 
 	// 搜索框
 	handleSearch = data => {
+		console.log(data);
 		this.setState({
 			searchParams: data,
 			page:1
@@ -108,7 +109,7 @@ class Check extends React.Component {
 		})
 	};
 	changeTab = (key) => {
-		this.searchFilterForm.resetFields()
+		this.searchFilterForm.resetFields();
 		this.setState({
             tabIndex: parseInt(key),
             searchParams:{},
@@ -129,10 +130,10 @@ class Check extends React.Component {
 		const { tableList, waitNum, checkErrorNum, editNum, total, page, status, tabIndex, loading } = this.state;
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['资产结构化检查']}></BreadCrumb>
+				<BreadCrumb texts={['资产结构化检查']}/>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
-						<SearchForm 
+						<SearchForm
 							wrappedComponentRef={(inst)=>this.searchFormRef = inst}
 							status={status}
 							tabIndex={tabIndex}

@@ -10,57 +10,60 @@ class ButtonGroup extends React.Component {
         this.state = {
             buttonDisabled: true,
             timer: null
-        }
+        };
     }
     get checkButtonTextArray() {
         const checkButtons = this.checkButtons;
+        const { match:{ params:{ tabIndex } } } = this.props;
+        const toAffirm = tabIndex==='5'?checkButtons['confirm']:null;
         return [
             {
                 status: '1',
                 name: '未检查',
-                btns: [checkButtons['err'], checkButtons['noErr']]
+                btns: [toAffirm,checkButtons['err'], checkButtons['noErr']]
             },
             {
                 status: '1',
                 name: '未检查-已删除',
                 texts: ['仅标记本条', '保存', '检查无误'],
-                btns: [checkButtons['onlyMark'], checkButtons['save'], checkButtons['noErr']]
+                btns: [checkButtons['onlyMark'],toAffirm, checkButtons['save'], checkButtons['noErr']]
             },
             {
                 status: '2',
                 name: '检查无误',
                 texts: ['检查有误', '返回'],
-                btns: [checkButtons['err'], checkButtons['back']]
+                btns: [toAffirm,checkButtons['err'], !toAffirm?checkButtons['back']:null]
             },
             {
                 status: '3',
                 name: '检查错误',
                 texts: ['修改错误原因', '检查无误'],
-                btns: [checkButtons['modify'], checkButtons['noErr']]
+                btns: [toAffirm,checkButtons['modify'], checkButtons['noErr']]
             },
             {
                 status: '4',
                 name: '已修改',
                 texts: ['检查有误', '检查无误'],
-                btns: [checkButtons['err'], checkButtons['noErr']]
+                btns: [toAffirm,checkButtons['err'], checkButtons['noErr']]
             },
             {
                 status: '5',
                 name: '待确认',
                 texts: ['检查有误', '检查无误'],
-                btns: [checkButtons['err'], checkButtons['noErr']]
+                btns: [toAffirm,checkButtons['err'], checkButtons['noErr']]
             },
             {
                 status: '5',
                 name: '待确认-检查错误',
                 texts: ['确认', '检查有误', '检查无误'],
-                btns: [checkButtons['confirm'], checkButtons['err'], checkButtons['noErr']]
+                btns: [toAffirm,checkButtons['confirm'], checkButtons['err'], checkButtons['noErr']]
             }
-        ]
+        ];
     }
     //非初标数据关联标注
     get checkButtonTextArrayForNotFirstMark(){
         const checkButtons = this.checkButtons;
+
         return [
             {
                 status: '0',
@@ -96,12 +99,12 @@ class ButtonGroup extends React.Component {
         return {
             err: <Button onClick={this.handleErrorModal.bind(this)} key="0" style={{ marginRight: 10 }}>{'检查有误'}</Button>,
             noErr: <Button onClick={this.handleNoErr.bind(this)} key="1" style={{ marginRight: 10 }}>{'检查无误'}</Button>,
-            onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" />,
+            onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" style={{ marginRight: 10 }} />,
             save: <Button onClick={this.handleStructureUpdate.bind(this)} key="3" style={{ marginRight: 10 }}>{'保存'}</Button>,
-            confirm: <Button onClick={this.handleConfirm.bind(this)} key="4">{'确认'}</Button>,
+            confirm: <Button onClick={this.handleConfirm.bind(this)} key="4" style={{ marginRight: 10 }} >{'确认'}</Button>,
             modify: <Button onClick={this.handleErrorModal.bind(this)} key="5" style={{ marginRight: 10 }}>{'修改错误原因'}</Button>,
             back: <Button onClick={this.handleBack.bind(this)} key="6" style={{ marginRight: 10 }}>{'返回'}</Button>,
-            close:<Button onClick={this.handleClosePage.bind(this)} key="7" style={{ marginRight: 10 }}>{'关闭'}</Button>
+            close:<Button onClick={this.handleClosePage.bind(this)} key="7" style={{ marginRight: 10 }}>{'关闭'}</Button>,
         }
     }
     handleConfirm() {
@@ -182,8 +185,10 @@ class ButtonGroup extends React.Component {
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[this.props.status];
         const { countDown } = this.state;
         const { enable, status, isSendRequest } = this.props;
+
         const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
         const notFirstMarkStatus = this.props.status?this.props.status:0;
+
         return (
             <div className="yc-component-buttonGroup">
                 {

@@ -10,7 +10,7 @@ const { Option, OptGroup } = Select;
 const searchForm = Form.create;
 class Index extends React.Component {
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
 			userList: []
 		}
@@ -19,7 +19,7 @@ class Index extends React.Component {
 		//结构化人员
 		getStructuredPersonnel().then(res => {
 			if (res.data.code === 200) {
-				let data = res.data.data
+				let data = res.data.data;
 				this.setState({
 					userList: this.getStructuredPersonnelTypeList(data),
 				});
@@ -48,10 +48,10 @@ class Index extends React.Component {
                     enable:true
                 }
             ]
-        }] //类名数组 
-        let typeData = data.chineseLetter //包含两类 chineseLetter和digit
+        }]; //类名数组
+        let typeData = data.chineseLetter; //包含两类 chineseLetter和digit
         for (let i = 0; i < typeData.length; i++) {
-            const item = typeData[i]
+            const item = typeData[i];
             if (item.firstNameRank !== personnelTypeList.slice(-1)[0].id)  {
                 personnelTypeList.push({
                     id: item.firstNameRank,
@@ -73,18 +73,24 @@ class Index extends React.Component {
                     enable: item.enable
                 }
             ))
-        })
+        });
         return personnelTypeList;
     }
 
 	// 搜索框
 	handleSearch = e => {
 		e.preventDefault();
-		const paramKeys = ['title', 'structuredStartTime', 'structuredEndTime', 'checkStartTime', 'checkEndTime', 'userId']
-		const formParams = this.props.form.getFieldsValue(paramKeys)
+		const paramKeys = ['title', 'structuredStartTime', 'structuredEndTime', 'checkStartTime', 'checkEndTime', 'userId'];
+		const formParams = this.props.form.getFieldsValue(paramKeys);
+		/* 调整请求字段 */
+		formParams.checkStartTime=formParams.structuredStartTime;
+		formParams.checkEndTime=formParams.structuredEndTime;
+		delete formParams.structuredStartTime;
+		delete formParams.structuredEndTime;
+
 		const params = {
 			page: 1
-		}
+		};
 		//参数清洗
 		Object.keys(formParams).forEach((key) => {
 			//判断各种情况为空 清理空参数
@@ -93,26 +99,26 @@ class Index extends React.Component {
 				if (key.indexOf('Time') >= 0) {
 					params[key] = dateUtils.formatMomentToStandardDate(formParams[key])
 				}
-				//如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType 
+				//如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType
 				//isNaN()判断的缺点就在于 null、空格以及空串会被按照0来处理 但外层已经处理
 				else if (key === 'userId') {
-                    switch (formParams[key]) {
-                        case 'all':
-                            params.userType = 0; break;
-                        case 'deleted':
-                            params.userType = 1; break;
-                        case 'auto':
-                            params.userType = 2; break;
-                        default:
-                            params.userId = formParams[key]; break;
-                    }
-                }
+          switch (formParams[key]) {
+            case 'all':
+                params.userType = 0; break;
+            case 'deleted':
+                params.userType = 1; break;
+            case 'auto':
+                params.userType = 2; break;
+            default:
+                params.userId = formParams[key]; break;
+          }
+        }
 				//无特殊情况 正常赋值
 				else {
 					params[key] = formParams[key]
 				}
 			}
-		})
+		});
 		this.props.toSearch(params);
 	};
 
@@ -126,15 +132,17 @@ class Index extends React.Component {
 			case 0: case 1: case 5:
 				return '结构化时间';
 			case 2: case 3:
-				return '检查时间'
+				return '检查时间';
 			case 4:
-				return '修改时间'
+				return '修改时间';
 			default:
 				return ''
 		}
 	}
 	render() {
 		const { getFieldDecorator } = this.props.form;
+		const { tabIndex } = this.props;
+		console.log("tabIndex:",tabIndex);
 		const { userList } = this.state;
 		return (
 			<div>
@@ -153,20 +161,12 @@ class Index extends React.Component {
 					<Form.Item label={this.columnShowTimeType}>
 						{getFieldDecorator('structuredStartTime', {
 							initialValue: null
-						})
-							(<DatePicker
-								placeholder="开始时间"
-								style={{ width: 108 }}
-							/>)}
+						})(<DatePicker placeholder="开始时间" 	style={{ width: 108 }} />)}
 					</Form.Item>
 					<Form.Item label="至">
 						{getFieldDecorator('structuredEndTime', {
 							initialValue: null
-						})
-							(<DatePicker
-								placeholder="结束时间"
-								style={{ width: 108 }}
-							/>)}
+						})(<DatePicker	placeholder="结束时间" style={{ width: 108 }} />)}
 					</Form.Item>
 					<Form.Item label="结构化人员">
 						{getFieldDecorator('userId', {
@@ -175,28 +175,28 @@ class Index extends React.Component {
 							<Select style={{ width: 198, marginLeft: 4 }}
 								showSearch
 								filterOption={(input, option) =>{
-                                    if(!isNaN(option.key)){ //去除optGroup项和用户类型选项 不进行筛选
-                                        return option.props.children[0].indexOf(input)>=0
-                                    }
-                                }}
+                    if(!isNaN(option.key)){ //去除optGroup项和用户类型选项 不进行筛选
+                        return option.props.children[0].indexOf(input)>=0
+                    }
+                }}
 								transfer placeholder="请选择">
 								{
-									userList.map((item, index) => {
-                                        return (
-                                            <OptGroup label={item.id} key={item.id}>
-                                                {
-                                                    item.array.map((ele, index) => {
-                                                        return (
-                                                            <Option
-                                                                value={ele.value} key={index}>
-                                                                {ele.label}
-                                                                {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
-                                                            </Option>
-                                                        )
-                                                    })
-                                                }
-                                            </OptGroup>)
-                                    })
+									userList.map((item) => {
+                    return (
+                        <OptGroup label={item.id} key={item.id}>
+                            {
+                                item.array.map((ele, index) => {
+                                    return (
+                                        <Option
+                                            value={ele.value} key={index}>
+                                            {ele.label}
+                                            {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
+                                        </Option>
+                                    )
+                                })
+                            }
+                        </OptGroup>)
+                })
 								}
 							</Select>
 						)}
