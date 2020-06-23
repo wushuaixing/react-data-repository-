@@ -129,7 +129,6 @@ class StructureDetail extends React.Component {
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
         保存无效并弹出“债权人备注待完善”非模态框提示； */
         const { id, status } = this.props.match.params;
-        console.log(this.state.isUpdateRecord);
         if (!this.state.isUpdateRecord && status !== '0') {
             message.warning('当前页面未作修改，请修改后再保存');
             return false;
@@ -296,6 +295,7 @@ class StructureDetail extends React.Component {
         const { status, id } = this.props.match.params;
         const preId = sessionStorage.getItem('id');
         const tag = `${state.MARK}/${state.TOTAL}`;
+        // 判断最后一条的时候
         const moduleOrder = [
             <StructureBasicDetail
                 associatedAnnotationId={state.associatedAnnotationId}
@@ -322,6 +322,7 @@ class StructureDetail extends React.Component {
                         { moduleOrder[0] }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
                         <StructureButtonGroup
+                            isLastDate={state.MARK===state.TOTAL}
                             type={state.type} role={'structure'} id={id}
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
