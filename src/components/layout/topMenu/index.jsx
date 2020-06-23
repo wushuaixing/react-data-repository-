@@ -58,6 +58,7 @@ class topMenu extends React.Component {
 
 	logOut() {
 		confirm({
+			icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
 			content: '确定要退出登录吗?',
 			onOk: () => {
 				logout().then(res => {
@@ -81,7 +82,7 @@ class topMenu extends React.Component {
 		const { visible } = this.state;
 		const { getFieldDecorator } = this.props.form;
 		const label = <span>确认新密码</span>
-		const footer = 
+		const footer =
 		<div className="yc-modal-footer">
 			<Button key="submit"
 				type="primary"

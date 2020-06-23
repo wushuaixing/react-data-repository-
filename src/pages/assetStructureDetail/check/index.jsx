@@ -207,7 +207,7 @@ class Check extends React.Component {
     };
     handleNoErr() {
 	    Modal.confirm({
-		    icon:<Icon type="info-circle" style={{color:'#faad14'}} />,
+		    icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
 		    title: '确认将本次错误修改为无误吗？',
 		    content: '点击确定，本条结构化信息本次错误记录将被删除',
 		    okText: '确认',
