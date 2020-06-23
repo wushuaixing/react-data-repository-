@@ -13,9 +13,9 @@ class StructurePropertyDetail extends React.Component {
             //数值输入框onChange返回val
             this.props.handleChange('buildingArea', e)
         }
-    }
+    };
     render() {
-        const { collateral,enable,buildingArea } = this.props
+        const { collateral,enable,buildingArea } = this.props;
         return (
             <div className="yc-components-assetStructureDetail">
                 <div className="yc-components-assetStructureDetail_header">房产/土地信息</div>
@@ -51,6 +51,7 @@ class StructurePropertyDetail extends React.Component {
                                     <span>
                                         <InputNumber
                                             precision={2} style={{ width: 200 }} max={999999999.99}
+                                            min={0}
                                             placeholder="请输入建筑面积" name="buildingArea"
                                             onChange={this.handleChange} value={this.props.buildingArea} />&nbsp;&nbsp;m<sup>2</sup>
                                     </span>
