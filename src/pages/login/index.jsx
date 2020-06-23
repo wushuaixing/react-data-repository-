@@ -105,13 +105,13 @@ class Login extends React.Component {
 				this.handleErrorModalAndInfoByTime(res.data.message)
 			})
 		}
-
 	};
 	//根据错误次数显示对应消息,验证码,对话框
 	handleErrorModalAndInfoByTime(messageText) {
 		const { errorCount } = this.state;
 		if (errorCount >= 6 && errorCount < 10) {
-			messageText==='图形验证码输入错误'?message.error(messageText):showManyTimeErrorConfirm.bind(this)(errorCount);
+			messageText==='验证码输入错误' ? message.error(messageText)
+				: showManyTimeErrorConfirm.bind(this)(errorCount);
 			this.toRefreshImg()
 		} else if (errorCount >= 10) {
 			showFreezeConfirm.bind(this)();
