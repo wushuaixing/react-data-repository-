@@ -190,6 +190,10 @@ export const beConfirmed=(id)=> {
 	return axios.get("/api/asset/inspector/control/beConfirmed/" + id);
 };
 
+export const updateBackStatus=(params)=> {
+	return axios.get("/api/asset/inspector/control/updateBackStatus",{params});
+};
+
 //修改错误原因
 export const changeWrongType=(id,params)=> {
 	return axios.post("/api/asset/inspector/control/updateErrorReason/"+id,params);
@@ -286,35 +290,35 @@ export const pythonAmountIn31=(type)=> {
 
 export const  getNewStructuredData = ()=>{
 	return axios.get("/api/asset/structured/control/getNewStructuredData");
-}
+};
 export const  structuredCheckErrorNum = ()=>{
 	return axios.get("/api/asset/structured/control/structuredCheckErrorNum");
-}
+};
 
 export const  structuredById = (id,approveStatus,flag)=>{
 	return axios.get("/api/asset/structured/control/structuredById?id="+id+'&approveStatus='+approveStatus+'&flag='+flag);
-}
+};
 
 export const  getLastSaveById = (id)=>{
 	return axios.get("/api/asset/structured/control/getLastSaveById?id="+id);
-}
+};
 
 export const saveDetail =(id,approveStatus,params)=>{
 	return axios.post(`/api/asset/structured/control/${id}/${approveStatus}/saveDetail`,params);
-}
+};
 
 export const saveInspectorStructureDetail =(id,params)=>{
 	return axios.post(`/api/asset/inspector/control/${id}/saveDetail`,params);
-}
+};
 
 export const getWrongTypeAndLevel = (id)=>{
 	return axios.get(`/api/getWrongTypeAndLevel?id=${id}`);
-}
+};
 
 export const getFeedBackRemark = (id)=>{
 	return axios.get(`/api/asset/inspector/control/getFeedBackRemark?id=${id}`);
-}
+};
 
 export const getAutoBidding = (id)=>{
 	return axios.get(`/api/asset/structured/control/getAutoBidding?id=${id}`);
-}
+};

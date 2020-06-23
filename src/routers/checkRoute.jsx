@@ -9,7 +9,11 @@ class Index extends React.Component {
     return (
       <div>
 				<Route path="/index" exact component={AssetList} />
-        <Route path="/index/structureDetail/:status/:id/:isNotConfirm" component={StructureDetail} />
+        <Route path={[
+          "/index/structureDetail/:status/:id/:isNotConfirm/:tabIndex",
+          "/index/structureDetail/:status/:id/:isNotConfirm"
+        ]} component={StructureDetail} />
+        {/*<Route path="/index/structureDetail/:status/:id/:isNotConfirm" component={StructureDetail} />*/}
       </div>
     )
   }

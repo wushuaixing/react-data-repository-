@@ -128,7 +128,6 @@ class Check extends React.Component {
 
 	render() {
 		const { tableList, waitNum, checkErrorNum, editNum, total, page, status, tabIndex, loading } = this.state;
-		console.log(tabIndex);
 		return (
 			<div className="yc-content-container">
 				<BreadCrumb texts={['资产结构化检查']}/>
