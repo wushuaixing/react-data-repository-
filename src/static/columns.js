@@ -69,7 +69,7 @@ export const Columns = [
 								text = '待确认';
 								break;
 							default:
-								text = '未标记'
+								text = '未标记';
 								break;
 						}
 						return (

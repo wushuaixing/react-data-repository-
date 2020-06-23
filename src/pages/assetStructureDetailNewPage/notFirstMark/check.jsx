@@ -10,18 +10,18 @@ import { BreadCrumb } from '@commonComponents'
 import CheckModal from "@/components/assetStructureDetail/checkErrorModal";
 import {
     changeWrongType,//在结构化人员未修改前 再次修改错误
-    getCheckDetail,//获取检查人员结构化详情信息
+    getCheckDetail, getWrongTypeAndLevel,//获取检查人员结构化详情信息
     inspectorCheck,  // 检查提交
 } from '@api';
 import { message } from "antd";
 function CheckWrongLog() {
-    this.auctionExtractWrongTypes = []
-    this.remark = ''
+    this.auctionExtractWrongTypes = [];
+    this.remark = '';
     this.wrongLevel = 0
 }
 class Check extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             visible: false,
             records: [],
@@ -43,18 +43,19 @@ class Check extends React.Component {
         }
     }
     get updateOrSubmitCheck() {
-        const length = this.state.records.length
-        const desc = length!==0&&this.state.records[length - 1].desc
+        const length = this.state.records.length;
+        const desc = length!==0&&this.state.records[length - 1].desc;
         return (['结构化','自动标注'].indexOf(desc)>=0||length===0) ? 'submit' : 'update'
     }
     componentDidMount() {
         this.loadData()
+
     }
     loadData() {
-        const { associatedAnnotationId } = this.props.match.params
+        const { associatedAnnotationId } = this.props.match.params;
         getCheckDetail(associatedAnnotationId).then((res) => {
             if (res.data.code === 200) {
-                const data = res.data.data
+                const data = res.data.data;
                 this.setState({
                     ...data,
                     status:data.detailStatus,
@@ -64,13 +65,13 @@ class Check extends React.Component {
             } else {
                 message.error(res.data.message)
             }
+        });
+        getWrongTypeAndLevel(associatedAnnotationId).then((res) => {
+            this.setState({
+                wrongData: (res.data.data!==null)?res.data.data:[]
+            })
         })
     }
-    handleErrorModal = () => {
-        this.setState({
-            visible: true,
-        });
-    };
     handleNoErr() {
         this.submitWrongRecord({}, false)
     }
@@ -84,21 +85,21 @@ class Check extends React.Component {
             window.close();
         } else {
             //如果不是新开页打开的 无法关闭
-            message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面')
+            message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面');
             setTimeout(() => {
                 window.location.href = "about:blank";
             }, 1500)
         }
     }
     submitWrongRecord(data, checkError = true) {
-        const { status } = this.state
-        const { associatedAnnotationId } = this.props.match.params
+        const { status } = this.state;
+        const { associatedAnnotationId } = this.props.match.params;
         if (this.updateOrSubmitCheck === 'submit') {
             let params = {
                 checkWrongLog: Object.assign({}, data),
                 checkError,
                 id:associatedAnnotationId
-            }
+            };
             inspectorCheck(params, status).then(res => {
                 if (res.data.code === 200) {
                     message.success("操作成功,2秒后为您关闭页面");
@@ -130,23 +131,21 @@ class Check extends React.Component {
         });
     };
     render() {
-        const state = this.state
+        const state = this.state;
         const moduleOrder = [
             <BasicDetail
                 auctionID={state.id}
                 records={state.records} title={state.title} url={state.url}
                 auctionStatus={state.auctionStatus} key={0}
-                reasonForWithdrawal={state.reasonForWithdrawal}></BasicDetail>
-        ]
+                reasonForWithdrawal={state.reasonForWithdrawal}
+            />
+        ];
         if (parseInt(state.status) >= 3) {
-            moduleOrder.unshift(
-                <WrongDetail wrongData={state.wrongData.slice(-1)} key={1} ></WrongDetail>
-            )
+            moduleOrder.unshift( <WrongDetail wrongData={state.wrongData.slice(0,1)} key={1} /> )
         }
         return (
             <div className="yc-content-container-newPage assetStructureDetail-structure">
-                <BreadCrumb
-                    texts={['资产结构化检查 /详情']}></BreadCrumb>
+                <BreadCrumb texts={['资产结构化检查 /详情']}/>
                 <div className="assetStructureDetail-structure_container">
                     <div className="assetStructureDetail-structure_container_header">
                         {moduleOrder[0]}
@@ -158,23 +157,18 @@ class Check extends React.Component {
                         </ButtonGroup>
                     </div>
                     <div className="assetStructureDetail-structure_container_body">
-                        {
-                            moduleOrder.length > 0 ?
-                                moduleOrder.slice(1) : null
-                        }
-                        <PropertyDetail enable={true}
-                            collateral={state.collateral} buildingArea={state.buildingArea}
-                            houseType={state.houseType}></PropertyDetail>
+                        { moduleOrder.length > 0 ? moduleOrder.slice(1) : null }
+                        <PropertyDetail enable={true} collateral={state.collateral} buildingArea={state.buildingArea}  houseType={state.houseType}/>
                         <DocumentDetail enable={true}
                             wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl}
                             ah={state.ah} wsInAttach={state.wsInAttach}>
                         </DocumentDetail>
-                        <RoleDetail enable={true} obligors={state.obligors}></RoleDetail>
+                        <RoleDetail enable={true} obligors={state.obligors}/>
                     </div>
                 </div>
                 <CheckModal visible={state.visible}
                     status={state.status}
-                    wrongReasons={state.wrongData.slice(-1)}
+                    wrongReasons={state.wrongData.slice(0,1)}
                     handleModalSubmit={this.handleModalSubmit.bind(this)}
                     handleModalCancel={this.handleModalCancel.bind(this)}
                     style={{ width: 430 }}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, DatePicker, Tabs, Table, Spin, message } from 'antd';
+import {Form, Input, Button, DatePicker, Tabs, Table, Spin, message, Badge} from 'antd';
 import { Columns } from "@/static/columns";
 import createPaginationProps from "@/utils/pagination";
 import { structuredList, getNewStructuredData, structuredCheckErrorNum,getAutoBidding } from "@api";
@@ -27,7 +27,7 @@ class Asset extends React.Component {
 		this.getApi(this.getParamsByTabIndex())
 	};
 	getApi = (params) => {
-		const formParams = this.props.form.getFieldsValue()
+		const formParams = this.props.form.getFieldsValue();
 		if(formParams['structuredStartTime']&&formParams['structuredEndTime']&&formParams['structuredStartTime']>formParams['structuredEndTime']){
 			message.error('开始时间不能大于结束时间');
 			return false;
@@ -41,11 +41,11 @@ class Asset extends React.Component {
 			return res.data.data
 		}).then(res => {
 			this.setState({
-				buttonDisabled: (res.notBidNum === 0 && res.modNum === 0) ? false : true,
+				buttonDisabled: (!(res.notBidNum === 0 && res.modNum === 0)),
 				waitNum: res.modNum
-			})
-			let key = this.convertIndexToKey(this.state.tabIndex) //将index转换为后端返回对象字段
-			let ifDataExist = res[key] > 0 ? true : false
+			});
+			let key = this.convertIndexToKey(this.state.tabIndex); //将index转换为后端返回对象字段
+			let ifDataExist = res[key] > 0;
 			if (ifDataExist) {
 				return (structuredList(params))
 			} else {
@@ -53,7 +53,7 @@ class Asset extends React.Component {
 					loading: false,
 					total: 0,
 					tableList: [],
-				})
+				});
 				return Promise.reject('此tab下无数据');
 			}
 		}).then((res) => {
@@ -66,7 +66,7 @@ class Asset extends React.Component {
 			} else {
 				this.setState({
 					loading: false
-				})
+				});
 				message.error('后端状态码异常 请检查');
 			}
 		}).catch(err => {
@@ -77,15 +77,15 @@ class Asset extends React.Component {
 		const params = {
 			approveStatus: tabIndex,
 			page
-		}
-		const paramKeys = ['title', 'structuredStartTime', 'structuredEndTime']
-		const formParams = this.props.form.getFieldsValue(paramKeys)
+		};
+		const paramKeys = ['title', 'structuredStartTime', 'structuredEndTime'];
+		const formParams = this.props.form.getFieldsValue(paramKeys);
 		Object.keys(formParams).forEach((key) => {
 			if (formParams[key] !== null && formParams[key] !== '' && formParams[key] !== undefined) {
 				//如果是日期 把Moment处理掉
 				params[key] = (key.indexOf('Time') >= 0) ? dateUtils.formatMomentToStandardDate(formParams[key]) : formParams[key]
 			}
-		})
+		});
 		return params
 	}
 	convertIndexToKey(index) {
@@ -122,7 +122,7 @@ class Asset extends React.Component {
 	//搜索框 改
 	handleSearch = e => {
 		e.preventDefault();
-		const params = this.getParamsByTabIndex()
+		const params = this.getParamsByTabIndex();
 		this.setState({
 			page:1,
 			searchTitle: params.title
@@ -136,12 +136,12 @@ class Asset extends React.Component {
 		this.props.form.resetFields();
 		this.getApi(this.getParamsByTabIndex())
 	};
-	// 获取新数据 
+	// 获取新数据
 	getNewData() {
 		this.setState({
 			loading: true,
 		});
-		getNewStructuredData().then((res) => {
+		getNewStructuredData().then(() => {
 			this.setState({
 				loading: false,
 				tabIndex: 0
@@ -165,7 +165,7 @@ class Asset extends React.Component {
 					//未被自动标注
 					this.props.history.push(`/index/structureDetail/${record.status}/${record.id}`)
 				}else{
-					message.warning('数据已被自动标注,2s后为您刷新界面')
+					message.warning('数据已被自动标注,2s后为您刷新界面');
 					setTimeout(()=>{
 						window.location.reload()
 					},2000)
@@ -186,7 +186,40 @@ class Asset extends React.Component {
 		const { tableList, total, waitNum, page, tabIndex, loading } = this.state;
 		const columns = [
 			Columns[4],
-			Columns[5],
+			{
+				title: "结构化状态",
+				dataIndex: "status",
+				width: 285,
+				render: (status) => (
+					<span>
+				{
+					(() => {
+						let color = 'default';
+						let text = '待标记';
+						switch (status) {
+							case 0:
+								color = 'default';
+								text = '待标记';
+								break;
+							case 1:
+								color = 'success';
+								text = '已标记';
+								break;
+							case 2:
+								color = 'error';
+								text = '检查有误';
+								break;
+							default:
+								break;
+						}
+						return (
+							<Badge status={color} text={text} />
+						);
+					})()
+				}
+			</span>
+				),
+			},
 			{
 				title: "操作",
 				dataIndex: "action",
@@ -207,10 +240,10 @@ class Asset extends React.Component {
 				dataIndex: "firstExtractTime",
 			})
 		}
-		const paginationProps = createPaginationProps(page, total)
+		const paginationProps = createPaginationProps(page, total);
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['资产结构化']} breadButtonText={'获取新数据'} handleClick={this.getNewData.bind(this)} disabled={this.state.loading || this.state.buttonDisabled}></BreadCrumb>
+				<BreadCrumb texts={['资产结构化']} breadButtonText={'获取新数据'} handleClick={this.getNewData.bind(this)} disabled={this.state.loading || this.state.buttonDisabled}/>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
 						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
@@ -244,7 +277,7 @@ class Asset extends React.Component {
 								</Form.Item>
 							}
 							<Form.Item>
-								<SearchAndClearButtonGroup handleClearSearch={this.clearSearch}></SearchAndClearButtonGroup>
+								<SearchAndClearButtonGroup handleClearSearch={this.clearSearch}/>
 							</Form.Item>
 						</Form>
 					</div>

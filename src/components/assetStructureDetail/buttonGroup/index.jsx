@@ -182,12 +182,11 @@ class ButtonGroup extends React.Component {
         }
     }
     render() {
-        const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[this.props.status];
+        const { enable, status, isSendRequest,isLastData } = this.props;
+        const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[isLastData?1:status];
         const { countDown } = this.state;
-        const { enable, status, isSendRequest } = this.props;
-
         const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
-        const notFirstMarkStatus = this.props.status?this.props.status:0;
+        const notFirstMarkStatus = status || 0;
 
         return (
             <div className="yc-component-buttonGroup">

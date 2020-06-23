@@ -12,7 +12,7 @@ import AutoMark from '@/pages/assetStructureDetailNewPage/autoMark/index'
 import { message } from 'antd'
 message.config({
 	maxCount:1
-})
+});
 
 class App extends React.Component {
 	render() {

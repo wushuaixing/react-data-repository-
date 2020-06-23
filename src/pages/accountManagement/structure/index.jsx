@@ -109,7 +109,7 @@ class AccountManage extends React.Component {
 		};
 	}
 	get searchParams() {
-		const { isEnabledUser, page, role, username,totalWrongNumAsc } = this.state
+		const { isEnabledUser, page, role, username,totalWrongNumAsc } = this.state;
 		return formUtils.removeObjectNullVal({
 			isEnabledUser,
 			page,
@@ -280,9 +280,9 @@ class AccountManage extends React.Component {
 	};
 	//换页和切换排序
 	handleTableChange = (pagination, filter, sorter) => {
-		let totalWrongNumAsc = ''
+		let totalWrongNumAsc = '';
 		if (sorter.order) {
-			totalWrongNumAsc = sorter.order === 'descend' ? false : true
+			totalWrongNumAsc = sorter.order !== 'descend'
 		}
 		this.setState({
 			page: pagination.current,
@@ -302,11 +302,11 @@ class AccountManage extends React.Component {
 	}
 	render() {
 		const { role,username,tableList, total, page, visible, action, columns, columnsDelete, userInfo, loading,tabIndex } = this.state;
-		const paginationProps = createPaginationProps(page, total, true)
-		const roleButtons = this.state.tabIndex === "1" ?<Button onClick={this.showModal.bind(this,'add')}>+ 添加账号</Button>:null
+		const paginationProps = createPaginationProps(page, total, true);
+		const roleButtons = this.state.tabIndex === "1" ?<Button onClick={this.showModal.bind(this,'add')}>+ 添加账号</Button>:null;
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['账号管理', '结构化账号']}></BreadCrumb>
+				<BreadCrumb texts={['账号管理', '结构化账号']}/>
 				<div className="yc-detail-content">
 					<Spin tip="Loading..." spinning={loading}>
 						<Tabs defaultActiveKey={tabIndex} onChange={this.changeTab} animated={false} className="role-tab" tabBarExtraContent={roleButtons}>
@@ -324,7 +324,7 @@ class AccountManage extends React.Component {
 								/>
 							</TabPane>
 							<TabPane tab="已删除账号" key={"2"}>
-								<SearchAccount 
+								<SearchAccount
 									role={role} username={username}
 									tabIndex={this.state.tabIndex}
 									handleClear={this.handleClear.bind(this)}

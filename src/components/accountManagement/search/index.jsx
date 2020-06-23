@@ -23,9 +23,13 @@ class Index extends React.Component {
 					<Form.Item label="账号/姓名">
 						{
 							getFieldDecorator('username', {
-								initialValue: username
+								initialValue: username,
+								getValueFromEvent(event) {
+									return event.target.value.trim()
+								},
+								validateTrigger: 'onBlur',
 							})(
-								<Input placeholder="请输入账号或姓名" style={{ width: 240 }}></Input>
+								<Input placeholder="请输入账号或姓名" style={{ width: 240 }}/>
 							)}
 					</Form.Item>
 					<Form.Item label="角色">
