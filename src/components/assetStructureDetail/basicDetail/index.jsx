@@ -6,7 +6,6 @@ import { Link, withRouter } from "react-router-dom";
 //功能还剩链接跳转  在父组件补上Prop和回调逻辑即可  另外要根据传入prop选择需要显示的row
 const StructureBasicDetail = (props) => {
     const { associatedAnnotationId, associatedStatus } = props;
-    console.log(props);
     let associatedAnnotationRoute,autoMarkRoute = '';
     if (associatedAnnotationId) {
         switch (localStorage.getItem('userState')) {
@@ -86,7 +85,6 @@ const BasicDetailRow = (props) => {
 
 function StructureRecord(props) {
     const { index, record } = props;
-    console.log(record);
     let classType = 'structure-record';
     let temp = null;
     let userType = 0;
