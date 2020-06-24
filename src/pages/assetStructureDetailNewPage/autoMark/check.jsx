@@ -80,7 +80,6 @@ class Check extends React.Component {
     loadData() {
         const { match } = this.props;
         const { associatedAnnotationId } = match.params;
-        const { detailStatus } = this.state;
         getCheckDetail(associatedAnnotationId).then((res) => {
             if (res.data.code === 200 && res.data.data) {
                 const { data } = res.data;
@@ -90,7 +89,7 @@ class Check extends React.Component {
                     ah: data && data.ah && data.ah instanceof Array && data.ah.length === 0 ? [{ value: '' }] : data.ah,
                     wsUrl: data && data.wsUrl && data.ah instanceof Array && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                 }, () => {
-                    if (detailStatus >= 3) {
+                    if (this.state.detailStatus >= 3) {
                         this.getWrongReason(associatedAnnotationId);
                     }
                 });
@@ -167,6 +166,7 @@ class Check extends React.Component {
             />,
         ];
         if (parseInt(state.status) >= 3) {
+        	console.log(state.wrongData);
             moduleOrder.unshift(
               <WrongDetail wrongData={state.wrongData.slice(0, 1)} key={1} />,
             );
