@@ -12,7 +12,7 @@ import { message } from 'antd'
 import {getCheckDetail,getWrongTypeAndLevel} from '@api';
 class Other extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             status: 0,
             records: [],
@@ -29,7 +29,8 @@ class Other extends React.Component {
             wsInAttach: null,
             obligors: [],
             wrongData: [],
-        }
+        };
+        this.isAdmin =localStorage.userState==='管理员';
     }
     handleClosePage() {
         if(window.opener){
@@ -38,7 +39,7 @@ class Other extends React.Component {
             window.close();
         }else{
             //如果不是新开页打开的 无法关闭
-            message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面。')
+            message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面。');
             setTimeout(()=>{
                 window.location.href = "about:blank";
             },1500)
@@ -48,14 +49,15 @@ class Other extends React.Component {
         this.loadData()
     }
     loadData(){
-        const { associatedAnnotationId } = this.props.match.params
+        const { associatedAnnotationId } = this.props.match.params;
         getCheckDetail(associatedAnnotationId).then((res)=>{
             if(res.data.code===200&&res.data.data){
                 this.setState({
                     ...res.data.data,
                     status:res.data.data.detailStatus,
                 },()=>{
-                    if(this.role==='admin'&&this.state.status!==1){
+                    console.log(this.state.status,this.role);
+                    if( this.isAdmin && this.state.status!==1){
                         this.getWrongReason(associatedAnnotationId)
                     }
                 })
@@ -76,49 +78,46 @@ class Other extends React.Component {
         })
     }
     render() {
-        const state = this.state
+        const state = this.state;
         const basicDetails = {
             title: state.title,
             url: state.url,
             auctionStatus: state.auctionStatus,
             reasonForWithdrawal: state.reasonForWithdrawal,
             records:state.records
-        }
+        };
         const moduleOrder = [
-            <BasicDetail key={0} {...basicDetails}></BasicDetail>
-        ]
-        if (this.state.wrongData.length>0 && this.role === 'admin') {
+            <BasicDetail key={0} {...basicDetails}/>
+        ];
+        if (this.state.wrongData.length>0 &&this.isAdmin ) {
             const wrongData = state.wrongData.filter((item)=>{
                 return item.wrongLevel!==0
-            })
+            });
             moduleOrder.unshift(
-                <WrongDetail wrongData={wrongData} key={1} ></WrongDetail>
+                <WrongDetail wrongData={wrongData} key={1} />
             )
         }
         return (
             <div className="yc-content-container-newPage assetStructureDetail-structure">
-                <BreadCrumb
-                    texts={['资产结构化 /详情']}></BreadCrumb>
+                <BreadCrumb texts={['资产结构化 /详情']}/>
                 <div className="assetStructureDetail-structure_container">
                     <div className="assetStructureDetail-structure_container_header">
                         {
                             moduleOrder[0]
                         }
-                        <ButtonGroup handleClosePage={this.handleClosePage.bind(this)}></ButtonGroup>
+                        <ButtonGroup handleClosePage={this.handleClosePage.bind(this)}/>
                     </div>
                     <div className="assetStructureDetail-structure_container_body">
                         {
                             moduleOrder.length > 0 ?
                                 moduleOrder.slice(1) : null
                         }
-                        <PropertyDetail enable={true}
-                            collateral={state.collateral} buildingArea={state.buildingArea}
-                            houseType={state.houseType}></PropertyDetail>
+                        <PropertyDetail enable={true} collateral={state.collateral} buildingArea={state.buildingArea} houseType={state.houseType}/>
                         <DocumentDetail enable={true}
                             wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl}
                             ah={state.ah} wsInAttach={state.wsInAttach}>
                         </DocumentDetail>
-                        <RoleDetail enable={true} obligors={state.obligors}></RoleDetail>
+                        <RoleDetail enable={true} obligors={state.obligors}/>
                     </div>
                 </div>
             </div>
