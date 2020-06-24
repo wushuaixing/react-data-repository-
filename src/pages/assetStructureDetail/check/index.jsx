@@ -206,16 +206,20 @@ class Check extends React.Component {
         });
     };
     handleNoErr() {
-	    Modal.confirm({
-		    icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
-		    title: '确认将本次错误修改为无误吗？',
-		    content: '点击确定，本条结构化信息本次错误记录将被删除',
-		    okText: '确认',
-		    cancelText: '取消',
-		    onOk:()=>this.submitWrongRecord({}, false)
-	    });
-
-    }
+        const {status} = this.props.match.params;
+        if(status==='3'){
+            Modal.confirm({
+                icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
+                title: '确认将本次错误修改为无误吗？',
+                content: '点击确定，本条结构化信息本次错误记录将被删除',
+                okText: '确认',
+                cancelText: '取消',
+                onOk:()=>this.submitWrongRecord({}, false)
+            });
+        }else{
+            this.submitWrongRecord({}, false)
+        }
+     }
     handleAddClick(key) {
         const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], { ...getObligor() }];
         this.setState({
