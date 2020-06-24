@@ -26,7 +26,6 @@ const StructureBasicDetail = (props) => {
     }
     // 是否属于自动标注的记录
     const hasAuto = (props.records||[]).some(i=>i.desc==='自动标注');
-    console.log(props.records,associatedAnnotationRoute,hasAuto,props.type,props.type === 2 && !hasAuto );
     return (
         <div className="yc-components-assetStructureDetail" id="yc-components-basicDetail">
             <div className="yc-components-assetStructureDetail_header">基本信息</div>
