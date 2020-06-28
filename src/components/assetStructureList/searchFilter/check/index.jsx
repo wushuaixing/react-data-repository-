@@ -83,6 +83,7 @@ class Index extends React.Component {
 		const paramKeys = ['title', 'structuredStartTime', 'structuredEndTime', 'checkStartTime', 'checkEndTime', 'userId'];
 		const formParams = this.props.form.getFieldsValue(paramKeys);
 		/* 调整请求字段 */
+
 		formParams.checkStartTime=formParams.structuredStartTime;
 		formParams.checkEndTime=formParams.structuredEndTime;
 		delete formParams.structuredStartTime;
@@ -102,16 +103,16 @@ class Index extends React.Component {
 				//如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType
 				//isNaN()判断的缺点就在于 null、空格以及空串会被按照0来处理 但外层已经处理
 				else if (key === 'userId') {
-          switch (formParams[key]) {
-            case 'all':
-                params.userType = 0; break;
-            case 'deleted':
-                params.userType = 1; break;
-            case 'auto':
-                params.userType = 2; break;
-            default:
-                params.userId = formParams[key]; break;
-          }
+				switch (formParams[key]) {
+					case 'all':
+					    params.userType = 0; break;
+					case 'deleted':
+					    params.userType = 1; break;
+					case 'auto':
+					    params.userType = 2; break;
+					default:
+					    params.userId = formParams[key]; break;
+				}
         }
 				//无特殊情况 正常赋值
 				else {
@@ -127,6 +128,25 @@ class Index extends React.Component {
 		this.props.form.resetFields();
 		this.props.toClear();
 	};
+
+	disabledStartDate = startValue => {
+		const { getFieldValue } = this.props.form;
+		const endValue = getFieldValue('structuredEndTime');
+		if (!startValue || !endValue) {
+			return false;
+		}
+		return startValue.valueOf() > endValue.valueOf();
+	};
+
+	disabledEndDate = endValue => {
+		const { getFieldValue } = this.props.form;
+		const startValue = getFieldValue('structuredStartTime');
+		if (!endValue || !startValue) {
+			return false;
+		}
+		return endValue.valueOf() <= startValue.valueOf();
+	};
+
 	get columnShowTimeType() {
 		switch (this.props.tabIndex) {
 			case 0: case 1: case 5:
@@ -141,8 +161,7 @@ class Index extends React.Component {
 	}
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { tabIndex } = this.props;
-		console.log("tabIndex:",tabIndex);
+		// const { tabIndex } = this.props;
 		const { userList } = this.state;
 		return (
 			<div>
@@ -161,12 +180,18 @@ class Index extends React.Component {
 					<Form.Item label={this.columnShowTimeType}>
 						{getFieldDecorator('structuredStartTime', {
 							initialValue: null
-						})(<DatePicker placeholder="开始时间" 	style={{ width: 108 }} />)}
+						})(<DatePicker
+							placeholder="开始时间"
+							disabledDate={this.disabledStartDate}
+							style={{ width: 108 }} />)}
 					</Form.Item>
 					<Form.Item label="至">
 						{getFieldDecorator('structuredEndTime', {
 							initialValue: null
-						})(<DatePicker	placeholder="结束时间" style={{ width: 108 }} />)}
+						})(<DatePicker
+							placeholder="结束时间"
+							disabledDate={this.disabledEndDate}
+							style={{ width: 108 }} />)}
 					</Form.Item>
 					<Form.Item label="结构化人员">
 						{getFieldDecorator('userId', {
