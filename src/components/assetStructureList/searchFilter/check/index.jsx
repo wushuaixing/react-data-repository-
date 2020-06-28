@@ -83,12 +83,6 @@ class Index extends React.Component {
 		const paramKeys = ['title', 'structuredStartTime', 'structuredEndTime', 'checkStartTime', 'checkEndTime', 'userId'];
 		const formParams = this.props.form.getFieldsValue(paramKeys);
 		/* 调整请求字段 */
-
-		formParams.checkStartTime=formParams.structuredStartTime;
-		formParams.checkEndTime=formParams.structuredEndTime;
-		delete formParams.structuredStartTime;
-		delete formParams.structuredEndTime;
-
 		const params = {
 			page: 1
 		};
@@ -161,7 +155,6 @@ class Index extends React.Component {
 	}
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		// const { tabIndex } = this.props;
 		const { userList } = this.state;
 		return (
 			<div>

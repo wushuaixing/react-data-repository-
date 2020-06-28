@@ -93,9 +93,16 @@ class Check extends React.Component {
 
 	// 搜索框
 	handleSearch = data => {
-		console.log(data);
+		const _data = data;
+		const { tabIndex } = this.state;
+		if ( tabIndex === 2 || tabIndex === 3 ){
+			_data.checkStartTime = _data.structuredStartTime;
+			_data.checkEndTime = _data.structuredEndTime;
+			delete _data.structuredStartTime;
+			delete _data.structuredEndTime;
+		}
 		this.setState({
-			searchParams: data,
+			searchParams: _data,
 			page:1
 		}, () => {
 			this.getTableList();
