@@ -19,10 +19,10 @@ const anchors = [
     id: 'auctionSuccessConfirmation',
     title: '竞价成功确认书'
   }
-]
+];
 
 function AuctionAnchor() {
-  const icon = <img src={pic} alt="有图片" style={{ width: 16, height: 16, marginLeft: 8 }}></img>
+  const icon = <img src={pic} alt="有图片" style={{width: 16, height: 16, marginLeft: 8}}/>;
   return (
     <Anchor showInkInFixed={true}>
       {
@@ -43,12 +43,14 @@ function AuctionAnchor() {
 }
 
 function AnnounceMentPart(props) {
-  const { index } = props
+  const { index,html:__html } = props;
+  // TODO img 请求问题
+  // const  __html = (html||'').replace(/src="http:\/\//g,'src="');
   return (
     <div id={anchors[index].id} className="container_body_eachPart">
       <div className="line" />
       <div className="title">{anchors[index].title}</div>
-      <div className="content" dangerouslySetInnerHTML={{ __html: props.html }} />
+      <div className="content" dangerouslySetInnerHTML={{ __html }} />
     </div>
   )
 }
@@ -64,7 +66,7 @@ function AttachListItem(props) {
 
 //寻找是否有图片标签
 function findImgTag(html) {
-  const reg = /<img*/
+  const reg = /<img*/;
   return reg.test(html)
 }
 class Index extends React.Component {
@@ -85,9 +87,9 @@ class Index extends React.Component {
         const data = res.data.data;
         const { title, url, attachList } = data;
         for (let i = 0; i < anchors.length; i++) {
-          let part_name = anchors[i].id //id是每一部分的名称 比如subjectMatterIntroduction 标的物介绍 将后端传来的html动态赋值合并新属性html
-          let html = this.clearStyle(data[part_name]) //清理样式 返回html
-          let isImgTag = findImgTag(html) //判断是否有图片标签
+          let part_name = anchors[i].id; //id是每一部分的名称 比如subjectMatterIntroduction 标的物介绍 将后端传来的html动态赋值合并新属性html
+          let html = this.clearStyle(data[part_name]); //清理样式 返回html
+          let isImgTag = findImgTag(html); //判断是否有图片标签
           html ? Object.assign(anchors[i], { html, isImgTag }) : anchors.splice(i, 1)
         }
         this.setState({
@@ -123,7 +125,7 @@ class Index extends React.Component {
         <div className="externalSource-auction-container">
           <div className="container_body">
             {anchors.map((anchor, index) => {
-              return <AnnounceMentPart index={index} html={anchor.html} key={index}></AnnounceMentPart>
+              return <AnnounceMentPart index={index} html={anchor.html} key={index}/>
             })}
           </div>
           <div className="container_right">
@@ -134,7 +136,11 @@ class Index extends React.Component {
                 <div className="accessory-list">
                   {
                     attachList.map((item, index) =>
-                      <AttachListItem handleClick={this.downloadAttachFile.bind(this, item)} name={item.name} key={index} transcodingToHtml={item.transcodingToHtml}></AttachListItem>
+                      <AttachListItem
+                          handleClick={this.downloadAttachFile.bind(this, item)}
+                          name={item.name} key={index}
+                          transcodingToHtml={item.transcodingToHtml}
+                      />
                     )
                   }
                 </div> :

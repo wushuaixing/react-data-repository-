@@ -158,6 +158,24 @@ class Asset extends React.Component {
 		})
 	};
 
+	disabledStartDate = startValue => {
+		const { getFieldValue } = this.props.form;
+		const endValue = getFieldValue('structuredEndTime');
+		if (!startValue || !endValue) {
+			return false;
+		}
+		return startValue.valueOf() > endValue.valueOf();
+	};
+
+	disabledEndDate = endValue => {
+		const { getFieldValue } = this.props.form;
+		const startValue = getFieldValue('structuredStartTime');
+		if (!endValue || !startValue) {
+			return false;
+		}
+		return endValue.valueOf() <= startValue.valueOf();
+	};
+
 	checkIsAutoMarked(record) {
 		getAutoBidding(record.id).then((res)=>{
 			if(res.data.code===200){
@@ -262,6 +280,7 @@ class Asset extends React.Component {
 									{getFieldDecorator('structuredStartTime', { initialValue: null })
 										(<DatePicker
 											placeholder="开始时间"
+											disabledDate={this.disabledStartDate}
 											style={{ width: 108 }}
 										/>)}
 								</Form.Item>
@@ -272,6 +291,7 @@ class Asset extends React.Component {
 									{getFieldDecorator('structuredEndTime', { initialValue: null })
 										(<DatePicker
 											placeholder="结束时间"
+											disabledDate={this.disabledEndDate}
 											style={{ width: 108 }}
 										/>)}
 								</Form.Item>

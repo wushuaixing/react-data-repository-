@@ -322,7 +322,7 @@ class StructureDetail extends React.Component {
                         { moduleOrder[0] }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
                         <StructureButtonGroup
-                            isLastDate={state.MARK===state.TOTAL}
+                            isLastData={Boolean(state.MARK===state.TOTAL)}
                             type={state.type} role={'structure'} id={id}
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}

@@ -8,7 +8,7 @@ class Index extends React.Component {
   render() {
     return (
       <div>
-				<Route path="/index" exact component={AssetList} />
+		<Route path="/index" exact component={AssetList} />
         <Route path={[
           "/index/structureDetail/:status/:id/:isNotConfirm/:tabIndex",
           "/index/structureDetail/:status/:id/:isNotConfirm"

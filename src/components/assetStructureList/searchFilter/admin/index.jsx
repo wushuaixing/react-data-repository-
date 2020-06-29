@@ -18,7 +18,7 @@ class Index extends React.Component {
         //结构化人员列表(管理员获取)
         getStructuredPersonnel().then(res => {
             if (res.data.code === 200) {
-                let data = res.data.data
+                let data = res.data.data;
                 this.setState({
                     userList: this.getStructuredPersonnelTypeList(data),
                 });
@@ -29,7 +29,7 @@ class Index extends React.Component {
         //检查人员列表(管理员获取)
         getCheckPersonnel().then(res => {
             if (res.data.code === 200) {
-                let data = res.data.data
+                let data = res.data.data;
                 this.setState({
                     checkUserList: this.getCheckPersonnelList(data),
                 })
@@ -42,17 +42,17 @@ class Index extends React.Component {
     // 搜索框
     handleSearch = e => {
         e.preventDefault();
-        const paramKeys = ['title', 'startTime', 'endTime', 'userId', 'checkUserId', 'area']
-        const formParams = this.props.form.getFieldsValue(paramKeys)
+        const paramKeys = ['title', 'startTime', 'endTime', 'userId', 'checkUserId', 'area'];
+        const formParams = this.props.form.getFieldsValue(paramKeys);
         const params = {
             page: 1
-        }
+        };
         Object.keys(formParams).forEach((key) => {
             //判断各种情况为空 清理空参数
             if (formParams[key] !== null && formParams[key] !== '' && formParams[key] !== undefined && formParams[key].length !== 0) {
                 //如果选择了地点级联  对应赋值参数
                 if (key === 'area') {
-                    const location = formParams[key]
+                    const location = formParams[key];
                     for (let i = 0; i < formParams[key].length; i++) {
                         switch (i) {
                             case 0:
@@ -70,7 +70,7 @@ class Index extends React.Component {
                 else if (key === 'endTime' || key === 'startTime') {
                     params[key] = dateUtils.formatMomentToStandardDate(formParams[key])
                 }
-                //如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType 
+                //如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType
                 //isNaN()判断的缺点就在于 null、空格以及空串会被按照0来处理 但外层已经处理
                 else if (key === 'userId') {
                     switch (formParams[key]) {
@@ -89,8 +89,8 @@ class Index extends React.Component {
                     params[key] = formParams[key]
                 }
             }
-        })
-        console.log(params)
+        });
+        console.log(params);
         this.props.toSearch(params);
     };
 
@@ -120,10 +120,10 @@ class Index extends React.Component {
                     enable:true
                 }
             ]
-        }] //类名数组 
-        let typeData = data.chineseLetter //包含两类 chineseLetter和digit
+        }]; //类名数组
+        let typeData = data.chineseLetter; //包含两类 chineseLetter和digit
         for (let i = 0; i < typeData.length; i++) {
-            const item = typeData[i]
+            const item = typeData[i];
             if (item.firstNameRank !== personnelTypeList.slice(-1)[0].id)  {
                 personnelTypeList.push({
                     id: item.firstNameRank,
@@ -145,7 +145,7 @@ class Index extends React.Component {
                     enable: item.enable
                 }
             ))
-        })
+        });
         return personnelTypeList;
     }
     getCheckPersonnelList(data) {
@@ -170,17 +170,36 @@ class Index extends React.Component {
             case 2:
                 return '结构化时间';
             case 3: case 4:
-                return '检查时间'
+                return '检查时间';
             case 5:
-                return '修改时间'
+                return '修改时间';
             default:
                 return ''
         }
     }
+
+    disabledStartDate = startValue => {
+        const { getFieldValue } = this.props.form;
+        const endValue = getFieldValue('structuredEndTime');
+        if (!startValue || !endValue) {
+            return false;
+        }
+        return startValue.valueOf() > endValue.valueOf();
+    };
+
+    disabledEndDate = endValue => {
+        const { getFieldValue } = this.props.form;
+        const startValue = getFieldValue('structuredStartTime');
+        if (!endValue || !startValue) {
+            return false;
+        }
+        return endValue.valueOf() <= startValue.valueOf();
+    };
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const { userList, checkUserList } = this.state;
-        const { tabIndex } = this.props
+        const { tabIndex } = this.props;
         return (
             <div>
                 <Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
@@ -202,6 +221,7 @@ class Index extends React.Component {
                         })
                             (<DatePicker
                                 placeholder="开始时间"
+                                disabledDate={this.disabledStartDate}
                                 style={{ width: 108 }}
                             />)}
                     </Form.Item>
@@ -211,6 +231,7 @@ class Index extends React.Component {
                         })
                             (<DatePicker
                                 placeholder="结束时间"
+                                disabledDate={this.disabledEndDate}
                                 style={{ width: 108 }}
                             />)}
                     </Form.Item>
