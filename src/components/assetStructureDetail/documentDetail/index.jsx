@@ -8,7 +8,7 @@ class StructureDocumentDetail extends React.Component {
         handleDeleteClick: () => { },
         handleDocumentChange: () => { },
         handleAddClick: () => { }
-    }
+    };
     handleChange = (e) => {
         if (e.target.type === 'checkbox') {
             this.props.handleChange(e.target.name, e.target.checked * 1)
@@ -19,7 +19,7 @@ class StructureDocumentDetail extends React.Component {
         else {
             this.props.handleChange(e.target.name, e.target.value)
         }
-    }
+    };
     handleDeleteClick(i, attr) {
         this.props.handleDeleteClick(attr, i)
     }
@@ -33,7 +33,7 @@ class StructureDocumentDetail extends React.Component {
         return Boolean(this.props.wsInAttach)
     }
     render() {
-        const enable = this.props.enable
+        const enable = this.props.enable;
         /* console.log(enable) */
         return (
             <div className="yc-components-assetStructureDetail">
@@ -77,7 +77,7 @@ class StructureDocumentDetail extends React.Component {
                                     handleAddClick={this.props.handleAddClick.bind(this, 'wsUrl')}>
                                 </DocumentLinkInputs>
                                 <div className="yc-components-assetStructureDetail_body-row">
-                                    <span className='yc-components-assetStructureDetail_body-row_title'></span>
+                                    <span className='yc-components-assetStructureDetail_body-row_title'/>
                                     {
                                         enable ?
                                             <span className='seeDetail'>
@@ -100,13 +100,13 @@ const DocumentLinkInputs = (props) => {
         <div>
             {
                 (() => {
-                    const arr = []
+                    const arr = [];
                     for (let i = 0; i < props.num; i++) {
                         arr.push(
                             <DocumentLinkInput attr={props.attr} value={props.values[i]} enable={props.enable}
                                 key={i} index={i} text={props.text} num={props.num} handleChange={props.handleChange}
                                 handleDeleteClick={props.handleDeleteClick.bind(this, i, props.attr)} handleAddClick={props.handleAddClick}
-                            ></DocumentLinkInput>
+                            />
                         )
                     }
                     return arr;
@@ -114,9 +114,9 @@ const DocumentLinkInputs = (props) => {
             }
         </div>
     )
-}
+};
 const DocumentLinkInput = (props) => {
-    //console.log(props) 
+    //console.log(props)
     return (
         <div className="yc-components-assetStructureDetail_body-row">
             {
@@ -132,16 +132,16 @@ const DocumentLinkInput = (props) => {
                 }
                 {
                     props.num < 3 && !props.enable ?
-                        <Button type="primary" shape="circle" size="small" icon="plus" onClick={props.handleAddClick}></Button> :
+                        <Button type="primary" shape="circle" size="small" icon="plus" onClick={props.handleAddClick}/> :
                         null
                 }
                 {
                     props.num > 1 && !props.enable ?
-                        <Button type="default" shape="circle" size="small" icon="minus" onClick={props.handleDeleteClick}></Button> :
+                        <Button type="default" shape="circle" size="small" icon="minus" onClick={props.handleDeleteClick}/> :
                         null
                 }
             </span>
         </div>
     )
-}
+};
 export default StructureDocumentDetail

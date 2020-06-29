@@ -4,6 +4,14 @@ import { STRUCTURE_SAVE_BUTTON_TEXT } from '@/static/status'
 import { withRouter } from 'react-router-dom';
 import './index.scss'
 
+const getBtnStatus = (status,enable=1)=>{
+    if(status *1>0){
+        if(enable===0 || enable===2 ) return `102`;
+        return `${status}01`;
+    }
+    return 'noField'
+};
+
 class ButtonGroup extends React.Component {
     constructor(props) {
         super(props);
@@ -32,7 +40,7 @@ class ButtonGroup extends React.Component {
                 status: '2',
                 name: '检查无误',
                 texts: ['检查有误', '返回'],
-                btns: [toAffirm,checkButtons['err'], !toAffirm?checkButtons['back']:null]
+                btns: [toAffirm,checkButtons['err'], !toAffirm ? checkButtons['back'] : null]
             },
             {
                 status: '3',
@@ -63,37 +71,13 @@ class ButtonGroup extends React.Component {
     //非初标数据关联标注
     get checkButtonTextArrayForNotFirstMark(){
         const checkButtons = this.checkButtons;
-
-        return [
-            {
-                status: '0',
-                name: '初始',
-                btns: []
-            },
-            {
-                status: '1',
-                name: '未检查',
-                btns: [checkButtons['err'], checkButtons['noErr']]
-            },
-            {
-                status: '2',
-                name: '检查无误',
-                texts: ['检查有误', '关闭'],
-                btns: [checkButtons['err'], checkButtons['close']]
-            },
-            {
-                status: '3',
-                name: '检查错误',
-                texts: ['修改错误原因', '检查无误'],
-                btns: [checkButtons['modify'], checkButtons['noErr']]
-            },
-            {
-                status: '4',
-                name: '已修改',
-                texts: ['检查有误', '检查无误'],
-                btns: [checkButtons['err'], checkButtons['noErr']]
-            }
-        ]
+        return {
+            101:{ name: '未检查', btns: [checkButtons['err'], checkButtons['noErr']]},
+            102:{ name: '账号删除', btns:[checkButtons['onlyMark'], checkButtons['save'], checkButtons['noErr']]},
+            201:{ name: '检查无误', btns:[checkButtons['err'], checkButtons['close']]},
+            301:{ name: '检查错误', btns:[checkButtons['modify'], checkButtons['noErr']]},
+            401:{ name: '已修改', btns:[checkButtons['err'], checkButtons['noErr']]},
+        };
     }
     get checkButtons() {
         return {
@@ -187,7 +171,7 @@ class ButtonGroup extends React.Component {
         const { countDown } = this.state;
         const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
         const notFirstMarkStatus = status || 0;
-
+        // console.log('notFirstMarkStatus:',notFirstMarkStatus);
         return (
             <div className="yc-component-buttonGroup">
                 {
@@ -197,7 +181,9 @@ class ButtonGroup extends React.Component {
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
                                         <OnlyMarkButton handleChange={this.handleChange.bind(this)}/>
-                                        <Button onClick={this.handleClick.bind(this)} disabled={disabled}>{`${buttonText}${(countDown > 0) ? '(' + countDown + 's)' : ''}`}</Button>
+                                        <Button onClick={this.handleClick.bind(this)} disabled={disabled}>
+                                            {`${buttonText}${(countDown > 0) ? '(' + countDown + 's)' : ''}`}
+                                        </Button>
                                     </div>
                                 );
                             case 'check':
@@ -232,7 +218,7 @@ class ButtonGroup extends React.Component {
                             case 'notFirstMark-check':
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
-                                        <div>{this.checkButtonTextArrayForNotFirstMark[notFirstMarkStatus].btns}</div>
+                                        <div>{(this.checkButtonTextArrayForNotFirstMark[notFirstMarkStatus]||{}).btns}</div>
                                     </div>
                                 );
                             case 'notFirstMark-other':
@@ -262,5 +248,5 @@ const OnlyMarkButton = (props) => {
         </div>
     )
 };
-
+ButtonGroup.getStatus= getBtnStatus;
 export default withRouter(ButtonGroup);

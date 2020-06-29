@@ -9,6 +9,7 @@
     &-onlyMark {
         height:32px;
         margin-top:7px;
+        display: inline-block;
         span{
             font-size: 12px;
         }
@@ -19,7 +20,7 @@
         width: 140px;
         height: 32px;
         color:#eee;
-        
+
     }
     .btnText_1{
         display: flex;
