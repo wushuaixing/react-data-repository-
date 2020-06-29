@@ -292,7 +292,7 @@ class StructureDetail extends React.Component {
     }
     render() {
         const state = this.state;
-        const { status, id } = this.props.match.params;
+        const { status, id  } = this.props.match.params;
         const preId = sessionStorage.getItem('id');
         const tag = `${state.MARK}/${state.TOTAL}`;
         // 判断最后一条的时候
@@ -322,7 +322,7 @@ class StructureDetail extends React.Component {
                         { moduleOrder[0] }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
                         <StructureButtonGroup
-                            isLastData={Boolean(state.MARK===state.TOTAL)}
+                            isLastData={(state.MARK===state.TOTAL)&& status === '0'}
                             type={state.type} role={'structure'} id={id}
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
