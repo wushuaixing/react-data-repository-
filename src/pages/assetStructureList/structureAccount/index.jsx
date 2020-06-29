@@ -164,7 +164,8 @@ class Asset extends React.Component {
 		if (!startValue || !endValue) {
 			return false;
 		}
-		return startValue.valueOf() > endValue.valueOf();
+		const _startValue= new Date(startValue.valueOf()).setHours(0,0,0,0);
+		return _startValue > endValue.valueOf();
 	};
 
 	disabledEndDate = endValue => {
