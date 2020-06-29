@@ -205,10 +205,8 @@ class Check extends React.Component {
 		if (this.isUnconfirmed) params.flag = 1;
 		saveInspectorStructureDetail(id, params).then((res) => {
 			if (res.data.code === 200) {
-				message.success('保存成功!');
-				this.props.history.push({
-					pathname: '/index',
-				});
+				message.success('保存成功,2秒后为您关闭页面');
+				setTimeout(this.handleClosePage, 2000);
 			} else {
 				message.error('保存失败!');
 			}

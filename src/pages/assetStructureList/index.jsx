@@ -9,17 +9,17 @@ import StructureTabTable from './structureAccount'
 在tabTable进行更细分 */
 class index extends React.Component {
     render() {
-        const userState = window.localStorage.userState
+        const userState = window.localStorage.userState;
         return (
             <div>
                 {(() => {
                     switch (userState) {
                         case '结构化人员':
-                            return <StructureTabTable></StructureTabTable>
+                            return <StructureTabTable/>;
                         case '检查人员':
-                            return <CheckTabTable></CheckTabTable>
+                            return <CheckTabTable/>;
                         case '管理员':
-                            return <AdminTabTable></AdminTabTable>
+                            return <AdminTabTable/>;
                         default:
                             return null;
                     }
