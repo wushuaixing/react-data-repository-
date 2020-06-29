@@ -9,7 +9,6 @@
     position: fixed;
     background: #fff;
     z-index: 999;
-    width:100%;
     height:112px;
     padding-top:50px;
     padding-left:calc((100% - 1200px)/2 + 40px);
@@ -89,6 +88,7 @@
         max-height: 343px;
         width: 170px;
         margin-top: 7px;
+        overflow: auto;
         &_item span:nth-child(1) {
           max-width: 136px;
           margin-bottom: 12px;
@@ -106,7 +106,7 @@
           width:50px;
           background: rgb(176, 184, 194);
           color:rgb(255, 255, 255);
-          margin-left:5px;  
+          margin-left:5px;
         }
       }
     }
