@@ -180,7 +180,7 @@ class Index extends React.Component {
 
     disabledStartDate = startValue => {
         const { getFieldValue } = this.props.form;
-        const endValue = getFieldValue('structuredEndTime');
+        const endValue = getFieldValue('endTime');
         if (!startValue || !endValue) {
             return false;
         }
@@ -190,7 +190,7 @@ class Index extends React.Component {
 
     disabledEndDate = endValue => {
         const { getFieldValue } = this.props.form;
-        const startValue = getFieldValue('structuredStartTime');
+        const startValue = getFieldValue('startTime');
         if (!endValue || !startValue) {
             return false;
         }
