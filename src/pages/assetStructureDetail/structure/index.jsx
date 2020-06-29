@@ -182,11 +182,12 @@ class StructureDetail extends React.Component {
                 isSendRequest: false
             });
             if (res.data.code === 200 && res.data.data.sign !== '1') {
-                message.success('保存成功!');
                 //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
                 if ((status === '0' || status === '2') && res.data.data.id !== 0) {
                     sessionStorage.setItem('id', id);
                     this.setState({isUpdateRecord:false});
+                    message.success('保存成功!');
+
                     this.props.history.push({
                         pathname: `/index/structureDetail/${status}/${res.data.data.id}`
                     })
@@ -198,15 +199,20 @@ class StructureDetail extends React.Component {
                     if (nextMarkid) {
                         sessionStorage.setItem('id', id);
                         sessionStorage.removeItem('backTime');
+                        message.success('保存成功!');
                         this.props.history.push({
                             pathname: `/index/structureDetail/0/${nextMarkid}`
                         })
                     } else {
+                        message.success('保存成功!');
                         this.props.history.push('/index')
                     }
                 }
                 else {
-                    this.props.history.push('/index')
+                    message.success('已修改完全部数据，2s后回到待标记列表',2);
+                    setTimeout(()=>{
+                        this.props.history.push('/index')
+                    },1800)
                 }
             }
             else if (res.data.data.sign === '1') {
@@ -295,6 +301,7 @@ class StructureDetail extends React.Component {
         const { status, id  } = this.props.match.params;
         const preId = sessionStorage.getItem('id');
         const tag = `${state.MARK}/${state.TOTAL}`;
+        console.log(tag);
         // 判断最后一条的时候
         const moduleOrder = [
             <StructureBasicDetail
@@ -322,7 +329,6 @@ class StructureDetail extends React.Component {
                         { moduleOrder[0] }
                         {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
                         <StructureButtonGroup
-                            isLastData={(state.MARK===state.TOTAL)&& status === '0'}
                             type={state.type} role={'structure'} id={id}
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
