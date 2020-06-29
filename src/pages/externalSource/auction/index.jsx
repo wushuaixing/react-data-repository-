@@ -44,8 +44,6 @@ function AuctionAnchor() {
 
 function AnnounceMentPart(props) {
   const { index,html:__html } = props;
-  // TODO img 请求问题
-  // const  __html = (html||'').replace(/src="http:\/\//g,'src="');
   return (
     <div id={anchors[index].id} className="container_body_eachPart">
       <div className="line" />
