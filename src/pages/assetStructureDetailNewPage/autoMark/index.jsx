@@ -9,7 +9,7 @@ class index extends React.Component {
             <div className="yc-right-content">
                 <Switch>
                     <Route path="/autoMark/check/:associatedAnnotationId" component={Check} />
-				    <Route path="/autoMark/admin/:associatedAnnotationId"  component={Admin} />
+				            <Route path="/autoMark/admin/:associatedAnnotationId" component={Admin} />
                 </Switch>
             </div>
         );
