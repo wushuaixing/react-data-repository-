@@ -15,7 +15,9 @@ install_deps:
   tags:
     - font-group-runner
   only:
+    - tags
     - master
+    - develop
   script:
     - node -v
     - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
