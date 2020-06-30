@@ -39,7 +39,7 @@ const StructureBasicDetail = (props) => {
                         null
                 }
                 {
-                    (props.type === 2 && !hasAuto) ?
+                    (props.type === 2 && !hasAuto) && associatedAnnotationId ?
                         <BasicDetailRow title={'关联标注'} content={'链接'} to={associatedAnnotationRoute}/> :
                         null
                 }
