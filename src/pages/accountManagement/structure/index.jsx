@@ -201,9 +201,7 @@ class AccountManage extends React.Component {
 		});
 	};
 	getTableList = () => {
-		this.setState({
-			loading: true,
-		});
+		this.setState({ loading: true });
 		userView(this.searchParams).then(res => {
 			if (res.data.code === 200) {
 				this.setState({
@@ -263,7 +261,8 @@ class AccountManage extends React.Component {
 	//搜索
 	handleSearch = (formData) => {
 		this.setState({
-			...formData
+			...formData,
+			page:1
 		}, () => {
 			this.getTableList();
 		});
