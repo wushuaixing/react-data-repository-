@@ -70,4 +70,4 @@ deploy_step_prestest:
     - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
     - ls
-    - scp -o StrictHostKeyChecking=no -r -P 22 ./build/* work@172.18.255.251:/disk/web/front/front-data-repository-dev/web/prestest
+    - scp -o StrictHostKeyChecking=no -r -P 22 ./build/* work@172.18.255.251:/disk/web/front/front-data-repository-dev/web/pretest
