@@ -11,7 +11,7 @@ const StructureBasicDetail = (props) => {
     if (associatedAnnotationId) {
         switch (localStorage.getItem('userState')) {
             case '管理员':
-                associatedAnnotationRoute = `/autoMark/admin/${associatedAnnotationId}`;
+                associatedAnnotationRoute = `/notFirstMark/admin/${associatedAnnotationId}`;
                 autoMarkRoute = `/autoMark/admin/${props.associatedAnnotationId}`;
                 break;
             case '检查人员':
