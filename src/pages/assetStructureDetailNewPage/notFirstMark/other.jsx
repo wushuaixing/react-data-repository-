@@ -67,9 +67,12 @@ class Other extends React.Component {
         if (this.role === 'admin') {
             getCheckDetail(associatedAnnotationId).then((res) => {
                 if (res.data) {
+                		const data = res.data.data;
                     this.setState({
                         ...res.data.data,
-                        status:res.data.data.detailStatus
+                        status:res.data.data.detailStatus,
+												ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+												wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                     },()=>{
                         if(this.role==='admin'&&this.state.status!==1){
                             this.getWrongReason(associatedAnnotationId)
@@ -79,7 +82,7 @@ class Other extends React.Component {
 
             })
         } else {
-            structuredById(associatedAnnotationId, associatedStatus,1).then(({data,code}) => {
+            structuredById(associatedAnnotationId, associatedStatus,1).then(({data}) => {
                 if (data) {
                     this.setState({
                         ...data,
