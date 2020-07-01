@@ -10,6 +10,7 @@ import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
 import { message } from 'antd'
 import { getCheckDetail, structuredById,getWrongTypeAndLevel } from '@api'
+
 class Other extends React.Component {
     constructor(props) {
         super(props);
@@ -78,11 +79,14 @@ class Other extends React.Component {
 
             })
         } else {
-            structuredById(associatedAnnotationId, associatedStatus,1).then((res) => {
-                if (res.data) {
+            structuredById(associatedAnnotationId, associatedStatus,1).then(({data,code}) => {
+                if (data) {
                     this.setState({
-                        ...res.data
+                        ...data,
+                        ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+                        wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                     })
+
                 }
             })
         }
@@ -97,6 +101,7 @@ class Other extends React.Component {
             auctionID:state.id,
             role:this.role
         };
+        console.log(state);
         basicDetails.records = this.role === 'admin' ? state.records : [];
         const moduleOrder = [
             <BasicDetail key={0} {...basicDetails}/>
@@ -127,7 +132,7 @@ class Other extends React.Component {
                         <PropertyDetail enable={true}
                             collateral={state.collateral} buildingArea={state.buildingArea}
                             houseType={state.houseType} />
-                        <DocumentDetail enable={true}
+                        <DocumentDetail enable
                             wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl}
                             ah={state.ah} wsInAttach={state.wsInAttach}>
                         </DocumentDetail>
