@@ -7,7 +7,6 @@ import { Link, withRouter } from "react-router-dom";
 const StructureBasicDetail = (props) => {
     const { associatedAnnotationId, associatedStatus } = props;
     let associatedAnnotationRoute,autoMarkRoute = '';
-    console.log(associatedAnnotationId);
     if (associatedAnnotationId) {
         switch (localStorage.getItem('userState')) {
             case '管理员':

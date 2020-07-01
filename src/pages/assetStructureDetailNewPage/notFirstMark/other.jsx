@@ -100,6 +100,9 @@ class Other extends React.Component {
             title: state.title,
             url: state.url,
             auctionStatus: state.auctionStatus,
+            associatedStatus:state.associatedStatus,
+            type: state.type,
+            associatedAnnotationId:state.associatedAnnotationId,
             reasonForWithdrawal: state.reasonForWithdrawal,
             auctionID:state.id,
             role:this.role
