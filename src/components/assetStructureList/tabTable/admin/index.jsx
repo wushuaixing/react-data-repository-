@@ -14,7 +14,7 @@ class TabTable extends React.Component {
         checkErrorNum: 0,
         editNum: 0,
         tabIndex: "0",
-    }
+    };
     //切换Tab
     changeTab = (key) => {
         this.props.onTabs(parseInt(key))
@@ -25,7 +25,7 @@ class TabTable extends React.Component {
         this.props.onPage(pagination.current)
     };
     get columnShowObject() {
-        const showObject = {}
+        const showObject = {};
         switch (this.props.tabIndex) {
             case 0: case 1:
                 showObject.title = '抓取时间'; showObject.dataIndex = 'grabTime'; break;
@@ -43,8 +43,8 @@ class TabTable extends React.Component {
 
     render() {
         const { data, checkErrorNum, editNum, total, tabIndex, page } = this.props;
-        const paginationProps = createPaginationProps(page, total)
-        let dynamic_column_index = 4
+        const paginationProps = createPaginationProps(page, total);
+        let dynamic_column_index = 4;
         if(tabIndex===1){
             dynamic_column_index = 2
         }else if(tabIndex===2){
@@ -82,7 +82,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.info.id}
+                            rowKey={record => (record.info||{}).id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -91,7 +91,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.info.id}
+                            rowKey={record => (record.info||{}).id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -100,7 +100,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.info.id}
+                            rowKey={record => (record.info||{}).id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -109,7 +109,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.info.id}
+                            rowKey={record => (record.info||{}).id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -118,7 +118,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.info.id}
+                            rowKey={record => (record.info||{}).id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
@@ -127,7 +127,7 @@ class TabTable extends React.Component {
                         <Table rowClassName="table-list"
                             columns={columns}
                             dataSource={data}
-                            rowKey={record => record.info.id}
+                            rowKey={record => (record.info||{}).id}
                             pagination={paginationProps}
                             onChange={this.onTablePageChange}
                         />
