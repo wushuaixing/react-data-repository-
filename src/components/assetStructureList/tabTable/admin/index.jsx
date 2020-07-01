@@ -66,7 +66,7 @@ class TabTable extends React.Component {
                     return (
                         <span>
                             <Link to={{
-								pathname: `/index/structureDetail/${record.status}/${record.info.id}`
+								pathname: `/index/structureDetail/${record.status}/${(record.info||{}).id}`
 							}}>
                                 <Button>查看</Button>
                             </Link>
