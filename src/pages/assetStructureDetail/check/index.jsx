@@ -81,12 +81,10 @@ class Check extends React.Component {
 
 	componentDidMount() {
 		const { id, status, isNotConfirm } = this.props.match.params;
-		if (!sessionStorage.getItem('structPersonnelEnable') && this.props.location.query && this.props.location.query.enable !== undefined) {
-			// console.log(this.props.location.query.enable)
-			sessionStorage.setItem('structPersonnelEnable', this.props.location.query.enable);
-		}
 		getCheckDetail(id).then((res) => {
 			const { data } = res.data;
+			const enable= !(data.structPersonnelEnable === 0 || data.structPersonnelEnable === 2);
+			sessionStorage.setItem('structPersonnelEnable', enable);
 			this.setState({
 				...res.data.data,
 				ah: data && data.ah && data.ah instanceof Array && data.ah.length === 0 ? [{ value: '' }] : data.ah,
@@ -357,6 +355,7 @@ class Check extends React.Component {
 							status={status}
 							enable={enable}
 							type={state.type}
+							onlyThis={state.onlyThis}
 							handleErrorModal={this.handleErrorModal}
 							handleStructureUpdate={this.handleStructureUpdate}
 							handleNoErr={this.handleNoErr}

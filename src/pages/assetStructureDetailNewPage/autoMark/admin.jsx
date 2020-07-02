@@ -52,11 +52,13 @@ class Other extends React.Component {
         const { associatedAnnotationId } = this.props.match.params;
         getCheckDetail(associatedAnnotationId).then((res)=>{
             if(res.data.code===200&&res.data.data){
+                const { data } = res.data;
                 this.setState({
                     ...res.data.data,
                     status:res.data.data.detailStatus,
+                    ah: data && data.ah && data.ah instanceof Array && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+                    wsUrl: data && data.wsUrl && data.ah instanceof Array && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                 },()=>{
-                    console.log(this.state.status,this.role);
                     if( this.isAdmin && this.state.status!==1){
                         this.getWrongReason(associatedAnnotationId)
                     }

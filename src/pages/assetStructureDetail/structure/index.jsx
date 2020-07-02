@@ -254,6 +254,7 @@ class StructureDetail extends React.Component {
                     reasonForWithdrawal: data.reasonForWithdrawal,
                     sign: data.sign,
                     type: data.type,
+                    onlyThis: data.onlyThis,
                     title: data.title,
                     url: data.url,
                     wrongData: data.wrongData,
@@ -262,8 +263,6 @@ class StructureDetail extends React.Component {
                     ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
                     wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                     obligors: data && data.obligors && data.obligors.length === 0 && params.status === '0' ? [getObligor()] : data.obligors
-                }, () => {
-                    console.log(this.state)
                 })
 
             });
@@ -301,7 +300,6 @@ class StructureDetail extends React.Component {
         const { status, id  } = this.props.match.params;
         const preId = sessionStorage.getItem('id');
         const tag = `${state.MARK}/${state.TOTAL}`;
-        console.log(tag);
         // 判断最后一条的时候
         const moduleOrder = [
             <StructureBasicDetail
@@ -333,6 +331,7 @@ class StructureDetail extends React.Component {
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
                             isSendRequest={state.isSendRequest}
+                            onlyThis={state.onlyThis}
                             status={status}>
                         </StructureButtonGroup>
                     </div>

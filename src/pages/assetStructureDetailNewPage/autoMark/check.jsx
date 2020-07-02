@@ -161,6 +161,8 @@ class Check extends React.Component {
               title={state.title}
               url={state.url}
               auctionStatus={state.auctionStatus}
+              type={state.status}
+              associatedAnnotationId={state.associatedAnnotationId}
               key={0}
               reasonForWithdrawal={state.reasonForWithdrawal}
             />,
