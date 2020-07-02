@@ -208,16 +208,26 @@ class StructureDetail extends React.Component {
                         }
                     }
                 };
-                if(sign === '1'){
-                    mesStatus(status,nextId);
-                }else{
+                if (sign === '1'){
+										if (nextId) {
+												error({
+													content: '保存失败,数据已被自动标注,为您跳转至下一条',
+													onOk: () => this.props.history.push({ pathname: `/index/structureDetail/${status}/${nextId}`}),
+													okText: '我知道了'
+												});
+										} else {
+											mesStatus(status,nextId);
+										}
+                } else{
                     mesStatus(status,nextId);
                 }
-            }else {
+            } else {
                 message.error('保存失败!')
             }
 
             // if (res.data.code === 200 && res.data.data.sign !== '1') {
+
+
             //     //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
             //     if ((status === '0' || status === '2') ) {
             //
@@ -262,8 +272,8 @@ class StructureDetail extends React.Component {
             //     });
             // }
             // else {
-            //     message.error('保存失败!')
-            // }
+            //     message.error('保存失败!')`
+            // }`
         })
     }
     async getRecordData(props) {
