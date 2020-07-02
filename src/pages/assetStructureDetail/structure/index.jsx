@@ -178,57 +178,92 @@ class StructureDetail extends React.Component {
             isSendRequest: true
         });
         saveDetail(id, status, params).then((res) => {
-            this.setState({
-                isSendRequest: false
-            });
-            if (res.data.code === 200 && res.data.data.sign !== '1') {
-                //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
-                if ((status === '0' || status === '2') && res.data.data.id !== 0) {
-                    sessionStorage.setItem('id', id);
-                    this.setState({isUpdateRecord:false});
-                    message.success('保存成功!');
-
-                    this.props.history.push({
-                        pathname: `/index/structureDetail/${status}/${res.data.data.id}`
-                    })
-                }
-                //在已标记页面下保存 有两种可能
-                else if (status === '1') {
-                    //如果是从已标记未检查跳来直接回table 否则继续下一条标记数据
-                    let nextMarkid = sessionStorage.getItem('id');
-                    if (nextMarkid) {
-                        sessionStorage.setItem('id', id);
-                        sessionStorage.removeItem('backTime');
+            this.setState({ isSendRequest: false });
+            const { code,data:{sign,id:nextId} } = res.data;
+            const toIndex = () => this.props.history.push('/index');
+            if(code === 200){
+                const mesStatus = (type, id) => {
+                    if (type === '2') {
                         message.success('保存成功!');
-                        this.props.history.push({
-                            pathname: `/index/structureDetail/0/${nextMarkid}`
-                        })
-                    } else {
-                        message.success('保存成功!');
-                        this.props.history.push('/index')
+                        this.props.history.push('/index');
+                    } else if (type === '0') {
+                        if (id > 0) {
+                            message.success('保存成功!');
+                            this.props.history.push({
+                                pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
+                            });
+                        } else if (id === -1) {
+                            message.error('有待修改数据，暂时无法获取新数据', 2,toIndex);
+                        } else {
+                            message.success('已修改完全部数据，2s后回到待标记列表', 2,toIndex);
+                        }
+                    } else if (type === '1') {
+                        if (id) {
+                            message.success('保存成功!');
+                            this.props.history.push({
+                                pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
+                            });
+                        } else {
+                            message.success('已修改完全部数据，2s后回到待标记列表', 2,toIndex);
+                        }
                     }
+                };
+                if(sign === '1'){
+                    mesStatus(status,nextId);
+                }else{
+                    mesStatus(status,nextId);
                 }
-                else {
-                    message.success('已修改完全部数据，2s后回到待标记列表',2);
-                    setTimeout(()=>{
-                        this.props.history.push('/index')
-                    },1800)
-                }
-            }
-            else if (res.data.data.sign === '1') {
-                error({
-                    content: '保存失败,数据已被自动标注,为您跳转至下一条',
-                    onOk: () => {
-                        this.props.history.push({
-                            pathname: `/index/structureDetail/${status}/${res.data.data.id}`
-                        })
-                    },
-                    okText: '我知道了'
-                });
-            }
-            else {
+            }else {
                 message.error('保存失败!')
             }
+
+            // if (res.data.code === 200 && res.data.data.sign !== '1') {
+            //     //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
+            //     if ((status === '0' || status === '2') ) {
+            //
+            //         if(res.data.data.id > 0 ){
+            //             sessionStorage.setItem('id', id);
+            //             this.setState({isUpdateRecord:false});
+            //             message.success('保存成功!');
+            //
+            //             this.props.history.push({
+            //                 pathname: `/index/structureDetail/${status}/${res.data.data.id}`
+            //             })
+            //         }else if(res.data.data.id  === -1){
+            //
+            //         }
+            //
+            //     }
+            //     //在已标记页面下保存 有两种可能
+            //     else if (status === '1') {
+            //         //如果是从已标记未检查跳来直接回table 否则继续下一条标记数据
+            //         let nextMarkid = sessionStorage.getItem('id');
+            //         if (nextMarkid) {
+            //             sessionStorage.setItem('id', id);
+            //             sessionStorage.removeItem('backTime');
+            //             message.success('保存成功!');
+            //             this.props.history.push({
+            //                 pathname: `/index/structureDetail/0/${nextMarkid}`
+            //             })
+            //         } else {
+            //             message.success('保存成功!');
+            //             this.props.history.push('/index')
+            //         }
+            //     }
+            //     else {
+            //         message.success('已修改完全部数据，2s后回到待标记列表',2);
+            //         setTimeout(()=>{ this.props.history.push('/index') },1800)
+            //     }
+            // } else if (res.data.data.sign === '1') {
+            //     error({
+            //         content: '保存失败,数据已被自动标注,为您跳转至下一条',
+            //         onOk: () => {this.props.history.push({ pathname: `/index/structureDetail/${status}/${res.data.data.id}` })},
+            //         okText: '我知道了'
+            //     });
+            // }
+            // else {
+            //     message.error('保存失败!')
+            // }
         })
     }
     async getRecordData(props) {
