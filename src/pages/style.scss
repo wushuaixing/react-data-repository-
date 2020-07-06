@@ -85,7 +85,7 @@
 }
 //模态框底部
 .yc-modal-footer {
-  margin-top: 0px;
+  margin-top:0;
   text-align: center;
   > button {
     width: 120px;
@@ -109,7 +109,7 @@
 }
 
 .yc-search-form{
-  margin:21px 0px 0px 20px !important;
+  margin:21px 0 0 20px !important;
 }
 
 .ant-pagination{
@@ -127,15 +127,15 @@
 
 //覆盖去除表格排序特殊样式
 .ant-table-tbody > tr > td.ant-table-column-sort{
-  background: #fff !important;
+  background: #fff ;
 }
 .ant-table-thead > tr > th.ant-table-column-sort{
   background: #EDEFF3 !important;
 }
 .ant-modal-footer{
   border:none !important;
-  padding-top:0px !important;
-  padding-bottom: 30px !important; 
+  padding-top:0 !important;
+  padding-bottom: 30px !important;
 }
 
 .ant-modal-confirm-title{
