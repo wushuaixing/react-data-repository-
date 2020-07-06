@@ -56,6 +56,7 @@ class StructureDetail extends React.Component {
         }
     }
     handleChange(key, value) {
+        console.log('handleChange');
         this.setState({
             [key]: value,
             isUpdateRecord: true
@@ -204,7 +205,7 @@ class StructureDetail extends React.Component {
                                 pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
                             });
                         } else {
-                            message.success('已修改完全部数据，2s后回到待标记列表', 2,toIndex);
+                            message.success('保存成功!，2s后回到待标记列表', 2,toIndex);
                         }
                     }
                 };
@@ -341,6 +342,7 @@ class StructureDetail extends React.Component {
         }
     }
     render() {
+        console.log('StructureBasicDetail');
         const state = this.state;
         const { status, id  } = this.props.match.params;
         const preId = sessionStorage.getItem('id');
@@ -359,6 +361,7 @@ class StructureDetail extends React.Component {
         if (parseInt(status) === 2) {
             moduleOrder.unshift(<WrongDetail wrongData={state.wrongData.slice(-1)} role={'structure'}/>)
         }
+        console.log(state.onlyThis);
         return (
             <div className="yc-content-container assetStructureDetail-structure">
                 <BreadCrumb
@@ -376,7 +379,7 @@ class StructureDetail extends React.Component {
                             handleSubmit={this.handleSubmit.bind(this)}
                             handleChange={this.handleChange.bind(this)}
                             isSendRequest={state.isSendRequest}
-                            onlyThis={state.onlyThis}
+                            onlyThis={state.onlyThis||false}
                             status={status}>
                         </StructureButtonGroup>
                     </div>

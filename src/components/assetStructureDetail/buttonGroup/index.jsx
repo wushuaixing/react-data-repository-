@@ -80,10 +80,11 @@ class ButtonGroup extends React.Component {
         };
     }
     get checkButtons() {
+        const { onlyThis } = this.props;
         return {
             err: <Button onClick={this.handleErrorModal.bind(this)} key="0" style={{ marginRight: 10 }}>{'检查有误'}</Button>,
             noErr: <Button onClick={this.handleNoErr.bind(this)} key="1" style={{ marginRight: 10 }}>{'检查无误'}</Button>,
-            onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" style={{ marginRight: 10 }} />,
+            onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" style={{ marginRight: 10 }} value={onlyThis} />,
             save: <Button onClick={this.handleStructureUpdate.bind(this)} key="3" style={{ marginRight: 10 }}>{'保存'}</Button>,
             confirm: <Button onClick={this.handleConfirm.bind(this)} key="4" style={{ marginRight: 10 }} >{'确认'}</Button>,
             modify: <Button onClick={this.handleErrorModal.bind(this)} key="5" style={{ marginRight: 10 }}>{'修改错误原因'}</Button>,
@@ -244,7 +245,6 @@ class ButtonGroup extends React.Component {
 
 const OnlyMarkButton = ({handleChange,value}) => {
     const _value  = Boolean(value||false);
-    console.log(value,_value);
     return (
         <div className="yc-component-buttonGroup-onlyMark">
             <Checkbox onChange={handleChange} name="onlyThis" checked={_value}>仅标记本条</Checkbox>
