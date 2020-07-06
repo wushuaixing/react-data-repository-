@@ -185,8 +185,14 @@ class StructureDetail extends React.Component {
             if(code === 200){
                 const mesStatus = (type, id) => {
                     if (type === '2') {
-                        message.success('保存成功!');
-                        this.props.history.push('/index');
+											if (id > 0) {
+												message.success('保存成功!');
+												this.props.history.push({
+													pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
+												});
+											}else{
+												message.success('已修改完全部数据，2s后回到待标记列表',2,toIndex);
+											}
                     } else if (type === '0') {
                         if (id > 0) {
                             message.success('保存成功!');
