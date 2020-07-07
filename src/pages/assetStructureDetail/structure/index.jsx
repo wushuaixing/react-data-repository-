@@ -211,7 +211,8 @@ class StructureDetail extends React.Component {
                                 pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
                             });
                         } else {
-                            message.success('保存成功!，2s后回到待标记列表', 2,toIndex);
+                            message.success('保存成功!');
+                            toIndex();
                         }
                     }
                 };
