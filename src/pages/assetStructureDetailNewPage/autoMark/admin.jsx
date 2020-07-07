@@ -84,7 +84,7 @@ class Other extends React.Component {
         const basicDetails = {
             title: state.title,
             url: state.url,
-            type:state.status,
+            type:state.type,
             associatedAnnotationId:state.associatedAnnotationId,
             auctionStatus: state.auctionStatus,
             reasonForWithdrawal: state.reasonForWithdrawal,

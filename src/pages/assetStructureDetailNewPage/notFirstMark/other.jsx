@@ -107,7 +107,6 @@ class Other extends React.Component {
             auctionID:state.id,
             role:this.role
         };
-        console.log(state);
         basicDetails.records = this.role === 'admin' ? state.records : [];
         const moduleOrder = [
             <BasicDetail key={0} {...basicDetails}/>

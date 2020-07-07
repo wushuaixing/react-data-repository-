@@ -79,6 +79,7 @@ class Check extends React.Component {
 	toGetCheckDetail() {
 		const { associatedAnnotationId } = this.props.match.params;
 		getCheckDetail(associatedAnnotationId).then((res) => {
+			console.log(res);
 			if (res.data.code === 200) {
 				const { data } = res.data;
 				this.enable= !(data.structPersonnelEnable === 0 || data.structPersonnelEnable === 2);
@@ -261,11 +262,12 @@ class Check extends React.Component {
 
 	render() {
 		const { state } = this;
+		console.log(state);
 		const moduleOrder = [
 			<BasicDetail
 				key={0}
 				auctionID={state.id}
-				type={state.status}
+				type={state.type}
 				associatedAnnotationId={state.associatedAnnotationId}
 				records={state.records}
 				title={state.title}
