@@ -63,7 +63,7 @@ class TabTable extends React.Component {
 					return (
 						<span>
 							<Link to={{
-								pathname: `/index/structureDetail/${record.status}/${record.info.id}/${isNotConfirm}/${tabIndex}`,
+								pathname: `/index/structureDetail/${record.status}/${(record.info||{}).id}/${isNotConfirm}/${tabIndex}`,
 								query:{ enable:record.structPersonnelEnable }
 							}}>
 								{(record.status === 2 || record.status === 3 )
