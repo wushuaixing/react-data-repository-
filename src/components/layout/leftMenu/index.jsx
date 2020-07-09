@@ -22,6 +22,50 @@ const menuRoute = {
   22: "/index/structureMonitor",//结构化情况监控（管理员）
 };
 
+
+const sourceData = {
+  "任务管理": [{
+    "id": 14,
+    "title": "结构化任务分配"
+  }],
+  "账号管理": [
+    {
+      "id": 7,
+      "title": "结构化账号"
+    },
+    {
+      "id": 18,
+      "title": "检查账号"
+    }
+  ],
+  "结构化检查": [
+    {
+      "id": 16,
+      "title": "文书搜索"
+    },
+    {
+      "id": 19,
+      "title": "检查详情"
+    },
+    {
+      "id": 20,
+      "title": "资产结构化列表"
+    }
+  ]
+};
+
+const getSource = (data={})=>{
+  const keysArray = Object.keys(data);
+  if(keysArray.length===0) return [];
+  return keysArray.map(i=>({
+    title:i,
+    children:data[i].map(item=>({
+      ...item,
+      link:menuRoute[item.id]
+    })),
+  }))
+};
+
 class Sider extends React.Component {
   // submenu keys of first level
   constructor(props) {
@@ -30,6 +74,7 @@ class Sider extends React.Component {
       openKeys: ["0", "1"],
       menuList: [],
       defaultKey: [],
+      menuSource:{}
     };
   }
   handleClick() {
@@ -96,12 +141,18 @@ class Sider extends React.Component {
           title: '文书搜索'
         })
         this.setState({
+
           menuList: mainMenu,
         });
       } else if (res.data.code === 403) {
         localStorage.removeItem("userState");
         localStorage.removeItem("userName");
         this.props.history.push('/login');
+      }
+    })
+    getAvailableNav().then(res=>{
+      if(res.data.code ===200){
+        this.setState({ menuSource:res.data.data })
       }
     })
   }
@@ -169,7 +220,7 @@ class Sider extends React.Component {
   };
 
   render() {
-    const { menuList, openKeys } = this.state;
+    const { menuList, openKeys, menuSource } = this.state;
     const { pathname } = this.props.location;
     let defaultKey = this.getDefaultKey();
     if(pathname!=='/index'){
@@ -195,9 +246,47 @@ class Sider extends React.Component {
             })
           }
         </Menu>
+        <Menu
+          mode="inline"
+          theme="dark"
+          inlineIndent={14}
+          openKeys={openKeys}
+          defaultSelectedKeys={defaultKey}
+          onOpenChange={this.onOpenChange.bind(this)}
+          id="sider-menu-wrapper"
+        >
+          {
+            getSource(menuSource).map(({title,children,img},index)=>(
+              <Menu.SubMenu
+                className="sider-menu_sub-menu"
+                key={`subKey_${index}`}
+                title={
+                  <span className='sider-menu_sub-menu_title'>
+                    <img style={{ marginRight: 8, marginTop: -4 }} src={ img || structure} width="15" height="16" alt="" />
+                    {title}
+                  </span>}
+              >
+                {
+                  children.map((item,_index)=>(
+                    <Menu.Item key={item.id} className="sider-menu_item item_position">
+                      {
+                        item.title === '文书搜索' ? (
+                          <div onClick={(e) => { e.stopPropagation();window.open('/documentSearch') }}>
+                            <div className='item_remark' />
+                            {item.title}
+                          </div>
+                        ): item.title
+                      }
+                    </Menu.Item>
+                  ))
+                }
+              </Menu.SubMenu>
+            ))
+          }
+        </Menu>
       </div>
     );
   }
 }
-
+// Todo network 网络延迟显示慢的问题
 export default withRouter(Sider)
