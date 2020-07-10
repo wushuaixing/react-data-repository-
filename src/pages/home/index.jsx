@@ -24,7 +24,7 @@ class  Index extends React.Component {
               <TopMenu user={user}/>
             </Header>
             <Layout>
-              <Sider width={190} >
+              <Sider width={200} >
                 <LeftMenu role={role} />
               </Sider>
               <Content >
