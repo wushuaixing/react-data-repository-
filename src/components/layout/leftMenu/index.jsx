@@ -113,7 +113,8 @@ class Sider extends React.Component {
         let _openKeys = openKeys.includes(_openKey)?openKeys:[...openKeys,_openKey];
         this.setState({
           menuSource,
-          selectedKeys:selectedKeys.includes('7')?selectedKeys:[...selectedKeys,'7'],
+          // selectedKeys:selectedKeys.includes('7')?selectedKeys:[...selectedKeys,'7'],
+          selectedKeys:selectedKeys,
           openKeys:_openKeys })
       }
     }).finally(()=> this.setState({loading:false}))

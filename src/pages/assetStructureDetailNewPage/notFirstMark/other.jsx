@@ -10,11 +10,13 @@ import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
 import { message } from 'antd'
 import { getCheckDetail, structuredById,getWrongTypeAndLevel } from '@api'
+import SpinLoading from "@/components/Spin-loading";
 
 class Other extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading:false,
             status: 0,
             wrongData: [],
             records: [],
@@ -63,6 +65,7 @@ class Other extends React.Component {
         })
     }
     loadData() {
+        this.setState({loading:true});
         const { associatedAnnotationId, associatedStatus } = this.props.match.params;
         if (this.role === 'admin') {
             getCheckDetail(associatedAnnotationId).then((res) => {
@@ -80,7 +83,7 @@ class Other extends React.Component {
                     })
                 }
 
-            })
+            }).finally(()=>this.setState({ loading:false }))
         } else {
             structuredById(associatedAnnotationId, associatedStatus,1).then(({data}) => {
                 if (data) {
@@ -91,7 +94,7 @@ class Other extends React.Component {
                     })
 
                 }
-            })
+            }).finally(()=>this.setState({ loading:false }))
         }
     }
     render() {
@@ -120,31 +123,34 @@ class Other extends React.Component {
             )
         }
         return (
-            <div className="yc-content-container-newPage assetStructureDetail-structure">
-                <BreadCrumb texts={['资产结构化 /详情']}/>
-                <div className="assetStructureDetail-structure_container">
-                    <div className="assetStructureDetail-structure_container_header">
-                        {
-                            moduleOrder[0]
-                        }
-                        <ButtonGroup handleClosePage={this.handleClosePage.bind(this)}/>
-                    </div>
-                    <div className="assetStructureDetail-structure_container_body">
-                        {
-                            moduleOrder.length > 0 ?
+          <SpinLoading loading={state.loading}>
+              <div className="yc-content-container-newPage assetStructureDetail-structure">
+                  <BreadCrumb texts={['资产结构化 /详情']}/>
+                  <div className="assetStructureDetail-structure_container">
+                      <div className="assetStructureDetail-structure_container_header">
+                          {
+                              moduleOrder[0]
+                          }
+                          <ButtonGroup handleClosePage={this.handleClosePage.bind(this)}/>
+                      </div>
+                      <div className="assetStructureDetail-structure_container_body">
+                          {
+                              moduleOrder.length > 0 ?
                                 moduleOrder.slice(1) : null
-                        }
-                        <PropertyDetail enable={true}
-                            collateral={state.collateral} buildingArea={state.buildingArea}
-                            houseType={state.houseType} />
-                        <DocumentDetail enable
-                            wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl}
-                            ah={state.ah} wsInAttach={state.wsInAttach}>
-                        </DocumentDetail>
-                        <RoleDetail enable={true} obligors={state.obligors}/>
-                    </div>
-                </div>
-            </div>
+                          }
+                          <PropertyDetail enable={true}
+                                          collateral={state.collateral} buildingArea={state.buildingArea}
+                                          houseType={state.houseType} />
+                          <DocumentDetail enable
+                                          wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl}
+                                          ah={state.ah} wsInAttach={state.wsInAttach}>
+                          </DocumentDetail>
+                          <RoleDetail enable={true} obligors={state.obligors}/>
+                      </div>
+                  </div>
+              </div>
+          </SpinLoading>
+
         )
     }
 }

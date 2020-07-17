@@ -10,10 +10,12 @@ import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
 import { message } from 'antd'
 import {getCheckDetail,getWrongTypeAndLevel} from '@api';
+import SpinLoading from "@/components/Spin-loading";
 class Other extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             status: 0,
             records: [],
             title: '',
@@ -50,6 +52,7 @@ class Other extends React.Component {
     }
     loadData(){
         const { associatedAnnotationId } = this.props.match.params;
+        this.setState({ loading:true });
         getCheckDetail(associatedAnnotationId).then((res)=>{
             if(res.data.code===200&&res.data.data){
                 const { data } = res.data;
@@ -66,7 +69,7 @@ class Other extends React.Component {
             }else{
                 message.error(res.data.message)
             }
-        })
+        }).finally(()=>this.setState({ loading:false }));
     }
     getWrongReason(associatedAnnotationId){
         getWrongTypeAndLevel(associatedAnnotationId).then((res)=>{
@@ -103,27 +106,30 @@ class Other extends React.Component {
         }
         return (
             <div className="yc-content-container-newPage assetStructureDetail-structure">
-                <BreadCrumb texts={['资产结构化 /详情']}/>
-                <div className="assetStructureDetail-structure_container">
-                    <div className="assetStructureDetail-structure_container_header">
-                        {
-                            moduleOrder[0]
-                        }
-                        <ButtonGroup handleClosePage={this.handleClosePage.bind(this)}/>
+                <SpinLoading loading={state.loading}>
+                    <BreadCrumb texts={['资产结构化 /详情']}/>
+                    <div className="assetStructureDetail-structure_container">
+                        <div className="assetStructureDetail-structure_container_header">
+                            {
+                                moduleOrder[0]
+                            }
+                            <ButtonGroup handleClosePage={this.handleClosePage.bind(this)}/>
+                        </div>
+                        <div className="assetStructureDetail-structure_container_body">
+                            {
+                                moduleOrder.length > 0 ?
+                                  moduleOrder.slice(1) : null
+                            }
+                            <PropertyDetail enable={true} collateral={state.collateral} buildingArea={state.buildingArea} houseType={state.houseType}/>
+                            <DocumentDetail enable={true}
+                                            wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl}
+                                            ah={state.ah} wsInAttach={state.wsInAttach}>
+                            </DocumentDetail>
+                            <RoleDetail enable={true} obligors={state.obligors}/>
+                        </div>
                     </div>
-                    <div className="assetStructureDetail-structure_container_body">
-                        {
-                            moduleOrder.length > 0 ?
-                                moduleOrder.slice(1) : null
-                        }
-                        <PropertyDetail enable={true} collateral={state.collateral} buildingArea={state.buildingArea} houseType={state.houseType}/>
-                        <DocumentDetail enable={true}
-                            wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl}
-                            ah={state.ah} wsInAttach={state.wsInAttach}>
-                        </DocumentDetail>
-                        <RoleDetail enable={true} obligors={state.obligors}/>
-                    </div>
-                </div>
+                </SpinLoading>
+
             </div>
         )
     }

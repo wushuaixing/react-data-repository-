@@ -324,11 +324,7 @@ class StructureDetail extends React.Component {
                     obligors: data && data.obligors && data.obligors.length === 0 && params.status === '0' ? [getObligor()] : data.obligors
                 })
 
-            }).finally(()=>{
-                this.setState({
-                    loading:false
-                })
-            });
+            }).finally(()=>this.setState({ loading:false }));
             getNumberOfTags().then(res => {
                 this.setState({
                     ...res.data.data
