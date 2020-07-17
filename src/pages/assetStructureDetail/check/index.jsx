@@ -8,6 +8,8 @@ import CheckWrongDetail from '@/components/assetStructureDetail/wrongDetail';
 import ReturnRemark from '@/components/assetStructureDetail/returnRemark';
 import RoleDetail from '@/components/assetStructureDetail/roleDetail';
 import { BreadCrumb } from '@commonComponents';
+import SpinLoading from "@/components/Spin-loading";
+
 import './index.scss';
 import {
 	changeWrongType, // 在结构化人员未修改前 再次修改错误
@@ -42,6 +44,7 @@ function CheckWrongLog() {
 
 class Check extends React.Component {
 	state = {
+		loading:false,
 		ah: [],
 		associatedAnnotationId: '',
 		auctionStatus: 1,
@@ -81,6 +84,7 @@ class Check extends React.Component {
 
 	componentDidMount() {
 		const { id, status, isNotConfirm } = this.props.match.params;
+		this.setState({ loading:true });
 		getCheckDetail(id).then((res) => {
 			const { data } = res.data;
 			const enable= !(data.structPersonnelEnable === 0 || data.structPersonnelEnable === 2);
@@ -92,7 +96,7 @@ class Check extends React.Component {
 			}, () => {
 				/* console.log(this.state) */
 			});
-		});
+		}).finally(()=> this.setState({loading:false}));
 		if (parseInt(status) >= 3) {
 			getWrongTypeAndLevel(id).then((res) => {
 				this.setState({
@@ -318,6 +322,7 @@ class Check extends React.Component {
 
 	render() {
 		const { state } = this;
+		const { loading } = this.state;
 		const { status, isNotConfirm } = this.props.match.params;
 		const { enable } = this;
 		const moduleOrder = [
@@ -345,65 +350,68 @@ class Check extends React.Component {
 			);
 		}
 		return (
-			<div className="yc-content-container assetStructureDetail-structure">
-				<BreadCrumb texts={['资产结构化检查 / 详情']} />
-				<div className="assetStructureDetail-structure_container">
-					<div className="assetStructureDetail-structure_container_header">
-						{ moduleOrder[0] }
-						<CheckButtonGroup
-							role="check"
-							status={status}
-							enable={enable}
-							type={state.type}
-							onlyThis={state.onlyThis}
-							handleErrorModal={this.handleErrorModal}
-							handleStructureUpdate={this.handleStructureUpdate}
-							handleNoErr={this.handleNoErr}
-							handleSubmit={this.handleSubmit}
-							handleChange={this.handleChange}
-							handleConfirm={this.handleConfirm}
-							handleBack={this.onClickToTable}
-						/>
-					</div>
-					<div className="assetStructureDetail-structure_container_body">
-						{ moduleOrder.length > 0 ? moduleOrder.slice(1) : null }
-						<CheckPropertyDetail
-							enable={enable}
-							collateral={state.collateral}
-							buildingArea={state.buildingArea}
-							houseType={state.houseType}
-							handleChange={this.handleChange.bind(this)}
-						/>
-						<CheckDocumentDetail
-							enable={enable}
-							wsFindStatus={state.wsFindStatus}
-							wsUrl={state.wsUrl}
-							ah={state.ah}
-							wsInAttach={state.wsInAttach}
-							handleDocumentChange={this.handleDocumentChange.bind(this)}
-							handleChange={this.handleChange.bind(this)}
-							handleAddClick={this.handleAddClick.bind(this)}
-							handleDeleteClick={this.handleDeleteClick.bind(this)}
-						/>
-						<RoleDetail
-							enable={enable}
-							obligors={state.obligors}
-							handleChange={this.handleRoleChange.bind(this)}
-							handleAddClick={this.handleAddClick.bind(this)}
-							handleDeleteClick={this.handleDeleteClick.bind(this)}
-						/>
-					</div>
+			<SpinLoading loading={loading}>
+				<div className="yc-content-container assetStructureDetail-structure">
+					<BreadCrumb texts={['资产结构化检查 / 详情']} />
+					<div className="assetStructureDetail-structure_container">
+						<div className="assetStructureDetail-structure_container_header">
+							{ moduleOrder[0] }
+							<CheckButtonGroup
+								role="check"
+								status={status}
+								enable={enable}
+								type={state.type}
+								onlyThis={state.onlyThis}
+								handleErrorModal={this.handleErrorModal}
+								handleStructureUpdate={this.handleStructureUpdate}
+								handleNoErr={this.handleNoErr}
+								handleSubmit={this.handleSubmit}
+								handleChange={this.handleChange}
+								handleConfirm={this.handleConfirm}
+								handleBack={this.onClickToTable}
+							/>
+						</div>
+						<div className="assetStructureDetail-structure_container_body">
+							{ moduleOrder.length > 0 ? moduleOrder.slice(1) : null }
+							<CheckPropertyDetail
+								enable={enable}
+								collateral={state.collateral}
+								buildingArea={state.buildingArea}
+								houseType={state.houseType}
+								handleChange={this.handleChange.bind(this)}
+							/>
+							<CheckDocumentDetail
+								enable={enable}
+								wsFindStatus={state.wsFindStatus}
+								wsUrl={state.wsUrl}
+								ah={state.ah}
+								wsInAttach={state.wsInAttach}
+								handleDocumentChange={this.handleDocumentChange.bind(this)}
+								handleChange={this.handleChange.bind(this)}
+								handleAddClick={this.handleAddClick.bind(this)}
+								handleDeleteClick={this.handleDeleteClick.bind(this)}
+							/>
+							<RoleDetail
+								enable={enable}
+								obligors={state.obligors}
+								handleChange={this.handleRoleChange.bind(this)}
+								handleAddClick={this.handleAddClick.bind(this)}
+								handleDeleteClick={this.handleDeleteClick.bind(this)}
+							/>
+						</div>
 
+					</div>
+					<CheckModal
+						visible={state.visible}
+						returnRemarks={state.returnRemarks}
+						wrongReasons={state.wrongData.slice(0, 1)}
+						handleModalSubmit={this.handleModalSubmit.bind(this)}
+						handleModalCancel={this.handleModalCancel.bind(this)}
+						style={{ width: 430 }}
+					/>
 				</div>
-				<CheckModal
-					visible={state.visible}
-					returnRemarks={state.returnRemarks}
-					wrongReasons={state.wrongData.slice(0, 1)}
-					handleModalSubmit={this.handleModalSubmit.bind(this)}
-					handleModalCancel={this.handleModalCancel.bind(this)}
-					style={{ width: 430 }}
-				/>
-			</div>
+			</SpinLoading>
+
 		);
 	}
 }

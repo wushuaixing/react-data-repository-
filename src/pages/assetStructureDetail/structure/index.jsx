@@ -13,6 +13,9 @@ import './index.scss'
 import { message,Modal } from 'antd';
 import icon from '@/assets/img/backPrevious.png'
 import iconGrey from '@/assets/img/backPrevious-grey.png'
+
+import SpinLoading from "@/components/Spin-loading";
+
 const { error } = Modal;
 
 function getObligor() {
@@ -30,6 +33,7 @@ class StructureDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading:true,
             ah: [],
             associatedAnnotationId: "",
             auctionStatus: null,
@@ -52,7 +56,8 @@ class StructureDetail extends React.Component {
             MARK: 0,  //当前标记数
             wrongData: [],
             isSendRequest: false, //是否已经发送了请求
-            isUpdateRecord: false //判断是否修改了记录 没修改不让保存
+            isUpdateRecord: false //判断是否修改了记录 没修改不让保存,
+
         }
     }
     handleChange(key, value) {
@@ -185,14 +190,14 @@ class StructureDetail extends React.Component {
             if(code === 200){
                 const mesStatus = (type, id) => {
                     if (type === '2') {
-											if (id > 0) {
-												message.success('保存成功!');
-												this.props.history.push({
-													pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
-												});
-											}else{
-												message.success('已修改完全部数据，2s后回到待标记列表',2,toIndex);
-											}
+                        if (id > 0) {
+                            message.success('保存成功!');
+                            this.props.history.push({
+                                pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
+                            });
+                        }else{
+                            message.success('已修改完全部数据，2s后回到待标记列表',2,toIndex);
+                        }
                     } else if (type === '0') {
                         if (id > 0) {
                             message.success('保存成功!');
@@ -217,15 +222,15 @@ class StructureDetail extends React.Component {
                     }
                 };
                 if (sign === '1'){
-										if (nextId) {
-												error({
-													content: '保存失败,数据已被自动标注,为您跳转至下一条',
-													onOk: () => this.props.history.push({ pathname: `/index/structureDetail/${status}/${nextId}`}),
-													okText: '我知道了'
-												});
-										} else {
-											mesStatus(status,nextId);
-										}
+                    if (nextId) {
+                        error({
+                            content: '保存失败,数据已被自动标注,为您跳转至下一条',
+                            onOk: () => this.props.history.push({ pathname: `/index/structureDetail/${status}/${nextId}`}),
+                            okText: '我知道了'
+                        });
+                    } else {
+                        mesStatus(status,nextId);
+                    }
                 } else{
                     mesStatus(status,nextId);
                 }
@@ -286,6 +291,7 @@ class StructureDetail extends React.Component {
     }
     async getRecordData(props) {
         const params = props.match.params;
+        this.setState({loading:true});
         if (params.id && params.status) {
             structuredById(params.id, params.status,0).then(res => {
                 for (let i = 0; i < res.data.obligors; i++) {
@@ -318,6 +324,10 @@ class StructureDetail extends React.Component {
                     obligors: data && data.obligors && data.obligors.length === 0 && params.status === '0' ? [getObligor()] : data.obligors
                 })
 
+            }).finally(()=>{
+                this.setState({
+                    loading:false
+                })
             });
             getNumberOfTags().then(res => {
                 this.setState({
@@ -354,67 +364,69 @@ class StructureDetail extends React.Component {
         const { status, id  } = this.props.match.params;
         const preId = sessionStorage.getItem('id');
         const tag = `${state.MARK}/${state.TOTAL}`;
+        const { loading } = this.state;
         // 判断最后一条的时候
         const moduleOrder = [
             <StructureBasicDetail
-                associatedAnnotationId={state.associatedAnnotationId}
-                associatedStatus={state.associatedStatus}
-                auctionID={state.id}
-                type={state.type}
-                title={state.title} auctionStatus={state.auctionStatus}
-                reasonForWithdrawal={state.reasonForWithdrawal} url={state.url} wsUrl={state.wsUrl}>
+              associatedAnnotationId={state.associatedAnnotationId}
+              associatedStatus={state.associatedStatus}
+              auctionID={state.id}
+              type={state.type}
+              title={state.title} auctionStatus={state.auctionStatus}
+              reasonForWithdrawal={state.reasonForWithdrawal} url={state.url} wsUrl={state.wsUrl}>
             </StructureBasicDetail>
         ];
         if (parseInt(status) === 2) {
             moduleOrder.unshift(<WrongDetail wrongData={state.wrongData.slice(-1)} role={'structure'}/>)
         }
-        console.log(state.onlyThis);
         return (
-            <div className="yc-content-container assetStructureDetail-structure">
-                <BreadCrumb
-                  disabled={!preId}
-                  texts={['资产结构化/详情']} note={tag}
-                  handleClick={this.goPreviousRecord.bind(this)}
-                  icon={preId ? icon : iconGrey}/>
-                <div className="assetStructureDetail-structure_container">
-                    <div className="assetStructureDetail-structure_container_header">
-                        {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
-                        { moduleOrder[0] }
-                        {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
-                        <StructureButtonGroup
-                            type={state.type} role={'structure'} id={id}
-                            handleSubmit={this.handleSubmit.bind(this)}
-                            handleChange={this.handleChange.bind(this)}
-                            isSendRequest={state.isSendRequest}
-                            onlyThis={state.onlyThis||false}
-                            status={status}>
-                        </StructureButtonGroup>
-                    </div>
-                    <div className="assetStructureDetail-structure_container_body">
-                        {
-                            moduleOrder.length > 1 ?
-                                moduleOrder[1] : null
-                        }
-                        <StructurePropertyDetail
-                          collateral={state.collateral} buildingArea={state.buildingArea}
-                          houseType={state.houseType} handleChange={this.handleChange.bind(this)}
-                        />
-                        <StructureDocumentDetail
-                          wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl} ah={state.ah} wsInAttach={state.wsInAttach}
-                          handleDocumentChange={this.handleDocumentChange.bind(this)}
-                          handleChange={this.handleChange.bind(this)}
-                          handleAddClick={this.handleAddClick.bind(this)}
-                          handleDeleteClick={this.handleDeleteClick.bind(this)}
-                        />
-                        <RoleDetail
-                          obligors={state.obligors}
-                          handleChange={this.handleRoleChange.bind(this)}
-                          handleAddClick={this.handleAddClick.bind(this)}
-                          handleDeleteClick={this.handleDeleteClick.bind(this)}
-                          />
+            <SpinLoading loading={loading}>
+                <div className="yc-content-container assetStructureDetail-structure">
+                    <BreadCrumb
+                      disabled={!preId}
+                      texts={['资产结构化/详情']} note={tag}
+                      handleClick={this.goPreviousRecord.bind(this)}
+                      icon={preId ? icon : iconGrey}/>
+                    <div className="assetStructureDetail-structure_container">
+                        <div className="assetStructureDetail-structure_container_header">
+                            {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
+                            { moduleOrder[0] }
+                            {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
+                            <StructureButtonGroup
+                              type={state.type} role={'structure'} id={id}
+                              handleSubmit={this.handleSubmit.bind(this)}
+                              handleChange={this.handleChange.bind(this)}
+                              isSendRequest={state.isSendRequest}
+                              onlyThis={state.onlyThis||false}
+                              status={status}>
+                            </StructureButtonGroup>
+                        </div>
+                        <div className="assetStructureDetail-structure_container_body">
+                            {
+                                moduleOrder.length > 1 ?
+                                  moduleOrder[1] : null
+                            }
+                            <StructurePropertyDetail
+                              collateral={state.collateral} buildingArea={state.buildingArea}
+                              houseType={state.houseType} handleChange={this.handleChange.bind(this)}
+                            />
+                            <StructureDocumentDetail
+                              wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl} ah={state.ah} wsInAttach={state.wsInAttach}
+                              handleDocumentChange={this.handleDocumentChange.bind(this)}
+                              handleChange={this.handleChange.bind(this)}
+                              handleAddClick={this.handleAddClick.bind(this)}
+                              handleDeleteClick={this.handleDeleteClick.bind(this)}
+                            />
+                            <RoleDetail
+                              obligors={state.obligors}
+                              handleChange={this.handleRoleChange.bind(this)}
+                              handleAddClick={this.handleAddClick.bind(this)}
+                              handleDeleteClick={this.handleDeleteClick.bind(this)}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </SpinLoading>
         )
     }
 }
