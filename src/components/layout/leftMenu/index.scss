@@ -21,3 +21,18 @@
         height: 100%;
     }
 }
+
+#sider-menu-wrapper{
+    .sider-menu{
+        &_sub-menu{
+            &_title{
+                font-size: 14px;
+            }
+        }
+        &_item{
+            margin: 0;
+            font-size: 13px;
+            padding-left: 38px!important;
+        }
+    }
+}

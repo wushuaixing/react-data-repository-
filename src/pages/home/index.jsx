@@ -6,7 +6,9 @@ import StructureRoute from "../../routers/structureRoute";
 import AdminRoute from "../../routers/adminRoute";
 import CheckRoute from "../../routers/checkRoute";
 import './style.scss'
-import { message } from 'antd';
+import { message,Layout } from 'antd';
+const { Header, Sider, Content } = Layout;
+
 class  Index extends React.Component {
   componentDidMount(){
     if(this.props.history.location.query&&this.props.history.location.query.info==='success'){
@@ -17,19 +19,23 @@ class  Index extends React.Component {
       const user = window.localStorage.userName;
       const role = window.localStorage.userState;
         return(
-          <div >
+          <Layout style={{height:'100%'}}>
+            <Header style={{height:"auto",padding:0}}>
               <TopMenu user={user}/>
-              <div className="yc-main-body">
-                <div className="yc-left-menu" >
-                  <LeftMenu role={role} />
-                </div>
+            </Header>
+            <Layout>
+              <Sider width={200} >
+                <LeftMenu role={role} />
+              </Sider>
+              <Content >
                 <div className="yc-right-content">
                   { role === '结构化人员' && <StructureRoute />}
                   { role === '管理员' && <AdminRoute />}
                   { role === '检查人员' && <CheckRoute />}
                 </div>
-              </div>
-          </div>
+              </Content>
+            </Layout>
+          </Layout>
         );
     }
 }
