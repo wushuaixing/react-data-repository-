@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Input, Radio, Checkbox } from 'antd'
-import { filters } from '@/utils/common'
+// import { filters } from '@/utils/common'
 import './index.scss'
 
 class StructureDocumentDetail extends React.Component {
@@ -115,6 +115,10 @@ const DocumentLinkInputs = (props) => {
         </div>
     )
 };
+
+// eslint-disable-next-line react/jsx-no-target-blank
+const linkSpan = val=> val ? <a href={val} rel="noopener norefferrer" target="_blank" style={{ textDecoration: 'underline' }}>{val}</a> : '-';
+
 const DocumentLinkInput = (props) => {
     //console.log(props)
     return (
@@ -126,7 +130,7 @@ const DocumentLinkInput = (props) => {
             }
             <span className={props.index !== 0 ? 'addition-ah' : null}>
                 {
-                    props.enable ? <span>{filters.blockNullData(props.value.value, '-')}</span>
+                    props.enable ? linkSpan(props.value.value)
                         : <Input placeholder={`请输入${props.text}`} onChange={props.handleChange} name={`${props.attr}${props.index}`} value={props.value.value} />
                 }
                 {
