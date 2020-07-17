@@ -141,8 +141,7 @@ class StructureDetail extends React.Component {
         }
         for (let i = 0; i < this.state.obligors.length; i++) {
             let name = this.state.obligors[i].name;
-            if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '2'
-              && name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
+            if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '2' && !/银行|信用联?社|合作联?社/.test(name)) {
                 message.warning('债权人备注待完善');
                 return false;
             }
