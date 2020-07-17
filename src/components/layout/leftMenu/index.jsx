@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu,message } from 'antd';
 import { getAvailableNav, } from "@api";
 import { Link, withRouter } from "react-router-dom";
+import SpinLoading from "@/components/Spin-loading";
 import admin from "@/assets/img/admin.png";
 import check from "@/assets/img/check.png";
 // import user from "@/assets/img/user.png";
@@ -84,7 +85,8 @@ class Sider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openKeys: ["subKey_0"],
+      loading:true,
+      openKeys: ["subKey_0","subKey_1","subKey_2","subKey_3"],
       menuList: [],
       defaultKey: [],
       menuSource: [],
@@ -114,7 +116,7 @@ class Sider extends React.Component {
           selectedKeys:selectedKeys.includes('7')?selectedKeys:[...selectedKeys,'7'],
           openKeys:_openKeys })
       }
-    })
+    }).finally(()=> this.setState({loading:false}))
   }
 
   onMenuItemClick = ({key}) =>this.setState({selectedKeys:[key] });
@@ -122,53 +124,55 @@ class Sider extends React.Component {
   onOpenChange=(key) => this.setState({  openKeys: key });
 
   render() {
-    const { openKeys, menuSource,selectedKeys } = this.state;
-    console.log(openKeys);
+    const { openKeys, menuSource,selectedKeys,loading } = this.state;
     return (
-      <Menu
-        mode="inline"
-        theme="dark"
-        inlineIndent={14}
-        openKeys={openKeys}
-        selectedKeys={selectedKeys}
-        onOpenChange={this.onOpenChange}
-        onClick={this.onMenuItemClick}
-        id="sider-menu-wrapper"
-      >
-        {
-          menuSource.map(({title,children,img},index)=>(
-            <Menu.SubMenu
-              className="sider-menu_sub-menu"
-              key={`subKey_${index}`}
-              title={
-                <span className='sider-menu_sub-menu_title'>
+      <SpinLoading loading={loading} wrapperClassName="yc-sider-left">
+        { menuSource.length===0 && <div style={{minHeight:350}} />}
+        <Menu
+          mode="inline"
+          theme="dark"
+          inlineIndent={14}
+          openKeys={openKeys}
+          selectedKeys={selectedKeys}
+          onOpenChange={this.onOpenChange}
+          onClick={this.onMenuItemClick}
+          id="sider-menu-wrapper"
+        >
+          {
+            menuSource.map(({title,children,img},index)=>(
+              <Menu.SubMenu
+                className="sider-menu_sub-menu"
+                key={`subKey_${index}`}
+                title={
+                  <span className='sider-menu_sub-menu_title'>
                   <img style={{ marginRight: 8, marginTop: -4 }} src={ img || structure} width="15" height="16" alt="" />
-                  {title}
+                    {title}
                 </span>}
-            >
-              {
-                children.map((item,_index)=>(
-                  <Menu.Item key={item.id} className="sider-menu_item item_position">
-                    {
-                      item.title === '文书搜索' ? (
-                        <div onClick={(e) => { e.stopPropagation();window.open('/documentSearch') }}>
-                          <div className='item_remark' />
-                          {item.title}
-                        </div>
-                      ): ( item.link ? <Link to={item.link}>{item.title}</Link> : (
+              >
+                {
+                  children.map((item,_index)=>(
+                    <Menu.Item key={item.id} className="sider-menu_item item_position">
+                      {
+                        item.title === '文书搜索' ? (
+                          <div onClick={(e) => { e.stopPropagation();window.open('/documentSearch') }}>
+                            <div className='item_remark' />
+                            {item.title}
+                          </div>
+                        ): ( item.link ? <Link to={item.link}>{item.title}</Link> : (
                           <div onClick={(e) => { e.stopPropagation();message.warning('暂未开发',1) }}>
                             <div className='item_remark' />
                             {item.title}
                           </div>
                         ))
-                    }
-                  </Menu.Item>
-                ))
-              }
-            </Menu.SubMenu>
-          ))
-        }
-      </Menu>
+                      }
+                    </Menu.Item>
+                  ))
+                }
+              </Menu.SubMenu>
+            ))
+          }
+        </Menu>
+      </SpinLoading>
     );
   }
 }
