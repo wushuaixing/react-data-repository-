@@ -20,20 +20,20 @@ class Check extends React.Component {
 			tableList: [], //表数据的source
 			searchParams: {},  //搜索参数 包括全文/案号/法院/链接
 			loading: false,//表column
-			
+
 		};
 	}
 	//get table dataSource
 	getTableList = () => {
 		let params = {
 			page: this.state.page
-		}
-		let { searchParams } = this.state
+		};
+		let { searchParams } = this.state;
 		Object.keys(searchParams).forEach((key) => {
 			if (filters.filterNullKey(searchParams[key])) {
 				params[key] = searchParams[key]
 			}
-		})
+		});
 		this.setState({
 			loading: true,
 		});
@@ -42,7 +42,7 @@ class Check extends React.Component {
 				loading: false,
 			});
 			if (res.data.code === 200) {
-				let data = res.data.data
+				let data = res.data.data;
 				for (let i = 0; i < data.length; i++) {
 					data[i].publishTime = moment.unix(data[i].publishTime).format('YYYY-MM-DD')
 				}
@@ -102,7 +102,7 @@ class Check extends React.Component {
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { tableList, total, page, loading,searchParams:{content} } = this.state;
-		const paginationProps = createPaginationProps(page, total)
+		const paginationProps = createPaginationProps(page, total);
 		const columns = [
 			{
 				title: "发布日期",
@@ -182,17 +182,19 @@ class Check extends React.Component {
 				dataIndex: "caseType",
 				width: 125
 			}
-		]
+		];
 		return (
 			<div className="yc-main-body">
 				<div className="yc-right-content">
 					<div className="yc-content-container-newPage">
-						<BreadCrumb texts={['文书搜索']}></BreadCrumb>
+						<BreadCrumb texts={['文书搜索']}/>
 						<div className="yc-detail-content">
 							<div className="yc-search-line document-search">
 								<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
 									<Form.Item label="全文" style={{ width: '100%' }}>
-										{getFieldDecorator('whole', {})
+										{getFieldDecorator('whole', {
+											normalize:val=>val.toString().trim()
+										})
 											(<Input
 												style={{ width: '100%' }}
 												type="text"
