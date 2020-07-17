@@ -115,16 +115,17 @@ class RoleDetail extends React.Component {
                                     <div className="note">备注</div>
                                     <div className="operation">操作</div>
                                 </div>
+                                <div className="yc-components-assetStructureDetail_body-addRole">
+                                    <Button type="dashed" icon="plus" onClick={this.props.handleAddClick.bind(this, 'obligors')}>
+                                      添加
+                                    </Button>
+                                </div>
                                 <RoleInputs num={this.roleInputNumber} obligors={this.props.obligors}
                                     handleDel={this.handleDel.bind(this)}
                                     handleChange={this.handleChange.bind(this)}
                                     handleBlur={this.handleBlur.bind(this)}>
                                 </RoleInputs>
-                                <div className="yc-components-assetStructureDetail_body-addRole">
-                                    <Button type="dashed" icon="plus" onClick={this.props.handleAddClick.bind(this, 'obligors')}>
-                                        添加
-                                    </Button>
-                                </div>
+
                             </div>
                     }
                 </div>
