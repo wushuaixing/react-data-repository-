@@ -1,62 +1,41 @@
 import React from 'react'
 import { WRONG_LEVEL } from '@/static/status'
-import '../index.scss'
-// function WrongTypeAndLevel() {
-//     this.auctionExtractWrongTypes = [];
-//     this.date = '';
-//     this.name = '';
-//     this.remark = [];
-//     this.wrongLevel = 0
-// }
-const wrongDetailCom = (props) => {
-    let wrongData = (props.wrongData && props.wrongData.length > 0) ? props.wrongData : [];
-    const role = (localStorage.getItem('userState') === '管理员' || props.role === 'admin') ? 'admin' : 'no';
-    return wrongData.length ? (
-      <div className="yc-components-assetStructureDetail">
-          <div className="yc-components-assetStructureDetail_header">错误原因</div>
-          {
-              wrongData.map((item, index) => {
-                  return (
-                    <div key={index}>
-                        {
-                            role === 'admin' &&
-                            <div className="yc-components-assetStructureDetail_body-row wrongDetail_row">
-                                    <span className='yc-components-assetStructureDetail_body-row_title'
-                                          style={{marginRight:15}}>{`${item.date} ${item.name}检查`}</span>
-                                <WrongReasonRow text={'有误'} inline={true}/>
-                            </div>
-                        }
-                        <div className="yc-components-assetStructureDetail_body-row">
-                            <span className='yc-components-assetStructureDetail_body-row_title basicDetail_row'>错误等级：</span>
-                            <WrongReasonRow text={WRONG_LEVEL[item.wrongLevel]} inline={true}/>
-                        </div>
-                        <div className="yc-components-assetStructureDetail_body-row">
-                            {
-                                item.remark && item.remark.length > 0 ?
-                                  item.remark.map((item, index) =>
-                                    <WrongReasonTitleRow title={'错误详情：'} text={item} index={index} key={index}/>)
-                                  :<WrongReasonTitleRow title={'错误详情：'} index={0} text={'-'}/>
-                            }
-                        </div>
-                    </div>
-                  )
-              })
-          }
-      </div>
-    ) :  <div className="yc-components-assetStructureDetail" />;
-};
-const WrongReasonTitleRow = (props) => {
-    return (
-        <div>
-            <span className='yc-components-assetStructureDetail_body-row_title basicDetail_row' style={props.index === 0 ? null : { visibility: 'hidden' }}>{props.title}</span>
-            <WrongReasonRow text={props.text} inline={true}/><br/>
-        </div>
-    )
+import '../index.scss';
+import './index.scss';
+
+const Item = props =>{
+  const { title, content, noTitle } = props;
+  return (
+    <div className="yc-wrong-item" >
+      <div className="yc-wrong-item_title" style={noTitle?{ opacity:0 }:{}}>{title}</div>
+      <div className="yc-wrong-item_content danger-info">{content}</div>
+    </div>
+  )
 };
 
-const WrongReasonRow = (props) => {
-    return (
-        <div className="yc-components-assetStructureDetail_body-row danger-info" style={props.inline ? { display: 'inline-block' } : null}>{props.text}</div>
-    )
+const wrongDetailCom = (props) => {
+  let wrongData = (props.wrongData && props.wrongData.length > 0) ? props.wrongData : [];
+  const role = (localStorage.getItem('userState') === '管理员' || props.role === 'admin') ? 'admin' : 'no';
+  return wrongData.length ? (
+    <div className="yc-components-assetStructureDetail">
+      <div className="yc-components-assetStructureDetail_header">错误原因</div>
+      {
+        wrongData.map((item, index) => {
+          return (
+            <div key={index}>
+              { role === 'admin' && <Item title={`${item.date} ${item.name}检查　`} content={'有误'} /> }
+              <Item title="错误等级：" content={WRONG_LEVEL[item.wrongLevel]} />
+              {
+                item.remark && item.remark.length > 0
+                  ? item.remark.map((itemText, index)=> <Item title="错误详情：" noTitle={index!==0} content={itemText} />)
+                  : <Item title="错误详情：" content="-" />
+              }
+            </div>
+          )
+        })
+      }
+    </div>
+  ) :  <div className="yc-components-assetStructureDetail" />;
 };
+
 export default wrongDetailCom
