@@ -11,51 +11,20 @@ import structure from "@/assets/img/structure.png";
 import './index.scss'
 
 const menuRoute = {
-  7: "/index/structureUser", //结构化账号（管理员）
+  7: ["/index/structureUser","/index"], //结构化账号（管理员）
   18: "/index/checkUser",//检查账号（管理员）
-  8: "/index",//资产结构化列表（结构化人员）
-  15: "/index",//资产结构化列表检查（检查人员）
-
-  20: "/index/assetList",//资产结构化列表（管理员）
-  // 17: "/index/documentSearch",//文书搜索（检查人员）
+  8: ["/index","/index/structureDetail"],//资产结构化列表（结构化人员）
+  15:["/index","/index/structureDetail"],//资产结构化列表检查（检查人员）
+  20: ["/index/assetList","/index/structureDetail"],//资产结构化列表（管理员）
   16: "/documentSearch",//文书搜索（管理员+检查人员）
   9: "/documentSearch",//文书搜索（结构化人员）
-  21: "/index/syncMonitor",//抓取与同步监控（管理员）
-  22: "/index/structureMonitor",//结构化情况监控（管理员）
+
+  // 21: "/index/syncMonitor",//抓取与同步监控（管理员）
+  // 22: "/index/structureMonitor",//结构化情况监控（管理员）
+
+  // 17: "/index/documentSearch",//文书搜索（检查人员）
+
 };
-
-
-// const sourceData = {
-//   "任务管理": [{
-//     "id": 14,
-//     "title": "结构化任务分配"
-//   }],
-//   "账号管理": [
-//     {
-//       "id": 7,
-//       "title": "结构化账号"
-//     },
-//     {
-//       "id": 18,
-//       "title": "检查账号"
-//     }
-//   ],
-//   "结构化检查": [
-//     {
-//       "id": 16,
-//       "title": "文书搜索"
-//     },
-//     {
-//       "id": 19,
-//       "title": "检查详情"
-//     },
-//     {
-//       "id": 20,
-//       "title": "资产结构化列表"
-//     }
-//   ]
-// };
-
 
 const getSource = (data={})=>{
   const keysArray = Object.keys(data);
@@ -75,9 +44,10 @@ const getSource = (data={})=>{
     children:(data[i]).map(item=>({
       ...item,
       parentIndex:index,
-      link:menuRoute[item.id]
-    })),
-  }))
+      link:Array.isArray(menuRoute[item.id])?menuRoute[item.id][0]:menuRoute[item.id],
+      backup:menuRoute[item.id],
+    })).filter(i=>i.link),
+  })).filter(i=>i.children.length)
 };
 
 class Sider extends React.Component {
@@ -95,6 +65,14 @@ class Sider extends React.Component {
   }
 
   componentDidMount() {
+    // 判断是否符合path
+    const linkCheck = (link,pathname) =>{
+      if(!link)return false;
+      if (typeof link === 'string') return new RegExp(link).test(pathname);
+      if (Array.isArray(link)) return link.some(i => new RegExp(i).test(pathname));
+      return false;
+    };
+
     getAvailableNav().then(res=>{
       if(res.data.code ===200){
         const { pathname } = this.props.location;
@@ -104,7 +82,7 @@ class Sider extends React.Component {
         let _openKey = "";
         menuSource.forEach(i=>{
           (i.children||[]).forEach(item=>{
-            if ( pathname === item.link ) {
+            if (linkCheck(item.backup,pathname)) {
               selectedKeys = [item.id.toString()];
               _openKey = `subKey_${item.parentIndex}`;
             }
