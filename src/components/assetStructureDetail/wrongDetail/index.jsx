@@ -27,7 +27,7 @@ const wrongDetailCom = (props) => {
               <Item title="错误等级：" content={WRONG_LEVEL[item.wrongLevel]} />
               {
                 item.remark && item.remark.length > 0
-                  ? item.remark.map((itemText, index)=> <Item title="错误详情：" noTitle={index!==0} content={itemText} />)
+                  ? item.remark.map((itemText, index)=> <Item title="错误详情：" noTitle={index!==0} content={itemText} key={itemText+index} />)
                   : <Item title="错误详情：" content="-" />
               }
             </div>

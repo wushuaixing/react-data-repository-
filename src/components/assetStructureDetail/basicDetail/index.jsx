@@ -33,9 +33,8 @@ const StructureBasicDetail = (props) => {
                 <BasicDetailRow title={'标题'} content={props.title} to={`/auctionDetail/${props.auctionID}`}/>
                 <BasicDetailRow title={'拍卖状态'} content={AUCTION_STATUS[props.auctionStatus]}/>
                 {
-                    (props.auctionStatus === 9 || props.auctionStatus === 11) ?
-                        <BasicDetailRow title={'撤回原因'} content={props.reasonForWithdrawal?props.reasonForWithdrawal:'-'}/> :
-                        null
+                    (props.auctionStatus === 9 || props.auctionStatus === 11)
+                      ?  <BasicDetailRow title={'撤回原因'} content={props.reasonForWithdrawal||'-'}/> :null
                 }
                 {
                     (props.type === 2 && !hasAuto) && associatedAnnotationId ?

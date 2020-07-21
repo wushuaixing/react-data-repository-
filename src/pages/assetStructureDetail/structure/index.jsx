@@ -61,7 +61,6 @@ class StructureDetail extends React.Component {
         }
     }
     handleChange(key, value) {
-        console.log('handleChange');
         this.setState({
             [key]: value,
             isUpdateRecord: true
@@ -135,6 +134,7 @@ class StructureDetail extends React.Component {
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
         保存无效并弹出“债权人备注待完善”非模态框提示； */
         const { id, status } = this.props.match.params;
+        // console.log(status,this.state.isUpdateRecord);
         if (!this.state.isUpdateRecord && status !== '0') {
             message.warning('当前页面未作修改，请修改后再保存');
             return false;
@@ -179,30 +179,27 @@ class StructureDetail extends React.Component {
             wsInAttach: state.wsInAttach,
             wsUrl: state.wsUrl
         };
-        this.setState({
-            isSendRequest: true
-        });
         saveDetail(id, status, params).then((res) => {
-            this.setState({ isSendRequest: false });
             const { code,data:{sign,id:nextId} } = res.data;
             const toIndex = () => this.props.history.push('/index');
+            const toNext = (_status,id)=> {
+                this.setState({ isUpdateRecord: false },() => {
+                    this.props.history.push({ pathname: `/index/structureDetail/${_status}/${id}` });
+                })
+            };
             if(code === 200){
                 const mesStatus = (type, id) => {
                     if (type === '2') {
                         if (id > 0) {
                             message.success('保存成功!');
-                            this.props.history.push({
-                                pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
-                            });
+                            toNext(status,res.data.data.id);
                         }else{
                             message.success('已修改完全部数据，2s后回到待标记列表',2,toIndex);
                         }
                     } else if (type === '0') {
                         if (id > 0) {
                             message.success('保存成功!');
-                            this.props.history.push({
-                                pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
-                            });
+                            toNext(status,res.data.data.id);
                         } else if (id === -1) {
                             message.error('有待修改数据，暂时无法获取新数据', 2,toIndex);
                         } else {
@@ -211,9 +208,7 @@ class StructureDetail extends React.Component {
                     } else if (type === '1') {
                         if (id) {
                             message.success('保存成功!');
-                            this.props.history.push({
-                                pathname: `/index/structureDetail/${status}/${res.data.data.id}`,
-                            });
+                            toNext(status,res.data.data.id);
                         } else {
                             message.success('保存成功!');
                             toIndex();
@@ -224,7 +219,7 @@ class StructureDetail extends React.Component {
                     if (nextId) {
                         error({
                             content: '保存失败,数据已被自动标注,为您跳转至下一条',
-                            onOk: () => this.props.history.push({ pathname: `/index/structureDetail/${status}/${nextId}`}),
+                            onOk: () => toNext(status,nextId),
                             okText: '我知道了'
                         });
                     } else {
@@ -236,10 +231,7 @@ class StructureDetail extends React.Component {
             } else {
                 message.error('保存失败!')
             }
-
             // if (res.data.code === 200 && res.data.data.sign !== '1') {
-
-
             //     //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
             //     if ((status === '0' || status === '2') ) {
             //
@@ -354,7 +346,6 @@ class StructureDetail extends React.Component {
         }
     }
     render() {
-        console.log('StructureBasicDetail');
         const state = this.state;
         const { status, id  } = this.props.match.params;
         const preId = sessionStorage.getItem('id');

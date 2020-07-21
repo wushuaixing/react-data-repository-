@@ -130,8 +130,14 @@ const DocumentLinkInput = (props) => {
             }
             <span className={props.index !== 0 ? 'addition-ah' : null}>
                 {
-                    props.enable ? linkSpan(props.value.value)
-                        : <Input placeholder={`请输入${props.text}`} onChange={props.handleChange} name={`${props.attr}${props.index}`} value={props.value.value} />
+                    props.enable ? (props.attr==='wsUrl'?linkSpan(props.value.value):props.value.value)
+                        : <Input
+                            maxLength={ props.attr==='wsUrl'?99999:50 }
+                            placeholder={`请输入${props.text}`}
+                            onChange={props.handleChange}
+                            name={`${props.attr}${props.index}`}
+                            value={props.value.value}
+                      />
                 }
                 {
                     props.num < 3 && !props.enable ?
