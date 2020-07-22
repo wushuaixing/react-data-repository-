@@ -55,7 +55,7 @@ class StructureDocumentDetail extends React.Component {
                     }
                     {
                         this.props.wsFindStatus === 1 ?
-                            <div>
+                            <React.Fragment>
                                 <DocumentLinkInputs
                                     values={this.props.ah}
                                     enable={enable}
@@ -88,7 +88,7 @@ class StructureDocumentDetail extends React.Component {
                                             </span>
                                     }
                                 </div>
-                            </div> : null
+                            </React.Fragment> : null
                     }
                 </div>
             </div>
@@ -96,24 +96,16 @@ class StructureDocumentDetail extends React.Component {
     }
 }
 const DocumentLinkInputs = (props) => {
-    return (
-        <div>
-            {
-                (() => {
-                    const arr = [];
-                    for (let i = 0; i < props.num; i++) {
-                        arr.push(
-                            <DocumentLinkInput attr={props.attr} value={props.values[i]} enable={props.enable}
-                                key={i} index={i} text={props.text} num={props.num} handleChange={props.handleChange}
-                                handleDeleteClick={props.handleDeleteClick.bind(this, i, props.attr)} handleAddClick={props.handleAddClick}
-                            />
-                        )
-                    }
-                    return arr;
-                })()
-            }
-        </div>
-    )
+		const arr = [];
+		for (let i = 0; i < props.num; i++) {
+				arr.push(
+						<DocumentLinkInput attr={props.attr} value={props.values[i]} enable={props.enable}
+								key={i} index={i} text={props.text} num={props.num} handleChange={props.handleChange}
+								handleDeleteClick={props.handleDeleteClick.bind(this, i, props.attr)} handleAddClick={props.handleAddClick}
+						/>
+				)
+		}
+		return arr;
 };
 
 // eslint-disable-next-line react/jsx-no-target-blank

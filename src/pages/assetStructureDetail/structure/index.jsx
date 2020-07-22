@@ -134,25 +134,16 @@ class StructureDetail extends React.Component {
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
         保存无效并弹出“债权人备注待完善”非模态框提示； */
         const { id, status } = this.props.match.params;
+        const { isUpdateRecord } = this.state;
         // console.log(status,this.state.isUpdateRecord);
-        if (!this.state.isUpdateRecord && status !== '0') {
-            message.warning('当前页面未作修改，请修改后再保存');
-            return false;
-        }
+        if (!isUpdateRecord && status !== '0') return message.warning('当前页面未作修改，请修改后再保存');
         for (let i = 0; i < this.state.obligors.length; i++) {
-            let name = this.state.obligors[i].name;
-            if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '2' && !/银行|信用联?社|合作联?社/.test(name)) {
-                message.warning('债权人备注待完善');
-                return false;
-            }
-            if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '3') {
-                message.warning('资产线索备注待完善');
-                return false;
-            }
-            if (this.state.obligors[i].birthday && !/^\d{8}$/.test(this.state.obligors[i].birthday)) {
-                message.warning('生日格式不正确');
-                return false;
-            }
+            let item = this.state.obligors[i];
+            if ( item.notes === '' ) {
+							if( item.labelType === '3' ) return message.warning('资产线索备注待完善');
+							if( item.labelType === '2' && !/银行|信用联?社|合作联?社/.test(item.name)) return message.warning('债权人备注待完善');
+						}
+            if ( item.birthday && !/^\d{8}$/.test(item.birthday))  return message.warning('生日格式不正确');
         }
         /* 资产标注详情页存在备注为空的资产线索时，点击保存，保存无效并弹出“资产线索备注待完善”非模态框提示 */
         //去空行
@@ -183,6 +174,7 @@ class StructureDetail extends React.Component {
             const { code,data:{sign,id:nextId} } = res.data;
             const toIndex = () => this.props.history.push('/index');
             const toNext = (_status,id)=> {
+
                 this.setState({ isUpdateRecord: false },() => {
                     this.props.history.push({ pathname: `/index/structureDetail/${_status}/${id}` });
                 })
