@@ -183,6 +183,9 @@ class Check extends React.Component {
 				width: 125
 			}
 		];
+		const inputOption = {
+			normalize:val=>val && val.toString().trim()
+		};
 		return (
 			<div className="yc-main-body">
 				<div className="yc-right-content">
@@ -192,9 +195,7 @@ class Check extends React.Component {
 							<div className="yc-search-line document-search">
 								<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
 									<Form.Item label="全文" style={{ width: '100%' }}>
-										{getFieldDecorator('whole', {
-											normalize:val=>val.toString().trim()
-										})
+										{getFieldDecorator('whole', inputOption)
 											(<Input
 												style={{ width: '100%' }}
 												type="text"
@@ -206,7 +207,7 @@ class Check extends React.Component {
 									<Row style={{marginTop:8}}>
 										<Col span={19}>
 											<Form.Item label="案号">
-												{getFieldDecorator('ah', {})
+												{getFieldDecorator('ah', inputOption)
 													(<Input
 														type="text"
 														size='default'
@@ -214,7 +215,7 @@ class Check extends React.Component {
 													/>)}
 											</Form.Item>
 											<Form.Item label="法院">
-												{getFieldDecorator('court', {})
+												{getFieldDecorator('court', inputOption)
 													(<Input
 														type="text"
 														size='default'
@@ -222,7 +223,7 @@ class Check extends React.Component {
 													/>)}
 											</Form.Item>
 											<Form.Item label="链接">
-												{getFieldDecorator('url', {})
+												{getFieldDecorator('url', inputOption)
 													(<Input
 														type="text"
 														size='default'
@@ -232,12 +233,8 @@ class Check extends React.Component {
 										</Col>
 										<Col span={5} style={{ textAlign: 'right' }}>
 											<Form.Item>
-												<Button type="primary" htmlType="submit" style={{ marginLeft: 15 }}>
-													搜索
-									</Button>
-												<Button type="default" style={{ marginLeft: 10 }} onClick={this.clearSearch}>
-													清空搜索条件
-									</Button>
+												<Button type="primary" htmlType="submit" style={{ marginLeft: 15 }}>搜索</Button>
+												<Button type="default" style={{ marginLeft: 10 }} onClick={this.clearSearch}>清空搜索条件</Button>
 											</Form.Item>
 										</Col>
 									</Row>

@@ -88,8 +88,6 @@ class StructureDetail extends React.Component {
         this.setState({
             obligors: arr,
             isUpdateRecord: true
-        }, () => {
-            //console.log(this.state)
         })
     }
     handleSubmit() {
@@ -380,10 +378,7 @@ class StructureDetail extends React.Component {
                             </StructureButtonGroup>
                         </div>
                         <div className="assetStructureDetail-structure_container_body">
-                            {
-                                moduleOrder.length > 1 ?
-                                  moduleOrder[1] : null
-                            }
+                            { moduleOrder.length > 1 ? moduleOrder[1] : null }
                             <StructurePropertyDetail
                               collateral={state.collateral} buildingArea={state.buildingArea}
                               houseType={state.houseType} handleChange={this.handleChange.bind(this)}

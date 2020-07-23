@@ -125,7 +125,6 @@ class RoleDetail extends React.Component {
                                     handleChange={this.handleChange.bind(this)}
                                     handleBlur={this.handleBlur.bind(this)}>
                                 </RoleInputs>
-
                             </div>
                     }
                 </div>
@@ -173,7 +172,7 @@ const RoleInputs = (props) => {
 const RoleInput = props => (
   <div className="yc-components-assetStructureDetail_body-roleInputRow">
       <Input
-				disabled={(props.obligor||{}).type==="05"}
+				disabled={(props.obligor||{}).system===1}
         placeholder="请输入名称"
         onChange={(e) => {
             e.persist();
@@ -188,14 +187,14 @@ const RoleInput = props => (
       />
       <Select
 				placeholder="角色"
-				disabled={(props.obligor||{}).type==="05"}
-				onChange={(value) => { props.handleChange({ target: { name: `labelType${props.index}`, value } }); }}
-				value={props.obligor.labelType}>
+				disabled={(props.obligor||{}).system===1}
+				onChange={(value) => { props.handleChange({ target: { name: `label_type${props.index}`, value } }); }}
+				value={props.obligor.label_type}>
           {Object.keys(ROLE_TYPE).map(key => <Option key={key} style={{ fontSize: 12 }}>{ROLE_TYPE[key]}</Option>)}
       </Select>
       <Input
         placeholder="请输入证件号"
-				disabled={(props.obligor||{}).type==="05"}
+				disabled={(props.obligor||{}).system===1}
         onChange={(e) => {
             e.persist();
             props.handleChange(e);
@@ -209,7 +208,7 @@ const RoleInput = props => (
       />
       <Input
         placeholder="请输入年月日"
-				disabled={(props.obligor||{}).type==="05"}
+				disabled={(props.obligor||{}).system===1}
         onChange={(e) => {
             e.persist();
             props.handleChange(e);
@@ -222,7 +221,7 @@ const RoleInput = props => (
         }}
       />
       <Select
-				disabled={(props.obligor||{}).type==="05"}
+				disabled={(props.obligor||{}).system===1}
 				placeholder="性别"
 				onChange={(value) => { props.handleChange({ target: { name: `gender${props.index}`, value } }); }}
 				value={props.obligor.gender}>
@@ -230,7 +229,7 @@ const RoleInput = props => (
       </Select>
       <Input
         placeholder="请输入备注"
-				disabled={(props.obligor||{}).type==="05"}
+				disabled={(props.obligor||{}).system===1}
         onChange={(e) => {
             e.persist();
             props.handleChange(e);
