@@ -61,14 +61,15 @@ class Check extends React.Component {
 	// 搜索框
 	handleSearch = e => {
 		e.preventDefault();
-		let params = {
-			content: this.props.form.getFieldValue('whole'),
-			ah: this.props.form.getFieldValue('ah'),
-			court: this.props.form.getFieldValue('court'),
-			url: this.props.form.getFieldValue('url')
-		};
+		const { form:{ getFieldValue, } } = this.props;
+		const get =field=> (getFieldValue(field)||'').trim();
 		this.setState({
-			searchParams: params,
+			searchParams:{
+				content: get('whole'),
+				ah: get('ah'),
+				court: get('court'),
+				url: get('url')
+			},
 			page: 1
 		}, () => {
 			this.getTableList();
@@ -184,7 +185,6 @@ class Check extends React.Component {
 			}
 		];
 		const inputOption = {
-			normalize:val=>val && val.toString().trim()
 		};
 		return (
 			<div className="yc-main-body">
