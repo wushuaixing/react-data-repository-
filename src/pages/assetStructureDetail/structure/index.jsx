@@ -138,8 +138,8 @@ class StructureDetail extends React.Component {
         for (let i = 0; i < this.state.obligors.length; i++) {
             let item = this.state.obligors[i];
             if ( item.notes === '' ) {
-							if( item.labelType === '3' ) return message.warning('资产线索备注待完善');
-							if( item.labelType === '2' && !/银行|信用联?社|合作联?社/.test(item.name)) return message.warning('债权人备注待完善');
+							if( item.label_type === '3' ) return message.warning('资产线索备注待完善');
+							if( item.label_type === '2' && !/银行|信用联?社|合作联?社/.test(item.name)) return message.warning('债权人备注待完善');
 						}
             if ( item.birthday && !/^\d{8}$/.test(item.birthday))  return message.warning('生日格式不正确');
         }
@@ -277,9 +277,9 @@ class StructureDetail extends React.Component {
         if (params.id && params.status) {
             structuredById(params.id, params.status,0).then(res => {
                 for (let i = 0; i < res.data.obligors; i++) {
-                    if (res.data.obligors[i].labelType === '4') {
+                    if (res.data.obligors[i].label_type === '4') {
                         //债务人和起诉人对应转换
-                        res.data.obligors[i].labelType = '2'
+                        res.data.obligors[i].label_type = '2'
                     }
                 }
                 const data = res.data;

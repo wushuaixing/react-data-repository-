@@ -39,8 +39,8 @@ class RoleDetail extends React.Component {
             },
             {
                 title: '角色',
-                dataIndex: 'labelType',
-                key: 'labelType',
+                dataIndex: 'label_type',
+                key: 'label_type',
                 render(text) {
                     return (
                         <span>{ROLE_TYPE[text]}</span>
