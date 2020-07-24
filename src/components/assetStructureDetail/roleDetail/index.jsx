@@ -39,8 +39,8 @@ class RoleDetail extends React.Component {
             },
             {
                 title: '角色',
-                dataIndex: 'labelType',
-                key: 'labelType',
+                dataIndex: 'label_type',
+                key: 'label_type',
                 render(text) {
                     return (
                         <span>{ROLE_TYPE[text]}</span>
@@ -187,6 +187,7 @@ const RoleInput = props => (
       />
       <Select
 				placeholder="角色"
+				getPopupContainer={node=>node.offsetParent}
 				disabled={(props.obligor||{}).system===1}
 				onChange={(value) => { props.handleChange({ target: { name: `label_type${props.index}`, value } }); }}
 				value={props.obligor.label_type}>
@@ -223,6 +224,7 @@ const RoleInput = props => (
       <Select
 				disabled={(props.obligor||{}).system===1}
 				placeholder="性别"
+				getPopupContainer={node=>node.offsetParent}
 				onChange={(value) => { props.handleChange({ target: { name: `gender${props.index}`, value } }); }}
 				value={props.obligor.gender}>
           {Object.keys(SEX_TYPE).map(key => <Option key={key}>{SEX_TYPE[key]}</Option>)}
@@ -241,7 +243,7 @@ const RoleInput = props => (
         name={`notes${props.index}`}
         value={props.obligor.notes}
       />
-      <Button type="danger" onClick={props.handleDel}>删除</Button>
+      <Button type="danger" onClick={props.handleDel} disabled={(props.obligor||{}).system===1}>删除</Button>
   </div>
 );
 export default RoleDetail;

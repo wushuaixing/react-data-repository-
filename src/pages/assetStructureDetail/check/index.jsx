@@ -29,7 +29,7 @@ function getObligors() {
 	return {
 		birthday: '',
 		gender: '0',
-		labelType: '1',
+		label_type: '1',
 		name: '',
 		notes: '',
 		number: '',
@@ -269,16 +269,12 @@ class Check extends React.Component {
 				保存无效并弹出“债权人备注待完善”非模态框提示； */
 		const { obligors } = this.state;
 		for (let i = 0; i < obligors.length; i++) {
-			const { name } = obligors[i];
-			if (obligors[i].notes === '' && obligors[i].labelType === '2'
-				&& name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
-				message.warning('债权人备注待完善');
-				return false;
+			let item = obligors[i];
+			if ( item.notes === '' ) {
+				if( item.label_type === '3' ) return message.warning('资产线索备注待完善');
+				if( item.label_type === '2' && !/银行|信用联?社|合作联?社/.test(item.name)) return message.warning('债权人备注待完善');
 			}
-			if (obligors[i].notes === '' && obligors[i].labelType === '3') {
-				message.warning('资产线索备注待完善');
-				return false;
-			}
+			if ( item.birthday && !/^\d{8}$/.test(item.birthday))  return message.warning('生日格式不正确');
 		}
 		/* 资产标注详情页存在备注为空的资产线索时，点击保存，保存无效并弹出“资产线索备注待完善”非模态框提示 */
 		const { id } = this.props.match.params;
