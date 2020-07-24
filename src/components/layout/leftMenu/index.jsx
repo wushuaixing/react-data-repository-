@@ -47,7 +47,16 @@ const getSource = (data={})=>{
       link:Array.isArray(menuRoute[item.id])?menuRoute[item.id][0]:menuRoute[item.id],
       backup:menuRoute[item.id],
     })).filter(i=>i.link),
-  })).filter(i=>i.children.length)
+  })).filter(i=>i.children.length).concat({
+    title:'破产结构化',
+    children: [
+      {
+        title:'破产重组结构化',
+        id:501,
+        link:'',
+      }
+    ]
+  })
 };
 
 class Sider extends React.Component {

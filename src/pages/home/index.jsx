@@ -7,6 +7,8 @@ import AdminRoute from "../../routers/adminRoute";
 import CheckRoute from "../../routers/checkRoute";
 import './style.scss'
 import { message,Layout } from 'antd';
+import {Route, Switch} from "react-router";
+import BankruptList from "@/pages/bankrupt-structrue/list";
 const { Header, Sider, Content } = Layout;
 
 class  Index extends React.Component {
