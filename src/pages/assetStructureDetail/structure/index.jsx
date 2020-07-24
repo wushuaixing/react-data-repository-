@@ -22,7 +22,7 @@ function getObligor() {
     return {
         "birthday": '',
         "gender": "0",
-        "labelType": "1",
+        "label_type": "1",
         "name": "",
         "notes": "",
         "number": "",
@@ -169,7 +169,7 @@ class StructureDetail extends React.Component {
             wsUrl: state.wsUrl
         };
         saveDetail(id, status, params).then((res) => {
-            const { code,data:{sign,id:nextId} } = res.data;
+
             const toIndex = () => this.props.history.push('/index');
             const toNext = (_status,id)=> {
 
@@ -177,7 +177,8 @@ class StructureDetail extends React.Component {
                     this.props.history.push({ pathname: `/index/structureDetail/${_status}/${id}` });
                 })
             };
-            if(code === 200){
+            if(res.data.code === 200){
+                const { data:{sign,id:nextId} } = res.data;
                 const mesStatus = (type, id) => {
                     if (type === '2') {
                         if (id > 0) {
