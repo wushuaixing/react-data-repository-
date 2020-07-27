@@ -3,10 +3,40 @@
   .yc-bankrupt-content{
     background-color: #fff;
     &-all{
-      padding: 20px;
+      padding: 16px 20px;
+    }
+    &_tabs .ant-tabs-tab{
+      padding: 6px 16px;
+      margin-right: 10px;
     }
   }
   .list-query-wrapper{
-    padding-bottom: 20px;
+    &-form{
+      .ant-form-item{
+        margin-bottom: 6px;
+      }
+    }
+    &-button{
+      float: right;
+      margin-bottom: 0!important;
+      &:after{
+        display: inline-block;
+      }
+    }
+  }
+  .list-table-wrapper{
+    line-height: 20px;
+    .list-table-status{
+      &_dot{
+        display: inline-block;
+        vertical-align: top;
+        border-radius: 50%;
+        width: 6px;
+        height: 6px;
+        background: #000;
+        margin-right: 5px;
+        margin-top: 7px;
+      }
+    }
   }
 }

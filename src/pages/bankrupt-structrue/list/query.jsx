@@ -28,32 +28,35 @@ class ListQuery extends React.Component {
 		const { form:{ getFieldDecorator } } = this.props;
 		return (
 			<div className="list-query-wrapper">
-				<Form layout="inline" onSubmit={this.handleSearch} >
+				<Form layout="inline" onSubmit={this.handleSearch} className='list-query-wrapper-form' >
 					<Form.Item label="企业">
 						{getFieldDecorator('title', { initialValue: '' })(
-							<Input type="text" size='default' style={{ width: 240 }} placeholder="请输入破产企业名称" />)}
+							<Input type="text" size='default' style={{ width: 400 }} placeholder="请输入破产企业名称" autoComplete="off"/>)}
 					</Form.Item>
 					<Form.Item label="标题">
 						{getFieldDecorator('title', { initialValue: '' })(
-							<Input type="text" size='default' style={{ width: 240 }} placeholder="拍卖信息标题" />)}
+							<Input type="text" size='default' style={{ width: 400 }} placeholder="请输入标题" autoComplete="off" />)}
 					</Form.Item>
 					<Form.Item label="结构化时间">
 						{getFieldDecorator('structuredStartTime', { initialValue: null })(
-							<DatePicker placeholder="开始时间" disabledDate={val=>this.disabledStartDate(val,'structuredEndTime')} style={{ width: 120 }} />)}
-					</Form.Item>
-					<Form.Item label="至">
+							<DatePicker placeholder="起始日期" disabledDate={val=>this.disabledStartDate(val,'structuredEndTime')} style={{ width: 120 }}
+													getCalendarContainer={node=>node.offsetParent} />)}
+						<span> 至 </span>
 						{getFieldDecorator('structuredEndTime', { initialValue: null })(
-							<DatePicker placeholder="结束时间" disabledDate={val=>this.disabledEndDate(val,'structuredStartTime')} style={{ width: 120 }}	/>)}
+							<DatePicker placeholder="截止日期" disabledDate={val=>this.disabledEndDate(val,'structuredStartTime')} style={{ width: 120 }}
+													getCalendarContainer={node=>node.offsetParent} />)}
 					</Form.Item>
+
 					<Form.Item label="更新时间">
 						{getFieldDecorator('startTime', { initialValue: null })(
-							<DatePicker placeholder="开始时间" disabledDate={val=>this.disabledStartDate(val,'endTime')} style={{ width: 120 }} />)}
-					</Form.Item>
-					<Form.Item label="至">
+							<DatePicker placeholder="起始日期" disabledDate={val=>this.disabledStartDate(val,'endTime')} style={{ width: 120 }}
+													getCalendarContainer={node=>node.offsetParent} />)}
+						<span> 至 </span>
 						{getFieldDecorator('endTime', { initialValue: null })(
-							<DatePicker placeholder="结束时间" disabledDate={val=>this.disabledEndDate(val,'startTime')} style={{ width: 120 }}	/>)}
+							<DatePicker placeholder="截止日期" disabledDate={val=>this.disabledEndDate(val,'startTime')} style={{ width: 120 }}
+													getCalendarContainer={node=>node.offsetParent} />)}
 					</Form.Item>
-					<Form.Item>
+					<Form.Item className='list-query-wrapper-button'>
 						<SearchAndClearButtonGroup handleClearSearch={this.clearSearch}/>
 					</Form.Item>
 				</Form>
