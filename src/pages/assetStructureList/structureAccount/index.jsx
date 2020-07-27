@@ -65,7 +65,7 @@ class Asset extends React.Component {
 			console.log(err)
 		})
 	};
-	getParamsByTabIndex({ tabIndex = this.state.tabIndex, page = this.state.page } = {}) {
+	  getParamsByTabIndex({ tabIndex = this.state.tabIndex, page = this.state.page } = {}) {
 		const params = {
 			approveStatus: tabIndex,
 			page
@@ -119,7 +119,7 @@ class Asset extends React.Component {
 			page:1,
 			searchTitle: params.title
 		},()=>{
-			this.getApi(params)
+			this.getApi(Object.assign(params,{page:1}))
 		})
 	};
 
@@ -231,15 +231,15 @@ class Asset extends React.Component {
 						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
 							<Form.Item label="标题">
 								{getFieldDecorator('title', { initialValue: '' })(
-									<Input type="text" size='default' style={{ width: 240 }} placeholder="拍卖信息标题" />)}
+									<Input type="text" size='default' style={{ width: 400 }} placeholder="拍卖信息标题" />)}
 							</Form.Item>
 							{
 								tabIndex !== 0 && [
-									<Form.Item label="结构化时间">
+									<Form.Item label="结构化时间" key='startTime'>
 										{getFieldDecorator('structuredStartTime', { initialValue: null })(
 											<DatePicker placeholder="开始时间" disabledDate={this.disabledStartDate} style={{ width: 120 }} />)}
 									</Form.Item>,
-									<Form.Item label="至">
+									<Form.Item label="至" key='endTime'>
 										{getFieldDecorator('structuredEndTime', { initialValue: null })(
 											<DatePicker placeholder="结束时间" disabledDate={this.disabledEndDate} style={{ width: 120 }}	/>)}
 									</Form.Item>
