@@ -7,6 +7,10 @@ export default class ListTable extends React.Component {
 	}
 
 	render() {
-		return 'default Text';
+		return (
+			<div className="list-table-wrapper">
+				<span>表格内容</span>
+			</div>
+		);
 	}
 }
