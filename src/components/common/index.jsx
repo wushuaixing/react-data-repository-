@@ -10,9 +10,9 @@ function HotDotBeforeFormItem(props = { top: 0, left: 0 }) {
     )
 }
 //面包屑 四个参数 第一个是数组 面包屑层次文字  第二个如果不为空则存在button 第三个图标按钮 第四个是在按钮前显示进度的文字
-function BreadCrumb(props = { texts: [], breadButtonText: null, icon: null, note: null, handleClick: null, disabled: false }) {
+function BreadCrumb(props = { texts: [], breadButtonText: null, icon: null, note: null, handleClick: null, disabled: false, suffix:null }) {
     //数据格式是数组['账号管理','结构化账号']表示层级显示账号管理 > 结构化账号
-    let text = props.texts.length > 1 ? props.texts.join(' > ') : props.texts[0]
+    let text = props.texts.length > 1 ? props.texts.join(' / ') : props.texts[0];
     return (
         <div className="yc-components-breadCrumb" >
             <div className="yc-components-breadCrumb-body">{text}</div>
@@ -24,7 +24,8 @@ function BreadCrumb(props = { texts: [], breadButtonText: null, icon: null, note
                         {props.breadButtonText}
                     </Button>
                 </div> : null}
-            
+            {props.suffix}
+
         </div>
     )
 }

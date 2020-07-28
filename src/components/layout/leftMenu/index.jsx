@@ -55,6 +55,12 @@ const getSource = (data={})=>{
         id:501,
         link:'/index/bankrupt',
         backup:'/index/bankrupt',
+      },
+      {
+        title:'破产重组结构化-详情',
+        id:502,
+        link:'/index/bankrupt/detail',
+        backup:'/index/bankrupt/detail',
       }
     ]
   })

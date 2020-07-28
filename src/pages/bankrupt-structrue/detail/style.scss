@@ -1,0 +1,96 @@
+.yc-bankrupt-detail-wrapper{
+  padding: 20px;
+  .detail-content{
+    &-wrapper{
+      background-color: #fff;
+    }
+    &-crumb_suffix{
+      position: absolute;
+      top: 13px;
+      right: 20px;
+    }
+    padding: 30px 40px;
+    .detail-item{
+      &_title{
+        padding-left: 8px;
+        border-left: 3px solid #016AA9;
+        height: 20px;
+        line-height: 20px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      &_content{
+        padding: 20px 0 36px 27px;
+        .detail-item_list{
+          margin-bottom:14px;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          color: #293038;
+          &__title{
+            width: 86px;
+            text-align: right;
+          }
+          &__text{
+            flex: 1;
+          }
+          &:last-child{
+            margin-bottom: 0;
+          }
+        }
+        .detail-content-item_ul{
+          margin: 0;
+          padding: 0;
+          li{
+            list-style: none;
+            margin-bottom: 4px;
+            position: relative;
+            &:last-child{
+              margin-bottom: 0;
+            }
+          }
+        }
+        .tag-item-wrapper{
+          display: inline-block;
+          position: relative;
+        }
+        .tag-item-text{
+          position: absolute;
+          right: -125px;
+          top: 0;
+          width: 111px;
+          height: 20px;
+          color: #FB0037;
+          background-color: #FFECF0;
+          border:1px solid rgba(255,117,148,1);
+          text-align: center;
+          font-size: 12px;
+          line-height: 20px;
+          border-radius: 2px;
+          &:before{
+            content: '';
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: 6px;
+            left: -7px;
+            border-top: 4px solid transparent;
+            border-right: 6px solid rgba(255,117,148,1);
+            border-bottom: 4px solid transparent;
+          }
+          &:after{
+            content: '';
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: 7px;
+            left: -5px;
+            border-top: 3px solid transparent;
+            border-right: 5px solid #FFECF0;
+            border-bottom: 3px solid transparent;
+          }
+        }
+      }
+    }
+  }
+}

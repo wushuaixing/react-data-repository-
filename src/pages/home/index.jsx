@@ -8,6 +8,7 @@ import CheckRoute from "../../routers/checkRoute";
 import { message,Layout } from 'antd';
 import './style.scss'
 import BankruptList from "@/pages/bankrupt-structrue/list";
+import BankruptDetail from "@/pages/bankrupt-structrue/detail";
 import {Route} from "react-router";
 
 const { Header, Sider, Content } = Layout;
@@ -21,7 +22,11 @@ class  Index extends React.Component {
   render() {
       const user = window.localStorage.userName;
       const role = window.localStorage.userState;
-      const Routes = [<Route path="/index/bankrupt" component={BankruptList} remark="破产列表" />];
+
+      const Routes = [
+        <Route path="/index/bankrupt" exact component={BankruptList} remark="破产结构化 - 列表" />,
+        <Route path="/index/bankrupt/detail" component={BankruptDetail} remark="破产结构化 - 详情页" />,
+      ];
 
       if (role === '结构化人员') Routes.push(...StructureRoute);
       if (role === '管理员')  Routes.push(...AdminRoute);

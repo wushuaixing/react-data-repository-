@@ -9,7 +9,6 @@ import NotFound from './errorPage/notFound'
 import DocumentSearch from "../pages/documentSearch";
 import NotFirstMark from '@/pages/assetStructureDetailNewPage/notFirstMark/index'
 import AutoMark from '@/pages/assetStructureDetailNewPage/autoMark/index'
-import BankruptList from "@/pages/bankrupt-structrue/list";
 
 import { message } from 'antd'
 message.config({
