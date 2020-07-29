@@ -5,11 +5,11 @@ import AssetList from "../pages/assetStructureList/checkAccount";
 import StructureDetail from "@/pages/assetStructureDetail/check";
 
 const ContentMain = [
-  <Route path="/index" exact component={AssetList} />,
+  <Route path="/index" exact component={AssetList} key='AssetList' />,
   <Route path={[
     "/index/structureDetail/:status/:id/:isNotConfirm/:tabIndex",
     "/index/structureDetail/:status/:id/:isNotConfirm"
-  ]} component={StructureDetail} />
+  ]} component={StructureDetail} key='StructureDetail' />
 ];
 
 export default ContentMain

@@ -27,15 +27,15 @@ class ListQuery extends React.Component {
 	render() {
 		const { form:{ getFieldDecorator } } = this.props;
 		return (
-			<div className="list-query-wrapper">
+			<div className="list-query-wrapper ">
 				<Form layout="inline" onSubmit={this.handleSearch} className='list-query-wrapper-form' >
 					<Form.Item label="企业">
 						{getFieldDecorator('title', { initialValue: '' })(
-							<Input type="text" size='default' style={{ width: 400 }} placeholder="请输入破产企业名称" autoComplete="off"/>)}
+							<Input type="text" size='default' style={{ width: 260 }} placeholder="请输入破产企业名称" autoComplete="off"/>)}
 					</Form.Item>
 					<Form.Item label="标题">
 						{getFieldDecorator('title', { initialValue: '' })(
-							<Input type="text" size='default' style={{ width: 400 }} placeholder="请输入标题" autoComplete="off" />)}
+							<Input type="text" size='default' style={{ width: 260 }} placeholder="请输入标题" autoComplete="off" />)}
 					</Form.Item>
 					<Form.Item label="结构化时间">
 						{getFieldDecorator('structuredStartTime', { initialValue: null })(
@@ -46,7 +46,6 @@ class ListQuery extends React.Component {
 							<DatePicker placeholder="截止日期" disabledDate={val=>this.disabledEndDate(val,'structuredStartTime')} style={{ width: 120 }}
 													getCalendarContainer={node=>node.offsetParent} />)}
 					</Form.Item>
-
 					<Form.Item label="更新时间">
 						{getFieldDecorator('startTime', { initialValue: null })(
 							<DatePicker placeholder="起始日期" disabledDate={val=>this.disabledStartDate(val,'endTime')} style={{ width: 120 }}
@@ -56,6 +55,7 @@ class ListQuery extends React.Component {
 							<DatePicker placeholder="截止日期" disabledDate={val=>this.disabledEndDate(val,'startTime')} style={{ width: 120 }}
 													getCalendarContainer={node=>node.offsetParent} />)}
 					</Form.Item>
+					<Form.Item style={{width:194,height:40}}/>
 					<Form.Item className='list-query-wrapper-button'>
 						<SearchAndClearButtonGroup handleClearSearch={this.clearSearch}/>
 					</Form.Item>

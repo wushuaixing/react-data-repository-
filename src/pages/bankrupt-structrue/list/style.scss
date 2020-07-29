@@ -12,16 +12,16 @@
   }
   .list-query-wrapper{
     &-form{
+      position: relative;
       .ant-form-item{
         margin-bottom: 6px;
       }
     }
     &-button{
-      float: right;
-      margin-bottom: 0!important;
-      &:after{
-        display: inline-block;
-      }
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
     }
   }
   .list-table-wrapper{

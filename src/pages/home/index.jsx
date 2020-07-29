@@ -13,7 +13,7 @@ import {Route} from "react-router";
 
 const { Header, Sider, Content } = Layout;
 
-class  Index extends React.Component {
+export default class HomeIndex extends React.Component {
   componentDidMount(){
     if(this.props.history.location.query&&this.props.history.location.query.info==='success'){
       message.success('登录成功!')
@@ -24,14 +24,14 @@ class  Index extends React.Component {
       const role = window.localStorage.userState;
 
       const Routes = [
-        <Route path="/index/bankrupt" exact component={BankruptList} remark="破产结构化 - 列表" />,
-        <Route path="/index/bankrupt/detail" component={BankruptDetail} remark="破产结构化 - 详情页" />,
+        <Route path="/index/bankrupt" exact component={BankruptList} remark="破产结构化 - 列表" key='bankrupt'/>,
+        <Route path="/index/bankrupt/detail" component={BankruptDetail} remark="破产结构化 - 详情页" key='bankrupt-detail' />,
       ];
 
       if (role === '结构化人员') Routes.push(...StructureRoute);
       if (role === '管理员')  Routes.push(...AdminRoute);
       if (role === '检查人员') Routes.push(...CheckRoute);
-
+      
       return(
         <Layout style={{height:'100%'}}>
           <Header style={{height:"auto",padding:0}}><TopMenu user={user}/></Header>
@@ -42,5 +42,4 @@ class  Index extends React.Component {
         </Layout>
       );
     }
-}
-export default Index;
+};
