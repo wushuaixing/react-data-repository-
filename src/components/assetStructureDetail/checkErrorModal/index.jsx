@@ -71,16 +71,19 @@ class Check extends React.Component {
 								{getFieldDecorator('wrongLevel', {
 									initialValue: wrongReasons.wrongLevel&&isShowWrongRemark?wrongReasons.wrongLevel:7,
 								})(
-									<Radio.Group initialValue={7}>
-										<Radio value={7}>
+									<Radio.Group initialValue={0}>
+										<Radio value={0}>
 											<span>不计入错误</span>
 										</Radio>
-										<Radio value={4}>
+										<Radio value={1}>
 											<span>普通错误</span>
 										</Radio>
-										<Radio value={1}>
+										<Radio value={2}>
 											<span>严重错误</span>
 										</Radio>
+										{/*<Radio value={3}>*/}
+										{/*	<span>无误</span>*/}
+										{/*</Radio>*/}
 									</Radio.Group>
 								)}
 							</Form.Item>
