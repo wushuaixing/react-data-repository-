@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
+import { message } from 'antd';
 import history from "../history";
 import Login from "./login";
 import Home from "./home";
@@ -10,10 +11,12 @@ import DocumentSearch from "../pages/documentSearch";
 import NotFirstMark from '@/pages/assetStructureDetailNewPage/notFirstMark/index'
 import AutoMark from '@/pages/assetStructureDetailNewPage/autoMark/index'
 
-import { message } from 'antd'
+
 message.config({
 	maxCount:1
 });
+
+// TODO 缺少权限判断
 
 class App extends React.Component {
 	render() {

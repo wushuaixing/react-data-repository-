@@ -26,6 +26,12 @@
   }
   .list-table-wrapper{
     line-height: 20px;
+    .list-table{
+
+    }
+    .list-table-align_center{
+      text-align: center;
+    }
     .list-table-status{
       &_dot{
         display: inline-block;

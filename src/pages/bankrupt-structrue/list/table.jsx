@@ -107,7 +107,7 @@ export default class ListTable extends React.Component {
 				title: '发布日期',
 				dataIndex: 'publishTime',
 				key: 'date',
-				width: 140,
+				width: 110,
 			},
 			{
 				title: () => <span style={{ paddingLeft: 10 }}>状态</span>,
@@ -132,6 +132,7 @@ export default class ListTable extends React.Component {
 				title: '操作',
 				key: 'address',
 				width: 110,
+				className: 'list-table-align_center',
 				render: render.operate,
 			},
 		];
@@ -141,7 +142,7 @@ export default class ListTable extends React.Component {
 		const { dataSource } = this.state;
 		return (
 			<div className="list-table-wrapper">
-				<Table dataSource={dataSource} columns={this.normalCol} />
+				<Table dataSource={dataSource} columns={this.normalCol} className='list-table'/>
 			</div>
 		);
 	}
