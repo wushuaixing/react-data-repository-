@@ -231,7 +231,7 @@ class Asset extends React.Component {
 						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
 							<Form.Item label="标题">
 								{getFieldDecorator('title', { initialValue: '' })(
-									<Input type="text" size='default' style={{ width: 400 }} placeholder="拍卖信息标题" />)}
+									<Input type="text" size='default' style={{ width: 400 }} placeholder="拍卖信息标题" autoComplete='off' />)}
 							</Form.Item>
 							{
 								tabIndex !== 0 && [
