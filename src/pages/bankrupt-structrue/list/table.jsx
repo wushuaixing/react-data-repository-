@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Button } from 'antd';
+import {Link} from "react-router-dom";
 
 export default class ListTable extends React.Component {
 	constructor(props) {
@@ -55,7 +56,12 @@ export default class ListTable extends React.Component {
 				if (/^A/.test(activeKey)) text = '查看';
 				else if (activeKey === 'B101') text = '标注';
 				else if (activeKey === 'B102' || activeKey === 'B103') text = '修改标注';
-				return text && <Button size="small" type="primary" ghost style={{ minWidth: 60 }}>{text}</Button>;
+				const to = { pathname:'/index/bankrupt/detail' };
+				return text && (
+					<Button size="small" type="primary" ghost style={{ minWidth: 60 }}>
+						<Link to={to}>{text}</Link>
+					</Button>
+				)
 			},
 		};
 		if (activeKey === 'A102' || activeKey === 'B101') {
@@ -140,6 +146,7 @@ export default class ListTable extends React.Component {
 
 	render() {
 		const { dataSource } = this.state;
+		console.log(this.props);
 		return (
 			<div className="list-table-wrapper">
 				<Table dataSource={dataSource} columns={this.normalCol} className='list-table'/>

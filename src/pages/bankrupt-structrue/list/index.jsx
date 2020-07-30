@@ -1,9 +1,9 @@
 import React from 'react';
+import { Tabs } from 'antd';
+import { BreadCrumb } from "@/components/common";
 import Query from './query';
 import Table from './table';
-import { Tabs } from 'antd';
 import './style.scss';
-import {BreadCrumb} from "@/components/common";
 
 export default class BankruptList extends React.Component {
 	constructor(props) {

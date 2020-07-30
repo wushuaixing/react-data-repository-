@@ -11,10 +11,7 @@ import DocumentSearch from "../pages/documentSearch";
 import NotFirstMark from '@/pages/assetStructureDetailNewPage/notFirstMark/index'
 import AutoMark from '@/pages/assetStructureDetailNewPage/autoMark/index'
 
-
-message.config({
-	maxCount:1
-});
+message.config({ maxCount:1 });
 
 // TODO 缺少权限判断
 

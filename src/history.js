@@ -5,5 +5,6 @@
 
 import {createBrowserHistory} from 'history';
 const history = createBrowserHistory();
+global.navigate=history;
 
 export default history;
