@@ -146,7 +146,6 @@ export default class ListTable extends React.Component {
 
 	render() {
 		const { dataSource } = this.state;
-		console.log(this.props);
 		return (
 			<div className="list-table-wrapper">
 				<Table dataSource={dataSource} columns={this.normalCol} className='list-table'/>
