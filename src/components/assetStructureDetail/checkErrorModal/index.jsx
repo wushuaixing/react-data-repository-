@@ -69,7 +69,7 @@ class Check extends React.Component {
 							</Form.Item>
 							<Form.Item className="part" label="错误等级" style={{ fontSize: 12 }}>
 								{getFieldDecorator('wrongLevel', {
-									initialValue: wrongReasons.wrongLevel&&isShowWrongRemark?wrongReasons.wrongLevel:7,
+									initialValue: wrongReasons.wrongLevel&&isShowWrongRemark?wrongReasons.wrongLevel:0,
 								})(
 									<Radio.Group initialValue={0}>
 										<Radio value={0}>

@@ -20,7 +20,7 @@ import SpinLoading from "@/components/Spin-loading";
 function CheckWrongLog() {
     this.auctionExtractWrongTypes = [];
     this.remark = '';
-    this.wrongLevel = 0;
+    this.wrongLevel = 3;
 }
 class Check extends React.Component {
     constructor(props) {
