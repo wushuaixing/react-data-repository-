@@ -29,7 +29,7 @@ class Index extends React.Component {
 								},
 								validateTrigger: 'onBlur',
 							})(
-								<Input placeholder="请输入账号或姓名" style={{ width: 240 }}/>
+								<Input placeholder="请输入账号或姓名" style={{ width: 240 }} autoComplete='off'/>
 							)}
 					</Form.Item>
 					<Form.Item label="角色">

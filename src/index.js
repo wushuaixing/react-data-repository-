@@ -13,9 +13,9 @@ import './index.css';
 moment.locale('zh-cn');
 
 ReactDOM.render(
-	<ConfigProvider locale={zh_CN} getPopupContainer={node=>node.parentElement}>
+	<ConfigProvider locale={zh_CN} getPopupContainer={node=>node ? node.parentElement : document.body } >
 		<ErrorBoundary><App /></ErrorBoundary>
-</ConfigProvider>,
+	</ConfigProvider>,
 	document.getElementById('root'));
 
 serviceWorker.unregister();

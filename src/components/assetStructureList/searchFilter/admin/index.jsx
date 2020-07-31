@@ -212,6 +212,7 @@ class Index extends React.Component {
                                 type="text"
                                 placeholder="拍卖信息标题"
                                 size='default'
+                                autoComplete='off'
                                 style={{ width: 240 }}
                             />)}
                     </Form.Item>

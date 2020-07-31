@@ -11,12 +11,12 @@ const formItemLayout = {
     sm: { span: 3, offset: -1 },
   },
 };
-const structureList = ["资产", /* "破产重组结构化" */]
+const structureList = ["资产", /* "破产重组结构化" */];
 class AccountManage extends React.Component {
   //确定
   modalOk = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields((err) => {
       if (!err) {
         const { info, action } = this.props;
         let options = this.props.form.getFieldsValue();
@@ -37,28 +37,28 @@ class AccountManage extends React.Component {
   };
   findKeyByValue(obj, value) {
     let i = null;
-    Object.keys(obj).forEach((key, index) => {
+    Object.keys(obj).forEach((key) => {
       if (obj[key] === value) {
         i = parseInt(key)
       }
-    })
+    });
     return i;
   }
   handleAutoCompletePsw() {
-    const account = this.props.form.getFieldValue('username')
+    const account = this.props.form.getFieldValue('username');
     if (/^\d{11}$/.test(account)) {
-      let defautlPsw = (account.length > 6) ? account.substring(account.length - 6) : account
+      let defautlPsw = (account.length > 6) ? account.substring(account.length - 6) : account;
       this.props.form.setFieldsValue({ password: defautlPsw });
     }
   }
   render() {
-    const { visible, info, action } = this.props
+    const { visible, info, action } = this.props;
     const { getFieldDecorator } = this.props.form;
     const footer =
       <div className="yc-modal-footer">
         <Button type="primary" htmlType="submit" onMouseDown={this.modalOk.bind(this)}>确定</Button>
         <Button onClick={this.modalCancel.bind(this)}>取消</Button>
-      </div>
+      </div>;
     return (
       <div>
         <Modal
@@ -104,6 +104,7 @@ class AccountManage extends React.Component {
                 <Input
                   className="yc-form-input"
                   placeholder="请输入姓名"
+                  autoComplete='off'
                 />,
               )}
             </Form.Item>
@@ -123,6 +124,7 @@ class AccountManage extends React.Component {
                         onBlur={this.handleAutoCompletePsw.bind(this)}
                         className="yc-form-input"
                         placeholder="请输入手机号"
+                        autoComplete='off'
                       />
                     )}
                 </Form.Item> :

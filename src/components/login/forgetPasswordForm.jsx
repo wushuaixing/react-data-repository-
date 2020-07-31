@@ -194,6 +194,7 @@ class ForgetPasswordForm extends React.Component {
                                     <Input
                                         maxLength={11}
                                         className="yc-input"
+                                        autoComplete='off'
                                         prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
                                         placeholder="请输入11位账号"
                                     />,
@@ -212,6 +213,7 @@ class ForgetPasswordForm extends React.Component {
                                     <Input
                                         style={{ width: 175 }}
                                         className="yc-input"
+                                        autoComplete='off'
                                         prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
                                         placeholder="请输入图片验证码"
                                     />,
@@ -243,6 +245,7 @@ class ForgetPasswordForm extends React.Component {
                                                 }
                                             </span>
                                         }
+                                        autoComplete='off'
                                         className="yc-input"
                                         prefix={<Icon type="mobile" />}
                                     />,
@@ -259,6 +262,7 @@ class ForgetPasswordForm extends React.Component {
                                     validateTrigger: ['onSubmit', 'onBlur'],
                                 })(
                                     <Input
+                                      autoComplete='off'
                                         className="yc-input"
                                         prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
                                         placeholder="请输入手机验证码"

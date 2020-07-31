@@ -174,6 +174,7 @@ const RoleInput = props => (
       <Input
 				disabled={(props.obligor||{}).system===1}
         placeholder="请输入名称"
+        autoComplete='off'
         onChange={(e) => {
             e.persist();
             props.handleChange(e);
@@ -195,6 +196,7 @@ const RoleInput = props => (
       </Select>
       <Input
         placeholder="请输入证件号"
+        autoComplete='off'
 				disabled={(props.obligor||{}).system===1}
         onChange={(e) => {
             e.persist();
@@ -209,6 +211,7 @@ const RoleInput = props => (
       />
       <Input
         placeholder="请输入年月日"
+        autoComplete='off'
 				disabled={(props.obligor||{}).system===1}
         onChange={(e) => {
             e.persist();
@@ -231,6 +234,7 @@ const RoleInput = props => (
       </Select>
       <Input
         placeholder="请输入备注"
+        autoComplete='off'
 				disabled={(props.obligor||{}).system===1}
         onChange={(e) => {
             e.persist();
