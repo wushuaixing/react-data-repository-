@@ -116,7 +116,7 @@ class Other extends React.Component {
         ];
         if (this.state.wrongData.length>0 && this.role === 'admin') {
             const wrongData = state.wrongData.filter((item)=>{
-                return item.wrongLevel!==0
+                return item.wrongLevel!==3
             });
             moduleOrder.unshift(
                 <WrongDetail wrongData={wrongData} key={1} />
