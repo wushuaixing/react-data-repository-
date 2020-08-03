@@ -125,7 +125,6 @@ class ListQuery extends React.Component {
 							<DatePicker placeholder="截止日期" disabledDate={val=>this.disabledEndDate(val,'updateStartTime')} style={{ width: 120 }}
 													getCalendarContainer={node=>node.offsetParent} />)}
 					</Form.Item>
-
 					<Form.Item style={{width:194,height:40}}/>
 					<Form.Item className='list-query-wrapper-button'>
 						<SearchAndClearButtonGroup handleClearSearch={this.clearSearch}/>

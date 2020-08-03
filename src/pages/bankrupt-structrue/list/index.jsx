@@ -8,17 +8,18 @@ import './style.scss';
 export default class BankruptList extends React.Component {
 	constructor(props) {
 		super(props);
+		const data = [
+			{ title: '全部', key: 'A100', rule: 'A' ,approveStatus:3},
+			{ title: '未标记', key: 'A101', rule: 'A',approveStatus:0 },
+			{ title: '已标记', key: 'A102', rule: 'A' ,approveStatus:1},
+			{ title: '自动退回', key: 'A103', rule: 'A',approveStatus:2 },
+			{ title: '未标记', key: 'B101', rule: 'S',approveStatus:0 },
+			{ title: '已标记', key: 'B102', rule: 'S',approveStatus:1 },
+			{ title: '待修改', key: 'B103', rule: 'S',approveStatus:2 },
+		];
 		this.state = {
 			activeKey:'A100',
-			panes:[
-				{ title: '全部', key: 'A100', rule: 'A' ,approveStatus:3},
-				{ title: '未标记', key: 'A101', rule: 'A',approveStatus:0 },
-				{ title: '已标记', key: 'A102', rule: 'A' ,approveStatus:1},
-				{ title: '自动退回', key: 'A103', rule: 'A',approveStatus:2 },
-				{ title: '未标记', key: 'B101', rule: 'S',approveStatus:0 },
-				{ title: '已标记', key: 'B102', rule: 'S',approveStatus:1 },
-				{ title: '待修改', key: 'B103', rule: 'S',approveStatus:2 },
-			],
+			panes:data,
 			dataSource:[],
 			page:1,
 		};
@@ -28,9 +29,9 @@ export default class BankruptList extends React.Component {
 
 	}
 
-	getApproveStatus = activeKey => {
+	getApproveStatus = (activeKey) => {
 		const { panes } = this.state;
-		return (panes.filter(i=>i.key===activeKey)[0]||{}).approveStatus;
+		return (panes.filter(i => i.key === activeKey)[0] || {}).approveStatus;
 	};
 
 	tabChange=(activeKey)=>{
@@ -54,7 +55,7 @@ export default class BankruptList extends React.Component {
 				<div className="yc-bankrupt-content">
 					<BreadCrumb texts={['破产重组结构化']} />
 					<div className="yc-bankrupt-content-all">
-						<Query onSearch={params =>this.toQuery(params,true)} />
+						<Query onSearch={params =>this.toQuery(params,true)} simply />
 						<Tabs onChange={this.tabChange} activeKey={activeKey} className='yc-bankrupt-content_tabs' >
 							{ panes.map(i=><Tabs.TabPane tab={i.title} key={i.key} />) }
 						</Tabs>
