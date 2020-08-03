@@ -53,7 +53,7 @@ export default class AdminStructure extends React.Component {
         });
         if (parseInt(status)>=2){
             getWrongTypeAndLevel(id).then((res) => {
-                const wrongData = res.data.data.filter((item)=>item.wrongLevel!==0);
+                const wrongData = res.data.data.filter((item)=>item.wrongLevel!==3);
                 this.setState({
                     wrongData
                 })
@@ -85,7 +85,7 @@ export default class AdminStructure extends React.Component {
         ];
         if (state.wrongData&&state.wrongData.length>0) {
             const wrongData = state.wrongData.filter((item)=>{
-                return item.wrongLevel!==0
+                return item.wrongLevel!==3
             });
             moduleOrder.unshift(
                 <AdminWrongDetail wrongData={wrongData} key={1} role={'admin'}/>
