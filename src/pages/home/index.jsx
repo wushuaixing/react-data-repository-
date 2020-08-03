@@ -13,6 +13,7 @@ import {Route} from "react-router";
 
 const { Header, Sider, Content } = Layout;
 
+
 export default class HomeIndex extends React.Component {
   componentDidMount(){
     if(this.props.history.location.query&&this.props.history.location.query.info==='success'){
@@ -22,7 +23,6 @@ export default class HomeIndex extends React.Component {
   render() {
       const user = window.localStorage.userName;
       const role = window.localStorage.userState;
-
       const Routes = [
         <Route path="/index/bankrupt" exact component={BankruptList} remark="破产结构化 - 列表" key='bankrupt'/>,
         <Route path="/index/bankrupt/detail" component={BankruptDetail} remark="破产结构化 - 详情页" key='bankrupt-detail' />,
@@ -31,7 +31,7 @@ export default class HomeIndex extends React.Component {
       if (role === '结构化人员') Routes.push(...StructureRoute);
       if (role === '管理员')  Routes.push(...AdminRoute);
       if (role === '检查人员') Routes.push(...CheckRoute);
-      
+
       return(
         <Layout style={{height:'100%'}}>
           <Header style={{height:"auto",padding:0}}><TopMenu user={user}/></Header>
@@ -43,3 +43,4 @@ export default class HomeIndex extends React.Component {
       );
     }
 };
+

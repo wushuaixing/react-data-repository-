@@ -1,13 +1,14 @@
 import React from 'react';
 import { Table, Button } from 'antd';
-import {Link} from "react-router-dom";
+import { withRouter } from 'react-router';
 
-export default class ListTable extends React.Component {
+class ListTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			dataSource: [
 				{
+					id:1,
 					title: '（2019）川0107破6号受理破产清算申请-公告',
 					company: '上海华江电力实业公司',
 					updater: '李',
@@ -16,6 +17,7 @@ export default class ListTable extends React.Component {
 					updateTime: '2019-12-04 21:02:36',
 				},
 				{
+					id:2,
 					title: '（2019）川0107破6号受理破产清算申请-公告（2019）川0107破6号受理破产清算申请-公告（2019）川0107破6号受理破产清算申请-公告川0107破6号受理破产清算申请-公告',
 					company: '天津液压机械（集团）有限公司、天津开发区华赢联合有限公司',
 					updater: '智',
@@ -24,6 +26,7 @@ export default class ListTable extends React.Component {
 					updateTime: '2019-12-04 21:02:36',
 				},
 				{
+					id:3,
 					title: '（2019）川0107破6号受理破产清算申请-公告（2019）川0107破6号受理破产清算申请-公告（2019）川0107破6号受理破产清算申请-公告川0107破6号受理破产清算申请-公告',
 					company: '天津液压机械（集团）有限公司、天津开发区华赢联合有限公司',
 					updater: '恩',
@@ -33,6 +36,7 @@ export default class ListTable extends React.Component {
 				},
 			],
 		};
+		this.history = props.history;
 	}
 
 	get normalCol() {
@@ -58,8 +62,8 @@ export default class ListTable extends React.Component {
 				else if (activeKey === 'B102' || activeKey === 'B103') text = '修改标注';
 				const to = { pathname:'/index/bankrupt/detail' };
 				return text && (
-					<Button size="small" type="primary" ghost style={{ minWidth: 60 }}>
-						<Link to={to}>{text}</Link>
+					<Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} onClick={()=>this.history.push('/index/bankrupt/detail')}>
+						{text}
 					</Button>
 				)
 			},
@@ -148,8 +152,9 @@ export default class ListTable extends React.Component {
 		const { dataSource } = this.state;
 		return (
 			<div className="list-table-wrapper">
-				<Table dataSource={dataSource} columns={this.normalCol} className='list-table'/>
+				<Table dataSource={dataSource} columns={this.normalCol} className='list-table' rowKey={e=>e.id}/>
 			</div>
 		);
 	}
 }
+export default withRouter(ListTable)
