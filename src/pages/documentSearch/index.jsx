@@ -8,7 +8,7 @@ import './style.scss'
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from '@utils/pagination'
 import { filters } from '@utils/common'
-import moment from 'moment'
+// import moment from 'moment'
 const searchForm = Form.create;
 
 class Check extends React.Component {
@@ -43,9 +43,9 @@ class Check extends React.Component {
 			});
 			if (res.data.code === 200) {
 				let data = res.data.data;
-				for (let i = 0; i < data.length; i++) {
-					data[i].publishTime = moment.unix(data[i].publishTime).format('YYYY-MM-DD')
-				}
+				// for (let i = 0; i < data.length; i++) {
+				// 	data[i].publishTime = moment.unix(data[i].publishTime).format('YYYY-MM-DD')
+				// }
 
 				this.setState({
 					tableList: data,
@@ -109,13 +109,7 @@ class Check extends React.Component {
 				title: "发布日期",
 				dataIndex: 'publishTime',
 				width: 130,
-				render(record) {
-					return (
-						<span>
-							{filters.blockNullData(record, '—')}
-						</span>
-					)
-				}
+				render: val => val || '--'
 			},
 			{
 				title: "标题",
