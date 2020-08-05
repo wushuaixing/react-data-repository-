@@ -66,6 +66,16 @@ http.get=function (api,data) {
 	})
 };
 
-
-
+/* =========  常规请求   ========= */
+const service = axios.create({
+	baseURL: "",
+	timeout: 1000 * 30,
+	withCredentials: true,
+	credentials: 'include',
+	headers: {
+		'Content-Type': 'application/json;charset=utf-8',
+		'Content-Encoding': 'gzip',
+	},
+});
+export { service };
 export default http
