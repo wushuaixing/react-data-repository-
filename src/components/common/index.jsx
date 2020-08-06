@@ -33,10 +33,10 @@ function BreadCrumb(props = { texts: [], breadButtonText: null, icon: null, note
 function SearchAndClearButtonGroup(props) {
     return (
         <div className="yc-components-searchAndClearButtonGroup">
-            <Button type="primary" htmlType="submit" className="yc-components-searchAndClearButtonGroup_search" >
+            <Button type="primary" htmlType="submit" className="yc-components-searchAndClearButtonGroup_search"  loading={props.loading}>
                 搜索
             </Button>
-            <Button type="default" onClick={props.handleClearSearch} className="yc-components-searchAndClearButtonGroup_clear">
+            <Button type="default" onClick={props.handleClearSearch} className="yc-components-searchAndClearButtonGroup_clear" loading={props.loading}>
                 清空搜索条件
             </Button>
         </div>

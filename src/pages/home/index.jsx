@@ -37,7 +37,7 @@ export default class HomeIndex extends React.Component {
           <Header style={{height:"auto",padding:0}}><TopMenu user={user}/></Header>
           <Layout>
             <Sider width={200} > <LeftMenu role={role} /> </Sider>
-            <Content><div className="yc-right-content">{ Routes }</div></Content>
+            <Content id='yc-layout-main'><div className="yc-right-content">{ Routes }</div></Content>
           </Layout>
         </Layout>
       );

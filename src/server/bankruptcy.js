@@ -1,8 +1,15 @@
 import { service } from '@/server/index';
 
+import { CheckParams } from "@utils/tools";
+
 const bankruptcy = {
 	// 破产数据结构化列表
-	bankruptcyList:params => service.post(`/api/asset/bankruptcy/control/bankruptcyList`,params).then(res => res.data),
+	bankruptcyList(params){
+		const FieldArray = ["approveStatus", "companyName", "num", "page", "publishEndTime", "publishStartTime", "title", "uid", "updateEndTime", "updateStartTime", "userType"];
+		return service.post(`/api/asset/bankruptcy/control/bankruptcyList`,CheckParams(params,FieldArray)).then(res => res.data)
+	},
+
+	// bankruptcyList:params=>service.post(`/api/asset/bankruptcy/control/bankruptcyList`,params).then(res => res.data),
 	// 请求数据当前状态返回
 	getStatus:id => service.get(`/api/asset/bankruptcy/control/bankruptcyStatusById/${id}`).then(res => res.data),
 	// 获取破产数据结构化详情信息

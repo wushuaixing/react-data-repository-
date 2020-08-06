@@ -40,14 +40,14 @@ class ListTable extends React.Component {
 	}
 
 	get normalCol() {
-		const { activeKey } = this.props;
+		const { activeKey,approveStatus } = this.props;
 		const render = {
 			status: (status) => {
 				let background = '#FFF';
 				let text = '--';
 				if (status === 1) { background = '#1DB805'; text = '已标记'; }
 				else if (status === 2) { background = '#FA9214'; text = '自动退回'; }
-				else if (status === 3) { background = '#B8BBBE'; text = '未标记'; }
+				else if (status === 0) { background = '#B8BBBE'; text = '未标记'; }
 				return (
 					<div className="list-table-status">
 						<span className="list-table-status_dot" style={{ background }} />
@@ -60,7 +60,7 @@ class ListTable extends React.Component {
 				if (/^A/.test(activeKey)) text = '查看';
 				else if (activeKey === 'B101') text = '标注';
 				else if (activeKey === 'B102' || activeKey === 'B103') text = '修改标注';
-				const to = { pathname:'/index/bankrupt/detail' };
+				// const to = { pathname:'/index/bankrupt/detail' };
 				return text && (
 					<Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} onClick={()=>this.history.push('/index/bankrupt/detail')}>
 						{text}
@@ -68,20 +68,21 @@ class ListTable extends React.Component {
 				)
 			},
 		};
-		if (activeKey === 'A102' || activeKey === 'B101') {
+		if (approveStatus === 0 ) {
 			return [
 				{
 					title: '标题',
 					dataIndex: 'title',
 					key: 'title',
 					width: 850,
-					render: text => <a>{text}</a>,
+					render: text =>text? <a>{text}</a>:'--',
 				},
 				{
 					title: '发布日期',
 					dataIndex: 'publishTime',
 					key: 'date',
 					width: 250,
+					render:val=>val||'--'
 				},
 				{
 					title: () => <span style={{ paddingLeft: 10 }}>状态</span>,
@@ -104,7 +105,8 @@ class ListTable extends React.Component {
 				title: '破产企业名称',
 				dataIndex: 'company',
 				key: 'company',
-				width: 400,
+				width: 300,
+				render:val=>val||'--'
 			},
 			{
 				title: '标题',
@@ -118,6 +120,7 @@ class ListTable extends React.Component {
 				dataIndex: 'publishTime',
 				key: 'date',
 				width: 110,
+				render:val=>val||'--'
 			},
 			{
 				title: () => <span style={{ paddingLeft: 10 }}>状态</span>,
@@ -131,12 +134,14 @@ class ListTable extends React.Component {
 				dataIndex: 'updateTime',
 				key: 'update',
 				width: 180,
+				render:val=>val||'--'
 			},
 			{
 				title: '最后更新者',
-				dataIndex: 'updater',
+				dataIndex: 'approverName',
 				key: 'updater',
 				width: 110,
+				render:val=>val||'--'
 			},
 			{
 				title: '操作',
@@ -148,11 +153,30 @@ class ListTable extends React.Component {
 		];
 	}
 
+	onChange =({current})=>{
+		const { onChange } = this.props;
+		if(onChange)onChange(current);
+	};
+
 	render() {
-		const { dataSource } = this.state;
+		const { dataSource,page:current,total,num,loading } = this.props;
+		const props = {
+			loading,
+			dataSource,
+			columns:this.normalCol,
+			onChange:this.onChange,
+			pagination:{
+				defaultPageSize:num,
+				showQuickJumper:true,
+				current,
+				total,
+				defaultCurrent:1,
+				showTotal:e=>`共 ${e} 条`
+			}
+		};
 		return (
 			<div className="list-table-wrapper">
-				<Table dataSource={dataSource} columns={this.normalCol} className='list-table' rowKey={e=>e.id}/>
+				<Table className='list-table' rowKey={e=>e.id} {...props}  />
 			</div>
 		);
 	}

@@ -16,6 +16,16 @@
       .ant-form-item{
         margin-bottom: 6px;
       }
+      &_before{
+        margin-right: 6px;
+      }
+      &_link{
+        .ant-form-item-label label:after{
+          content:'';
+          margin: 0;
+          margin-right: 6px;
+        }
+      }
     }
     &-button{
       position: absolute;
@@ -27,7 +37,9 @@
   .list-table-wrapper{
     line-height: 20px;
     .list-table{
-
+      .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+        padding: 14px;
+      }
     }
     .list-table-align_center{
       text-align: center;

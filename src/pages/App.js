@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
 import { message } from 'antd';
-import history from "../history";
+
 import Login from "./login";
 import Home from "./home";
 import DocumentDetail from "../pages/externalSource/document";
@@ -18,7 +18,7 @@ message.config({ maxCount:1 });
 class App extends React.Component {
 	render() {
 		return (
-			<Router history={history}>
+			<Router>
 				<Switch>
 					<Route path="/" exact component={Login} remark="默认界面"/>
 					<Route path="/login" component={Login} remark="登录界面" />
@@ -35,4 +35,5 @@ class App extends React.Component {
 		)
 	}
 }
+
 export default App;
