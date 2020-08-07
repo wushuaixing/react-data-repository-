@@ -99,7 +99,7 @@ const DocumentLinkInputs = (props) => {
 		const arr = [];
 		for (let i = 0; i < props.num; i++) {
 				arr.push(
-						<DocumentLinkInput attr={props.attr} value={props.values[i]} enable={props.enable}
+						<DocumentLinkInput attr={props.attr} value={props.values[i]||'--'} enable={props.enable}
 								key={i} index={i} text={props.text} num={props.num} handleChange={props.handleChange}
 								handleDeleteClick={props.handleDeleteClick.bind(this, i, props.attr)} handleAddClick={props.handleAddClick}
 						/>
@@ -122,7 +122,7 @@ const DocumentLinkInput = (props) => {
             }
             <span className={props.index !== 0 ? 'addition-ah' : null}>
                 {
-                    props.enable ? (props.attr==='wsUrl'?linkSpan(props.value.value):props.value.value)
+                    props.enable ? (props.attr==='wsUrl'?(linkSpan(props.value.value)||'--'):(props.value.value||'--'))
                         : <Input
                             maxLength={ props.attr==='wsUrl'?99999:50 }
                             placeholder={`请输入${props.text}`}

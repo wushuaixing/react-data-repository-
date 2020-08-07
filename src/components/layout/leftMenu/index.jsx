@@ -21,7 +21,6 @@ const menuRoute = {
 
   // 21: "/index/syncMonitor",//抓取与同步监控（管理员）
   // 22: "/index/structureMonitor",//结构化情况监控（管理员）
-
   // 17: "/index/documentSearch",//文书搜索（检查人员）
 
 };
@@ -38,13 +37,17 @@ const getSource = (data={})=>{
     if(/任务/.test(text))return admin;
     return false;
   };
+  const link = (id) =>{
+    if(menuRoute[id]) return Array.isArray(menuRoute[id])?menuRoute[id][0]:menuRoute[id];
+    return null;
+  };
   return keysArray.map((i,index)=>({
     title:i,
     img:getMenuIcon(i),
     children:(data[i]).map(item=>({
       ...item,
       parentIndex:index,
-      link:Array.isArray(menuRoute[item.id])?menuRoute[item.id][0]:menuRoute[item.id],
+      link:link(item.id),
       backup:menuRoute[item.id],
     })).filter(i=>i.link),
   })).filter(i=>i.children.length)
@@ -133,7 +136,7 @@ class Sider extends React.Component {
                     <Menu.Item key={item.id} className="sider-menu_item item_position">
                       {
                         item.title === '文书搜索' ? (
-                          <div onClick={(e) => { e.stopPropagation();window.open('/documentSearch') }}>
+                          <div onClick={(e) => { e.stopPropagation();window.open('/documentSearch') }} data-id={item.id}>
                             <div className='item_remark' />
                             {item.title}
                           </div>
