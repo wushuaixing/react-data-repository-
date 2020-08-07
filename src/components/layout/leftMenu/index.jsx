@@ -18,6 +18,7 @@ const menuRoute = {
   20: ["/index/assetList","/index/structureDetail"],//资产结构化列表（管理员）
   16: "/documentSearch",//文书搜索（管理员+检查人员）
   9: "/documentSearch",//文书搜索（结构化人员）
+  25: "/index/bankrupt",//破产重组结构化（结构化人员）
 
   // 21: "/index/syncMonitor",//抓取与同步监控（管理员）
   // 22: "/index/structureMonitor",//结构化情况监控（管理员）
@@ -53,12 +54,6 @@ const getSource = (data={})=>{
   })).filter(i=>i.children.length).concat({
     title:'破产结构化',
     children: [
-      {
-        title:'破产重组结构化',
-        id:501,
-        link:'/index/bankrupt',
-        backup:'/index/bankrupt',
-      },
       {
         title:'破产重组结构化-详情',
         id:502,

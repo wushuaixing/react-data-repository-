@@ -16,6 +16,7 @@ ReactDOM.render(
 	<ConfigProvider locale={zh_CN} getPopupContainer={node=>node ? node.parentElement : document.body } >
 		<ErrorBoundary><App /></ErrorBoundary>
 	</ConfigProvider>,
-	document.getElementById('root'));
+	document.getElementById('root')
+);
 
 serviceWorker.unregister();

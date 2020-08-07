@@ -21,10 +21,11 @@ class BankruptList extends React.Component {
 			{ title: '已标记', key: 'B102', rule: 'S',approveStatus:1 },
 			{ title: '待修改', key: 'B103', rule: 'S',approveStatus:2 },
 		];
+		const defaultInfo = data[0];
 		const queryRes = parseQuery();
 		const activeKey = queryRes.approveStatus !== ''
-			?((data.filter(i => i.approveStatus === Number(queryRes.approveStatus))[0] || {}).key||'A100'):'A100';
-		const approveStatus =queryRes.approveStatus?Number(queryRes.approveStatus):3;
+			?((data.filter(i => i.approveStatus === Number(queryRes.approveStatus))[0] || {}).key||defaultInfo.key):defaultInfo.key;
+		const approveStatus =queryRes.approveStatus?Number(queryRes.approveStatus):defaultInfo.approveStatus;
 		queryRes.uid = queryRes.uid ==='0'?'':queryRes.uid;
 		this.state = {
 			activeKey,

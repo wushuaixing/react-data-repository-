@@ -3,6 +3,7 @@ import { BreadCrumb } from "@/components/common";
 import { Button, Form, Input, Icon } from "antd";
 import { Item ,ItemList } from "@/pages/bankrupt-structrue/detail/common";
 import { ranStr } from "@utils/common";
+import { rule } from "@/components/rule-container";
 import './style.scss';
 
 class BankruptDetail extends React.Component {
@@ -107,4 +108,4 @@ class BankruptDetail extends React.Component {
 		)
 	}
 }
-export default Form.create({ name: 'bankrupt_detail' })(BankruptDetail)
+export default Form.create({ name: 'bankrupt_detail' })(rule(BankruptDetail))
