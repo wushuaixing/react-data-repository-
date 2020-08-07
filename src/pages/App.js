@@ -23,7 +23,7 @@ class App extends React.Component {
 					<Route path="/login" component={Login} remark="登录界面" />
 					<Route path="/index" component={Home} remark="首页" />
 					<Route path="/documentSearch" component={DocumentSearch}  remark="文书搜索" />
-					<Route path="/documentDetail/:Id/:content" component={DocumentDetail} remark="文书搜索-详情页" />
+					<Route path="/documentDetail/:Id/:wid/:content" component={DocumentDetail} remark="文书搜索-详情页" />
 					<Route path="/auctionDetail/:auctionID" component={AuctionDetail} remark="关联链接-详情页" />
 					{/*<Route path="/auctionDetail" component={AuctionDetail} remark="登录界面" />*/}
 					<Route path="/notFirstMark" component={NotFirstMark} remark="非初标-详情页" />

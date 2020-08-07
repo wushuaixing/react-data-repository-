@@ -22,9 +22,9 @@ class DocumentDetail extends React.Component {
 		}
 	};
 	componentDidMount() {
-		const { Id,content } = this.props.match.params;
+		const { Id,content,wid } = this.props.match.params;
 		const params = {
-			content
+			content,wid
 		};
 		this.setState({
 			loading: true,
