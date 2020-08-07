@@ -29,7 +29,7 @@ class DocumentDetail extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		wenshuDetail(Id,params).then(res => {
+		wenshuDetail(Id,params,wid).then(res => {
 			if (res.data.code === 200) {
 				let data = res.data.data;
 				this.setState({ data });

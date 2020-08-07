@@ -225,8 +225,8 @@ export const wenshuSearch=(params)=> {
 };
 
 //文书搜索详情
-export const wenshuDetail=(id,params)=> {
-	return axios.post("/api/asset/structured/control/wenshu/detail/" + id,params);
+export const wenshuDetail=(id,params,wid)=> {
+	return axios.post("/api/asset/structured/control/wenshu/detail/" + id+'/'+wid,params);
 };
 ////////////////////
 //数据抓取与同步监控//
