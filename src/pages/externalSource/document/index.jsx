@@ -17,7 +17,7 @@ class DocumentDetail extends React.Component {
 		};
 		this.getHeight = () => {
 			//获取当前右边当事人信息dom节点的高度 如果超过三行则需要做显示隐藏处理
-			let node = Array.prototype.slice.call(document.querySelectorAll(".message-line"), -1)[0]
+			let node = Array.prototype.slice.call(document.querySelectorAll(".message-line"), -1)[0];
 			return node.clientHeight;
 		}
 	};
@@ -25,17 +25,14 @@ class DocumentDetail extends React.Component {
 		const { Id,content } = this.props.match.params;
 		const params = {
 			content
-		}
+		};
 		this.setState({
 			loading: true,
 		});
 		wenshuDetail(Id,params).then(res => {
 			if (res.data.code === 200) {
 				let data = res.data.data;
-				this.setState({
-					data,
-					loading: false
-				});
+				this.setState({ data });
 				if (data.appellors && data.appellors.length>24) {
 					this.setState({
 						ellipsisButtonVisible: true,
@@ -44,12 +41,16 @@ class DocumentDetail extends React.Component {
 			} else {
 				message.error(res.data.message);
 			}
+		}).finally(()=>{
+			this.setState({
+				loading:false
+			})
 		});
 	}
 	copy = () => {
 		let text = document.getElementById("link-detail").innerText;
-		copy(text)
-		message.success("复制成功"); 
+		copy(text);
+		message.success("复制成功");
 	};
 	openLink = (url) => {
 		window.open(url);
@@ -69,7 +70,7 @@ class DocumentDetail extends React.Component {
 						</div>
 						<div className="line" />
 						<div className="content-container">
-							<div dangerouslySetInnerHTML={{ __html: data.content }} className="html-template"></div>
+							<div dangerouslySetInnerHTML={{ __html: data.content }} className="html-template" />
 						</div>
 					</div>
 					<div className="container_rightInfo">
