@@ -5,33 +5,49 @@ import { withRouter } from 'react-router';
 import { BreadCrumb } from "@/components/common";
 import Query from './query';
 import Table from './table';
-import Api from '@/server/bankruptcy'
+import { rule } from "@/components/rule-container";
+import Api from '@/server/bankruptcy';
 import { parseQuery, urlEncode, scrollTop } from "@utils/tools";
 import './style.scss';
 
 class BankruptList extends React.Component {
 	constructor(props) {
 		super(props);
+		const { ruleSource:{rule} } = props;
+
 		const data = [
-			{ title: '全部', key: 'A100', rule: 'A' ,approveStatus:3},
-			{ title: '未标记', key: 'A101', rule: 'A',approveStatus:0 },
-			{ title: '已标记', key: 'A102', rule: 'A' ,approveStatus:1},
-			{ title: '自动退回', key: 'A103', rule: 'A',approveStatus:2 },
-			{ title: '未标记', key: 'B101', rule: 'S',approveStatus:0 },
-			{ title: '已标记', key: 'B102', rule: 'S',approveStatus:1 },
-			{ title: '待修改', key: 'B103', rule: 'S',approveStatus:2 },
+			{ title: '全部', key: 'A100', rule: 'admin' ,approveStatus:3},
+			{ title: '未标记', key: 'A101', rule: 'admin',approveStatus:0 },
+			{ title: '已标记', key: 'A102', rule: 'admin' ,approveStatus:1},
+			{ title: '自动退回', key: 'A103', rule: 'admin',approveStatus:2 },
+			{ title: '未标记', key: 'B101', rule: 'check',approveStatus:0 },
+			{ title: '已标记', key: 'B102', rule: 'check',approveStatus:1 },
+			{ title: '待修改', key: 'B103', rule: 'check',approveStatus:2 },
 		];
-		const defaultInfo = data[0];
-		const queryRes = parseQuery();
-		const activeKey = queryRes.approveStatus !== ''
-			?((data.filter(i => i.approveStatus === Number(queryRes.approveStatus))[0] || {}).key||defaultInfo.key):defaultInfo.key;
-		const approveStatus =queryRes.approveStatus?Number(queryRes.approveStatus):defaultInfo.approveStatus;
-		queryRes.uid = queryRes.uid ==='0'?'':queryRes.uid;
+
+		const panes = data.filter(i=>i.rule===rule);
+
+		/**
+		 * 处理并获取 url get 参数
+		 * @type {{approveStatus: *, uid: *, activeKey: *}}
+		 */
+		const {queryRes,activeKey} =(()=>{
+			const p = parseQuery();
+			const base = panes[0]||{};
+			const _approveStatus = Number(p.approveStatus);
+			const approveStatus =p.approveStatus?_approveStatus:base.approveStatus;
+			const activeKey = p.approveStatus !== ''
+				?((data.filter(i => i.approveStatus === _approveStatus)[0] || {}).key||base.key):base.key;
+			const uid = p.uid ==='0'?'':p.uid;
+			return { queryRes:{...p,approveStatus,uid},activeKey}
+
+		})();
+
 		this.state = {
 			activeKey,
-			approveStatus,
+			approveStatus:queryRes.approveStatus,
 			loading:false,
-			panes:data,
+			panes,
 			dataSource:[],
 			page:1,
 			num:10,
@@ -42,7 +58,6 @@ class BankruptList extends React.Component {
 			page:1,
 			num:10,
 			...queryRes,
-			approveStatus
 		};
 	}
 
@@ -137,4 +152,4 @@ class BankruptList extends React.Component {
 	}
 }
 
-export default withRouter(BankruptList)
+export default withRouter(rule(BankruptList))

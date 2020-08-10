@@ -26,3 +26,4 @@ export const Item = props =>(
 		</div>
 	</div>
 );
+

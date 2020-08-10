@@ -25,7 +25,7 @@ export default class HomeIndex extends React.Component {
       const role = window.localStorage.userState;
       const Routes = [
         <Route path="/index/bankrupt" exact component={BankruptList} remark="破产结构化 - 列表" key='bankrupt'/>,
-        <Route path="/index/bankrupt/detail" component={BankruptDetail} remark="破产结构化 - 详情页" key='bankrupt-detail' />,
+        <Route path="/index/bankrupt/detail/:status/:id" component={BankruptDetail} remark="破产结构化 - 详情页" key='bankrupt-detail' />,
       ];
 
       if (role === '结构化人员') Routes.push(...StructureRoute);

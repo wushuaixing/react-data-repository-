@@ -1,6 +1,9 @@
 import React from 'react';
-import { Table, Button } from 'antd';
+import { Table } from 'antd';
 import { withRouter } from 'react-router';
+import { Auction } from '../common';
+import Api from '@/server/bankruptcy';
+
 
 class ListTable extends React.Component {
 	constructor(props) {
@@ -55,17 +58,15 @@ class ListTable extends React.Component {
 					</div>
 				);
 			},
-			operate: () => {
+			operate: (val, { id, status }) => {
 				let text = '';
 				if (/^A/.test(activeKey)) text = '查看';
 				else if (activeKey === 'B101') text = '标注';
 				else if (activeKey === 'B102' || activeKey === 'B103') text = '修改标注';
-				// const to = { pathname:'/index/bankrupt/detail' };
-				return text && (
-					<Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} onClick={()=>this.history.push('/index/bankrupt/detail')}>
-						{text}
-					</Button>
-				)
+				return text && <Auction history={this.history} check={true} approveStatus={status}
+					key={`${id}approveStatus`} text={text} api={()=>Api.getStatus(id)}
+					href={`/index/bankrupt/detail/${status}/${id}`}
+				/>;
 			},
 		};
 		if (approveStatus === 0 ) {
