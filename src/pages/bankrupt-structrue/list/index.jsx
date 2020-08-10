@@ -121,6 +121,7 @@ class BankruptList extends React.Component {
 	};
 
 	render() {
+		const { ruleSource:{rule} } = this.props;
 		const { panes, activeKey, num, page,total,dataSource,loading,approveStatus } = this.state;
 		const tableProps = {
 			dataSource,
@@ -130,6 +131,7 @@ class BankruptList extends React.Component {
 			loading,
 			approveStatus,
 			activeKey,
+			rule
 		};
 		const queryProps = {
 			loading,

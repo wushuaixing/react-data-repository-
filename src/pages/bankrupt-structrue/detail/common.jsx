@@ -9,7 +9,7 @@ export const ItemTag = props => (
 	</li>
 );
 
-export const ItemList = props =>(
+export const ItemList = props => props.hide ? null : (
 	<div className={(['detail-item_list',...[props.className||'']]).join(' ')} style={props.style||{}}>
 		{props.title||!props.noTitle ? <div className="detail-item_list__title">
 			<span className={props.required &&"detail-item_list__required"}>{props.title}</span>
@@ -18,7 +18,7 @@ export const ItemList = props =>(
 	</div>
 );
 
-export const Item = props =>(
+export const Item = props => props.hide ? null : (
 	<div className="detail-item" style={props.style||{}}>
 		<div className="detail-item_title">{props.title}</div>
 		<div className="detail-item_content">

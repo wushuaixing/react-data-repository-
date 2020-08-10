@@ -43,7 +43,7 @@ class ListTable extends React.Component {
 	}
 
 	get normalCol() {
-		const { activeKey,approveStatus } = this.props;
+		const { activeKey,approveStatus,rule } = this.props;
 		const render = {
 			status: (status) => {
 				let background = '#FFF';
@@ -63,9 +63,9 @@ class ListTable extends React.Component {
 				if (/^A/.test(activeKey)) text = '查看';
 				else if (activeKey === 'B101') text = '标注';
 				else if (activeKey === 'B102' || activeKey === 'B103') text = '修改标注';
-				return text && <Auction history={this.history} check={true} approveStatus={status}
+				return text && <Auction history={this.history} check={rule==='check'} approveStatus={status}
 					key={`${id}approveStatus`} text={text} api={()=>Api.getStatus(id)}
-					href={`/index/bankrupt/detail/${status}/${id}`}
+					href={`/index/bankrupt/detail/${id}`}
 				/>;
 			},
 		};

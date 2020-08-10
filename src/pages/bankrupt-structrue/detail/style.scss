@@ -20,7 +20,7 @@
         font-weight: bold;
       }
       &_content{
-        padding: 20px 0 36px 27px;
+        padding: 25px 0 36px 27px;
         .detail-item_list{
           margin-bottom:14px;
           width: 100%;
@@ -28,8 +28,9 @@
           flex-direction: row;
           color: #293038;
           &__title{
-            width: 86px;
+            width: 91px;
             text-align: right;
+            padding-right: 5px;
           }
           &__required{
             position: relative;
@@ -62,10 +63,16 @@
           padding: 0;
           li{
             list-style: none;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             position: relative;
             &:last-child{
               margin-bottom: 0;
+            }
+            .li-span{
+              margin-right: 16px;
+              &_red{
+
+              }
             }
           }
         }
