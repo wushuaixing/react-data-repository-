@@ -4,7 +4,7 @@ export const ItemTag = props => (
 	<li>
 		<div className='tag-item-wrapper'>
 			{props.text}
-			{props.tag ? <div className="tag-item-text">企业名称疑似有误</div> : null }
+			{props.tag ? <div className="tag-item-text"/> : null }
 		</div>
 	</li>
 );

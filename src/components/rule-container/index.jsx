@@ -10,11 +10,12 @@ export const rule = (Component)=>{
 
 	const getRuleType = user=>(ruleArray.filter(i=>i.user===user)[0]||{}).type;
 
-	const ruleSource = {
-		rule:getRuleType(localStorage.getItem('userState')),
-	};
+
 	return class extends React.Component {
 		render() {
+			const ruleSource = {
+				rule:getRuleType(localStorage.getItem('userState')),
+			};
 			return <Component ruleSource={ruleSource} {...this.props}/>
 		}
 	}

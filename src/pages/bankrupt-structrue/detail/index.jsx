@@ -13,28 +13,45 @@ class BankruptDetail extends React.Component {
 		super(props);
 		this.state = {
 			loading:true,
-			source:{}
+			source:{},
 		};
+		this.errorName=[];
 		this.baseStr = ranStr();
 	}
 
 	componentDidMount() {
-		const { match:{ params } } = this.props;
-		Api.getDetail(params.id).then(({code,data,message:mes})=>{
-			if(code === 200){
-				console.log(data);
-				this.setState({source:data})
-			}else{
-				message.error(mes)
-			}
-		}).finally(()=>this.setState({loading:false }))
+		this.toGetDetailInfo();
 	}
+
+	componentWillReceiveProps(nextProps, nextContext) {
+		const { match:{ params:{ id } } } = this.props;
+		const { match:{ params:{ id:nextId } } } = nextProps;
+		if(id !== nextId) this.toGetDetailInfo(nextId);
+	}
+
+	toGetDetailInfo = (id) => {
+		const { match:{ params },form } = this.props;
+		this.setState({ loading: true });
+		form.resetFields();
+		Api.getDetail(id || params.id)
+			.then(({ code, data, message: mes }) => {
+			if (code === 200) {
+				console.log(data);
+				this.setUserInfo(data);
+				this.setState({ source: data });
+			} else {
+				message.error(mes);
+			}
+		})
+			.finally(() => this.setState({ loading: false }));
+	};
 
 	getItems = (field, placeholder = '请输入') => {
 		if (!field) return;
-		const { form: { getFieldValue, getFieldDecorator, setFieldsValue } } = this.props;
+		const {
+			getFieldValue, getFieldDecorator, setFieldsValue, getFieldError, setFields,
+		} = this.props.form;
 		getFieldDecorator(field, { initialValue: [this.baseStr] });
-		const itemArray = getFieldValue(field);
 		// 相关操作
 		const toHandle = (type, field, val) => {
 			const values = getFieldValue(field);
@@ -43,15 +60,118 @@ class BankruptDetail extends React.Component {
 			if (type === 'sub') {	nextValues = values.filter(i => i !== val);	}
 			setFieldsValue({ [field]: nextValues });
 		};
-		return itemArray.map((item, index) => (
-			<div key={index} className="detail-item_input">
-				{ getFieldDecorator(`${field}_${item}`)(<Input placeholder={placeholder} style={{ width: 260 }} autoComplete="off" />)}
-				{ itemArray.length === index + 1
-				&& <Icon className="detail-item_input__icon" type="plus-circle" theme="filled" onClick={() => toHandle('add', field, item)} /> }
-				{ itemArray.length > 1
-				&& <Icon className="detail-item_input__icon" type="minus-circle" onClick={() => toHandle('sub', field, item)} /> }
-			</div>
-		));
+		// 获取 field 错误状态
+		const getError = field =>getFieldError(field)?getFieldError(field).join(','):null;
+		// input 变化校验
+		const toInputChange = (event, _field, err) => {
+			const { value } = event.target;
+			if (/company/.test(_field)) {
+				if (err) { setFields({ [_field]: { value, errors: [] } }); }
+				else {
+					if (this.errorName.includes(value))setFields({ [_field]: { value, errors: [new Error('企业名称疑似有误')] } });
+				}
+			}
+		};
+		const itemArray = getFieldValue(field);
+		return itemArray.map((item, index) => {
+			const _field = `${field}_${item}`;
+			const err = getError(_field);
+			return (
+				<div key={index} className={`detail-item_input${err ? ' detail-item_error' : ''}`}>
+					{ getFieldDecorator(_field, { onChange: e => toInputChange(e, _field, err) })
+						(<Input placeholder={placeholder} style={{ width: 260 }} autoComplete="off" />)}
+					{ err && <span className="detail-item_input__error">{err}</span> }
+					{ itemArray.length === index + 1
+					&& <Icon className="detail-item_input__icon" type="plus-circle" theme="filled" onClick={() => toHandle('add', field, item)} /> }
+					{ itemArray.length > 1
+					&& <Icon className="detail-item_input__icon" type="minus-circle" onClick={() => toHandle('sub', field, item)} /> }
+				</div>
+			);
+		});
+	};
+
+	// 设置 => 表达数据初始化
+	setUserInfo = (source) => {
+		const { form: { setFieldsValue: set, setFields } } = this.props;
+		const { companyName: company, applicant: apply, publisher: custodian } = source;
+		const data = { field: {}, value: {} };
+		const errorStr = [];
+		const addValue = (array, field, checkField = 'value') =>	(array || []).forEach((i) => {
+			if (i[checkField]) {
+				const _ranStr = ranStr();
+				data.field[field] = [...(data.field[field] || []), _ranStr];
+				data.value[`${field}_${_ranStr}`] = i[checkField];
+				if (i.bol && field === 'company') {
+					this.errorName.push(i[checkField]);
+					errorStr.push({
+						field: `company_${_ranStr}`,
+						value: i[checkField],
+						errors: [new Error('企业名称疑似有误')],
+					});
+				}
+			}
+		});
+		addValue(company, 'company', 'bankruptcyCompanyName');
+		addValue(apply, 'apply');
+		addValue(custodian, 'custodian');
+		// 设置数据
+		set(data.field, () => {
+			set(data.value);
+			errorStr.forEach(i => setFields({ [i.field]: { value: i.value, errors: i.errors } }));
+		});
+	};
+	// 获取 => 表单数据
+	getUserInfo = () => {
+		const { form: { getFieldValue: get } } = this.props;
+		const getValue = field => (get(field) || []).map(i => ({ value: get(`${field}_${i}`) })).filter(i => i.value);
+		return {
+			companyName: getValue('company'),
+			applicant: getValue('apply'),
+			publisher: getValue('custodian'),
+		};
+	};
+
+
+	// 保存结构化对象
+	toSave = () => {
+		console.info('保存结构化对象');
+		const source = this.getUserInfo();
+		if (!source.companyName.length) return message.error('破产企业不能为空！');
+		const { history, match: { params } } = this.props;
+		this.setState({ loading: true });
+		Api.saveDetail(params.id, source).then((res) => {
+			if (res.code === 200) {
+				message.success('数据保存成功，2s后回到已标记列表',2,()=>history.go(-1));
+			} else message.error(res.message);
+		}).finally(() => setTimeout(()=>this.setState({ loading: false }),2000));
+	};
+
+	// 保存结构化对象并获取下一条id
+	toSaveNext = () => {
+		console.info('保存结构化对象并获取下一条id');
+		const source = this.getUserInfo();
+		if (!source.companyName.length) return message.error('破产企业不能为空！');
+		const { history, match: { params } } = this.props;
+		this.setState({ loading: true });
+		Api.saveDetailNext(params.id, source).then((res) => {
+			if (res.code === 200) {
+				if (res.data) history.replace(`/index/bankrupt/detail/${res.data}`);
+				else message.success('已修改完全部数据，2s后回到待标记列表',2,()=>history.push(`/index/bankrupt?approveStatus=0`));
+			} else message.error(res.message);
+		}).finally(() => setTimeout(()=>this.setState({ loading: false }),2000));
+	};
+
+	// 信息无误按钮接口
+	toAffirm = ()=>{
+		console.info('信息无误按钮接口');
+		const { history, match: { params } } = this.props;
+		this.setState({ loading: true });
+		Api.updateStatus(params.id).then((res) => {
+			if (res.code === 200) {
+				if (res.data) history.replace(`/index/bankrupt/detail/${res.data}`);
+				else message.success('已修改完全部数据，2s后回到待标记列表',2,()=>history.push(`/index/bankrupt?approveStatus=0`));
+			} else message.error(res.message);
+		}).finally(() => setTimeout(()=>this.setState({ loading: false }),2000));
 	};
 
 	render() {
@@ -82,10 +202,12 @@ class BankruptDetail extends React.Component {
 								</ul>
 							</Item>
 							<Item title='基本信息'>
-								<ItemList title='标题：'>{source.title}</ItemList>
+								<ItemList title='标题：'>
+									{source.url? <a href={source.url} target='_blank' rel="noopener noreferrer">{source.title||'--'}</a>: (source.title||'--')}
+								</ItemList>
 								<ItemList title='发布时间：'>{source.publishTime||'--'}</ItemList>
 								<ItemList title='当前状态：'>{statusText[source.status]||'--'}</ItemList>
-								<ItemList title='结构化记录：'>
+								<ItemList title='结构化记录：' hide={rule==='normal' && source.status === 0 }>
 									<ul className="detail-content-item_ul">
 										{
 											(source.records||[]).length ? source.records.map(i=>(
@@ -107,7 +229,7 @@ class BankruptDetail extends React.Component {
 							</Item>
 							<Item title='角色信息' hide={rule !== 'admin'}>
 								<div style={{display:'flex'}}>
-									<ItemList title='破产管理人：' style={{maxWidth:500,paddingRight:120}}>
+									<ItemList title='破产管理人：' style={{ maxWidth: 500, paddingRight: 120 }}>
 										<ul className="detail-content-item_ul">
 											<ItemTag text='温州市晨乐鞋业有限公司温州市晨乐鞋业有限公司温州市晨乐鞋业有限公司' tag />
 											<ItemTag text='炳洪的申请于2019年7月29日裁定受' tag />
@@ -118,9 +240,9 @@ class BankruptDetail extends React.Component {
 								</div>
 								<ItemList title='破产管理人：'>--</ItemList>
 							</Item>
-							<Item title='角色信息' style={{lineHeight:'32px'}} hide={rule !== 'check'} >
+							<Item title='角色信息' style={{ lineHeight: '32px' }} hide={rule !== 'normal'} >
 								<div style={{display:'flex',paddingBottom:10}}>
-									<ItemList title='破产企业：' style={{maxWidth:500,paddingRight:40}} required>
+									<ItemList title='破产企业：' style={{ maxWidth: 500, paddingRight: 40 }} required>
 										{this.getItems('company','请输入破产企业名称')}
 									</ItemList>
 									<ItemList title='申请人：'>
@@ -131,11 +253,11 @@ class BankruptDetail extends React.Component {
 									{this.getItems('custodian','请输入破产管理人名称')}
 								</ItemList>
 								<ItemList title=' '>
-									{ source.status === 0 && <Button type="primary">保存并修改下一条</Button> }
-									{ source.status === 1 && <Button type="primary">保存</Button> }
+									{ source.status === 0 && <Button type="primary" onClick={this.toSaveNext}>保存并修改下一条</Button> }
+									{ source.status === 1 && <Button type="primary" onClick={this.toSave}>保存</Button> }
 									{ source.status === 2 && [
-										<Button key='noError'>信息无误</Button>,
-										<Button key='nextTag' type="primary">保存并标记下一条</Button>
+										<Button key='noError' onClick={this.toAffirm}>信息无误</Button>,
+										<Button key='nextTag' type="primary" onClick={this.toSaveNext}>保存并标记下一条</Button>
 									]}
 								</ItemList>
 							</Item>

@@ -14,15 +14,14 @@ class BankruptList extends React.Component {
 	constructor(props) {
 		super(props);
 		const { ruleSource:{rule} } = props;
-
 		const data = [
 			{ title: '全部', key: 'A100', rule: 'admin' ,approveStatus:3},
 			{ title: '未标记', key: 'A101', rule: 'admin',approveStatus:0 },
 			{ title: '已标记', key: 'A102', rule: 'admin' ,approveStatus:1},
 			{ title: '自动退回', key: 'A103', rule: 'admin',approveStatus:2 },
-			{ title: '未标记', key: 'B101', rule: 'check',approveStatus:0 },
-			{ title: '已标记', key: 'B102', rule: 'check',approveStatus:1 },
-			{ title: '待修改', key: 'B103', rule: 'check',approveStatus:2 },
+			{ title: '未标记', key: 'B101', rule: 'normal',approveStatus:0 },
+			{ title: '已标记', key: 'B102', rule: 'normal',approveStatus:1 },
+			{ title: '待修改', key: 'B103', rule: 'normal',approveStatus:2 },
 		];
 
 		const panes = data.filter(i=>i.rule===rule);
@@ -37,10 +36,9 @@ class BankruptList extends React.Component {
 			const _approveStatus = Number(p.approveStatus);
 			const approveStatus =p.approveStatus?_approveStatus:base.approveStatus;
 			const activeKey = p.approveStatus !== ''
-				?((data.filter(i => i.approveStatus === _approveStatus)[0] || {}).key||base.key):base.key;
+				?((panes.filter(i => i.approveStatus === _approveStatus)[0] || {}).key||base.key):base.key;
 			const uid = p.uid ==='0'?'':p.uid;
 			return { queryRes:{...p,approveStatus,uid},activeKey}
-
 		})();
 
 		this.state = {
@@ -49,7 +47,7 @@ class BankruptList extends React.Component {
 			loading:false,
 			panes,
 			dataSource:[],
-			page:1,
+			page:Number(queryRes.page)||1,
 			num:10,
 			total:0,
 		};
@@ -62,7 +60,7 @@ class BankruptList extends React.Component {
 	}
 
 	componentDidMount(){
-		this.toQuery(this.params,true);
+		this.toQuery(this.params);
 		this.toSetDefaultQuery()
 	}
 

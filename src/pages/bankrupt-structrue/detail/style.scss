@@ -77,15 +77,34 @@
           }
         }
         .detail-item_input{
-          margin-bottom: 16px;
+          margin-bottom: 18px;
+          position: relative;
           &:last-child{
             margin-bottom: 0;
           }
           &__icon{
             vertical-align: middle;
-            font-size: 22px;
+            font-size: 20px;
             color: #016AA9;
             margin-left: 16px;
+            margin-top: -4px;
+          }
+          &__error{
+            position: absolute;
+            top: 35px;
+            left: 12px;
+            font-size: 12px;
+            line-height: 1;
+            z-index: 5;
+            color: #FB0037;
+          }
+        }
+        .detail-item_error{
+          input {
+            border:1px solid rgba(251,0,55,1);
+            &:focus{
+              box-shadow: 0 0 0 2px rgba(251,0,55, 0.2)
+            }
           }
         }
         .tag-item-wrapper{
@@ -96,37 +115,11 @@
           position: absolute;
           right: -125px;
           top: 0;
-          width: 111px;
-          height: 20px;
-          color: #FB0037;
-          background-color: #FFECF0;
-          border:1px solid rgba(255,117,148,1);
-          text-align: center;
-          font-size: 12px;
-          line-height: 20px;
-          border-radius: 2px;
-          &:before{
-            content: '';
-            width: 0;
-            height: 0;
-            position: absolute;
-            top: 6px;
-            left: -7px;
-            border-top: 4px solid transparent;
-            border-right: 6px solid rgba(255,117,148,1);
-            border-bottom: 4px solid transparent;
-          }
-          &:after{
-            content: '';
-            width: 0;
-            height: 0;
-            position: absolute;
-            top: 7px;
-            left: -5px;
-            border-top: 3px solid transparent;
-            border-right: 5px solid #FFECF0;
-            border-bottom: 3px solid transparent;
-          }
+          width: 112px;
+          height: 22px;
+          z-index: 1;
+          background-image: url("../../../assets/img/company-error.png");
+          background-size: 100% 100%;
         }
       }
     }

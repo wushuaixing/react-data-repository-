@@ -18,7 +18,7 @@ const bankruptcy = {
 	saveDetail:(id,params) => service.post(`/api/asset/bankruptcy/control/saveDetail/${id}`,params).then(res => res.data),
 	// 保存结构化对象并获取下一条id
 	saveDetailNext:(id,params) => service.post(`/api/asset/bankruptcy/control/saveDetailRetId/${id}`,params).then(res => res.data),
-	// 请求数据当前状态返回
+	// 信息无误按钮接口
 	updateStatus:id => service.get(`/api/asset/bankruptcy/control/updateStatus/${id}`).then(res => res.data),
 };
 
