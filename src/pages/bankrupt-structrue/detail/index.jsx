@@ -12,10 +12,11 @@ class BankruptDetail extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loading:true,
-			source:{},
+			loading: true,
+			source: {},
 		};
-		this.errorName=[];
+		this.changed = false;
+		this.errorName = [];
 		this.baseStr = ranStr();
 	}
 
@@ -65,6 +66,7 @@ class BankruptDetail extends React.Component {
 		// input 变化校验
 		const toInputChange = (event, _field, err) => {
 			const { value } = event.target;
+			if(!this.changed) this.changed = true;
 			if (/company/.test(_field)) {
 				if (err) { setFields({ [_field]: { value, errors: [] } }); }
 				else {
@@ -131,14 +133,23 @@ class BankruptDetail extends React.Component {
 		};
 	};
 
+  toCheck = async (id) => {
+		const { source } = this.state;
+		const res = await Api.getStatus(id);
+		return res.code === 200 && source.status === res.data;
+	};
 
 	// 保存结构化对象
 	toSave = () => {
 		console.info('保存结构化对象');
+		if(!this.changed) return message.error('当前页面未作修改，请修改后再保存');
 		const source = this.getUserInfo();
-		if (!source.companyName.length) return message.error('破产企业不能为空！');
+		if (!source.companyName.length) return message.error('请输入破产企业名称！');
 		const { history, match: { params } } = this.props;
 		this.setState({ loading: true });
+		if(!this.toCheck(params.id)) return message.error('该数据已被检查错误，请到待修改列表查看',2,()=>{
+			history.push(`/index/bankrupt?approveStatus=2`)
+		});
 		Api.saveDetail(params.id, source).then((res) => {
 			if (res.code === 200) {
 				message.success('数据保存成功，2s后回到已标记列表',2,()=>history.go(-1));
@@ -147,12 +158,16 @@ class BankruptDetail extends React.Component {
 	};
 
 	// 保存结构化对象并获取下一条id
-	toSaveNext = () => {
+	toSaveNext = type => {
 		console.info('保存结构化对象并获取下一条id');
+		if(!this.changed && type === 'modify') return message.error('当前页面未作修改，请修改后再保存');
 		const source = this.getUserInfo();
-		if (!source.companyName.length) return message.error('破产企业不能为空！');
+		if (!source.companyName.length) return message.error('请输入破产企业名称！');
 		const { history, match: { params } } = this.props;
 		this.setState({ loading: true });
+		if(!this.toCheck(params.id)) return message.error('该数据已被处理，请到已标记列表查看',2,()=>{
+			history.push(`/index/bankrupt?approveStatus=0`)
+		});
 		Api.saveDetailNext(params.id, source).then((res) => {
 			if (res.code === 200) {
 				if (res.data) history.replace(`/index/bankrupt/detail/${res.data}`);
@@ -164,8 +179,12 @@ class BankruptDetail extends React.Component {
 	// 信息无误按钮接口
 	toAffirm = ()=>{
 		console.info('信息无误按钮接口');
+		if(!this.changed) return message.error('当前页面未作修改，请修改后再保存');
 		const { history, match: { params } } = this.props;
 		this.setState({ loading: true });
+		if(!this.toCheck(params.id)) return message.error('该数据已被处理，请到已标记列表查看',2,()=>{
+			history.push(`/index/bankrupt?approveStatus=0`)
+		});
 		Api.updateStatus(params.id).then((res) => {
 			if (res.code === 200) {
 				if (res.data) history.replace(`/index/bankrupt/detail/${res.data}`);
@@ -253,11 +272,11 @@ class BankruptDetail extends React.Component {
 									{this.getItems('custodian','请输入破产管理人名称')}
 								</ItemList>
 								<ItemList title=' '>
-									{ source.status === 0 && <Button type="primary" onClick={this.toSaveNext}>保存并修改下一条</Button> }
+									{ source.status === 0 && <Button type="primary" onClick={()=>this.toSaveNext('sign')}>保存并标记下一条</Button> }
 									{ source.status === 1 && <Button type="primary" onClick={this.toSave}>保存</Button> }
 									{ source.status === 2 && [
 										<Button key='noError' onClick={this.toAffirm}>信息无误</Button>,
-										<Button key='nextTag' type="primary" onClick={this.toSaveNext}>保存并标记下一条</Button>
+										<Button key='nextTag' type="primary" onClick={()=>this.toSaveNext('modify')}>保存并修改下一条</Button>
 									]}
 								</ItemList>
 							</Item>
