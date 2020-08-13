@@ -68,6 +68,9 @@
             &:last-child{
               margin-bottom: 0;
             }
+            .li-span_time{
+              font-family: 'Consolas', serif;
+            }
             .li-span{
               margin-right: 16px;
               &_red{
@@ -122,6 +125,15 @@
           background-size: 100% 100%;
         }
       }
+    }
+  }
+}
+.yc-bankrupt-modal{
+  .ant-modal-confirm-btns{
+    float: none!important;
+    text-align: center;
+    button{
+      width: 146px;
     }
   }
 }

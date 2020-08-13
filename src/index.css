@@ -13,4 +13,9 @@ code {
 .ant-table-thead > tr > th {
   font-weight: bold!important;
 }
-
+.a-link{
+  color: #016AA9;
+}
+.a-link:hover{
+  text-decoration: underline;
+}

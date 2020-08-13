@@ -1,9 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { BreadCrumb } from "@/components/common";
-import { Button, Form, Input, Icon, Spin, message } from "antd";
+import { Button, Form, Input, Icon, Spin, message, Modal } from "antd";
 import { Item, ItemList, ItemTag } from './common';
 import { ranStr } from "@utils/common";
+import { scrollTop } from "@utils/tools";
 import { rule } from "@/components/rule-container";
 import Api from '@/server/bankruptcy';
 import './style.scss';
@@ -30,20 +31,27 @@ class BankruptDetail extends React.Component {
 		if(id !== nextId) this.toGetDetailInfo(nextId);
 	}
 
+	toResetInfo = () => {
+		this.changed = false;
+		this.errorName = [];
+		this.baseStr = ranStr();
+	};
+
 	toGetDetailInfo = (id) => {
 		const { match:{ params },form } = this.props;
 		this.setState({ loading: true });
 		form.resetFields();
 		Api.getDetail(id || params.id)
 			.then(({ code, data, message: mes }) => {
-			if (code === 200) {
-				console.log(data);
-				this.setUserInfo(data);
-				this.setState({ source: data });
-			} else {
-				message.error(mes);
-			}
-		})
+				if (code === 200) {
+					this.setUserInfo(data);
+					this.toResetInfo();
+					this.setState({ source: data });
+					scrollTop();
+				} else {
+					message.error(mes);
+				}
+			})
 			.finally(() => this.setState({ loading: false }));
 	};
 
@@ -133,68 +141,151 @@ class BankruptDetail extends React.Component {
 		};
 	};
 
+	// 检查当前记录是否变更
   toCheck = async (id) => {
 		const { source } = this.state;
 		const res = await Api.getStatus(id);
-		return res.code === 200 && source.status === res.data;
+		let result = '';
+		if (res.code === 200) result = source.status === res.data ? 'normal' : 'error';
+		else result = 'warning';
+		return result
 	};
 
 	// 保存结构化对象
-	toSave = () => {
+	toSave = async () => {
 		console.info('保存结构化对象');
-		if(!this.changed) return message.error('当前页面未作修改，请修改后再保存');
-		const source = this.getUserInfo();
-		if (!source.companyName.length) return message.error('请输入破产企业名称！');
 		const { history, match: { params } } = this.props;
+		const source = this.getUserInfo();
+		if (!this.changed) return message.error('当前页面未作修改，请修改后再保存');
+		if (!source.companyName.length) return message.warning('请输入破产企业名称！');
 		this.setState({ loading: true });
-		if(!this.toCheck(params.id)) return message.error('该数据已被检查错误，请到待修改列表查看',2,()=>{
-			history.push(`/index/bankrupt?approveStatus=2`)
-		});
-		Api.saveDetail(params.id, source).then((res) => {
-			if (res.code === 200) {
-				message.success('数据保存成功，2s后回到已标记列表',2,()=>history.go(-1));
-			} else message.error(res.message);
-		}).finally(() => setTimeout(()=>this.setState({ loading: false }),2000));
+		// 校验当前数据状态
+		const idStatus = await this.toCheck(params.id);
+		if (idStatus !== 'normal') {
+			if (idStatus === 'error') return message.error('该数据已被检查错误，请到待修改列表查看',2,()=>{
+					history.push(`/index/bankrupt?approveStatus=2`)
+				});
+			else message.error('服务繁忙，请稍后再试');
+		}else {
+			// 保存当前数据
+			Api.saveDetail(params.id, source)
+				.then((res) => {
+					if (res.code === 200) {
+						message.success('数据保存成功，2s后回到已标记列表', 2, () => history.go(-1));
+					}	else message.error(res.message);
+				})
+				.catch(()=>message.error('服务繁忙，请稍后再试'))
+				.finally(() => setTimeout(() => this.setState({loading: false}), 2000));
+		}
 	};
 
 	// 保存结构化对象并获取下一条id
-	toSaveNext = type => {
+	toSaveNext = async type => {
 		console.info('保存结构化对象并获取下一条id');
 		if(!this.changed && type === 'modify') return message.error('当前页面未作修改，请修改后再保存');
 		const source = this.getUserInfo();
-		if (!source.companyName.length) return message.error('请输入破产企业名称！');
+		if (!source.companyName.length) return message.warning('请输入破产企业名称！');
 		const { history, match: { params } } = this.props;
 		this.setState({ loading: true });
-		if(!this.toCheck(params.id)) return message.error('该数据已被处理，请到已标记列表查看',2,()=>{
-			history.push(`/index/bankrupt?approveStatus=0`)
-		});
-		Api.saveDetailNext(params.id, source).then((res) => {
-			if (res.code === 200) {
-				if (res.data) history.replace(`/index/bankrupt/detail/${res.data}`);
-				else message.success('已修改完全部数据，2s后回到待标记列表',2,()=>history.push(`/index/bankrupt?approveStatus=0`));
-			} else message.error(res.message);
-		}).finally(() => setTimeout(()=>this.setState({ loading: false }),2000));
+
+		const idStatus = await this.toCheck(params.id);
+		if (idStatus !== 'normal') {
+			if (idStatus === 'error') {
+				Api.getNext(2)
+					.then(res => {
+						if(res.code === 200){
+							if(res.data){
+								message.error('该数据已被处理，为您跳转至下一条',2,()=>{
+									history.replace(`/index/bankrupt/detail/${res.data}`)
+								})
+							}else	message.error('该数据已被处理，为您跳转至未标记列',2,()=>{
+								history.push(`/index/bankrupt?approveStatus=2`)
+							})
+						} else message.error(res.message);
+					})
+					.catch(()=>message.error('服务繁忙，请稍后再试'))
+					.finally(() => setTimeout(() => this.setState({loading: false}), 2000));
+			}	else message.error('服务繁忙，请稍后再试');
+		} else {
+			Api.saveDetailNext(params.id, source)
+				.then((res) => {
+					if (res.code === 200) {
+						if (res.data){
+							history.replace(`/index/bankrupt/detail/${res.data}`);
+							message.success('保存成功',1)
+						} else this.toWillBackModal();
+					} else message.error(res.message);
+				})
+				.catch(()=>message.error('服务繁忙，请稍后再试'))
+				.finally(this.setState({ loading: false }));
+		}
 	};
 
-	// 信息无误按钮接口
-	toAffirm = ()=>{
+	// 信息无误按钮接口 【无误后获取下一条数据】
+	toAffirm = async () =>{
 		console.info('信息无误按钮接口');
-		if(!this.changed) return message.error('当前页面未作修改，请修改后再保存');
+		// if(!this.changed) return message.error('当前页面未作修改，请修改后再保存');
 		const { history, match: { params } } = this.props;
 		this.setState({ loading: true });
-		if(!this.toCheck(params.id)){
-			console.log('状态异常');
-			// Api.getNext(2).then()
-
-		}else {
-			Api.updateStatus(params.id).then((res) => {
-				if (res.code === 200) {
-					if (res.data) history.replace(`/index/bankrupt/detail/${res.data}`);
-					else message.success('已修改完全部数据，2s后回到待标记列表',2,()=>history.push(`/index/bankrupt?approveStatus=0`));
-				} else message.error(res.message);
-			}).finally(() => setTimeout(()=>this.setState({ loading: false }),2000));
+		const idStatus = await this.toCheck(params.id);
+		if (idStatus !== 'normal') {
+			if (idStatus === 'error') {
+				Api.getNext(2)
+					.then(res => {
+						if(res.code === 200){
+							if(res.data){
+								message.error('该数据已被处理，为您跳转至下一条',2,()=>{
+									history.replace(`/index/bankrupt/detail/${res.data}`)
+								})
+							}else	message.error('该数据已被处理，为您跳转至未标记列',2,()=>{
+									history.push(`/index/bankrupt?approveStatus=2`)
+								})
+						} else message.error(res.message);
+					})
+					.catch(()=>message.error('服务繁忙，请稍后再试'))
+					.finally(() => setTimeout(() => this.setState({loading: false}), 2000));
+			}	else message.error('服务繁忙，请稍后再试');
+		} else {
+			Api.updateStatus(params.id)
+				.then((res) => {
+					if (res.code === 200) {
+						if (res.data) {
+							history.replace(`/index/bankrupt/detail/${res.data}`);
+							message.success('保存成功',1)
+						}	else this.toWillBackModal();
+					} else message.error(res.message);
+				})
+				.catch(()=>message.error('服务繁忙，请稍后再试'))
+				.finally(this.setState({ loading: false }));
 		}
+	};
 
+	toWillBackModal = ()=>{
+		const { history } = this.props;
+		let secondsToGo = 3;
+		const onOk = ()=>{
+			if(timer)	clearInterval(timer);
+			history.push(`/index/bankrupt?approveStatus=0`);
+		};
+		const modal = Modal.success({
+			centered: true,
+			className: 'yc-bankrupt-modal',
+			title: ['已标记完全部数据，',<span style={{color:'#016AA9'}} key='time'>{secondsToGo}s</span>,' 后回到未标记列'],
+			icon: <Icon type="check-circle" theme="filled" />,
+			okText: ' 我知道了 ',
+			onOk,
+		});
+		const timer = setInterval(() => {
+			secondsToGo -= 1;
+			modal.update({
+				title: ['已标记完全部数据，',<span style={{color:'#016AA9'}} key='time'>{secondsToGo}s</span>,' 后回到未标记列'],
+			});
+		}, 1000);
+		setTimeout(() => {
+			clearInterval(timer);
+			modal.destroy();
+			onOk();
+		}, secondsToGo * 1000);
 	};
 
 	render() {
@@ -215,8 +306,8 @@ class BankruptDetail extends React.Component {
 							<Item title='自动退回' hide={!(rule === 'admin' && source.status === 2)}>
 								<ul className="detail-content-item_ul">
 									{
-										autoReturn ? ( <li>
-											<span className="li-span">{autoReturn.time}</span>
+										(autoReturn||{}).time ? ( <li>
+											<span className="li-span li-span_time">{autoReturn.time}</span>
 											{ autoReturn.msg && <span className="li-span">{autoReturn.msg}</span>}
 											{ autoReturn.flag === 0 && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}
 										</li>	): null
@@ -226,7 +317,7 @@ class BankruptDetail extends React.Component {
 							</Item>
 							<Item title='基本信息'>
 								<ItemList title='标题：'>
-									{source.url? <a href={source.url} target='_blank' rel="noopener noreferrer">{source.title||'--'}</a>: (source.title||'--')}
+									{source.url? <a href={source.url} target='_blank' rel="noopener noreferrer" className="a-link">{source.title||'--'}</a>: (source.title||'--')}
 								</ItemList>
 								<ItemList title='发布时间：'>{source.publishTime||'--'}</ItemList>
 								<ItemList title='当前状态：'>{statusText[source.status]||'--'}</ItemList>
@@ -235,7 +326,7 @@ class BankruptDetail extends React.Component {
 										{
 											(source.records||[]).length ? source.records.map(i=>(
 												<li key={i.time}>
-													<span className="li-span">{i.time}</span>
+													<span className="li-span li-span_time">{i.time}</span>
 													{ i.user && <span className="li-span">{i.user}</span>}
 													{ i.msg && <span className="li-span">
 														{i.flag === 2 && '初次' }

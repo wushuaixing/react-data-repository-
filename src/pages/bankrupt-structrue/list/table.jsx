@@ -19,7 +19,7 @@ class ListTable extends React.Component {
 		const render = {
 			status: (status) => {
 				let background = '#FFF';
-				let text = '--';
+				let text = '-';
 				if (status === 1) { background = '#1DB805'; text = '已标记'; }
 				else if (status === 2) { background = '#FA9214'; text = '自动退回'; }
 				else if (status === 0) { background = '#B8BBBE'; text = '未标记'; }
@@ -48,14 +48,14 @@ class ListTable extends React.Component {
 					dataIndex: 'title',
 					key: 'title',
 					width: 850,
-					render: text =>text? <a>{text}</a>:'--',
+					render: (text,row) =>text? <a href={row.url} target='_blank' rel="noopener noreferrer" className="a-link">{text}</a>:'-',
 				},
 				{
 					title: '发布日期',
 					dataIndex: 'publishTime',
 					key: 'date',
 					width: 250,
-					render:val=>val||'--'
+					render:val=>val||'-'
 				},
 				{
 					title: () => <span style={{ paddingLeft: 10 }}>状态</span>,
@@ -78,22 +78,22 @@ class ListTable extends React.Component {
 				title: '破产企业名称',
 				dataIndex: 'companyName',
 				key: 'companyName',
-				width: 300,
-				render:val=>val||'--'
+				width: 350,
+				render:val=>val||'-'
 			},
 			{
 				title: '标题',
 				dataIndex: 'title',
 				key: 'title',
-				width: 400,
-				render: text => <a>{text}</a>,
+				width: 350,
+				render: (text,row) =>text? <a href={row.url} target='_blank' rel="noopener noreferrer" className="a-link">{text}</a>:'-',
 			},
 			{
 				title: '发布日期',
 				dataIndex: 'publishTime',
 				key: 'date',
 				width: 110,
-				render:val=>val||'--'
+				render:val=>val||'-'
 			},
 			{
 				title: () => <span style={{ paddingLeft: 10 }}>状态</span>,
@@ -107,14 +107,14 @@ class ListTable extends React.Component {
 				dataIndex: 'updateTime',
 				key: 'update',
 				width: 180,
-				render:val=>val||'--'
+				render:val=>val||'-'
 			},
 			{
 				title: '最后更新者',
 				dataIndex: 'approverName',
 				key: 'updater',
 				width: 110,
-				render:val=>val||'--'
+				render:val=>val||'-'
 			},
 			{
 				title: '操作',
