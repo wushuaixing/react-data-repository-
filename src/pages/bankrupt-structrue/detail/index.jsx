@@ -182,15 +182,19 @@ class BankruptDetail extends React.Component {
 		if(!this.changed) return message.error('当前页面未作修改，请修改后再保存');
 		const { history, match: { params } } = this.props;
 		this.setState({ loading: true });
-		if(!this.toCheck(params.id)) return message.error('该数据已被处理，请到已标记列表查看',2,()=>{
-			history.push(`/index/bankrupt?approveStatus=0`)
-		});
-		Api.updateStatus(params.id).then((res) => {
-			if (res.code === 200) {
-				if (res.data) history.replace(`/index/bankrupt/detail/${res.data}`);
-				else message.success('已修改完全部数据，2s后回到待标记列表',2,()=>history.push(`/index/bankrupt?approveStatus=0`));
-			} else message.error(res.message);
-		}).finally(() => setTimeout(()=>this.setState({ loading: false }),2000));
+		if(!this.toCheck(params.id)){
+			console.log('状态异常');
+			// Api.getNext(2).then()
+
+		}else {
+			Api.updateStatus(params.id).then((res) => {
+				if (res.code === 200) {
+					if (res.data) history.replace(`/index/bankrupt/detail/${res.data}`);
+					else message.success('已修改完全部数据，2s后回到待标记列表',2,()=>history.push(`/index/bankrupt?approveStatus=0`));
+				} else message.error(res.message);
+			}).finally(() => setTimeout(()=>this.setState({ loading: false }),2000));
+		}
+
 	};
 
 	render() {
@@ -214,7 +218,7 @@ class BankruptDetail extends React.Component {
 										autoReturn ? ( <li>
 											<span className="li-span">{autoReturn.time}</span>
 											{ autoReturn.msg && <span className="li-span">{autoReturn.msg}</span>}
-											{ autoReturn.bol && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}
+											{ autoReturn.flag === 0 && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}
 										</li>	): null
 									}
 									<li style={{ color:"#FB0037" }}>{autoReturnMsg}</li>
@@ -233,8 +237,13 @@ class BankruptDetail extends React.Component {
 												<li key={i.time}>
 													<span className="li-span">{i.time}</span>
 													{ i.user && <span className="li-span">{i.user}</span>}
-													{ i.msg && <span className="li-span">{i.msg}</span>}
-													{ i.bol && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}
+													{ i.msg && <span className="li-span">
+														{i.flag === 2 && '初次' }
+														{i.flag === 3 && '修改' }
+														{i.msg}
+													</span>}
+													{ i.flag === 0 && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}
+													{ i.flag === 1 && <span className="li-span" style={{ color:"#1DB805" }}>信息无误</span>}
 												</li>
 											)): <li key='nothing'>--</li>
 										}
@@ -243,21 +252,30 @@ class BankruptDetail extends React.Component {
 							</Item>
 							<Item title='破产公告原文'>
 								<ItemList noTitle>
-									<pre dangerouslySetInnerHTML={{ __html: (source.content||'').replace(/^\s{2,}|\s{2,}$/gm,"\n") }} />
+									<pre dangerouslySetInnerHTML={{ __html: (source.content||'').replace(/^\s{2,}|\s{2,}$/gm,"\n") }} style={{whiteSpace: "pre-wrap"}}/>
 								</ItemList>
 							</Item>
 							<Item title='角色信息' hide={rule !== 'admin'}>
-								<div style={{display:'flex'}}>
-									<ItemList title='破产管理人：' style={{ maxWidth: 500, paddingRight: 120 }}>
+								<div style={{ display: 'flex' }}>
+									<ItemList title="破产企业：" style={{ maxWidth: 500, paddingRight: 120 }}>
 										<ul className="detail-content-item_ul">
-											<ItemTag text='温州市晨乐鞋业有限公司温州市晨乐鞋业有限公司温州市晨乐鞋业有限公司' tag />
-											<ItemTag text='炳洪的申请于2019年7月29日裁定受' tag />
-											<ItemTag text='依法应予以终结破产程序。依照《中华人民共和国企' />
+											{ (source.companyName || []).map(({ bankruptcyCompanyName: name, bol }) => <ItemTag key={name} text={name} tag={bol} />) }
+											{ !(source.companyName || []).length && '-' }
 										</ul>
 									</ItemList>
-									<ItemList title='申请人：'>--</ItemList>
+									<ItemList title="申请人：">
+										<ul className="detail-content-item_ul">
+											{ (source.applicant || []).map(({ value: name, bol }) => <ItemTag key={name} text={name} />) }
+											{ !(source.applicant || []).length && '-' }
+										</ul>
+									</ItemList>
 								</div>
-								<ItemList title='破产管理人：'>--</ItemList>
+								<ItemList title="破产管理人：">
+									<ul className="detail-content-item_ul">
+										{ (source.publisher || []).map(({ value: name, bol }) => <ItemTag key={name} text={name} />) }
+										{ !(source.publisher || []).length && '-' }
+									</ul>
+								</ItemList>
 							</Item>
 							<Item title='角色信息' style={{ lineHeight: '32px' }} hide={rule !== 'normal'} >
 								<div style={{display:'flex',paddingBottom:10}}>

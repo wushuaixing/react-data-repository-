@@ -9,35 +9,7 @@ class ListTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: [
-				{
-					id:1,
-					title: '（2019）川0107破6号受理破产清算申请-公告',
-					company: '上海华江电力实业公司',
-					updater: '李',
-					status: 1,
-					publishTime: '2019-12-22',
-					updateTime: '2019-12-04 21:02:36',
-				},
-				{
-					id:2,
-					title: '（2019）川0107破6号受理破产清算申请-公告（2019）川0107破6号受理破产清算申请-公告（2019）川0107破6号受理破产清算申请-公告川0107破6号受理破产清算申请-公告',
-					company: '天津液压机械（集团）有限公司、天津开发区华赢联合有限公司',
-					updater: '智',
-					status: 2,
-					publishTime: '2019-12-22',
-					updateTime: '2019-12-04 21:02:36',
-				},
-				{
-					id:3,
-					title: '（2019）川0107破6号受理破产清算申请-公告（2019）川0107破6号受理破产清算申请-公告（2019）川0107破6号受理破产清算申请-公告川0107破6号受理破产清算申请-公告',
-					company: '天津液压机械（集团）有限公司、天津开发区华赢联合有限公司',
-					updater: '恩',
-					status: 3,
-					publishTime: '2019-12-22',
-					updateTime: '2019-12-04 21:02:36',
-				},
-			],
+			dataSource: [],
 		};
 		this.history = props.history;
 	}
@@ -104,8 +76,8 @@ class ListTable extends React.Component {
 		return [
 			{
 				title: '破产企业名称',
-				dataIndex: 'company',
-				key: 'company',
+				dataIndex: 'companyName',
+				key: 'companyName',
 				width: 300,
 				render:val=>val||'--'
 			},

@@ -9,6 +9,11 @@
       padding: 6px 10px 10px 10px;
       margin-right: 20px;
     }
+    .yc-bankrupt-content_tabs{
+      .ant-tabs-tab-active{
+        font-weight: bold;
+      }
+    }
   }
   .list-query-wrapper{
     &-form{
@@ -37,6 +42,7 @@
   .list-table-wrapper{
     line-height: 20px;
     .list-table{
+
       .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
         padding: 14px;
       }

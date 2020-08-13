@@ -100,6 +100,7 @@ class BankruptList extends React.Component {
 		const { num,approveStatus } = this.state;
 		const { history } = this.props;
 		const _params = Object.assign(init?{}:this.params,params,init?{ page:1, num, approveStatus }:{});
+		this.params = _params;
 		history.replace('/index/bankrupt?'+urlEncode(_params).replace(/^&/,''));
 		this.setState({ loading:true });
 		Api.bankruptcyList(_params).then(res=>{
