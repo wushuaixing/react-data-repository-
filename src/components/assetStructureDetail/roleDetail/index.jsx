@@ -157,7 +157,7 @@ const RoleInfo = (props) => {
 const RoleInputs = (props) => {
     const arr = [];
     for (let i = 0; i < props.num; i++) {
-        arr.push(<RoleInput
+        arr.unshift(<RoleInput
           key={i}
           index={i}
           obligor={props.obligors[i]}
