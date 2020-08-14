@@ -99,7 +99,7 @@ class Login extends React.Component {
 		if (res.data.code === 200) {
 			storage.setItem("userState", res.data.data.ROLE);
 			storage.setItem("userName", res.data.data.NAME);
-			this.props.history.push({ pathname: '/index', query: { info: 'success' } });
+			this.props.history.push({ pathname: '/index', query: { info: 'success', rule:res.data.data.FUNCTIONS } });
 		} else {
 			this.setState({
 				errorCount: res.data.data.errCount
@@ -167,6 +167,7 @@ class Login extends React.Component {
 											})(
 												<Input
 													maxLength={11}
+													autoComplete="auto"
 													className="yc-input"
 													prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
 													placeholder="请输入11位账号"
@@ -187,6 +188,7 @@ class Login extends React.Component {
 													className="yc-input"
 													prefix={<Icon type="lock" style={{ color: this.state.iconColor }} />}
 													type="password"
+													autoComplete="auto"
 													onPressEnter={this.handleCorrect}
 													placeholder="请输入密码"
 												/>,
@@ -206,6 +208,7 @@ class Login extends React.Component {
 															style={{ width: 175 }}
 															className="yc-input"
 															onPressEnter={this.handleCorrect}
+															autoComplete="off"
 															prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
 															placeholder="请输入图片验证码"
 														/>,

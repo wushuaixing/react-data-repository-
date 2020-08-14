@@ -1,61 +1,74 @@
 import React from 'react';
 import { Select, Form, Input } from 'antd';
-import { CHARACTER_LIST } from '@/static/status'
+import { CHARACTER_LIST } from '@/static/status';
 import './style.scss';
-import { SearchAndClearButtonGroup } from '@commonComponents'
+import { SearchAndClearButtonGroup } from '@commonComponents';
+
 const { Option } = Select;
+
+const strTypeArray = [
+	{ id: 1, value: '', label: '全部' },
+	{ id: 2, value: 8, label: '资产拍卖数据' },
+	{ id: 3, value: 11, label: '破产重组数据' },
+];
 
 class Index extends React.Component {
 	clearSearch = () => {
-        this.props.form.resetFields();
-        this.props.handleClear();
+		this.props.form.resetFields();
+		this.props.handleClear();
 	};
-	handleSearch(e){
+
+	handleSearch(e) {
 		e.preventDefault();
-		this.props.handleSearch(this.props.form.getFieldsValue())
+		this.props.handleSearch(this.props.form.getFieldsValue());
 	}
+
 	render() {
 		const { username, role } = this.props;
 		const { getFieldDecorator } = this.props.form;
 		return (
-			<div className="yc-components-accountManagement-search" >
+			<div className="yc-components-accountManagement-search">
 				<Form layout="inline" onSubmit={this.handleSearch.bind(this)}>
 					<Form.Item label="账号/姓名">
 						{
 							getFieldDecorator('username', {
 								initialValue: username,
 								getValueFromEvent(event) {
-									return event.target.value.trim()
+									return event.target.value.trim();
 								},
 								validateTrigger: 'onBlur',
 							})(
-								<Input placeholder="请输入账号或姓名" style={{ width: 240 }} autoComplete='off'/>
+								<Input placeholder="请输入账号或姓名" style={{ width: 240 }} autoComplete="off" />,
 							)}
 					</Form.Item>
 					<Form.Item label="角色">
 						{
 							getFieldDecorator('role', {
-								initialValue: role
+								initialValue: role,
 							})(
 								<Select style={{ width: 75, marginLeft: 4 }}>
 									{
-										CHARACTER_LIST.map((item) => {
-											return (
-												<Option value={item.value} key={item.value}>
-													{item.label}
-												</Option>
-											);
-										})
+										CHARACTER_LIST.map(item => (
+											<Option value={item.value} key={item.value}>
+												{item.label}
+											</Option>
+										))
 									}
-								</Select>
+								</Select>,
 							)}
 					</Form.Item>
+					<Form.Item label="结构化对象">
+						{ getFieldDecorator('functions', { initialValue: '' })(
+								<Select style={{ width: 120, marginLeft: 4 }}>
+									{ strTypeArray.map(item => (<Option value={item.value} key={item.value}>{item.label}</Option>)) }
+								</Select>	)}
+					</Form.Item>
 					<Form.Item>
-                        <SearchAndClearButtonGroup handleClearSearch={this.clearSearch} />
-                    </Form.Item>
+						<SearchAndClearButtonGroup handleClearSearch={this.clearSearch} />
+					</Form.Item>
 				</Form>
 			</div>
 		);
 	}
 }
-export default Form.create()(Index)
+export default Form.create()(Index);
