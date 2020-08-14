@@ -191,7 +191,7 @@ class BankruptDetail extends React.Component {
 		const idStatus = await this.toCheck(params.id);
 		if (idStatus !== 'normal') {
 			if (idStatus === 'error') {
-				Api.getNext(2)
+				Api.getNext(type === 'modify'?2:0)
 					.then(res => {
 						if(res.code === 200){
 							if(res.data){
