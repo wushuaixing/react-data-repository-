@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
 import { message } from 'antd';
-
 import Login from "./login";
 import Home from "./home";
 import DocumentDetail from "../pages/externalSource/document";
@@ -20,7 +19,7 @@ class App extends React.Component {
 		return (
 			<Router>
 				<Switch>
-					<Route path="/" exact component={Login} remark="默认界面"/>
+					<Route path="/" exact component={Home} remark="默认界面"/>
 					<Route path="/login" component={Login} remark="登录界面" />
 					<Route path="/index" component={Home} remark="首页" />
 					<Route path="/documentSearch" component={DocumentSearch}  remark="文书搜索" />
