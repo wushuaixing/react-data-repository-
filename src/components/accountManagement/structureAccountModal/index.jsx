@@ -1,7 +1,6 @@
 /** right content for Account manage* */
 import React from 'react';
 import { Modal, Form, Button, Select, Checkbox, Radio, Input } from "antd";
-import { HotDotBeforeFormItem } from '@commonComponents'
 import { ADD_CHARACTER_LIST, AUCTION_DATA_TYPE } from '@/static/status'
 import '../style.scss'
 const { Option } = Select;
@@ -11,7 +10,11 @@ const formItemLayout = {
     sm: { span: 3, offset: -1 },
   },
 };
-const structureList = ["资产", /* "破产重组结构化" */];
+
+const structureList = [
+  { label: '资产结构化', value: '8' },
+  { label: '破产重组结构化', value: '11' },
+];
 class AccountManage extends React.Component {
   //确定
   modalOk = (e) => {
@@ -20,13 +23,10 @@ class AccountManage extends React.Component {
       if (!err) {
         const { info, action } = this.props;
         let options = this.props.form.getFieldsValue();
-        if (action === 'add') {
-          options.structuredObject = [8];
-        }
-        else {
-          options.functionId = [8];
+        if (action !== 'add') {
           options.username = info.username;
         }
+        options.structuredObject = options.functionId;
         this.props.handleSubmit(options, info.id);
       }
     });
@@ -53,7 +53,9 @@ class AccountManage extends React.Component {
   }
   render() {
     const { visible, info, action } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator, getFieldValue } = this.props.form;
+
+    const deFunctionId = [/资产结构化/.test(info.structuredObject||'')?'8':"",/破产重组结构化/.test(info.structuredObject||'')?'11':""];
     const footer =
       <div className="yc-modal-footer">
         <Button type="primary" htmlType="submit" onMouseDown={this.modalOk.bind(this)}>确定</Button>
@@ -157,36 +159,28 @@ class AccountManage extends React.Component {
             <div>
               <p style={{ marginLeft: 18, color: 'rgba(0, 0, 0, 0.85)' }}>结构化对象:</p>
               <div className="structureObject" style={{ marginLeft: 18 }}>
-                <div>
-                  <Checkbox.Group
-                    options={structureList}
-                    defaultValue={["资产"]}
-                    disabled
-                  >
-                  </Checkbox.Group>
-                  <p className="structureObject-dataType" style={{ marginLeft: 6, color: 'rgba(0, 0, 0, 0.85)' }}>数据类型:</p>
-                  <HotDotBeforeFormItem left={20} top={55} />
-                </div>
                 <Form.Item>
-                  {getFieldDecorator('auctionDataType', {
-                    rules: [
-                      { required: true, message: '数据类型不能为空' }
-                    ],
-                    initialValue: action === 'add' ? '' : this.findKeyByValue(AUCTION_DATA_TYPE, info.dataType)
-                  })(
-                    <Radio.Group style={{ marginLeft: 5, display: 'inline-block' }}>
-                      {
-                        Object.keys(AUCTION_DATA_TYPE).map(key => {
-                          return (
-                            <Radio value={parseInt(key)} key={key}>
-                              {AUCTION_DATA_TYPE[key]}
-                            </Radio>
-                          )
-                        })
-                      }
-                    </Radio.Group>,
-                  )}
+                  {
+                    getFieldDecorator('functionId', {
+                      rules: [  { required: true, message: '结构化对象不能为空' } ],
+                      initialValue: action === 'add' ? [] : deFunctionId
+                    })( <Checkbox.Group options={structureList} />)
+                  }
                 </Form.Item>
+                {
+                  (getFieldValue('functionId')||[]).includes('8') ?(
+                    <Form.Item label="数据类型:" className="form-col-temp" >
+                      {getFieldDecorator('auctionDataType', {
+                        rules: [  { required: true, message: '数据类型不能为空' } ],
+                        initialValue: action === 'add' ? 0 : this.findKeyByValue(AUCTION_DATA_TYPE, info.dataType)
+                      })(
+                        <Radio.Group style={{ marginLeft: 5, display: 'inline-block' }}>
+                          { Object.keys(AUCTION_DATA_TYPE).map(key => <Radio value={parseInt(key)} key={key}>{AUCTION_DATA_TYPE[key]}</Radio>) }
+                        </Radio.Group>,
+                      )}
+                    </Form.Item>
+                  ) : null
+                }
               </div>
             </div>
           </Form>

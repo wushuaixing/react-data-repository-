@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
-import history from "../history";
+import { message } from 'antd';
 import Login from "./login";
 import Home from "./home";
 import DocumentDetail from "../pages/externalSource/document";
@@ -9,17 +9,17 @@ import NotFound from './errorPage/notFound'
 import DocumentSearch from "../pages/documentSearch";
 import NotFirstMark from '@/pages/assetStructureDetailNewPage/notFirstMark/index'
 import AutoMark from '@/pages/assetStructureDetailNewPage/autoMark/index'
-import { message } from 'antd'
-message.config({
-	maxCount:1
-});
+
+message.config({ maxCount:1 });
+
+// TODO 缺少权限判断
 
 class App extends React.Component {
 	render() {
 		return (
-			<Router history={history}>
+			<Router>
 				<Switch>
-					<Route path="/" exact component={Login} remark="默认界面"/>
+					<Route path="/" exact component={Home} remark="默认界面"/>
 					<Route path="/login" component={Login} remark="登录界面" />
 					<Route path="/index" component={Home} remark="首页" />
 					<Route path="/documentSearch" component={DocumentSearch}  remark="文书搜索" />
@@ -34,4 +34,5 @@ class App extends React.Component {
 		)
 	}
 }
+
 export default App;

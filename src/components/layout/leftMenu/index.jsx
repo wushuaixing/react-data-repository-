@@ -18,6 +18,8 @@ const menuRoute = {
   20: ["/index/assetList","/index/structureDetail"],//资产结构化列表（管理员）
   16: "/documentSearch",//文书搜索（管理员+检查人员）
   9: "/documentSearch",//文书搜索（结构化人员）
+  25:["/index/bankrupt","/index/bankrupt/detail"],//破产重组结构化（结构化人员）
+  11:["/index/bankrupt","/index/bankrupt/detail"],//破产重组结构化（结构化人员）
 
   // 21: "/index/syncMonitor",//抓取与同步监控（管理员）
   // 22: "/index/structureMonitor",//结构化情况监控（管理员）
@@ -51,6 +53,17 @@ const getSource = (data={})=>{
       backup:menuRoute[item.id],
     })).filter(i=>i.link),
   })).filter(i=>i.children.length)
+  //   .concat({
+  //   title:'破产结构化',
+  //   children: [
+  //     {
+  //       title:'破产重组结构化-详情',
+  //       id:502,
+  //       link:'/index/bankrupt/detail',
+  //       backup:'/index/bankrupt/detail',
+  //     }
+  //   ]
+  // })
 };
 
 class Sider extends React.Component {
@@ -64,33 +77,18 @@ class Sider extends React.Component {
       defaultKey: [],
       menuSource: [],
       selectedKeys:[],
-    }
+    };
+    this.pathname = '';
   }
 
   componentDidMount() {
     // 判断是否符合path
-    const linkCheck = (link,pathname) =>{
-      if(!link)return false;
-      if (typeof link === 'string') return new RegExp(link).test(pathname);
-      if (Array.isArray(link)) return link.some(i => new RegExp(i).test(pathname));
-      return false;
-    };
 
     getAvailableNav().then(res=>{
       if(res.data.code ===200){
-        const { pathname } = this.props.location;
         const { openKeys } = this.state;
         const menuSource = getSource(res.data.data);
-        let selectedKeys =[];
-        let _openKey = "";
-        menuSource.forEach(i=>{
-          (i.children||[]).forEach(item=>{
-            if (linkCheck(item.backup,pathname)) {
-              selectedKeys = [item.id.toString()];
-              _openKey = `subKey_${item.parentIndex}`;
-            }
-          })
-        });
+        const {selectedKeys,_openKey} = this.toGetSelectInfo(menuSource);
         let _openKeys = openKeys.includes(_openKey)?openKeys:[...openKeys,_openKey];
         this.setState({
           menuSource,
@@ -101,12 +99,49 @@ class Sider extends React.Component {
     }).finally(()=> this.setState({loading:false}))
   }
 
+  componentWillReceiveProps(nextProps, nextContext) {
+    const { history:{ location:{ pathname } } } = nextProps;
+    if(this.pathname !== pathname){
+      const { menuSource,openKeys } = this.state;
+      const {selectedKeys,_openKey} = this.toGetSelectInfo(menuSource,pathname);
+      let _openKeys = openKeys.includes(_openKey)?openKeys:[...openKeys,_openKey];
+      this.setState({
+        selectedKeys:selectedKeys,
+        openKeys:_openKeys
+      });
+    }
+  }
+
+  toGetSelectInfo = (menuSource,newPathname)=>{
+    const { pathname } = this.props.location;
+    let selectedKeys =[];
+    let _openKey = "";
+    const linkCheck = (link,pathname) =>{
+      if(!link)return false;
+      if (typeof link === 'string') return new RegExp(link).test(pathname);
+      if (Array.isArray(link)) return link.some(i => new RegExp(i).test(pathname));
+      return false;
+    };
+    menuSource.forEach(i=>{
+      (i.children||[]).forEach(item=>{
+        if (linkCheck(item.backup,newPathname||pathname)) {
+          selectedKeys = [item.id.toString()];
+          _openKey = `subKey_${item.parentIndex}`;
+        }
+      })
+    });
+    const defaultKey = menuSource.length?[((menuSource[0]||{}).children[0]||{}).id+'']:[];
+    return { selectedKeys:selectedKeys.length?selectedKeys:defaultKey, _openKey }
+  };
+
   onMenuItemClick = ({key}) =>this.setState({selectedKeys:[key] });
 
   onOpenChange=(key) => this.setState({  openKeys: key });
 
   render() {
     const { openKeys, menuSource,selectedKeys,loading } = this.state;
+    const { history:{ location:{ pathname } } } = this.props;
+    this.pathname = pathname;
     return (
       <SpinLoading loading={loading} wrapperClassName="yc-sider-left">
         { menuSource.length===0 && <div style={{minHeight:350}} />}

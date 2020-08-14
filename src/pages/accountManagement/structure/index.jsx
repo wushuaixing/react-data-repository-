@@ -109,11 +109,12 @@ class AccountManage extends React.Component {
 		};
 	}
 	get searchParams() {
-		const { isEnabledUser, page, role, username,totalWrongNumAsc } = this.state;
+		const { isEnabledUser, page, role, username,totalWrongNumAsc, functions } = this.state;
 		return formUtils.removeObjectNullVal({
 			isEnabledUser,
 			page,
 			role,
+			functions,
 			username:username.trim(),
 			totalWrongNumAsc:parseInt(this.state.tabIndex) === 2?totalWrongNumAsc:''
 		})
@@ -225,31 +226,24 @@ class AccountManage extends React.Component {
 		if (action === 'add') {
 			//确定前还需验证
 			userCreate(data).then(res => {
-				this.setState({
-					loading: false,
-				});
 				if (res.data.code === 200) {
 					message.success("账号添加成功");
-					this.setState({
-						page:1
-					})
+					this.setState({ page:1 });
+					this.getTableList();
 				} else {
 					message.error(res.data.message);
 				}
-			});
+			}).finally(()=>this.setState({ loading: false }));
 		} else {
 			userEdit(id, data).then(res => {
 				if (res.data.code === 200) {
-					this.setState({
-						loading: false,
-					});
 					message.info("修改成功");
+					this.getTableList();
 				} else {
 					message.error(res.data.message);
 				}
-			});
+			}).finally(()=>this.setState({ loading: false }));
 		}
-		setTimeout(this.getTableList, 100);
 	};
 
 	//弹窗取消
@@ -294,6 +288,7 @@ class AccountManage extends React.Component {
 		this.setState({
 			username:'',
 			role:'',
+			functions:'',
 			page:1
 		},()=>{
 			this.getTableList();

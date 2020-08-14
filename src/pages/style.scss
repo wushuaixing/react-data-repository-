@@ -1,6 +1,7 @@
 //每个tab下白色的内容区除面包屑的部分
 .yc-detail-content {
-  min-height: 1200px;
+  //min-height: 1200px;
+  min-height: 60vh;
   .yc-search-line {
     > div {
       display: inline-block;
@@ -79,9 +80,10 @@
 }
 //新开页文书搜索 特殊样式
 .yc-content-container-newPage{
-  margin:20px auto;
+  margin:25px auto;
   background-color: #ffffff;
   width:1250px;
+  min-height: 95vh;
 }
 //模态框底部
 .yc-modal-footer {

@@ -8,6 +8,8 @@ import ErrorBoundary from './pages/errorPage/exceptionPage'
 import App from './pages/App';
 import * as serviceWorker from './serviceWorker';
 import './assets/css/antd.less';
+import './assets/css/font-family.css';
+
 import './index.css';
 
 moment.locale('zh-cn');
@@ -16,6 +18,7 @@ ReactDOM.render(
 	<ConfigProvider locale={zh_CN} getPopupContainer={node=>node ? node.parentElement : document.body } >
 		<ErrorBoundary><App /></ErrorBoundary>
 	</ConfigProvider>,
-	document.getElementById('root'));
+	document.getElementById('root')
+);
 
 serviceWorker.unregister();

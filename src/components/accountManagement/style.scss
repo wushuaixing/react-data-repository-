@@ -12,4 +12,10 @@
       position: relative;
     }
   }
+  .form-col-temp{
+    margin-top: -18px;
+    .ant-form-item-label{
+      width: auto;
+    }
+  }
 }
