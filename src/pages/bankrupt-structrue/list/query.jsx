@@ -107,7 +107,7 @@ class ListQuery extends React.Component {
 			)}
 		</Form.Item>;
 		const publishTime = <div style={{display:"inline-block"}} key='publishTime'>
-			<Form.Item label="发布时间" key='publishStartTime' className='list-query-wrapper-form_before'>
+			<Form.Item label="发布日期" key='publishStartTime' className='list-query-wrapper-form_before'>
 				{getFieldDecorator('publishStartTime', { initialValue: null })(
 					<DatePicker placeholder="起始日期" disabledDate={val=>this.disabledStartDate(val,'publishEndTime')} style={{ width: 120 }}
 											getCalendarContainer={node=>node.offsetParent} />)}

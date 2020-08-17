@@ -13,10 +13,12 @@ export default class Auction extends React.Component {
 		const { history, href, api, check } = this.props;
 		if(check){
 			this.setState({ loading:true });
-			api().then(({code,message:mes})=>{
-				if(code ===200) history.push(href);
-				else message.error(mes)
-			}).finally(()=>this.setState({loading:false}))
+			api().then(({code})=>{
+				this.setState({loading:false},()=>{
+					if(code ===200) history.push(href);
+					else message.warning('该数据已被标注，请到已标记列表查看',1.5)
+				})
+			}).catch(()=>this.setState({loading:false}));
 		}else{
 			history.push(href);
 		}

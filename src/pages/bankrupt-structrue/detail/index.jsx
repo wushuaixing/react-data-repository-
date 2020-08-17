@@ -251,7 +251,7 @@ class BankruptDetail extends React.Component {
 					if (res.code === 200) {
 						if (res.data) {
 							history.replace(`/index/bankrupt/detail/${res.data}`);
-							message.success('保存成功',1)
+							message.success('操作成功',1)
 						}	else this.toWillBackModal();
 					} else message.error(res.message);
 				})
@@ -321,14 +321,14 @@ class BankruptDetail extends React.Component {
 								</ItemList>
 								<ItemList title='发布时间：'>{source.publishTime||'--'}</ItemList>
 								<ItemList title='当前状态：'>{statusText[source.status]||'--'}</ItemList>
-								<ItemList title='结构化记录：' hide={rule==='normal' && source.status === 0 }>
+								<ItemList title='结构化记录：' hide={ source.status === 0 }>
 									<ul className="detail-content-item_ul">
 										{
 											(source.records||[]).length ? source.records.map(i=>(
 												<li key={i.time}>
 													<span className="li-span li-span_time">{i.time}</span>
 													{ i.user && <span className="li-span">{i.user}</span>}
-													{ i.msg && <span className="li-span">
+													{ i.msg && i.flag !== 1 && <span className="li-span">
 														{i.flag === 2 && '初次' }
 														{i.flag === 3 && '修改' }
 														{i.msg}
