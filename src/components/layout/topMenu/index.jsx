@@ -58,7 +58,7 @@ class topMenu extends React.Component {
 
 	logOut() {
 		confirm({
-			icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
+			icon:<Icon type="exclamation-circle" theme="filled" style={{color:'#fa930c'}} />,
 			content: '确定要退出登录吗?',
 			onOk: () => {
 				logout().then(res => {

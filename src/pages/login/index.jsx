@@ -14,7 +14,7 @@ const { confirm, info } = Modal;
 
 function showManyTimeErrorConfirm(num) {
 	confirm({
-		icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
+		icon:<Icon type="exclamation-circle" theme="filled" style={{color:'#fa930c'}} />,
 		content: `账号或密码多次错误，您还可以尝试${10 - num}次，是否需要找回密码?`,
 		onOk: () => {
 			//找回密码的逻辑
@@ -27,7 +27,7 @@ function showManyTimeErrorConfirm(num) {
 }
 function showFreezeConfirm() {
 	info({
-		icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
+		icon:<Icon type="exclamation-circle" theme="filled" style={{color:'#fa930c'}} />,
 		content: `账号或密码多次错误，请1小时后再试`,
 		okText: '我知道了'
 	});
