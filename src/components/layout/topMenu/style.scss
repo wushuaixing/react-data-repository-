@@ -52,3 +52,14 @@
 .forgetPassword-form{
   padding-top:15px !important;
 }
+.yc-signout-btn{
+  .ant-modal-confirm-btns{
+    button[type=button]{
+      width: 100px;
+      height: 32px;
+      &:last-child{
+        margin-left: 20px;
+      }
+  }
+  }
+}

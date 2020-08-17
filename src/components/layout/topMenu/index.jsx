@@ -60,6 +60,7 @@ class topMenu extends React.Component {
 		confirm({
 			icon:<Icon type="exclamation-circle" theme="filled" style={{color:'#fa930c'}} />,
 			content: '确定要退出登录吗?',
+			className:'yc-signout-btn',
 			onOk: () => {
 				logout().then(res => {
 					if (res.data.code === 200) {
