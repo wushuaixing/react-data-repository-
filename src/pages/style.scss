@@ -133,7 +133,13 @@
   padding:20px !important;
 }
 .ant-modal-body{
-  padding: 32px !important;
+  padding-left: 32px !important;
+  .ant-modal-confirm-body-wrapper{
+    padding-left: 0px !important;
+    i{
+      margin-right: 12px;
+    }
+  }
 }
 //覆盖去除表格排序特殊样式
 .ant-table-tbody > tr > td.ant-table-column-sort{
@@ -156,6 +162,7 @@
 .ant-modal-confirm-content{
   font-size:14px !important;
   font-weight: normal;
+  margin-left: 34px !important;
 }
 
 
