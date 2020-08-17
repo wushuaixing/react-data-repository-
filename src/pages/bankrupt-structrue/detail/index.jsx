@@ -30,13 +30,13 @@ class BankruptDetail extends React.Component {
 		const { match:{ params:{ id:nextId } } } = nextProps;
 		if(id !== nextId) this.toGetDetailInfo(nextId);
 	}
-
+	/* 初始化参数 */
 	toResetInfo = () => {
 		this.changed = false;
 		this.errorName = [];
 		this.baseStr = ranStr();
 	};
-
+	/* 获取数据基本信息 */
 	toGetDetailInfo = (id) => {
 		const { match:{ params },form } = this.props;
 		this.setState({ loading: true });
@@ -54,7 +54,7 @@ class BankruptDetail extends React.Component {
 			})
 			.finally(() => this.setState({ loading: false }));
 	};
-
+	/* 动态创建相关输入框 */
 	getItems = (field, placeholder = '请输入') => {
 		if (!field) return;
 		const {
