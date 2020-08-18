@@ -131,7 +131,7 @@ class AccountManage extends React.Component {
                       />
                     )}
                 </Form.Item> :
-                <Form.Item className="yc-form-item" label="账号:" required={true}>
+                <Form.Item className=" yc-form-item-edit yc-form-item " label="账号:" required={true}>
                   <p
                     style={{ lineHeight: 3, fontSize: 12, marginLeft: 6, marginTop: 2, color: 'rgba(0, 0, 0, 0.85)' }}>
                     {info.username}</p>
