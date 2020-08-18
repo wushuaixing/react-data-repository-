@@ -134,12 +134,12 @@ const DocumentLinkInput = (props) => {
                 }
                 {
                     props.num < 3 && !props.enable ?
-                        <Button type="primary" shape="circle" size="small" icon="plus" onClick={props.handleAddClick}/> :
+                        <Button type="primary" shape="circle" size="small" icon="plus" onClick={props.handleAddClick} block/> :
                         null
                 }
                 {
                     props.num > 1 && !props.enable ?
-                        <Button type="default" shape="circle" size="small" icon="minus" onClick={props.handleDeleteClick}/> :
+                        <Button type="default" shape="circle" size="small" icon="minus" onClick={props.handleDeleteClick} block/> :
                         null
                 }
             </span>

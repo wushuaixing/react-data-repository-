@@ -24,4 +24,18 @@
       width: auto;
     }
   }
+  div{
+    &:last-child{
+      p{
+        margin-left: 12px !important;
+      }
+    }
+  }
+}
+.yc-accountManagement-addRoleModal{
+  button{
+    &:first-child{
+      border: none;
+    }
+  }
 }

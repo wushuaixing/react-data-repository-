@@ -54,7 +54,6 @@ class AccountManage extends React.Component {
   render() {
     const { visible, info, action } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
-
     const deFunctionId = [/资产结构化/.test(info.structuredObject||'')?'8':"",/破产重组结构化/.test(info.structuredObject||'')?'11':""];
     const footer =
       <div className="yc-modal-footer">
@@ -65,11 +64,13 @@ class AccountManage extends React.Component {
       <div>
         <Modal
           width={372}
-          title="添加结构化账号"
+          title={action==="add"?'添加结构化账号':'编辑'}
           visible={visible}
           destroyOnClose={true}
           footer={footer}
-          onCancel={this.modalCancel.bind(this)} maskClosable>
+          onCancel={this.modalCancel.bind(this)} maskClosable
+          className='yc-accountManagement-addRoleModal'
+          >
           <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout}>
             <Form.Item className="yc-form-item" label="角色：" >
               {getFieldDecorator('roleId', {

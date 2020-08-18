@@ -43,7 +43,7 @@ class AccountManage extends React.Component {
     return (
       <div>
         <Modal
-          title="添加检查账号"
+          title={action==="add"?'添加检查账号':'编辑'}
           visible={visible}
           destroyOnClose={true}
           footer={footer}
