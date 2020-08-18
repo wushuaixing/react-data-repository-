@@ -69,7 +69,7 @@ class TabTable extends React.Component {
                             <Link to={{
 								pathname: `/index/structureDetail/${record.status}/${(record.info||{}).id}`
 							}}>
-                                <Button>查看</Button>
+                                <Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }}>查看</Button>
                             </Link>
                         </span>
                     )

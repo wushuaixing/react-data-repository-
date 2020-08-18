@@ -23,7 +23,6 @@
     border-top: 1px solid rgb(226, 228, 233);
     clear: both;
   }
-
   .yc-tab {
     margin-top:8px;
     padding:0 20px;
@@ -68,6 +67,9 @@
       }
     }
   }
+}
+.end-time-after{
+  margin-right:8px !important;
 }
 .ant-checkbox-wrapper span {
   font-size: 12px;
@@ -205,4 +207,10 @@
 }
 .ant-pagination-total-text{
   color: rgba(128,131,135,1);
+}
+[for=endTime]{
+  display: block;
+  &::after{
+    content: '' !important;// 至 后面没有 ：
+  }
 }

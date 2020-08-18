@@ -217,7 +217,7 @@ class Index extends React.Component {
                             />)}
                     </Form.Item>
 
-                    <Form.Item label={this.searchTimeTypeInput}>
+                    <Form.Item label={this.searchTimeTypeInput}  className='end-time-after'>
                         {getFieldDecorator('startTime', {
                             initialValue: null,
                         })

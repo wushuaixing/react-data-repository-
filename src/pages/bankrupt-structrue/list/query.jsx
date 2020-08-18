@@ -107,7 +107,7 @@ class ListQuery extends React.Component {
 			)}
 		</Form.Item>;
 		const publishTime = <div style={{display:"inline-block"}} key='publishTime'>
-			<Form.Item label="发布时间" key='publishStartTime' className='list-query-wrapper-form_before'>
+			<Form.Item label="发布时间" key='publishStartTime' className='list-query-wrapper-form_before end-time-after'> 
 				{getFieldDecorator('publishStartTime', { initialValue: null })(
 					<DatePicker placeholder="起始日期" disabledDate={val=>this.disabledStartDate(val,'publishEndTime')} style={{ width: 120 }}
 											getCalendarContainer={node=>node.offsetParent} />)}
@@ -119,7 +119,7 @@ class ListQuery extends React.Component {
 			</Form.Item>
 		</div>;
 		const updateTime = <div style={{display:"inline-block"}} key='updateTime'>
-			<Form.Item label="更新时间" key='updateStartTime' className='list-query-wrapper-form_before'>
+			<Form.Item label="更新时间" key='updateStartTime' className='list-query-wrapper-form_before end-time-after'>
 				{getFieldDecorator('updateStartTime', { initialValue: null})(
 					<DatePicker placeholder="起始日期" disabledDate={val=>this.disabledStartDate(val,'updateEndTime')} style={{ width: 120 }}
 											getCalendarContainer={node=>node.offsetParent} />)}
