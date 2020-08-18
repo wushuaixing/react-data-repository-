@@ -6,7 +6,7 @@ import { structuredList, getNewStructuredData, structuredCheckErrorNum,getAutoBi
 import { withRouter } from "react-router-dom";
 import { BreadCrumb, SearchAndClearButtonGroup, AssetTabTextWithNumber } from '@commonComponents'
 import { dateUtils } from "@utils/common";
-
+import NoDataIMG from '../../../assets/img/no_data.png';
 const { TabPane } = Tabs;
 
 const searchForm = Form.create;
@@ -261,6 +261,10 @@ class Asset extends React.Component {
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
 										pagination={paginationProps}
+										locale={{emptyText: <div className="no-data-box">
+																<img src={NoDataIMG} alt="暂无数据"/>
+																<p>暂无数据</p>
+															</div>}}
 									/>
 								</TabPane>
 								<TabPane tab="已标记" key="1">
@@ -271,6 +275,10 @@ class Asset extends React.Component {
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
 										pagination={paginationProps}
+										locale={{emptyText: <div className="no-data-box">
+																<img src={NoDataIMG} alt="暂无数据"/>
+																<p>暂无数据</p>
+															</div>}}
 									/>
 								</TabPane>
 								<TabPane tab={<AssetTabTextWithNumber num={waitNum} text={'待修改'} />} key="2">
@@ -281,6 +289,10 @@ class Asset extends React.Component {
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
 										pagination={paginationProps}
+										locale={{emptyText: <div className="no-data-box">
+											                    <img src={NoDataIMG} alt="暂无数据"/>
+																<p>暂无数据</p>
+															</div>}}
 									/>
 								</TabPane>
 							</Tabs>

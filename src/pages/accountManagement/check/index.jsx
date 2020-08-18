@@ -94,6 +94,7 @@ class Index extends React.Component {
 			title: '确认删除账号?',
 			content:'删除后,该账户将无法在数据资产平台登录',
 			icon: <Icon type="exclamation-circle" />,
+			className:'ant-explain-change',
 			onOk: () => {
 				this.setState({
 					loading: true,

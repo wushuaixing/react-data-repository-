@@ -113,7 +113,7 @@
 }
 //覆盖ant表单输入项错误下方提示样式 跟label对齐
 .ant-form-explain {
-  margin-left: 61px;
+  margin-left: 31px;
 }
 
 .yc-search-form{
@@ -175,4 +175,23 @@
 .ant-table-thead > tr > th{
   border-bottom: none !important;
   font-weight:normal !important;
+}
+.ant-table-placeholder{
+  border-bottom: none !important;
+  .no-data-box{
+      width: 100%;
+      text-align: center;
+      padding-top: 86px;
+      img{
+        width: 111px;
+        height: 89px;
+        margin-bottom: 20px;
+      }
+      span{
+        font-size:12px;
+        // font-family:PingFangSC-Regular,PingFang SC;
+        color:rgba(128,131,135,1);
+        line-height:12px;
+      }
+  }
 }
