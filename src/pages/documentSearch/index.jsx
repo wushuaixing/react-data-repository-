@@ -8,6 +8,7 @@ import './style.scss'
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from '@utils/pagination'
 import { filters } from '@utils/common'
+import NoDataIMG from '../../assets/img/no_data.png'
 // import moment from 'moment'
 const searchForm = Form.create;
 
@@ -242,6 +243,10 @@ class Check extends React.Component {
 										rowKey={record => record.wenshuId}
 										pagination={paginationProps}
 										onChange={this.onTablePageChange}
+										locale={{emptyText: <div className="no-data-box">
+																<img src={NoDataIMG} alt="暂无数据"/>
+																<p>暂无数据</p>
+															</div>}}
 									/>
 								</Spin>
 							</div>

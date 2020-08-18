@@ -77,6 +77,7 @@
 }
 .ant-table-thead tr th{
   background: #EDEFF3;
+  line-height: 14px;
 }
 
 //每个tab下 灰色大容器中  白色的内容区部分
@@ -187,7 +188,7 @@
         height: 89px;
         margin-bottom: 20px;
       }
-      span{
+      p{
         font-size:12px;
         // font-family:PingFangSC-Regular,PingFang SC;
         color:rgba(128,131,135,1);
