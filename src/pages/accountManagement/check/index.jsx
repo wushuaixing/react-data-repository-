@@ -5,6 +5,7 @@ import { message, Button, Table, Spin,Modal,Icon } from 'antd';
 import AccountModal from '@/components/accountManagement/checkAccountModal';
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from "@/utils/pagination";
+import NoDataIMG from '../../../assets/img/no_data.png'
 import '../style.scss'
 const { confirm ,warning} = Modal;
 class Index extends React.Component {
@@ -203,6 +204,7 @@ class Index extends React.Component {
 									rowKey={record => record.id}
 									onChange={this.onChangePage}
 									pagination={paginationProps}
+									locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
 								/>
 							</div>
 						</Spin>

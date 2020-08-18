@@ -158,7 +158,9 @@ class Check extends React.Component {
 								editNum={editNum}
 								data={tableList}
 								onPage={this.onTablePageChange.bind(this)}
-								onTabs={this.changeTab.bind(this)}/>
+								onTabs={this.changeTab.bind(this)}
+								/>
+								
 						</Spin>
 					</div>
 				</div>
