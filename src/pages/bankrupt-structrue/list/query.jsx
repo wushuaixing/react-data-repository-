@@ -38,8 +38,8 @@ class ListQuery extends React.Component {
 			id: "用户类型",
 			array: [
 				{ value: '', label: "全部", enable:true },
-				{ value: 'deleted', label: "已删除", enable:true },
-				{ value: 'auto', label: "系统标注", enable:true, }
+				{ value: -1, label: "已删除", enable:true },
+				{ value: -2, label: "系统标注", enable:true, }
 			]
 		}, ...normalList(chineseLetter),{ id: '#', array: digit.map((item) => toFill(item))	}];
 	}
