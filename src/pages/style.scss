@@ -172,6 +172,13 @@
 }
 .ant-modal-confirm-btns{
   margin-top: 32px !important;
+  button[type=button]{
+    width: 100px;
+    height: 32px;
+    &:last-child{
+      margin-left: 20px;
+    }
+}
 }
 .ant-table-thead > tr > th{
   border-bottom: none !important;
@@ -195,4 +202,7 @@
         line-height:12px;
       }
   }
+}
+.ant-pagination-total-text{
+  color: rgba(128,131,135,1);
 }

@@ -198,7 +198,7 @@ class Login extends React.Component {
 											errorCount >= 3 ?
 												<Form.Item>
 													{getFieldDecorator('imageVerifyCode', {
-														rules: [{ required: true, whitespace: true, message: '请输入验证码', }],
+														rules: [{ required: true, whitespace: true, message: '请输入图片验证码', }],
 														getValueFromEvent(event) {
 															return event.target.value.replace(/\s/g, "")
 														},

@@ -203,7 +203,7 @@ class ForgetPasswordForm extends React.Component {
                             <Form.Item>
                                 {getFieldDecorator('code', {
                                     rules: [
-                                        { required: true, whitespace: true, message: '请输入验证码' }
+                                        { required: true, whitespace: true, message: '请输入图片验证码' }
                                     ],
                                     getValueFromEvent(event) {
                                         return event.target.value.replace(/\s/g, "")

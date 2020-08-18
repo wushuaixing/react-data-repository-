@@ -1,7 +1,7 @@
 /** right content for Account manage* */
 import React from 'react';
 import { BreadCrumb } from '@commonComponents'
-import { Tabs, Table, Spin, message,Button,Modal } from "antd";
+import { Tabs, Table, Spin, message,Button,Modal,Icon } from "antd";
 import { userCreate, userView, userEdit, userReset, userRemove, userDelete } from "@api";
 import AccountModal from '@/components/accountManagement/structureAccountModal';
 import SearchAccount from "@/components/accountManagement/search";
@@ -166,6 +166,7 @@ class AccountManage extends React.Component {
 		confirm({
 			title: '确认删除账号?',
 			content:'删除后,该账户将无法在数据资产平台登录',
+			icon: <Icon type="exclamation-circle" />,
 			onOk: () => {
 				this.setState({
 					loading: true,
@@ -297,7 +298,7 @@ class AccountManage extends React.Component {
 	render() {
 		const { role,username,tableList, total, page, visible, action, columns, columnsDelete, userInfo, loading,tabIndex } = this.state;
 		const paginationProps = createPaginationProps(page, total, true);
-		const roleButtons = this.state.tabIndex === "1" ?<Button onClick={this.showModal.bind(this,'add')}>+ 添加账号</Button>:null;
+		const roleButtons = this.state.tabIndex === "1" ? <div className="addUser-button"><Button onClick={this.showModal.bind(this,'add')}>+ 添加账号</Button></div> :null;
 		return (
 			<div className="yc-content-container">
 				<BreadCrumb texts={['账号管理', '结构化账号']}/>
