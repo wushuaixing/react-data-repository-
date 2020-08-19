@@ -2,6 +2,8 @@ import React from 'react'
 import { Form, Icon, Input, Button, Tooltip, message, Modal } from 'antd';
 import { codeImage, validateImgCode, validSmsCode, resetPassword, getSmsCode } from '@api';
 import { twoNewPasswordValidator, validPhoneNumber } from "@/utils/validators";
+import iconUserName from '../../assets/img/icon_username.png';
+import iconCode from '../../assets/img/icon_verificationcode.png';
 import './style.scss'
 const forgetPasswordForm = Form.create;
 const { info } = Modal;
@@ -195,7 +197,8 @@ class ForgetPasswordForm extends React.Component {
                                         maxLength={11}
                                         className="yc-input"
                                         autoComplete='off'
-                                        prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
+                                        // prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
+                                        prefix={<img src={iconUserName} style={{marginRight:10}}/>}
                                         placeholder="请输入11位账号"
                                     />,
                                 )}
@@ -211,14 +214,15 @@ class ForgetPasswordForm extends React.Component {
                                     validateTrigger: ['onSubmit', 'onBlur'],
                                 })(
                                     <Input
-                                        style={{ width: 175 }}
+                                        style={{position:"relative" }}
                                         className="yc-input"
                                         autoComplete='off'
-                                        prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+                                        // prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+                                        prefix={<img src={iconCode} style={{marginRight:10}}/>}
                                         placeholder="请输入图片验证码"
                                     />,
                                 )}
-                                <span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} style={{ width: 140, height: 38, marginLeft: 5 }} alt="" /></span>
+                                <span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} style={{ width: 140, height:40, marginLeft: 5,position:'absolute',right:0,top:-10 }} alt="" /></span>
                             </Form.Item>
                         </div>
                     }

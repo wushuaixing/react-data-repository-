@@ -7,6 +7,9 @@ import ForgetPasswordForm from '@/components/login/forgetPasswordForm';
 import box from '../../assets/img/loginPage-box.png';
 import logo from '../../assets/img/loginPage-logoText.png';
 import miniLogo from '../../assets/img/loginPage-logo.png';
+import iconUserName from '../../assets/img/icon_username.png';
+import iconPwd from '../../assets/img/icon_password.png';
+import iconCode from '../../assets/img/icon_verificationcode.png';
 
 import './style.scss';
 
@@ -169,7 +172,8 @@ class Login extends React.Component {
 													maxLength={11}
 													autoComplete="auto"
 													className="yc-input"
-													prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
+													// prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
+													prefix={<img src={iconUserName} style={{marginRight:10}}/>}
 													placeholder="请输入11位账号"
 													onPressEnter={this.handleCorrect}
 												/>,
@@ -186,7 +190,8 @@ class Login extends React.Component {
 												<Input
 													maxLength={20}
 													className="yc-input"
-													prefix={<Icon type="lock" style={{ color: this.state.iconColor }} />}
+													// prefix={<Icon type="lock" style={{ color: this.state.iconColor }} />}
+													prefix={<img src={iconPwd} style={{marginRight:10}}/>}
 													type="password"
 													autoComplete="auto"
 													onPressEnter={this.handleCorrect}
@@ -205,15 +210,16 @@ class Login extends React.Component {
 														validateTrigger: ['onSubmit','onBlur'],
 													})(
 														<Input
-															style={{ width: 175 }}
+															style={{ position: 'relative'}}
 															className="yc-input"
 															onPressEnter={this.handleCorrect}
 															autoComplete="off"
-															prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+															// prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+															prefix={<img src={iconCode} style={{marginRight:10}}/>}
 															placeholder="请输入图片验证码"
 														/>,
 													)}
-													<span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} alt="" style={{ width: 140, height: 38, marginLeft: 5 }} /></span>
+													<span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} alt="" style={{ width: 140, height:40, marginLeft: 5,position:'absolute',right:0,top:-10 }} /></span>
 												</Form.Item> : null
 										}
 										<Form.Item style={{ marginTop: -20 }}>
