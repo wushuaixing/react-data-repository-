@@ -214,3 +214,12 @@
     content: '' !important;// 至 后面没有 ：
   }
 }
+.btn-bgcolor-change{
+  &:hover{
+    background: #016AA9 !important;
+    border: none !important;
+    span{
+      color: #fff;
+    }
+  }//按钮鼠标经过，文字颜色#fff，没有边框，背景#016AA9
+}

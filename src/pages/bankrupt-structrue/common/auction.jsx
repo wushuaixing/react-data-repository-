@@ -26,7 +26,7 @@ export default class Auction extends React.Component {
 		const { text } = this.props;
 		const { loading } = this.state;
 		return (
-			<Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} loading={loading} onClick={this.onClick}>
+			<Button size="small" type="primary" ghost  style={{ minWidth: 60, height:28 }} loading={loading} onClick={this.onClick} className='btn-bgcolor-change'>
 				{text}
 			</Button>
 		)
