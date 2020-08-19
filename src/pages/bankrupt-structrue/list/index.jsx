@@ -25,7 +25,6 @@ class BankruptList extends React.Component {
 		];
 
 		const panes = data.filter(i=>i.rule===rule);
-
 		/**
 		 * 处理并获取 url get 参数
 		 * @type {{approveStatus: *, uid: *, activeKey: *}}
@@ -142,7 +141,7 @@ class BankruptList extends React.Component {
 					<BreadCrumb texts={['破产重组结构化']} />
 					<div className="yc-bankrupt-content-all">
 						<Query onSearch={params =>this.toQuery(params,true)} ref={e=>this.refQuery=e} {...queryProps}/>
-						<Tabs onChange={this.tabChange} activeKey={activeKey} className='yc-bankrupt-content_tabs' >
+						<Tabs onChange={this.tabChange} activeKey={activeKey} className='yc-bankrupt-content_tabs' animated={false} >
 							{ panes.map(i=><Tabs.TabPane tab={i.title} key={i.key} />) }
 						</Tabs>
 						<Table onChange={val=>this.toQuery({page:val})} {...tableProps}/>
