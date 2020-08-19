@@ -1,6 +1,19 @@
 .yc-detail-content{
     .addUser-button{
         text-align:right;
+        button{
+            border: #016AA9 1px solid;
+            span{
+                color: #016AA9;
+            }
+            &:hover{
+                border: none;
+                background: #016AA9;
+                span{
+                    color: #fff;
+                }
+            }
+        }
     }
     .role-table{
         margin-top: 16px; 

@@ -172,7 +172,7 @@ class Index extends React.Component {
 								style={{ width: 240 }}
 							/>)}
 					</Form.Item>
-					<Form.Item label={this.columnShowTimeType}>
+					<Form.Item label={this.columnShowTimeType} className='end-time-after'>
 						{getFieldDecorator('structuredStartTime', {
 							initialValue: null
 						})(<DatePicker

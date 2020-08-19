@@ -33,6 +33,18 @@
             margin: 0;
             font-size: 13px;
             padding-left: 38px!important;
+            height: 32px;
+            a{
+                height: 100%;
+                line-height: 32px;
+            }
+        }
+    }
+    li{
+        &:first-child{
+            ul{
+                padding-bottom: 16px;
+            }
         }
     }
 }

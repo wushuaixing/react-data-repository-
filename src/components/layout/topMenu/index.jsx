@@ -58,8 +58,9 @@ class topMenu extends React.Component {
 
 	logOut() {
 		confirm({
-			icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
+			icon:<Icon type="exclamation-circle" theme="filled" style={{color:'#fa930c'}} />,
 			content: '确定要退出登录吗?',
+			className:'yc-signout-btn',
 			onOk: () => {
 				logout().then(res => {
 					if (res.data.code === 200) {
@@ -127,7 +128,9 @@ class topMenu extends React.Component {
 					destroyOnClose={true}
 					closable={true}
 					onCancel={this.handleCancel}
-					footer={footer}>
+					footer={footer}
+					className='yc-change-pwd'
+					>
 					<Form {...formItemLayout} hideRequiredMark={true} className="forgetPassword-form">
 						<Form.Item label="原密码">
 							{getFieldDecorator('oldPassword', {

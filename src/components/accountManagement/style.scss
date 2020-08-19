@@ -11,6 +11,12 @@
       margin-top: 16px;
       position: relative;
     }
+    .ant-form-explain{
+      margin-left: 0;
+    }
+  }
+  .ant-form-explain{
+    margin-left: 61px;
   }
   .form-col-temp{
     margin-top: -18px;
@@ -18,4 +24,21 @@
       width: auto;
     }
   }
+  div{
+    &:last-child{
+      p{
+        margin-left: 12px !important;
+      }
+    }
+  }
+}
+.yc-accountManagement-addRoleModal{
+  button{
+    &:first-child{
+      border: none;
+    }
+  }
+}
+.yc-form-item-edit{
+  margin: -3px 0 !important; 
 }

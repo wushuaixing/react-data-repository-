@@ -1,12 +1,13 @@
 /** right content for Account manage* */
 import React from 'react';
 import { userCreateCheck, userEditCheck, userResetCheck, userRemoveCheck, getCheckListCheck } from "@api";
-import { message, Button, Table, Spin,Modal } from 'antd';
+import { message, Button, Table, Spin,Modal,Icon } from 'antd';
 import AccountModal from '@/components/accountManagement/checkAccountModal';
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from "@/utils/pagination";
+import NoDataIMG from '../../../assets/img/no_data.png'
 import '../style.scss'
-const { confirm } = Modal;
+const { confirm ,warning} = Modal;
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
@@ -93,6 +94,8 @@ class Index extends React.Component {
 		confirm({
 			title: '确认删除账号?',
 			content:'删除后,该账户将无法在数据资产平台登录',
+			icon: <Icon type="exclamation-circle" />,
+			className:'ant-explain-change',
 			onOk: () => {
 				this.setState({
 					loading: true,
@@ -201,6 +204,7 @@ class Index extends React.Component {
 									rowKey={record => record.id}
 									onChange={this.onChangePage}
 									pagination={paginationProps}
+									locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
 								/>
 							</div>
 						</Spin>

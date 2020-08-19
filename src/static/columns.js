@@ -18,19 +18,29 @@ export const Columns = [
 								<a href={record.info.url} target="_target">{record.info.title}</a>
 							</div>
 							<div className="info-line">
-								<span>处置法院/单位：{record.info.court}</span>
+								<span>处置法院/单位：
+									<b>{record.info.court}</b>
+								</span>
 							</div>
 							<div className="info-line">
-								<span>拍卖时间：{record.info.start}</span>
+								<span>拍卖时间：
+									<b>{record.info.start}</b>
+								</span>
 							</div>
 							<div className="info-line">
-								<span>拍卖状态：{AUCTION_STATUS[record.info.status]}</span>
+								<span>拍卖状态：
+									<b>{AUCTION_STATUS[record.info.status]}</b>
+								</span>
 							</div>
 							<div className="info-line">
-								<span>{`评估价：${record.info.consultPrice}元`}</span>
+								<span>评&nbsp;&nbsp;估&nbsp;&nbsp;价：
+									<b>{`${record.info.consultPrice}元`}</b>
+								</span>
 							</div>
 							<div className="info-line">
-								<span>{`起拍价：${record.info.initialPrice}元`}</span>
+								<span>起&nbsp;&nbsp;拍&nbsp;&nbsp;价：
+									<b>{`${record.info.initialPrice}元`}</b>
+								</span>
 							</div>
 						</div>
 					}
@@ -73,7 +83,7 @@ export const Columns = [
 								break;
 						}
 						return (
-							<Badge status={color} text={text} />
+							<Badge status={color} text={text} className='badge-left'/>
 						);
 					})()
 				}

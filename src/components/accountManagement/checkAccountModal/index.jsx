@@ -43,13 +43,15 @@ class AccountManage extends React.Component {
     return (
       <div>
         <Modal
-          title="添加检查账号"
+          title={action==="add"?'添加检查账号':'编辑'}
           visible={visible}
           destroyOnClose={true}
           footer={footer}
           maskClosable
           width={372}
+          className='ant-explain-change'
           onCancel={this.handleCancel.bind(this)}
+          
         >
           <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout}>
             <Form.Item className="yc-form-item" label="姓名：">

@@ -66,6 +66,7 @@ class StructureDocumentDetail extends React.Component {
                                     handleDeleteClick={this.handleDeleteClick.bind(this)}
                                     handleAddClick={this.props.handleAddClick.bind(this, 'ah')}>
                                 </DocumentLinkInputs>
+                                {this.documentInputNumber>=3?<p className='atmost-tips'>最多添加3个</p>:null}
                                 <DocumentLinkInputs
                                     enable={enable}
                                     values={this.props.wsUrl}
@@ -76,6 +77,7 @@ class StructureDocumentDetail extends React.Component {
                                     handleDeleteClick={this.handleDeleteClick.bind(this)}
                                     handleAddClick={this.props.handleAddClick.bind(this, 'wsUrl')}>
                                 </DocumentLinkInputs>
+                                {this.linkInputNumber>=3?<p className='atmost-tips'>最多添加3个</p>:null}
                                 <div className="yc-components-assetStructureDetail_body-row">
                                     <span className='yc-components-assetStructureDetail_body-row_title'/>
                                     {
@@ -134,12 +136,12 @@ const DocumentLinkInput = (props) => {
                 }
                 {
                     props.num < 3 && !props.enable ?
-                        <Button type="primary" shape="circle" size="small" icon="plus" onClick={props.handleAddClick}/> :
+                        <Button type="primary" shape="circle" size="small" icon="plus" onClick={props.handleAddClick} block/> :
                         null
                 }
                 {
                     props.num > 1 && !props.enable ?
-                        <Button type="default" shape="circle" size="small" icon="minus" onClick={props.handleDeleteClick}/> :
+                        <Button type="default" shape="circle" size="small" icon="minus" onClick={props.handleDeleteClick} block/> :
                         null
                 }
             </span>

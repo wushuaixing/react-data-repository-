@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import { withRouter } from 'react-router';
 import { Auction } from '../common';
 import Api from '@/server/bankruptcy';
-
+import NoDataIMG from '../../../assets/img/no_data.png';
 
 class ListTable extends React.Component {
 	constructor(props) {
@@ -149,7 +149,13 @@ class ListTable extends React.Component {
 		};
 		return (
 			<div className="list-table-wrapper">
-				<Table className='list-table' rowKey={e=>e.id} {...props}  />
+				<Table className='list-table'
+					   rowKey={e=>e.id} {...props} 
+					   locale={{emptyText: <div className="no-data-box">
+												<img src={NoDataIMG} alt="暂无数据"/>
+												<p>暂无数据</p>
+										   </div>}}  
+					   />
 			</div>
 		);
 	}

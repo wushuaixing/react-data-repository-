@@ -7,7 +7,6 @@ import SearchForm from "@/components/assetStructureList/searchFilter/admin";
 import AdminTable from "@/components/assetStructureList/tabTable/admin";
 import '@/pages/style.scss';
 import { BreadCrumb } from '@commonComponents';
-
 class Admin extends React.Component {
     state = {
         page: 1,

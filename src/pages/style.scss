@@ -23,7 +23,6 @@
     border-top: 1px solid rgb(226, 228, 233);
     clear: both;
   }
-
   .yc-tab {
     margin-top:8px;
     padding:0 20px;
@@ -54,6 +53,12 @@
               line-height: 16px;
             }
           }
+          span{
+            b{
+              font-weight: normal;
+              color: #293038;
+            }
+          }
         }
       }
       .ws-link:hover {
@@ -63,6 +68,9 @@
     }
   }
 }
+.end-time-after{
+  margin-right:8px !important;
+}
 .ant-checkbox-wrapper span {
   font-size: 12px;
 }
@@ -71,6 +79,7 @@
 }
 .ant-table-thead tr th{
   background: #EDEFF3;
+  line-height: 14px;
 }
 
 //每个tab下 灰色大容器中  白色的内容区部分
@@ -107,7 +116,7 @@
 }
 //覆盖ant表单输入项错误下方提示样式 跟label对齐
 .ant-form-explain {
-  margin-left: 15px;
+  margin-left: 38px;
 }
 
 .yc-search-form{
@@ -115,7 +124,7 @@
 }
 
 .ant-pagination{
-  padding-top:14px !important;
+  padding:14px 0 !important;
 }
 
 .ant-modal-title{
@@ -126,7 +135,15 @@
 .ant-modal-header{
   padding:20px !important;
 }
-
+.ant-modal-body{
+  padding-left: 30px !important;
+  .ant-modal-confirm-body-wrapper{
+    padding-left: 0px !important;
+    i{
+      margin-right: 12px;
+    }
+  }
+}
 //覆盖去除表格排序特殊样式
 .ant-table-tbody > tr > td.ant-table-column-sort{
   background: #fff ;
@@ -148,6 +165,7 @@
 .ant-modal-confirm-content{
   font-size:14px !important;
   font-weight: normal;
+  margin-left: 34px !important;
 }
 
 
@@ -156,8 +174,56 @@
 }
 .ant-modal-confirm-btns{
   margin-top: 32px !important;
+  button[type=button]{
+    width: 100px;
+    height: 32px;
+    &:last-child{
+      margin-left: 20px;
+    }
+}
 }
 .ant-table-thead > tr > th{
   border-bottom: none !important;
   font-weight:normal !important;
+}
+.ant-table-placeholder{
+  border-bottom: none !important;
+  .no-data-box{
+      width: 100%;
+      text-align: center;
+      padding-top: 86px;
+      img{
+        width: 111px;
+        height: 89px;
+        margin-bottom: 20px;
+      }
+      p{
+        font-size:12px;
+        // font-family:PingFangSC-Regular,PingFang SC;
+        color:rgba(128,131,135,1);
+        line-height:12px;
+      }
+  }
+}
+.ant-pagination-total-text{
+  color: rgba(128,131,135,1);
+}
+[for=endTime]{
+  display: block;
+  &::after{
+    content: '' !important;// 至 后面没有 ：
+  }
+}
+.btn-bgcolor-change{
+  &:hover{
+    background: #016AA9 !important;
+    border: none !important;
+    span{
+      color: #fff;
+    }
+  }//按钮鼠标经过，文字颜色#fff，没有边框，背景#016AA9
+}
+.badge-left{
+  position: relative;
+  right: 14px;
 }

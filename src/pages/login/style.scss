@@ -66,7 +66,7 @@
           .yc-login-button {
             width: 320px;
             font-size: 16px;
-            margin-top: 37px;
+            margin-top: 22px;
             &:hover{
               background: #0278C2;
             }
@@ -118,6 +118,9 @@
       }
     }
   }
+  .ant-input-affix-wrapper .ant-input:not(:first-child) {
+    padding-left: 36px;
+}
 }
 
 .temp-module{

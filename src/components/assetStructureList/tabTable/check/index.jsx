@@ -7,6 +7,7 @@ import { Tabs, Table, Button } from 'antd';
 import { Columns } from "@/static/columns";
 import createPaginationProps from "@/utils/pagination";
 import { AssetTabTextWithNumber } from '@commonComponents'
+import NoDataIMG from "../../../../assets/img/no_data.png"
 const { TabPane } = Tabs;
 
 class TabTable extends React.Component {
@@ -97,6 +98,7 @@ class TabTable extends React.Component {
 							rowKey={record => record.id}
 							pagination={paginationProps}
 							onChange={this.onTablePageChange}
+							locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
 						/>
 					</TabPane>
 					<TabPane tab={"未检查"} key="1">
@@ -106,6 +108,7 @@ class TabTable extends React.Component {
 							rowKey={record => record.id}
 							pagination={paginationProps}
 							onChange={this.onTablePageChange}
+							locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
 						/>
 					</TabPane>
 					<TabPane tab={"检查无误"} key="2">
@@ -115,6 +118,7 @@ class TabTable extends React.Component {
 							rowKey={record => record.id}
 							pagination={paginationProps}
 							onChange={this.onTablePageChange}
+							locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
 						/>
 					</TabPane>
 					<TabPane tab={<AssetTabTextWithNumber text={"检查错误"} num={checkErrorNum} />}
@@ -125,6 +129,7 @@ class TabTable extends React.Component {
 							rowKey={record => record.id}
 							pagination={paginationProps}
 							onChange={this.onTablePageChange}
+							locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
 						/>
 					</TabPane>
 					<TabPane tab={<AssetTabTextWithNumber text={"已修改"} num={editNum} />}
@@ -135,6 +140,7 @@ class TabTable extends React.Component {
 							rowKey={record => record.id}
 							pagination={paginationProps}
 							onChange={this.onTablePageChange}
+							locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
 						/>
 					</TabPane>
 					<TabPane tab={<AssetTabTextWithNumber text={"待确认"} num={waitNum} />}
@@ -145,6 +151,7 @@ class TabTable extends React.Component {
 							rowKey={record => record.id}
 							pagination={paginationProps}
 							onChange={this.onTablePageChange}
+							locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
 						/>
 					</TabPane>
 				</Tabs>
