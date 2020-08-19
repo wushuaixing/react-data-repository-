@@ -83,7 +83,7 @@ export const Columns = [
 								break;
 						}
 						return (
-							<Badge status={color} text={text} />
+							<Badge status={color} text={text} className='badge-left'/>
 						);
 					})()
 				}

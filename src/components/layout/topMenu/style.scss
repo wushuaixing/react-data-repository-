@@ -37,7 +37,11 @@
   }
 }
 .yc-components-topMenu{
-  margin-top:8px;
+  margin-top:10px !important;
+  padding: 0 !important;
+  li{
+    padding: 0;
+  }
   &_item{
     width:100px;
     height:38px;
@@ -45,6 +49,10 @@
     vertical-align: middle;
     display: table-cell;
     font-size:14px;
+    &:hover{
+      background: EAF7FF;
+      color: #016AA9;
+    }
   }
 }
 
