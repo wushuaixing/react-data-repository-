@@ -35,7 +35,7 @@ class ListTable extends React.Component {
 				if (/^A/.test(activeKey)) text = '查看';
 				else if (activeKey === 'B101') text = '标注';
 				else if (activeKey === 'B102' || activeKey === 'B103') text = '修改标注';
-				return text && <Auction history={this.history} check={rule==='check'} approveStatus={status}
+				return text && <Auction history={this.history} check={rule==='normal'} approveStatus={status}
 					key={`${id}approveStatus`} text={text} api={()=>Api.getStatus(id)}
 					href={`/index/bankrupt/detail/${id}`}
 				/>;

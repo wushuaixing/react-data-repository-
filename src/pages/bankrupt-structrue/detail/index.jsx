@@ -30,13 +30,13 @@ class BankruptDetail extends React.Component {
 		const { match:{ params:{ id:nextId } } } = nextProps;
 		if(id !== nextId) this.toGetDetailInfo(nextId);
 	}
-
+	/* 初始化参数 */
 	toResetInfo = () => {
 		this.changed = false;
 		this.errorName = [];
 		this.baseStr = ranStr();
 	};
-
+	/* 获取数据基本信息 */
 	toGetDetailInfo = (id) => {
 		const { match:{ params },form } = this.props;
 		this.setState({ loading: true });
@@ -54,7 +54,7 @@ class BankruptDetail extends React.Component {
 			})
 			.finally(() => this.setState({ loading: false }));
 	};
-
+	/* 动态创建相关输入框 */
 	getItems = (field, placeholder = '请输入') => {
 		if (!field) return;
 		const {
@@ -251,7 +251,7 @@ class BankruptDetail extends React.Component {
 					if (res.code === 200) {
 						if (res.data) {
 							history.replace(`/index/bankrupt/detail/${res.data}`);
-							message.success('保存成功',1)
+							message.success('操作成功',1)
 						}	else this.toWillBackModal();
 					} else message.error(res.message);
 				})
@@ -321,14 +321,14 @@ class BankruptDetail extends React.Component {
 								</ItemList>
 								<ItemList title='发布时间：'>{source.publishTime||'--'}</ItemList>
 								<ItemList title='当前状态：'>{statusText[source.status]||'--'}</ItemList>
-								<ItemList title='结构化记录：' hide={rule==='normal' && source.status === 0 }>
+								<ItemList title='结构化记录：' hide={ source.status === 0 }>
 									<ul className="detail-content-item_ul">
 										{
 											(source.records||[]).length ? source.records.map(i=>(
 												<li key={i.time}>
 													<span className="li-span li-span_time">{i.time}</span>
 													{ i.user && <span className="li-span">{i.user}</span>}
-													{ i.msg && <span className="li-span">
+													{ i.msg && i.flag !== 1 && <span className="li-span">
 														{i.flag === 2 && '初次' }
 														{i.flag === 3 && '修改' }
 														{i.msg}

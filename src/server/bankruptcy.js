@@ -2,6 +2,8 @@ import { CheckParams } from '@utils/tools';
 import { service } from '@/server/index';
 
 
+const assign = (data={},field)=> Object.assign(data,{field});
+
 const bankruptcy = {
 	// 破产数据结构化列表
 	bankruptcyList(params) {
@@ -13,15 +15,16 @@ const bankruptcy = {
 	getStatus: id => service.get(`/api/asset/bankruptcy/control/bankruptcyStatusById/${id}`).then(res => res.data),
 	// 获取破产数据结构化详情信息
 	getDetail: id => service.get(`/api/asset/bankruptcy/control/bankruptcyById/${id}`).then(res => res.data),
-	// 获取下一条数据id
-	getNext: flag => service.get(`/api/asset/bankruptcy/control/getNextId/${flag}`).then(res => res.data),
-	// 保存结构化对象
-	saveDetail: (id, params) => service.post(`/api/asset/bankruptcy/control/saveDetail/${id}`, params).then(res => res.data),
-	// 保存结构化对象并获取下一条id
-	saveDetailNext: (id, params) => service.post(`/api/asset/bankruptcy/control/saveDetailRetId/${id}`, params).then(res => res.data),
 
+	// 获取下一条数据id
+	getNext: flag => service.get(`/api/asset/bankruptcy/control/getNextId/${flag}`).then(res => assign(res.data,'next')),
+	// 保存结构化对象
+	saveDetail: (id, params) => service.post(`/api/asset/bankruptcy/control/saveDetail/${id}`, params).then(res => assign(res.data,'save')),
+	// 保存结构化对象并获取下一条id
+	saveDetailNext: (id, params) => service.post(`/api/asset/bankruptcy/control/saveDetailRetId/${id}`, params)
+		.then(res => assign(res.data,'saveNext')),
 	// 信息无误按钮接口
-	updateStatus: id => service.get(`/api/asset/bankruptcy/control/updateStatus/${id}`).then(res => res.data),
+	updateStatus: id => service.get(`/api/asset/bankruptcy/control/updateStatus/${id}`).then(res => assign(res.data,'correct')),
 };
 
 export default bankruptcy;
