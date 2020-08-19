@@ -1,5 +1,9 @@
 .yc-components-accountManagement-addRoleModal{
+  padding: 0 !important;
   width:387px;
+  .yc-form-input{
+    width: 330px !important;
+  }
   .structureObject {
     width:295px;
     position: relative;
@@ -24,13 +28,35 @@
       width: auto;
     }
   }
-  div{
+  .yc-form-item{
     &:last-child{
       p{
         margin-left: 12px !important;
       }
     }
+    &:nth-child(4){
+        .ant-form-item-required{
+            &::before{
+              content: '';
+              margin-right:11px;
+            }
+        }
+    }
+    &:first-child{
+      .ant-form-item-required{
+        &::before{
+          content: '';
+          margin-right:11px;
+        }
+    }
+    }
   }
+  input {
+    &::placeholder {
+      color: #B2B8C9 !important;
+    }
+  }
+
 }
 .yc-accountManagement-addRoleModal{
   button{

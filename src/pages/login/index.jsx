@@ -173,7 +173,7 @@ class Login extends React.Component {
 													autoComplete="auto"
 													className="yc-input"
 													// prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
-													prefix={<img src={iconUserName} style={{marginRight:10}}/>}
+													prefix={<img src={iconUserName} style={{marginRight:10}} alt=''/>}
 													placeholder="请输入11位账号"
 													onPressEnter={this.handleCorrect}
 												/>,
@@ -191,7 +191,7 @@ class Login extends React.Component {
 													maxLength={20}
 													className="yc-input"
 													// prefix={<Icon type="lock" style={{ color: this.state.iconColor }} />}
-													prefix={<img src={iconPwd} style={{marginRight:10}}/>}
+													prefix={<img src={iconPwd} style={{marginRight:10}} alt=''/>}
 													type="password"
 													autoComplete="auto"
 													onPressEnter={this.handleCorrect}
@@ -215,7 +215,7 @@ class Login extends React.Component {
 															onPressEnter={this.handleCorrect}
 															autoComplete="off"
 															// prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
-															prefix={<img src={iconCode} style={{marginRight:10}}/>}
+															prefix={<img src={iconCode} style={{marginRight:10}} alt=''/>}
 															placeholder="请输入图片验证码"
 														/>,
 													)}

@@ -198,7 +198,7 @@ class ForgetPasswordForm extends React.Component {
                                         className="yc-input"
                                         autoComplete='off'
                                         // prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
-                                        prefix={<img src={iconUserName} style={{marginRight:10}}/>}
+                                        prefix={<img src={iconUserName} style={{marginRight:10}} alt=''/>}
                                         placeholder="请输入11位账号"
                                     />,
                                 )}
@@ -218,7 +218,7 @@ class ForgetPasswordForm extends React.Component {
                                         className="yc-input"
                                         autoComplete='off'
                                         // prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
-                                        prefix={<img src={iconCode} style={{marginRight:10}}/>}
+                                        prefix={<img src={iconCode} style={{marginRight:10}} alt=''/>}
                                         placeholder="请输入图片验证码"
                                     />,
                                 )}

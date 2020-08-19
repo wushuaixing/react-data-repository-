@@ -63,7 +63,7 @@ class AccountManage extends React.Component {
     return (
       <div>
         <Modal
-          width={372}
+          width={500}
           title={action==="add"?'添加结构化账号':'编辑'}
           visible={visible}
           destroyOnClose={true}
@@ -72,14 +72,14 @@ class AccountManage extends React.Component {
           className='yc-accountManagement-addRoleModal'
           >
           <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout}>
-            <Form.Item className="yc-form-item" label="角色：" >
+            <Form.Item className="yc-form-item" label="角色:" >
               {getFieldDecorator('roleId', {
                 rules: [
                   { required: true, message: "请选择角色", },
                 ],
                 initialValue: action === 'add' ? 0 : this.findKeyByValue(ADD_CHARACTER_LIST, info.role)
               })(
-                <Select style={{ width: 70, marginLeft: 4 }} transfer>
+                <Select style={{ width: 200 }} transfer>
                   {
                     Object.keys(ADD_CHARACTER_LIST).map((key) => {
                       return (
