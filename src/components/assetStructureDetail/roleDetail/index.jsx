@@ -247,7 +247,7 @@ const RoleInput = props => (
         name={`notes${props.index}`}
         value={props.obligor.notes}
       />
-      <Button type="danger" onClick={props.handleDel} disabled={(props.obligor||{}).system===1}>删除</Button>
+      <Button type="primary" className="del_role_item" ghost onClick={props.handleDel} disabled={(props.obligor||{}).system===1}>删除</Button>
   </div>
 );
 export default RoleDetail;

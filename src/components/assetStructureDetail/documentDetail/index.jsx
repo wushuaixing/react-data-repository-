@@ -2,7 +2,8 @@ import React from 'react'
 import { Button, Input, Radio, Checkbox } from 'antd'
 // import { filters } from '@/utils/common'
 import './index.scss'
-
+import ICONADD from '../../../assets/img/add_wenshu.png';
+import ICONDEL from '../../../assets/img/icon_delete.png';
 class StructureDocumentDetail extends React.Component {
     static defaultProps = {
         handleDeleteClick: () => { },
@@ -36,7 +37,7 @@ class StructureDocumentDetail extends React.Component {
         const enable = this.props.enable;
         /* console.log(enable) */
         return (
-            <div className="yc-components-assetStructureDetail">
+            <div className="yc-components-assetStructureDetail wenshu-info">
                 <div className="yc-components-assetStructureDetail_header">文书信息</div>
                 <div className="yc-components-basicDetail_body">
                     {
@@ -136,12 +137,12 @@ const DocumentLinkInput = (props) => {
                 }
                 {
                     props.num < 3 && !props.enable ?
-                        <Button type="primary" shape="circle" size="small" icon="plus" onClick={props.handleAddClick} block/> :
+                        <img src={ICONADD} style={{width:18,height:18,marginLeft:12}} alt=" "onClick={props.handleAddClick}/> :
                         null
                 }
                 {
                     props.num > 1 && !props.enable ?
-                        <Button type="default" shape="circle" size="small" icon="minus" onClick={props.handleDeleteClick} block/> :
+                        <img src={ICONDEL} style={{width:18,height:18,marginLeft:12}} alt=" "onClick={props.handleDeleteClick}/> :
                         null
                 }
             </span>
