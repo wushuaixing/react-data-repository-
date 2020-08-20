@@ -2,6 +2,7 @@ import React from 'react'
 import { Icon, Input, Select, Button, Table,Popover } from 'antd'
 import { SEX_TYPE, ROLE_TYPE } from '@/static/status'
 import { dateUtils,filters } from '@utils/common'
+import NoDataIMG from '../../../assets/img/no_data.png'
 import '../index.scss'
 const { Option } = Select;
 class RoleDetail extends React.Component {
@@ -103,7 +104,13 @@ class RoleDetail extends React.Component {
                     {
                         this.props.enable ?
                             <div>
-                                <Table dataSource={dataSource} columns={columns} pagination={false} rowKey={record => Math.random() + record.number} />
+                                <Table 
+                                    dataSource={dataSource} 
+                                    columns={columns} 
+                                    pagination={false} 
+                                    rowKey={record => Math.random() + record.number} 
+                                    locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
+                                    />
                             </div> :
                             <div>
                                 <div className="yc-components-assetStructureDetail_body-roleRow">
