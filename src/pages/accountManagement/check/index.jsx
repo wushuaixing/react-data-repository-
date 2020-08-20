@@ -7,7 +7,7 @@ import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from "@/utils/pagination";
 import NoDataIMG from '../../../assets/img/no_data.png'
 import '../style.scss'
-const { confirm ,warning} = Modal;
+const { confirm} = Modal;
 class Index extends React.Component {
 	constructor(props) {
 		super(props);

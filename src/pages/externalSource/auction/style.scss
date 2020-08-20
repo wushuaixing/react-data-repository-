@@ -89,6 +89,12 @@
         width: 170px;
         margin-top: 7px;
         overflow: auto;
+        &_item{
+          margin-bottom: 16px;
+          span{
+            line-height: 18px;
+          }
+        }
         &_item span:nth-child(1) {
           max-width: 136px;
           margin-bottom: 12px;

@@ -3,7 +3,7 @@
         margin-left:12px;
     }
     .seeDetail{
-        margin-left:84px;
+        margin-left:95px;
     }
 }
 .atmost-tips{
@@ -13,4 +13,21 @@
     line-height:12px;
     font-size:12px;
     margin-top: 6px;
+}
+.wenshu-info{
+    .documentDetail_row{
+        position: relative;
+        left: 13px;
+    }
+    .ant-radio-group{
+        position: relative;
+        left: 10px;
+    }
+}
+.del_role_item{
+    width:66px;
+    height:28px;
+    border-radius:2px;
+    color:rgba(41,48,56,1) !important;
+    border:1px solid rgba(226,228,233,1) !important;
 }

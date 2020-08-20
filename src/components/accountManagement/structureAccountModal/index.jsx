@@ -57,13 +57,13 @@ class AccountManage extends React.Component {
     const deFunctionId = [/资产结构化/.test(info.structuredObject||'')?'8':"",/破产重组结构化/.test(info.structuredObject||'')?'11':""];
     const footer =
       <div className="yc-modal-footer">
-        <Button type="primary" htmlType="submit" onMouseDown={this.modalOk.bind(this)}>确定</Button>
         <Button onClick={this.modalCancel.bind(this)}>取消</Button>
+        <Button type="primary" htmlType="submit" onMouseDown={this.modalOk.bind(this)}>确定</Button>
       </div>;
     return (
       <div>
         <Modal
-          width={372}
+          width={500}
           title={action==="add"?'添加结构化账号':'编辑'}
           visible={visible}
           destroyOnClose={true}
@@ -79,7 +79,7 @@ class AccountManage extends React.Component {
                 ],
                 initialValue: action === 'add' ? 0 : this.findKeyByValue(ADD_CHARACTER_LIST, info.role)
               })(
-                <Select style={{ width: 70, marginLeft: 4 }} transfer>
+                <Select style={{ width: 200 }} transfer>
                   {
                     Object.keys(ADD_CHARACTER_LIST).map((key) => {
                       return (
@@ -113,7 +113,7 @@ class AccountManage extends React.Component {
             </Form.Item>
             {
               action === 'add' ?
-                <Form.Item className="yc-form-item" label="账号:">
+                <Form.Item className="yc-form-item" label="账号：">
                   {
                     getFieldDecorator('username', {
                       rules: [
@@ -131,7 +131,7 @@ class AccountManage extends React.Component {
                       />
                     )}
                 </Form.Item> :
-                <Form.Item className=" yc-form-item-edit yc-form-item " label="账号:" required={true}>
+                <Form.Item className=" yc-form-item-edit yc-form-item " label="账号：" required={true}>
                   <p
                     style={{ lineHeight: 3, fontSize: 12, marginLeft: 6, marginTop: 2, color: 'rgba(0, 0, 0, 0.85)' }}>
                     {info.username}</p>
@@ -158,8 +158,8 @@ class AccountManage extends React.Component {
                 )}
               </Form.Item> : ''}
             <div>
-              <p style={{ marginLeft: 18, color: 'rgba(0, 0, 0, 0.85)' }}>结构化对象:</p>
-              <div className="structureObject" style={{ marginLeft: 18 }}>
+              <p style={{ marginLeft: 12, color: 'rgba(0, 0, 0, 0.85)' }}>结构化对象:</p>
+              <div className="structureObject" style={{ marginLeft: 12 }}>
                 <Form.Item>
                   {
                     getFieldDecorator('functionId', {

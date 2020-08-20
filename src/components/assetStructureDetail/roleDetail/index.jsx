@@ -172,7 +172,7 @@ const RoleInputs = (props) => {
 const RoleInput = props => (
   <div className="yc-components-assetStructureDetail_body-roleInputRow">
       <Input
-				disabled={(props.obligor||{}).system===1}
+		disabled={(props.obligor||{}).system===1}
         placeholder="请输入名称"
         autoComplete='off'
         onChange={(e) => {
@@ -229,7 +229,9 @@ const RoleInput = props => (
 				placeholder="性别"
 				getPopupContainer={node=>node.offsetParent}
 				onChange={(value) => { props.handleChange({ target: { name: `gender${props.index}`, value } }); }}
-				value={props.obligor.gender}>
+                value={props.obligor.gender}
+                className='sex-select'
+                >
           {Object.keys(SEX_TYPE).map(key => <Option key={key}>{SEX_TYPE[key]}</Option>)}
       </Select>
       <Input
@@ -246,8 +248,9 @@ const RoleInput = props => (
         }}
         name={`notes${props.index}`}
         value={props.obligor.notes}
+        className='tips-box'
       />
-      <Button type="danger" onClick={props.handleDel} disabled={(props.obligor||{}).system===1}>删除</Button>
+      <Button type="primary" className="del_role_item" ghost onClick={props.handleDel} disabled={(props.obligor||{}).system===1}>删除</Button>
   </div>
 );
 export default RoleDetail;
