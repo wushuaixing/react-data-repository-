@@ -54,7 +54,7 @@ class AccountManage extends React.Component {
   render() {
     const { visible, info, action } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
-    const deFunctionId = [/资产结构化/.test(info.structuredObject||'')?'8':"",/破产重组结构化/.test(info.structuredObject||'')?'11':""];
+    const deFunctionId = [/资产拍卖数据/.test(info.structuredObject||'')?'8':"",/破产重组数据/.test(info.structuredObject||'')?'11':""];
     const footer =
       <div className="yc-modal-footer">
         <Button onClick={this.modalCancel.bind(this)}>取消</Button>
