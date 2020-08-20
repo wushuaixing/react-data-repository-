@@ -214,7 +214,7 @@ class BankruptDetail extends React.Component {
 						if (res.data){
 							history.replace(`/index/bankrupt/detail/${res.data}`);
 							message.success('保存成功',1)
-						} else this.toWillBackModal();
+						} else this.toWillBackModal(type === 'modify' && '已修改完全部数据，');
 					} else message.error(res.message);
 				})
 				.catch(()=>message.error('服务繁忙，请稍后再试'))

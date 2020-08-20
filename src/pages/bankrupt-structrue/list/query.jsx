@@ -38,8 +38,8 @@ class ListQuery extends React.Component {
 			id: "用户类型",
 			array: [
 				{ value: '', label: "全部", enable:true },
-				{ value: -1, label: "已删除", enable:true },
-				{ value: -2, label: "系统标注", enable:true, }
+				{ value: -1, label: "已删除账号", enable:true },
+				{ value: -2, label: "系统处理", enable:true, }
 			]
 		}, ...normalList(chineseLetter),{ id: '#', array: digit.map((item) => toFill(item))	}];
 	}
@@ -87,7 +87,7 @@ class ListQuery extends React.Component {
 		const updater = <Form.Item label="最后更新者" key='lastUpdater'>
 			{getFieldDecorator('uid', { initialValue: '' })(
 				<Select
-					style={{ width: 120, marginLeft: 4 }} showSearch transfer placeholder="请选择"
+					style={{ width: 180, marginLeft: 4 }} showSearch transfer placeholder="请选择"
 					filterOption={(input, option) => !isNaN(option.key) && option.props.children[0].indexOf(input)>=0 }
 				>
 					{
@@ -107,7 +107,7 @@ class ListQuery extends React.Component {
 			)}
 		</Form.Item>;
 		const publishTime = <div style={{display:"inline-block"}} key='publishTime'>
-			<Form.Item label="发布时间" key='publishStartTime' className='list-query-wrapper-form_before end-time-after'> 
+			<Form.Item label="发布时间" key='publishStartTime' className='list-query-wrapper-form_before end-time-after'>
 				{getFieldDecorator('publishStartTime', { initialValue: null })(
 					<DatePicker placeholder="起始日期" disabledDate={val=>this.disabledStartDate(val,'publishEndTime')} style={{ width: 120 }}
 											getCalendarContainer={node=>node.offsetParent} />)}

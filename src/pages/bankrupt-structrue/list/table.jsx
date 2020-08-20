@@ -48,7 +48,7 @@ class ListTable extends React.Component {
 					dataIndex: 'title',
 					key: 'title',
 					width: 850,
-					render: (text,row) =>text? <a href={row.url} target='_blank' rel="noopener noreferrer" className="a-link">{text}</a>:'-',
+					render: (text,row) =>(text && row.url)? <a href={row.url} target='_blank' rel="noopener noreferrer" className="a-link">{text}</a>:(text||'-'),
 				},
 				{
 					title: '发布日期',
@@ -86,7 +86,7 @@ class ListTable extends React.Component {
 				dataIndex: 'title',
 				key: 'title',
 				width: 350,
-				render: (text,row) =>text? <a href={row.url} target='_blank' rel="noopener noreferrer" className="a-link">{text}</a>:'-',
+				render: (text,row) =>(text && row.url)? <a href={row.url} target='_blank' rel="noopener noreferrer" className="a-link">{text}</a>:(text||'-'),
 			},
 			{
 				title: '发布日期',
@@ -114,7 +114,7 @@ class ListTable extends React.Component {
 				dataIndex: 'approverName',
 				key: 'updater',
 				width: 110,
-				render:(val,row)=>(val||'-')+(row.approveStatus ===1?<span style={{color:"#b1b1b1"}}>(已删除)</span>:'')
+				render:(val,row)=>[val||'-',(row.approveStatus ===1?<span style={{color:"#b1b1b1"}}>(已删除)</span>:'')]
 			},
 			{
 				title: '操作',
