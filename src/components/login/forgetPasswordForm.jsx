@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Icon, Input, Button, Tooltip, message, Modal } from 'antd';
+import { Form, Input, Button, Tooltip, message, Modal } from 'antd';
 import { codeImage, validateImgCode, validSmsCode, resetPassword, getSmsCode } from '@api';
 import { twoNewPasswordValidator, validPhoneNumber } from "@/utils/validators";
 import iconUserName from '../../assets/img/icon_username.png';

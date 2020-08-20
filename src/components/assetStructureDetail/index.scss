@@ -64,38 +64,35 @@
 }
 
 .yc-components-assetStructureDetail_body-roleRow {
-    height: 40px;
+    line-height: 14px;
+    height: 46px;
     background: rgba(237, 239, 243, 1);
-    padding: 14px 0 14px 20px;
+    padding: 16px 0 16px 22px;
     display: flex;
     flex-direction: row;
     min-width: 1210px;
-    font-size: 12px;
-    line-height: 12px;
+    font-size: 14px;
+    width: 1600px;
     .name {
-        width: 220px;
+        width: 259px;
     }
     .role {
-        width: 110px;
-        padding-left: 20px;
+        width: 161px;
     }
     .certification {
-        width: 220px;
+        width: 260px;
     }
     .birth {
-        width: 210px;
+        width: 258px;
     }
     .sex {
-        width: 110px;
-        padding-left:29px;
+        width: 150px;
     }
     .note {
-        width: 252px;
+        width: 386px;
     }
     .operation {
         width: 66px;
-        text-align: center;
-        padding-left: 0px;
     }
 }
 .yc-components-assetStructureDetail_body-roleInputRow {
@@ -105,24 +102,25 @@
     display: flex;
     min-width: 1210px;
     .ant-input {
-        width: 200px;
+        width: 240px;
         margin-left: 20px;
+        height: 30px;
     }
     .ant-select {
-        width: 90px;
+        width: 140px;
         margin-left: 20px;
-        font-size: 12px;
+        height: 30px;
     }
     .sex-select{
-        width: 60px;
+        width: 130px;
     }
     .tips-box{
-        width: 233px;
-        margin-right: 30px;
+        width: 360px;
+        height: 42px;
     }
     .ant-btn {
         margin-left: 20px;
-        width: 66px;
+        width: 80px;
     }
     .ant-select-selection__rendered {
         width: 60px;
@@ -133,7 +131,7 @@
 }
 
 .yc-components-assetStructureDetail_body-addRole {
-    width: 100%;
+    width: 1600px;
     margin-top: 20px;
     .ant-btn {
         width: 100%;
