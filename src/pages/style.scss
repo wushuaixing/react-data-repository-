@@ -99,8 +99,8 @@
   margin-top:0;
   text-align: center;
   > button {
-    width: 120px;
-    height: 36px;
+    width: 100px;
+    height: 32px;
     margin-left: 10px;
     margin-right: 10px;
   }
@@ -135,9 +135,20 @@
 .ant-modal-header{
   padding:20px !important;
 }
+.ant-modal-confirm{
+  .ant-modal-content{
+    .ant-modal-body{
+        padding: 30px !important;
+        .ant-modal-confirm-body-wrapper{
+
+        }
+    }
+  }
+}
+
 .ant-modal-body{
   .ant-modal-confirm-body-wrapper{
-    padding-left: 0px !important;
+    padding: 0px !important;
     i{
       margin-right: 12px;
     }
@@ -158,13 +169,15 @@
 
 .ant-modal-confirm-title{
   font-weight: bold !important;
-  line-height: 24px !important;
+  line-height: 16px !important;
   font-size: 16px !important;
 }
 .ant-modal-confirm-content{
   font-size:14px !important;
   font-weight: normal;
   margin-left: 34px !important;
+  line-height: 16px !important;
+  margin-top: 16px !important;
 }
 
 
@@ -172,7 +185,7 @@
   padding:15px !important;
 }
 .ant-modal-confirm-btns{
-  margin-top: 32px !important;
+  margin-top: 40px !important;
   button[type=button]{
     width: 100px;
     height: 32px;

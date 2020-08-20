@@ -37,8 +37,9 @@ class AccountManage extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const footer =
       <div className="yc-modal-footer">
-        <Button type="primary" onMouseDown={this.handleSubmit.bind(this)} htmlType="submit">确定</Button>
         <Button onClick={this.handleCancel.bind(this)}>取消</Button>
+        <Button type="primary" onMouseDown={this.handleSubmit.bind(this)} htmlType="submit">确定</Button>
+
       </div>;
     return (
       <div>
@@ -48,7 +49,7 @@ class AccountManage extends React.Component {
           destroyOnClose={true}
           footer={footer}
           maskClosable
-          width={372}
+          width={500}
           className='ant-explain-change'
           onCancel={this.handleCancel.bind(this)}
           
@@ -73,7 +74,7 @@ class AccountManage extends React.Component {
                 />,
               )}
             </Form.Item>
-            <Form.Item className="yc-form-item" label="账号:">
+            <Form.Item className="yc-form-item" label="账号：">
               {
                 action === 'add' ?
                   getFieldDecorator('mobile', {
