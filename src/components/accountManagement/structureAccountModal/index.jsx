@@ -12,8 +12,8 @@ const formItemLayout = {
 };
 
 const structureList = [
-  { label: '资产结构化', value: '8' },
-  { label: '破产重组结构化', value: '11' },
+  { label: '资产拍卖数据', value: '8' },
+  { label: '破产重组数据', value: '11' },
 ];
 class AccountManage extends React.Component {
   //确定

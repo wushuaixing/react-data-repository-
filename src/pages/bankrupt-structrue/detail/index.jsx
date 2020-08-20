@@ -82,6 +82,11 @@ class BankruptDetail extends React.Component {
 				}
 			}
 		};
+		// const onBlur= e =>{
+		// 	const {value}  =e.target;
+		// 	e.target.value = (value||'').replace(/\s/g,'');
+		// };
+
 		const itemArray = getFieldValue(field);
 		return itemArray.map((item, index) => {
 			const _field = `${field}_${item}`;
@@ -191,14 +196,15 @@ class BankruptDetail extends React.Component {
 		const idStatus = await this.toCheck(params.id);
 		if (idStatus !== 'normal') {
 			if (idStatus === 'error') {
+				const text = type === 'modify'?'该数据已被处理':'该数据已被标注';
 				Api.getNext(type === 'modify'?2:0)
 					.then(res => {
 						if(res.code === 200){
 							if(res.data){
-								message.error('该数据已被处理，为您跳转至下一条',2,()=>{
+								message.error(`${text}，为您跳转至下一条`,2,()=>{
 									history.replace(`/index/bankrupt/detail/${res.data}`)
 								})
-							}else	message.error('该数据已被处理，为您跳转至未标记列',2,()=>{
+							}else	message.error(`${text}，为您跳转至未标记列表`,2,()=>{
 								history.push(`/index/bankrupt?approveStatus=2`)
 							})
 						} else message.error(res.message);
@@ -213,7 +219,7 @@ class BankruptDetail extends React.Component {
 						if (res.data){
 							history.replace(`/index/bankrupt/detail/${res.data}`);
 							message.success('保存成功',1)
-						} else this.toWillBackModal();
+						} else this.toWillBackModal(type === 'modify' && '已修改完全部数据，');
 					} else message.error(res.message);
 				})
 				.catch(()=>message.error('服务繁忙，请稍后再试'))
@@ -237,7 +243,7 @@ class BankruptDetail extends React.Component {
 								message.error('该数据已被处理，为您跳转至下一条',2,()=>{
 									history.replace(`/index/bankrupt/detail/${res.data}`)
 								})
-							}else	message.error('该数据已被处理，为您跳转至未标记列',2,()=>{
+							}else	message.error('该数据已被处理，为您跳转至未标记列表',2,()=>{
 									history.push(`/index/bankrupt?approveStatus=2`)
 								})
 						} else message.error(res.message);
@@ -252,7 +258,7 @@ class BankruptDetail extends React.Component {
 						if (res.data) {
 							history.replace(`/index/bankrupt/detail/${res.data}`);
 							message.success('操作成功',1)
-						}	else this.toWillBackModal();
+						}	else this.toWillBackModal('已修改完全部数据，');
 					} else message.error(res.message);
 				})
 				.catch(()=>message.error('服务繁忙，请稍后再试'))
@@ -260,9 +266,9 @@ class BankruptDetail extends React.Component {
 		}
 	};
 
-	toWillBackModal = ()=>{
+	toWillBackModal = (text)=>{
 		const { history } = this.props;
-		let secondsToGo = 3;
+		let secondsToGo = 2;
 		const onOk = ()=>{
 			if(timer)	clearInterval(timer);
 			history.push(`/index/bankrupt?approveStatus=0`);
@@ -270,7 +276,7 @@ class BankruptDetail extends React.Component {
 		const modal = Modal.success({
 			centered: true,
 			className: 'yc-bankrupt-modal',
-			title: ['已标记完全部数据，',<span style={{color:'#016AA9'}} key='time'>{secondsToGo}s</span>,' 后回到未标记列'],
+			title: [text||'已标记完全部数据，',<span style={{color:'#016AA9'}} key='time'>{secondsToGo}s</span>,' 后回到未标记列表'],
 			icon: <Icon type="check-circle" theme="filled" />,
 			okText: ' 我知道了 ',
 			onOk,
@@ -278,7 +284,7 @@ class BankruptDetail extends React.Component {
 		const timer = setInterval(() => {
 			secondsToGo -= 1;
 			modal.update({
-				title: ['已标记完全部数据，',<span style={{color:'#016AA9'}} key='time'>{secondsToGo}s</span>,' 后回到未标记列'],
+				title: [text||'已标记完全部数据，',<span style={{color:'#016AA9'}} key='time'>{secondsToGo}s</span>,' 后回到未标记列表'],
 			});
 		}, 1000);
 		setTimeout(() => {
@@ -296,11 +302,11 @@ class BankruptDetail extends React.Component {
 		return (
 			<div className="yc-bankrupt-detail-wrapper">
 				<div className="detail-content-wrapper">
-					<BreadCrumb texts={['破产重组结构化','详情']} suffix={
+					<BreadCrumb texts={['破产重组结构化','详情']} suffix={rule === 'admin' && (
 						<div className="detail-content-crumb_suffix">
 							<Button type="primary" ghost style={{width:90}} onClick={()=>history.go(-1)}>返回</Button>
 						</div>
-					} />
+					)} />
 					<Spin spinning={loading} >
 						<div className="detail-content">
 							<Item title='自动退回' hide={!(rule === 'admin' && source.status === 2)}>

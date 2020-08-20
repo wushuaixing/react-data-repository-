@@ -15,7 +15,7 @@ class ListTable extends React.Component {
 	}
 
 	get normalCol() {
-		const { activeKey,approveStatus,rule } = this.props;
+		const { activeKey,approveStatus,rule, onChange,page } = this.props;
 		const render = {
 			status: (status) => {
 				let background = '#FFF';
@@ -36,7 +36,7 @@ class ListTable extends React.Component {
 				else if (activeKey === 'B101') text = '标注';
 				else if (activeKey === 'B102' || activeKey === 'B103') text = '修改标注';
 				return text && <Auction history={this.history} check={rule==='normal'} approveStatus={status}
-					key={`${id}approveStatus`} text={text} api={()=>Api.getStatus(id)}
+					key={`${id}approveStatus`} text={text} api={()=>Api.getStatus(id)} toRefresh={()=>onChange(page)}
 					href={`/index/bankrupt/detail/${id}`}
 				/>;
 			},
@@ -48,7 +48,7 @@ class ListTable extends React.Component {
 					dataIndex: 'title',
 					key: 'title',
 					width: 850,
-					render: (text,row) =>text? <a href={row.url} target='_blank' rel="noopener noreferrer" className="a-link">{text}</a>:'-',
+					render: (text,row) =>(text && row.url)? <a href={row.url} target='_blank' rel="noopener noreferrer" className="a-link">{text}</a>:(text||'-'),
 				},
 				{
 					title: '发布日期',
@@ -86,7 +86,7 @@ class ListTable extends React.Component {
 				dataIndex: 'title',
 				key: 'title',
 				width: 350,
-				render: (text,row) =>text? <a href={row.url} target='_blank' rel="noopener noreferrer" className="a-link">{text}</a>:'-',
+				render: (text,row) =>(text && row.url)? <a href={row.url} target='_blank' rel="noopener noreferrer" className="a-link">{text}</a>:(text||'-'),
 			},
 			{
 				title: '发布日期',
@@ -114,7 +114,7 @@ class ListTable extends React.Component {
 				dataIndex: 'approverName',
 				key: 'updater',
 				width: 110,
-				render:val=>val||'-'
+				render:(val,row)=>[val||'-',(row.approverStauts ===1?<span style={{color:"#b1b1b1"}}>(已删除)</span>:'')]
 			},
 			{
 				title: '操作',
@@ -150,11 +150,11 @@ class ListTable extends React.Component {
 		return (
 			<div className="list-table-wrapper">
 				<Table className='list-table'
-					   rowKey={e=>e.id} {...props} 
+					   rowKey={e=>e.id} {...props}
 					   locale={{emptyText: <div className="no-data-box">
 												<img src={NoDataIMG} alt="暂无数据"/>
 												<p>暂无数据</p>
-										   </div>}}  
+										   </div>}}
 					   />
 			</div>
 		);
