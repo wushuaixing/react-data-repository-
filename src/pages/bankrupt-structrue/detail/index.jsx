@@ -82,6 +82,11 @@ class BankruptDetail extends React.Component {
 				}
 			}
 		};
+		// const onBlur= e =>{
+		// 	const {value}  =e.target;
+		// 	e.target.value = (value||'').replace(/\s/g,'');
+		// };
+
 		const itemArray = getFieldValue(field);
 		return itemArray.map((item, index) => {
 			const _field = `${field}_${item}`;
