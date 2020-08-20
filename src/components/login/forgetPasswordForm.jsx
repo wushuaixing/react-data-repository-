@@ -4,6 +4,8 @@ import { codeImage, validateImgCode, validSmsCode, resetPassword, getSmsCode } f
 import { twoNewPasswordValidator, validPhoneNumber } from "@/utils/validators";
 import iconUserName from '../../assets/img/icon_username.png';
 import iconCode from '../../assets/img/icon_verificationcode.png';
+import iconTel from '../../assets/img/tel.png';
+
 import './style.scss'
 const forgetPasswordForm = Form.create;
 const { info } = Modal;
@@ -250,8 +252,8 @@ class ForgetPasswordForm extends React.Component {
                                             </span>
                                         }
                                         autoComplete='off'
-                                        className="yc-input"
-                                        prefix={<Icon type="mobile" />}
+                                        className="yc-input yc-input-noborder"
+                                        prefix={<img src={iconTel} style={{marginRight:10}} alt=''/>}
                                     />,
                                 )}
                             </Form.Item>
@@ -268,7 +270,7 @@ class ForgetPasswordForm extends React.Component {
                                     <Input
                                       autoComplete='off'
                                         className="yc-input"
-                                        prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+                                        prefix={<img src={iconCode} style={{marginRight:10}} alt=''/>}
                                         placeholder="请输入手机验证码"
                                     />,
                                 )}
