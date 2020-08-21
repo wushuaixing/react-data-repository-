@@ -137,7 +137,7 @@ class Check extends React.Component {
 		const { tableList, waitNum, checkErrorNum, editNum, total, page, status, tabIndex, loading } = this.state;
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['资产结构化检查']}/>
+				<BreadCrumb texts={['资产结构化']}/>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
 						<SearchForm

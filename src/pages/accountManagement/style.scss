@@ -33,3 +33,25 @@
         font-size: 12px;
     }
 }
+.sorter-tab{
+    .ant-table-thead{
+        .ant-table-column-has-sorters{
+            background: #EDEFF3 !important;
+            &:hover{
+                ::before{
+                    background: #EDEFF3 !important;
+                }
+            }
+        }
+    }
+    .ant-table-column-has-sorters{
+            background: #fff !important;
+    }
+    .ant-table-row{
+        &:hover{
+            .ant-table-column-has-sorters{
+                background: #EAF7FF !important;
+            }
+        }
+    }
+}

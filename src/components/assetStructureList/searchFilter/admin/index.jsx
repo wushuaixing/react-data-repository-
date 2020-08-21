@@ -3,7 +3,7 @@ import React from 'react';
 import { Form, Input, DatePicker, Cascader, Select, message } from 'antd';
 import { getStructuredPersonnel, getCheckPersonnel } from "@api";
 import { area } from "@/assets/area";
-import { dateUtils } from "@utils/common";
+import { dateUtils,clearEmpty } from "@utils/common";
 import { SearchAndClearButtonGroup } from '@commonComponents'
 
 const { Option, OptGroup } = Select;
@@ -44,6 +44,7 @@ class Index extends React.Component {
         e.preventDefault();
         const paramKeys = ['title', 'startTime', 'endTime', 'userId', 'checkUserId', 'area'];
         const formParams = this.props.form.getFieldsValue(paramKeys);
+        console.log(this.props.form)
         const params = {
             page: 1
         };
@@ -90,8 +91,10 @@ class Index extends React.Component {
                 }
             }
         });
-        console.log(params);
-        this.props.toSearch(params);
+        this.props.toSearch(clearEmpty(params));
+        this.props.form.setFieldsValue({
+            title:params.title.trim()
+        })
     };
 
     //清空搜索条件
@@ -111,7 +114,7 @@ class Index extends React.Component {
                 },
                 {
                     value: 'deleted',
-                    label: "已删除",
+                    label: "已删除账号",
                     enable:true
                 },
                 {
@@ -245,7 +248,7 @@ class Index extends React.Component {
                                 showSearch
                                 filterOption={(input, option) =>{
                                     if(!isNaN(option.key)){ //去除optGroup项和用户类型选项 不进行筛选
-                                        return option.props.children[0].indexOf(input)>=0
+                                        return option.props.children[0].toLowerCase().indexOf(input.toLowerCase())>=0
                                     }
                                 }}
                                 style={{ width: 178, marginLeft: 4 }} transfer placeholder="请选择">
@@ -258,7 +261,7 @@ class Index extends React.Component {
                                                         return (
                                                             <Option value={ele.value} key={ele.value}>
                                                                 {ele.label}
-                                                                {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
+                                                                {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除账号) </span>}
                                                             </Option>
                                                         )
                                                     })

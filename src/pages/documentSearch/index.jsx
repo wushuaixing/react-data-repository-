@@ -62,7 +62,7 @@ class Check extends React.Component {
 	// 搜索框
 	handleSearch = e => {
 		e.preventDefault();
-		const { form:{ getFieldValue, } } = this.props;
+		const { form:{ getFieldValue,setFieldsValue} } = this.props;
 		const get =field=> (getFieldValue(field)||'').trim();
 		this.setState({
 			searchParams:{
@@ -75,6 +75,11 @@ class Check extends React.Component {
 		}, () => {
 			this.getTableList();
 		});
+		setFieldsValue({whole:get('whole').trim(),
+						   ah:get('ah').trim(),
+						court:get('court').trim(),
+						  url:get('url').trim()
+						})
 
 	};
 	//清空搜索条件
@@ -196,7 +201,6 @@ class Check extends React.Component {
 												type="text"
 												size='default'
 												placeholder="姓名、公司、地址关键词等"
-
 											/>)}
 									</Form.Item>
 									<Row style={{marginTop:8}}>

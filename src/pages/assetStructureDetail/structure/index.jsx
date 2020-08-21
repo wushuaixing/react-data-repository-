@@ -103,7 +103,6 @@ class StructureDetail extends React.Component {
         });
     }
     handleDeleteClick(key, index = -1) {
-        console.log(key, index);
         //角色对应顺序删除  文书从下往上删
         const arr = (index >= 0) ? this.state[key].slice(0) : this.state[key].slice(0, -1);
         if (index >= 0) {

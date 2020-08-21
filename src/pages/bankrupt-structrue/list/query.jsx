@@ -61,10 +61,15 @@ class ListQuery extends React.Component {
 
 	handleSearch = e =>{
 		e.preventDefault();
-		const { onSearch, form:{getFieldsValue},simply } = this.props;
+		const { onSearch, form:{getFieldsValue,setFieldsValue},simply } = this.props;
 		const params = simply ? getFieldsValue(['title','publishStartTime','publishEndTime']):getFieldsValue();
 		Object.keys(params).forEach(i=>{ if(typeof params[i]==='object' && /Time$/.test(i) && params[i])params[i] = params[i].format('YYYY-MM-DD')});
 		onSearch && onSearch(clearEmpty(params));
+		console.log(params);
+		setFieldsValue({
+			companyName:params.companyName.trim(),
+			title:params.title.trim()
+		})
 	};
 
 	clearSearch = ()=>{
@@ -88,7 +93,7 @@ class ListQuery extends React.Component {
 			{getFieldDecorator('uid', { initialValue: '' })(
 				<Select
 					style={{ width: 180, marginLeft: 4 }} showSearch transfer placeholder="请选择"
-					filterOption={(input, option) => !isNaN(option.key) && option.props.children[0].indexOf(input)>=0 }
+					filterOption={(input, option) => !isNaN(option.key) && option.props.children[0].toLowerCase().indexOf(input.toLowerCase())>=0 }
 				>
 					{
 						userList.map((item) => (
@@ -96,7 +101,7 @@ class ListQuery extends React.Component {
 								{
 									item.array.map((ele, index) => (
 										<Select.Option value={ele.value} key={index} >
-											{ele.label} {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
+											{ele.label} {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除账号) </span>}
 										</Select.Option>
 									))
 								}

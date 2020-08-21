@@ -4,7 +4,7 @@
 import React from 'react';
 import { Form, Input, DatePicker, Select, message } from 'antd';
 import { getStructuredPersonnel } from "@api";
-import { dateUtils } from "@utils/common";
+import { dateUtils,clearEmpty } from "@utils/common";
 import { SearchAndClearButtonGroup } from '@commonComponents'
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;
@@ -39,7 +39,7 @@ class Index extends React.Component {
                 },
                 {
                     value: 'deleted',
-                    label: "已删除",
+                    label: "已删除账号",
                     enable:true
                 },
                 {
@@ -114,7 +114,10 @@ class Index extends React.Component {
 				}
 			}
 		});
-		this.props.toSearch(params);
+		this.props.toSearch(clearEmpty(params));
+		this.props.form.setFieldsValue({
+			title:params.title.trim()
+		})
 	};
 
 	//清空搜索条件
@@ -196,7 +199,7 @@ class Index extends React.Component {
 								showSearch
 								filterOption={(input, option) =>{
                     if(!isNaN(option.key)){ //去除optGroup项和用户类型选项 不进行筛选
-                        return option.props.children[0].indexOf(input)>=0
+                        return option.props.children[0].toLowerCase().indexOf(input.toLowerCase())>=0
                     }
                 }}
 								transfer placeholder="请选择">
@@ -210,7 +213,7 @@ class Index extends React.Component {
                                         <Option
                                             value={ele.value} key={index}>
                                             {ele.label}
-                                            {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
+                                            {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除账号) </span>}
                                         </Option>
                                     )
                                 })

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Icon, Input, Button, Tooltip, message, Modal } from 'antd';
+import { Form, Input, Button, Tooltip, message, Modal } from 'antd';
 import { codeImage, validateImgCode, validSmsCode, resetPassword, getSmsCode } from '@api';
 import { twoNewPasswordValidator, validPhoneNumber } from "@/utils/validators";
 import iconUserName from '../../assets/img/icon_username.png';
@@ -176,7 +176,6 @@ class ForgetPasswordForm extends React.Component {
     render() {
         const { codeImgSrc, step } = this.state;
         const { getFieldDecorator } = this.props.form;
-        console.log(this.state);
         return (
             <div className="yc-right-login-noCode" style={{ height: 360 }}>
                 <div className="yc-form-title">{this.formTitle}</div>

@@ -70,18 +70,18 @@ class TabTable extends React.Component {
 								{(record.status === 2 || record.status === 3 )
 									&& record.structPersonnelEnable
 									&& record.structPersonnel !== '自动标注'
-									&& <Button style={{ fontSize: 12 }} >修改检查</Button>}
+									&& <Button style={{ fontSize: 14,width:66,height:30,textAlign:'center',padding:0}} >修改检查</Button>}
 								{(record.status === 4)
 									&& record.structPersonnelEnable
 									&& record.structPersonnel !== '自动标注'
-									&& <Button style={{ fontSize: 12 }} >再次检查</Button>}
+									&& <Button style={{ fontSize: 14,width:66,height:30,textAlign:'center',padding:0}} >再次检查</Button>}
 								{(!record.structPersonnelEnable
 									|| record.structPersonnel === '自动标注')
-									&& <Button style={{ fontSize: 12 }}>修改标注</Button>}
+									&& <Button style={{ fontSize: 14,width:66,height:30,textAlign:'center',padding:0}}>修改标注</Button>}
 								{record.status === 1
 									&& record.structPersonnelEnable
 									&& record.structPersonnel !== '自动标注'
-									&& <Button style={{ fontSize: 12 }}>检查</Button>}
+									&& <Button style={{ fontSize: 14,width:66,height:30,textAlign:'center',padding:0}}>检查</Button>}
 							</Link>
 						</span>
 					)

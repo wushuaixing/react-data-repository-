@@ -114,7 +114,7 @@ class ListTable extends React.Component {
 				dataIndex: 'approverName',
 				key: 'updater',
 				width: 110,
-				render:(val,row)=>[val||'-',(row.approverStauts ===1?<span style={{color:"#b1b1b1"}}>(已删除)</span>:'')]
+				render:(val,row)=>[val||'-',(row.approverStauts ===1?<span style={{color:"#b1b1b1"}}>(已删除账号)</span>:'')]
 			},
 			{
 				title: '操作',

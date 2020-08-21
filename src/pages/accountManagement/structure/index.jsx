@@ -304,13 +304,14 @@ class AccountManage extends React.Component {
 				<BreadCrumb texts={['账号管理', '结构化账号']}/>
 				<div className="yc-detail-content">
 					<Spin tip="Loading..." spinning={loading}>
-						<Tabs defaultActiveKey={tabIndex} onChange={this.changeTab} animated={false} className="role-tab" tabBarExtraContent={roleButtons}>
+						<Tabs defaultActiveKey={tabIndex} onChange={this.changeTab} animated={false} className="role-tab sorter-tab" tabBarExtraContent={roleButtons}>
 							<TabPane tab="正常账号" key={"1"}>
 								<SearchAccount
 									role={role} username={username}
 									tabIndex={this.state.tabIndex}
 									handleClear={this.handleClear.bind(this)}
 									handleSearch={this.handleSearch.bind(this)}
+									flag='normal'
 								/>
 								<Table rowClassName="table-list" columns={columns} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
@@ -324,6 +325,7 @@ class AccountManage extends React.Component {
 									tabIndex={this.state.tabIndex}
 									handleClear={this.handleClear.bind(this)}
 									handleSearch={this.handleSearch.bind(this)}
+									flag='deleted'
 								/>
 								<Table
 									rowClassName="table-list" columns={columnsDelete} dataSource={tableList} className="role-table"
