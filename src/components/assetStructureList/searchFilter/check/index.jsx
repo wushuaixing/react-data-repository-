@@ -39,7 +39,7 @@ class Index extends React.Component {
                 },
                 {
                     value: 'deleted',
-                    label: "已删除",
+                    label: "已删除账号",
                     enable:true
                 },
                 {
@@ -210,7 +210,7 @@ class Index extends React.Component {
                                         <Option
                                             value={ele.value} key={index}>
                                             {ele.label}
-                                            {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
+                                            {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除账号) </span>}
                                         </Option>
                                     )
                                 })
