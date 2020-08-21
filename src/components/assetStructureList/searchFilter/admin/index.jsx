@@ -245,7 +245,7 @@ class Index extends React.Component {
                                 showSearch
                                 filterOption={(input, option) =>{
                                     if(!isNaN(option.key)){ //去除optGroup项和用户类型选项 不进行筛选
-                                        return option.props.children[0].indexOf(input)>=0
+                                        return option.props.children[0].toLowerCase().indexOf(input.toLowerCase())>=0
                                     }
                                 }}
                                 style={{ width: 178, marginLeft: 4 }} transfer placeholder="请选择">
