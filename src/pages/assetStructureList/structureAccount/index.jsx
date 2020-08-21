@@ -5,7 +5,7 @@ import createPaginationProps from "@/utils/pagination";
 import { structuredList, getNewStructuredData, structuredCheckErrorNum,getAutoBidding } from "@api";
 import { withRouter } from "react-router-dom";
 import { BreadCrumb, SearchAndClearButtonGroup, AssetTabTextWithNumber } from '@commonComponents'
-import { dateUtils } from "@utils/common";
+import { dateUtils,clearEmpty } from "@utils/common";
 import NoDataIMG from '../../../assets/img/no_data.png';
 const { TabPane } = Tabs;
 
@@ -119,7 +119,11 @@ class Asset extends React.Component {
 			page:1,
 			searchTitle: params.title
 		},()=>{
-			this.getApi(Object.assign(params,{page:1}))
+			this.getApi(Object.assign(clearEmpty(params),{page:1}))
+			console.log(params)
+			this.props.form.setFieldsValue({
+				title:params.title.trim()
+			})
 		})
 	};
 

@@ -62,7 +62,7 @@ class Check extends React.Component {
 								})(
 									<Input.TextArea
 										style={{ height: 136 }}
-										maxLength="136"
+										// maxLength="136"
 										placeholder="请填写备注"
 									/>
 								)}

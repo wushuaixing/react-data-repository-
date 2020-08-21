@@ -3,7 +3,7 @@ import React from 'react';
 import { Form, Input, DatePicker, Cascader, Select, message } from 'antd';
 import { getStructuredPersonnel, getCheckPersonnel } from "@api";
 import { area } from "@/assets/area";
-import { dateUtils } from "@utils/common";
+import { dateUtils,clearEmpty } from "@utils/common";
 import { SearchAndClearButtonGroup } from '@commonComponents'
 
 const { Option, OptGroup } = Select;
@@ -44,6 +44,7 @@ class Index extends React.Component {
         e.preventDefault();
         const paramKeys = ['title', 'startTime', 'endTime', 'userId', 'checkUserId', 'area'];
         const formParams = this.props.form.getFieldsValue(paramKeys);
+        console.log(this.props.form)
         const params = {
             page: 1
         };
@@ -90,8 +91,10 @@ class Index extends React.Component {
                 }
             }
         });
-        console.log(params);
-        this.props.toSearch(params);
+        this.props.toSearch(clearEmpty(params));
+        this.props.form.setFieldsValue({
+            title:params.title.trim()
+        })
     };
 
     //清空搜索条件

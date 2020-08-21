@@ -176,7 +176,6 @@ class ForgetPasswordForm extends React.Component {
     render() {
         const { codeImgSrc, step } = this.state;
         const { getFieldDecorator } = this.props.form;
-        console.log(this.state);
         return (
             <div className="yc-right-login-noCode" style={{ height: 360 }}>
                 <div className="yc-form-title">{this.formTitle}</div>
