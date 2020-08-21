@@ -24,12 +24,12 @@ class Index extends React.Component {
 	}
 
 	render() {
-		const { username, role } = this.props;
+		const { username, role ,flag} = this.props;
 		const { getFieldDecorator } = this.props.form;
 		return (
 			<div className="yc-components-accountManagement-search">
 				<Form layout="inline" onSubmit={this.handleSearch.bind(this)}>
-					<Form.Item label="账号/姓名">
+					<Form.Item label={flag==='deleted' ? "姓名" : "账号/姓名"}>
 						{
 							getFieldDecorator('username', {
 								initialValue: username,
@@ -38,7 +38,7 @@ class Index extends React.Component {
 								},
 								validateTrigger: 'onBlur',
 							})(
-								<Input placeholder="请输入账号或姓名" style={{ width: 240 }} autoComplete="off" />,
+								<Input placeholder={flag==='deleted' ? "请输入姓名" : '请输入账号或姓名'} style={{ width: 240 }} autoComplete="off" />,
 							)}
 					</Form.Item>
 					<Form.Item label="角色">

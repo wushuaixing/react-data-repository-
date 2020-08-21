@@ -311,6 +311,7 @@ class AccountManage extends React.Component {
 									tabIndex={this.state.tabIndex}
 									handleClear={this.handleClear.bind(this)}
 									handleSearch={this.handleSearch.bind(this)}
+									flag='normal'
 								/>
 								<Table rowClassName="table-list" columns={columns} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
@@ -324,6 +325,7 @@ class AccountManage extends React.Component {
 									tabIndex={this.state.tabIndex}
 									handleClear={this.handleClear.bind(this)}
 									handleSearch={this.handleSearch.bind(this)}
+									flag='deleted'
 								/>
 								<Table
 									rowClassName="table-list" columns={columnsDelete} dataSource={tableList} className="role-table"
