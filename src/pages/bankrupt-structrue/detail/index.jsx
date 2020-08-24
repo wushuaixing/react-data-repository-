@@ -155,12 +155,19 @@ class BankruptDetail extends React.Component {
 		};
 	};
 
-	// 检查当前输入数据是否变化
+	// 检查当前输入数据是否变化 [ true：未变化 , false：已变化 ]
 	get ChangeStatus(){
-		const { source } = this.state;
-		const _source = this.getUserInfo();
-		console.log(source,_source);
-		return this.changed;
+		if(!this.changed) return true;
+		const { source:{ companyName, applicant, publisher} } = this.state;
+		const source = this.getUserInfo();
+		// 比较数组，不同返回true，想同返回false
+		const compareArray= (arr1=[],arr2=[])=>{
+			if(arr1.length !== arr2.length) return true;
+			return arr1.join(',')!==arr2.join(',')
+		};
+		const getAry = (ary,field)=>ary.map(i=>(i||{})[field||'value']);
+		const compareRes = compareArray(getAry(companyName,'bankruptcyCompanyName'),getAry(source.companyName)) || compareArray(getAry(applicant),getAry(source.applicant)) || compareArray(getAry(publisher),getAry(source.publisher));
+		return !compareRes;
 	}
 
 	// 检查当前记录是否变更
@@ -205,6 +212,7 @@ class BankruptDetail extends React.Component {
 	toSaveNext = async type => {
 		console.info('保存结构化对象并获取下一条id');
 		if(this.ChangeStatus && type === 'modify') return message.error('当前页面未作修改，请修改后再保存');
+		console.log(this.ChangeStatus && type === 'modify');
 		const source = this.getUserInfo();
 		if (!source.companyName.length) return message.warning('请输入破产企业名称！');
 		const { history, match: { params } } = this.props;
