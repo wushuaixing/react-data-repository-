@@ -75,12 +75,13 @@ class BankruptDetail extends React.Component {
 		// input 变化校验
 		const toInputChange = (event, _field, err) => {
 			const { value:_value } = event.target;
-			const value = (_value||"").replace(/\s/g,'')+1;
+			console.log(this.errorName);
+			const value = (_value||"").replace(/\s/g,'');
 			if(!this.changed) this.changed = true;
 			if (/company/.test(_field)) {
 				if (err) { setFields({ [_field]: { value, errors: [] } }); }
 				else {
-					if (this.errorName.includes(value))setFields({ [_field]: { value, errors: [new Error('企业名称疑似有误')] } });
+					// if (this.errorName.includes(value))setFields({ [_field]: { value, errors: [new Error('企业名称疑似有误')] } });
 				}
 			}
 		};
@@ -89,7 +90,8 @@ class BankruptDetail extends React.Component {
 			const { value:_value }  =e.target;
 			const value = (_value||'').replace(/\s/g,'');
 			if (/company/.test(_field)) {
-				const errors = this.errorName.includes(value)?[new Error('企业名称疑似有误')]:[];
+				// const errors = this.errorName.includes(value)?[new Error('企业名称疑似有误')]:[];
+				const errors = [];
 				setFields({ [_field]: { value, errors} });
 			}else{
 				setFieldsValue({[_field]:_value})
