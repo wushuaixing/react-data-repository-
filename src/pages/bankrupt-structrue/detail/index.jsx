@@ -44,8 +44,8 @@ class BankruptDetail extends React.Component {
 		Api.getDetail(id || params.id)
 			.then(({ code, data, message: mes }) => {
 				if (code === 200) {
-					this.setUserInfo(data);
 					this.toResetInfo();
+					this.setUserInfo(data);
 					this.setState({ source: data });
 					scrollTop();
 				} else {
@@ -84,11 +84,16 @@ class BankruptDetail extends React.Component {
 				}
 			}
 		};
-		const onBlur= (e,field) =>{
-			const { setFieldsValue } = this.props.form;
-			const { value }  =e.target;
-			const _value = (value||'').replace(/\s/g,'');
-			setFieldsValue({[field]:_value})
+		const onBlur= (e,_field) =>{
+			const { setFieldsValue,setFields } = this.props.form;
+			const { value:_value }  =e.target;
+			const value = (_value||'').replace(/\s/g,'');
+			if (/company/.test(_field)) {
+				const errors = this.errorName.includes(value)?[new Error('企业名称疑似有误')]:[];
+				setFields({ [_field]: { value, errors} });
+			}else{
+				setFieldsValue({[_field]:_value})
+			}
 		};
 
 		const itemArray = getFieldValue(field);
@@ -150,6 +155,14 @@ class BankruptDetail extends React.Component {
 		};
 	};
 
+	// 检查当前输入数据是否变化
+	get ChangeStatus(){
+		const { source } = this.state;
+		const _source = this.getUserInfo();
+		console.log(source,_source);
+		return this.changed;
+	}
+
 	// 检查当前记录是否变更
   toCheck = async (id) => {
 		const { source } = this.state;
@@ -165,7 +178,7 @@ class BankruptDetail extends React.Component {
 		console.info('保存结构化对象');
 		const { history, match: { params } } = this.props;
 		const source = this.getUserInfo();
-		if (!this.changed) return message.error('当前页面未作修改，请修改后再保存');
+		if (this.ChangeStatus) return message.error('当前页面未作修改，请修改后再保存');
 		if (!source.companyName.length) return message.warning('请输入破产企业名称！');
 		this.setState({ loading: true });
 		// 校验当前数据状态
@@ -191,7 +204,7 @@ class BankruptDetail extends React.Component {
 	// 保存结构化对象并获取下一条id
 	toSaveNext = async type => {
 		console.info('保存结构化对象并获取下一条id');
-		if(!this.changed && type === 'modify') return message.error('当前页面未作修改，请修改后再保存');
+		if(this.ChangeStatus && type === 'modify') return message.error('当前页面未作修改，请修改后再保存');
 		const source = this.getUserInfo();
 		if (!source.companyName.length) return message.warning('请输入破产企业名称！');
 		const { history, match: { params } } = this.props;
@@ -316,7 +329,7 @@ class BankruptDetail extends React.Component {
 							<Item title='自动退回' hide={!(source.status === 2)}>
 								<ul className="detail-content-item_ul">
 									{
-										(autoReturn||{}).time ? ( <li>
+										((autoReturn||{}).time && rule === 'admin') ? ( <li>
 											<span className="li-span li-span_time">{autoReturn.time}</span>
 											{ autoReturn.msg && <span className="li-span">{autoReturn.msg}</span>}
 											{ autoReturn.flag === 0 && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}

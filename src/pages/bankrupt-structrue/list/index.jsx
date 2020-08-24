@@ -72,6 +72,7 @@ class BankruptList extends React.Component {
 			if(/Time$/.test(i) && this.params[i]) defaultParams[i] = moment(this.params[i],'YYYY-MM-DD');
 			else if(this.params[i])defaultParams[i] = this.params[i];
 		});
+		if(defaultParams.uid) defaultParams.uid = Number(defaultParams.uid);
 		this.refQuery.setFieldsValue(defaultParams);
 	};
 
