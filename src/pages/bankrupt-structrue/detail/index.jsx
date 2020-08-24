@@ -362,7 +362,7 @@ class BankruptDetail extends React.Component {
 													{ i.msg && i.flag !== 1 && <span className="li-span">
 														{i.flag === 2 && '初次' }
 														{i.flag === 3 && '修改' }
-														{i.msg}
+														{i.flag !== 3 ? i.msg : ''}
 													</span>}
 													{ i.flag === 0 && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}
 													{ i.flag === 1 && <span className="li-span" style={{ color:"#1DB805" }}>信息无误</span>}
