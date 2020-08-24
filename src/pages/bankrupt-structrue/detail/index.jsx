@@ -192,7 +192,7 @@ class BankruptDetail extends React.Component {
 		const idStatus = await this.toCheck(params.id);
 		if (idStatus !== 'normal') {
 			if (idStatus === 'error') return message.error('该数据已被检查错误，请到待修改列表查看',2,()=>{
-					history.push(`/index/bankrupt?approveStatus=2`)
+					history.push(`/index/bankrupt?approveStatus=1`)
 				});
 			else message.error('服务繁忙，请稍后再试');
 		}else {
