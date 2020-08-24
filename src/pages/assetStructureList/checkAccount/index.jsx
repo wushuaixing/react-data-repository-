@@ -6,7 +6,8 @@ import { getCheckList } from "@api";
 import SearchForm from "@/components/assetStructureList/searchFilter/check";
 import TabTable from "@/components/assetStructureList/tabTable/check";
 import '@/pages/style.scss';
-import { BreadCrumb } from '@commonComponents'
+import { BreadCrumb } from '@commonComponents';
+import {scrollTop } from "@utils/tools";
 class Check extends React.Component {
 	constructor(props) {
 		super(props);
@@ -129,7 +130,8 @@ class Check extends React.Component {
 		this.setState({
             page,
 		},()=>{
-            this.getTableList();
+			this.getTableList();
+			scrollTop();
         })
 	};
 
