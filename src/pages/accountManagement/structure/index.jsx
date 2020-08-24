@@ -56,12 +56,11 @@ class AccountManage extends React.Component {
 				{
 					title: "操作",
 					dataIndex: "action",
-					align: "center",
-					width: 180,
+					width: 200,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)}>编辑</a>
-							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)}>重置密码</a>
+							<a className='action_left' onClick={() => this.editAccount(record)}>编辑</a>
+							<a className='action_center'  onClick={() => this.resetPassword(record.id)}>重置密码</a>
 							<a onClick={() => this.deleteUser(record.id)}>删除</a>
 						</span>
 					),
@@ -101,7 +100,7 @@ class AccountManage extends React.Component {
 					width: 180,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.remove(record.id)}>移除</a>
+							<a  onClick={() => this.remove(record.id)}>移除</a>
 						</span>
 					),
 				}

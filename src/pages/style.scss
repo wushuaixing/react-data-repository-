@@ -72,10 +72,10 @@
   margin-right:8px !important;
 }
 .ant-checkbox-wrapper span {
-  font-size: 12px;
+  font-size: 14px;
 }
 .ant-radio-group span {
-  font-size: 12px;
+  font-size: 14px;
 }
 .ant-table-thead tr th{
   background: #EDEFF3;
@@ -103,6 +103,7 @@
     height: 32px;
     margin-left: 10px;
     margin-right: 10px;
+  
   }
 }
 //是input的父元素
@@ -241,4 +242,9 @@
 .ant-popover-inner-content{
   background: rgba(0, 0, 0, .75);
   color: #fff !important;
+}
+input {
+  &::placeholder {
+    color: #B2B8C9 !important;
+  }
 }

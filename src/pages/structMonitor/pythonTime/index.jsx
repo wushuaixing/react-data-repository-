@@ -303,7 +303,7 @@ class Index extends React.Component {
                   <div style={{display: 'inline-flex'}}>
                     <DatePicker
                       placeholder="开始时间"
-                      style={{width:108,fontSize:12}}
+                      style={{width:120,fontSize:12}}
                       onChange={this.onChangeDate}
                       defaultValue={this.state.now}
                       format={'YYYY-MM-DD'}

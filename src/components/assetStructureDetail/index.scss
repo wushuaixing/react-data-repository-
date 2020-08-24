@@ -18,9 +18,6 @@
     .ant-input {
         width: 225px;
     }
-    .ant-popover-content{
-        background: rgba(0, 0, 0, .75) !important
-    }
 }
 
 .yc-components-roleDetail {
@@ -152,7 +149,7 @@
 }
 
 .basicDetail_row{
-    @include titleRightAlign(110px);
+    @include titleRightAlign(120px);
 }
 
 .propertyDetail_row{

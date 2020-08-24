@@ -181,7 +181,7 @@ class Index extends React.Component {
 						})(<DatePicker
 							placeholder="开始时间"
 							disabledDate={this.disabledStartDate}
-							style={{ width: 108 }} />)}
+							style={{ width: 120 }} />)}
 					</Form.Item>
 					<Form.Item label="至">
 						{getFieldDecorator('structuredEndTime', {
@@ -189,7 +189,7 @@ class Index extends React.Component {
 						})(<DatePicker
 							placeholder="结束时间"
 							disabledDate={this.disabledEndDate}
-							style={{ width: 108 }} />)}
+							style={{ width: 120 }} />)}
 					</Form.Item>
 					<Form.Item label="结构化人员">
 						{getFieldDecorator('userId', {
