@@ -192,12 +192,12 @@ class BankruptDetail extends React.Component {
 		if (!source.companyName.length) return message.warning('请输入破产企业名称！');
 		const { history, match: { params } } = this.props;
 		this.setState({ loading: true });
-
 		const idStatus = await this.toCheck(params.id);
 		if (idStatus !== 'normal') {
 			if (idStatus === 'error') {
 				const text = type === 'modify'?'该数据已被处理':'该数据已被标注';
-				Api.getNext(type === 'modify'?2:0)
+				const _type = type === 'modify'? 2 :  0;
+				Api.getNext(_type)
 					.then(res => {
 						if(res.code === 200){
 							if(res.data){
@@ -205,7 +205,7 @@ class BankruptDetail extends React.Component {
 									history.replace(`/index/bankrupt/detail/${res.data}`)
 								})
 							}else	message.error(`${text}，为您跳转至未标记列表`,2,()=>{
-								history.push(`/index/bankrupt?approveStatus=2`)
+								history.push(`/index/bankrupt?approveStatus=0`)
 							})
 						} else message.error(res.message);
 					})
@@ -244,7 +244,7 @@ class BankruptDetail extends React.Component {
 									history.replace(`/index/bankrupt/detail/${res.data}`)
 								})
 							}else	message.error('该数据已被处理，为您跳转至未标记列表',2,()=>{
-									history.push(`/index/bankrupt?approveStatus=2`)
+									history.push(`/index/bankrupt?approveStatus=0`)
 								})
 						} else message.error(res.message);
 					})
