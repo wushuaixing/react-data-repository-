@@ -44,8 +44,8 @@ class BankruptDetail extends React.Component {
 		Api.getDetail(id || params.id)
 			.then(({ code, data, message: mes }) => {
 				if (code === 200) {
-					this.setUserInfo(data);
 					this.toResetInfo();
+					this.setUserInfo(data);
 					this.setState({ source: data });
 					scrollTop();
 				} else {
@@ -58,9 +58,10 @@ class BankruptDetail extends React.Component {
 	getItems = (field, placeholder = '请输入') => {
 		if (!field) return;
 		const {
-			getFieldValue, getFieldDecorator, setFieldsValue, getFieldError, setFields,
+			getFieldValue, getFieldDecorator, setFieldsValue, getFieldError, setFields
 		} = this.props.form;
 		getFieldDecorator(field, { initialValue: [this.baseStr] });
+		// console.log(getFieldsValue());
 		// 相关操作
 		const toHandle = (type, field, val) => {
 			const values = getFieldValue(field);
@@ -73,19 +74,28 @@ class BankruptDetail extends React.Component {
 		const getError = field =>getFieldError(field)?getFieldError(field).join(','):null;
 		// input 变化校验
 		const toInputChange = (event, _field, err) => {
-			const { value } = event.target;
+			const { value:_value } = event.target;
+			const value = (_value||"").replace(/\s/g,'');
 			if(!this.changed) this.changed = true;
 			if (/company/.test(_field)) {
 				if (err) { setFields({ [_field]: { value, errors: [] } }); }
 				else {
-					if (this.errorName.includes(value))setFields({ [_field]: { value, errors: [new Error('企业名称疑似有误')] } });
+					// if (this.errorName.includes(value))setFields({ [_field]: { value, errors: [new Error('企业名称疑似有误')] } });
 				}
 			}
 		};
-		// const onBlur= e =>{
-		// 	const {value}  =e.target;
-		// 	e.target.value = (value||'').replace(/\s/g,'');
-		// };
+		const onBlur= (e,_field) =>{
+			const { setFieldsValue,setFields } = this.props.form;
+			const { value:_value }  =e.target;
+			const value = (_value||'').replace(/\s/g,'');
+			if (/company/.test(_field)) {
+				// const errors = this.errorName.includes(value)?[new Error('企业名称疑似有误')]:[];
+				const errors = [];
+				setFields({ [_field]: { value, errors} });
+			}else{
+				setFieldsValue({[_field]:_value})
+			}
+		};
 
 		const itemArray = getFieldValue(field);
 		return itemArray.map((item, index) => {
@@ -94,7 +104,7 @@ class BankruptDetail extends React.Component {
 			return (
 				<div key={index} className={`detail-item_input${err ? ' detail-item_error' : ''}`}>
 					{ getFieldDecorator(_field, { onChange: e => toInputChange(e, _field, err) })
-						(<Input placeholder={placeholder} style={{ width: 260 }} autoComplete="off" />)}
+						(<Input placeholder={placeholder} style={{ width: 260 }} autoComplete="off" onBlur={e=>onBlur(e,_field)} />)}
 					{ err && <span className="detail-item_input__error">{err}</span> }
 					{ itemArray.length === index + 1
 					&& <Icon className="detail-item_input__icon" type="plus-circle" theme="filled" onClick={() => toHandle('add', field, item)} /> }
@@ -146,6 +156,21 @@ class BankruptDetail extends React.Component {
 		};
 	};
 
+	// 检查当前输入数据是否变化 [ true：未变化 , false：已变化 ]
+	get ChangeStatus(){
+		if(!this.changed) return true;
+		const { source:{ companyName, applicant, publisher} } = this.state;
+		const source = this.getUserInfo();
+		// 比较数组，不同返回true，想同返回false
+		const compareArray= (arr1=[],arr2=[])=>{
+			if(arr1.length !== arr2.length) return true;
+			return arr1.join(',')!==arr2.join(',')
+		};
+		const getAry = (ary,field)=>ary.map(i=>(i||{})[field||'value']);
+		const compareRes = compareArray(getAry(companyName,'bankruptcyCompanyName'),getAry(source.companyName)) || compareArray(getAry(applicant),getAry(source.applicant)) || compareArray(getAry(publisher),getAry(source.publisher));
+		return !compareRes;
+	}
+
 	// 检查当前记录是否变更
   toCheck = async (id) => {
 		const { source } = this.state;
@@ -161,14 +186,14 @@ class BankruptDetail extends React.Component {
 		console.info('保存结构化对象');
 		const { history, match: { params } } = this.props;
 		const source = this.getUserInfo();
-		if (!this.changed) return message.error('当前页面未作修改，请修改后再保存');
+		if (this.ChangeStatus) return message.error('当前页面未作修改，请修改后再保存');
 		if (!source.companyName.length) return message.warning('请输入破产企业名称！');
 		this.setState({ loading: true });
 		// 校验当前数据状态
 		const idStatus = await this.toCheck(params.id);
 		if (idStatus !== 'normal') {
 			if (idStatus === 'error') return message.error('该数据已被检查错误，请到待修改列表查看',2,()=>{
-					history.push(`/index/bankrupt?approveStatus=2`)
+					history.push(`/index/bankrupt?approveStatus=1`)
 				});
 			else message.error('服务繁忙，请稍后再试');
 		}else {
@@ -187,7 +212,8 @@ class BankruptDetail extends React.Component {
 	// 保存结构化对象并获取下一条id
 	toSaveNext = async type => {
 		console.info('保存结构化对象并获取下一条id');
-		if(!this.changed && type === 'modify') return message.error('当前页面未作修改，请修改后再保存');
+		if(this.ChangeStatus && type === 'modify') return message.error('当前页面未作修改，请修改后再保存');
+		console.log(this.ChangeStatus && type === 'modify');
 		const source = this.getUserInfo();
 		if (!source.companyName.length) return message.warning('请输入破产企业名称！');
 		const { history, match: { params } } = this.props;
@@ -312,7 +338,7 @@ class BankruptDetail extends React.Component {
 							<Item title='自动退回' hide={!(source.status === 2)}>
 								<ul className="detail-content-item_ul">
 									{
-										(autoReturn||{}).time ? ( <li>
+										((autoReturn||{}).time && rule === 'admin') ? ( <li>
 											<span className="li-span li-span_time">{autoReturn.time}</span>
 											{ autoReturn.msg && <span className="li-span">{autoReturn.msg}</span>}
 											{ autoReturn.flag === 0 && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}
@@ -337,7 +363,7 @@ class BankruptDetail extends React.Component {
 													{ i.msg && i.flag !== 1 && <span className="li-span">
 														{i.flag === 2 && '初次' }
 														{i.flag === 3 && '修改' }
-														{i.msg}
+														{i.flag !== 3 ? i.msg : ''}
 													</span>}
 													{ i.flag === 0 && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}
 													{ i.flag === 1 && <span className="li-span" style={{ color:"#1DB805" }}>信息无误</span>}
