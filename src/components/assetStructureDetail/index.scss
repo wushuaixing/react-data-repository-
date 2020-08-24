@@ -18,6 +18,9 @@
     .ant-input {
         width: 225px;
     }
+    .ant-popover-content{
+        background: rgba(0, 0, 0, .75) !important
+    }
 }
 
 .yc-components-roleDetail {
@@ -49,8 +52,13 @@
         width: 100%;
         white-space:pre-wrap;
     }
+    &_link{
+        &:hover{
+            text-decoration: underline;
+        }
+    }
     .addition-ah {
-        margin-left: 100px;
+        margin-left: 91px;
     }
     .ant-input {
         width: 225px;

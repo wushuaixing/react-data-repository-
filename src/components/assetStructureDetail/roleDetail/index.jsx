@@ -96,7 +96,7 @@ class RoleDetail extends React.Component {
                     <span>角色信息</span>
                     <span className="role_mark">
                         <Popover content={text}>
-                            <Icon type="exclamation-circle" style={{color: '#808387'}}/>
+                            <Icon type="exclamation-circle" style={{color: '#808387',position:'relative',top:1}}/>
                         </Popover>
                     </span>
                 </div>
