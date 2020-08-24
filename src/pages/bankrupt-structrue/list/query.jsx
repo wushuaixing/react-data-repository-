@@ -65,10 +65,10 @@ class ListQuery extends React.Component {
 		const params = simply ? getFieldsValue(['title','publishStartTime','publishEndTime']):getFieldsValue();
 		Object.keys(params).forEach(i=>{ if(typeof params[i]==='object' && /Time$/.test(i) && params[i])params[i] = params[i].format('YYYY-MM-DD')});
 		onSearch && onSearch(clearEmpty(params));
-		console.log(params);
+		// console.log(params);
 		setFieldsValue({
-			companyName:params.companyName.trim(),
-			title:params.title.trim()
+			companyName:(params.companyName||'').trim(),
+			title:(params.title||'').trim()
 		})
 	};
 
