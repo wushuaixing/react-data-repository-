@@ -114,7 +114,7 @@ class ListTable extends React.Component {
 				dataIndex: 'approverName',
 				key: 'updater',
 				width: 110,
-				render:(val,row)=>[val||'-',(row.approverStauts ===1?<span style={{color:"#b1b1b1"}}>(已删除账号)</span>:'')]
+				render:(val,row)=>[val||'-',(row.approverStauts ===1?<span style={{color:"#b1b1b1"}}>(已删除)</span>:'')]
 			},
 			{
 				title: '操作',
@@ -149,13 +149,9 @@ class ListTable extends React.Component {
 		};
 		return (
 			<div className="list-table-wrapper">
-				<Table className='list-table'
-					   rowKey={e=>e.id} {...props}
-					   locale={{emptyText: <div className="no-data-box">
-												<img src={NoDataIMG} alt="暂无数据"/>
-												<p>暂无数据</p>
-										   </div>}}
-					   />
+				<Table className='list-table'	rowKey={e=>e.id} {...props}
+					locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
+				/>
 			</div>
 		);
 	}

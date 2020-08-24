@@ -101,7 +101,7 @@ class ListQuery extends React.Component {
 								{
 									item.array.map((ele, index) => (
 										<Select.Option value={ele.value} key={index} >
-											{ele.label} {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除账号) </span>}
+											{ele.label} {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
 										</Select.Option>
 									))
 								}

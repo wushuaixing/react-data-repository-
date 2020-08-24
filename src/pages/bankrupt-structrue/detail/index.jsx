@@ -309,7 +309,7 @@ class BankruptDetail extends React.Component {
 					)} />
 					<Spin spinning={loading} >
 						<div className="detail-content">
-							<Item title='自动退回' hide={!(rule === 'admin' && source.status === 2)}>
+							<Item title='自动退回' hide={!(source.status === 2)}>
 								<ul className="detail-content-item_ul">
 									{
 										(autoReturn||{}).time ? ( <li>
