@@ -75,7 +75,6 @@ class BankruptDetail extends React.Component {
 		// input 变化校验
 		const toInputChange = (event, _field, err) => {
 			const { value:_value } = event.target;
-			console.log(this.errorName);
 			const value = (_value||"").replace(/\s/g,'');
 			if(!this.changed) this.changed = true;
 			if (/company/.test(_field)) {
