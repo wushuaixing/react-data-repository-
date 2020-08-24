@@ -70,7 +70,7 @@ class BankruptList extends React.Component {
 		const defaultParams = {};
 		["companyName", "publishEndTime", "publishStartTime", "title", "uid", "updateEndTime", "updateStartTime"].forEach(i=>{
 			if(/Time$/.test(i) && this.params[i]) defaultParams[i] = moment(this.params[i],'YYYY-MM-DD');
-			else if(this.params[i])defaultParams[i] = this.paramsp[i];
+			else if(this.params[i])defaultParams[i] = this.params[i];
 		});
 		this.refQuery.setFieldsValue(defaultParams);
 	};

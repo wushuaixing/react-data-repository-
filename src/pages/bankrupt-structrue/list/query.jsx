@@ -65,10 +65,10 @@ class ListQuery extends React.Component {
 		const params = simply ? getFieldsValue(['title','publishStartTime','publishEndTime']):getFieldsValue();
 		Object.keys(params).forEach(i=>{ if(typeof params[i]==='object' && /Time$/.test(i) && params[i])params[i] = params[i].format('YYYY-MM-DD')});
 		onSearch && onSearch(clearEmpty(params));
-		console.log(params);
+		// console.log(params);
 		setFieldsValue({
-			companyName:params.companyName.trim(),
-			title:params.title.trim()
+			companyName:(params.companyName||'').trim(),
+			title:(params.title||'').trim()
 		})
 	};
 
@@ -101,7 +101,7 @@ class ListQuery extends React.Component {
 								{
 									item.array.map((ele, index) => (
 										<Select.Option value={ele.value} key={index} >
-											{ele.label} {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除账号) </span>}
+											{ele.label} {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
 										</Select.Option>
 									))
 								}
