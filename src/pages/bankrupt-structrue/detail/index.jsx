@@ -176,11 +176,11 @@ class BankruptDetail extends React.Component {
 			Api.saveDetail(params.id, source)
 				.then((res) => {
 					if (res.code === 200) {
-						message.success('数据保存成功，2s后回到已标记列表', 2, () => history.go(-1));
+						message.success('保存成功', 1, () => history.go(-1));
 					}	else message.error(res.message);
 				})
 				.catch(()=>message.error('服务繁忙，请稍后再试'))
-				.finally(() => setTimeout(() => this.setState({loading: false}), 2000));
+				.finally(() => setTimeout(() => this.setState({loading: false}), 1000));
 		}
 	};
 
