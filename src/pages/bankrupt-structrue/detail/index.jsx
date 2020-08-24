@@ -58,9 +58,10 @@ class BankruptDetail extends React.Component {
 	getItems = (field, placeholder = '请输入') => {
 		if (!field) return;
 		const {
-			getFieldValue, getFieldDecorator, setFieldsValue, getFieldError, setFields,
+			getFieldValue, getFieldDecorator, setFieldsValue, getFieldError, setFields
 		} = this.props.form;
 		getFieldDecorator(field, { initialValue: [this.baseStr] });
+		// console.log(getFieldsValue());
 		// 相关操作
 		const toHandle = (type, field, val) => {
 			const values = getFieldValue(field);
@@ -73,7 +74,8 @@ class BankruptDetail extends React.Component {
 		const getError = field =>getFieldError(field)?getFieldError(field).join(','):null;
 		// input 变化校验
 		const toInputChange = (event, _field, err) => {
-			const { value } = event.target;
+			const { value:_value } = event.target;
+			const value = (_value||"").replace(/\s/g,'')+1;
 			if(!this.changed) this.changed = true;
 			if (/company/.test(_field)) {
 				if (err) { setFields({ [_field]: { value, errors: [] } }); }
@@ -82,10 +84,12 @@ class BankruptDetail extends React.Component {
 				}
 			}
 		};
-		// const onBlur= e =>{
-		// 	const {value}  =e.target;
-		// 	e.target.value = (value||'').replace(/\s/g,'');
-		// };
+		const onBlur= (e,field) =>{
+			const { setFieldsValue } = this.props.form;
+			const { value }  =e.target;
+			const _value = (value||'').replace(/\s/g,'');
+			setFieldsValue({[field]:_value})
+		};
 
 		const itemArray = getFieldValue(field);
 		return itemArray.map((item, index) => {
@@ -94,7 +98,7 @@ class BankruptDetail extends React.Component {
 			return (
 				<div key={index} className={`detail-item_input${err ? ' detail-item_error' : ''}`}>
 					{ getFieldDecorator(_field, { onChange: e => toInputChange(e, _field, err) })
-						(<Input placeholder={placeholder} style={{ width: 260 }} autoComplete="off" />)}
+						(<Input placeholder={placeholder} style={{ width: 260 }} autoComplete="off" onBlur={e=>onBlur(e,_field)} />)}
 					{ err && <span className="detail-item_input__error">{err}</span> }
 					{ itemArray.length === index + 1
 					&& <Icon className="detail-item_input__icon" type="plus-circle" theme="filled" onClick={() => toHandle('add', field, item)} /> }
