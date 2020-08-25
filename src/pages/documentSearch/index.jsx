@@ -9,6 +9,7 @@ import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from '@utils/pagination'
 import { filters } from '@utils/common'
 import NoDataIMG from '../../assets/img/no_data.png'
+import {scrollTop } from "@utils/tools";
 // import moment from 'moment'
 const searchForm = Form.create;
 
@@ -104,6 +105,7 @@ class Check extends React.Component {
 			page: pagination.current,
 		}, () => {
 			this.getTableList();
+			scrollTop('no-yc-layout-main');
 		});
 	};
 	render() {

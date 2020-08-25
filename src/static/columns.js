@@ -118,7 +118,7 @@ export const Columns = [
 		dataIndex: "checkPersonnel",
 		render: (text, record) => (
 			<span>
-				<div style={{ fontSize: 12 }}>{record.checkPersonnel ? record.checkPersonnel : '--'}</div>
+				<div style={{ fontSize: 14 }}>{record.checkPersonnel ? record.checkPersonnel : '--'}</div>
 			</span>
 		),
 	},

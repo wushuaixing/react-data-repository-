@@ -72,10 +72,10 @@
   margin-right:8px !important;
 }
 .ant-checkbox-wrapper span {
-  font-size: 12px;
+  font-size: 14px;
 }
 .ant-radio-group span {
-  font-size: 12px;
+  font-size: 14px;
 }
 .ant-table-thead tr th{
   background: #EDEFF3;
@@ -103,6 +103,7 @@
     height: 32px;
     margin-left: 10px;
     margin-right: 10px;
+  
   }
 }
 //是input的父元素
@@ -172,7 +173,7 @@
   font-size: 16px !important;
 }
 .ant-modal-confirm-content{
-  font-size:14px !important;
+  font-size:16px !important;
   font-weight: normal;
   margin-left: 34px !important;
   line-height: 16px !important;
@@ -209,10 +210,10 @@
         margin-bottom: 20px;
       }
       p{
-        font-size:12px;
+        font-size:14px;
         // font-family:PingFangSC-Regular,PingFang SC;
         color:rgba(128,131,135,1);
-        line-height:12px;
+        line-height:14px;
       }
   }
 }
@@ -237,4 +238,13 @@
 .badge-left{
   position: relative;
   right: 14px;
+}
+.ant-popover-inner-content{
+  background: rgba(0, 0, 0, .75);
+  color: #fff !important;
+}
+input {
+  &::placeholder {
+    color: #B2B8C9 !important;
+  }
 }

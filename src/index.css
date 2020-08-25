@@ -12,6 +12,7 @@ code {
 }
 .ant-table-thead > tr > th {
   font-weight: bold!important;
+  color:#4E5566 !important
 }
 .a-link{
   color: #016AA9;

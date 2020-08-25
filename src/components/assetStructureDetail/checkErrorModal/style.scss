@@ -2,29 +2,37 @@
   .ant-modal-content {
     .check-modal {
       padding: 4px 25px 25px 15px;
+
       .ant-checkbox-wrapper {
         margin-left: 0;
         margin-top: 10px;
       }
+
       .ant-checkbox-group {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
       }
-      .ant-checkbox + span {
+
+      .ant-checkbox+span {
         padding-right: 0px;
       }
+
       .ant-checkbox-wrapper {
         width: 33.3%;
       }
+
       .ant-form-item {
         margin-bottom: 0;
       }
+
       .ant-form label {
         font-size: 12px;
       }
+
       .part {
         font-size: 12px;
+
         .part-title {
           height: 14px;
           font-size: 14px;
@@ -33,7 +41,8 @@
           line-height: 14px;
           margin: 20px 0 12px;
         }
-        .ant-form-item-label > label {
+
+        .ant-form-item-label>label {
           height: 14px;
           font-size: 14px;
           font-weight: 500;
@@ -43,29 +52,34 @@
 
         .part-error-detail {
           font-size: 12px;
-          max-height: 160px;
+          max-height: 260px;
           overflow-y: auto;
           border: 1px solid rgba(226, 228, 233, 1);
           border-radius: 2px;
           padding: 0 10px;
+
           .part-error-title {
             margin: 4px 0 1px 0;
             font-weight: 700;
-            color:#293038;
+            color: #293038;
           }
+
           .part-error-content {
             font-size: 12px;
             line-height: 1.5;
           }
+
           .part-error-content:hover {
             cursor: pointer;
           }
         }
       }
+
       .footer {
         margin-top: 30px;
         text-align: center;
-        > button {
+
+        >button {
           width: 120px;
           height: 36px;
           margin-left: 10px;
@@ -73,8 +87,84 @@
         }
       }
     }
+
     .ant-modal-body {
       padding: 30px 50px 40px 40px;
     }
   }
+}
+
+
+.checkError-modal {
+  .ant-modal-content {
+    width: 440px;
+
+    .ant-modal-header {
+      img {
+        position: relative;
+        top: -1px;
+        margin-right: 4px;
+      }
+    }
+
+    .ant-modal-body {
+      padding: 12px 40px 30px 46px;
+
+      .check-modal {
+        padding: 0;
+        font-size: 12px;
+
+        .ant-form-item-label {
+          label {
+            font-weight: 800 !important;
+          }
+        }
+
+        .part-title {
+          font-weight: 800 !important;
+        }
+
+        .part {
+          font-size: 14px;
+          color: rgba(41, 48, 56, 1);
+          line-height: 20px;
+        }
+
+        .ant-radio-group {
+          span {
+            font-size: 12px;
+          }
+        }
+
+        .ant-checkbox-wrapper {
+          span {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track/*滑动轨道*/
+{
+    border-radius: 3px;
+    background: #E2E4E9;
+    border-left:none;
+}
+ 
+::-webkit-scrollbar-thumb/*滑块*/
+{
+    border:none;
+    border-radius: 3px;
+    background: #B2B8C9;
+}
+::-webkit-scrollbar-thumb:hover/*滑块效果*/
+{
+    border-radius: 3px;
+    background:#EDEFF3;
 }
