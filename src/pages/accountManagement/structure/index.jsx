@@ -6,6 +6,7 @@ import { userCreate, userView, userEdit, userReset, userRemove, userDelete } fro
 import AccountModal from '@/components/accountManagement/structureAccountModal';
 import SearchAccount from "@/components/accountManagement/search";
 import createPaginationProps from '@/utils/pagination';
+import DelIMG from '../../../assets/img/confirm_delete.png';
 import { formUtils } from '@/utils/common';
 import '../style.scss';
 // ==================
@@ -165,7 +166,7 @@ class AccountManage extends React.Component {
 		confirm({
 			title: '确认删除账号?',
 			content:'删除后,该账户将无法在数据资产平台登录',
-			icon: <Icon type="exclamation-circle" />,
+			icon: <img src={DelIMG} alt='' className="ico_confirmdel"/>,
 			onOk: () => {
 				this.setState({
 					loading: true,

@@ -5,7 +5,8 @@ import { message, Button, Table, Spin,Modal,Icon } from 'antd';
 import AccountModal from '@/components/accountManagement/checkAccountModal';
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from "@/utils/pagination";
-import NoDataIMG from '../../../assets/img/no_data.png'
+import NoDataIMG from '../../../assets/img/no_data.png';
+import DelIMG from '../../../assets/img/confirm_delete.png';
 import '../style.scss'
 const { confirm} = Modal;
 class Index extends React.Component {
@@ -93,7 +94,7 @@ class Index extends React.Component {
 		confirm({
 			title: '确认删除账号?',
 			content:'删除后,该账户将无法在数据资产平台登录',
-			icon: <Icon type="exclamation-circle" />,
+			icon: <img src={DelIMG} alt='' className="ico_confirmdel"/>,
 			className:'ant-explain-change',
 			onOk: () => {
 				this.setState({
