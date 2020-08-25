@@ -123,7 +123,7 @@ class Asset extends React.Component {
 			this.getApi(Object.assign(clearEmpty(params),{page:1}))
 			console.log(params)
 			this.props.form.setFieldsValue({
-				title:params.title.trim()
+				title:(params.title||'').trim()
 			})
 		})
 	};

@@ -172,7 +172,6 @@ class Login extends React.Component {
 													maxLength={11}
 													autoComplete="auto"
 													className="yc-input"
-													// prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
 													prefix={<img src={iconUserName} style={{marginRight:10}} alt=''/>}
 													placeholder="请输入11位账号"
 													onPressEnter={this.handleCorrect}

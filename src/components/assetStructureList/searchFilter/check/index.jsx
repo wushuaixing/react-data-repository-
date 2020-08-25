@@ -116,7 +116,7 @@ class Index extends React.Component {
 		});
 		this.props.toSearch(clearEmpty(params));
 		this.props.form.setFieldsValue({
-			title:params.title.trim()
+			title:(params.title||'').trim()
 		})
 	};
 
