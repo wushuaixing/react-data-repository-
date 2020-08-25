@@ -176,11 +176,13 @@ class StructureDetail extends React.Component {
                     this.props.history.push({ pathname: `/index/structureDetail/${_status}/${id}` });
                 })
             };
+
             if(res.data.code === 200){
                 const { data:{sign,id:nextId} } = res.data;
-                const mesStatus = (type, id) => {
+                const mesStatus = (type, id,oldId) => {
                     if (type === '2') {
                         if (id > 0) {
+                            sessionStorage.setItem('id', oldId);
                             message.success('保存成功!');
                             toNext(status,res.data.data.id);
                         }else{
@@ -188,6 +190,7 @@ class StructureDetail extends React.Component {
                         }
                     } else if (type === '0') {
                         if (id > 0) {
+                            sessionStorage.setItem('id', oldId);
                             message.success('保存成功!');
                             toNext(status,res.data.data.id);
                         } else if (id === -1) {
@@ -196,11 +199,15 @@ class StructureDetail extends React.Component {
                             message.success('已修改完全部数据，2s后回到待标记列表', 2,toIndex);
                         }
                     } else if (type === '1') {
+                        sessionStorage.setItem('id', oldId);
+                        sessionStorage.removeItem('backTime');
                         if (id) {
                             message.success('保存成功!');
                             toNext(status,res.data.data.id);
                         } else {
-                            message.success('保存成功!');
+														message.success('保存成功!');
+
+													// message.success('该数据已被检查错误，请到待修改列表查看');
                             toIndex();
                         }
                     }
@@ -213,10 +220,10 @@ class StructureDetail extends React.Component {
                             okText: '我知道了'
                         });
                     } else {
-                        mesStatus(status,nextId);
+                        mesStatus(status,nextId,id);
                     }
                 } else{
-                    mesStatus(status,nextId);
+                    mesStatus(status,nextId,id);
                 }
             } else {
                 message.error('保存失败!')
@@ -275,36 +282,39 @@ class StructureDetail extends React.Component {
         this.setState({loading:true});
         if (params.id && params.status) {
             structuredById(params.id, params.status,0).then(res => {
-                for (let i = 0; i < res.data.obligors; i++) {
-                    if (res.data.obligors[i].label_type === '4') {
-                        //债务人和起诉人对应转换
-                        res.data.obligors[i].label_type = '2'
-                    }
-                }
-                const data = res.data;
-                this.setState({
-                    associatedStatus: data.associatedStatus,
-                    id: data.id,
-                    associatedAnnotationId: data.associatedAnnotationId,
-                    auctionStatus: data.auctionStatus,
-                    buildingArea: data.buildingArea,
-                    collateral: data.collateral,
-                    firstExtractTime: data.firstExtractTime,
-                    houseType: data.houseType,
-                    reasonForWithdrawal: data.reasonForWithdrawal,
-                    sign: data.sign,
-                    type: data.type,
-                    onlyThis: data.onlyThis,
-                    title: data.title,
-                    url: data.url,
-                    wrongData: data.wrongData,
-                    wsFindStatus: data.wsFindStatus,
-                    wsInAttach: data.wsInAttach,
-                    ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
-                    wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
-                    obligors: data && data.obligors && data.obligors.length === 0 && params.status === '0' ? [getObligor()] : data.obligors
-                })
-
+            	if(res.code === 200){
+								for (let i = 0; i < res.data.obligors; i++) {
+									if (res.data.obligors[i].label_type === '4') {
+										//债务人和起诉人对应转换
+										res.data.obligors[i].label_type = '2'
+									}
+								}
+								const data = res.data;
+								this.setState({
+									associatedStatus: data.associatedStatus,
+									id: data.id,
+									associatedAnnotationId: data.associatedAnnotationId,
+									auctionStatus: data.auctionStatus,
+									buildingArea: data.buildingArea,
+									collateral: data.collateral,
+									firstExtractTime: data.firstExtractTime,
+									houseType: data.houseType,
+									reasonForWithdrawal: data.reasonForWithdrawal,
+									sign: data.sign,
+									type: data.type,
+									onlyThis: data.onlyThis,
+									title: data.title,
+									url: data.url,
+									wrongData: data.wrongData,
+									wsFindStatus: data.wsFindStatus,
+									wsInAttach: data.wsInAttach,
+									ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+									wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
+									obligors: data && data.obligors && data.obligors.length === 0 && params.status === '0' ? [getObligor()] : data.obligors
+								})
+							}else{
+            		message.error('请求参数错误',1)
+							}
             }).finally(()=>this.setState({ loading:false }));
             getNumberOfTags().then(res => {
                 this.setState({
