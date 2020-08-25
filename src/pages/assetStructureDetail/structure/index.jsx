@@ -176,11 +176,13 @@ class StructureDetail extends React.Component {
                     this.props.history.push({ pathname: `/index/structureDetail/${_status}/${id}` });
                 })
             };
+
             if(res.data.code === 200){
                 const { data:{sign,id:nextId} } = res.data;
-                const mesStatus = (type, id) => {
+                const mesStatus = (type, id,oldId) => {
                     if (type === '2') {
                         if (id > 0) {
+                            sessionStorage.setItem('id', oldId);
                             message.success('保存成功!');
                             toNext(status,res.data.data.id);
                         }else{
@@ -188,6 +190,7 @@ class StructureDetail extends React.Component {
                         }
                     } else if (type === '0') {
                         if (id > 0) {
+                            sessionStorage.setItem('id', oldId);
                             message.success('保存成功!');
                             toNext(status,res.data.data.id);
                         } else if (id === -1) {
@@ -196,6 +199,8 @@ class StructureDetail extends React.Component {
                             message.success('已修改完全部数据，2s后回到待标记列表', 2,toIndex);
                         }
                     } else if (type === '1') {
+                        sessionStorage.setItem('id', oldId);
+                        sessionStorage.removeItem('backTime');
                         if (id) {
                             message.success('保存成功!');
                             toNext(status,res.data.data.id);
@@ -213,10 +218,10 @@ class StructureDetail extends React.Component {
                             okText: '我知道了'
                         });
                     } else {
-                        mesStatus(status,nextId);
+                        mesStatus(status,nextId,id);
                     }
                 } else{
-                    mesStatus(status,nextId);
+                    mesStatus(status,nextId,id);
                 }
             } else {
                 message.error('保存失败!')
