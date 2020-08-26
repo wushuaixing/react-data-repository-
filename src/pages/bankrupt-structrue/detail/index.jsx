@@ -188,9 +188,8 @@ class BankruptDetail extends React.Component {
 		// 校验当前数据状态
 		const idStatus = await this.toCheck(params.id);
 		if (idStatus !== 'normal') {
-			if (idStatus === 'error') return message.error('该数据已被检查错误，请到待修改列表查看',2,()=>{
-					history.push(`/index/bankrupt?approveStatus=1`)
-				});
+			// history.push(`/index/bankrupt?approveStatus=1`)
+			if (idStatus === 'error') return message.error('该数据已被检查错误，请到待修改列表查看',2,()=>history.go(-1));
 			else message.error('服务繁忙，请稍后再试');
 		}else {
 			// 保存当前数据
@@ -209,7 +208,7 @@ class BankruptDetail extends React.Component {
 	toSaveNext = async type => {
 		console.info('保存结构化对象并获取下一条id');
 		if(this.ChangeStatus && type === 'modify') return message.error('当前页面未作修改，请修改后再保存');
-		console.log(this.ChangeStatus && type === 'modify');
+		// console.log(this.ChangeStatus && type === 'modify');
 		const source = this.getUserInfo();
 		if (!source.companyName.length) return message.warning('请输入破产企业名称！');
 		const { history, match: { params } } = this.props;
