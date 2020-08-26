@@ -6,7 +6,7 @@ import AssetList from "../pages/assetStructureList/checkAccount";
 import StructureDetail from "@/pages/assetStructureDetail/check";
 
 const ContentMain = [
-  <CacheRoute path="/index" exact component={AssetList} key='AssetList' when="always"/>,
+  <CacheRoute path="/index" exact component={AssetList} key='AssetList'/>,
   <Route path={[
     "/index/structureDetail/:status/:id/:isNotConfirm/:tabIndex",
     "/index/structureDetail/:status/:id/:isNotConfirm"
