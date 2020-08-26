@@ -85,16 +85,10 @@ class BankruptDetail extends React.Component {
 			}
 		};
 		const onBlur= (e,_field) =>{
-			const { setFieldsValue,setFields } = this.props.form;
+			const { setFieldsValue } = this.props.form;
 			const { value:_value }  =e.target;
 			const value = (_value||'').replace(/\s/g,'');
-			if (/company/.test(_field)) {
-				// const errors = this.errorName.includes(value)?[new Error('企业名称疑似有误')]:[];
-				const errors = [];
-				setFields({ [_field]: { value, errors} });
-			}else{
-				setFieldsValue({[_field]:_value})
-			}
+			setFieldsValue({[_field]:value})
 		};
 
 		const itemArray = getFieldValue(field);
@@ -164,7 +158,9 @@ class BankruptDetail extends React.Component {
 		// 比较数组，不同返回true，想同返回false
 		const compareArray= (arr1=[],arr2=[])=>{
 			if(arr1.length !== arr2.length) return true;
-			return arr1.join(',')!==arr2.join(',')
+			const _arr1 = arr1.map(i=>encodeURI(i||'')).sort();
+			const _arr2 = arr2.map(i=>encodeURI(i||'')).sort();
+			return _arr1.join(',')!==_arr2.join(',')
 		};
 		const getAry = (ary,field)=>ary.map(i=>(i||{})[field||'value']);
 		const compareRes = compareArray(getAry(companyName,'bankruptcyCompanyName'),getAry(source.companyName)) || compareArray(getAry(applicant),getAry(source.applicant)) || compareArray(getAry(publisher),getAry(source.publisher));
@@ -341,7 +337,7 @@ class BankruptDetail extends React.Component {
 										((autoReturn||{}).time && rule === 'admin') ? ( <li>
 											<span className="li-span li-span_time">{autoReturn.time}</span>
 											{ autoReturn.msg && <span className="li-span">{autoReturn.msg}</span>}
-											{ autoReturn.flag === 0 && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}
+											{ autoReturn.bol && <span className="li-span" style={{ color:"#FB0037" }}>有误</span>}
 										</li>	): null
 									}
 									<li style={{ color:"#FB0037" }}>{autoReturnMsg}</li>
