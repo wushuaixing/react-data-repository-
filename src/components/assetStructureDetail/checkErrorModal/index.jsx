@@ -2,7 +2,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
 import CheckboxGroup from "antd/es/checkbox/Group";
-import { Input, Radio, Checkbox, Button, Form, Modal, Icon } from 'antd'
+import { Input, Radio, Checkbox, Button, Form, Modal } from 'antd'
 import { REASON_LIST, WRONG_TYPE_LIST } from "@/static/status";
 import NoticeImg from '@/assets/img/confirm_notice.png';
 import './style.scss';

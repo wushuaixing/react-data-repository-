@@ -5,7 +5,7 @@ import Asset from "@/pages/assetStructureList/structureAccount";
 import StructureDetail from "@/pages/assetStructureDetail/structure";
 
 const ContentMain = [
-  <Route path="/index" exact component={Asset} key='Asset' />,
+  <CacheRoute path="/index" exact component={Asset} key='Asset' when="always" />,
   <Route path="/index/structureDetail/:status/:id" component={StructureDetail} key='StructureDetail' />
 ];
 export default ContentMain

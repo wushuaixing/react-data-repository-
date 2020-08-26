@@ -1,7 +1,7 @@
 /** right content for Account manage* */
 import React from 'react';
 import { userCreateCheck, userEditCheck, userResetCheck, userRemoveCheck, getCheckListCheck } from "@api";
-import { message, Button, Table, Spin,Modal,Icon } from 'antd';
+import { message, Button, Table, Spin,Modal } from 'antd';
 import AccountModal from '@/components/accountManagement/checkAccountModal';
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from "@/utils/pagination";

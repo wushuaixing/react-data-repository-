@@ -1,7 +1,7 @@
 /** right content for Account manage* */
 import React from 'react';
 import { BreadCrumb } from '@commonComponents'
-import { Tabs, Table, Spin, message,Button,Modal,Icon } from "antd";
+import { Tabs, Table, Spin, message,Button,Modal } from "antd";
 import { userCreate, userView, userEdit, userReset, userRemove, userDelete } from "@api";
 import AccountModal from '@/components/accountManagement/structureAccountModal';
 import SearchAccount from "@/components/accountManagement/search";
