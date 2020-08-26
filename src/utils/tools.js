@@ -91,5 +91,6 @@ export const urlEncode = (param, key, encode) => {
  */
 export const scrollTop = eleId =>{
 	const ele = document.getElementById(eleId||'yc-layout-main');
+	if(eleId==='no-yc-layout-main') document.documentElement.scrollTop=0;
 	if(ele) ele.scrollTop = 0;
 };

@@ -1,11 +1,12 @@
 import React from 'react'
 //引入路由
 import {Route} from 'react-router-dom';
+import CacheRoute from 'react-router-cache-route';
 import AssetList from "../pages/assetStructureList/checkAccount";
 import StructureDetail from "@/pages/assetStructureDetail/check";
 
 const ContentMain = [
-  <Route path="/index" exact component={AssetList} key='AssetList' />,
+  <CacheRoute path="/index" exact component={AssetList} key='AssetList' when="always"/>,
   <Route path={[
     "/index/structureDetail/:status/:id/:isNotConfirm/:tabIndex",
     "/index/structureDetail/:status/:id/:isNotConfirm"

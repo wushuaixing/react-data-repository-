@@ -1,11 +1,12 @@
 /** right content for Account manage* */
 import React from 'react';
 import { userCreateCheck, userEditCheck, userResetCheck, userRemoveCheck, getCheckListCheck } from "@api";
-import { message, Button, Table, Spin,Modal,Icon } from 'antd';
+import { message, Button, Table, Spin,Modal } from 'antd';
 import AccountModal from '@/components/accountManagement/checkAccountModal';
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from "@/utils/pagination";
-import NoDataIMG from '../../../assets/img/no_data.png'
+import NoDataIMG from '../../../assets/img/no_data.png';
+import DelIMG from '../../../assets/img/confirm_delete.png';
 import '../style.scss'
 const { confirm} = Modal;
 class Index extends React.Component {
@@ -35,12 +36,11 @@ class Index extends React.Component {
 				{
 					title: "操作",
 					dataIndex: "action",
-					align: "center",
-					width: 180,
+					width: 200,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)}>编辑</a>
-							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)}>重置密码</a>
+							<a className='action_left' onClick={() => this.editAccount(record)}>编辑</a>
+							<a className='action_center' onClick={() => this.resetPassword(record.id)}>重置密码</a>
 							<a onClick={() => this.deleteUser(record.id)}>删除</a>
 						</span>
 					),
@@ -94,7 +94,7 @@ class Index extends React.Component {
 		confirm({
 			title: '确认删除账号?',
 			content:'删除后,该账户将无法在数据资产平台登录',
-			icon: <Icon type="exclamation-circle" />,
+			icon: <img src={DelIMG} alt='' className="ico_confirmdel"/>,
 			className:'ant-explain-change',
 			onOk: () => {
 				this.setState({

@@ -281,7 +281,8 @@ class StructureDetail extends React.Component {
         const params = props.match.params;
         this.setState({loading:true});
         if (params.id && params.status) {
-            structuredById(params.id, params.status,0).then(res => {
+            structuredById(params.id, params.status,0).then(result => {
+                const res=result.data;
             	if(res.code === 200){
 								for (let i = 0; i < res.data.obligors; i++) {
 									if (res.data.obligors[i].label_type === '4') {

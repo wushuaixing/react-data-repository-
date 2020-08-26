@@ -15,7 +15,7 @@ import BankruptDetail from "@/pages/bankrupt-structrue/detail";
 
 import Asset from "@/pages/assetStructureList/structureAccount";
 import StructureDetail from "@/pages/assetStructureDetail/structure";
-
+import CacheRoute from 'react-router-cache-route';
 import './style.scss'
 
 const { Header, Sider, Content } = Layout;
@@ -67,7 +67,7 @@ class HomeIndex extends React.Component {
 			<Route path="/index/bankrupt/detail/:id" component={BankruptDetail} remark="破产结构化 - 详情页" key='bankrupt-detail' />,
 		];
 		const StructureRoute = [
-			<Route path={["/","/index"]} exact component={DefaultCom} key='base' remark="默认页面" />,
+			<CacheRoute path={["/","/index"]} exact component={DefaultCom} key='base' remark="默认页面" />,
 			// BaseCom && <Route path="/index" exact component={Asset} key='Asset' remark="资产结构化 - 列表" />,
 			BaseCom && <Route path="/index/structureDetail/:status/:id" component={StructureDetail} key='StructureDetail' remark="资产结构化 - 详情页" />,
 			...BankruptRoutes

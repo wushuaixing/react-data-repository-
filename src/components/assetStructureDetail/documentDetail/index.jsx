@@ -35,7 +35,7 @@ class StructureDocumentDetail extends React.Component {
     }
     render() {
         const enable = this.props.enable;
-        /* console.log(enable) */
+        console.log(this.props);
         return (
             <div className="yc-components-assetStructureDetail wenshu-info">
                 <div className="yc-components-assetStructureDetail_header">文书信息</div>
@@ -43,11 +43,11 @@ class StructureDocumentDetail extends React.Component {
                     {
                         enable ?
                             <div className="yc-components-assetStructureDetail_body-row">
-                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况：</span>
+                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况: </span>   
                                 <span>{parseInt(this.props.wsFindStatus) === 1 ? '找到文书' : '未找到文书'}</span>
                             </div> :
                             <div className="yc-components-assetStructureDetail_body-row">
-                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况：</span>
+                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况: </span>
                                 <Radio.Group value={this.props.wsFindStatus} name="wsFindStatus" onChange={this.handleChange} disabled={enable}>
                                     <Radio value={1}>找到文书</Radio>
                                     <Radio value={0}>未找到文书</Radio>
@@ -120,7 +120,7 @@ const DocumentLinkInput = (props) => {
         <div className="yc-components-assetStructureDetail_body-row">
             {
                 props.index === 0 ?
-                    <span className='yc-components-assetStructureDetail_body-row_title'>{`${props.text}：`}</span> :
+                    <span className='yc-components-assetStructureDetail_body-row_title'>{`${props.text}:`}</span> :
                     null
             }
             <span className={props.index !== 0 ? 'addition-ah' : null}>

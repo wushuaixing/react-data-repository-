@@ -7,6 +7,7 @@ import SearchForm from "@/components/assetStructureList/searchFilter/admin";
 import AdminTable from "@/components/assetStructureList/tabTable/admin";
 import '@/pages/style.scss';
 import { BreadCrumb } from '@commonComponents';
+import {scrollTop } from "@utils/tools";
 class Admin extends React.Component {
     state = {
         page: 1,
@@ -121,6 +122,7 @@ class Admin extends React.Component {
             page,
 		},()=>{
             this.getTableList();
+            scrollTop();
         })
 	};
 

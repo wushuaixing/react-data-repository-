@@ -1,11 +1,12 @@
 /** right content for Account manage* */
 import React from 'react';
 import { BreadCrumb } from '@commonComponents'
-import { Tabs, Table, Spin, message,Button,Modal,Icon } from "antd";
+import { Tabs, Table, Spin, message,Button,Modal } from "antd";
 import { userCreate, userView, userEdit, userReset, userRemove, userDelete } from "@api";
 import AccountModal from '@/components/accountManagement/structureAccountModal';
 import SearchAccount from "@/components/accountManagement/search";
 import createPaginationProps from '@/utils/pagination';
+import DelIMG from '../../../assets/img/confirm_delete.png';
 import { formUtils } from '@/utils/common';
 import '../style.scss';
 // ==================
@@ -56,12 +57,11 @@ class AccountManage extends React.Component {
 				{
 					title: "操作",
 					dataIndex: "action",
-					align: "center",
-					width: 180,
+					width: 200,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)}>编辑</a>
-							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)}>重置密码</a>
+							<a className='action_left' onClick={() => this.editAccount(record)}>编辑</a>
+							<a className='action_center'  onClick={() => this.resetPassword(record.id)}>重置密码</a>
 							<a onClick={() => this.deleteUser(record.id)}>删除</a>
 						</span>
 					),
@@ -101,7 +101,7 @@ class AccountManage extends React.Component {
 					width: 180,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.remove(record.id)}>移除</a>
+							<a  onClick={() => this.remove(record.id)}>移除</a>
 						</span>
 					),
 				}
@@ -166,7 +166,7 @@ class AccountManage extends React.Component {
 		confirm({
 			title: '确认删除账号?',
 			content:'删除后,该账户将无法在数据资产平台登录',
-			icon: <Icon type="exclamation-circle" />,
+			icon: <img src={DelIMG} alt='' className="ico_confirmdel"/>,
 			onOk: () => {
 				this.setState({
 					loading: true,

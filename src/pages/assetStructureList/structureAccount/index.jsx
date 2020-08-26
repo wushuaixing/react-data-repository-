@@ -7,8 +7,8 @@ import { withRouter } from "react-router-dom";
 import { BreadCrumb, SearchAndClearButtonGroup, AssetTabTextWithNumber } from '@commonComponents'
 import { dateUtils,clearEmpty } from "@utils/common";
 import NoDataIMG from '../../../assets/img/no_data.png';
+import {scrollTop } from "@utils/tools";
 const { TabPane } = Tabs;
-
 const searchForm = Form.create;
 
 class Asset extends React.Component {
@@ -107,7 +107,8 @@ class Asset extends React.Component {
 		this.setState({
 			page: pagination.current
 		}, () => {
-			this.getApi(this.getParamsByTabIndex())
+			this.getApi(this.getParamsByTabIndex());
+			scrollTop();
 		})
 	};
 
@@ -122,7 +123,7 @@ class Asset extends React.Component {
 			this.getApi(Object.assign(clearEmpty(params),{page:1}))
 			console.log(params)
 			this.props.form.setFieldsValue({
-				title:params.title.trim()
+				title:(params.title||'').trim()
 			})
 		})
 	};
