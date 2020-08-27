@@ -346,7 +346,7 @@ class Check extends React.Component {
 		}
 		return (
 			<SpinLoading loading={loading}>
-				<div className="yc-content-container assetStructureDetail-structure" style={{minHeight:document.body.clientHeight-90}}>
+				<div className="yc-content-container assetStructureDetail-structure">
 					<BreadCrumb texts={['资产结构化检查 / 详情']} />
 					<div className="assetStructureDetail-structure_container">
 						<div className="assetStructureDetail-structure_container_header">

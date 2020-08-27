@@ -231,7 +231,7 @@ class Asset extends React.Component {
 		}
 		const paginationProps = createPaginationProps(page, total);
 		return (
-			<div className="yc-content-container" style={{minHeight:document.body.clientHeight-90}}>
+			<div className="yc-content-container">
 				<BreadCrumb
 					texts={['资产结构化']}
 					breadButtonText={'获取新数据'}
