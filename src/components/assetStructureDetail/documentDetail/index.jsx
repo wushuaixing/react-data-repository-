@@ -136,7 +136,7 @@ const DocumentLinkInput = (props) => {
                       />
                 }
                 {
-                    props.num < 3 && !props.enable ?
+                    (props.num ===props.index+1) && props.num<3 && !props.enable ?
                         <img src={ICONADD} style={{width:18,height:18,marginLeft:12}} alt=" "onClick={props.handleAddClick}/> :
                         null
                 }

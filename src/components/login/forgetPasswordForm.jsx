@@ -326,7 +326,7 @@ class ForgetPasswordForm extends React.Component {
                         </div>
                     }
                     <Form.Item style={{ marginTop: -25 }}>
-                        <a className="yc-forget" onClick={this.openDisabledPhoneModal} style={{ marginLeft: 240, marginBottom:6,visibility: this.phoneDisableTextVisible ? 'visible' : 'hidden' }}>手机号不可用?</a>
+                        <a className="yc-forget" onClick={this.openDisabledPhoneModal} style={{ marginLeft: 240, marginBottom:8,visibility: this.phoneDisableTextVisible ? 'visible' : 'hidden' }}>手机号不可用?</a>
                         <Button disabled={!this.state.usernameValid && step === 1} type="primary" htmlType="submit" className="yc-login-button" style={{ marginTop: -20 }} onMouseDown={this.handleSubmit.bind(this)}>{this.state.step !== 2 ? '下一步' : '确定'}</Button>
                         {
                             step === 1 ?
