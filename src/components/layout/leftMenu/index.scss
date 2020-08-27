@@ -25,6 +25,7 @@
 #sider-menu-wrapper{
     .ant-menu-submenu-title{
         height: 48px;
+        line-height: 48px;
     }
     .sider-menu{
         &_sub-menu{
@@ -39,7 +40,7 @@
             height: 36px;
             a{
                 height: 100%;
-                line-height: 32px;
+                line-height: 36px;
             }
         }
     }
