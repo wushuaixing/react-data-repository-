@@ -118,6 +118,8 @@
 //覆盖ant表单输入项错误下方提示样式 跟label对齐
 .ant-form-explain {
   margin-left: 38px;
+  margin-top: 4px !important;
+  font-size: 12px !important;
 }
 
 .yc-search-form{
