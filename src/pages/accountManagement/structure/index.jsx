@@ -301,7 +301,7 @@ class AccountManage extends React.Component {
 		const paginationProps = createPaginationProps(page, total, true);
 		const roleButtons = this.state.tabIndex === "1" ? <div className="addUser-button"><Button onClick={this.showModal.bind(this,'add')}>+ 添加账号</Button></div> :null;
 		return (
-			<div className="yc-content-container">
+			<div className="yc-content-container" style={{minHeight:document.body.clientHeight-90}}>
 				<BreadCrumb texts={['账号管理', '结构化账号']}/>
 				<div className="yc-detail-content">
 					<Spin tip="Loading..." spinning={loading}>

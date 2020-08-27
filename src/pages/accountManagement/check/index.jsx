@@ -190,7 +190,7 @@ class Index extends React.Component {
 		const { tableList, total, page, visible, action, columns, info, loading,num } = this.state;
 		const paginationProps = createPaginationProps(page, total, true, num);
 		return (
-			<div className="yc-content-container">
+			<div className="yc-content-container" style={{minHeight:document.body.clientHeight-90}}>
 				<BreadCrumb texts={['账号管理', '检查账号']}></BreadCrumb>
 				<div className="yc-detail-content">
 					<div style={{padding:'20px 20px 0'}}>

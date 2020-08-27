@@ -138,7 +138,7 @@ class BankruptList extends React.Component {
 		};
 		return (
 			<div className="yc-bankrupt-wrapper">
-				<div className="yc-bankrupt-content">
+				<div className="yc-bankrupt-content" style={{minHeight:document.body.clientHeight-90}}>
 					<BreadCrumb texts={['破产重组结构化']} />
 					<div className="yc-bankrupt-content-all">
 						<Query onSearch={params =>this.toQuery(params,true)} ref={e=>this.refQuery=e} {...queryProps}/>

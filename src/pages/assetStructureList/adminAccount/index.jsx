@@ -129,7 +129,7 @@ class Admin extends React.Component {
     render() {
         const { tableList, checkErrorNum, editNum, total, page, tabIndex, loading } = this.state;
         return (
-            <div className="yc-content-container">
+            <div className="yc-content-container" style={{minHeight:document.body.clientHeight-90}}>
                 <BreadCrumb texts={['资产结构化']}></BreadCrumb>
                 <div className="yc-detail-content">
                     <div className="yc-search-line">
