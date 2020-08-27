@@ -81,6 +81,9 @@
           }
           button:disabled {
             background: #f5f5f5;
+            &:hover{
+              background: #f5f5f5;
+            }
           }
           .login-getCode_Button {
             font-size: 14px;
@@ -100,6 +103,10 @@
   .yc-right-login-noCode {
     @extend .yc-right-login;
     height: 360px;
+    .without-extra-node{
+        background: #C5C7CE !important;
+        color:#fff;
+    }
   }
   .yc-right-login-withCode {
     @extend .yc-right-login;

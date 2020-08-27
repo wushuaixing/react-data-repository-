@@ -67,7 +67,7 @@ class StructureDocumentDetail extends React.Component {
                                     handleDeleteClick={this.handleDeleteClick.bind(this)}
                                     handleAddClick={this.props.handleAddClick.bind(this, 'ah')}>
                                 </DocumentLinkInputs>
-                                {this.documentInputNumber>=3?<p className='atmost-tips'>最多添加3个</p>:null}
+                                {this.documentInputNumber>=3 && !enable?<p className='atmost-tips'>最多添加3个</p>:null}
                                 <DocumentLinkInputs
                                     enable={enable}
                                     values={this.props.wsUrl}
@@ -78,7 +78,7 @@ class StructureDocumentDetail extends React.Component {
                                     handleDeleteClick={this.handleDeleteClick.bind(this)}
                                     handleAddClick={this.props.handleAddClick.bind(this, 'wsUrl')}>
                                 </DocumentLinkInputs>
-                                {this.linkInputNumber>=3?<p className='atmost-tips'>最多添加3个</p>:null}
+                                {this.linkInputNumber>=3&& !enable?<p className='atmost-tips'>最多添加3个</p>:null}
                                 <div className="yc-components-assetStructureDetail_body-row">
                                     <span className='yc-components-assetStructureDetail_body-row_title'/>
                                     {
@@ -136,7 +136,7 @@ const DocumentLinkInput = (props) => {
                       />
                 }
                 {
-                    props.num < 3 && !props.enable ?
+                    (props.num ===props.index+1) && props.num<3 && !props.enable ?
                         <img src={ICONADD} style={{width:18,height:18,marginLeft:12}} alt=" "onClick={props.handleAddClick}/> :
                         null
                 }

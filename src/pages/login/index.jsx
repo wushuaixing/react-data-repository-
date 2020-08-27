@@ -161,7 +161,8 @@ class Login extends React.Component {
 										<Form.Item>
 											{getFieldDecorator('username', {
 												rules: [
-													{ required: true, whitespace: true, message: "请输入账号" }
+													{ required: true, whitespace: true, message: "请输入账号" },
+													{min:11,message:'账号小于11位'}
 												],
 												getValueFromEvent(event) {
 													return event.target.value.replace(/\D/g, "")

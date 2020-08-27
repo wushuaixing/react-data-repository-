@@ -261,7 +261,7 @@ class Index extends React.Component {
                                                         return (
                                                             <Option value={ele.value} key={ele.value}>
                                                                 {ele.label}
-                                                                {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除账号) </span>}
+                                                                {ele.enable || <span style={{ color: '#B1B1B1' }}> (已删除) </span>}
                                                             </Option>
                                                         )
                                                     })
