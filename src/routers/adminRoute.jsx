@@ -13,7 +13,7 @@ const ContentMain = [
 	<Route path={["/","/index"]}  exact component={StructureAccount} key='a1'/>,
 	<Route path="/index/structureUser"  component={StructureAccount} key='a2' />,
 	<Route path="/index/checkUser" exact component={CheckAccount} key='a3'/>,
-	<CacheRoute path="/index/assetList" component={AssetList} key='a7'/>,
+	<CacheRoute path="/index/assetList" component={AssetList} key='a7'  when="always" />,
 	<Route path="/index/structureDetail/:status/:id" component={StructureDetail} key='a4'/>,
 	<Route path="/index/syncMonitor" component={SyncMonitor} key='a5'/>,
 	<Route path="/index/structureMonitor" component={StructMonitor} key='a6'/>,

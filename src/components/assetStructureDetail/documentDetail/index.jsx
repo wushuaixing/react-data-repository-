@@ -137,12 +137,12 @@ const DocumentLinkInput = (props) => {
                 }
                 {
                     (props.num ===props.index+1) && props.num<3 && !props.enable ?
-                        <img src={ICONADD} style={{width:18,height:18,marginLeft:12}} alt=" "onClick={props.handleAddClick}/> :
+                        <img src={ICONADD} style={{width:18,height:18,marginLeft:12}} alt=" " className="icon_hover_pointer" onClick={props.handleAddClick}/> :
                         null
                 }
                 {
                     props.num > 1 && !props.enable ?
-                        <img src={ICONDEL} style={{width:18,height:18,marginLeft:12}} alt=" "onClick={props.handleDeleteClick}/> :
+                        <img src={ICONDEL} style={{width:18,height:18,marginLeft:12}} alt=" " className="icon_hover_pointer" onClick={props.handleDeleteClick}/> :
                         null
                 }
             </span>

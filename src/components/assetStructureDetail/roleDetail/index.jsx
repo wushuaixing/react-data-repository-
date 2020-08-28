@@ -241,7 +241,7 @@ const RoleInput = props => (
                 >
           {Object.keys(SEX_TYPE).map(key => <Option key={key}>{SEX_TYPE[key]}</Option>)}
       </Select>
-      <Input
+      <Input.TextArea
         placeholder="请输入备注"
         autoComplete='off'
 				disabled={(props.obligor||{}).system===1}
@@ -255,6 +255,7 @@ const RoleInput = props => (
         }}
         name={`notes${props.index}`}
         value={props.obligor.notes}
+        autoSize
         className='tips-box'
       />
       <Button type="primary" className="del_role_item" ghost onClick={props.handleDel} disabled={(props.obligor||{}).system===1}>删除</Button>
