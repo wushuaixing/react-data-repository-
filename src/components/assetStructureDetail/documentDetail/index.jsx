@@ -43,11 +43,11 @@ class StructureDocumentDetail extends React.Component {
                     {
                         enable ?
                             <div className="yc-components-assetStructureDetail_body-row" style={{position:'relative',left:13}}>
-                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>&nbsp;&nbsp;&nbsp;&nbsp;查找情况： </span>   
+                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况： </span>   
                                 <span>{parseInt(this.props.wsFindStatus) === 1 ? '找到文书' : '未找到文书'}</span>
                             </div> :
                             <div className="yc-components-assetStructureDetail_body-row" style={{position:'relative',left:13}}>
-                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>&nbsp;&nbsp;&nbsp;&nbsp;查找情况： </span>
+                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况： </span>
                                 <Radio.Group value={this.props.wsFindStatus} name="wsFindStatus" onChange={this.handleChange} disabled={enable}>
                                     <Radio value={1}>找到文书</Radio>
                                     <Radio value={0}>未找到文书</Radio>
