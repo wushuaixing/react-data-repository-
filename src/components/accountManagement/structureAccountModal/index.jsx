@@ -26,6 +26,7 @@ class AccountManage extends React.Component {
         if (action !== 'add') {
           options.username = info.username;
         }
+        options.functionId = options.functionId.filter(i=>i);
         options.structuredObject = options.functionId;
         this.props.handleSubmit(options, info.id);
       }
