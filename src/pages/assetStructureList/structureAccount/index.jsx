@@ -12,6 +12,13 @@ const { TabPane } = Tabs;
 const searchForm = Form.create;
 
 class Asset extends React.Component {
+	constructor(props){
+		super(props);
+		props.cacheLifecycles.didRecover(this.componentDidRecover) 
+	}
+	componentDidRecover=()=>{
+		this.getApi(this.getParamsByTabIndex())
+	}
 	state = {
 		page: 1,
 		total: 0,

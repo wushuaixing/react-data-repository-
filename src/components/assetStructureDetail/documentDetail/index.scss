@@ -14,20 +14,13 @@
     font-size:12px;
     margin-top: 6px;
 }
-.wenshu-info{
-    .documentDetail_row{
-        position: relative;
-        left: 4px;
-    }
-    .ant-radio-group{
-        position: relative;
-        left: 10px;
-    }
-}
 .del_role_item{
     width:66px;
     height:28px;
     border-radius:2px;
     color:rgba(41,48,56,1) !important;
     border:1px solid rgba(226,228,233,1) !important;
+}
+.icon_hover_pointer{
+    cursor: pointer;
 }

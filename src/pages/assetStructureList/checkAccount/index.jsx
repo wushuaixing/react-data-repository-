@@ -11,6 +11,8 @@ import {scrollTop } from "@utils/tools";
 class Check extends React.Component {
 	constructor(props) {
 		super(props);
+		props.cacheLifecycles.didRecover(this.componentDidRecover) //恢复时
+		
 		this.state = {
 			num: 10,
 			page: 1,
@@ -25,6 +27,9 @@ class Check extends React.Component {
 			loading: false,
 			searchParams: {} //保存搜索框参数
 		};
+	}
+	componentDidRecover = () => {
+		this.getTableList();
 	}
 	get searchFilterForm(){
         return this.searchFormRef.props.form

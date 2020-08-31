@@ -105,7 +105,7 @@ export const Columns = [
 									<div>{record.structPersonnel}</div> :
 									<div>
 										{record.structPersonnel ? record.structPersonnel : '--'}
-										{record.structPersonnel !== '自动标注' && <span style={{ color: 'rgb(177, 177, 177)' }}>(已删除账号)</span>}
+										{record.structPersonnel !== '自动标注' && <span style={{ color: 'rgb(177, 177, 177)' }}>(已删除)</span>}
 									</div>
 							}
 						</div>

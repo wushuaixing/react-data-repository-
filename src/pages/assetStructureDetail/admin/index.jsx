@@ -98,7 +98,7 @@ export default class AdminStructure extends React.Component {
         }
         return (
             <SpinLoading loading={state.loading}>
-                <div className="yc-content-container assetStructureDetail-structure">
+                <div className="yc-content-container assetStructureDetail-structure"> 
                     <BreadCrumb texts={['资产结构化 /详情']} />
                     <div className="assetStructureDetail-structure_container">
                         <div className="assetStructureDetail-structure_container_header">

@@ -42,12 +42,12 @@ class StructureDocumentDetail extends React.Component {
                 <div className="yc-components-basicDetail_body">
                     {
                         enable ?
-                            <div className="yc-components-assetStructureDetail_body-row">
-                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况: </span>   
+                            <div className="yc-components-assetStructureDetail_body-row" style={{position:'relative',left:13}}>
+                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况： </span>   
                                 <span>{parseInt(this.props.wsFindStatus) === 1 ? '找到文书' : '未找到文书'}</span>
                             </div> :
-                            <div className="yc-components-assetStructureDetail_body-row">
-                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况: </span>
+                            <div className="yc-components-assetStructureDetail_body-row" style={{position:'relative',left:13}}>
+                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况： </span>
                                 <Radio.Group value={this.props.wsFindStatus} name="wsFindStatus" onChange={this.handleChange} disabled={enable}>
                                     <Radio value={1}>找到文书</Radio>
                                     <Radio value={0}>未找到文书</Radio>
@@ -67,7 +67,7 @@ class StructureDocumentDetail extends React.Component {
                                     handleDeleteClick={this.handleDeleteClick.bind(this)}
                                     handleAddClick={this.props.handleAddClick.bind(this, 'ah')}>
                                 </DocumentLinkInputs>
-                                {this.documentInputNumber>=3?<p className='atmost-tips'>最多添加3个</p>:null}
+                                {this.documentInputNumber>=3 && !enable?<p className='atmost-tips'>最多添加3个</p>:null}
                                 <DocumentLinkInputs
                                     enable={enable}
                                     values={this.props.wsUrl}
@@ -78,7 +78,7 @@ class StructureDocumentDetail extends React.Component {
                                     handleDeleteClick={this.handleDeleteClick.bind(this)}
                                     handleAddClick={this.props.handleAddClick.bind(this, 'wsUrl')}>
                                 </DocumentLinkInputs>
-                                {this.linkInputNumber>=3?<p className='atmost-tips'>最多添加3个</p>:null}
+                                {this.linkInputNumber>=3&& !enable?<p className='atmost-tips'>最多添加3个</p>:null}
                                 <div className="yc-components-assetStructureDetail_body-row">
                                     <span className='yc-components-assetStructureDetail_body-row_title'/>
                                     {
@@ -120,7 +120,7 @@ const DocumentLinkInput = (props) => {
         <div className="yc-components-assetStructureDetail_body-row">
             {
                 props.index === 0 ?
-                    <span className='yc-components-assetStructureDetail_body-row_title'>{`${props.text}:`}</span> :
+                    <span className='yc-components-assetStructureDetail_body-row_title'>{`${props.text}：`}</span> :
                     null
             }
             <span className={props.index !== 0 ? 'addition-ah' : null}>
@@ -136,13 +136,13 @@ const DocumentLinkInput = (props) => {
                       />
                 }
                 {
-                    props.num < 3 && !props.enable ?
-                        <img src={ICONADD} style={{width:18,height:18,marginLeft:12}} alt=" "onClick={props.handleAddClick}/> :
+                    (props.num ===props.index+1) && props.num<3 && !props.enable ?
+                        <img src={ICONADD} style={{width:18,height:18,marginLeft:12}} alt=" " className="icon_hover_pointer" onClick={props.handleAddClick}/> :
                         null
                 }
                 {
                     props.num > 1 && !props.enable ?
-                        <img src={ICONDEL} style={{width:18,height:18,marginLeft:12}} alt=" "onClick={props.handleDeleteClick}/> :
+                        <img src={ICONDEL} style={{width:18,height:18,marginLeft:12}} alt=" " className="icon_hover_pointer" onClick={props.handleDeleteClick}/> :
                         null
                 }
             </span>

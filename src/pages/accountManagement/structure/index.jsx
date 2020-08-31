@@ -143,6 +143,7 @@ class AccountManage extends React.Component {
 		confirm({
 			title: '确认重置密码?',
 			content:'重置密码后,该账号密码为账号后6位',
+			icon: <img src={DelIMG} alt='' className="ico_confirmdel"/>,
 			onOk: () => {
 				this.setState({
 					loading: true,

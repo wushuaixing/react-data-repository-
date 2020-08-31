@@ -214,7 +214,7 @@ class ButtonGroup extends React.Component {
                             case 'admin':
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
-                                        <Button type="primary" ghost  onClick={this.handleBack.bind(this)} style={{width:90}}>返回</Button>
+                                        <Button type="primary" ghost  className='yc-buttonGroup-adminstructure' onClick={this.handleBack.bind(this)} style={{width:90}}>返回</Button>
                                     </div>
                                 );
                             case 'notFirstMark-check':

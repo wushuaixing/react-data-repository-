@@ -86,6 +86,7 @@
 .yc-content-container{
   background-color: #ffffff;
   margin: 20px;
+  min-height: 90vh;
 }
 //新开页文书搜索 特殊样式
 .yc-content-container-newPage{
@@ -118,6 +119,8 @@
 //覆盖ant表单输入项错误下方提示样式 跟label对齐
 .ant-form-explain {
   margin-left: 38px;
+  margin-top: 4px !important;
+  font-size: 12px !important;
 }
 
 .yc-search-form{
@@ -242,6 +245,14 @@
 .ant-popover-inner-content{
   background: rgba(0, 0, 0, .75);
   color: #fff !important;
+}
+.ant-popover-arrow{
+  left: 29% !important;
+}
+.ant-popover-arrow{
+  z-index: -1;
+  border: none !important;
+  background: rgba(0, 0, 0, .75) !important;
 }
 input {
   &::placeholder {
