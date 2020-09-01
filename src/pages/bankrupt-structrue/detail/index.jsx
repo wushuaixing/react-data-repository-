@@ -64,6 +64,7 @@ class BankruptDetail extends React.Component {
 		// console.log(getFieldsValue());
 		// 相关操作
 		const toHandle = (type, field, val) => {
+			if(!this.changed) this.changed = true;
 			const values = getFieldValue(field);
 			let nextValues = values;
 			if (type === 'add') { nextValues = values.concat(ranStr()); }
