@@ -35,7 +35,6 @@ class StructureDocumentDetail extends React.Component {
     }
     render() {
         const enable = this.props.enable;
-        console.log(this.props);
         return (
             <div className="yc-components-assetStructureDetail wenshu-info">
                 <div className="yc-components-assetStructureDetail_header">文书信息</div>

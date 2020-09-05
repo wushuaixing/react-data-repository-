@@ -139,12 +139,41 @@
     }
     .ant-select-selection__rendered {
         width: 60px;
+        .ant-select-selection__placeholder{
+            color: #B2B8C9 !important;
+        }
     }
     .ant-select-arrow {
         right: 5px;
     }
     .ant-select-selection--single{
         height: 30px;
+    }
+    .ant-select-dropdown--single{
+        width: 240px;
+    }
+    .ant-select-dropdown-menu-vertical{
+        padding: 0;
+        li{
+            font-size: 14px;
+            background: #fff;
+            line-height: 20px;
+            // height: 28px;
+            padding: 2px 12px ;
+            box-sizing: content-box;
+            font-weight: normal;
+            white-space: normal;
+            overflow: visible;
+            &:first-child{
+                padding-top: 6px;
+            }
+            &:last-child{
+                padding-bottom: 6px;
+            }
+            &:hover{
+                background: #fff;
+            }
+        }
     }
 }
 
@@ -175,4 +204,34 @@
 
 .wrongDetail_row{
     margin-left:50px;
+}
+
+
+//自动联想输入框
+.atuo_complete,.atuo_complete_nodata{
+    position: relative;
+    width: 240px !important;
+    .ant-select-search__field {
+        width: 240px !important;
+        margin: 0 !important;
+    }
+    .ant-select-selection__rendered {
+        width: 220px !important;
+    }
+}
+
+//无数据时样式
+.atuo_complete_nodata{
+    .ant-select-search__field{
+        border: 1px solid #FD9C26 !important;
+    }
+
+}
+
+.auto_complete_nodata{
+    line-height: 12px;
+    font-size: 12px;
+    color: #FD9C26;
+    padding: 4px 0 0 30px;
+    margin-bottom: 0;
 }
