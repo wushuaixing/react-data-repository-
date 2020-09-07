@@ -85,14 +85,14 @@ class Other extends React.Component {
 
             }).finally(()=>this.setState({ loading:false }))
         } else {
-            structuredById(associatedAnnotationId, associatedStatus,1).then(({data}) => {
-                if (data) {
+            structuredById(associatedAnnotationId, associatedStatus,1).then(res => {
+                const { data,code }= res.data;
+                if (code === 200) {
                     this.setState({
                         ...data,
                         ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
                         wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                     })
-
                 }
             }).finally(()=>this.setState({ loading:false }))
         }
