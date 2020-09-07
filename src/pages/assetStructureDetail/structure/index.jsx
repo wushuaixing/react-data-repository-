@@ -196,7 +196,7 @@ class StructureDetail extends React.Component {
                         } else if (id === -1) {
                             message.error('有待修改数据，暂时无法获取新数据', 2,toIndex);
                         } else {
-                            message.success('已修改完全部数据，2s后回到待标记列表', 2,toIndex);
+                            message.success('已标注完全部数据，2s后回到待标记列表', 2,toIndex);
                         }
                     } else if (type === '1') {
                         sessionStorage.setItem('id', oldId);
@@ -346,6 +346,7 @@ class StructureDetail extends React.Component {
             message.error('无法跳转')
         }
     }
+
     render() {
         const state = this.state;
         const { status, id  } = this.props.match.params;

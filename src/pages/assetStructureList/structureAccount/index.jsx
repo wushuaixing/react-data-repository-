@@ -14,11 +14,11 @@ const searchForm = Form.create;
 class Asset extends React.Component {
 	constructor(props){
 		super(props);
-		props.cacheLifecycles.didRecover(this.componentDidRecover) 
+		props.cacheLifecycles.didRecover(this.componentDidRecover)
 	}
 	componentDidRecover=()=>{
 		this.getApi(this.getParamsByTabIndex())
-	}
+	};
 	state = {
 		page: 1,
 		total: 0,
@@ -127,8 +127,7 @@ class Asset extends React.Component {
 			page:1,
 			searchTitle: params.title
 		},()=>{
-			this.getApi(Object.assign(clearEmpty(params),{page:1}))
-			console.log(params)
+			this.getApi(Object.assign(clearEmpty(params),{page:1}));
 			this.props.form.setFieldsValue({
 				title:(params.title||'').trim()
 			})
@@ -185,7 +184,7 @@ class Asset extends React.Component {
 					message.warning('数据已被自动标注,2s后为您刷新界面',2,()=>window.location.reload());
 				}
 			}else{
-				Promise.reject('接口错误')
+				message.error('服务繁忙，请稍后再试')
 			}
 		}).catch(err=>{
 			this.setState({

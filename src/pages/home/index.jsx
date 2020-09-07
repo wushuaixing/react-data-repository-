@@ -10,8 +10,7 @@ import LeftMenu from '../../components/layout/leftMenu';
 import AdminRoute from "../../routers/adminRoute";
 import CheckRoute from "../../routers/checkRoute";
 
-import BankruptList from "@/pages/bankrupt-structrue/list";
-import BankruptDetail from "@/pages/bankrupt-structrue/detail";
+import { BankruptList, BankruptDetail } from "@/pages/bankrupt-structrue";
 
 import Asset from "@/pages/assetStructureList/structureAccount";
 import StructureDetail from "@/pages/assetStructureDetail/structure";
