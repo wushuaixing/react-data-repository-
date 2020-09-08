@@ -25,7 +25,7 @@ class BankruptDetail extends React.Component {
 		this.toGetDetailInfo();
 	}
 
-	componentWillReceiveProps(nextProps, nextContext) {
+	UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
 		const { match:{ params:{ id } } } = this.props;
 		const { match:{ params:{ id:nextId } } } = nextProps;
 		if(id !== nextId) this.toGetDetailInfo(nextId);
