@@ -99,7 +99,7 @@ class Sider extends React.Component {
     }).finally(()=> this.setState({loading:false}))
   }
 
-  componentWillReceiveProps(nextProps, nextContext) {
+  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
     const { history:{ location:{ pathname } } } = nextProps;
     if(this.pathname !== pathname){
       const { menuSource,openKeys } = this.state;

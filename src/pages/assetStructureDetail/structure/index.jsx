@@ -118,7 +118,7 @@ class StructureDetail extends React.Component {
     componentDidMount() {
         this.getRecordData(this.props)
     }
-    async componentWillReceiveProps(newProps) {
+    async UNSAFE_componentWillReceiveProps(newProps) {
         if (this.props.history.location.query && this.props.history.location.query.id) {
             sessionStorage.setItem('id', this.props.history.location.query.id)
         }

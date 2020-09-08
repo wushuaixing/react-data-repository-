@@ -36,7 +36,7 @@
         width: 200px;
         height: 12px;
         font-size: 12px;
-        font-family: PingFangSC-Regular, PingFang SC;
+        font-family: PingFangSC-Regular, PingFang SC, serif;
         font-weight: 400;
         color: rgba(41, 48, 56, 1);
         line-height: 12px;
@@ -80,7 +80,6 @@
     flex-direction: row;
     min-width: 1210px;
     font-size: 14px;
-    width: 1600px;
     .name {
         width: 259px;
     }
@@ -105,10 +104,9 @@
 }
 .yc-components-assetStructureDetail_body-roleInputRow {
     height: auto;
-    padding: 11px 44px 20px 0px;
+    padding: 11px 44px 20px 0;
     border-bottom: 1px #e2e4e9 solid;
     display: flex;
-    min-width: 1210px;
     .ant-input {
         width: 240px;
         margin-left: 20px;
@@ -178,7 +176,6 @@
 }
 
 .yc-components-assetStructureDetail_body-addRole {
-    width: 1600px;
     margin-top: 20px;
     .ant-btn {
         width: 100%;

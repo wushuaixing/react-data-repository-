@@ -60,7 +60,7 @@ class autoCompleteInput extends Component {
             })
         }
     }
-    componentWillReceiveProps(){ 
+    UNSAFE_componentWillReceiveProps(){ 
         const {obligor,index}=this.props;
         this.getAutoPrompt(obligor.name,index); //props发生改变时拿到index和name值发送请求 
      }
