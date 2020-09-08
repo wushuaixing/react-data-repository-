@@ -136,7 +136,7 @@ class ButtonGroup extends React.Component {
     handleClosePage() {
         this.props.handleClosePage()
     }
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
         //如果切换了id 则设置计时器可重新刷新
         if (newProps.id !== this.props.id) {
             clearInterval(this.state.timer);

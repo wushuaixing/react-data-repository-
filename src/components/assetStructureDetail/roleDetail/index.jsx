@@ -3,6 +3,7 @@ import { Icon, Input, Select, Button, Table,Popover } from 'antd'
 import { SEX_TYPE, ROLE_TYPE } from '@/static/status'
 import { dateUtils,filters } from '@utils/common'
 import NoDataIMG from '../../../assets/img/no_data.png'
+import AutoCompleteInput from './autoCompleteInput'
 import '../index.scss'
 const { Option } = Select;
 class RoleDetail extends React.Component {
@@ -130,7 +131,9 @@ class RoleDetail extends React.Component {
                                 <RoleInputs num={this.roleInputNumber} obligors={this.props.obligors}
                                     handleDel={this.handleDel.bind(this)}
                                     handleChange={this.handleChange.bind(this)}
-                                    handleBlur={this.handleBlur.bind(this)}>
+                                    handleBlur={this.handleBlur.bind(this)}
+                                    handleNameChange={this.props.handleChange}
+                                    >
                                 </RoleInputs>
                             </div>
                     }
@@ -140,27 +143,6 @@ class RoleDetail extends React.Component {
     }
 }
 
-/* const RoleInfos = (props) => {
-    const roleArr = []
-    Object.keys(props.obligor).forEach((key, index) => {
-        roleArr.push(<RoleInfo info={props.obligor[key]} key={index}></RoleInfo>)
-    })
-    return (
-        <div className="role-info_row">
-            {roleArr}
-            <hr></hr>
-        </div>
-    )
-}
-
-const RoleInfo = (props) => {
-    return (
-        <span className="role-info_col">
-            {props.info}
-
-        </span>
-    )
-} */
 const RoleInputs = (props) => {
     const arr = [];
     for (let i = 0; i < props.num; i++) {
@@ -171,6 +153,7 @@ const RoleInputs = (props) => {
           handleBlur={props.handleBlur}
           handleDel={props.handleDel.bind(this, i)}
           handleChange={props.handleChange}
+          handleNameChange={props.handleNameChange}
         />);
     }
     return arr;
@@ -178,20 +161,11 @@ const RoleInputs = (props) => {
 
 const RoleInput = props => (
   <div className="yc-components-assetStructureDetail_body-roleInputRow">
-      <Input
-		disabled={(props.obligor||{}).system===1}
-        placeholder="请输入名称"
-        autoComplete='off'
-        onChange={(e) => {
-            e.persist();
-            props.handleChange(e);
-        }}
-        onBlur={(e) => {
-          e.target.value=e.target.value.trim();
-          props.handleChange(e);
-        }}
-        name={`name${props.index}`}
-        value={props.obligor.name}
+      <AutoCompleteInput
+            disabled={(props.obligor||{}).system===1}
+            index={props.index}
+            handleNameChange={props.handleNameChange}
+            obligor={props.obligor}
       />
       <Select
 				placeholder="角色"
