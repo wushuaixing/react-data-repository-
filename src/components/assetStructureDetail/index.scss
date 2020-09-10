@@ -166,6 +166,7 @@
             font-weight: normal;
             white-space: normal;
             overflow: visible;
+            word-break: break-all;
             &:first-child{
                 padding-top: 9px;
             }
