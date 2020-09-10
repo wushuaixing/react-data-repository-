@@ -7,7 +7,8 @@ class autoCompleteInput extends Component {
         super();
         this.state={
             prompstList:[],//所有姓名输入框 提示语的集合
-            paramsLengthList:[]//所有姓名输入框  输入内容的集合
+            paramsLengthList:[],//所有姓名输入框  输入内容的集合
+            isBlur:''
         }
         this.handChange = this.deBounce(this.handChange, 500)
     }
@@ -20,9 +21,15 @@ class autoCompleteInput extends Component {
             }, ms)
         }
     }
-    handChange(...rest){
-        const combine=rest[0]||'';      
-        const params=rest[1].trim()||''; 
+    handChange(...rest){     
+        console.log(...rest);
+        const combine=rest[0]||'';   
+        const isBlur=rest[1]
+        this.setState({
+            isBlur
+        })
+        const params=rest[2]||''.trim();
+        console.log(combine,params);
         this.props.handleNameChange(combine,params);
         const arr_index=combine.substr(combine.length - 1, 1);//索引
         this.getAutoPrompt(params,arr_index) //输入框值发生改变时发送请求
@@ -67,8 +74,9 @@ class autoCompleteInput extends Component {
      componentWillUnmount(){
          this.setState=()=>false   //不能在组件销毁后设置state，防止出现内存泄漏  (防抖设置定时器)
      }
+
     render() {
-        const {prompstList,paramsLengthList}=this.state;
+        const {prompstList,paramsLengthList,isBlur}=this.state;
         const {obligor,disabled,index}=this.props;
         return (
             <div className="auto_complete_content">
@@ -78,11 +86,16 @@ class autoCompleteInput extends Component {
                     disabled={disabled}
                     defaultActiveFirstOption={false}//是否默认高亮第一个选项
                     placeholder="请输入名称"
-                    onChange={this.handChange.bind(this,`name${index}`)}
-                    onBlur={this.handChange.bind(this,`name${index}`)}
-                    className={!paramsLengthList[index]?'atuo_complete':'atuo_complete_nodata'}// 未匹配到对应的工商信息时边框为黄色
+                    onChange={this.handChange.bind(this,`name${index}`,'onChange')}
+                    onBlur={this.handChange.bind(this,`name${index}`,'onBlur')}
+                    className={paramsLengthList[index]&&isBlur==='onBlur'?'atuo_complete_nodata':'atuo_complete'}// 未匹配到对应的工商信息时边框为黄色
                 />
-                <p className="auto_complete_nodata">{!paramsLengthList[index]?'':'未匹配到对应的工商信息'}</p>  
+                {
+                    paramsLengthList[index]&&isBlur==='onBlur'?<p className="auto_complete_nodata">未匹配到对应的工商信息</p>:null
+                }
+                {
+                    paramsLengthList[index]&&isBlur==='onChange'?<div className="auto_complete_nodatas">未匹配到对应的工商信息</div>:null
+                }
             </div>
         )
     }
