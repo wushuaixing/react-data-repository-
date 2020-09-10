@@ -14,6 +14,17 @@ import './index.css';
 
 moment.locale('zh-cn');
 
+const Version = 'v1.2.1';
+const BetaNumber = '.1';
+const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
+window.CurrentVersions = info;
+if (window.location.protocol === 'http:') {
+	console.info(info);
+}else{
+	console.info('The version information field is CurrentVersions.');
+}
+
+
 ReactDOM.render(
 	<ConfigProvider locale={zh_CN} getPopupContainer={node=>node ? node.parentElement : document.body } >
 		<ErrorBoundary><App /></ErrorBoundary>
