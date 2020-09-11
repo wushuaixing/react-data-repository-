@@ -39,8 +39,9 @@ class autoCompleteInput extends Component {
         const flag = list.some(item => params.includes(item));//名称中不包括“银行、信用社、信用联社、合作联社、合作社
         let prompstList=this.state.prompstList;
         let paramsLengthList=this.state.paramsLengthList;
-        if (params.length > 3 && !flag) {   //角色名称大于等于四个字
-            getAutoPrompt(params).then(res => {
+        let param=params.replace(/<span style='color:red'>/g,'').replace(/<\/span>/g,'')
+        if (param.length > 3 && !flag) {   //角色名称大于等于四个字
+            getAutoPrompt(param).then(res => {
                 if (res.data.code === 200) {
                     let data = res.data.data||[];
                     if (data.length>0) {        
@@ -48,7 +49,7 @@ class autoCompleteInput extends Component {
                         paramsLengthList[index]=''   
                     } else {
                        prompstList[index]=[];
-                       paramsLengthList[index]=params //字段长度大于3但无数据时   未匹配到对应的工商信信息显示
+                       paramsLengthList[index]=param //字段长度大于3但无数据时   未匹配到对应的工商信信息显示
                     }
                     this.setState({
                         prompstList,
@@ -80,9 +81,10 @@ class autoCompleteInput extends Component {
         const {obligor,disabled,index}=this.props;
         const options=(prompstList[index]||[]).map((item)=>{
             return (
-            <AutoComplete.Option key={item}>
+            <AutoComplete.Option key={item} text={item.replace(/<span style='color:red'>/g,'').replace(/<\/span>/g,'')}>
                <div dangerouslySetInnerHTML={{ __html:item}}></div>
             </AutoComplete.Option>)
+           
         })
 
         return (
@@ -96,6 +98,7 @@ class autoCompleteInput extends Component {
                     onChange={this.handChange.bind(this,`name${index}`,'onChange')}
                     onBlur={this.handChange.bind(this,`name${index}`,'onBlur')}
                     className={paramsLengthList[index]&&isBlur==='onBlur'?'atuo_complete_nodata':'atuo_complete'}// 未匹配到对应的工商信息时边框为黄色
+                    optionLabelProp='text'
                 />
 
                 {
