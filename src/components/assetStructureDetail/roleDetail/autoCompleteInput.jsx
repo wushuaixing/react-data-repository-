@@ -78,10 +78,17 @@ class autoCompleteInput extends Component {
     render() {
         const {prompstList,paramsLengthList,isBlur}=this.state;
         const {obligor,disabled,index}=this.props;
+        const options=(prompstList[index]||[]).map((item)=>{
+            return (
+            <AutoComplete.Option key={item}>
+               <div dangerouslySetInnerHTML={{ __html:item}}></div>
+            </AutoComplete.Option>)
+        })
+
         return (
             <div className="auto_complete_content">
                 <AutoComplete
-                    dataSource={prompstList[index]} //显示的5条自动提示
+                    dataSource={options} //显示的5条自动提示
                     defaultValue={obligor.name}//默认值
                     disabled={disabled}
                     defaultActiveFirstOption={false}//是否默认高亮第一个选项
@@ -90,6 +97,7 @@ class autoCompleteInput extends Component {
                     onBlur={this.handChange.bind(this,`name${index}`,'onBlur')}
                     className={paramsLengthList[index]&&isBlur==='onBlur'?'atuo_complete_nodata':'atuo_complete'}// 未匹配到对应的工商信息时边框为黄色
                 />
+
                 {
                     paramsLengthList[index]&&isBlur==='onBlur'?<p className="auto_complete_nodata">未匹配到对应的工商信息</p>:null
                 }
