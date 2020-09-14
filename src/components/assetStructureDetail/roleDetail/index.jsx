@@ -17,6 +17,7 @@ class RoleDetail extends React.Component {
     }
     handleDel(index) {
         this.props.handleDeleteClick('obligors', index)
+        this.child.getDeletedData(index);
     }
     handleBlur(e) {
         //日期格式转换 补全
@@ -27,6 +28,9 @@ class RoleDetail extends React.Component {
     }
     get roleInputNumber() {
         return this.props.obligors instanceof Array ? this.props.obligors.length : 0
+    }
+    onRef = (ref) => {
+        this.child = ref
     }
     render() {
         const dataSource = this.props.obligors;
@@ -133,6 +137,7 @@ class RoleDetail extends React.Component {
                                     handleChange={this.handleChange.bind(this)}
                                     handleBlur={this.handleBlur.bind(this)}
                                     handleNameChange={this.props.handleChange}
+                                    onRef={this.onRef}
                                     >
                                 </RoleInputs>
                             </div>
@@ -154,6 +159,7 @@ const RoleInputs = (props) => {
           handleDel={props.handleDel.bind(this, i)}
           handleChange={props.handleChange}
           handleNameChange={props.handleNameChange}
+          onRef={props.onRef}
         />);
     }
     return arr;
@@ -166,6 +172,7 @@ const RoleInput = props => (
             index={props.index}
             handleNameChange={props.handleNameChange}
             obligor={props.obligor}
+            onRef={props.onRef}
       />
       <Select
 				placeholder="角色"
