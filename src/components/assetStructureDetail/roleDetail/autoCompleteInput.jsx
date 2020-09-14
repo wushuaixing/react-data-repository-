@@ -20,17 +20,20 @@ class autoCompleteInput extends Component {
         this.setState({
             isBlur
         })
-        const params=rest[2]||''.trim();
+        const flags=isBlur==='onBlur'?1:0;
+        const params=flags?(rest[2]||'').trim():(rest[2]||'');
         this.props.handleNameChange(combine,params);
         const arr_index=combine.substr(combine.length - 1, 1);//索引
-        this.state.isChinese!=="Chinese"&&this.getAutoPrompt(params,arr_index) //输入框值发生改变时发送请求
+        this.state.isChinese!=="Chinese"&&this.getAutoPrompt(params,arr_index,flags) //输入框值发生改变时发送请求
     }
-    getAutoPrompt(params,index){
-        const list = ['银行', '信用社', '信用联社', '合作联社', '合作社','-','_','.','!','~','*','’','(',')','%','@',"#","$","^","&","+",'=','|','{','}','\\','/'];   
+    getAutoPrompt(params,index,flags=0){
+        const list = ['银行', '信用社', '信用联社', '合作联社', '合作社'];   
         const flag = list.some(item => params.includes(item));//名称中不包括“银行、信用社、信用联社、合作联社、合作社
-        let param=params.replace(/<span style='color:red'>/g,'').replace(/<\/span>/g,'').trim()
-        if (param.length > 3 && !flag) {   //角色名称大于等于四个字
-           getAutoPrompt(param).then(res => {
+        let param=params.replace(/<span style='color:red'>/g,'').replace(/<\/span>/g,'').trim();
+        let regex =/[`~!@#$%^*\+=<>?:"{}|\/;'\\[\]·~！@#￥%……*——\+={}|《》？：“”【】；‘’。]/g;
+        let rules=regex.test(param);
+        if (param.length > 3 && !flag &&!rules) {   //角色名称大于等于四个字
+           getAutoPrompt(param,flags).then(res => {
                 if (res.data.code ===(200||400)) {
                     let data = res.data.data||[];
                     if (data.length>0) {        
@@ -48,7 +51,14 @@ class autoCompleteInput extends Component {
                     message.error(res.data.message);
                 }
             })
-        }else{                                           //字段长度小于3时   提示语  和 未匹配到对应的工商信信息  均不显示  
+        }else if(param.length > 3&&!flag&&rules){
+            prompstList[index]=[];
+            paramsLengthList[index]='haveparams';
+            this.setState({
+                prompstList,
+                paramsLengthList
+            })
+        }else{                                       
             prompstList[index]=[];
             paramsLengthList[index]=''
             this.setState({
@@ -95,7 +105,7 @@ class autoCompleteInput extends Component {
     render() {
         const {prompstList,paramsLengthList,isBlur}=this.state;
         const {obligor,disabled,index}=this.props;
-        const obligors={...obligor};
+        const name=obligor.name;
         const options=(prompstList[index]||[]).map((item)=>{
             let value=item.replace(/<span style='color:red'>/g,'').replace(/<\/span>/g,'');//onselect的默认参数结果就是Option的key值
             return (
@@ -108,7 +118,7 @@ class autoCompleteInput extends Component {
             <div className="auto_complete_content">
                 <AutoComplete
                     dataSource={options} //显示的5条自动提示
-                    value={obligors.name}//默认值
+                    value={name}//默认值
                     disabled={disabled}
                     defaultActiveFirstOption={false}//是否默认高亮第一个选项
                     placeholder="请输入名称"
@@ -116,7 +126,7 @@ class autoCompleteInput extends Component {
                     onBlur={this.handChange.bind(this,`name${index}`,'onBlur')}
                     className={paramsLengthList[index]&&isBlur==='onBlur'?'atuo_complete_nodata':'atuo_complete'}// 未匹配到对应的工商信息时边框为黄色
                     optionLabelProp='text'     //回填到选择框的 Option 的属性值，默认是 Option 的子元素
-                    onFocus={this.handFocus.bind(this,obligors.name,index)}
+                    onFocus={this.handFocus.bind(this,obligor.name,index)}
                 >
                     <Input 
                         onCompositionStart={this.judgeChinese} //使用拼音输入法开始输入汉字时，这个事件就会被触发
