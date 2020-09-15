@@ -29,10 +29,11 @@ class autoCompleteInput extends Component {
     getAutoPrompt(params,index,flags=0){
         const list = ['银行', '信用社', '信用联社', '合作联社', '合作社'];   
         const flag = list.some(item => params.includes(item));//名称中不包括“银行、信用社、信用联社、合作联社、合作社
-        let param=params.replace(/<span style='color:red'>/g,'').replace(/<\/span>/g,'').trim();
+        let filterparam=params.replace(/<span style='color:red'>/g,'').replace(/<\/span>/g,'').trim();
         let regex =/[`~!@#$%^*\+=<>?:"{}|\/;'\\[\]·~！@#￥%……*——\+={}|《》？：“”【】；‘’。]/g;
-        let rules=regex.test(param);
-        if (param.length > 3 && !flag &&!rules) {   //角色名称大于等于四个字
+        let rules=regex.test(filterparam);
+        if (filterparam.length > 3 && !flag &&!rules) {   //角色名称大于等于四个字
+            let param=filterparam.replace(/&/g,'%26');
            getAutoPrompt(param,flags).then(res => {
                 if (res.data.code ===(200||400)) {
                     let data = res.data.data||[];
@@ -51,7 +52,7 @@ class autoCompleteInput extends Component {
                     message.error(res.data.message);
                 }
             })
-        }else if(param.length > 3&&!flag&&rules){
+        }else if(filterparam.length > 3&&!flag&&rules){
             prompstList[index]=[];
             paramsLengthList[index]='haveparams';
             this.setState({
