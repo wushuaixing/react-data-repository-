@@ -323,6 +323,6 @@ export const getAutoBidding = (id)=>{
 	return axios.get(`/api/asset/structured/control/getAutoBidding?id=${id}`);
 };
 
-export const getAutoPrompt = (name,flag)=>{
-	return axios.get('/api/asset/structured/control/getAutoPrompt?name='+name+'&flag='+flag);
+export const getAutoPrompt = (name)=>{
+	return axios.get('/api/asset/structured/control/getAutoPrompt?name='+name);
 };

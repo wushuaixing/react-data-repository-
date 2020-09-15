@@ -24,17 +24,17 @@ class autoCompleteInput extends Component {
         const params=flags?(rest[2]||'').trim():(rest[2]||'');
         this.props.handleNameChange(combine,params);
         const arr_index=combine.substr(combine.length - 1, 1);//索引
-        this.state.isChinese!=="Chinese"&&this.getAutoPrompt(params,arr_index,flags) //输入框值发生改变时发送请求
+        this.state.isChinese!=="Chinese"&&this.getAutoPrompt(params,arr_index) //输入框值发生改变时发送请求
     }
-    getAutoPrompt(params,index,flags=0){
+    getAutoPrompt(params,index){
         const list = ['银行', '信用社', '信用联社', '合作联社', '合作社'];   
         const flag = list.some(item => params.includes(item));//名称中不包括“银行、信用社、信用联社、合作联社、合作社
         let filterparam=params.replace(/<span style='color:red'>/g,'').replace(/<\/span>/g,'').trim();
-        let regex =/[`~!@#$%^*\+=<>?:"{}|\/;'\\[\]·~！@#￥%……*——\+={}|《》？：“”【】；‘’。]/g;
+        let regex =/[`~!，@#$%^*\+=<>?:"{}|\/;'\\[\]·~！@#￥%……*——\+={}|《》？：“”【】；‘’。]/g;
         let rules=regex.test(filterparam);
         if (filterparam.length > 3 && !flag &&!rules) {   //角色名称大于等于四个字
             let param=filterparam.replace(/&/g,'%26');
-           getAutoPrompt(param,flags).then(res => {
+           getAutoPrompt(param).then(res => {
                 if (res.data.code ===(200||400)) {
                     let data = res.data.data||[];
                     if (data.length>0) {        
