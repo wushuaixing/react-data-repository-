@@ -215,13 +215,7 @@ export const notEnableSave=(id, params)=> {
 //////////
 //文书搜索
 export const wenshuSearch=(params)=> {
-	let urlPlus = "";
-	for (let key in params) {
-		urlPlus = urlPlus + key + "=" + params[key] + "&";
-	}
-	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
-
-	return axios.get("/api/asset/wenshu/search?" + urlPlus);
+	return axios.get("/api/asset/wenshu/search",{params});
 };
 
 //文书搜索详情
