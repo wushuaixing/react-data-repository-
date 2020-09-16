@@ -30,7 +30,7 @@ class autoCompleteInput extends Component {
         const list = ['银行', '信用社', '信用联社', '合作联社', '合作社'];   
         const flag = list.some(item => params.includes(item));//名称中不包括“银行、信用社、信用联社、合作联社、合作社
         let filterparam=params.replace(/<span style='color:red'>/g,'').replace(/<\/span>/g,'').trim();
-        let regex =/[`~!，@#$%^*+=<>?:"{}|/;'[\]·~！@#￥%……*——+={}|《》？：、“”【】；‘’。]/g;
+        let regex =/[`~!，@#$%^*\+=<>?:"{}|\/;'\\[\]·~！、@#￥%……*——\+={}|《》？：“”【】；‘’。]/g;
         let rules=regex.test(filterparam);
         if (filterparam.length > 3 && !flag &&!rules) {   //角色名称大于等于四个字
             let param=filterparam.replace(/&/g,'%26');
