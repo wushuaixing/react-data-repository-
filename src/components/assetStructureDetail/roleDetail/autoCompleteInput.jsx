@@ -23,7 +23,7 @@ class autoCompleteInput extends Component {
         const flags=isBlur==='onBlur'?1:0;
         const params=flags?(rest[2]||'').trim():(rest[2]||'');
         this.props.handleNameChange(combine,params);
-        const arr_index=combine.substr(combine.length - 1, 1);//索引
+        const arr_index=combine.replace(/[^0-9]/g,"");//combine形式为 name1
         this.state.isChinese!=="Chinese"&&this.getAutoPrompt(params,arr_index) //输入框值发生改变时发送请求
     }
     getAutoPrompt(params,index){
