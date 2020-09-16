@@ -146,25 +146,3 @@
   }
 }
 
-::-webkit-scrollbar {
-    width: 3px;
-}
-
-::-webkit-scrollbar-track/*滑动轨道*/
-{
-    border-radius: 3px;
-    background: #E2E4E9;
-    border-left:none;
-}
- 
-::-webkit-scrollbar-thumb/*滑块*/
-{
-    border:none;
-    border-radius: 3px;
-    background: #B2B8C9;
-}
-::-webkit-scrollbar-thumb:hover/*滑块效果*/
-{
-    border-radius: 3px;
-    background:#EDEFF3;
-}
