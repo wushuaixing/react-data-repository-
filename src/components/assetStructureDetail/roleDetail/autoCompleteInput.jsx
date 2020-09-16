@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {message,AutoComplete,Input} from 'antd';
 import {getAutoPrompt} from '../../../server/api';
 const  prompstList=[];
-const  paramsLengthList=[];
+const paramsLengthList=[];
 class autoCompleteInput extends Component {
     constructor(){
         super();
@@ -30,7 +30,7 @@ class autoCompleteInput extends Component {
         const list = ['银行', '信用社', '信用联社', '合作联社', '合作社'];   
         const flag = list.some(item => params.includes(item));//名称中不包括“银行、信用社、信用联社、合作联社、合作社
         let filterparam=params.replace(/<span style='color:red'>/g,'').replace(/<\/span>/g,'').trim();
-        let regex =/[`~!，@#$%^*\+=<>?:"{}|\/;'\\[\]·~！@#￥%……*——\+={}|《》？：“”【】；‘’。]/g;
+        let regex =/[`~!，@#$%^*\+=<>?:"{}|\/;'\\[\]·~！、@#￥%……*——\+={}|《》？：“”【】；‘’。]/g;
         let rules=regex.test(filterparam);
         if (filterparam.length > 3 && !flag &&!rules) {   //角色名称大于等于四个字
             let param=filterparam.replace(/&/g,'%26');
@@ -86,14 +86,9 @@ class autoCompleteInput extends Component {
     }
     getDeletedData(index){                   
         prompstList.splice(index,1);  
-        paramsLengthList.splice(index,1)  //删除角色信息行时 
        this.setState({
            prompstList,
-           paramsLengthList
        })
-    }
-    handFocus(...rest){
-       this.getAutoPrompt(rest[0],rest[1])
     }
     componentDidMount(){ 
         const {obligor,index}=this.props;
@@ -127,7 +122,6 @@ class autoCompleteInput extends Component {
                     onBlur={this.handChange.bind(this,`name${index}`,'onBlur')}
                     className={paramsLengthList[index]&&isBlur==='onBlur'?'atuo_complete_nodata':'atuo_complete'}// 未匹配到对应的工商信息时边框为黄色
                     optionLabelProp='text'     //回填到选择框的 Option 的属性值，默认是 Option 的子元素
-                    onFocus={this.handFocus.bind(this,obligor.name,index)}
                 >
                     <Input 
                         onCompositionStart={this.judgeChinese} //使用拼音输入法开始输入汉字时，这个事件就会被触发

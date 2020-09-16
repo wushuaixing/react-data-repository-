@@ -138,6 +138,7 @@ class RoleDetail extends React.Component {
                                     handleBlur={this.handleBlur.bind(this)}
                                     handleNameChange={this.props.handleChange}
                                     onRef={this.onRef}
+                                    key={this.props.id}
                                     >
                                 </RoleInputs>
                             </div>
