@@ -64,10 +64,10 @@ class Check extends React.Component {
 	handleSearch = e => {
 		e.preventDefault();
 		const { form:{ getFieldValue,setFieldsValue} } = this.props;
-		const get =field=> (getFieldValue(field)||'').trim();
+		const get =field=> (getFieldValue(field)||'');
 		this.setState({
 			searchParams:{
-				content: get('whole'),
+				content: get('whole').trim(),
 				ah: get('ah'),
 				court: get('court'),
 				url: get('url')

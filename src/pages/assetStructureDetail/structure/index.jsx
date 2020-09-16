@@ -82,8 +82,7 @@ class StructureDetail extends React.Component {
     }
     handleRoleChange(combine, value) {
         const arr_index = combine.replace(/[^0-9]/g,"");//combine形式为 name1   
-        const key = combine.replace(/[^a-zA-Z]/g,""); 
-        console.log(combine,arr_index);
+        const key = combine.replace(/[^a-zA-Z_]/g,""); 
         const arr = [...this.state.obligors];
         arr[arr_index][key] = value;
         this.setState({
