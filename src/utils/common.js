@@ -48,7 +48,6 @@ const dateUtils = {
 			return arr.join('').substring(0,8)
 		} else {
 			let temp = arr.map((text,i)=>{
-				console.log(text,text.length,i);
 				if (text.length === 1 && i !== 0) {
 					return '0' + text
 				}
