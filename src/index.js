@@ -8,7 +8,7 @@ import ErrorBoundary from './pages/errorPage/exceptionPage'
 import App from './pages/App';
 import * as serviceWorker from './serviceWorker';
 import './assets/css/antd.less';
-import './assets/css/font-family.css';
+// import './assets/css/font-family.css';
 
 import './index.css';
 

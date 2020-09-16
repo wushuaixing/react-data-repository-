@@ -221,7 +221,7 @@ export const wenshuSearch=(params)=> {
 	}
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
 
-	return axios.get("/api/asset/wenshu/search?" + urlPlus);
+	return axios.get("/api/asset/wenshu/search",{params});
 };
 
 //文书搜索详情
