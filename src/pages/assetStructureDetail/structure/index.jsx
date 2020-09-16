@@ -404,6 +404,7 @@ class StructureDetail extends React.Component {
                             />
                             <RoleDetail
                               obligors={state.obligors}
+                              id={state.id}
                               handleChange={this.handleRoleChange.bind(this)}
                               handleAddClick={this.handleAddClick.bind(this)}
                               handleDeleteClick={this.handleDeleteClick.bind(this)}
