@@ -34,6 +34,7 @@ class RoleDetail extends React.Component {
     }
     render() {
         const dataSource = this.props.obligors;
+        console.log(this.props.obligors);
         const columns = [
             {
                 title: '名称',
