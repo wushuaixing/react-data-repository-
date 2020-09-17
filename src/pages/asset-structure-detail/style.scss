@@ -1,0 +1,292 @@
+.assetstructure-detail{
+    margin: 20px;
+    min-height: 90vh;
+    background: #fff;
+    &_header {
+        height: 56px;
+        padding-left: 20px;
+        line-height: 56px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #293038;
+        border-bottom:1px solid #E2E4E9;
+        position: relative;
+        .buttonGroup-back{
+            position: absolute;
+            right: 20px;
+            top: 12px;
+        }
+    }
+    &_container {
+        padding: 20px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        position: relative;
+    }
+
+    .yc-component-assetStructureDetail {
+        &:first-child{
+            width: 100%;
+        }
+        font-size: 14px;
+        color: #293038;
+        width: 50%;
+        &_header {
+            font-size: 16px;
+            font-weight: bold;
+            padding-left: 8px;
+            border-left: 3px solid #016AA9;
+            height: 20px;
+            line-height: 20px;
+        }
+        &_body{
+            ul{
+                padding: 20px 0 40px 0;
+                margin: 0;
+                li{
+                    display: flex;
+                    &:last-child{
+                        margin-bottom: 0;
+                    }
+                    list-style: none;
+                    margin-bottom: 16px;
+                    line-height: 14px;
+                    .list_title{
+                        &:first-of-type{
+                            min-width: 120px;
+                            text-align:right;
+                        }
+                    }
+                }
+                .danger-error{
+                    color: red;
+                }
+                .record-noErr{
+                    color: green;
+                }
+            }
+        }
+        p{
+            margin: 0;
+        }
+    }
+    .basic_info{
+        width: 100%;
+        ul{
+            li{
+                span{
+                    &:nth-child(n+3){
+                        display: inline-block;
+                        padding-left: 120px;
+                        padding-top: 8px;
+                    }
+                }
+            }
+            .records{
+                p{
+                    line-height: 14px;
+                    margin-bottom: 8px;
+                }
+            }  
+        }
+
+    }
+    .return_mark{
+        li{
+            p{
+                margin-bottom: 6px;
+                &:last-child{
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+    .wrong-data{
+        margin-left: 50px !important;
+    }
+    .document_info{
+        .icon_hover_pointer{
+            cursor: pointer;
+        }
+        .doucment_info_inputContent{
+            position: relative;
+            top: -6px;
+            .doucment_info_inputItem{
+                display: flex;
+                align-items: center;
+                margin-bottom: 16px;
+                &:last-child{
+                    margin-bottom:0;
+                }
+            }
+        }
+    }
+    .roleInfo {
+        width: 100%;
+        .roleInfo_body{
+            margin-top: 20px;
+        }
+        .roleInfo_body-header{
+            width: 100%;
+            display: flex;
+            padding-left: 22px;
+            height: 42px;
+            background: #EDEFF3;
+            line-height: 42px;
+            .name {
+                width: 259px;
+            }
+            .role {
+                width: 161px;
+            }
+            .certification {
+                width: 260px;
+            }
+            .birth {
+                width: 258px;
+            }
+            .sex {
+                width: 150px;
+            }
+            .note {
+                width: 386px;
+            }
+            .operation {
+                width: 66px;
+            }
+        }
+        .roleInfo_body-addRole{
+            margin-top: 20px;
+            .ant-btn {
+                width: 100%;
+            }
+        }
+        .roleInfo_body-InputRow {
+            width: 100%;
+            padding: 11px 44px 20px 0;
+            border-bottom: 1px #e2e4e9 solid;
+            display: flex;
+            .ant-input {
+                width: 240px;
+                margin-left: 20px;
+                height: 30px;
+            }
+            .ant-select {
+                width: 140px;
+                margin-left: 20px;
+                height: 30px;
+            }
+            .sex-select{
+                width: 130px;
+            }
+            .tips-box{
+                min-width: 360px !important;
+                resize: none;
+            }
+            .ant-btn {
+                margin-left: 20px;
+                width: 80px;
+            }
+            .del_role_item{
+                box-shadow: none;
+                &:hover{
+                    background: #016AA9 !important;
+                    color: #fff !important;
+                }
+            }
+            .ant-select-selection__rendered {
+                width: 60px;
+                .ant-select-selection__placeholder{
+                    color: #B2B8C9 !important;
+                }
+            }
+            .ant-select-selection-selected-value{
+                overflow: visible !important;
+            }
+            .ant-select-arrow {
+                right: 5px;
+            }
+            .ant-select-selection--single{
+                height: 30px;
+            }
+            .ant-select-dropdown--single{
+                width: 240px;
+            }
+            .ant-select-dropdown-menu-vertical{
+                background: #FFFFFF;
+                box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
+                border-radius: 2px;
+                border: 1px solid #DDE0E7;
+                padding:0;
+                li{
+                    font-size: 14px;
+                    background: #fff;
+                    line-height: 20px;
+                    padding: 3px 12px ;
+                    box-sizing: content-box;
+                    font-weight: normal;
+                    white-space: normal;
+                    overflow: visible;
+                    word-break: break-all;
+                    &:first-child{
+                        padding-top: 9px;
+                    }
+                    &:last-child{
+                        padding-bottom: 9px;
+                    }
+                    &:hover{
+                        background: #fff;
+                    }
+                }
+            }
+            //自动联想输入框
+            .atuo_complete,.atuo_complete_nodata{
+                position: relative;
+                width: 240px !important;
+                .ant-select-search__field {
+                    width: 240px !important;
+                    margin: 0 !important;
+                }
+                .ant-select-selection__rendered {
+                    width: 220px !important;
+                }
+            }
+            //无数据时样式
+            .atuo_complete_nodata{
+                .ant-select-search__field{
+                    border: 1px solid #FD9C26 !important;
+                }
+            }
+            
+            .auto_complete_nodata{
+                line-height: 12px;
+                font-size: 12px;
+                color: #FD9C26;
+                padding: 4px 0 0 30px;
+                margin-bottom: 0;
+            }
+            
+            .auto_complete_nodatas{
+                margin:4px 0 0 20px;
+                width: 240px;
+                height: 46px;
+                background: #FFFFFF;
+                box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
+                border-radius: 2px;
+                border: 1px solid #DDE0E7; 
+                color: #7D8699;
+                font-size: 14px;
+                text-align: center;
+                line-height: 46px;
+            }
+        }
+    }
+    .detail-buttonGroup{
+        position: absolute;
+        right: 20px;
+        display: flex;
+        align-items: center;
+    }
+}
+

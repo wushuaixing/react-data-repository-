@@ -3,7 +3,7 @@ import React from 'react'
 import {Route} from 'react-router-dom';
 import CacheRoute from 'react-router-cache-route';
 import AssetList from "../pages/assetStructureList/checkAccount";
-import StructureDetail from "@/pages/assetStructureDetail/check";
+import StructureDetail from '@/pages/asset-structure-detail';
 
 const ContentMain = [
   <CacheRoute path="/index" exact component={AssetList} key='AssetList'  when="always"/>,

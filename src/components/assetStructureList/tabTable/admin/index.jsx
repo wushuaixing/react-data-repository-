@@ -27,15 +27,16 @@ class TabTable extends React.Component {
     };
     get columnShowObject() {
         const showObject = {};
+        showObject.dataIndex = 'time';//时间返参发生变化
         switch (this.props.tabIndex) {
             case 0: case 1:
-                showObject.title = '抓取时间'; showObject.dataIndex = 'grabTime'; break;
+                showObject.title = '抓取时间';  break;
             case 2:
-                showObject.title = '结构化时间'; showObject.dataIndex = 'firstStructuredTime'; break;
+                showObject.title = '结构化时间';break;
             case 3: case 4:
-                showObject.title = '检查时间'; showObject.dataIndex = 'checkTime'; break;
+                showObject.title = '检查时间';  break;
             case 5:
-                showObject.title = '修改时间'; showObject.dataIndex = 'lastStructuredTime'; break;
+                showObject.title = '修改时间';  break;
             default:
                 break;
         }

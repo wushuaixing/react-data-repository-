@@ -42,7 +42,7 @@ class Index extends React.Component {
     // 搜索框
     handleSearch = e => {
         e.preventDefault();
-        const paramKeys = ['title', 'startTime', 'endTime', 'userId', 'checkUserId', 'area'];
+        const paramKeys = ['title', 'requestStartTime', 'requestEndTime', 'userId', 'checkUserId', 'area'];
         const formParams = this.props.form.getFieldsValue(paramKeys);
         console.log(this.props.form)
         const params = {
@@ -68,7 +68,7 @@ class Index extends React.Component {
                     }
                 }
                 //如果是日期 把Moment处理掉
-                else if (key === 'endTime' || key === 'startTime') {
+                else if (key === 'requestEndTime' || key === 'requestStartTime') {
                     params[key] = dateUtils.formatMomentToStandardDate(formParams[key])
                 }
                 //如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType
@@ -76,11 +76,11 @@ class Index extends React.Component {
                 else if (key === 'userId') {
                     switch (formParams[key]) {
                         case 'all':
-                            params.userType = 0; break;
+                            params.userId   = 0; break;
                         case 'deleted':
-                            params.userType = 1; break;
+                            params.userId   = 1; break;
                         case 'auto':
-                            params.userType = 2; break;
+                            params.userId   = 2; break;
                         default:
                             params.userId = formParams[key]; break;
                     }
@@ -183,7 +183,7 @@ class Index extends React.Component {
 
     disabledStartDate = startValue => {
         const { getFieldValue } = this.props.form;
-        const endValue = getFieldValue('endTime');
+        const endValue = getFieldValue('requestEndTime');
         if (!startValue || !endValue) {
             return false;
         }
@@ -193,7 +193,7 @@ class Index extends React.Component {
 
     disabledEndDate = endValue => {
         const { getFieldValue } = this.props.form;
-        const startValue = getFieldValue('startTime');
+        const startValue = getFieldValue('requestStartTime');
         if (!endValue || !startValue) {
             return false;
         }
@@ -221,7 +221,7 @@ class Index extends React.Component {
                     </Form.Item>
 
                     <Form.Item label={this.searchTimeTypeInput}  className='end-time-after'>
-                        {getFieldDecorator('startTime', {
+                        {getFieldDecorator('requestStartTime', {
                             initialValue: null,
                         })
                             (<DatePicker
@@ -231,7 +231,7 @@ class Index extends React.Component {
                             />)}
                     </Form.Item>
                     <Form.Item label="至">
-                        {getFieldDecorator('endTime', {
+                        {getFieldDecorator('requestEndTime', {
                             initialValue: null
                         })
                             (<DatePicker

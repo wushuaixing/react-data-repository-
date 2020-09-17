@@ -80,7 +80,7 @@ class Index extends React.Component {
 	// 搜索框
 	handleSearch = e => {
 		e.preventDefault();
-		const paramKeys = ['title', 'structuredStartTime', 'structuredEndTime', 'checkStartTime', 'checkEndTime', 'userId'];
+		const paramKeys = ['title', 'requestStartTime', 'requestEndTime','userId'];
 		const formParams = this.props.form.getFieldsValue(paramKeys);
 		/* 调整请求字段 */
 		const params = {
@@ -99,11 +99,11 @@ class Index extends React.Component {
 				else if (key === 'userId') {
 				switch (formParams[key]) {
 					case 'all':
-					    params.userType = 0; break;
+					    params.userId  = 0; break;
 					case 'deleted':
-					    params.userType = 1; break;
+					    params.userId  = 1; break;
 					case 'auto':
-					    params.userType = 2; break;
+					    params.userId  = 2; break;
 					default:
 					    params.userId = formParams[key]; break;
 				}
@@ -128,7 +128,7 @@ class Index extends React.Component {
 
 	disabledStartDate = startValue => {
 		const { getFieldValue } = this.props.form;
-		const endValue = getFieldValue('structuredEndTime');
+		const endValue = getFieldValue('requestEndTime');
 		if (!startValue || !endValue) {
 			return false;
 		}
@@ -138,7 +138,7 @@ class Index extends React.Component {
 
 	disabledEndDate = endValue => {
 		const { getFieldValue } = this.props.form;
-		const startValue = getFieldValue('structuredStartTime');
+		const startValue = getFieldValue('requestStartTime');
 		if (!endValue || !startValue) {
 			return false;
 		}
@@ -147,11 +147,11 @@ class Index extends React.Component {
 
 	get columnShowTimeType() {
 		switch (this.props.tabIndex) {
-			case 0: case 1: case 5:
+			case 0: case 2: case 6:
 				return '结构化时间';
-			case 2: case 3:
+			case 3: case 4:
 				return '检查时间';
-			case 4:
+			case 5:
 				return '修改时间';
 			default:
 				return ''
@@ -176,7 +176,7 @@ class Index extends React.Component {
 							/>)}
 					</Form.Item>
 					<Form.Item label={this.columnShowTimeType} className='end-time-after'>
-						{getFieldDecorator('structuredStartTime', {
+						{getFieldDecorator('requestStartTime', {
 							initialValue: null
 						})(<DatePicker
 							placeholder="开始时间"
@@ -184,7 +184,7 @@ class Index extends React.Component {
 							style={{ width: 120 }} />)}
 					</Form.Item>
 					<Form.Item label="至">
-						{getFieldDecorator('structuredEndTime', {
+						{getFieldDecorator('requestEndTime', {
 							initialValue: null
 						})(<DatePicker
 							placeholder="结束时间"

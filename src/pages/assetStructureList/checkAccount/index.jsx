@@ -8,6 +8,7 @@ import TabTable from "@/components/assetStructureList/tabTable/check";
 import '@/pages/style.scss';
 import { BreadCrumb } from '@commonComponents';
 import {scrollTop } from "@utils/tools";
+import { dateUtils} from "@utils/common";
 class Check extends React.Component {
 	constructor(props) {
 		super(props);
@@ -41,30 +42,14 @@ class Check extends React.Component {
         let { tabIndex, page } = this.state;
         let params = Object.assign(this.state.searchParams, { page });
         //根据不同的tabIndex 设置参数
-        switch (tabIndex) {
-            case 0:
-                params.checkType = 1; break;
-            case 1:
-                params.checkType = 1; break;
-            case 2:
-                params.checkType = 2; break;
-            case 3:
-                params.checkType = 2; break;
-            case 4:
-                params.checkType = 0; break;
-            case 5:
-                params.checkType = 1; break;
-            default:
-                break;
-		}
-		params.status = parseInt(tabIndex);
+		params.tabFalg = parseInt(tabIndex);
         return params;
     }
 	componentDidMount() {
 		this.getTableList();
 	};
 	getTableList = () => {
-		if(this.params['structuredStartTime']&&this.params['structuredEndTime']&&this.params['structuredStartTime']>this.params['structuredEndTime']){
+		if(this.params['requestStartTime']&&this.params['requestEndTime']&&this.params['requestStartTime']>this.params['requestEndTime']){
 			message.error('开始时间不能大于结束时间');
 			return false;
 		}
@@ -76,14 +61,21 @@ class Check extends React.Component {
 			if (res.data.code === 200) {
 				return res.data.data;
 			} else {
-				Promise.reject('请求出错')
+				return Promise.reject('请求出错')
 			}
 		}).then((dataObject) => {
+			let tableList=[];
+			dataObject.result&&dataObject.result.list.forEach((item)=>{
+                let obj=item;
+                obj.time=dateUtils.formatStandardNumberDate(item.time)||'';
+                obj.info.start=dateUtils.formatStandardNumberDate(item.info.start,true)||'';
+                tableList.push(obj);
+            })
 			this.setState({
+				tableList,
 				checkErrorNum: dataObject.checkErrorNum,
 				editNum: dataObject.alreadyEditedNum,
 				waitNum: dataObject.waitConfirmedNum,
-				tableList: (dataObject.result) ? dataObject.result.list : [], //为空
 				total: (dataObject.result) ? dataObject.result.total : 0,
 				page: (dataObject.result) ? dataObject.result.page : 1,
 				loading: false
@@ -100,13 +92,6 @@ class Check extends React.Component {
 	// 搜索框
 	handleSearch = data => {
 		const _data = data;
-		const { tabIndex } = this.state;
-		if ( tabIndex === 2 || tabIndex === 3 ){
-			_data.checkStartTime = _data.structuredStartTime;
-			_data.checkEndTime = _data.structuredEndTime;
-			delete _data.structuredStartTime;
-			delete _data.structuredEndTime;
-		}
 		this.setState({
 			searchParams: _data,
 			page:1

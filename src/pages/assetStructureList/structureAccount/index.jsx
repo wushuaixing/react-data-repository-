@@ -2,7 +2,7 @@ import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table, Spin, message, Badge} from 'antd';
 import { Columns } from "@/static/columns";
 import createPaginationProps from "@/utils/pagination";
-import { structuredList, getNewStructuredData, structuredCheckErrorNum,getAutoBidding } from "@api";
+import { structuredList, getNewStructuredData, structuredCheckErrorNum,getDataStatus  } from "@api";
 import { withRouter } from "react-router-dom";
 import { BreadCrumb, SearchAndClearButtonGroup, AssetTabTextWithNumber } from '@commonComponents'
 import { dateUtils,clearEmpty } from "@utils/common";
@@ -57,8 +57,15 @@ class Asset extends React.Component {
 			}
 		}).then((res) => {
 			if (res.data.code === 200) {
+				let tableList=[];   //返回值变为时间戳    做日期相应处理
+				res.data.data.forEach((item)=>{
+					let obj=item;
+					obj.time=dateUtils.formatStandardNumberDate(item.time);
+					tableList.push(obj);
+				})
+
 				this.setState({
-					tableList: res.data.data,
+					tableList,
 					total: res.data.total,
 					loading: false
 				});
@@ -175,10 +182,9 @@ class Asset extends React.Component {
 	};
 
 	checkIsAutoMarked(record) {
-		getAutoBidding(record.id).then((res)=>{
+		getDataStatus(record.id,record.status).then((res)=>{
 			if(res.data.code===200){
-				if(!res.data.data){
-					//未被自动标注
+				if(res.data.data){
 					this.props.history.push(`/index/structureDetail/${record.status}/${record.id}`)
 				}else{
 					message.warning('数据已被自动标注,2s后为您刷新界面',2,()=>window.location.reload());
@@ -225,7 +231,7 @@ class Asset extends React.Component {
 		if (tabIndex !== 0) {
 			columns.unshift({
 				title: "结构化时间",
-				dataIndex: "firstExtractTime",
+				dataIndex: "time",
 			})
 		}
 		const paginationProps = createPaginationProps(page, total);

@@ -59,22 +59,22 @@ export const Columns = [
 						let color = 'default';
 						let text = '';
 						switch (status) {
-							case 1:
+							case 2:
 								text = '未检查';
 								break;
-							case 2:
+							case 3:
 								color = 'success';
 								text = '检查无误';
 								break;
-							case 3:
+							case 4:
 								color = 'error';
 								text = '检查错误';
 								break;
-							case 4:
+							case 5:
 								color = 'success';
 								text = '已修改';
 								break;
-							case 5:
+							case 6:
 								color = 'error';
 								text = '待确认';
 								break;
@@ -97,7 +97,7 @@ export const Columns = [
 		render: (text, record) => (
 			<span>
 				{
-					record.status === -1 ?
+					record.status === 0 ?
 						<div>--</div> :
 						<div>
 							{

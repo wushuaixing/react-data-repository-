@@ -223,7 +223,7 @@
 .ant-pagination-total-text{
   color: rgba(128,131,135,1);
 }
-[for=endTime]{
+[for=requestEndTime],[for=structuredEndTime]{
   display: block;
   &::after{
     content: '' !important;// 至 后面没有 ：

@@ -68,8 +68,8 @@ class Check extends React.Component {
 
 	get updateOrSubmitCheck() {
 		const { length } = this.state.records;
-		const { desc } = this.state.records[length - 1];
-		return (['结构化', '自动标注'].indexOf(desc) >= 0 || length === 0) ? 'submit' : 'update';
+		const { msg } = this.state.records[length - 1];
+		return (['结构化', '自动标注'].indexOf(msg) >= 0 || length === 0) ? 'submit' : 'update';
 	}
 
 	// 是否 待确认列数据
