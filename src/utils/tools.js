@@ -5,16 +5,14 @@
  * @returns {CheckParams.props|*}
  * @constructor
  */
-export const CheckParams = (params,FieldArray=[])=>{
-	let _params = {};
-	if(FieldArray.length){
-		FieldArray.forEach(i=>(params[i]!==null || params[i]!==undefined )?_params[i]=params[i]:"");
+export const CheckParams = (params, FieldArray = []) => {
+	const _params = {};
+	if (FieldArray.length) {
+		FieldArray.forEach((i) => ((params[i] !== null || params[i] !== undefined) ? _params[i] = params[i] : ''));
 		return _params;
 	}
 	return params;
 };
-
-
 
 /**
  * 截取 url 里面 指定的参数
@@ -89,8 +87,8 @@ export const urlEncode = (param, key, encode) => {
  * 滚动值容器顶部
  * @param eleId
  */
-export const scrollTop = eleId =>{
-	const ele = document.getElementById(eleId||'yc-layout-main');
-	if(eleId==='no-yc-layout-main') document.documentElement.scrollTop=0;
-	if(ele) ele.scrollTop = 0;
+export const scrollTop = (eleId) => {
+	const ele = document.getElementById(eleId || 'yc-layout-main');
+	if (eleId === 'no-yc-layout-main') document.documentElement.scrollTop = 0;
+	if (ele) ele.scrollTop = 0;
 };

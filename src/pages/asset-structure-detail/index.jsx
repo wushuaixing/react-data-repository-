@@ -34,13 +34,13 @@ class StructureDetail extends React.Component {
         super();
         this.state = {
             loading:false,
-            //基本信息  
+            //基本信息
             title: "",                 //标题
             auctionStatus: null,       //拍卖状态1:即将开始 3进行中 5已成交 7已流拍 9中止 11撤回
             reasonForWithdrawal: "",   //撤回原因
             associatedAnnotationId: "",//关联标注
             associatedStatus:'',
-            records:[],                //结构化/检查记录 
+            records:[],                //结构化/检查记录
 
             //房产/土地信息
             buildingArea: null,        //建筑面积
@@ -106,20 +106,20 @@ class StructureDetail extends React.Component {
         }
     }
     handleChange=(key,value)=>{                 //抵押情况/房产土地类型/建筑面积/文书信息查找情况/仅标记本条改变时
-		this.setState({
-			[key]: value,
-			isUpdateRecord: true,
-		});
+				this.setState({
+					[key]: value,
+					isUpdateRecord: true,
+				});
     }
     handleDocumentChange(combine, value) {      //案号  文书链接地址改变时
-		const arr_index = combine.substr(combine.length - 1, 1);
-		const key = combine.substr(0, combine.length - 1);
-		const arr = [...this.state[key]];
-		arr[arr_index].value = value;
-		this.setState({
-			[key]: arr,
-			isUpdateRecord: true,
-		});
+				const arr_index = combine.substr(combine.length - 1, 1);
+				const key = combine.substr(0, combine.length - 1);
+				const arr = [...this.state[key]];
+				arr[arr_index].value = value;
+				this.setState({
+					[key]: arr,
+					isUpdateRecord: true,
+				});
     }
     handleRoleChange(combine, value) {         //角色信息改变时
         const arr_index = combine.substr(combine.length - 1, 1);
@@ -151,10 +151,10 @@ class StructureDetail extends React.Component {
     //以上为页面的基本显示
 
 
-    handleBack(flag){                             
-        this.props.history.push(flag?'/index/assetList':'/index'); 
+    handleBack(flag){
+        this.props.history.push(flag?'/index/assetList':'/index');
     }
-     
+
     handleConfirm(){                        //检查人员确认按钮
         const { id } = this.props.match.params;
 		updateBackStatus({ id }).then((res) => {
@@ -166,7 +166,7 @@ class StructureDetail extends React.Component {
 			}
 		});
     }
-    
+
     handleSubmit(){                          //保存
         const role=this.role;
         const {id,status,tabIndex}=this.props.match.params;
@@ -295,7 +295,7 @@ class StructureDetail extends React.Component {
         const { match:{ params:{status,tabIndex} } } = this.props;
         return (
             <SpinLoading loading={loading}>
-                <div className="assetstructure-detail"> 
+                <div className="assetstructure-detail">
                     <div className="assetstructure-detail_header">
                         资产结构化/详情
                         {
@@ -309,7 +309,7 @@ class StructureDetail extends React.Component {
                             backRemark={backRemark}
                             />
                         }
-                        {   
+                        {
                             wrongData&&wrongData.length>0&&
                             <ErrorReason
                                 wrongData={wrongData}
@@ -368,7 +368,7 @@ class StructureDetail extends React.Component {
                                 handleNoErr={this.handleNoErr.bind(this)}
                                 handleErrorModal={()=>this.setState({visible:true})}
                                 // handleStructureUpdate={this.handleStructureUpdate}
-                                
+
                             />
                         }
                     	<CheckModal

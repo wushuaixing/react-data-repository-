@@ -1,3 +1,4 @@
 import { service } from '@/server/index';
 
-export const userToken =() => service.get(`/api/userToken`).then(res => res.data);
+export const a = 1;
+export const userToken = () => service.get('/api/userToken').then((res) => res.data);

@@ -105,8 +105,7 @@ class Index extends React.Component {
   clearStyle = (data) => {
     data = data
       .replace(/background: #[a-zA-Z0-9]{6};/g, "")
-      .replace(/([;"\f\n\r\t\v])color: ?#(\d{3}|[a-zA-Z0-9]{6});/g,'$1')
-      .replace(/font-size: \d{0,2}\.?\d?p[t|x];/g, "");
+      .replace(/([;"\f\n\r\t\v])color: ?#(\d{3}|[a-zA-Z0-9]{6});/g,'$1');
     return data;
   };
   openTitleUrl() {
