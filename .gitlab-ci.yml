@@ -18,6 +18,7 @@ install_deps:
     - tags
     - master
     - develop
+    - reset-branch
   script:
     - node -v
     - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
