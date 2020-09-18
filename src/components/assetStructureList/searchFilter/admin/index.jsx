@@ -78,9 +78,9 @@ class Index extends React.Component {
                         case 'all':
                             params.userId   = 0; break;
                         case 'deleted':
-                            params.userId   = 1; break;
+                            params.userId   = -1; break;
                         case 'auto':
-                            params.userId   = 2; break;
+                            params.userId   = -2; break;
                         default:
                             params.userId = formParams[key]; break;
                     }
