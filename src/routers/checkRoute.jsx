@@ -1,22 +1,16 @@
 import React from 'react'
 //引入路由
 import {Route} from 'react-router-dom';
+import CacheRoute from 'react-router-cache-route';
 import AssetList from "../pages/assetStructureList/checkAccount";
-import StructureDetail from "@/pages/assetStructureDetail/check";
+import StructureDetail from '@/pages/asset-structure-detail';
 
-class Index extends React.Component {
-  render() {
-    return (
-      <div>
-		<Route path="/index" exact component={AssetList} />
-        <Route path={[
-          "/index/structureDetail/:status/:id/:isNotConfirm/:tabIndex",
-          "/index/structureDetail/:status/:id/:isNotConfirm"
-        ]} component={StructureDetail} />
-        {/*<Route path="/index/structureDetail/:status/:id/:isNotConfirm" component={StructureDetail} />*/}
-      </div>
-    )
-  }
-}
+const ContentMain = [
+  <CacheRoute path="/index" exact component={AssetList} key='AssetList'  when="always"/>,
+  <Route path={[
+    "/index/structureDetail/:status/:id/:isNotConfirm/:tabIndex",
+    "/index/structureDetail/:status/:id/:isNotConfirm"
+  ]} component={StructureDetail} key='StructureDetail' />
+];
 
-export default Index
+export default ContentMain

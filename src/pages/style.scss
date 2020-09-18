@@ -1,6 +1,7 @@
 //每个tab下白色的内容区除面包屑的部分
 .yc-detail-content {
-  min-height: 1200px;
+  //min-height: 1200px;
+  min-height: 60vh;
   .yc-search-line {
     > div {
       display: inline-block;
@@ -22,7 +23,6 @@
     border-top: 1px solid rgb(226, 228, 233);
     clear: both;
   }
-
   .yc-tab {
     margin-top:8px;
     padding:0 20px;
@@ -53,6 +53,12 @@
               line-height: 16px;
             }
           }
+          span{
+            b{
+              font-weight: normal;
+              color: #293038;
+            }
+          }
         }
       }
       .ws-link:hover {
@@ -62,36 +68,43 @@
     }
   }
 }
+.end-time-after{
+  margin-right:8px !important;
+}
 .ant-checkbox-wrapper span {
-  font-size: 12px;
+  font-size: 14px;
 }
 .ant-radio-group span {
-  font-size: 12px;
+  font-size: 14px;
 }
 .ant-table-thead tr th{
   background: #EDEFF3;
+  line-height: 14px;
 }
 
 //每个tab下 灰色大容器中  白色的内容区部分
 .yc-content-container{
   background-color: #ffffff;
   margin: 20px;
+  min-height: 90vh;
 }
 //新开页文书搜索 特殊样式
 .yc-content-container-newPage{
-  margin:20px auto;
+  margin:25px auto;
   background-color: #ffffff;
   width:1250px;
+  min-height: 95vh;
 }
 //模态框底部
 .yc-modal-footer {
-  margin-top: 0px;
+  margin-top:0;
   text-align: center;
   > button {
-    width: 120px;
-    height: 36px;
+    width: 100px;
+    height: 32px;
     margin-left: 10px;
     margin-right: 10px;
+  
   }
 }
 //是input的父元素
@@ -105,15 +118,17 @@
 }
 //覆盖ant表单输入项错误下方提示样式 跟label对齐
 .ant-form-explain {
-  margin-left: 15px;
+  margin-left: 38px;
+  margin-top: 4px !important;
+  font-size: 12px !important;
 }
 
 .yc-search-form{
-  margin:21px 0px 0px 20px !important;
+  margin:21px 0 0 20px !important;
 }
 
 .ant-pagination{
-  padding-top:14px !important;
+  padding:14px 0 !important;
 }
 
 .ant-modal-title{
@@ -124,28 +139,48 @@
 .ant-modal-header{
   padding:20px !important;
 }
+.ant-modal-confirm{
+  .ant-modal-content{
+    .ant-modal-body{
+        padding: 30px !important;
+    }
+  }
+}
 
+.ant-modal-body{
+  .ant-modal-confirm-body-wrapper{
+    padding: 0px !important;
+    i{
+      margin-right: 12px;
+      position: relative;
+      top: -3px;
+    }
+  }
+}
 //覆盖去除表格排序特殊样式
 .ant-table-tbody > tr > td.ant-table-column-sort{
-  background: #fff !important;
+  background: #fff ;
 }
 .ant-table-thead > tr > th.ant-table-column-sort{
   background: #EDEFF3 !important;
 }
 .ant-modal-footer{
   border:none !important;
-  padding-top:0px !important;
-  padding-bottom: 30px !important; 
+  padding-top:0 !important;
+  padding-bottom: 30px !important;
 }
 
 .ant-modal-confirm-title{
   font-weight: bold !important;
-  line-height: 24px !important;
+  line-height: 16px !important;
   font-size: 16px !important;
 }
 .ant-modal-confirm-content{
-  font-size:14px !important;
+  font-size:16px !important;
   font-weight: normal;
+  margin-left: 34px !important;
+  line-height: 16px !important;
+  margin-top: 16px !important;
 }
 
 
@@ -153,9 +188,74 @@
   padding:15px !important;
 }
 .ant-modal-confirm-btns{
-  margin-top: 32px !important;
+  margin-top: 40px !important;
+  button[type=button]{
+    width: 100px;
+    height: 32px;
+    &:last-child{
+      margin-left: 20px;
+    }
+}
 }
 .ant-table-thead > tr > th{
   border-bottom: none !important;
   font-weight:normal !important;
+}
+.ant-table-placeholder{
+  border-bottom: none !important;
+  .no-data-box{
+      width: 100%;
+      text-align: center;
+      padding-top: 86px;
+      img{
+        width: 111px;
+        height: 89px;
+        margin-bottom: 20px;
+      }
+      p{
+        font-size:14px;
+        // font-family:PingFangSC-Regular,PingFang SC;
+        color:rgba(128,131,135,1);
+        line-height:14px;
+      }
+  }
+}
+.ant-pagination-total-text{
+  color: rgba(128,131,135,1);
+}
+[for=requestEndTime],[for=structuredEndTime]{
+  display: block;
+  &::after{
+    content: '' !important;// 至 后面没有 ：
+  }
+}
+.btn-bgcolor-change{
+  &:hover{
+    background: #016AA9 !important;
+    border: none !important;
+    span{
+      color: #fff;
+    }
+  }//按钮鼠标经过，文字颜色#fff，没有边框，背景#016AA9
+}
+.badge-left{
+  position: relative;
+  right: 14px;
+}
+.ant-popover-inner-content{
+  background: rgba(0, 0, 0, .75);
+  color: #fff !important;
+}
+.ant-popover-arrow{
+  left: 29% !important;
+}
+.ant-popover-arrow{
+  z-index: -1;
+  border: none !important;
+  background: rgba(0, 0, 0, .75) !important;
+}
+input {
+  &::placeholder {
+    color: #B2B8C9 !important;
+  }
 }

@@ -1,7 +1,11 @@
 import React from 'react'
-import { Form, Icon, Input, Button, Tooltip, message, Modal } from 'antd';
+import { Form, Input, Button, Tooltip, message, Modal } from 'antd';
 import { codeImage, validateImgCode, validSmsCode, resetPassword, getSmsCode } from '@api';
 import { twoNewPasswordValidator, validPhoneNumber } from "@/utils/validators";
+import iconUserName from '../../assets/img/icon_username.png';
+import iconCode from '../../assets/img/icon_verificationcode.png';
+import iconTel from '../../assets/img/tel.png';
+
 import './style.scss'
 const forgetPasswordForm = Form.create;
 const { info } = Modal;
@@ -172,7 +176,6 @@ class ForgetPasswordForm extends React.Component {
     render() {
         const { codeImgSrc, step } = this.state;
         const { getFieldDecorator } = this.props.form;
-        console.log(this.state);
         return (
             <div className="yc-right-login-noCode" style={{ height: 360 }}>
                 <div className="yc-form-title">{this.formTitle}</div>
@@ -194,7 +197,9 @@ class ForgetPasswordForm extends React.Component {
                                     <Input
                                         maxLength={11}
                                         className="yc-input"
-                                        prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
+                                        autoComplete='off'
+                                        // prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
+                                        prefix={<img src={iconUserName} style={{marginRight:10}} alt=''/>}
                                         placeholder="请输入11位账号"
                                     />,
                                 )}
@@ -202,7 +207,7 @@ class ForgetPasswordForm extends React.Component {
                             <Form.Item>
                                 {getFieldDecorator('code', {
                                     rules: [
-                                        { required: true, whitespace: true, message: '请输入验证码' }
+                                        { required: true, whitespace: true, message: '请输入图片验证码' }
                                     ],
                                     getValueFromEvent(event) {
                                         return event.target.value.replace(/\s/g, "")
@@ -210,13 +215,15 @@ class ForgetPasswordForm extends React.Component {
                                     validateTrigger: ['onSubmit', 'onBlur'],
                                 })(
                                     <Input
-                                        style={{ width: 175 }}
+                                        style={{position:"relative" }}
                                         className="yc-input"
-                                        prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+                                        autoComplete='off'
+                                        // prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+                                        prefix={<img src={iconCode} style={{marginRight:10}} alt=''/>}
                                         placeholder="请输入图片验证码"
                                     />,
                                 )}
-                                <span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} style={{ width: 140, height: 38, marginLeft: 5 }} alt="" /></span>
+                                <span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} style={{ width: 140, height:40, marginLeft: 5,position:'absolute',right:0,top:-10 }} alt="" /></span>
                             </Form.Item>
                         </div>
                     }
@@ -238,13 +245,14 @@ class ForgetPasswordForm extends React.Component {
                                             <span>
                                                 {
                                                     this.state.isSendPhoneCode ?
-                                                        <Button type="primary" disabled className="login-getCode_Button">{`${this.state.countDown}s后可再次获取`}</Button> :
+                                                        <Button type="primary" disabled className="login-getCode_Button without-extra-node ">{`${this.state.countDown}s后可再次获取`}</Button> :
                                                         <Button type="primary" onClick={this.toRefreshPhoneCode.bind(this)} className="login-getCode_Button" disabled={this.getPhoneCodeButtonDisabled}>获取验证码</Button>
                                                 }
                                             </span>
                                         }
-                                        className="yc-input"
-                                        prefix={<Icon type="mobile" />}
+                                        autoComplete='off'
+                                        className="yc-input yc-input-noborder"
+                                        prefix={<img src={iconTel} style={{marginRight:10}} alt=''/>}
                                     />,
                                 )}
                             </Form.Item>
@@ -259,8 +267,9 @@ class ForgetPasswordForm extends React.Component {
                                     validateTrigger: ['onSubmit', 'onBlur'],
                                 })(
                                     <Input
+                                      autoComplete='off'
                                         className="yc-input"
-                                        prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+                                        prefix={<img src={iconCode} style={{marginRight:10}} alt=''/>}
                                         placeholder="请输入手机验证码"
                                     />,
                                 )}
@@ -317,7 +326,7 @@ class ForgetPasswordForm extends React.Component {
                         </div>
                     }
                     <Form.Item style={{ marginTop: -25 }}>
-                        <a className="yc-forget" onClick={this.openDisabledPhoneModal} style={{ marginLeft: 240, visibility: this.phoneDisableTextVisible ? 'visible' : 'hidden' }}>手机号不可用?</a>
+                        <a className="yc-forget" onClick={this.openDisabledPhoneModal} style={{ marginLeft: 240, marginBottom:8,visibility: this.phoneDisableTextVisible ? 'visible' : 'hidden' }}>手机号不可用?</a>
                         <Button disabled={!this.state.usernameValid && step === 1} type="primary" htmlType="submit" className="yc-login-button" style={{ marginTop: -20 }} onMouseDown={this.handleSubmit.bind(this)}>{this.state.step !== 2 ? '下一步' : '确定'}</Button>
                         {
                             step === 1 ?

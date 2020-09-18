@@ -13,13 +13,16 @@ import './index.scss'
 import { message,Modal } from 'antd';
 import icon from '@/assets/img/backPrevious.png'
 import iconGrey from '@/assets/img/backPrevious-grey.png'
+
+import SpinLoading from "@/components/Spin-loading";
+
 const { error } = Modal;
 
 function getObligor() {
     return {
         "birthday": '',
         "gender": "0",
-        "labelType": "1",
+        "label_type": "1",
         "name": "",
         "notes": "",
         "number": "",
@@ -30,6 +33,7 @@ class StructureDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading:true,
             ah: [],
             associatedAnnotationId: "",
             auctionStatus: null,
@@ -52,7 +56,8 @@ class StructureDetail extends React.Component {
             MARK: 0,  //当前标记数
             wrongData: [],
             isSendRequest: false, //是否已经发送了请求
-            isUpdateRecord: false //判断是否修改了记录 没修改不让保存
+            isUpdateRecord: false //判断是否修改了记录 没修改不让保存,
+
         }
     }
     handleChange(key, value) {
@@ -76,15 +81,13 @@ class StructureDetail extends React.Component {
         })
     }
     handleRoleChange(combine, value) {
-        const arr_index = combine.substr(combine.length - 1, 1);
-        const key = combine.substr(0, combine.length - 1);
+        const arr_index = combine.replace(/[^0-9]/g,"");//combine形式为 name1   
+        const key = combine.replace(/[^a-zA-Z_]/g,""); 
         const arr = [...this.state.obligors];
         arr[arr_index][key] = value;
         this.setState({
             obligors: arr,
             isUpdateRecord: true
-        }, () => {
-            //console.log(this.state)
         })
     }
     handleSubmit() {
@@ -100,7 +103,6 @@ class StructureDetail extends React.Component {
         });
     }
     handleDeleteClick(key, index = -1) {
-        console.log(key, index);
         //角色对应顺序删除  文书从下往上删
         const arr = (index >= 0) ? this.state[key].slice(0) : this.state[key].slice(0, -1);
         if (index >= 0) {
@@ -116,7 +118,7 @@ class StructureDetail extends React.Component {
     componentDidMount() {
         this.getRecordData(this.props)
     }
-    async componentWillReceiveProps(newProps) {
+    async UNSAFE_componentWillReceiveProps(newProps) {
         if (this.props.history.location.query && this.props.history.location.query.id) {
             sessionStorage.setItem('id', this.props.history.location.query.id)
         }
@@ -129,25 +131,16 @@ class StructureDetail extends React.Component {
         /* 资产标注详情页存在名称里不含“银行”、“信用社”、“信用联社”且备注为空的债权人时，点击保存，
         保存无效并弹出“债权人备注待完善”非模态框提示； */
         const { id, status } = this.props.match.params;
-        if (!this.state.isUpdateRecord && status !== '0') {
-            message.warning('当前页面未作修改，请修改后再保存');
-            return false;
-        }
+        const { isUpdateRecord } = this.state;
+        // console.log(status,this.state.isUpdateRecord);
+        if (!isUpdateRecord && status !== '0') return message.warning('当前页面未作修改，请修改后再保存');
         for (let i = 0; i < this.state.obligors.length; i++) {
-            let name = this.state.obligors[i].name;
-            if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '2'
-              && name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
-                message.warning('债权人备注待完善');
-                return false;
-            }
-            if (this.state.obligors[i].notes === '' && this.state.obligors[i].labelType === '3') {
-                message.warning('资产线索备注待完善');
-                return false;
-            }
-            if (this.state.obligors[i].birthday && !/^\d{8}$/.test(this.state.obligors[i].birthday)) {
-                message.warning('生日格式不正确');
-                return false;
-            }
+            let item = this.state.obligors[i];
+            if ( item.notes === '' ) {
+							if( item.label_type === '3' ) return message.warning('资产线索备注待完善');
+							if( item.label_type === '2' && !/银行|信用联?社|合作联?社/.test(item.name)) return message.warning('债权人备注待完善');
+						}
+            if ( item.birthday && !/^\d{8}$/.test(item.birthday))  return message.warning('生日格式不正确');
         }
         /* 资产标注详情页存在备注为空的资产线索时，点击保存，保存无效并弹出“资产线索备注待完善”非模态框提示 */
         //去空行
@@ -174,99 +167,156 @@ class StructureDetail extends React.Component {
             wsInAttach: state.wsInAttach,
             wsUrl: state.wsUrl
         };
-        this.setState({
-            isSendRequest: true
-        });
         saveDetail(id, status, params).then((res) => {
-            this.setState({
-                isSendRequest: false
-            });
-            if (res.data.code === 200 && res.data.data.sign !== '1') {
-                //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
-                if ((status === '0' || status === '2') && res.data.data.id !== 0) {
-                    sessionStorage.setItem('id', id);
-                    this.setState({isUpdateRecord:false});
-                    message.success('保存成功!');
 
-                    this.props.history.push({
-                        pathname: `/index/structureDetail/${status}/${res.data.data.id}`
-                    })
-                }
-                //在已标记页面下保存 有两种可能
-                else if (status === '1') {
-                    //如果是从已标记未检查跳来直接回table 否则继续下一条标记数据
-                    let nextMarkid = sessionStorage.getItem('id');
-                    if (nextMarkid) {
-                        sessionStorage.setItem('id', id);
+            const toIndex = () => this.props.history.push('/index');
+            const toNext = (_status,id)=> {
+
+                this.setState({ isUpdateRecord: false },() => {
+                    this.props.history.push({ pathname: `/index/structureDetail/${_status}/${id}` });
+                })
+            };
+
+            if(res.data.code === 200){
+                const { data:{sign,id:nextId} } = res.data;
+                const mesStatus = (type, id,oldId) => {
+                    if (type === '2') {
+                        if (id > 0) {
+                            sessionStorage.setItem('id', oldId);
+                            message.success('保存成功!');
+                            toNext(status,res.data.data.id);
+                        }else{
+                            message.success('已修改完全部数据，2s后回到待标记列表',2,toIndex);
+                        }
+                    } else if (type === '0') {
+                        if (id > 0) {
+                            sessionStorage.setItem('id', oldId);
+                            message.success('保存成功!');
+                            toNext(status,res.data.data.id);
+                        } else if (id === -1) {
+                            message.error('有待修改数据，暂时无法获取新数据', 2,toIndex);
+                        } else {
+                            message.success('已标注完全部数据，2s后回到待标记列表', 2,toIndex);
+                        }
+                    } else if (type === '1') {
+                        sessionStorage.setItem('id', oldId);
                         sessionStorage.removeItem('backTime');
-                        message.success('保存成功!');
-                        this.props.history.push({
-                            pathname: `/index/structureDetail/0/${nextMarkid}`
-                        })
-                    } else {
-                        message.success('保存成功!');
-                        this.props.history.push('/index')
+                        if (id) {
+                            message.success('保存成功!');
+                            toNext(status,res.data.data.id);
+                        } else {
+														message.success('保存成功!');
+
+													// message.success('该数据已被检查错误，请到待修改列表查看');
+                            toIndex();
+                        }
                     }
+                };
+                if (sign === '1'){
+                    if (nextId) {
+                        error({
+                            content: '保存失败,数据已被自动标注,为您跳转至下一条',
+                            onOk: () => toNext(status,nextId),
+                            okText: '我知道了'
+                        });
+                    } else {
+                        mesStatus(status,nextId,id);
+                    }
+                } else{
+                    mesStatus(status,nextId,id);
                 }
-                else {
-                    message.success('已修改完全部数据，2s后回到待标记列表',2);
-                    setTimeout(()=>{
-                        this.props.history.push('/index')
-                    },1800)
-                }
-            }
-            else if (res.data.data.sign === '1') {
-                error({
-                    content: '保存失败,数据已被自动标注,为您跳转至下一条',
-                    onOk: () => {
-                        this.props.history.push({
-                            pathname: `/index/structureDetail/${status}/${res.data.data.id}`
-                        })
-                    },
-                    okText: '我知道了'
-                });
-            }
-            else {
+            } else {
                 message.error('保存失败!')
             }
+            // if (res.data.code === 200 && res.data.data.sign !== '1') {
+            //     //如果是待标记或待修改并且有新id 跳转新路径 否则跳回table
+            //     if ((status === '0' || status === '2') ) {
+            //
+            //         if(res.data.data.id > 0 ){
+            //             sessionStorage.setItem('id', id);
+            //             this.setState({isUpdateRecord:false});
+            //             message.success('保存成功!');
+            //
+            //             this.props.history.push({
+            //                 pathname: `/index/structureDetail/${status}/${res.data.data.id}`
+            //             })
+            //         }else if(res.data.data.id  === -1){
+            //
+            //         }
+            //
+            //     }
+            //     //在已标记页面下保存 有两种可能
+            //     else if (status === '1') {
+            //         //如果是从已标记未检查跳来直接回table 否则继续下一条标记数据
+            //         let nextMarkid = sessionStorage.getItem('id');
+            //         if (nextMarkid) {
+            //             sessionStorage.setItem('id', id);
+            //             sessionStorage.removeItem('backTime');
+            //             message.success('保存成功!');
+            //             this.props.history.push({
+            //                 pathname: `/index/structureDetail/0/${nextMarkid}`
+            //             })
+            //         } else {
+            //             message.success('保存成功!');
+            //             this.props.history.push('/index')
+            //         }
+            //     }
+            //     else {
+            //         message.success('已修改完全部数据，2s后回到待标记列表',2);
+            //         setTimeout(()=>{ this.props.history.push('/index') },1800)
+            //     }
+            // } else if (res.data.data.sign === '1') {
+            //     error({
+            //         content: '保存失败,数据已被自动标注,为您跳转至下一条',
+            //         onOk: () => {this.props.history.push({ pathname: `/index/structureDetail/${status}/${res.data.data.id}` })},
+            //         okText: '我知道了'
+            //     });
+            // }
+            // else {
+            //     message.error('保存失败!')`
+            // }`
         })
     }
     async getRecordData(props) {
         const params = props.match.params;
+        this.setState({loading:true});
         if (params.id && params.status) {
-            structuredById(params.id, params.status,0).then(res => {
-                for (let i = 0; i < res.data.obligors; i++) {
-                    if (res.data.obligors[i].labelType === '4') {
-                        //债务人和起诉人对应转换
-                        res.data.obligors[i].labelType = '2'
-                    }
-                }
-                const data = res.data;
-                this.setState({
-                    associatedStatus: data.associatedStatus,
-                    id: data.id,
-                    associatedAnnotationId: data.associatedAnnotationId,
-                    auctionStatus: data.auctionStatus,
-                    buildingArea: data.buildingArea,
-                    collateral: data.collateral,
-                    firstExtractTime: data.firstExtractTime,
-                    houseType: data.houseType,
-                    reasonForWithdrawal: data.reasonForWithdrawal,
-                    sign: data.sign,
-                    type: data.type,
-                    title: data.title,
-                    url: data.url,
-                    wrongData: data.wrongData,
-                    wsFindStatus: data.wsFindStatus,
-                    wsInAttach: data.wsInAttach,
-                    ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
-                    wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
-                    obligors: data && data.obligors && data.obligors.length === 0 && params.status === '0' ? [getObligor()] : data.obligors
-                }, () => {
-                    console.log(this.state)
-                })
-
-            });
+            structuredById(params.id, params.status,0).then(result => {
+                const res=result.data;
+            	if(res.code === 200){
+								for (let i = 0; i < res.data.obligors; i++) {
+									if (res.data.obligors[i].label_type === '4') {
+										//债务人和起诉人对应转换
+										res.data.obligors[i].label_type = '2'
+									}
+								}
+								const data = res.data;
+								this.setState({
+									associatedStatus: data.associatedStatus,
+									id: data.id,
+									associatedAnnotationId: data.associatedAnnotationId,
+									auctionStatus: data.auctionStatus,
+									buildingArea: data.buildingArea,
+									collateral: data.collateral,
+									firstExtractTime: data.firstExtractTime,
+									houseType: data.houseType,
+									reasonForWithdrawal: data.reasonForWithdrawal,
+									sign: data.sign,
+									type: data.type,
+									onlyThis: data.onlyThis,
+									title: data.title,
+									url: data.url,
+									wrongData: data.wrongData,
+									wsFindStatus: data.wsFindStatus,
+									wsInAttach: data.wsInAttach,
+									ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+									wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
+									obligors: data && data.obligors && data.obligors.length === 0 && params.status === '0' ? [getObligor()] : data.obligors
+								})
+							}else{
+            		message.error('请求参数错误',1)
+							}
+            }).finally(()=>this.setState({ loading:false }));
             getNumberOfTags().then(res => {
                 this.setState({
                     ...res.data.data
@@ -296,71 +346,73 @@ class StructureDetail extends React.Component {
             message.error('无法跳转')
         }
     }
+
     render() {
         const state = this.state;
         const { status, id  } = this.props.match.params;
         const preId = sessionStorage.getItem('id');
         const tag = `${state.MARK}/${state.TOTAL}`;
-        console.log(tag);
+        const { loading } = this.state;
         // 判断最后一条的时候
         const moduleOrder = [
             <StructureBasicDetail
-                associatedAnnotationId={state.associatedAnnotationId}
-                associatedStatus={state.associatedStatus}
-                auctionID={state.id}
-                type={state.type}
-                title={state.title} auctionStatus={state.auctionStatus}
-                reasonForWithdrawal={state.reasonForWithdrawal} url={state.url} wsUrl={state.wsUrl}>
+              associatedAnnotationId={state.associatedAnnotationId}
+              associatedStatus={state.associatedStatus}
+              auctionID={state.id}
+              type={state.type}
+              title={state.title} auctionStatus={state.auctionStatus}
+              reasonForWithdrawal={state.reasonForWithdrawal} url={state.url} wsUrl={state.wsUrl}>
             </StructureBasicDetail>
         ];
         if (parseInt(status) === 2) {
             moduleOrder.unshift(<WrongDetail wrongData={state.wrongData.slice(-1)} role={'structure'}/>)
         }
         return (
-            <div className="yc-content-container assetStructureDetail-structure">
-                <BreadCrumb
-                  disabled={!preId}
-                  texts={['资产结构化/详情']} note={tag}
-                  handleClick={this.goPreviousRecord.bind(this)}
-                  icon={preId ? icon : iconGrey}/>
-                <div className="assetStructureDetail-structure_container">
-                    <div className="assetStructureDetail-structure_container_header">
-                        {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
-                        { moduleOrder[0] }
-                        {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
-                        <StructureButtonGroup
-                            type={state.type} role={'structure'} id={id}
-                            handleSubmit={this.handleSubmit.bind(this)}
-                            handleChange={this.handleChange.bind(this)}
-                            isSendRequest={state.isSendRequest}
-                            status={status}>
-                        </StructureButtonGroup>
-                    </div>
-                    <div className="assetStructureDetail-structure_container_body">
-                        {
-                            moduleOrder.length > 1 ?
-                                moduleOrder[1] : null
-                        }
-                        <StructurePropertyDetail
-                          collateral={state.collateral} buildingArea={state.buildingArea}
-                          houseType={state.houseType} handleChange={this.handleChange.bind(this)}
-                        />
-                        <StructureDocumentDetail
-                          wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl} ah={state.ah} wsInAttach={state.wsInAttach}
-                          handleDocumentChange={this.handleDocumentChange.bind(this)}
-                          handleChange={this.handleChange.bind(this)}
-                          handleAddClick={this.handleAddClick.bind(this)}
-                          handleDeleteClick={this.handleDeleteClick.bind(this)}
-                        />
-                        <RoleDetail
-                          obligors={state.obligors}
-                          handleChange={this.handleRoleChange.bind(this)}
-                          handleAddClick={this.handleAddClick.bind(this)}
-                          handleDeleteClick={this.handleDeleteClick.bind(this)}
-                          />
+            <SpinLoading loading={loading}>
+                <div className="yc-content-container assetStructureDetail-structure">
+                    <BreadCrumb
+                      disabled={!preId}
+                      texts={['资产结构化/详情']} note={tag}
+                      handleClick={this.goPreviousRecord.bind(this)}
+                      icon={preId ? icon : iconGrey}/>
+                    <div className="assetStructureDetail-structure_container">
+                        <div className="assetStructureDetail-structure_container_header">
+                            {/* 传入不同prop 显示不同的基本信息样式 当点击链接需要一个回调函数内写路由跳转逻辑 */}
+                            { moduleOrder[0] }
+                            {/* 传入不同status 显示不同的button样式 返回对应参数值 根据参数值在handleClick里 去请求不同接口 */}
+                            <StructureButtonGroup
+                              type={state.type} role={'structure'} id={id}
+                              handleSubmit={this.handleSubmit.bind(this)}
+                              handleChange={this.handleChange.bind(this)}
+                              isSendRequest={state.isSendRequest}
+                              onlyThis={state.onlyThis||false}
+                              status={status}>
+                            </StructureButtonGroup>
+                        </div>
+                        <div className="assetStructureDetail-structure_container_body">
+                            { moduleOrder.length > 1 ? moduleOrder[1] : null }
+                            <StructurePropertyDetail
+                              collateral={state.collateral} buildingArea={state.buildingArea}
+                              houseType={state.houseType} handleChange={this.handleChange.bind(this)}
+                            />
+                            <StructureDocumentDetail
+                              wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl} ah={state.ah} wsInAttach={state.wsInAttach}
+                              handleDocumentChange={this.handleDocumentChange.bind(this)}
+                              handleChange={this.handleChange.bind(this)}
+                              handleAddClick={this.handleAddClick.bind(this)}
+                              handleDeleteClick={this.handleDeleteClick.bind(this)}
+                            />
+                            <RoleDetail
+                              obligors={state.obligors}
+                              id={state.id}
+                              handleChange={this.handleRoleChange.bind(this)}
+                              handleAddClick={this.handleAddClick.bind(this)}
+                              handleDeleteClick={this.handleDeleteClick.bind(this)}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </SpinLoading>
         )
     }
 }

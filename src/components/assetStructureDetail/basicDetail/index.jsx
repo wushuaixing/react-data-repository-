@@ -7,11 +7,10 @@ import { Link, withRouter } from "react-router-dom";
 const StructureBasicDetail = (props) => {
     const { associatedAnnotationId, associatedStatus } = props;
     let associatedAnnotationRoute,autoMarkRoute = '';
-    console.log(associatedAnnotationId);
     if (associatedAnnotationId) {
         switch (localStorage.getItem('userState')) {
             case '管理员':
-                associatedAnnotationRoute = `/autoMark/admin/${associatedAnnotationId}`;
+                associatedAnnotationRoute = `/notFirstMark/admin/${associatedAnnotationId}`;
                 autoMarkRoute = `/autoMark/admin/${props.associatedAnnotationId}`;
                 break;
             case '检查人员':
@@ -34,12 +33,11 @@ const StructureBasicDetail = (props) => {
                 <BasicDetailRow title={'标题'} content={props.title} to={`/auctionDetail/${props.auctionID}`}/>
                 <BasicDetailRow title={'拍卖状态'} content={AUCTION_STATUS[props.auctionStatus]}/>
                 {
-                    (props.auctionStatus === 9 || props.auctionStatus === 11) ?
-                        <BasicDetailRow title={'撤回原因'} content={props.reasonForWithdrawal?props.reasonForWithdrawal:'-'}/> :
-                        null
+                    (props.auctionStatus === 9 || props.auctionStatus === 11)
+                      ?  <BasicDetailRow title={'撤回原因'} content={props.reasonForWithdrawal||'-'}/> :null
                 }
                 {
-                    (props.type === 2 && !hasAuto) ?
+                    (props.type === 2 && !hasAuto) && associatedAnnotationId ?
                         <BasicDetailRow title={'关联标注'} content={'链接'} to={associatedAnnotationRoute}/> :
                         null
                 }

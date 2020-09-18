@@ -7,7 +7,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding:0 20px;
+  padding-left:20px;
   .title{
     font-size: 16px;
     img{
@@ -19,6 +19,11 @@
     }
   }
   .user-message{
+    line-height: 50px;
+    padding: 0 20px;
+    &:hover{
+      background: #017AC2;
+    }
     .dropdown-link{
       color: #ffffff;
     }
@@ -31,8 +36,25 @@
     }
   }
 }
+.yc-change-pwd{
+  .ant-form-explain{
+    margin-left: 104px;
+  }
+  .ant-modal-body {
+    padding: 30px 40px 40px 40px !important;
+  }
+  .forgetPassword-form{
+    .ant-col-sm-6{
+      width: 85px;
+    }
+}
+}
 .yc-components-topMenu{
-  margin-top:8px;
+  margin-top:10px !important;
+  padding: 0 !important;
+  li{
+    padding: 0;
+  }
   &_item{
     width:100px;
     height:38px;
@@ -40,10 +62,25 @@
     vertical-align: middle;
     display: table-cell;
     font-size:14px;
+    &:hover{
+      background: EAF7FF;
+      color: #016AA9;
+    }
+  }
+}
+.yc-signout-btn{
+  .ant-modal-confirm-content{
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .ant-modal-confirm-btns{
+    button[type=button]{
+      width: 100px;
+      height: 32px;
+      &:last-child{
+        margin-left: 20px;
+      }
+  }
   }
 }
 
-
-.forgetPassword-form{
-  padding-top:15px !important;
-}

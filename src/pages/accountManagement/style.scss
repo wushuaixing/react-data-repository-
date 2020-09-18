@@ -1,6 +1,19 @@
 .yc-detail-content{
     .addUser-button{
         text-align:right;
+        button{
+            border: #016AA9 1px solid;
+            span{
+                color: #016AA9;
+            }
+            &:hover{
+                border: none;
+                background: #016AA9;
+                span{
+                    color: #fff;
+                }
+            }
+        }
     }
     .role-table{
         margin-top: 16px; 
@@ -10,8 +23,84 @@
             color:#01598F;
         }
     }
+    .ant-table-pagination{
+        a:hover{
+            text-decoration: none;
+        }
+    }
     .role-tab{
         margin: 8px 20px 0 20px;
         font-size: 12px;
     }
+}
+.sorter-tab{
+    .ant-table-thead{
+        .ant-table-column-has-sorters{
+            background: #EDEFF3 !important;
+            &:hover{
+                ::before{
+                    background: #EDEFF3 !important;
+                }
+            }
+        }
+    }
+    .ant-table-column-has-sorters{
+            background: #fff !important;
+    }
+    .ant-table-row{
+        &:hover{
+            .ant-table-column-has-sorters{
+                background: #EAF7FF !important;
+            }
+        }
+    }
+}
+.icon_circle{
+    width: 22px !important;
+    height: 22px;
+    color: #fff;
+    background:rgba(250,146,20,1);
+    border-radius: 50%;
+    position: relative;
+    text-align: center;
+    box-sizing: border-box;
+    padding-left: 7px;
+    font-size: 18px;
+    line-height: 22px;
+}
+.action{
+    &_left{
+        // padding-right: 10px;
+        position: relative;
+    }
+    &_left::after{
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 4px;
+            width:1px;
+            height: 14px;
+            background: #E2E4E9;
+        }
+    &_center{
+        padding: 0 20px;
+        position: relative;
+    }
+    &_center::after{
+        content: '';
+        position: absolute;
+        right: 10px;
+        top: 4px;
+        width:1px;
+        height: 14px;
+        background: #E2E4E9;
+    }
+}
+.ico_confirmdel{
+    width: 22px;
+    height: 22px;
+    position: relative;
+    float: left;
+    margin-right: 12px;
+    top: -3px;
 }

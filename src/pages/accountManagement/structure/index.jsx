@@ -6,6 +6,7 @@ import { userCreate, userView, userEdit, userReset, userRemove, userDelete } fro
 import AccountModal from '@/components/accountManagement/structureAccountModal';
 import SearchAccount from "@/components/accountManagement/search";
 import createPaginationProps from '@/utils/pagination';
+import DelIMG from '../../../assets/img/confirm_delete.png';
 import { formUtils } from '@/utils/common';
 import '../style.scss';
 // ==================
@@ -56,12 +57,11 @@ class AccountManage extends React.Component {
 				{
 					title: "操作",
 					dataIndex: "action",
-					align: "center",
-					width: 180,
+					width: 200,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)}>编辑</a>
-							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)}>重置密码</a>
+							<a className='action_left' onClick={() => this.editAccount(record)}>编辑</a>
+							<a className='action_center'  onClick={() => this.resetPassword(record.id)}>重置密码</a>
 							<a onClick={() => this.deleteUser(record.id)}>删除</a>
 						</span>
 					),
@@ -101,7 +101,7 @@ class AccountManage extends React.Component {
 					width: 180,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.remove(record.id)}>移除</a>
+							<a  onClick={() => this.remove(record.id)}>移除</a>
 						</span>
 					),
 				}
@@ -109,11 +109,12 @@ class AccountManage extends React.Component {
 		};
 	}
 	get searchParams() {
-		const { isEnabledUser, page, role, username,totalWrongNumAsc } = this.state;
+		const { isEnabledUser, page, role, username,totalWrongNumAsc, functions } = this.state;
 		return formUtils.removeObjectNullVal({
 			isEnabledUser,
 			page,
 			role,
+			functions,
 			username:username.trim(),
 			totalWrongNumAsc:parseInt(this.state.tabIndex) === 2?totalWrongNumAsc:''
 		})
@@ -142,6 +143,7 @@ class AccountManage extends React.Component {
 		confirm({
 			title: '确认重置密码?',
 			content:'重置密码后,该账号密码为账号后6位',
+			icon: <img src={DelIMG} alt='' className="ico_confirmdel"/>,
 			onOk: () => {
 				this.setState({
 					loading: true,
@@ -165,6 +167,7 @@ class AccountManage extends React.Component {
 		confirm({
 			title: '确认删除账号?',
 			content:'删除后,该账户将无法在数据资产平台登录',
+			icon: <img src={DelIMG} alt='' className="ico_confirmdel"/>,
 			onOk: () => {
 				this.setState({
 					loading: true,
@@ -201,9 +204,7 @@ class AccountManage extends React.Component {
 		});
 	};
 	getTableList = () => {
-		this.setState({
-			loading: true,
-		});
+		this.setState({ loading: true });
 		userView(this.searchParams).then(res => {
 			if (res.data.code === 200) {
 				this.setState({
@@ -227,31 +228,24 @@ class AccountManage extends React.Component {
 		if (action === 'add') {
 			//确定前还需验证
 			userCreate(data).then(res => {
-				this.setState({
-					loading: false,
-				});
 				if (res.data.code === 200) {
 					message.success("账号添加成功");
-					this.setState({
-						page:1
-					})
+					this.setState({ page:1 });
+					this.getTableList();
 				} else {
 					message.error(res.data.message);
 				}
-			});
+			}).finally(()=>this.setState({ loading: false }));
 		} else {
 			userEdit(id, data).then(res => {
 				if (res.data.code === 200) {
-					this.setState({
-						loading: false,
-					});
 					message.info("修改成功");
+					this.getTableList();
 				} else {
 					message.error(res.data.message);
 				}
-			});
+			}).finally(()=>this.setState({ loading: false }));
 		}
-		setTimeout(this.getTableList, 100);
 	};
 
 	//弹窗取消
@@ -263,7 +257,8 @@ class AccountManage extends React.Component {
 	//搜索
 	handleSearch = (formData) => {
 		this.setState({
-			...formData
+			...formData,
+			page:1
 		}, () => {
 			this.getTableList();
 		});
@@ -295,6 +290,7 @@ class AccountManage extends React.Component {
 		this.setState({
 			username:'',
 			role:'',
+			functions:'',
 			page:1
 		},()=>{
 			this.getTableList();
@@ -303,19 +299,20 @@ class AccountManage extends React.Component {
 	render() {
 		const { role,username,tableList, total, page, visible, action, columns, columnsDelete, userInfo, loading,tabIndex } = this.state;
 		const paginationProps = createPaginationProps(page, total, true);
-		const roleButtons = this.state.tabIndex === "1" ?<Button onClick={this.showModal.bind(this,'add')}>+ 添加账号</Button>:null;
+		const roleButtons = this.state.tabIndex === "1" ? <div className="addUser-button"><Button onClick={this.showModal.bind(this,'add')}>+ 添加账号</Button></div> :null;
 		return (
 			<div className="yc-content-container">
 				<BreadCrumb texts={['账号管理', '结构化账号']}/>
 				<div className="yc-detail-content">
 					<Spin tip="Loading..." spinning={loading}>
-						<Tabs defaultActiveKey={tabIndex} onChange={this.changeTab} animated={false} className="role-tab" tabBarExtraContent={roleButtons}>
+						<Tabs defaultActiveKey={tabIndex} onChange={this.changeTab} animated={false} className="role-tab sorter-tab" tabBarExtraContent={roleButtons}>
 							<TabPane tab="正常账号" key={"1"}>
 								<SearchAccount
 									role={role} username={username}
 									tabIndex={this.state.tabIndex}
 									handleClear={this.handleClear.bind(this)}
 									handleSearch={this.handleSearch.bind(this)}
+									flag='normal'
 								/>
 								<Table rowClassName="table-list" columns={columns} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
@@ -329,6 +326,7 @@ class AccountManage extends React.Component {
 									tabIndex={this.state.tabIndex}
 									handleClear={this.handleClear.bind(this)}
 									handleSearch={this.handleSearch.bind(this)}
+									flag='deleted'
 								/>
 								<Table
 									rowClassName="table-list" columns={columnsDelete} dataSource={tableList} className="role-table"

@@ -2,6 +2,8 @@ import React from 'react'
 import { Icon, Input, Select, Button, Table,Popover } from 'antd'
 import { SEX_TYPE, ROLE_TYPE } from '@/static/status'
 import { dateUtils,filters } from '@utils/common'
+import NoDataIMG from '../../../assets/img/no_data.png'
+import AutoCompleteInput from './autoCompleteInput'
 import '../index.scss'
 const { Option } = Select;
 class RoleDetail extends React.Component {
@@ -15,6 +17,7 @@ class RoleDetail extends React.Component {
     }
     handleDel(index) {
         this.props.handleDeleteClick('obligors', index)
+        this.child.getDeletedData(index);
     }
     handleBlur(e) {
         //日期格式转换 补全
@@ -26,8 +29,12 @@ class RoleDetail extends React.Component {
     get roleInputNumber() {
         return this.props.obligors instanceof Array ? this.props.obligors.length : 0
     }
+    onRef = (ref) => {
+        this.child = ref
+    }
     render() {
         const dataSource = this.props.obligors;
+        console.log(this.props.obligors);
         const columns = [
             {
                 title: '名称',
@@ -39,8 +46,8 @@ class RoleDetail extends React.Component {
             },
             {
                 title: '角色',
-                dataIndex: 'labelType',
-                key: 'labelType',
+                dataIndex: 'label_type',
+                key: 'label_type',
                 render(text) {
                     return (
                         <span>{ROLE_TYPE[text]}</span>
@@ -95,7 +102,7 @@ class RoleDetail extends React.Component {
                     <span>角色信息</span>
                     <span className="role_mark">
                         <Popover content={text}>
-                            <Icon type="exclamation-circle" style={{color: '#808387'}}/>
+                            <Icon type="exclamation-circle" style={{color: '#808387',position:'relative',top:1}}/>
                         </Popover>
                     </span>
                 </div>
@@ -103,7 +110,13 @@ class RoleDetail extends React.Component {
                     {
                         this.props.enable ?
                             <div>
-                                <Table dataSource={dataSource} columns={columns} pagination={false} rowKey={record => Math.random() + record.number} />
+                                <Table 
+                                    dataSource={dataSource} 
+                                    columns={columns} 
+                                    pagination={false} 
+                                    rowKey={record => Math.random() + record.number} 
+                                    locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
+                                    />
                             </div> :
                             <div>
                                 <div className="yc-components-assetStructureDetail_body-roleRow">
@@ -115,16 +128,20 @@ class RoleDetail extends React.Component {
                                     <div className="note">备注</div>
                                     <div className="operation">操作</div>
                                 </div>
+                                <div className="yc-components-assetStructureDetail_body-addRole">
+                                    <Button type="dashed" icon="plus" onClick={this.props.handleAddClick.bind(this, 'obligors')}>
+                                      添加
+                                    </Button>
+                                </div>
                                 <RoleInputs num={this.roleInputNumber} obligors={this.props.obligors}
                                     handleDel={this.handleDel.bind(this)}
                                     handleChange={this.handleChange.bind(this)}
-                                    handleBlur={this.handleBlur.bind(this)}>
+                                    handleBlur={this.handleBlur.bind(this)}
+                                    handleNameChange={this.props.handleChange}
+                                    onRef={this.onRef}
+                                    key={this.props.id}
+                                    >
                                 </RoleInputs>
-                                <div className="yc-components-assetStructureDetail_body-addRole">
-                                    <Button type="dashed" icon="plus" onClick={this.props.handleAddClick.bind(this, 'obligors')}>
-                                        添加
-                                    </Button>
-                                </div>
                             </div>
                     }
                 </div>
@@ -133,37 +150,18 @@ class RoleDetail extends React.Component {
     }
 }
 
-/* const RoleInfos = (props) => {
-    const roleArr = []
-    Object.keys(props.obligor).forEach((key, index) => {
-        roleArr.push(<RoleInfo info={props.obligor[key]} key={index}></RoleInfo>)
-    })
-    return (
-        <div className="role-info_row">
-            {roleArr}
-            <hr></hr>
-        </div>
-    )
-}
-
-const RoleInfo = (props) => {
-    return (
-        <span className="role-info_col">
-            {props.info}
-
-        </span>
-    )
-} */
 const RoleInputs = (props) => {
     const arr = [];
     for (let i = 0; i < props.num; i++) {
-        arr.push(<RoleInput
+        arr.unshift(<RoleInput
           key={i}
           index={i}
           obligor={props.obligors[i]}
           handleBlur={props.handleBlur}
           handleDel={props.handleDel.bind(this, i)}
           handleChange={props.handleChange}
+          handleNameChange={props.handleNameChange}
+          onRef={props.onRef}
         />);
     }
     return arr;
@@ -171,24 +169,25 @@ const RoleInputs = (props) => {
 
 const RoleInput = props => (
   <div className="yc-components-assetStructureDetail_body-roleInputRow">
-      <Input
-        placeholder="请输入名称"
-        onChange={(e) => {
-            e.persist();
-            props.handleChange(e);
-        }}
-        onBlur={(e) => {
-          e.target.value=e.target.value.trim();
-          props.handleChange(e);
-        }}
-        name={`name${props.index}`}
-        value={props.obligor.name}
+      <AutoCompleteInput
+            disabled={(props.obligor||{}).system===1}
+            index={props.index}
+            handleNameChange={props.handleNameChange}
+            obligor={props.obligor}
+            onRef={props.onRef}
       />
-      <Select placeholder="角色" onChange={(value) => { props.handleChange({ target: { name: `labelType${props.index}`, value } }); }} value={props.obligor.labelType}>
+      <Select
+				placeholder="角色"
+				getPopupContainer={node=>node.offsetParent}
+				disabled={(props.obligor||{}).system===1}
+				onChange={(value) => { props.handleChange({ target: { name: `label_type${props.index}`, value } }); }}
+				value={props.obligor.label_type}>
           {Object.keys(ROLE_TYPE).map(key => <Option key={key} style={{ fontSize: 12 }}>{ROLE_TYPE[key]}</Option>)}
       </Select>
       <Input
         placeholder="请输入证件号"
+        autoComplete='off'
+				disabled={(props.obligor||{}).system===1}
         onChange={(e) => {
             e.persist();
             props.handleChange(e);
@@ -202,6 +201,8 @@ const RoleInput = props => (
       />
       <Input
         placeholder="请输入年月日"
+        autoComplete='off'
+				disabled={(props.obligor||{}).system===1}
         onChange={(e) => {
             e.persist();
             props.handleChange(e);
@@ -213,11 +214,20 @@ const RoleInput = props => (
             props.handleBlur(e);
         }}
       />
-      <Select placeholder="性别" onChange={(value) => { props.handleChange({ target: { name: `gender${props.index}`, value } }); }} value={props.obligor.gender}>
+      <Select
+				disabled={(props.obligor||{}).system===1}
+				placeholder="性别"
+				getPopupContainer={node=>node.offsetParent}
+				onChange={(value) => { props.handleChange({ target: { name: `gender${props.index}`, value } }); }}
+                value={props.obligor.gender}
+                className='sex-select'
+                >
           {Object.keys(SEX_TYPE).map(key => <Option key={key}>{SEX_TYPE[key]}</Option>)}
       </Select>
-      <Input
+      <Input.TextArea
         placeholder="请输入备注"
+        autoComplete='off'
+				disabled={(props.obligor||{}).system===1}
         onChange={(e) => {
             e.persist();
             props.handleChange(e);
@@ -228,8 +238,10 @@ const RoleInput = props => (
         }}
         name={`notes${props.index}`}
         value={props.obligor.notes}
+        autoSize
+        className='tips-box'
       />
-      <Button type="danger" onClick={props.handleDel}>删除</Button>
+      <Button type="primary" className="del_role_item" ghost onClick={props.handleDel} disabled={(props.obligor||{}).system===1}>删除</Button>
   </div>
 );
 export default RoleDetail;

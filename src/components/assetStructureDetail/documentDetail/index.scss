@@ -3,6 +3,24 @@
         margin-left:12px;
     }
     .seeDetail{
-        margin-left:84px;
+        margin-left:95px;
     }
+}
+.atmost-tips{
+    text-align: right;
+    width: 310px;
+    color:rgba(128,131,135,1);
+    line-height:12px;
+    font-size:12px;
+    margin-top: 6px;
+}
+.del_role_item{
+    width:66px;
+    height:28px;
+    border-radius:2px;
+    color:rgba(41,48,56,1) !important;
+    border:1px solid rgba(226,228,233,1) !important;
+}
+.icon_hover_pointer{
+    cursor: pointer;
 }

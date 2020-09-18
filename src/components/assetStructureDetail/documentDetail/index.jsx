@@ -1,8 +1,9 @@
 import React from 'react'
-import { Button, Input, Radio, Checkbox } from 'antd'
-import { filters } from '@/utils/common'
+import { Input, Radio, Checkbox } from 'antd'
+// import { filters } from '@/utils/common'
 import './index.scss'
-
+import ICONADD from '../../../assets/img/add_wenshu.png';
+import ICONDEL from '../../../assets/img/icon_delete.png';
 class StructureDocumentDetail extends React.Component {
     static defaultProps = {
         handleDeleteClick: () => { },
@@ -34,19 +35,18 @@ class StructureDocumentDetail extends React.Component {
     }
     render() {
         const enable = this.props.enable;
-        /* console.log(enable) */
         return (
-            <div className="yc-components-assetStructureDetail">
+            <div className="yc-components-assetStructureDetail wenshu-info">
                 <div className="yc-components-assetStructureDetail_header">文书信息</div>
                 <div className="yc-components-basicDetail_body">
                     {
                         enable ?
-                            <div className="yc-components-assetStructureDetail_body-row">
-                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况：</span>
+                            <div className="yc-components-assetStructureDetail_body-row" style={{position:'relative',left:13}}>
+                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况： </span>
                                 <span>{parseInt(this.props.wsFindStatus) === 1 ? '找到文书' : '未找到文书'}</span>
                             </div> :
-                            <div className="yc-components-assetStructureDetail_body-row">
-                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况：</span>
+                            <div className="yc-components-assetStructureDetail_body-row" style={{position:'relative',left:13}}>
+                                <span className='yc-components-assetStructureDetail_body-row_title documentDetail_row'>查找情况： </span>
                                 <Radio.Group value={this.props.wsFindStatus} name="wsFindStatus" onChange={this.handleChange} disabled={enable}>
                                     <Radio value={1}>找到文书</Radio>
                                     <Radio value={0}>未找到文书</Radio>
@@ -55,7 +55,7 @@ class StructureDocumentDetail extends React.Component {
                     }
                     {
                         this.props.wsFindStatus === 1 ?
-                            <div>
+                            <React.Fragment>
                                 <DocumentLinkInputs
                                     values={this.props.ah}
                                     enable={enable}
@@ -66,6 +66,7 @@ class StructureDocumentDetail extends React.Component {
                                     handleDeleteClick={this.handleDeleteClick.bind(this)}
                                     handleAddClick={this.props.handleAddClick.bind(this, 'ah')}>
                                 </DocumentLinkInputs>
+                                {this.documentInputNumber>=3 && !enable?<p className='atmost-tips'>最多添加3个</p>:null}
                                 <DocumentLinkInputs
                                     enable={enable}
                                     values={this.props.wsUrl}
@@ -76,6 +77,7 @@ class StructureDocumentDetail extends React.Component {
                                     handleDeleteClick={this.handleDeleteClick.bind(this)}
                                     handleAddClick={this.props.handleAddClick.bind(this, 'wsUrl')}>
                                 </DocumentLinkInputs>
+                                {this.linkInputNumber>=3&& !enable?<p className='atmost-tips'>最多添加3个</p>:null}
                                 <div className="yc-components-assetStructureDetail_body-row">
                                     <span className='yc-components-assetStructureDetail_body-row_title'/>
                                     {
@@ -88,7 +90,7 @@ class StructureDocumentDetail extends React.Component {
                                             </span>
                                     }
                                 </div>
-                            </div> : null
+                            </React.Fragment> : null
                     }
                 </div>
             </div>
@@ -96,25 +98,21 @@ class StructureDocumentDetail extends React.Component {
     }
 }
 const DocumentLinkInputs = (props) => {
-    return (
-        <div>
-            {
-                (() => {
-                    const arr = [];
-                    for (let i = 0; i < props.num; i++) {
-                        arr.push(
-                            <DocumentLinkInput attr={props.attr} value={props.values[i]} enable={props.enable}
-                                key={i} index={i} text={props.text} num={props.num} handleChange={props.handleChange}
-                                handleDeleteClick={props.handleDeleteClick.bind(this, i, props.attr)} handleAddClick={props.handleAddClick}
-                            />
-                        )
-                    }
-                    return arr;
-                })()
-            }
-        </div>
-    )
+		const arr = [];
+		for (let i = 0; i < props.num; i++) {
+				arr.push(
+						<DocumentLinkInput attr={props.attr} value={props.values[i]||'-'} enable={props.enable}
+								key={i} index={i} text={props.text} num={props.num} handleChange={props.handleChange}
+								handleDeleteClick={props.handleDeleteClick.bind(this, i, props.attr)} handleAddClick={props.handleAddClick}
+						/>
+				)
+		}
+		return arr;
 };
+
+// eslint-disable-next-line react/jsx-no-target-blank
+const linkSpan = val=> val ? <a href={val} rel="noopener norefferrer" target="_blank" style={{ textDecoration: 'underline' }}>{val}</a> : '-';
+
 const DocumentLinkInput = (props) => {
     //console.log(props)
     return (
@@ -126,18 +124,24 @@ const DocumentLinkInput = (props) => {
             }
             <span className={props.index !== 0 ? 'addition-ah' : null}>
                 {
-                    props.enable ?
-                        <span>{filters.blockNullData(props.value.value, '-')}</span>
-                        : <Input placeholder={`请输入${props.text}`} onChange={props.handleChange} name={`${props.attr}${props.index}`} value={props.value.value} maxLength={50} />
+                    props.enable ? (props.attr==='wsUrl'?(linkSpan(props.value.value)||'-'):(props.value.value||'-'))
+                        : <Input
+                            maxLength={ props.attr==='wsUrl'?99999:50 }
+                            placeholder={`请输入${props.text}`}
+                            onChange={props.handleChange}
+                            name={`${props.attr}${props.index}`}
+                            value={props.value.value}
+                            autoComplete='off'
+                      />
                 }
                 {
-                    props.num < 3 && !props.enable ?
-                        <Button type="primary" shape="circle" size="small" icon="plus" onClick={props.handleAddClick}/> :
+                    (props.num ===props.index+1) && props.num<3 && !props.enable ?
+                        <img src={ICONADD} style={{width:18,height:18,marginLeft:12}} alt=" " className="icon_hover_pointer" onClick={props.handleAddClick}/> :
                         null
                 }
                 {
                     props.num > 1 && !props.enable ?
-                        <Button type="default" shape="circle" size="small" icon="minus" onClick={props.handleDeleteClick}/> :
+                        <img src={ICONDEL} style={{width:18,height:18,marginLeft:12}} alt=" " className="icon_hover_pointer" onClick={props.handleDeleteClick}/> :
                         null
                 }
             </span>

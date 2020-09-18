@@ -11,20 +11,16 @@ const filters = {
 		}
 	},
 	filterNullKey(input) {
-		if (input !== '' && input !== undefined && input !== null) {
-			return true
-		} else {
-			return false
-		}
+		return input !== '' && input !== undefined && input !== null;
 	},
 	//去掉空行  参数1是对象数组  参数2是判断的键名数组
 	blockEmptyRow(rows = [], keys = []) {
-		let records = [] //记录处理后的数组
+		let records = []; //记录处理后的数组
 		for (let i = 0; i < rows.length; i++) {
-			let rowObj = rows[i]
+			let rowObj = rows[i];
 			//let flag = true//标记用 如果字段全为空则设置为true是空行 默认是空行
 			for (let j = 0; j < keys.length; j++) {
-				let value = rowObj[keys[j]]
+				let value = rowObj[keys[j]];
 				if (value !== '' && value !== undefined && value !== null) {
 					records.push(rowObj); break;
 				}
@@ -32,11 +28,14 @@ const filters = {
 		}
 		return records;
 	},
-}
+};
 const dateUtils = {
-	//时间戳转换为标准日期	
+	//时间戳转换为标准日期
 	formatStandardDate(timeStamp) {
 		return (timeStamp === '' || timeStamp === '--' || timeStamp === undefined || timeStamp === null) ? timeStamp : moment(timeStamp).format('YYYY-MM-DD');
+	},
+	formatStandardNumberDate(timeStamp,secondsVisible){
+		return (timeStamp === '' || timeStamp === '--' || timeStamp === undefined || timeStamp === null) ? timeStamp : secondsVisible ? moment.unix(timeStamp).format('YYYY-MM-DD HH:mm') : moment.unix(timeStamp).format('YYYY-MM-DD HH:mm:ss');
 	},
 	//获取当日日期
 	getTodayDate(ifmoment = false) {
@@ -52,7 +51,6 @@ const dateUtils = {
 			return arr.join('').substring(0,8)
 		} else {
 			let temp = arr.map((text,i)=>{
-				console.log(text,text.length,i)
 				if (text.length === 1 && i !== 0) {
 					return '0' + text
 				}
@@ -61,15 +59,15 @@ const dateUtils = {
 				} else {
 					return text
 				}
-			})
+			});
 			return temp.join('').substring(0,8)
 		}
 	}
 
-}
+};
 
 const formUtils = {
-	//array输入数组  default默认值 
+	//array输入数组  default默认值
 	processEmptyArray(array, defaultArray = []) {
 		if (array && (array instanceof Array) && array.length > 0) {
 			return array
@@ -81,7 +79,7 @@ const formUtils = {
 	//将null和undefined值统一改为''
 	replaceEmptyValue(data) {
 		if (typeof data === 'string') {
-			const dataString = JSON.stringify(data).replace(/null|undefined/g, '""')
+			const dataString = JSON.stringify(data).replace(/null|undefined/g, '""');
 			return JSON.parse(dataString);
 		} else {
 			return data;
@@ -89,12 +87,12 @@ const formUtils = {
 	},
 	//去掉空行  参数1是对象数组  参数2是判断的键名数组
 	blockEmptyRow(rows = [], keys = []) {
-		let records = [] //记录处理后的数组
+		let records = []; //记录处理后的数组
 		for (let i = 0; i < rows.length; i++) {
-			let rowObj = rows[i]
+			let rowObj = rows[i];
 			//let flag = true//标记用 如果字段全为空则设置为true是空行 默认是空行
 			for (let j = 0; j < keys.length; j++) {
-				let value = rowObj[keys[j]]
+				let value = rowObj[keys[j]];
 				if (value !== '' && value !== undefined && value !== null) {
 					records.push(rowObj); break;
 				}
@@ -104,16 +102,16 @@ const formUtils = {
 	},
 	//过滤对象中的空属性
 	removeObjectNullVal(obj){
-		const newObj = {}
+		const newObj = {};
 		Object.keys(obj).forEach((key)=>{
 			const value = obj[key];
 			if(value !== '' && value !== undefined && value !== null){
 				newObj[key] = value
 			}
-		})
+		});
 		return newObj;
 	}
-}
+};
 
 const clone = obj => {
 	var o;
@@ -146,4 +144,33 @@ const clone = obj => {
 
 export {
 	clone, filters, dateUtils,formUtils
+};
+/* 获取随机字符串 */
+export const ranStr = (l = 4) => {
+	const len = l || 32;
+	const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; /** **默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1*** */
+	const maxPos = $chars.length;
+	let pwd = '';
+	for (let i = 0; i < len; i += 1) {
+		pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+	}
+	return `_${pwd}`;
+};
+
+/**
+ * 去除对象中空值
+ * @param obj
+ * @returns {*}
+ */
+export const clearEmpty = (obj) => {
+	if (typeof obj === 'object') {
+		const l = Object.keys(obj);
+		const _obj = Object.assign({}, obj);
+		l.forEach((item) => {
+			if (_obj[item] === '' || _obj[item] === undefined || _obj[item] === null ) delete _obj[item];
+			else if (typeof _obj[item] === 'string')_obj[item] = _obj[item].replace(/^\s+|\s+$/g, '');
+		});
+		return _obj;
+	}
+	return obj;
 };

@@ -144,10 +144,14 @@ export const REASON_LIST =[
 ];
 
 export const WRONG_LEVEL = {
-	0:'检查无误',
-	1:'严重',
-	4:'普通',
-	7:'不计入错误'
+	// 0:'检查无误',
+	// 1:'严重',
+	// 4:'普通',
+	// 7:'不计入错误'
+	0:'不计入错误',
+	1:'普通',
+	2:'严重',
+	3:'无误',
 };
 
 export const CHARACTER_LIST = [

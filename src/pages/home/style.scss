@@ -1,9 +1,8 @@
 
-
 .yc-main-body{
+    min-height: 100%;
     margin-top:-2px;
     background-color:#293038;
-    min-height:1200px;
 }
 .yc-left-menu{
     float:left;
@@ -11,6 +10,14 @@
 }
 .yc-right-content{
     overflow:hidden;
-    min-height:1200px;
     background-color:#EDEFF3;
+    min-height: 100%;
+}
+.yc-spin{
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.05);
+    vertical-align: middle;
+    padding: 25% 50% 0 50%;
 }

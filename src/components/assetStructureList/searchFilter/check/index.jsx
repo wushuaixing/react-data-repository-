@@ -4,7 +4,7 @@
 import React from 'react';
 import { Form, Input, DatePicker, Select, message } from 'antd';
 import { getStructuredPersonnel } from "@api";
-import { dateUtils } from "@utils/common";
+import { dateUtils,clearEmpty } from "@utils/common";
 import { SearchAndClearButtonGroup } from '@commonComponents'
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;
@@ -39,7 +39,7 @@ class Index extends React.Component {
                 },
                 {
                     value: 'deleted',
-                    label: "已删除",
+                    label: "已删除账号",
                     enable:true
                 },
                 {
@@ -80,7 +80,7 @@ class Index extends React.Component {
 	// 搜索框
 	handleSearch = e => {
 		e.preventDefault();
-		const paramKeys = ['title', 'structuredStartTime', 'structuredEndTime', 'checkStartTime', 'checkEndTime', 'userId'];
+		const paramKeys = ['title', 'requestStartTime', 'requestEndTime','userId'];
 		const formParams = this.props.form.getFieldsValue(paramKeys);
 		/* 调整请求字段 */
 		const params = {
@@ -99,11 +99,11 @@ class Index extends React.Component {
 				else if (key === 'userId') {
 				switch (formParams[key]) {
 					case 'all':
-					    params.userType = 0; break;
+					    params.userId  = 0; break;
 					case 'deleted':
-					    params.userType = 1; break;
+					    params.userId  = -1; break;
 					case 'auto':
-					    params.userType = 2; break;
+					    params.userId  = -2; break;
 					default:
 					    params.userId = formParams[key]; break;
 				}
@@ -114,7 +114,10 @@ class Index extends React.Component {
 				}
 			}
 		});
-		this.props.toSearch(params);
+		this.props.toSearch(clearEmpty(params));
+		this.props.form.setFieldsValue({
+			title:(params.title||'').trim()
+		})
 	};
 
 	//清空搜索条件
@@ -125,7 +128,7 @@ class Index extends React.Component {
 
 	disabledStartDate = startValue => {
 		const { getFieldValue } = this.props.form;
-		const endValue = getFieldValue('structuredEndTime');
+		const endValue = getFieldValue('requestEndTime');
 		if (!startValue || !endValue) {
 			return false;
 		}
@@ -135,7 +138,7 @@ class Index extends React.Component {
 
 	disabledEndDate = endValue => {
 		const { getFieldValue } = this.props.form;
-		const startValue = getFieldValue('structuredStartTime');
+		const startValue = getFieldValue('requestStartTime');
 		if (!endValue || !startValue) {
 			return false;
 		}
@@ -144,11 +147,11 @@ class Index extends React.Component {
 
 	get columnShowTimeType() {
 		switch (this.props.tabIndex) {
-			case 0: case 1: case 5:
+			case 0: case 2: case 6:
 				return '结构化时间';
-			case 2: case 3:
+			case 3: case 4:
 				return '检查时间';
-			case 4:
+			case 5:
 				return '修改时间';
 			default:
 				return ''
@@ -168,24 +171,25 @@ class Index extends React.Component {
 								type="text"
 								placeholder="拍卖信息标题"
 								size='default'
+								autoComplete='off'
 								style={{ width: 240 }}
 							/>)}
 					</Form.Item>
-					<Form.Item label={this.columnShowTimeType}>
-						{getFieldDecorator('structuredStartTime', {
+					<Form.Item label={this.columnShowTimeType} className='end-time-after'>
+						{getFieldDecorator('requestStartTime', {
 							initialValue: null
 						})(<DatePicker
 							placeholder="开始时间"
 							disabledDate={this.disabledStartDate}
-							style={{ width: 108 }} />)}
+							style={{ width: 120 }} />)}
 					</Form.Item>
 					<Form.Item label="至">
-						{getFieldDecorator('structuredEndTime', {
+						{getFieldDecorator('requestEndTime', {
 							initialValue: null
 						})(<DatePicker
 							placeholder="结束时间"
 							disabledDate={this.disabledEndDate}
-							style={{ width: 108 }} />)}
+							style={{ width: 120 }} />)}
 					</Form.Item>
 					<Form.Item label="结构化人员">
 						{getFieldDecorator('userId', {
@@ -195,7 +199,7 @@ class Index extends React.Component {
 								showSearch
 								filterOption={(input, option) =>{
                     if(!isNaN(option.key)){ //去除optGroup项和用户类型选项 不进行筛选
-                        return option.props.children[0].indexOf(input)>=0
+                        return option.props.children[0].toLowerCase().indexOf(input.toLowerCase())>=0
                     }
                 }}
 								transfer placeholder="请选择">

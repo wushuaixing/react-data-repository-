@@ -2,17 +2,23 @@ import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table, Spin, message, Badge} from 'antd';
 import { Columns } from "@/static/columns";
 import createPaginationProps from "@/utils/pagination";
-import { structuredList, getNewStructuredData, structuredCheckErrorNum,getAutoBidding } from "@api";
+import { structuredList, getNewStructuredData, structuredCheckErrorNum,getDataStatus  } from "@api";
 import { withRouter } from "react-router-dom";
 import { BreadCrumb, SearchAndClearButtonGroup, AssetTabTextWithNumber } from '@commonComponents'
-import { dateUtils } from "@utils/common";
-
+import { dateUtils,clearEmpty } from "@utils/common";
+import NoDataIMG from '../../../assets/img/no_data.png';
+import {scrollTop } from "@utils/tools";
 const { TabPane } = Tabs;
-
-
 const searchForm = Form.create;
 
 class Asset extends React.Component {
+	constructor(props){
+		super(props);
+		props.cacheLifecycles.didRecover(this.componentDidRecover)
+	}
+	componentDidRecover=()=>{
+		this.getApi(this.getParamsByTabIndex())
+	};
 	state = {
 		page: 1,
 		total: 0,
@@ -27,19 +33,12 @@ class Asset extends React.Component {
 		this.getApi(this.getParamsByTabIndex())
 	};
 	getApi = (params) => {
-		const formParams = this.props.form.getFieldsValue();
-		if(formParams['structuredStartTime']&&formParams['structuredEndTime']&&formParams['structuredStartTime']>formParams['structuredEndTime']){
-			message.error('开始时间不能大于结束时间');
-			return false;
-		}
 		this.setState({
 			loading: true,
 		});
 		//console.log(params)
 		//获取三列数量  如果当列数量》0  调获取数据接口  如果两列数据都为0  按钮改成可点
-		structuredCheckErrorNum().then(res => {
-			return res.data.data
-		}).then(res => {
+		structuredCheckErrorNum().then(res => { return res.data.data }).then(res => {
 			this.setState({
 				buttonDisabled: (!(res.notBidNum === 0 && res.modNum === 0)),
 				waitNum: res.modNum
@@ -58,8 +57,15 @@ class Asset extends React.Component {
 			}
 		}).then((res) => {
 			if (res.data.code === 200) {
+				let tableList=[];   //返回值变为时间戳    做日期相应处理
+				res.data.data.forEach((item)=>{
+					let obj=item;
+					obj.time=dateUtils.formatStandardNumberDate(item.time);
+					tableList.push(obj);
+				})
+
 				this.setState({
-					tableList: res.data.data,
+					tableList,
 					total: res.data.total,
 					loading: false
 				});
@@ -73,7 +79,7 @@ class Asset extends React.Component {
 			console.log(err)
 		})
 	};
-	getParamsByTabIndex({ tabIndex = this.state.tabIndex, page = this.state.page } = {}) {
+	  getParamsByTabIndex({ tabIndex = this.state.tabIndex, page = this.state.page } = {}) {
 		const params = {
 			approveStatus: tabIndex,
 			page
@@ -115,7 +121,8 @@ class Asset extends React.Component {
 		this.setState({
 			page: pagination.current
 		}, () => {
-			this.getApi(this.getParamsByTabIndex())
+			this.getApi(this.getParamsByTabIndex());
+			scrollTop();
 		})
 	};
 
@@ -127,7 +134,10 @@ class Asset extends React.Component {
 			page:1,
 			searchTitle: params.title
 		},()=>{
-			this.getApi(params)
+			this.getApi(Object.assign(clearEmpty(params),{page:1}));
+			this.props.form.setFieldsValue({
+				title:(params.title||'').trim()
+			})
 		})
 	};
 
@@ -138,9 +148,7 @@ class Asset extends React.Component {
 	};
 	// 获取新数据
 	getNewData() {
-		this.setState({
-			loading: true,
-		});
+		this.setState({ loading: true, });
 		getNewStructuredData().then(() => {
 			this.setState({
 				loading: false,
@@ -161,9 +169,7 @@ class Asset extends React.Component {
 	disabledStartDate = startValue => {
 		const { getFieldValue } = this.props.form;
 		const endValue = getFieldValue('structuredEndTime');
-		if (!startValue || !endValue) {
-			return false;
-		}
+		if (!startValue || !endValue) return false;
 		const _startValue= new Date(startValue.valueOf()).setHours(0,0,0,0);
 		return _startValue > endValue.valueOf();
 	};
@@ -171,26 +177,20 @@ class Asset extends React.Component {
 	disabledEndDate = endValue => {
 		const { getFieldValue } = this.props.form;
 		const startValue = getFieldValue('structuredStartTime');
-		if (!endValue || !startValue) {
-			return false;
-		}
+		if (!endValue || !startValue) return false;
 		return endValue.valueOf() <= startValue.valueOf();
 	};
 
 	checkIsAutoMarked(record) {
-		getAutoBidding(record.id).then((res)=>{
+		getDataStatus(record.id,record.status).then((res)=>{
 			if(res.data.code===200){
-				if(!res.data.data){
-					//未被自动标注
+				if(res.data.data){
 					this.props.history.push(`/index/structureDetail/${record.status}/${record.id}`)
 				}else{
-					message.warning('数据已被自动标注,2s后为您刷新界面');
-					setTimeout(()=>{
-						window.location.reload()
-					},2000)
+					message.warning('数据已被自动标注,2s后为您刷新界面',2,()=>window.location.reload());
 				}
 			}else{
-				Promise.reject('接口错误')
+				message.error('服务繁忙，请稍后再试')
 			}
 		}).catch(err=>{
 			this.setState({
@@ -200,6 +200,15 @@ class Asset extends React.Component {
 			})
 		})
 	}
+
+	// 获取结构化状态
+	getStatusBadge = status =>{
+		let option ={ status:'default', text:'待标记' };
+		if(status===1) option ={ status:'success', text:'已标记' };
+		if(status===2) option ={ status:'error', text:'检查有误' };
+		return option;
+	};
+
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { tableList, total, waitNum, page, tabIndex, loading } = this.state;
@@ -209,93 +218,49 @@ class Asset extends React.Component {
 				title: "结构化状态",
 				dataIndex: "status",
 				width: 285,
-				render: (status) => (
-					<span>
-				{
-					(() => {
-						let color = 'default';
-						let text = '待标记';
-						switch (status) {
-							case 0:
-								color = 'default';
-								text = '待标记';
-								break;
-							case 1:
-								color = 'success';
-								text = '已标记';
-								break;
-							case 2:
-								color = 'error';
-								text = '检查有误';
-								break;
-							default:
-								break;
-						}
-						return (
-							<Badge status={color} text={text} />
-						);
-					})()
-				}
-			</span>
-				),
+				render: (status) => <Badge {...this.getStatusBadge(status)} />,
 			},
 			{
 				title: "操作",
 				dataIndex: "action",
 				align: "center",
 				width: 180,
-				render: (text, record) => (
-					<span>
-						<Button onClick={this.checkIsAutoMarked.bind(this,record)}>
-							{tabIndex === 0 ? '标注' : '修改标注'}
-						</Button>
-					</span>
-				),
+				render: (text, record) =><Button onClick={this.checkIsAutoMarked.bind(this,record)}>{tabIndex === 0 ? '标注' : '修改标注'}</Button>,
 			},
 		];
 		if (tabIndex !== 0) {
 			columns.unshift({
 				title: "结构化时间",
-				dataIndex: "firstExtractTime",
+				dataIndex: "time",
 			})
 		}
 		const paginationProps = createPaginationProps(page, total);
 		return (
 			<div className="yc-content-container">
-				<BreadCrumb texts={['资产结构化']} breadButtonText={'获取新数据'} handleClick={this.getNewData.bind(this)} disabled={this.state.loading || this.state.buttonDisabled}/>
+				<BreadCrumb
+					texts={['资产结构化']}
+					breadButtonText={'获取新数据'}
+					handleClick={this.getNewData.bind(this)}
+					disabled={this.state.loading || this.state.buttonDisabled}
+				/>
 				<div className="yc-detail-content">
 					<div className="yc-search-line">
 						<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
 							<Form.Item label="标题">
-								{getFieldDecorator('title', { initialValue: '' })
-									(<Input
-										type="text"
-										size='default'
-										style={{ width: 240 }}
-										placeholder="拍卖信息标题"
-									/>)}
+								{getFieldDecorator('title', { initialValue: '' })(
+									<Input type="text" size='default' style={{ width: 400 }} placeholder="拍卖信息标题" autoComplete='off' />)}
 							</Form.Item>
 							{
-								tabIndex !== 0 &&
-								<Form.Item label="结构化时间">
-									{getFieldDecorator('structuredStartTime', { initialValue: null })
-										(<DatePicker
-											placeholder="开始时间"
-											disabledDate={this.disabledStartDate}
-											style={{ width: 108 }}
-										/>)}
-								</Form.Item>
-							}
-							{
-								tabIndex !== 0 &&
-								<Form.Item label="至">
-									{getFieldDecorator('structuredEndTime', { initialValue: null })
-										(<DatePicker
-											placeholder="结束时间"
-											disabledDate={this.disabledEndDate}
-											style={{ width: 108 }}
-										/>)}
-								</Form.Item>
+								tabIndex !== 0 && [
+									<Form.Item label="结构化时间" key='startTime'>
+										{getFieldDecorator('structuredStartTime', { initialValue: null })(
+											<DatePicker placeholder="开始时间" disabledDate={this.disabledStartDate} style={{ width: 120 }} />)}
+									</Form.Item>,
+									<Form.Item label="至" key='endTime'>
+										{getFieldDecorator('structuredEndTime', { initialValue: null })(
+											<DatePicker placeholder="结束时间" disabledDate={this.disabledEndDate} style={{ width: 120 }}	/>)}
+									</Form.Item>
+								]
 							}
 							<Form.Item>
 								<SearchAndClearButtonGroup handleClearSearch={this.clearSearch}/>
@@ -306,30 +271,45 @@ class Asset extends React.Component {
 						<Spin tip="Loading..." spinning={loading}>
 							<Tabs activeKey={tabIndex.toString()} onChange={this.changeTab} animated={false}>
 								<TabPane tab="待标记" key="0">
-									<Table rowClassName="table-list"
+									<Table
+										rowClassName="table-list"
 										columns={columns}
 										dataSource={tableList}
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
 										pagination={paginationProps}
+										locale={{emptyText: <div className="no-data-box">
+																<img src={NoDataIMG} alt="暂无数据"/>
+																<p>暂无数据</p>
+															</div>}}
 									/>
 								</TabPane>
 								<TabPane tab="已标记" key="1">
-									<Table rowClassName="table-list"
+									<Table
+										rowClassName="table-list"
 										columns={columns}
 										dataSource={tableList}
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
 										pagination={paginationProps}
+										locale={{emptyText: <div className="no-data-box">
+																<img src={NoDataIMG} alt="暂无数据"/>
+																<p>暂无数据</p>
+															</div>}}
 									/>
 								</TabPane>
 								<TabPane tab={<AssetTabTextWithNumber num={waitNum} text={'待修改'} />} key="2">
-									<Table rowClassName="table-list"
+									<Table
+										rowClassName="table-list"
 										columns={columns}
 										dataSource={tableList}
 										rowKey={record => record.id}
 										onChange={this.onChangePage}
 										pagination={paginationProps}
+										locale={{emptyText: <div className="no-data-box">
+											                    <img src={NoDataIMG} alt="暂无数据"/>
+																<p>暂无数据</p>
+															</div>}}
 									/>
 								</TabPane>
 							</Tabs>

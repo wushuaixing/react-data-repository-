@@ -1,0 +1,12 @@
+version: '2'
+services:
+  web:
+    image: nginx:1.13.7
+    container_name: front-data-repository-pretest
+    ports:
+      - "8580:80"
+      - "8581:81"
+    volumes:
+      - "/disk/web/front/data-repository-pretest/conf:/etc/nginx/conf.d"
+      - "/disk/web/front/data-repository-pretest/web:/usr/share/nginx/html"
+    restart: always

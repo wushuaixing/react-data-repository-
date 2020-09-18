@@ -80,15 +80,16 @@ class ButtonGroup extends React.Component {
         };
     }
     get checkButtons() {
+        const { onlyThis } = this.props;
         return {
-            err: <Button onClick={this.handleErrorModal.bind(this)} key="0" style={{ marginRight: 10 }}>{'检查有误'}</Button>,
-            noErr: <Button onClick={this.handleNoErr.bind(this)} key="1" style={{ marginRight: 10 }}>{'检查无误'}</Button>,
-            onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" style={{ marginRight: 10 }} />,
-            save: <Button onClick={this.handleStructureUpdate.bind(this)} key="3" style={{ marginRight: 10 }}>{'保存'}</Button>,
-            confirm: <Button onClick={this.handleConfirm.bind(this)} key="4" style={{ marginRight: 10 }} >{'确认'}</Button>,
-            modify: <Button onClick={this.handleErrorModal.bind(this)} key="5" style={{ marginRight: 10 }}>{'修改错误原因'}</Button>,
-            back: <Button onClick={this.handleBack.bind(this)} key="6" style={{ marginRight: 10 }}>{'返回'}</Button>,
-            close:<Button onClick={this.handleClosePage.bind(this)} key="7" style={{ marginRight: 10 }}>{'关闭'}</Button>,
+            err: <Button onClick={this.handleErrorModal.bind(this)} key="0" style={{ marginLeft: 10 }}>{'检查有误'}</Button>,
+            noErr: <Button onClick={this.handleNoErr.bind(this)} key="1" style={{ marginLeft: 10 }}>{'检查无误'}</Button>,
+            onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" style={{ marginLeft: 10 }} value={onlyThis} />,
+            save: <Button onClick={this.handleStructureUpdate.bind(this)} key="3" style={{ marginLeft: 10 }}>{'保存'}</Button>,
+            confirm: <Button onClick={this.handleConfirm.bind(this)} key="4" style={{ marginLeft: 10 }} >{'确认'}</Button>,
+            modify: <Button onClick={this.handleErrorModal.bind(this)} key="5" style={{ marginLeft: 10 }}>{'修改错误原因'}</Button>,
+            back: <Button onClick={this.handleBack.bind(this)} key="6" style={{ marginLeft: 10 }}>{'返回'}</Button>,
+            close:<Button onClick={this.handleClosePage.bind(this)} key="7" style={{ marginLeft: 10 }}>{'关闭'}</Button>,
         }
     }
     handleConfirm() {
@@ -135,7 +136,7 @@ class ButtonGroup extends React.Component {
     handleClosePage() {
         this.props.handleClosePage()
     }
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
         //如果切换了id 则设置计时器可重新刷新
         if (newProps.id !== this.props.id) {
             clearInterval(this.state.timer);
@@ -166,11 +167,12 @@ class ButtonGroup extends React.Component {
         }
     }
     render() {
-        const { enable, status, isSendRequest,isLastData } = this.props;
+        const { enable, status, isSendRequest,isLastData,onlyThis } = this.props;
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[isLastData?1:status];
         const { countDown } = this.state;
         const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
         const notFirstMarkStatus = status || 0;
+        // console.log('onlyThis:',onlyThis);
         // console.log('notFirstMarkStatus:',notFirstMarkStatus);
         return (
             <div className="yc-component-buttonGroup">
@@ -180,7 +182,7 @@ class ButtonGroup extends React.Component {
                             case 'structure':
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
-                                        <OnlyMarkButton handleChange={this.handleChange.bind(this)}/>
+                                        <OnlyMarkButton handleChange={this.handleChange.bind(this)} value={onlyThis}/>
                                         <Button onClick={this.handleClick.bind(this)} disabled={disabled}>
                                             {`${buttonText}${(countDown > 0) ? '(' + countDown + 's)' : ''}`}
                                         </Button>
@@ -212,7 +214,7 @@ class ButtonGroup extends React.Component {
                             case 'admin':
                                 return (
                                     <div className="yc-component-buttonGroup-structure">
-                                        <Button onClick={this.handleBack.bind(this)}>返回</Button>
+                                        <Button type="primary" ghost  className='yc-buttonGroup-adminstructure' onClick={this.handleBack.bind(this)} style={{width:90}}>返回</Button>
                                     </div>
                                 );
                             case 'notFirstMark-check':
@@ -241,10 +243,11 @@ class ButtonGroup extends React.Component {
     }
 }
 
-const OnlyMarkButton = (props) => {
+const OnlyMarkButton = ({handleChange,value}) => {
+    const _value  = Boolean(value||false);
     return (
         <div className="yc-component-buttonGroup-onlyMark">
-            <Checkbox onChange={props.handleChange} name="onlyThis">仅标记本条</Checkbox>
+            <Checkbox onChange={handleChange} name="onlyThis" checked={_value}>仅标记本条</Checkbox>
         </div>
     )
 };

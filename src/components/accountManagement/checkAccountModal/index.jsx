@@ -15,7 +15,7 @@ class AccountManage extends React.Component {
     e.preventDefault();
     const { info } = this.props;
     let options = this.props.form.getFieldsValue();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields((err) => {
       if (!err) {
         this.props.handleSubmit(options, info.id);
       }
@@ -26,9 +26,9 @@ class AccountManage extends React.Component {
     this.props.handleCancel();
   };
   handleAutoCompletePsw() {
-    const account = this.props.form.getFieldValue('mobile')
+    const account = this.props.form.getFieldValue('mobile');
     if (/^\d{11}$/.test(account)) {
-      let defautlPsw = (account.length > 6) ? account.substring(account.length - 6) : account
+      let defautlPsw = (account.length > 6) ? account.substring(account.length - 6) : account;
       this.props.form.setFieldsValue({ password: defautlPsw });
     }
   }
@@ -37,19 +37,22 @@ class AccountManage extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const footer =
       <div className="yc-modal-footer">
-        <Button type="primary" onMouseDown={this.handleSubmit.bind(this)} htmlType="submit">确定</Button>
         <Button onClick={this.handleCancel.bind(this)}>取消</Button>
-      </div>
+        <Button type="primary" onMouseDown={this.handleSubmit.bind(this)} htmlType="submit">确定</Button>
+
+      </div>;
     return (
       <div>
         <Modal
-          title="添加检查账号"
+          title={action==="add"?'添加检查账号':'编辑'}
           visible={visible}
           destroyOnClose={true}
           footer={footer}
           maskClosable
-          width={372}
+          width={500}
+          className='ant-explain-change'
           onCancel={this.handleCancel.bind(this)}
+          
         >
           <Form className="yc-components-accountManagement-addRoleModal" {...formItemLayout}>
             <Form.Item className="yc-form-item" label="姓名：">
@@ -65,12 +68,13 @@ class AccountManage extends React.Component {
                 initialValue: action === 'edit' ? info.name : ''
               })(
                 <Input
+                  autoComplete='off'
                   className="yc-form-input"
                   placeholder="请输入姓名"
                 />,
               )}
             </Form.Item>
-            <Form.Item className="yc-form-item" label="账号:">
+            <Form.Item className="yc-form-item" label="账号：">
               {
                 action === 'add' ?
                   getFieldDecorator('mobile', {
@@ -83,6 +87,7 @@ class AccountManage extends React.Component {
                   })(
 
                     <Input
+                      autoComplete='off'
                       onBlur={this.handleAutoCompletePsw.bind(this)}
                       className="yc-form-input"
                       placeholder="请输入手机号"

@@ -3,7 +3,7 @@ import React from 'react';
 import { Form, Input, DatePicker, Cascader, Select, message } from 'antd';
 import { getStructuredPersonnel, getCheckPersonnel } from "@api";
 import { area } from "@/assets/area";
-import { dateUtils } from "@utils/common";
+import { dateUtils,clearEmpty } from "@utils/common";
 import { SearchAndClearButtonGroup } from '@commonComponents'
 
 const { Option, OptGroup } = Select;
@@ -42,8 +42,9 @@ class Index extends React.Component {
     // 搜索框
     handleSearch = e => {
         e.preventDefault();
-        const paramKeys = ['title', 'startTime', 'endTime', 'userId', 'checkUserId', 'area'];
+        const paramKeys = ['title', 'requestStartTime', 'requestEndTime', 'userId', 'checkUserId', 'area'];
         const formParams = this.props.form.getFieldsValue(paramKeys);
+        console.log(this.props.form)
         const params = {
             page: 1
         };
@@ -67,7 +68,7 @@ class Index extends React.Component {
                     }
                 }
                 //如果是日期 把Moment处理掉
-                else if (key === 'endTime' || key === 'startTime') {
+                else if (key === 'requestEndTime' || key === 'requestStartTime') {
                     params[key] = dateUtils.formatMomentToStandardDate(formParams[key])
                 }
                 //如果是结构化人员ID  选择了三个特殊类型 判断类型值不是数字 则对应赋值userType
@@ -75,11 +76,11 @@ class Index extends React.Component {
                 else if (key === 'userId') {
                     switch (formParams[key]) {
                         case 'all':
-                            params.userType = 0; break;
+                            params.userId   = 0; break;
                         case 'deleted':
-                            params.userType = 1; break;
+                            params.userId   = -1; break;
                         case 'auto':
-                            params.userType = 2; break;
+                            params.userId   = -2; break;
                         default:
                             params.userId = formParams[key]; break;
                     }
@@ -90,8 +91,10 @@ class Index extends React.Component {
                 }
             }
         });
-        console.log(params);
-        this.props.toSearch(params);
+        this.props.toSearch(clearEmpty(params));
+        this.props.form.setFieldsValue({
+            title:(params.title||'').trim()
+        })
     };
 
     //清空搜索条件
@@ -111,7 +114,7 @@ class Index extends React.Component {
                 },
                 {
                     value: 'deleted',
-                    label: "已删除",
+                    label: "已删除账号",
                     enable:true
                 },
                 {
@@ -180,7 +183,7 @@ class Index extends React.Component {
 
     disabledStartDate = startValue => {
         const { getFieldValue } = this.props.form;
-        const endValue = getFieldValue('endTime');
+        const endValue = getFieldValue('requestEndTime');
         if (!startValue || !endValue) {
             return false;
         }
@@ -190,7 +193,7 @@ class Index extends React.Component {
 
     disabledEndDate = endValue => {
         const { getFieldValue } = this.props.form;
-        const startValue = getFieldValue('startTime');
+        const startValue = getFieldValue('requestStartTime');
         if (!endValue || !startValue) {
             return false;
         }
@@ -212,28 +215,29 @@ class Index extends React.Component {
                                 type="text"
                                 placeholder="拍卖信息标题"
                                 size='default'
+                                autoComplete='off'
                                 style={{ width: 240 }}
                             />)}
                     </Form.Item>
 
-                    <Form.Item label={this.searchTimeTypeInput}>
-                        {getFieldDecorator('startTime', {
+                    <Form.Item label={this.searchTimeTypeInput}  className='end-time-after'>
+                        {getFieldDecorator('requestStartTime', {
                             initialValue: null,
                         })
                             (<DatePicker
                                 placeholder="开始时间"
                                 disabledDate={this.disabledStartDate}
-                                style={{ width: 108 }}
+                                style={{ width: 120 }}
                             />)}
                     </Form.Item>
                     <Form.Item label="至">
-                        {getFieldDecorator('endTime', {
+                        {getFieldDecorator('requestEndTime', {
                             initialValue: null
                         })
                             (<DatePicker
                                 placeholder="结束时间"
                                 disabledDate={this.disabledEndDate}
-                                style={{ width: 108 }}
+                                style={{ width: 120 }}
                             />)}
                     </Form.Item>
                     {tabIndex!==1&&<Form.Item label="结构化人员">
@@ -244,7 +248,7 @@ class Index extends React.Component {
                                 showSearch
                                 filterOption={(input, option) =>{
                                     if(!isNaN(option.key)){ //去除optGroup项和用户类型选项 不进行筛选
-                                        return option.props.children[0].indexOf(input)>=0
+                                        return option.props.children[0].toLowerCase().indexOf(input.toLowerCase())>=0
                                     }
                                 }}
                                 style={{ width: 178, marginLeft: 4 }} transfer placeholder="请选择">

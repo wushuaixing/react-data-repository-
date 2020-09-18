@@ -15,11 +15,12 @@ import {
 	inspectorCheck, saveInspectorStructureDetail, // 检查提交
 } from '@api';
 import {filters} from "@utils/common";
+import SpinLoading from "@/components/Spin-loading";
 
 const getObligors = ()=> ({
 	birthday: '',
 	gender: '0',
-	labelType: '1',
+	label_type: '1',
 	name: '',
 	notes: '',
 	number: '',
@@ -29,13 +30,14 @@ const getObligors = ()=> ({
 function CheckWrongLog() {
 	this.auctionExtractWrongTypes = [];
 	this.remark = '';
-	this.wrongLevel = 0;
+	this.wrongLevel = 3;
 }
 
 class Check extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			loading:false,
 			visible: false,
 			records: [],
 			title: '',
@@ -78,6 +80,7 @@ class Check extends React.Component {
 	/* 请求基本数据 */
 	toGetCheckDetail() {
 		const { associatedAnnotationId } = this.props.match.params;
+		this.setState({ loading:true });
 		getCheckDetail(associatedAnnotationId).then((res) => {
 			if (res.data.code === 200) {
 				const { data } = res.data;
@@ -91,7 +94,7 @@ class Check extends React.Component {
 			} else {
 				message.error(res.data.message);
 			}
-		});
+		}).finally(()=>this.setState({ loading:false }));
 		getWrongTypeAndLevel(associatedAnnotationId).then((res) => {
 			this.setState({
 				wrongData: (res.data.data !== null) ? res.data.data : [],
@@ -165,16 +168,12 @@ class Check extends React.Component {
 				保存无效并弹出“债权人备注待完善”非模态框提示； */
 		const { obligors } = this.state;
 		for (let i = 0; i < obligors.length; i++) {
-			const { name } = obligors[i];
-			if (obligors[i].notes === '' && obligors[i].labelType === '2'
-				&& name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
-				message.warning('债权人备注待完善');
-				return false;
+			let item = obligors[i];
+			if ( item.notes === '' ) {
+				if( item.label_type === '3' ) return message.warning('资产线索备注待完善');
+				if( item.label_type === '2' && !/银行|信用联?社|合作联?社/.test(item.name)) return message.warning('债权人备注待完善');
 			}
-			if (obligors[i].notes === '' && obligors[i].labelType === '3') {
-				message.warning('资产线索备注待完善');
-				return false;
-			}
+			if ( item.birthday && !/^\d{8}$/.test(item.birthday))  return message.warning('生日格式不正确');
 		}
 		/* 资产标注详情页存在备注为空的资产线索时，点击保存，保存无效并弹出“资产线索备注待完善”非模态框提示 */
 		const id = this.state.id;
@@ -225,8 +224,8 @@ class Check extends React.Component {
 	}
 	/* 角色信息 - 相关操作 */
 	handleRoleChange(combine, value) {
-		const arr_index = combine.substr(combine.length - 1, 1);
-		const key = combine.substr(0, combine.length - 1);
+        const arr_index = combine.replace(/[^0-9]/g,"");//combine形式为 name1   
+        const key = combine.replace(/[^a-zA-Z_]/g,""); 
 		const arr = [...this.state.obligors];
 		arr[arr_index][key] = value;
 		this.setState({
@@ -265,7 +264,7 @@ class Check extends React.Component {
 			<BasicDetail
 				key={0}
 				auctionID={state.id}
-				type={state.status}
+				type={state.type}
 				associatedAnnotationId={state.associatedAnnotationId}
 				records={state.records}
 				title={state.title}
@@ -279,59 +278,62 @@ class Check extends React.Component {
 		}
 		return (
 			<div className="yc-content-container-newPage assetStructureDetail-structure">
-				<BreadCrumb texts={['资产结构化检查 /详情']} />
-				<div className="assetStructureDetail-structure_container">
-					<div className="assetStructureDetail-structure_container_header">
-						{moduleOrder[0]}
-						<ButtonGroup
-							role="notFirstMark-check"
-							status={ButtonGroup.getStatus(state.status,state.structPersonnelEnable)}
-							enable={this.enable}
-							type={state.type}
-							handleClosePage={this.handleClosePage}
-							handleErrorModal={this.handleErrorModal}
-							handleNoErr={this.handleNoErr}
-							handleStructureUpdate={this.handleStructureUpdate}
-							handleChange={this.handleChange}
-						/>
+				<SpinLoading loading={state.loading}>
+					<BreadCrumb texts={['资产结构化检查 /详情']} />
+					<div className="assetStructureDetail-structure_container">
+						<div className="assetStructureDetail-structure_container_header">
+							{moduleOrder[0]}
+							<ButtonGroup
+								role="notFirstMark-check"
+								status={ButtonGroup.getStatus(state.status,state.structPersonnelEnable)}
+								enable={this.enable}
+								type={state.type}
+								handleClosePage={this.handleClosePage}
+								handleErrorModal={this.handleErrorModal}
+								handleNoErr={this.handleNoErr}
+								handleStructureUpdate={this.handleStructureUpdate}
+								handleChange={this.handleChange}
+							/>
+						</div>
+						<div className="assetStructureDetail-structure_container_body">
+							{ moduleOrder.length > 0 ? moduleOrder.slice(1) : null }
+							<PropertyDetail
+								enable={this.enable}
+								collateral={state.collateral}
+								buildingArea={state.buildingArea}
+								houseType={state.houseType}
+								handleChange={this.handleChange}
+							/>
+							<DocumentDetail
+								enable={this.enable}
+								wsFindStatus={state.wsFindStatus}
+								wsUrl={state.wsUrl}
+								ah={state.ah}
+								wsInAttach={state.wsInAttach}
+								handleDocumentChange={this.handleDocumentChange.bind(this)}
+								handleChange={this.handleChange}
+								handleAddClick={this.handleAddClick.bind(this)}
+								handleDeleteClick={this.handleDeleteClick.bind(this)}
+							/>
+							<RoleDetail
+								enable={this.enable}
+								obligors={state.obligors}
+								handleChange={this.handleRoleChange.bind(this)}
+								handleAddClick={this.handleAddClick.bind(this)}
+								handleDeleteClick={this.handleDeleteClick.bind(this)}
+							/>
+						</div>
 					</div>
-					<div className="assetStructureDetail-structure_container_body">
-						{ moduleOrder.length > 0 ? moduleOrder.slice(1) : null }
-						<PropertyDetail
-							enable={this.enable}
-							collateral={state.collateral}
-							buildingArea={state.buildingArea}
-							houseType={state.houseType}
-							handleChange={this.handleChange}
-						/>
-						<DocumentDetail
-							enable={this.enable}
-							wsFindStatus={state.wsFindStatus}
-							wsUrl={state.wsUrl}
-							ah={state.ah}
-							wsInAttach={state.wsInAttach}
-							handleDocumentChange={this.handleDocumentChange.bind(this)}
-							handleChange={this.handleChange}
-							handleAddClick={this.handleAddClick.bind(this)}
-							handleDeleteClick={this.handleDeleteClick.bind(this)}
-						/>
-						<RoleDetail
-							enable={this.enable}
-							obligors={state.obligors}
-							handleChange={this.handleRoleChange.bind(this)}
-							handleAddClick={this.handleAddClick.bind(this)}
-							handleDeleteClick={this.handleDeleteClick.bind(this)}
-						/>
-					</div>
-				</div>
-				<CheckModal
-					visible={state.visible}
-					status={state.status}
-					wrongReasons={state.wrongData.slice(0, 1)}
-					handleModalSubmit={this.handleModalSubmit}
-					handleModalCancel={this.handleModalCancel}
-					style={{ width: 430 }}
-				/>
+					<CheckModal
+						visible={state.visible}
+						status={state.status}
+						wrongReasons={state.wrongData.slice(0, 1)}
+						handleModalSubmit={this.handleModalSubmit}
+						handleModalCancel={this.handleModalCancel}
+						style={{ width: 430 }}
+					/>
+				</SpinLoading>
+
 			</div>
 		);
 	}

@@ -10,10 +10,13 @@ import RoleDetail from '@/components/assetStructureDetail/roleDetail'
 import { BreadCrumb } from '@commonComponents'
 import { message } from 'antd'
 import { getCheckDetail, structuredById,getWrongTypeAndLevel } from '@api'
+import SpinLoading from "@/components/Spin-loading";
+
 class Other extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
+            loading:false,
             status: 0,
             wrongData: [],
             records: [],
@@ -38,7 +41,7 @@ class Other extends React.Component {
             window.close();
         } else {
             //如果不是新开页打开的 无法关闭
-            message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面。')
+            message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面。');
             setTimeout(() => {
                 window.location.href = "about:blank";
             }, 1500)
@@ -62,13 +65,17 @@ class Other extends React.Component {
         })
     }
     loadData() {
-        const { associatedAnnotationId, associatedStatus } = this.props.match.params
+        this.setState({loading:true});
+        const { associatedAnnotationId, associatedStatus } = this.props.match.params;
         if (this.role === 'admin') {
             getCheckDetail(associatedAnnotationId).then((res) => {
                 if (res.data) {
+                		const data = res.data.data;
                     this.setState({
                         ...res.data.data,
-                        status:res.data.data.detailStatus
+                        status:res.data.data.detailStatus,
+												ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+												wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                     },()=>{
                         if(this.role==='admin'&&this.state.status!==1){
                             this.getWrongReason(associatedAnnotationId)
@@ -76,66 +83,74 @@ class Other extends React.Component {
                     })
                 }
 
-            })
+            }).finally(()=>this.setState({ loading:false }))
         } else {
-            structuredById(associatedAnnotationId, associatedStatus,1).then((res) => {
-                if (res.data) {
+            structuredById(associatedAnnotationId, associatedStatus,1).then(res => {
+                const { data,code }= res.data;
+                if (code === 200) {
                     this.setState({
-                        ...res.data
+                        ...data,
+                        ah: data && data.ah && data.ah.length === 0 ? [{ value: '' }] : data.ah,
+                        wsUrl: data && data.wsUrl && data.wsUrl.length === 0 ? [{ value: '' }] : data.wsUrl,
                     })
                 }
-            })
+            }).finally(()=>this.setState({ loading:false }))
         }
     }
     render() {
-        const state = this.state
+        const state = this.state;
         const basicDetails = {
             title: state.title,
             url: state.url,
             auctionStatus: state.auctionStatus,
+            associatedStatus:state.associatedStatus,
+            type: state.type,
+            associatedAnnotationId:state.associatedAnnotationId,
             reasonForWithdrawal: state.reasonForWithdrawal,
             auctionID:state.id,
             role:this.role
-        }
-        basicDetails.records = this.role === 'admin' ? state.records : []
+        };
+        basicDetails.records = this.role === 'admin' ? state.records : [];
         const moduleOrder = [
-            <BasicDetail key={0} {...basicDetails}></BasicDetail>
-        ]
+            <BasicDetail key={0} {...basicDetails}/>
+        ];
         if (this.state.wrongData.length>0 && this.role === 'admin') {
             const wrongData = state.wrongData.filter((item)=>{
-                return item.wrongLevel!==0
-            })
+                return item.wrongLevel!==3
+            });
             moduleOrder.unshift(
-                <WrongDetail wrongData={wrongData} key={1} ></WrongDetail>
+                <WrongDetail wrongData={wrongData} key={1} />
             )
         }
         return (
-            <div className="yc-content-container-newPage assetStructureDetail-structure">
-                <BreadCrumb
-                    texts={['资产结构化 /详情']}></BreadCrumb>
-                <div className="assetStructureDetail-structure_container">
-                    <div className="assetStructureDetail-structure_container_header">
-                        {
-                            moduleOrder[0]
-                        }
-                        <ButtonGroup handleClosePage={this.handleClosePage.bind(this)}></ButtonGroup>
-                    </div>
-                    <div className="assetStructureDetail-structure_container_body">
-                        {
-                            moduleOrder.length > 0 ?
+          <SpinLoading loading={state.loading}>
+              <div className="yc-content-container-newPage assetStructureDetail-structure">
+                  <BreadCrumb texts={['资产结构化 /详情']}/>
+                  <div className="assetStructureDetail-structure_container">
+                      <div className="assetStructureDetail-structure_container_header">
+                          {
+                              moduleOrder[0]
+                          }
+                          <ButtonGroup handleClosePage={this.handleClosePage.bind(this)}/>
+                      </div>
+                      <div className="assetStructureDetail-structure_container_body">
+                          {
+                              moduleOrder.length > 0 ?
                                 moduleOrder.slice(1) : null
-                        }
-                        <PropertyDetail enable={true}
-                            collateral={state.collateral} buildingArea={state.buildingArea}
-                            houseType={state.houseType}></PropertyDetail>
-                        <DocumentDetail enable={true}
-                            wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl}
-                            ah={state.ah} wsInAttach={state.wsInAttach}>
-                        </DocumentDetail>
-                        <RoleDetail enable={true} obligors={state.obligors}></RoleDetail>
-                    </div>
-                </div>
-            </div>
+                          }
+                          <PropertyDetail enable={true}
+                                          collateral={state.collateral} buildingArea={state.buildingArea}
+                                          houseType={state.houseType} />
+                          <DocumentDetail enable
+                                          wsFindStatus={state.wsFindStatus} wsUrl={state.wsUrl}
+                                          ah={state.ah} wsInAttach={state.wsInAttach}>
+                          </DocumentDetail>
+                          <RoleDetail enable={true} obligors={state.obligors}/>
+                      </div>
+                  </div>
+              </div>
+          </SpinLoading>
+
         )
     }
 }

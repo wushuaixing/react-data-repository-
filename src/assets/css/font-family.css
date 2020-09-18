@@ -1,0 +1,9 @@
+@font-face {
+  font-family: Alibaba-PuHuiTi;
+  src: url('./font/Alibaba-PuHuiTi-Regular.ttf');
+  /*src: url("./font/HYQiHei-55S.otf");*/
+  /*src: url("./font/HYQiHeiX1-45W.otf");*/
+}
+* {
+  font-family: "Alibaba-PuHuiTi", "Avenir", Helvetica, Arial, sans-serif;
+}

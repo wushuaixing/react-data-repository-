@@ -58,8 +58,9 @@ class topMenu extends React.Component {
 
 	logOut() {
 		confirm({
-			icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
+			icon:<Icon type="exclamation-circle" theme="filled" style={{color:'#fa930c'}} />,
 			content: '确定要退出登录吗?',
+			className:'yc-signout-btn',
 			onOk: () => {
 				logout().then(res => {
 					if (res.data.code === 200) {
@@ -84,15 +85,15 @@ class topMenu extends React.Component {
 		const label = <span>确认新密码</span>
 		const footer =
 		<div className="yc-modal-footer">
+			<Button key="back"
+				onClick={this.handleCancel}>
+				取消
+			</Button>
 			<Button key="submit"
 				type="primary"
 				htmlType="submit"
 				onMouseDown={this.handleSubmit.bind(this)}>
 				确定
-			</Button>
-			<Button key="back"
-				onClick={this.handleCancel}>
-				取消
 			</Button>
 		</div>
 		const menu = (
@@ -121,13 +122,15 @@ class topMenu extends React.Component {
 					</div>
 				</div>
 				<Modal
-					width={480}
+					width={500}
 					title="修改密码"
 					visible={visible}
 					destroyOnClose={true}
 					closable={true}
 					onCancel={this.handleCancel}
-					footer={footer}>
+					footer={footer}
+					className='yc-change-pwd yc-accountManagement-addRoleModal'
+					>
 					<Form {...formItemLayout} hideRequiredMark={true} className="forgetPassword-form">
 						<Form.Item label="原密码">
 							{getFieldDecorator('oldPassword', {
@@ -142,7 +145,7 @@ class topMenu extends React.Component {
 							})(
 								<Input
 									maxLength={20}
-									style={{ marginLeft: 8, width: 305, height: 32 }}
+									style={{ marginLeft: 8, width: 312, height: 32 }}
 									className="yc-input"
 									placeholder="请输入原密码"
 								/>,
@@ -167,7 +170,7 @@ class topMenu extends React.Component {
 											<Input
 												maxLength={20}
 												onFocus={this.handlePasswordTipVisible.bind(this, false)}
-												style={{ marginLeft: 8, width: 305, height: 32 }}
+												style={{ marginLeft: 8, width: 312, height: 32 }}
 												className="yc-input"
 												placeholder="请输入新密码，长度为6-20位，不允许有空格" />
 										)}
@@ -187,7 +190,7 @@ class topMenu extends React.Component {
 							})(
 								<Input
 									maxLength={20}
-									style={{ marginLeft: 8, width: 305, height: 32 }}
+									style={{ marginLeft: 8, width:312,height: 32 }}
 									className="yc-input"
 									placeholder="请确认新密码，长度为6-20位，不允许有空格"
 									autoComplete="new-password"

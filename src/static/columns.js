@@ -18,19 +18,29 @@ export const Columns = [
 								<a href={record.info.url} target="_target">{record.info.title}</a>
 							</div>
 							<div className="info-line">
-								<span>处置法院/单位：{record.info.court}</span>
+								<span>处置法院/单位：
+									<b>{record.info.court}</b>
+								</span>
 							</div>
 							<div className="info-line">
-								<span>拍卖时间：{record.info.start}</span>
+								<span>拍卖时间：
+									<b>{record.info.start}</b>
+								</span>
 							</div>
 							<div className="info-line">
-								<span>拍卖状态：{AUCTION_STATUS[record.info.status]}</span>
+								<span>拍卖状态：
+									<b>{AUCTION_STATUS[record.info.status]}</b>
+								</span>
 							</div>
 							<div className="info-line">
-								<span>{`评估价：${record.info.consultPrice}元`}</span>
+								<span>评&nbsp;&nbsp;估&nbsp;&nbsp;价：
+									<b>{`${record.info.consultPrice}元`}</b>
+								</span>
 							</div>
 							<div className="info-line">
-								<span>{`起拍价：${record.info.initialPrice}元`}</span>
+								<span>起&nbsp;&nbsp;拍&nbsp;&nbsp;价：
+									<b>{`${record.info.initialPrice}元`}</b>
+								</span>
 							</div>
 						</div>
 					}
@@ -49,22 +59,22 @@ export const Columns = [
 						let color = 'default';
 						let text = '';
 						switch (status) {
-							case 1:
+							case 2:
 								text = '未检查';
 								break;
-							case 2:
+							case 3:
 								color = 'success';
 								text = '检查无误';
 								break;
-							case 3:
+							case 4:
 								color = 'error';
 								text = '检查错误';
 								break;
-							case 4:
+							case 5:
 								color = 'success';
 								text = '已修改';
 								break;
-							case 5:
+							case 6:
 								color = 'error';
 								text = '待确认';
 								break;
@@ -73,7 +83,7 @@ export const Columns = [
 								break;
 						}
 						return (
-							<Badge status={color} text={text} />
+							<Badge status={color} text={text} className='badge-left'/>
 						);
 					})()
 				}
@@ -87,7 +97,7 @@ export const Columns = [
 		render: (text, record) => (
 			<span>
 				{
-					record.status === -1 ?
+					record.status === 0 ?
 						<div>--</div> :
 						<div>
 							{
@@ -108,7 +118,7 @@ export const Columns = [
 		dataIndex: "checkPersonnel",
 		render: (text, record) => (
 			<span>
-				<div style={{ fontSize: 12 }}>{record.checkPersonnel ? record.checkPersonnel : '--'}</div>
+				<div style={{ fontSize: 14 }}>{record.checkPersonnel ? record.checkPersonnel : '--'}</div>
 			</span>
 		),
 	},

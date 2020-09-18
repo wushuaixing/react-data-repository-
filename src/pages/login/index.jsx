@@ -7,6 +7,9 @@ import ForgetPasswordForm from '@/components/login/forgetPasswordForm';
 import box from '../../assets/img/loginPage-box.png';
 import logo from '../../assets/img/loginPage-logoText.png';
 import miniLogo from '../../assets/img/loginPage-logo.png';
+import iconUserName from '../../assets/img/icon_username.png';
+import iconPwd from '../../assets/img/icon_password.png';
+import iconCode from '../../assets/img/icon_verificationcode.png';
 
 import './style.scss';
 
@@ -14,7 +17,7 @@ const { confirm, info } = Modal;
 
 function showManyTimeErrorConfirm(num) {
 	confirm({
-		icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
+		icon:<Icon type="exclamation-circle" theme="filled" style={{color:'#fa930c'}} />,
 		content: `账号或密码多次错误，您还可以尝试${10 - num}次，是否需要找回密码?`,
 		onOk: () => {
 			//找回密码的逻辑
@@ -27,7 +30,7 @@ function showManyTimeErrorConfirm(num) {
 }
 function showFreezeConfirm() {
 	info({
-		icon:<Icon type="info-circle" theme="filled" style={{color:'#fa930c'}} />,
+		icon:<Icon type="exclamation-circle" theme="filled" style={{color:'#fa930c'}} />,
 		content: `账号或密码多次错误，请1小时后再试`,
 		okText: '我知道了'
 	});
@@ -99,7 +102,7 @@ class Login extends React.Component {
 		if (res.data.code === 200) {
 			storage.setItem("userState", res.data.data.ROLE);
 			storage.setItem("userName", res.data.data.NAME);
-			this.props.history.push({ pathname: '/index', query: { info: 'success' } });
+			this.props.history.push({ pathname: '/index', query: { info: 'success', rule:res.data.data.FUNCTIONS } });
 		} else {
 			this.setState({
 				errorCount: res.data.data.errCount
@@ -158,7 +161,8 @@ class Login extends React.Component {
 										<Form.Item>
 											{getFieldDecorator('username', {
 												rules: [
-													{ required: true, whitespace: true, message: "请输入账号" }
+													{ required: true, whitespace: true, message: "请输入账号" },
+													{min:11,message:'账号小于11位'}
 												],
 												getValueFromEvent(event) {
 													return event.target.value.replace(/\D/g, "")
@@ -167,8 +171,9 @@ class Login extends React.Component {
 											})(
 												<Input
 													maxLength={11}
+													autoComplete="auto"
 													className="yc-input"
-													prefix={<Icon type="user" style={{ color: this.state.iconColor }} />}
+													prefix={<img src={iconUserName} style={{marginRight:10}} alt=''/>}
 													placeholder="请输入11位账号"
 													onPressEnter={this.handleCorrect}
 												/>,
@@ -185,8 +190,10 @@ class Login extends React.Component {
 												<Input
 													maxLength={20}
 													className="yc-input"
-													prefix={<Icon type="lock" style={{ color: this.state.iconColor }} />}
+													// prefix={<Icon type="lock" style={{ color: this.state.iconColor }} />}
+													prefix={<img src={iconPwd} style={{marginRight:10}} alt=''/>}
 													type="password"
+													autoComplete="auto"
 													onPressEnter={this.handleCorrect}
 													placeholder="请输入密码"
 												/>,
@@ -196,21 +203,23 @@ class Login extends React.Component {
 											errorCount >= 3 ?
 												<Form.Item>
 													{getFieldDecorator('imageVerifyCode', {
-														rules: [{ required: true, whitespace: true, message: '请输入验证码', }],
+														rules: [{ required: true, whitespace: true, message: '请输入图片验证码', }],
 														getValueFromEvent(event) {
 															return event.target.value.replace(/\s/g, "")
 														},
 														validateTrigger: ['onSubmit','onBlur'],
 													})(
 														<Input
-															style={{ width: 175 }}
+															style={{ position: 'relative'}}
 															className="yc-input"
 															onPressEnter={this.handleCorrect}
-															prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+															autoComplete="off"
+															// prefix={<Icon type="check-circle" style={{ color: this.state.iconColor }} />}
+															prefix={<img src={iconCode} style={{marginRight:10}} alt=''/>}
 															placeholder="请输入图片验证码"
 														/>,
 													)}
-													<span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} alt="" style={{ width: 140, height: 38, marginLeft: 5 }} /></span>
+													<span onClick={this.toRefreshImg.bind(this)}><img src={codeImgSrc} alt="" style={{ width: 140, height:40, marginLeft: 5,position:'absolute',right:0,top:-10 }} /></span>
 												</Form.Item> : null
 										}
 										<Form.Item style={{ marginTop: -20 }}>

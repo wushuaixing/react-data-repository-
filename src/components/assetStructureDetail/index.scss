@@ -18,6 +18,9 @@
     .ant-input {
         width: 225px;
     }
+    .ant-select-selection-selected-value{
+        overflow: visible !important;
+    }
 }
 
 .yc-components-roleDetail {
@@ -33,7 +36,7 @@
         width: 200px;
         height: 12px;
         font-size: 12px;
-        font-family: PingFangSC-Regular, PingFang SC;
+        font-family: PingFangSC-Regular, PingFang SC, serif;
         font-weight: 400;
         color: rgba(41, 48, 56, 1);
         line-height: 12px;
@@ -49,8 +52,13 @@
         width: 100%;
         white-space:pre-wrap;
     }
+    &_link{
+        &:hover{
+            text-decoration: underline;
+        }
+    }
     .addition-ah {
-        margin-left: 88px;
+        margin-left: 100px;
     }
     .ant-input {
         width: 225px;
@@ -64,77 +72,115 @@
 }
 
 .yc-components-assetStructureDetail_body-roleRow {
-    height: 40px;
+    line-height: 14px;
+    height: 46px;
     background: rgba(237, 239, 243, 1);
-    padding: 14px 0 14px 20px;
+    padding: 16px 0 16px 22px;
     display: flex;
     flex-direction: row;
     min-width: 1210px;
+    font-size: 14px;
     .name {
-        width: 200px;
-        padding: 0 0 0 10px;
+        width: 259px;
     }
     .role {
-        margin-left: 20px;
-        width: 90px;
-        padding-left: 28px;
+        width: 161px;
     }
     .certification {
-        margin-left: 20px;
-        width: 200px;
-        padding-left: 10px;
+        width: 260px;
     }
     .birth {
-        margin-left: 20px;
-        width: 200px;
-        padding-left: 10px;
+        width: 258px;
     }
     .sex {
-        margin-left: 20px;
-        width: 70px;
-        text-align: center;
-        //padding-left:29px;
+        width: 150px;
     }
     .note {
-        width: 233px;
-        margin-left: 20px;
-        padding-left: 30px;
+        width: 386px;
     }
     .operation {
         width: 66px;
-        text-align: center;
-        padding-left: 0px;
     }
 }
 .yc-components-assetStructureDetail_body-roleInputRow {
     height: auto;
-    padding: 11px 44px 20px 0px;
+    padding: 11px 44px 20px 0;
     border-bottom: 1px #e2e4e9 solid;
     display: flex;
-    min-width: 1210px;
     .ant-input {
-        width: 200px;
+        width: 240px;
         margin-left: 20px;
+        height: 30px;
     }
     .ant-select {
-        width: 90px;
+        width: 140px;
         margin-left: 20px;
-        font-size: 12px;
+        height: 30px;
+    }
+    .sex-select{
+        width: 130px;
+    }
+    .tips-box{
+        width: 360px;
+        resize: none;
     }
     .ant-btn {
         margin-left: 20px;
-        width: 66px;
+        width: 80px;
+    }
+    .del_role_item{
+        box-shadow: none;
+        &:hover{
+            background: #016AA9 !important;
+            color: #fff !important;
+        }
     }
     .ant-select-selection__rendered {
         width: 60px;
+        .ant-select-selection__placeholder{
+            color: #B2B8C9 !important;
+        }
     }
     .ant-select-arrow {
         right: 5px;
     }
+    .ant-select-selection--single{
+        height: 30px;
+    }
+    .ant-select-dropdown--single{
+        width: 240px;
+    }
+    .ant-select-dropdown-menu-vertical{
+        background: #FFFFFF;
+        box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+        border: 1px solid #DDE0E7;
+        padding:0;
+        li{
+            font-size: 14px;
+            background: #fff;
+            line-height: 20px;
+            // height: 28px;
+            padding: 3px 12px ;
+            box-sizing: content-box;
+            font-weight: normal;
+            white-space: normal;
+            overflow: visible;
+            word-break: break-all;
+            &:first-child{
+                padding-top: 9px;
+            }
+            &:last-child{
+                padding-bottom: 9px;
+            }
+            &:hover{
+                background: #fff;
+            }
+        }
+    }
 }
 
 .yc-components-assetStructureDetail_body-addRole {
-    width: 100%;
     margin-top: 20px;
     .ant-btn {
         width: 100%;
@@ -147,7 +193,7 @@
 }
 
 .basicDetail_row{
-    @include titleRightAlign(110px);
+    @include titleRightAlign(120px);
 }
 
 .propertyDetail_row{
@@ -160,4 +206,47 @@
 
 .wrongDetail_row{
     margin-left:50px;
+}
+
+
+//自动联想输入框
+.atuo_complete,.atuo_complete_nodata{
+    position: relative;
+    width: 240px !important;
+    .ant-select-search__field {
+        width: 240px !important;
+        margin: 0 !important;
+    }
+    .ant-select-selection__rendered {
+        width: 220px !important;
+    }
+}
+
+//无数据时样式
+.atuo_complete_nodata{
+    .ant-select-search__field{
+        border: 1px solid #FD9C26 !important;
+    }
+}
+
+.auto_complete_nodata{
+    line-height: 12px;
+    font-size: 12px;
+    color: #FD9C26;
+    padding: 4px 0 0 30px;
+    margin-bottom: 0;
+}
+
+.auto_complete_nodatas{
+    margin:4px 0 0 20px;
+    width: 240px;
+    height: 46px;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    border: 1px solid #DDE0E7; 
+    color: #7D8699;
+    font-size: 14px;
+    text-align: center;
+    line-height: 46px;
 }

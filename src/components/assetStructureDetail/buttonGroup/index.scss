@@ -3,6 +3,7 @@
     width: 50%;
     flex-direction: row;
     justify-content: flex-end;
+    padding-top: 9px;
     &-structure{
         display: flex;
     }
@@ -24,5 +25,9 @@
     }
     .btnText_1{
         display: flex;
+    }
+    .yc-buttonGroup-adminstructure{
+        position: relative;
+        top: -64px;
     }
 }

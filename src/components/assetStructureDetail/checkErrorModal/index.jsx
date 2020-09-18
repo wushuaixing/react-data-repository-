@@ -2,8 +2,9 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
 import CheckboxGroup from "antd/es/checkbox/Group";
-import { Input, Radio, Checkbox, Button, Form, Modal, Icon } from 'antd'
+import { Input, Radio, Checkbox, Button, Form, Modal } from 'antd'
 import { REASON_LIST, WRONG_TYPE_LIST } from "@/static/status";
+import NoticeImg from '@/assets/img/confirm_notice.png';
 import './style.scss';
 
 const checkForm = Form.create;
@@ -46,7 +47,7 @@ class Check extends React.Component {
 					visible={this.props.visible}
 					closable={true}
 					footer={null}
-					title={<span><Icon type="exclamation-circle" theme="twoTone" twoToneColor="#f5222d" /> 确认本条结构化数据标注结果有误吗？</span>}
+					title={<span><img src={NoticeImg} alt='' /> 确认本条结构化数据标注结果有误吗？</span>}
 					maskClosable
 					onCancel={this.modalCancel}
 				>
@@ -54,33 +55,35 @@ class Check extends React.Component {
 						<div className="part">
 							<span>点击确定，本条结构化数据将被标记为检查错误，并将退回给结构化人员</span>
 						</div>
-						<Form style={{ width: 347 }}>
+						<Form style={{ width: 354 }}>
 							<Form.Item className="part" label="备注">
 								{getFieldDecorator('remark', {
 									/* initialValue:`${returnRemarks?returnRemarks+'\n':''}${(wrongReasons.remark)?wrongReasons.remark.join('\n'):''}`, */
 									initialValue:`${(isShowWrongRemark)?wrongReasons.remark.join('\n'):''}`
 								})(
 									<Input.TextArea
-										style={{ height: 136 }}
-										maxLength="136"
+										style={{ width: 354,height:100 }}
 										placeholder="请填写备注"
 									/>
 								)}
 							</Form.Item>
 							<Form.Item className="part" label="错误等级" style={{ fontSize: 12 }}>
 								{getFieldDecorator('wrongLevel', {
-									initialValue: wrongReasons.wrongLevel&&isShowWrongRemark?wrongReasons.wrongLevel:7,
+									initialValue: wrongReasons.wrongLevel&&isShowWrongRemark?wrongReasons.wrongLevel:0,
 								})(
-									<Radio.Group initialValue={7}>
-										<Radio value={7}>
+									<Radio.Group initialValue={0}>
+										<Radio value={0}>
 											<span>不计入错误</span>
 										</Radio>
-										<Radio value={4}>
+										<Radio value={1}>
 											<span>普通错误</span>
 										</Radio>
-										<Radio value={1}>
+										<Radio value={2}>
 											<span>严重错误</span>
 										</Radio>
+										{/*<Radio value={3}>*/}
+										{/*	<span>无误</span>*/}
+										{/*</Radio>*/}
 									</Radio.Group>
 								)}
 							</Form.Item>

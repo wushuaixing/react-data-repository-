@@ -5,8 +5,10 @@ import { message, Button, Table, Spin,Modal } from 'antd';
 import AccountModal from '@/components/accountManagement/checkAccountModal';
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from "@/utils/pagination";
+import NoDataIMG from '../../../assets/img/no_data.png';
+import DelIMG from '../../../assets/img/confirm_delete.png';
 import '../style.scss'
-const { confirm } = Modal;
+const { confirm} = Modal;
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
@@ -34,12 +36,11 @@ class Index extends React.Component {
 				{
 					title: "操作",
 					dataIndex: "action",
-					align: "center",
-					width: 180,
+					width: 200,
 					render: (text, record) => (
 						<span>
-							<a style={{ marginRight: 8 }} onClick={() => this.editAccount(record)}>编辑</a>
-							<a style={{ marginRight: 8 }} onClick={() => this.resetPassword(record.id)}>重置密码</a>
+							<a className='action_left' onClick={() => this.editAccount(record)}>编辑</a>
+							<a className='action_center' onClick={() => this.resetPassword(record.id)}>重置密码</a>
 							<a onClick={() => this.deleteUser(record.id)}>删除</a>
 						</span>
 					),
@@ -71,6 +72,7 @@ class Index extends React.Component {
 		confirm({
 			title: '确认重置密码?',
 			content:'重置密码后,该账号密码为账号后6位',
+			icon: <img src={DelIMG} alt='' className="ico_confirmdel"/>,
 			onOk: () => {
 				this.setState({
 					loading: true,
@@ -93,6 +95,8 @@ class Index extends React.Component {
 		confirm({
 			title: '确认删除账号?',
 			content:'删除后,该账户将无法在数据资产平台登录',
+			icon: <img src={DelIMG} alt='' className="ico_confirmdel"/>,
+			className:'ant-explain-change',
 			onOk: () => {
 				this.setState({
 					loading: true,
@@ -189,18 +193,19 @@ class Index extends React.Component {
 			<div className="yc-content-container">
 				<BreadCrumb texts={['账号管理', '检查账号']}></BreadCrumb>
 				<div className="yc-detail-content">
-					<div style={{padding:'12px 20px 0'}}>
-						<div className="addUser-button">
+					<div style={{padding:'20px 20px 0'}}>
+						<div className="addUser-button" >
 							<Button onClick={this.addAccount}>+ 添加账号</Button>
 						</div>
 						<Spin tip="Loading..." spinning={loading}>
 							<div>
 								<Table 
-								rowClassName="table-list"
+								    rowClassName="table-list"
 									columns={columns} dataSource={tableList} className="role-table"
 									rowKey={record => record.id}
 									onChange={this.onChangePage}
 									pagination={paginationProps}
+									locale={{emptyText: <div className="no-data-box"><img src={NoDataIMG} alt="暂无数据"/><p>暂无数据</p></div>}}
 								/>
 							</div>
 						</Spin>

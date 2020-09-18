@@ -8,6 +8,8 @@ import CheckWrongDetail from '@/components/assetStructureDetail/wrongDetail';
 import ReturnRemark from '@/components/assetStructureDetail/returnRemark';
 import RoleDetail from '@/components/assetStructureDetail/roleDetail';
 import { BreadCrumb } from '@commonComponents';
+import SpinLoading from "@/components/Spin-loading";
+
 import './index.scss';
 import {
 	changeWrongType, // 在结构化人员未修改前 再次修改错误
@@ -27,7 +29,7 @@ function getObligors() {
 	return {
 		birthday: '',
 		gender: '0',
-		labelType: '1',
+		label_type: '1',
 		name: '',
 		notes: '',
 		number: '',
@@ -37,11 +39,12 @@ function getObligors() {
 function CheckWrongLog() {
 	this.auctionExtractWrongTypes = [];
 	this.remark = '';
-	this.wrongLevel = 0;
+	this.wrongLevel = 3;
 }
 
 class Check extends React.Component {
 	state = {
+		loading:false,
 		ah: [],
 		associatedAnnotationId: '',
 		auctionStatus: 1,
@@ -65,8 +68,8 @@ class Check extends React.Component {
 
 	get updateOrSubmitCheck() {
 		const { length } = this.state.records;
-		const { desc } = this.state.records[length - 1];
-		return (['结构化', '自动标注'].indexOf(desc) >= 0 || length === 0) ? 'submit' : 'update';
+		const { msg } = this.state.records[length - 1];
+		return (['结构化', '自动标注'].indexOf(msg) >= 0 || length === 0) ? 'submit' : 'update';
 	}
 
 	// 是否 待确认列数据
@@ -81,12 +84,11 @@ class Check extends React.Component {
 
 	componentDidMount() {
 		const { id, status, isNotConfirm } = this.props.match.params;
-		if (!sessionStorage.getItem('structPersonnelEnable') && this.props.location.query && this.props.location.query.enable !== undefined) {
-			// console.log(this.props.location.query.enable)
-			sessionStorage.setItem('structPersonnelEnable', this.props.location.query.enable);
-		}
+		this.setState({ loading:true });
 		getCheckDetail(id).then((res) => {
 			const { data } = res.data;
+			const enable= !(data.structPersonnelEnable === 0 || data.structPersonnelEnable === 2);
+			sessionStorage.setItem('structPersonnelEnable', enable);
 			this.setState({
 				...res.data.data,
 				ah: data && data.ah && data.ah instanceof Array && data.ah.length === 0 ? [{ value: '' }] : data.ah,
@@ -94,7 +96,7 @@ class Check extends React.Component {
 			}, () => {
 				/* console.log(this.state) */
 			});
-		});
+		}).finally(()=> this.setState({loading:false}));
 		if (parseInt(status) >= 3) {
 			getWrongTypeAndLevel(id).then((res) => {
 				this.setState({
@@ -220,8 +222,8 @@ class Check extends React.Component {
 	};
 
 	handleRoleChange(combine, value) {
-		const arr_index = combine.substr(combine.length - 1, 1);
-		const key = combine.substr(0, combine.length - 1);
+		const arr_index = combine.replace(/[^0-9]/g,"");//combine形式为 name1
+		const key = combine.replace(/[^a-zA-Z_]/g,"");
 		const arr = [...this.state.obligors];
 		arr[arr_index][key] = value;
 		this.setState({
@@ -243,7 +245,6 @@ class Check extends React.Component {
 	}
 
 	handleDeleteClick(key, index = -1) {
-		console.log(key, index);
 		// 角色对应顺序删除  文书从下往上删
 		const arr = (index >= 0) ? this.state[key].slice(0) : this.state[key].slice(0, -1);
 		if (index >= 0) {
@@ -267,16 +268,12 @@ class Check extends React.Component {
 				保存无效并弹出“债权人备注待完善”非模态框提示； */
 		const { obligors } = this.state;
 		for (let i = 0; i < obligors.length; i++) {
-			const { name } = obligors[i];
-			if (obligors[i].notes === '' && obligors[i].labelType === '2'
-				&& name.indexOf('银行') < 0 && name.indexOf('信用社') < 0 && name.indexOf('信用联社') < 0) {
-				message.warning('债权人备注待完善');
-				return false;
+			let item = obligors[i];
+			if ( item.notes === '' ) {
+				if( item.label_type === '3' ) return message.warning('资产线索备注待完善');
+				if( item.label_type === '2' && !/银行|信用联?社|合作联?社/.test(item.name)) return message.warning('债权人备注待完善');
 			}
-			if (obligors[i].notes === '' && obligors[i].labelType === '3') {
-				message.warning('资产线索备注待完善');
-				return false;
-			}
+			if ( item.birthday && !/^\d{8}$/.test(item.birthday))  return message.warning('生日格式不正确');
 		}
 		/* 资产标注详情页存在备注为空的资产线索时，点击保存，保存无效并弹出“资产线索备注待完善”非模态框提示 */
 		const { id } = this.props.match.params;
@@ -320,6 +317,7 @@ class Check extends React.Component {
 
 	render() {
 		const { state } = this;
+		const { loading } = this.state;
 		const { status, isNotConfirm } = this.props.match.params;
 		const { enable } = this;
 		const moduleOrder = [
@@ -347,64 +345,68 @@ class Check extends React.Component {
 			);
 		}
 		return (
-			<div className="yc-content-container assetStructureDetail-structure">
-				<BreadCrumb texts={['资产结构化检查 / 详情']} />
-				<div className="assetStructureDetail-structure_container">
-					<div className="assetStructureDetail-structure_container_header">
-						{ moduleOrder[0] }
-						<CheckButtonGroup
-							role="check"
-							status={status}
-							enable={enable}
-							type={state.type}
-							handleErrorModal={this.handleErrorModal}
-							handleStructureUpdate={this.handleStructureUpdate}
-							handleNoErr={this.handleNoErr}
-							handleSubmit={this.handleSubmit}
-							handleChange={this.handleChange}
-							handleConfirm={this.handleConfirm}
-							handleBack={this.onClickToTable}
-						/>
-					</div>
-					<div className="assetStructureDetail-structure_container_body">
-						{ moduleOrder.length > 0 ? moduleOrder.slice(1) : null }
-						<CheckPropertyDetail
-							enable={enable}
-							collateral={state.collateral}
-							buildingArea={state.buildingArea}
-							houseType={state.houseType}
-							handleChange={this.handleChange.bind(this)}
-						/>
-						<CheckDocumentDetail
-							enable={enable}
-							wsFindStatus={state.wsFindStatus}
-							wsUrl={state.wsUrl}
-							ah={state.ah}
-							wsInAttach={state.wsInAttach}
-							handleDocumentChange={this.handleDocumentChange.bind(this)}
-							handleChange={this.handleChange.bind(this)}
-							handleAddClick={this.handleAddClick.bind(this)}
-							handleDeleteClick={this.handleDeleteClick.bind(this)}
-						/>
-						<RoleDetail
-							enable={enable}
-							obligors={state.obligors}
-							handleChange={this.handleRoleChange.bind(this)}
-							handleAddClick={this.handleAddClick.bind(this)}
-							handleDeleteClick={this.handleDeleteClick.bind(this)}
-						/>
-					</div>
+			<SpinLoading loading={loading}>
+				<div className="yc-content-container assetStructureDetail-structure">
+					<BreadCrumb texts={['资产结构化检查 / 详情']} />
+					<div className="assetStructureDetail-structure_container">
+						<div className="assetStructureDetail-structure_container_header">
+							{ moduleOrder[0] }
+							<CheckButtonGroup
+								role="check"
+								status={status}
+								enable={enable}
+								type={state.type}
+								onlyThis={state.onlyThis}
+								handleErrorModal={this.handleErrorModal}
+								handleStructureUpdate={this.handleStructureUpdate}
+								handleNoErr={this.handleNoErr}
+								handleSubmit={this.handleSubmit}
+								handleChange={this.handleChange}
+								handleConfirm={this.handleConfirm}
+								handleBack={this.onClickToTable}
+							/>
+						</div>
+						<div className="assetStructureDetail-structure_container_body">
+							{ moduleOrder.length > 0 ? moduleOrder.slice(1) : null }
+							<CheckPropertyDetail
+								enable={enable}
+								collateral={state.collateral}
+								buildingArea={state.buildingArea}
+								houseType={state.houseType}
+								handleChange={this.handleChange.bind(this)}
+							/>
+							<CheckDocumentDetail
+								enable={enable}
+								wsFindStatus={state.wsFindStatus}
+								wsUrl={state.wsUrl}
+								ah={state.ah}
+								wsInAttach={state.wsInAttach}
+								handleDocumentChange={this.handleDocumentChange.bind(this)}
+								handleChange={this.handleChange.bind(this)}
+								handleAddClick={this.handleAddClick.bind(this)}
+								handleDeleteClick={this.handleDeleteClick.bind(this)}
+							/>
+							<RoleDetail
+								enable={enable}
+								obligors={state.obligors}
+								handleChange={this.handleRoleChange.bind(this)}
+								handleAddClick={this.handleAddClick.bind(this)}
+								handleDeleteClick={this.handleDeleteClick.bind(this)}
+							/>
+						</div>
 
+					</div>
+					<CheckModal
+						visible={state.visible}
+						returnRemarks={state.returnRemarks}
+						wrongReasons={state.wrongData.slice(0, 1)}
+						handleModalSubmit={this.handleModalSubmit.bind(this)}
+						handleModalCancel={this.handleModalCancel.bind(this)}
+						style={{ width: 430 }}
+					/>
 				</div>
-				<CheckModal
-					visible={state.visible}
-					returnRemarks={state.returnRemarks}
-					wrongReasons={state.wrongData.slice(0, 1)}
-					handleModalSubmit={this.handleModalSubmit.bind(this)}
-					handleModalCancel={this.handleModalCancel.bind(this)}
-					style={{ width: 430 }}
-				/>
-			</div>
+			</SpinLoading>
+
 		);
 	}
 }

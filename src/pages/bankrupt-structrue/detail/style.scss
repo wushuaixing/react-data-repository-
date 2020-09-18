@@ -1,0 +1,139 @@
+.yc-bankrupt-detail-wrapper{
+  padding: 20px;
+  .detail-content{
+    &-wrapper{
+      background-color: #fff;
+    }
+    &-crumb_suffix{
+      position: absolute;
+      top: 13px;
+      right: 20px;
+    }
+    padding: 30px 40px;
+    .detail-item{
+      &_title{
+        padding-left: 8px;
+        border-left: 3px solid #016AA9;
+        height: 20px;
+        line-height: 20px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      &_content{
+        padding: 25px 0 36px 27px;
+        .detail-item_list{
+          margin-bottom:14px;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          color: #293038;
+          &__title{
+            width: 91px;
+            text-align: right;
+            padding-right: 5px;
+          }
+          &__required{
+            position: relative;
+            &:after{
+              position: absolute;
+              left: -8px;
+              top: 0;
+              content:'*';
+              font-size: 16px;
+              line-height: 1.5;
+              font-weight: bold;
+              color:#FB0037;
+            }
+          }
+          &__text{
+            flex: 1;
+          }
+          &:last-child{
+            margin-bottom: 0;
+          }
+          button{
+            margin-right: 20px;
+            &:last-child{
+              margin-right:0;
+            }
+          }
+        }
+        .detail-content-item_ul{
+          margin: 0;
+          padding: 0;
+          li{
+            list-style: none;
+            margin-bottom: 5px;
+            position: relative;
+            &:last-child{
+              margin-bottom: 0;
+            }
+            .li-span_time{
+              font-family: 'Consolas', serif;
+            }
+            .li-span{
+              margin-right: 16px;
+              &_red{
+
+              }
+            }
+          }
+        }
+        .detail-item_input{
+          margin-bottom: 18px;
+          position: relative;
+          &:last-child{
+            margin-bottom: 0;
+          }
+          &__icon{
+            vertical-align: middle;
+            font-size: 20px;
+            color: #016AA9;
+            margin-left: 16px;
+            margin-top: -4px;
+          }
+          &__error{
+            position: absolute;
+            top: 35px;
+            left: 12px;
+            font-size: 12px;
+            line-height: 1;
+            z-index: 5;
+            color: #FB0037;
+          }
+        }
+        .detail-item_error{
+          input {
+            border:1px solid rgba(251,0,55,1);
+            &:focus{
+              box-shadow: 0 0 0 2px rgba(251,0,55, 0.2)
+            }
+          }
+        }
+        .tag-item-wrapper{
+          display: inline-block;
+          position: relative;
+        }
+        .tag-item-text{
+          position: absolute;
+          right: -125px;
+          top: 0;
+          width: 112px;
+          height: 22px;
+          z-index: 1;
+          background-image: url("../../../assets/img/company-error.png");
+          background-size: 100% 100%;
+        }
+      }
+    }
+  }
+}
+.yc-bankrupt-modal{
+  .ant-modal-confirm-btns{
+    float: none!important;
+    text-align: center;
+    button{
+      width: 146px;
+    }
+  }
+}

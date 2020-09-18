@@ -8,7 +8,9 @@ import './style.scss'
 import { BreadCrumb } from '@commonComponents'
 import createPaginationProps from '@utils/pagination'
 import { filters } from '@utils/common'
-import moment from 'moment'
+import NoDataIMG from '../../assets/img/no_data.png'
+import {scrollTop } from "@utils/tools";
+// import moment from 'moment'
 const searchForm = Form.create;
 
 class Check extends React.Component {
@@ -20,20 +22,20 @@ class Check extends React.Component {
 			tableList: [], //表数据的source
 			searchParams: {},  //搜索参数 包括全文/案号/法院/链接
 			loading: false,//表column
-			
+
 		};
 	}
 	//get table dataSource
 	getTableList = () => {
 		let params = {
 			page: this.state.page
-		}
-		let { searchParams } = this.state
+		};
+		let { searchParams } = this.state;
 		Object.keys(searchParams).forEach((key) => {
 			if (filters.filterNullKey(searchParams[key])) {
 				params[key] = searchParams[key]
 			}
-		})
+		});
 		this.setState({
 			loading: true,
 		});
@@ -42,10 +44,10 @@ class Check extends React.Component {
 				loading: false,
 			});
 			if (res.data.code === 200) {
-				let data = res.data.data
-				for (let i = 0; i < data.length; i++) {
-					data[i].publishTime = moment.unix(data[i].publishTime).format('YYYY-MM-DD')
-				}
+				let data = res.data.data;
+				// for (let i = 0; i < data.length; i++) {
+				// 	data[i].publishTime = moment.unix(data[i].publishTime).format('YYYY-MM-DD')
+				// }
 
 				this.setState({
 					tableList: data,
@@ -61,18 +63,24 @@ class Check extends React.Component {
 	// 搜索框
 	handleSearch = e => {
 		e.preventDefault();
-		let params = {
-			content: this.props.form.getFieldValue('whole'),
-			ah: this.props.form.getFieldValue('ah'),
-			court: this.props.form.getFieldValue('court'),
-			url: this.props.form.getFieldValue('url')
-		};
+		const { form:{ getFieldValue,setFieldsValue} } = this.props;
+		const get =field=> (getFieldValue(field)||'');
 		this.setState({
-			searchParams: params,
+			searchParams:{
+				content: get('whole').trim(),
+				ah: get('ah'),
+				court: get('court'),
+				url: get('url')
+			},
 			page: 1
 		}, () => {
 			this.getTableList();
 		});
+		setFieldsValue({whole:get('whole').trim(),
+						   ah:get('ah').trim(),
+						court:get('court').trim(),
+						  url:get('url').trim()
+						})
 
 	};
 	//清空搜索条件
@@ -97,24 +105,19 @@ class Check extends React.Component {
 			page: pagination.current,
 		}, () => {
 			this.getTableList();
+			scrollTop('no-yc-layout-main');
 		});
 	};
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { tableList, total, page, loading,searchParams:{content} } = this.state;
-		const paginationProps = createPaginationProps(page, total)
+		const paginationProps = createPaginationProps(page, total);
 		const columns = [
 			{
 				title: "发布日期",
 				dataIndex: 'publishTime',
 				width: 130,
-				render(record) {
-					return (
-						<span>
-							{filters.blockNullData(record, '—')}
-						</span>
-					)
-				}
+				render: val => val || '--'
 			},
 			{
 				title: "标题",
@@ -129,7 +132,7 @@ class Check extends React.Component {
 							textOverflow: 'ellipsis'
 						}}>{filters.blockNullData(record.title, '—')}</span>;
 					return (
-						<Link to={`/documentDetail/${record.wenshuId}/${content?content:'content'}`} target="_blank" >
+						<Link to={`/documentDetail/${record.wenshuId}/${record.wid}/${content?content:'content'}`} target="_blank" >
 							{
 								record.title && record.title.length > 30 ? <Popover content={record.title}>{temp}</Popover> : temp
 							}
@@ -182,29 +185,30 @@ class Check extends React.Component {
 				dataIndex: "caseType",
 				width: 125
 			}
-		]
+		];
+		const inputOption = {
+		};
 		return (
 			<div className="yc-main-body">
 				<div className="yc-right-content">
 					<div className="yc-content-container-newPage">
-						<BreadCrumb texts={['文书搜索']}></BreadCrumb>
+						<BreadCrumb texts={['文书搜索']}/>
 						<div className="yc-detail-content">
 							<div className="yc-search-line document-search">
 								<Form layout="inline" onSubmit={this.handleSearch} className="yc-search-form">
 									<Form.Item label="全文" style={{ width: '100%' }}>
-										{getFieldDecorator('whole', {})
+										{getFieldDecorator('whole', inputOption)
 											(<Input
 												style={{ width: '100%' }}
 												type="text"
 												size='default'
 												placeholder="姓名、公司、地址关键词等"
-
 											/>)}
 									</Form.Item>
 									<Row style={{marginTop:8}}>
 										<Col span={19}>
 											<Form.Item label="案号">
-												{getFieldDecorator('ah', {})
+												{getFieldDecorator('ah', inputOption)
 													(<Input
 														type="text"
 														size='default'
@@ -212,7 +216,7 @@ class Check extends React.Component {
 													/>)}
 											</Form.Item>
 											<Form.Item label="法院">
-												{getFieldDecorator('court', {})
+												{getFieldDecorator('court', inputOption)
 													(<Input
 														type="text"
 														size='default'
@@ -220,7 +224,7 @@ class Check extends React.Component {
 													/>)}
 											</Form.Item>
 											<Form.Item label="链接">
-												{getFieldDecorator('url', {})
+												{getFieldDecorator('url', inputOption)
 													(<Input
 														type="text"
 														size='default'
@@ -230,12 +234,8 @@ class Check extends React.Component {
 										</Col>
 										<Col span={5} style={{ textAlign: 'right' }}>
 											<Form.Item>
-												<Button type="primary" htmlType="submit" style={{ marginLeft: 15 }}>
-													搜索
-									</Button>
-												<Button type="default" style={{ marginLeft: 10 }} onClick={this.clearSearch}>
-													清空搜索条件
-									</Button>
+												<Button type="primary" htmlType="submit" style={{ marginLeft: 15 }}>搜索</Button>
+												<Button type="default" style={{ marginLeft: 10 }} onClick={this.clearSearch}>清空搜索条件</Button>
 											</Form.Item>
 										</Col>
 									</Row>
@@ -249,6 +249,10 @@ class Check extends React.Component {
 										rowKey={record => record.wenshuId}
 										pagination={paginationProps}
 										onChange={this.onTablePageChange}
+										locale={{emptyText: <div className="no-data-box">
+																<img src={NoDataIMG} alt="暂无数据"/>
+																<p>暂无数据</p>
+															</div>}}
 									/>
 								</Spin>
 							</div>
