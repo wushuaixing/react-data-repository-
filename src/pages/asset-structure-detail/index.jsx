@@ -282,7 +282,13 @@ class StructureDetail extends React.Component {
             return 'structure'
         }
     }
-
+    get errReasonVisible(){
+        const role=localStorage.getItem('userState')
+        const {status}=this.props.match.params;
+        if(role!=='结构化人员'||(role==='结构化人员'&&status=="2")){
+            return true; 
+        }
+    }
     render() {
         const {loading,id,title,auctionStatus,reasonForWithdrawal,associatedAnnotationId,associatedStatus,records,url,
               collateral, houseType, buildingArea,
@@ -293,6 +299,7 @@ class StructureDetail extends React.Component {
               onlyThis,type,visible
             }=this.state;
         const { match:{ params:{status,tabIndex} } } = this.props;
+        console.log(this.errReasonVisible);
         return (
             <SpinLoading loading={loading}>
                 <div className="assetstructure-detail"> 
@@ -310,9 +317,9 @@ class StructureDetail extends React.Component {
                             />
                         }
                         {   
-                            wrongData&&wrongData.length>0&&
+                            wrongData&&wrongData.length>0&&this.errReasonVisible&&
                             <ErrorReason
-                                wrongData={wrongData}
+                                wrongData={this.role==='admin'?wrongData:wrongData.slice(0,1)}
                         />
                         }
                         <BasicInfo
