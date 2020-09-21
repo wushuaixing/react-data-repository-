@@ -71,7 +71,7 @@ export const Columns = [
 								text = '检查错误';
 								break;
 							case 5:
-								color = 'success';
+								color = 'processing';
 								text = '已修改';
 								break;
 							case 6:
