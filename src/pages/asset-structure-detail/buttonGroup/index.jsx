@@ -2,16 +2,6 @@ import React,{Component,Fragment} from 'react'
 import { Checkbox, Button } from 'antd'
 import { STRUCTURE_SAVE_BUTTON_TEXT } from '@/static/status'
 import { withRouter } from 'react-router-dom';
-
-
-const getBtnStatus = (status,enable=1)=>{
-    if(status *1>0){
-        if(enable===0 || enable===2 ) return `102`;
-        return `${status}01`;
-    }
-    return 'noField'
-};
-
 class ButtonGroup extends Component {
     constructor() {
         super();
@@ -22,10 +12,10 @@ class ButtonGroup extends Component {
     }
     static defaultProps = {
         type: '',
-        role: 1,     
+        role: '',     
         id: '',   
         isSendRequest: '',
-        status: '',               
+        status: 0,               
         url: '',
         onlyThis:false,
         enble:true,
@@ -49,6 +39,31 @@ class ButtonGroup extends Component {
             back: <Button onClick={this.handleBack.bind(this)} key="6" style={{ marginLeft: 10 }}>{'返回'}</Button>,
             close:<Button onClick={this.handleClosePage.bind(this)} key="7" style={{ marginLeft: 10 }}>{'关闭'}</Button>,
         }
+    }
+    get checkButtonTextArray() {
+        const checkButtons = this.checkButtons;
+        const {isBack,role} = this.props;
+        const toAffirm =isBack?checkButtons['confirm']:null;
+        return [
+            {
+                btns: [checkButtons['onlyMark'],toAffirm, checkButtons['save'], checkButtons['noErr']]
+            },
+            {
+                btns: [toAffirm,checkButtons['err'], checkButtons['noErr']]
+            },
+            {
+                btns: [toAffirm,checkButtons['err'], !toAffirm ? checkButtons['back'] : null]
+            },
+            {
+                btns: [toAffirm,checkButtons['modify'], checkButtons['noErr']]
+            },
+            {
+                btns: [toAffirm,checkButtons['err'], checkButtons['noErr']]
+            },
+            {
+                btns: [toAffirm,checkButtons['confirm'], checkButtons['err'], checkButtons['noErr']]
+            }
+        ];
     }
     //仅标记本条
     handleChange(e) {
@@ -124,12 +139,12 @@ class ButtonGroup extends Component {
         }
     }
     render() {
-        const { enable, status, isSendRequest,isLastData,onlyThis,role,tabIndex} = this.props;
+        const { enable, status,associatedStatus,isSendRequest,isLastData,onlyThis,role} = this.props;
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[isLastData?1:status];
         const { countDown } = this.state;
         const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
         const checkButtons = this.checkButtons;
-        console.log(role);
+        console.log(status);
         return (
             <div className="detail-buttonGroup">
                 {
@@ -145,36 +160,44 @@ class ButtonGroup extends Component {
                                     </Fragment>
                                 );
                             case 'check':
-                                if(tabIndex==='6'){
-                                    return <Fragment>{checkButtons['onlyMark']} {checkButtons['confirm']} {checkButtons['save']}{checkButtons['noErr']}</Fragment>
-                                }
                                 if (enable) {
                                     switch (status) {
-                                        case '2':
-                                            return <Fragment>{ checkButtons['err']}    {checkButtons['noErr']}</Fragment>;//未检查
-                                        case "3":
-                                            return <Fragment>{ checkButtons['err']}    {checkButtons['back']}</Fragment>;//检查无误
-                                        case "4":
-                                            return <Fragment>{ checkButtons['modify']} {checkButtons['noErr']}</Fragment>;//检查有误
-                                        case "5":
-                                            return <Fragment>{ checkButtons['err']}    {checkButtons['noErr']}</Fragment>;//已修改
+                                        case 2:
+                                            return <Fragment>{this.checkButtonTextArray[1].btns}</Fragment>;//未检查
+                                        case 3:
+                                            return <Fragment>{this.checkButtonTextArray[2].btns}</Fragment>;//检查无误
+                                        case 4:
+                                            return <Fragment>{this.checkButtonTextArray[3].btns}</Fragment>;//检查有误
+                                        case 5:
+                                            return <Fragment>{this.checkButtonTextArray[4].btns}</Fragment>;//已修改
                                         default:
                                             return null;
                                     }
                                 } else {
                                     return (
-                                        <Fragment>
-                                            {checkButtons['onlyMark']} 
-                                            {checkButtons['save']}
-                                            {checkButtons['noErr']}
-                                        </Fragment>
+                                        <Fragment>{this.checkButtonTextArray[0].btns}</Fragment>
                                     )
                                 }
                             case 'newpage-check':
-                                return (
-                                        <div>  {checkButtons['close']}</div>
-                                );
-                            case 'newpage-check-other':
+                                if (enable) {
+                                    switch (associatedStatus) {
+                                        case 2:
+                                            return <Fragment>{checkButtons['err']} {checkButtons['noErr']}</Fragment>;//未检查
+                                        case 3:
+                                            return <Fragment>{checkButtons['err']} {checkButtons['close']}</Fragment>;//检查无误
+                                        case 4:
+                                            return <Fragment>{checkButtons['modify']} {checkButtons['noErr']}</Fragment>;//检查有误
+                                        case 5:
+                                            return <Fragment>{checkButtons['err']} {checkButtons['noErr']}</Fragment>;//已修改
+                                        default:
+                                            return null;
+                                    }
+                                } else {
+                                    return (
+                                        <Fragment>{this.checkButtonTextArray[0].btns}</Fragment>
+                                    )
+                                }
+                            case 'newpage-other':
                                 return (
                                     <Fragment>
                                         {checkButtons['close']}
@@ -202,5 +225,4 @@ const OnlyMarkButton = ({handleChange,value}) => {
         </div>
     )
 };
-ButtonGroup.getStatus= getBtnStatus;
 export default withRouter(ButtonGroup);

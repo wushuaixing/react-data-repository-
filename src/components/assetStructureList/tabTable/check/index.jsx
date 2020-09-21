@@ -60,11 +60,10 @@ class TabTable extends React.Component {
 				align: "center",
 				width: 180,
 				render: (text, record) => {
-					const isNotConfirm = this.props.tabIndex===6?1:0; //是否在待确认队列 需要特殊处理 因为status跟数据队列不符合
 					return (
 						<span>
 							<Link to={{
-								pathname: `/index/structureDetail/${record.status}/${(record.info||{}).id}/${isNotConfirm}/${tabIndex}`,
+								pathname: `/index/structureDetail/${record.status}/${(record.info||{}).id}`,
 								query:{ enable:record.structPersonnelEnable }
 							}}>
 								{(record.status === 3 || record.status === 4 )

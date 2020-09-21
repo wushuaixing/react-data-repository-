@@ -44,6 +44,7 @@ class StructureDetail extends React.Component {
             associatedAnnotationId: "",//关联标注
             associatedStatus:'',
             records:[],                //结构化/检查记录 
+            isBack:false,              //是否为退回数据
 
             //房产/土地信息
             buildingArea: null,        //建筑面积
@@ -102,7 +103,8 @@ class StructureDetail extends React.Component {
                         type:data.type,
                         onlyThis: data.onlyThis,
                         url: data.url,
-                        structPersonnelEnable:data.structPersonnelEnable
+                        structPersonnelEnable:data.structPersonnelEnable,
+                        isBack:data.isBack
                     })
               }
             }).finally(()=> this.setState({loading:false}));
@@ -181,8 +183,8 @@ class StructureDetail extends React.Component {
     
     handleSubmit(){                          //保存
         const role=this.getRole();
-        const {id,status,tabIndex}=this.props.match.params;
-        const flag = tabIndex==='5'?1:0;
+        const {id,status}=this.props.match.params;
+        const flag = this.state.isBack?1:0;
         if(!this.state.isUpdateRecord) return message.warning('当前页面未作修改，请修改后再保存');
         for (let i = 0; i < this.state.obligors.length; i++) {
             let item = this.state.obligors[i];
@@ -270,7 +272,7 @@ class StructureDetail extends React.Component {
 		}
     };
 	submitWrongRecord(data, checkError = true) {     //修改错误原因  检查有误  检查无误
-        const {id,tabIndex} = this.props.match.params;
+        const {id} = this.props.match.params;
         const role=this.getRole();
 		const params = {
 				checkWrongLog: Object.assign({}, data),
@@ -278,10 +280,10 @@ class StructureDetail extends React.Component {
                 id,
                 flag:0
             };
-			if (tabIndex==='6') params.flag = 1;
+			if (this.state.isBack) params.flag = 1;
 			inspectorCheck(params).then((res) => {
 				if (res.data.code === 200) {
-                    if(role==='newpage-check'||role==='newpage-check-other'){
+                    if(role==='newpage-check'||role==='newpage-other'){
                         message.success('操作成功,2秒后为您关闭页面');
                         setTimeout(this.handleClosePage, 2000);
                     }else{
@@ -338,7 +340,7 @@ class StructureDetail extends React.Component {
             if(role==='检查人员'){
                 return 'newpage-check'
             }else{
-                return 'newpage-check-other'
+                return 'newpage-other'
             }
         }
         if(role==='管理员'){
@@ -352,10 +354,10 @@ class StructureDetail extends React.Component {
     get enable() {
         return localStorage.getItem('userState')==='管理员'|| (localStorage.getItem('userState')==='检查人员'&&this.state.structPersonnelEnable===1);
     }
-    get errReasonVisible(){
+    getErrReasonVisible(){
         const role=this.getRole();
         const {status}=this.props.match.params;
-        if((role==='structure'&&status=="2")||(role==='check'&&parseInt(status)>3)||role==="newpage-check"&&parseInt(status)>2||((role==='admin'||role==='newpage-check-other')&&parseInt(status)>2)){
+        if((role==='structure'&&status==="2")||(role==='check'&&parseInt(status)>3)||(role==="newpage-check"&&parseInt(status)>2)||((role==='admin'||role==='newpage-other')&&parseInt(status)>2)){
             return true; 
         }
     }
@@ -380,9 +382,9 @@ class StructureDetail extends React.Component {
               wsFindStatus,ah,wsUrl,wsInAttach,
               backRemark,
               obligors,
-              onlyThis,type,visible
+              onlyThis,type,visible,isBack
             }=this.state;
-        const { match:{ params:{status,tabIndex} } } = this.props;
+        const { match:{ params:{status} } } = this.props;
         const wrongData=this.wrongData;
         const preId = sessionStorage.getItem('id');
         const tag = `${this.state.MARK}/${this.state.TOTAL}`;
@@ -405,13 +407,13 @@ class StructureDetail extends React.Component {
                    } 
                     <div className="assetstructure-detail_container">
                         {
-                            backRemark&&backRemark.length>0&&parseInt(tabIndex)===6&&
+                            backRemark&&backRemark.length>0&&isBack&&
                             <ReturnMark
                             backRemark={backRemark}
                             />
                         }
                         {   
-                            wrongData&&wrongData.length>0&&this.errReasonVisible&&
+                            wrongData&&wrongData.length>0&&this.getErrReasonVisible()&&
                             <ErrorReason
                                 wrongData={wrongData}
                                 role={this.getRole()}
@@ -453,6 +455,7 @@ class StructureDetail extends React.Component {
                             handleChange={this.handleRoleChange.bind(this)}
                             handleAddClick={this.handleAddClick.bind(this)}
                             handleDeleteClick={this.handleDeleteClick.bind(this)}
+                            key={id}
                         />
                         {
                             this.getRole() !=='admin'&&
@@ -462,8 +465,9 @@ class StructureDetail extends React.Component {
                                 enable={this.enable}
                                 onlyThis={onlyThis}
                                 type={type}
-                                status={status}
-                                tabIndex={tabIndex}
+                                isBack={isBack}
+                                status={parseInt(status)}
+                                associatedStatus={associatedStatus}
                                 handleSubmit={this.handleSubmit.bind(this)}
                                 handleChange={this.handleChange}
                                 handleConfirm={this.handleConfirm.bind(this)}

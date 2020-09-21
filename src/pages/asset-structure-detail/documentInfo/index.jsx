@@ -137,7 +137,7 @@ const DocumentLinkInputs = (props) => {
     }
     return arr;
 };
-const linkSpan = val=> val ? <a href={val} rel="noopener norefferrer" target="_blank" style={{ textDecoration: 'underline' }}>{val}</a> : '-';
+const linkSpan = val=> val ? <a href={val} rel="noopener noreferrer" target="_blank" style={{ textDecoration: 'underline' }}>{val}</a> : '-';
 const DocumentLinkInput = (props) => {
     const {attr,value,enable,index,num,text}=props;
     return (
