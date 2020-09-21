@@ -40,7 +40,7 @@ class DocumentInfo extends Component {
         return Boolean(this.props.wsInAttach)
     }
     render() {
-        const {wsFindStatus,ah,wsUrl,wsInAttach,enable}=this.props;
+        const {wsFindStatus,ah,wsUrl,enable}=this.props;
         return (
             <div className='yc-component-assetStructureDetail document_info'>
                 <div className="yc-component-assetStructureDetail_header">
@@ -53,7 +53,7 @@ class DocumentInfo extends Component {
                                 {
                                     enable?
                                     <span>{parseInt(wsFindStatus) === 1 ? '找到文书' : '未找到文书'}</span>
-                                    :<Radio.Group value={wsFindStatus} name="wsFindStatus" name="wsFindStatus" onChange={this.handleChange} disabled={enable}>
+                                    :<Radio.Group value={wsFindStatus} name="wsFindStatus" onChange={this.handleChange} disabled={enable}>
                                             <Radio value={1}>找到文书</Radio>
                                             <Radio value={0}>未找到文书</Radio>
                                     </Radio.Group>
@@ -76,7 +76,7 @@ class DocumentInfo extends Component {
                                                 handleDeleteClick={this.handleDeleteClick.bind(this)}
                                                 handleAddClick={this.props.handleAddClick.bind(this, 'ah')}>
                                             </DocumentLinkInputs>
-                                            {this.documentInputNumber>=3 && !enable?<p className='atmost-tips'>最多添加3个</p>:null}
+                                            {this.documentInputNumber>=3 && !enable?<p className='atmost-tip'>最多添加3个</p>:null}
                                         </Fragment> 
                                     </div>
                                 </Item>
@@ -93,23 +93,23 @@ class DocumentInfo extends Component {
                                                 handleDeleteClick={this.handleDeleteClick.bind(this)}
                                                 handleAddClick={this.props.handleAddClick.bind(this, 'wsUrl')}>
                                             </DocumentLinkInputs>
-                                            {this.linkInputNumber>=3 && !enable?<p className='atmost-tips'>最多添加3个</p>:null}
+                                            {this.linkInputNumber>=3 && !enable?<p className='atmost-tip'>最多添加3个</p>:null}
                                         </Fragment>
+                                    </div>
+                                </Item>
+                                <Item>
+                                    <div>
+                                        {
+                                            enable?
+                                            <span>{this.wsInAttach?'详情见资产拍卖附件':''}</span> :
+                                            <span>
+                                                <Checkbox name="wsInAttach" onChange={this.handleChange} checked={this.wsInAttach} disabled={enable}>详情见资产拍卖附件</Checkbox>
+                                            </span>
+                                        }
                                     </div>
                                 </Item>
                             </Fragment>:null
                         }
-                         <Item>
-                            <div>
-                                {
-                                    enable?
-                                    <span>{this.wsInAttach?'详情见资产拍卖附件':''}</span> :
-                                    <span>
-                                        <Checkbox name="wsInAttach" onChange={this.handleChange} checked={this.wsInAttach} disabled={enable}>详情见资产拍卖附件</Checkbox>
-                                    </span>
-                                }
-                            </div>
-                        </Item>
                     </ul>
                 </div>
             </div>

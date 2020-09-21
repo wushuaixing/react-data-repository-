@@ -3,7 +3,7 @@ import { Item } from '../common';
 import { AUCTION_STATUS } from '@/static/status';
 import { Link, withRouter } from "react-router-dom";
 import { dateUtils} from "@utils/common";
-class ReturnMark extends Component {
+class BasicInfo extends Component {
     
     static defaultProps = {
         title: '',
@@ -11,11 +11,12 @@ class ReturnMark extends Component {
         reasonForWithdrawal: '',   //撤回原因
         associatedAnnotationId: '',//关联标注
         records: [],               //结构化/检查记录 
+        status:0,
         url: '',
         id:''
     };
     render() {
-        const { title, auctionStatus, reasonForWithdrawal, associatedAnnotationId, records ,id} = this.props;
+        const { title, auctionStatus, reasonForWithdrawal, associatedAnnotationId, records ,id,status} = this.props;
         const hasAuto = (records||[]).some(i=>i.msg==='自动标注');
         return (
             <div className='yc-component-assetStructureDetail basic_info'>
@@ -31,14 +32,14 @@ class ReturnMark extends Component {
                             <div>{AUCTION_STATUS[auctionStatus]}</div>
                         </Item>
                         {
-                            reasonForWithdrawal &&
+                            (auctionStatus === 9 || auctionStatus === 11)&&
                             <Item title='撤回原因：'>
-                                <div>{reasonForWithdrawal}</div>
+                                <div>{reasonForWithdrawal||'-'}</div>
                             </Item>
                         }
                        {    !hasAuto&&associatedAnnotationId&&
                             <Item title='关联标注：'>
-                                <Link to={`/index/structureDetail/${associatedAnnotationId}`} target="_blank">链接</Link>
+                                <Link to={`/notFirstMark/${status}/${associatedAnnotationId}`} target="_blank">链接</Link>
                             </Item>
                        } 
                         {
@@ -48,7 +49,7 @@ class ReturnMark extends Component {
                                     {
                                         records.map((item,index)=>{
                                           return (<p key={`record${index}`}>
-                                                <RecordsItem record={item} index={index} id={associatedAnnotationId}/>
+                                                <RecordsItem record={item} index={index} id={associatedAnnotationId} status={status}/>
                                             </p> )
                                         })
                                     }
@@ -64,7 +65,7 @@ class ReturnMark extends Component {
 
 
 const RecordsItem=(props)=>{
-    const {record,index,id}=props;
+    const {record,index,id,status}=props;
     let temp=null;
     let userType = 0;
     let classType='record-noEr';
@@ -75,7 +76,7 @@ const RecordsItem=(props)=>{
     }else{
         userType=1;
         temp = record.error?'有误':'无误';
-        classType = record.error?'danger-error':'record-noEr';
+        classType = record.error?'danger-error':'record-noErr';
     }
     return (
         <Fragment>
@@ -83,10 +84,10 @@ const RecordsItem=(props)=>{
             {
                 record.msg==='自动标注'?
                 <span style={{marginLeft:20}}>
-                    <Link  target="_blank" to={`/index/structureDetail/${id}`}>{'查看详情'}</Link>
+                    <Link  target="_blank" to={`/autoMark/${status}/${id}`}>{'查看详情'}</Link>
                 </span>:null
             }
         </Fragment>
     )
 }
-export default withRouter(ReturnMark);
+export default withRouter(BasicInfo);

@@ -1,3 +1,11 @@
+.yc-detail-newpage{
+    background-color: #EDEFF3;
+    .assetstructure-detail{
+        margin: 25px auto;
+        width:1250px;
+        min-height: 95vh;
+    }
+}
 .assetstructure-detail{
     margin: 20px;
     min-height: 90vh;
@@ -110,8 +118,6 @@
             cursor: pointer;
         }
         .doucment_info_inputContent{
-            position: relative;
-            top: -6px;
             .doucment_info_inputItem{
                 display: flex;
                 align-items: center;
@@ -119,6 +125,17 @@
                 &:last-child{
                     margin-bottom:0;
                 }
+                input{
+                    width: 225px;
+                }
+            }
+            .atmost-tip{
+                text-align: right;
+                width: 225px;
+                color: #808387;
+                line-height: 12px;
+                font-size: 12px;
+                margin-top: -10px;
             }
         }
     }
@@ -181,7 +198,7 @@
                 width: 130px;
             }
             .tips-box{
-                min-width: 360px !important;
+                width: 360px;
                 resize: none;
             }
             .ant-btn {

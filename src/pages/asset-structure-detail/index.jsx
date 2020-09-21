@@ -9,6 +9,9 @@ import ReturnMark from './returnMark';
 import RoleInfo from './roleInfo';
 import ButtonGroup from './buttonGroup';
 import CheckModal from './checkErrorModal';
+import BreadCrumb from '@/components/common/breadCrumb'
+import icon from '@/assets/img/backPrevious.png'
+import iconGrey from '@/assets/img/backPrevious-grey.png'
 import {
     getAuctionDetail,
     getNumberOfTags,
@@ -68,10 +71,10 @@ class StructureDetail extends React.Component {
         };
     }
     componentDidMount(){
-        const {params}=this.props.match;
-        this.getAuctionDetailData(params);
+        this.getAuctionDetailData(this.props);
     }
-    getAuctionDetailData(params){
+    getAuctionDetailData(props){
+        const params = props.match.params;
         this.setState({loading:true});
         if(params.id){
             getAuctionDetail(params.id).then(result=>{
@@ -103,6 +106,15 @@ class StructureDetail extends React.Component {
                     })
               }
             }).finally(()=> this.setState({loading:false}));
+            if(this.getRole()==='structure'){
+                getNumberOfTags().then(res => {
+                    this.setState({
+                        ...res.data.data
+                    })
+                })
+            }
+        }else{
+            message.error('请求参数错误,请刷新页面或回到上一级')
         }
     }
     handleChange=(key,value)=>{                 //抵押情况/房产土地类型/建筑面积/文书信息查找情况/仅标记本条改变时
@@ -168,10 +180,10 @@ class StructureDetail extends React.Component {
     }
     
     handleSubmit(){                          //保存
-        const role=this.role;
+        const role=this.getRole();
         const {id,status,tabIndex}=this.props.match.params;
         const flag = tabIndex==='5'?1:0;
-        // if(isUpdateRecord) return message.warning('当前页面未作修改，请修改后再保存');
+        if(!this.state.isUpdateRecord) return message.warning('当前页面未作修改，请修改后再保存');
         for (let i = 0; i < this.state.obligors.length; i++) {
             let item = this.state.obligors[i];
             if ( item.notes === '') {
@@ -206,9 +218,10 @@ class StructureDetail extends React.Component {
         };
         if(role==='check'||(role==='structure'&&parseInt(status)===1)){//检查人员标注和结构化人员修改已标注数据
             saveDetail(id, params).then((res) => {
-                console.log(res);
                 if (res.data.code === 200) {
                     message.success('保存成功!');
+                    sessionStorage.setItem('id', id);
+                    sessionStorage.removeItem('backTime');
                     this.props.history.push({
                         pathname: '/index',
                     });
@@ -218,11 +231,30 @@ class StructureDetail extends React.Component {
             });
         }else{
             saveAndGetNext(id,params).then((res)=>{
-                // console.log(res);  //接口报500
+                const toIndex = () => this.props.history.push('/index');
+                const toNext = (_status,id)=> {
+                    this.setState({ isUpdateRecord: false },() => {
+                        this.props.history.push({ pathname: `/index/structureDetail/${_status}/${id}` });
+                    })
+                };
+                if(res.data.code===200){
+                    const {data}=res.data;
+                    if(data>0){
+                        sessionStorage.setItem('id', id);
+                        message.success('保存成功!');
+                        toNext(status,data);
+                    }else if(data===-1){
+                        message.error('有待修改数据，暂时无法获取新数据', 2,toIndex);
+                    }else{
+                        message.success('已修改完全部数据，2s后回到待标记列表',2,toIndex);
+                    }
+                }else{
+                    message.error(res.data.message)
+                }
             })
         }
     }
-    handleNoErr(){
+    handleNoErr(){                             //确认无误
 		const { status } = this.props.match.params;
 		if (status === '4') {
 			Modal.confirm({
@@ -237,25 +269,31 @@ class StructureDetail extends React.Component {
 			this.submitWrongRecord({}, false);
 		}
     };
-	submitWrongRecord(data, checkError = true) {
-		const {id,tabIndex} = this.props.match.params;
-			const params = {
+	submitWrongRecord(data, checkError = true) {     //修改错误原因  检查有误  检查无误
+        const {id,tabIndex} = this.props.match.params;
+        const role=this.getRole();
+		const params = {
 				checkWrongLog: Object.assign({}, data),
 				checkError,
                 id,
                 flag:0
-			};
+            };
 			if (tabIndex==='6') params.flag = 1;
 			inspectorCheck(params).then((res) => {
 				if (res.data.code === 200) {
-					message.success('操作成功');
-					this.handleBack();
+                    if(role==='newpage-check'||role==='newpage-check-other'){
+                        message.success('操作成功,2秒后为您关闭页面');
+                        setTimeout(this.handleClosePage, 2000);
+                    }else{
+                        message.success('操作成功');
+                        this.handleBack();
+                    }
 				} else {
 					message.error('操作失败');
 				}
 			});
 	}
-	handleModalCancel(){
+	handleModalCancel(){          
 		this.setState({
 			visible: false,
 		});
@@ -263,17 +301,46 @@ class StructureDetail extends React.Component {
     handleModalSubmit(data){
         this.submitWrongRecord(data, true);
     }
-    get enable() {
-        const enable=localStorage.getItem('userState')==='管理员'|| (localStorage.getItem('userState')==='检查人员'&&this.state.structPersonnelEnable===1);
-		return enable;
+	handleClosePage = () =>{
+		if (window.opener) {
+			window.opener = null;
+			window.open('', '_self');
+			window.close();
+		} else {
+			message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面');
+			setTimeout(() => {
+				window.location.href = 'about:blank';
+			}, 1500);
+		}
+    };
+    goPreviousRecord() {
+        if (sessionStorage.getItem('id')) {
+            const toStatus = sessionStorage.getItem("backTime") === "1" ? 0 : 1;
+            const path = {
+                pathname: `/index/structureDetail/${toStatus}/${sessionStorage.getItem('id')}`
+            };
+            sessionStorage.setItem('id', this.props.match.params.id);
+            sessionStorage.getItem("backTime") === "1" ? sessionStorage.removeItem('backTime') : sessionStorage.setItem('backTime', 1); //返回次数 默认只能返回一层
+            this.setState({
+                isUpdateRecord:false
+            },()=>{
+                this.props.history.push(path)
+            })
+        }
+        else {
+            message.error('无法跳转')
+        }
     }
-    get updateOrSubmitCheck() {
-		const { length } = this.state.records;
-		const { desc } = this.state.records[length - 1];
-		return (['结构化', '自动标注'].indexOf(desc) >= 0 || length === 0) ? 'submit' : 'update';
-	}
-    get role(){
-        const role=localStorage.getItem('userState')
+    getRole(){ 
+        const role=localStorage.getItem('userState');
+        const path=window.location.href;
+        if(path.includes('notFirstMark')||path.includes('autoMark')){
+            if(role==='检查人员'){
+                return 'newpage-check'
+            }else{
+                return 'newpage-check-other'
+            }
+        }
         if(role==='管理员'){
             return 'admin'
         }else if(role==="检查人员"){
@@ -282,36 +349,63 @@ class StructureDetail extends React.Component {
             return 'structure'
         }
     }
+    get enable() {
+        return localStorage.getItem('userState')==='管理员'|| (localStorage.getItem('userState')==='检查人员'&&this.state.structPersonnelEnable===1);
+    }
     get errReasonVisible(){
-        const role=localStorage.getItem('userState')
+        const role=this.getRole();
         const {status}=this.props.match.params;
-        if(role!=='结构化人员'||(role==='结构化人员'&&status=="2")){
+        if((role==='structure'&&status=="2")||(role==='check'&&parseInt(status)>3)||role==="newpage-check"&&parseInt(status)>2||((role==='admin'||role==='newpage-check-other')&&parseInt(status)>2)){
             return true; 
         }
+    }
+    get wrongData(){
+        if(this.getRole()==='admin'){
+            return this.state.wrongData.filter((item)=>{
+                return item.wrongLevel!==3
+            });
+        }else{
+            return this.state.wrongData.slice(0, 1)
+        }
+    }
+    async UNSAFE_componentWillReceiveProps(newProps) {
+        this.getAuctionDetailData(newProps)
+    }
+    componentWillUnmount() {
+        sessionStorage.clear()
     }
     render() {
         const {loading,id,title,auctionStatus,reasonForWithdrawal,associatedAnnotationId,associatedStatus,records,url,
               collateral, houseType, buildingArea,
               wsFindStatus,ah,wsUrl,wsInAttach,
               backRemark,
-              wrongData,
               obligors,
               onlyThis,type,visible
             }=this.state;
         const { match:{ params:{status,tabIndex} } } = this.props;
-        console.log(this.errReasonVisible);
+        const wrongData=this.wrongData;
+        const preId = sessionStorage.getItem('id');
+        const tag = `${this.state.MARK}/${this.state.TOTAL}`;
         return (
             <SpinLoading loading={loading}>
                 <div className="assetstructure-detail"> 
-                    <div className="assetstructure-detail_header">
-                        资产结构化/详情
-                        {
-                            this.role==='admin'&&<Button type="primary" ghost  className='buttonGroup-back' onClick={this.handleBack.bind(this,true)} style={{width:90}}>返回</Button>
-                        }
-                    </div>
+                   {
+                       this.getRole()==='structure'&&parseInt(status)===0?    
+                       <BreadCrumb
+                            disabled={!preId}
+                            texts={['资产结构化/详情']} note={tag}
+                            handleClick={this.goPreviousRecord.bind(this)}
+                            icon={preId ? icon : iconGrey}/>:
+                            <div className="assetstructure-detail_header">
+                                资产结构化/详情
+                                    {
+                                        this.getRole()==='admin'&&<Button type="primary" ghost  className='buttonGroup-back' onClick={this.handleBack.bind(this,true)} style={{width:90}}>返回</Button>
+                                    }
+                            </div>
+                   } 
                     <div className="assetstructure-detail_container">
                         {
-                            backRemark&&backRemark.length>0&&
+                            backRemark&&backRemark.length>0&&parseInt(tabIndex)===6&&
                             <ReturnMark
                             backRemark={backRemark}
                             />
@@ -319,7 +413,8 @@ class StructureDetail extends React.Component {
                         {   
                             wrongData&&wrongData.length>0&&this.errReasonVisible&&
                             <ErrorReason
-                                wrongData={this.role==='admin'?wrongData:wrongData.slice(0,1)}
+                                wrongData={wrongData}
+                                role={this.getRole()}
                         />
                         }
                         <BasicInfo
@@ -330,6 +425,7 @@ class StructureDetail extends React.Component {
                             associatedStatus={associatedStatus}
                             records={records}
                             url={url}
+                            status={status}
                             id={id}
                         />
                         <PropertyInfo
@@ -359,9 +455,9 @@ class StructureDetail extends React.Component {
                             handleDeleteClick={this.handleDeleteClick.bind(this)}
                         />
                         {
-                            this.role !=='admin'&&
+                            this.getRole() !=='admin'&&
                             <ButtonGroup
-                                role={this.role}
+                                role={this.getRole()}
                                 id={id}
                                 enable={this.enable}
                                 onlyThis={onlyThis}
@@ -374,8 +470,7 @@ class StructureDetail extends React.Component {
                                 handleBack={this.handleBack.bind(this)}
                                 handleNoErr={this.handleNoErr.bind(this)}
                                 handleErrorModal={()=>this.setState({visible:true})}
-                                // handleStructureUpdate={this.handleStructureUpdate}
-                                
+                                handleClosePage={this.handleClosePage.bind(this)}
                             />
                         }
                     	<CheckModal

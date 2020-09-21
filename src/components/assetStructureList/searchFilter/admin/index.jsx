@@ -30,8 +30,10 @@ class Index extends React.Component {
         getCheckPersonnel().then(res => {
             if (res.data.code === 200) {
                 let data = res.data.data;
+                const {chineseLetter,digit}=data;
+                const datas=[...chineseLetter,...digit];
                 this.setState({
-                    checkUserList: this.getCheckPersonnelList(data),
+                    checkUserList: this.getCheckPersonnelList(datas),
                 })
             } else {
                 message.error(res.data.message);

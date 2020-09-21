@@ -27,6 +27,7 @@ class Check extends React.Component {
 	//待标记--》详情页
 	render() {
 		let { wrongReasons } = this.props;
+		console.log(wrongReasons);
 		const { getFieldDecorator } = this.props.form;
 		const  status  = this.props.match.params.status||this.props.status;
 		const wrongReasonList = [];
@@ -38,7 +39,7 @@ class Check extends React.Component {
 			wrongReasonList.push(<div key={index}>{[title,WrongReasons]}</div>)
 		});
     	wrongReasons = (wrongReasons&&wrongReasons instanceof Array&&wrongReasons.length>0)?wrongReasons[wrongReasons.length-1]:{};
-		const isShowWrongRemark = !!(wrongReasons.remark && parseInt(status) === 3);
+		const isShowWrongRemark = !!(wrongReasons.remark && parseInt(status) === 4);
 		return (
 			<div>
 				<Modal

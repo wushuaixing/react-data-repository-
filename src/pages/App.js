@@ -7,9 +7,8 @@ import DocumentDetail from "../pages/externalSource/document";
 import AuctionDetail from "../pages/externalSource/auction";
 import NotFound from './errorPage/notFound'
 import DocumentSearch from "../pages/documentSearch";
-import NotFirstMark from '@/pages/assetStructureDetailNewPage/notFirstMark/index'
-import AutoMark from '@/pages/assetStructureDetailNewPage/autoMark/index'
-
+import AutoMark from './detail-newpage/autoMark/index';
+import NotFirstMark from './detail-newpage/notFirstMark/index';
 message.config({
 	maxCount:1,
 	top:300,

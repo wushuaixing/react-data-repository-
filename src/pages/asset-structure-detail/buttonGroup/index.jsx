@@ -128,8 +128,8 @@ class ButtonGroup extends Component {
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[isLastData?1:status];
         const { countDown } = this.state;
         const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
-        const notFirstMarkStatus = status || 0;
         const checkButtons = this.checkButtons;
+        console.log(role);
         return (
             <div className="detail-buttonGroup">
                 {
@@ -170,11 +170,11 @@ class ButtonGroup extends Component {
                                         </Fragment>
                                     )
                                 }
-                            case 'notFirstMark-check':
+                            case 'newpage-check':
                                 return (
-                                        <div>{(this.checkButtonTextArrayForNotFirstMark[notFirstMarkStatus]||{}).btns}</div>
+                                        <div>  {checkButtons['close']}</div>
                                 );
-                            case 'notFirstMark-other':
+                            case 'newpage-check-other':
                                 return (
                                     <Fragment>
                                         {checkButtons['close']}
