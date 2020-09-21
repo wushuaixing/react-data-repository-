@@ -47,6 +47,7 @@ class Check extends React.Component {
     }
 	componentDidMount() {
 		this.getTableList();
+		document.title='资产结构化检查'
 	};
 	getTableList = () => {
 		if(this.params['requestStartTime']&&this.params['requestEndTime']&&this.params['requestStartTime']>this.params['requestEndTime']){

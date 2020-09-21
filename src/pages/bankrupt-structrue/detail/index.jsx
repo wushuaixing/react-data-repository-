@@ -46,7 +46,7 @@ class BankruptDetail extends React.Component {
 				if (code === 200) {
 					this.toResetInfo();
 					this.setUserInfo(data);
-					this.setState({ source: data });
+					this.setState({ source: data },()=>{document.title=data.title});
 					scrollTop();
 				} else {
 					message.error(mes);

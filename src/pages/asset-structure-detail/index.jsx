@@ -105,7 +105,7 @@ class StructureDetail extends React.Component {
                         url: data.url,
                         structPersonnelEnable:data.structPersonnelEnable,
                         isBack:data.isBack
-                    })
+                    },()=>{document.title=data.title})
               }
             }).finally(()=> this.setState({loading:false}));
             if(this.getRole()==='structure'){

@@ -108,6 +108,9 @@ class Check extends React.Component {
 			scrollTop('no-yc-layout-main');
 		});
 	};
+	componentDidMount(){
+		document.title="文书搜索"
+	}
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { tableList, total, page, loading,searchParams:{content} } = this.state;

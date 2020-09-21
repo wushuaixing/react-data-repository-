@@ -95,7 +95,7 @@ class Index extends React.Component {
           title,
           titleUrl: url,
           showAnchors: anchors
-        });
+        },()=>{document.title=data.title});
       } else {
         message.error(res.data.message);
       }

@@ -31,6 +31,7 @@ class Asset extends React.Component {
 	};
 	componentDidMount() {
 		this.getApi(this.getParamsByTabIndex())
+		document.title='资产结构化'
 	};
 	getApi = (params) => {
 		this.setState({
