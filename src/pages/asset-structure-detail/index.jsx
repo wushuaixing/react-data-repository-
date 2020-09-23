@@ -78,7 +78,7 @@ class StructureDetail extends React.Component {
         if(params.id){
             getAuctionDetail(params.id).then(result=>{
                const res=result.data;
-              if(res.code === 200){
+                if(res.code === 200){
                     const data=res.data;
                     this.setState({
                         id: data.id,
@@ -105,7 +105,7 @@ class StructureDetail extends React.Component {
                         isBack:data.isBack
                     },()=>{
                         document.title=data.title
-                        const oldData=JSON.stringify(data);;
+                        const oldData=JSON.stringify(this.state);
                         sessionStorage.setItem('oldData',oldData)
                     })
               }
@@ -185,28 +185,43 @@ class StructureDetail extends React.Component {
     isUpdateRecord(){
         const OldData=JSON.parse(sessionStorage.getItem("oldData"));    //取页面刚进入时的数据
         const {buildingArea,houseType,collateral,wsFindStatus,wsInAttach,onlyThis,ah,wsUrl,obligors}=OldData;
-        const Changeparams={buildingArea,houseType,collateral,wsFindStatus,wsInAttach,onlyThis};//仅标记本条 抵押情况 房产土地类型 建筑面积 查找情况 详情见拍卖附件  （为基本数据类型。存入对象中）
+        //基本数据类型
+        const Changeparams={buildingArea,houseType,collateral,wsFindStatus,wsInAttach,onlyThis};
         const changeParamskey=Object.getOwnPropertyNames(Changeparams);//取对象的key
         for(let i=0;i<changeParamskey.length;i++){
            let item=changeParamskey[i];
-           if(this.state[item]!==Changeparams[item]){    //将页面刚进入时的数据 与现在state中的数据做对比 判断是否修改 
+           if(this.state[item]!==Changeparams[item]){    //仅标记本条 抵押情况 房产土地类型 建筑面积 查找情况 详情见拍卖附件  发生改变时
                return true;
            }
         }
-        const arrparams={ah,wsUrl,obligors};
+        //引用数据类型
+        const arrparams={ah,wsUrl,obligors};//引用数据类型的数据   文书链接 文案号 角色信息
         const arrparamskey=Object.getOwnPropertyNames(arrparams);//取对象的key
         for(let i=0;i<arrparamskey.length;i++){
             let item=arrparamskey[i];
-            if(this.state[item].length!==arrparams[item].length){    //将页面刚进入时的数据 与现在state中的数据做对比 判断是否修改 
-                return true;
-            }
             let arrItem=arrparams[item];
             let stateItem=this.state[item];
-            console.log(arrItem,stateItem);
-            // for(let i=0;i<arrItem.length;i++){
-            //     console.log(arrItem,stateItem);
-            // }
+            if(item==='obligors'){
+                stateItem = filters.blockEmptyRow(stateItem, ['name', 'birthday', 'notes', 'number']);//去空行
+                arrItem=filters.blockEmptyRow(arrItem, ['name', 'birthday', 'notes', 'number']);
+            }else {
+                stateItem= filters.blockEmptyRow(stateItem, ['value']);//去空行
+                arrItem= filters.blockEmptyRow(arrItem, ['value']);
+            }
+            if(stateItem.length!==arrItem.length){    //判断是否增加删除数据
+                return true
+            }
+            for(let j=0;j<arrItem.length;j++){
+                let arrItemKey=Object.getOwnPropertyNames(arrItem[j]);
+                for(let k=0;k<arrItemKey.length;k++){
+                    let item=arrItemKey[k];
+                    if(arrItem[j][item]!==stateItem[j][item]){    //判断 案号 文书链接 角色信息发生改变
+                        return true;
+                    }
+                }
+            }
          }
+        console.log(obligors)
     }
     handleSubmit(){                          //保存
         const role=this.getRole();
@@ -400,6 +415,7 @@ class StructureDetail extends React.Component {
     }
     async UNSAFE_componentWillReceiveProps(newProps) {
         this.getAuctionDetailData(newProps)
+
     }
     componentWillUnmount() {
         sessionStorage.clear()
