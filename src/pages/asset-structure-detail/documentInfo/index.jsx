@@ -152,6 +152,13 @@ const DocumentLinkInput = (props) => {
                             name={`${attr}${index}`}
                             value={value.value}
                             autoComplete='off'
+                            onBlur={(e) => {
+                                e.persist();
+                                if(e.target.name.includes('ah')){
+                                    e.target.value=e.target.value.trim()
+                                }
+                                props.handleChange(e);
+                            }}
                       />
                 }
                 {

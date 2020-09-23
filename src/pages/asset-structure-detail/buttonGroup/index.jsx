@@ -42,7 +42,7 @@ class ButtonGroup extends Component {
     }
     get checkButtonTextArray() {
         const checkButtons = this.checkButtons;
-        const {isBack,role} = this.props;
+        const {isBack} = this.props;
         const toAffirm =isBack?checkButtons['confirm']:null;
         return [
             {
@@ -144,7 +144,6 @@ class ButtonGroup extends Component {
         const { countDown } = this.state;
         const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
         const checkButtons = this.checkButtons;
-        console.log(status);
         return (
             <div className="detail-buttonGroup">
                 {

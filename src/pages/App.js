@@ -15,8 +15,15 @@ message.config({
 });
 
 // TODO 缺少权限判断
-
 class App extends React.Component {
+	componentDidMount(){
+		if(/macintosh|mac os x/i.test(navigator.userAgent)){
+			document.body.style.fontFamily='PingFang SC';
+		}
+		if(/windows|win32/i.test(navigator.userAgent)){
+			document.body.style.fontFamily='PingFang SC';
+		}
+	}
 	render() {
 		return (
 			<Router>

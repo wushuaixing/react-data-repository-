@@ -45,18 +45,16 @@ class StructureDetail extends React.Component {
             associatedStatus:'',
             records:[],                //结构化/检查记录 
             isBack:false,              //是否为退回数据
-
             //房产/土地信息
             buildingArea: null,        //建筑面积
             houseType: 0,              //房产土地类型 0未知 1商用 2住宅 3工业
             collateral: 0,             //抵押情况 1无抵押 0未知
-
             //文书信息
             wsFindStatus: 0,           //查找情况0未找到文书 1找到文书
             ah: [],                    //相关文书案号
             wsUrl: [],                 //文书链接地址
             wsInAttach: 0,             //详情见资产拍卖附件 文书是否在附件中 1:是 0:否
-
+    
             obligors: [],              //角色信息
             wrongData: [],             //错误信息
             backRemark:'',             //退回备注
@@ -105,7 +103,11 @@ class StructureDetail extends React.Component {
                         url: data.url,
                         structPersonnelEnable:data.structPersonnelEnable,
                         isBack:data.isBack
-                    },()=>{document.title=data.title})
+                    },()=>{
+                        document.title=data.title
+                        const oldData=JSON.stringify(data);;
+                        sessionStorage.setItem('oldData',oldData)
+                    })
               }
             }).finally(()=> this.setState({loading:false}));
             if(this.getRole()==='structure'){
@@ -119,11 +121,11 @@ class StructureDetail extends React.Component {
             message.error('请求参数错误,请刷新页面或回到上一级')
         }
     }
-    handleChange=(key,value)=>{                 //抵押情况/房产土地类型/建筑面积/文书信息查找情况/仅标记本条改变时
+    handleChange=(key,value)=>{             //抵押情况/房产土地类型/建筑面积/文书信息查找情况/仅标记本条改变时
 		this.setState({
 			[key]: value,
 			isUpdateRecord: true,
-		});
+        });
     }
     handleDocumentChange(combine, value) {      //案号  文书链接地址改变时
 		const arr_index = combine.substr(combine.length - 1, 1);
@@ -180,12 +182,37 @@ class StructureDetail extends React.Component {
 			}
 		});
     }
-    
+    isUpdateRecord(){
+        const OldData=JSON.parse(sessionStorage.getItem("oldData"));    //取页面刚进入时的数据
+        const {buildingArea,houseType,collateral,wsFindStatus,wsInAttach,onlyThis,ah,wsUrl,obligors}=OldData;
+        const Changeparams={buildingArea,houseType,collateral,wsFindStatus,wsInAttach,onlyThis};//仅标记本条 抵押情况 房产土地类型 建筑面积 查找情况 详情见拍卖附件  （为基本数据类型。存入对象中）
+        const changeParamskey=Object.getOwnPropertyNames(Changeparams);//取对象的key
+        for(let i=0;i<changeParamskey.length;i++){
+           let item=changeParamskey[i];
+           if(this.state[item]!==Changeparams[item]){    //将页面刚进入时的数据 与现在state中的数据做对比 判断是否修改 
+               return true;
+           }
+        }
+        const arrparams={ah,wsUrl,obligors};
+        const arrparamskey=Object.getOwnPropertyNames(arrparams);//取对象的key
+        for(let i=0;i<arrparamskey.length;i++){
+            let item=arrparamskey[i];
+            if(this.state[item].length!==arrparams[item].length){    //将页面刚进入时的数据 与现在state中的数据做对比 判断是否修改 
+                return true;
+            }
+            let arrItem=arrparams[item];
+            let stateItem=this.state[item];
+            console.log(arrItem,stateItem);
+            // for(let i=0;i<arrItem.length;i++){
+            //     console.log(arrItem,stateItem);
+            // }
+         }
+    }
     handleSubmit(){                          //保存
         const role=this.getRole();
         const {id,status}=this.props.match.params;
         const flag = this.state.isBack?1:0;
-        if(!this.state.isUpdateRecord) return message.warning('当前页面未作修改，请修改后再保存');
+        if(!this.isUpdateRecord()) return message.warning('当前页面未作修改，请修改后再保存');
         for (let i = 0; i < this.state.obligors.length; i++) {
             let item = this.state.obligors[i];
             if ( item.notes === '') {
@@ -255,6 +282,7 @@ class StructureDetail extends React.Component {
                 }
             })
         }
+
     }
     handleNoErr(){                             //确认无误
 		const { status } = this.props.match.params;

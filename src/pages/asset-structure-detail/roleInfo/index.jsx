@@ -195,7 +195,7 @@ const RoleInput = props => (
                 props.handleChange(e);
             }}
             onBlur={(e) => {
-            e.target.value=e.target.value.trim();
+            e.target.value=e.target.value.trim().replace(/[(]/g,'（').replace(/[)]/g,'）')
             props.handleChange(e);
             }}
             name={`number${props.index}`}
@@ -213,6 +213,7 @@ const RoleInput = props => (
             value={props.obligor.birthday}
             onBlur={(e) => {
                 e.persist();
+                e.target.value=e.target.value.trim()
                 props.handleBlur(e);
             }}
       />
