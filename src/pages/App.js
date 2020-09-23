@@ -20,9 +20,6 @@ class App extends React.Component {
 		if(/macintosh|mac os x/i.test(navigator.userAgent)){
 			document.body.style.fontFamily='PingFang SC';
 		}
-		if(/windows|win32/i.test(navigator.userAgent)){
-			document.body.style.fontFamily='PingFang SC';
-		}
 	}
 	render() {
 		return (
