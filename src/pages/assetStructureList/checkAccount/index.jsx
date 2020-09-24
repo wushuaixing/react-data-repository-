@@ -9,6 +9,8 @@ import '@/pages/style.scss';
 import { BreadCrumb } from '@commonComponents';
 import {scrollTop } from "@utils/tools";
 import { dateUtils} from "@utils/common";
+let  yu=false;
+
 class Check extends React.Component {
 	constructor(props) {
 		super(props);
@@ -26,7 +28,8 @@ class Check extends React.Component {
 			tabIndex: 0,
 			personnelList: [],
 			loading: false,
-			searchParams: {} //保存搜索框参数
+			searchParams: {},//保存搜索框参数
+			isstorageChange:localStorage.getItem("yu")
 		};
 	}
 	componentDidRecover = () => {
@@ -47,8 +50,14 @@ class Check extends React.Component {
     }
 	componentDidMount() {
 		this.getTableList();
-		document.title='资产结构化检查'
+		document.title='资产结构化检查';
+		this.isstorageChange();
 	};
+	isstorageChange(){
+		window.addEventListener("storage",()=>{
+			this.getTableList();
+		});
+	}
 	getTableList = () => {
 		if(this.params['requestStartTime']&&this.params['requestEndTime']&&this.params['requestStartTime']>this.params['requestEndTime']){
 			message.error('开始时间不能大于结束时间');
@@ -80,6 +89,8 @@ class Check extends React.Component {
 				total: (dataObject.result) ? dataObject.result.total : 0,
 				page: (dataObject.result) ? dataObject.result.page : 1,
 				loading: false
+			},()=>{
+				localStorage.setItem('tonewdetail',Math.random())
 			});
 		}).catch(err=>{
 			this.setState({
@@ -123,7 +134,6 @@ class Check extends React.Component {
 			scrollTop();
         })
 	};
-
 	render() {
 		const { tableList, waitNum, checkErrorNum, editNum, total, page, status, tabIndex, loading } = this.state;
 		return (
@@ -159,4 +169,5 @@ class Check extends React.Component {
 		);
 	}
 }
+
 export default withRouter(Check);

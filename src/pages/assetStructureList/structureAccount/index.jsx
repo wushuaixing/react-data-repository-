@@ -182,11 +182,13 @@ class Asset extends React.Component {
 		return endValue.valueOf() <= startValue.valueOf();
 	};
 
-	checkIsAutoMarked(record) {
+	checkIsAutoMarked(record,e) {
+		e.preventDefault()&&e.persist();
+		let isNewPage=(e.button===1)||(e.ctrlKey&&e.button===0);
 		getDataStatus(record.id,record.status).then((res)=>{
 			if(res.data.code===200){
 				if(res.data.data){
-					this.props.history.push(`/index/structureDetail/${record.status}/${record.id}`)
+					isNewPage?window.open(`/defaultDetail/${record.status}/${record.id}`):this.props.history.push(`/index/structureDetail/${record.status}/${record.id}`)
 				}else{
 					message.warning('数据已被自动标注,2s后为您刷新界面',2,()=>window.location.reload());
 				}
@@ -226,7 +228,7 @@ class Asset extends React.Component {
 				dataIndex: "action",
 				align: "center",
 				width: 180,
-				render: (text, record) =><Button onClick={this.checkIsAutoMarked.bind(this,record)}>{tabIndex === 0 ? '标注' : '修改标注'}</Button>,
+				render: (text, record) =><Button onMouseDown={this.checkIsAutoMarked.bind(this,record)}>{tabIndex === 0 ? '标注' : '修改标注'}</Button>,
 			},
 		];
 		if (tabIndex !== 0) {

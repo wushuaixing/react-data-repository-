@@ -168,14 +168,16 @@ class StructureDetail extends React.Component {
 
 
     handleBack(flag){                             
-        this.props.history.push(flag?'/index/assetList':'/index'); 
+        const isdetailNewpage=window.location.href.includes('defaultDetail');
+        isdetailNewpage?this.handleClosePage():this.props.history.push(flag?'/index/assetList':'/index'); 
     }
      
     handleConfirm(){                        //检查人员确认按钮
         const { id } = this.props.match.params;
 		updateBackStatus({ id }).then((res) => {
 			if (res.data.code === 200) {
-				message.success('操作成功');
+                message.success('操作成功');
+                localStorage.setItem('tonewdetail',Math.random())
 				this.handleBack();
 			} else {
 				message.error('操作失败');
@@ -221,10 +223,10 @@ class StructureDetail extends React.Component {
                 }
             }
          }
-        console.log(obligors)
     }
     handleSubmit(){                          //保存
         const role=this.getRole();
+        const isdetailNewpage=window.location.href.includes('defaultDetail');
         const {id,status}=this.props.match.params;
         const flag = this.state.isBack?1:0;
         if(!this.isUpdateRecord()) return message.warning('当前页面未作修改，请修改后再保存');
@@ -263,12 +265,11 @@ class StructureDetail extends React.Component {
         if(role==='check'||(role==='structure'&&parseInt(status)===1)){//检查人员标注和结构化人员修改已标注数据
             saveDetail(id, params).then((res) => {
                 if (res.data.code === 200) {
-                    message.success('保存成功!');
+                    message.success('保存成功!',1);
                     sessionStorage.setItem('id', id);
                     sessionStorage.removeItem('backTime');
-                    this.props.history.push({
-                        pathname: '/index',
-                    });
+                    localStorage.setItem('tonewdetail',Math.random())
+                    isdetailNewpage ? setTimeout(this.handleClosePage, 1000) : this.props.history.push({pathname: '/index',});
                 } else {
                     message.error('保存失败!');
                 }
@@ -278,7 +279,8 @@ class StructureDetail extends React.Component {
                 const toIndex = () => this.props.history.push('/index');
                 const toNext = (_status,id)=> {
                     this.setState({ isUpdateRecord: false },() => {
-                        this.props.history.push({ pathname: `/index/structureDetail/${_status}/${id}` });
+                       localStorage.setItem('tonewdetail',Math.random())
+                       this.props.history.push({ pathname: isdetailNewpage ? `/defaultDetail/${_status}/${id}`: `/index/structureDetail/${_status}/${id}`})
                     })
                 };
                 if(res.data.code===200){
@@ -312,7 +314,7 @@ class StructureDetail extends React.Component {
 			});
 		} else {
 			this.submitWrongRecord({}, false);
-		}
+        }
     };
 	submitWrongRecord(data, checkError = true) {     //修改错误原因  检查有误  检查无误
         const {id} = this.props.match.params;
@@ -328,9 +330,11 @@ class StructureDetail extends React.Component {
 				if (res.data.code === 200) {
                     if(role==='newpage-check'||role==='newpage-other'){
                         message.success('操作成功,2秒后为您关闭页面');
+                        localStorage.setItem('tonewdetail',Math.random())
                         setTimeout(this.handleClosePage, 2000);
                     }else{
                         message.success('操作成功');
+                        localStorage.setItem('tonewdetail',Math.random())
                         this.handleBack();
                     }
 				} else {
@@ -359,10 +363,11 @@ class StructureDetail extends React.Component {
 		}
     };
     goPreviousRecord() {
+        const isdetailNewpage=window.location.href.includes('defaultDetail');
         if (sessionStorage.getItem('id')) {
             const toStatus = sessionStorage.getItem("backTime") === "1" ? 0 : 1;
             const path = {
-                pathname: `/index/structureDetail/${toStatus}/${sessionStorage.getItem('id')}`
+                pathname: isdetailNewpage ? `/defaultDetail/${toStatus}/${sessionStorage.getItem('id')}`:`/index/structureDetail/${toStatus}/${sessionStorage.getItem('id')}`
             };
             sessionStorage.setItem('id', this.props.match.params.id);
             sessionStorage.getItem("backTime") === "1" ? sessionStorage.removeItem('backTime') : sessionStorage.setItem('backTime', 1); //返回次数 默认只能返回一层
@@ -428,6 +433,7 @@ class StructureDetail extends React.Component {
               obligors,
               onlyThis,type,visible,isBack
             }=this.state;
+            console.log(this.props)
         const { match:{ params:{status} } } = this.props;
         const wrongData=this.wrongData;
         const preId = sessionStorage.getItem('id');

@@ -25,6 +25,12 @@ class TabTable extends React.Component {
     onTablePageChange = (pagination) => {
         this.props.onPage(pagination.current)
     };
+    goDetail(record,e){
+        e.preventDefault()&&e.persist();
+        let isNewPage=(e.button===1)||(e.ctrlKey&&e.button===0);
+        isNewPage?window.open(`/defaultDetail/${record.status}/${(record.info||{}).id}`)
+					: this.props.history.push(`/index/structureDetail/${record.status}/${(record.info||{}).id}`)
+    }
     get columnShowObject() {
         const showObject = {};
         showObject.dataIndex = 'time';//时间返参发生变化
@@ -67,11 +73,11 @@ class TabTable extends React.Component {
                     //console.log(record.status)
                     return (
                         <span>
-                            <Link to={{
+                            {/* <Link to={{
 								pathname: `/index/structureDetail/${record.status}/${(record.info||{}).id}`
-							}}>
-                                <Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} className='btn-bgcolor-change'>查看</Button>
-                            </Link>
+							}}> */}
+                                <Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} className='btn-bgcolor-change' onMouseDown={this.goDetail.bind(this,record)}>查看</Button>
+                            {/* </Link> */}
                         </span>
                     )
                 }

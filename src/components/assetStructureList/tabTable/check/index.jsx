@@ -1,7 +1,7 @@
 /** 5.1 checkTable(资产结构化检查-6个tab栏下的表格-检察人员)
 
 全部/未检查/检查无误/检查错误/已修改/待确认 * */
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { Tabs, Table, Button } from 'antd';
 import { Columns } from "@/static/columns";
@@ -28,6 +28,12 @@ class TabTable extends React.Component {
 	onTablePageChange = (pagination) => {
 		this.props.onPage(pagination.current)
 	};
+	handGoDetail(record,e){
+		e.preventDefault()&&e.persist();
+		let isNewPage=(e.button===1)||(e.ctrlKey&&e.button===0);
+        isNewPage?window.open(`/defaultDetail/${record.status}/${(record.info||{}).id}`)
+					: this.props.history.push(`/index/structureDetail/${record.status}/${(record.info||{}).id}`)
+	}
 	get columnShowObject() {
 		const showObject = {};
 		switch (this.props.tabIndex) {
@@ -62,26 +68,10 @@ class TabTable extends React.Component {
 				render: (text, record) => {
 					return (
 						<span>
-							<Link to={{
-								pathname: `/index/structureDetail/${record.status}/${(record.info||{}).id}`,
-								query:{ enable:record.structPersonnelEnable }
-							}}>
-								{(record.status === 3 || record.status === 4 )
-									&& record.structPersonnelEnable
-									&& record.structPersonnel !== '自动标注'
-									&& <Button style={{ fontSize: 14,width:66,height:30,textAlign:'center',padding:0}} >修改检查</Button>}
-								{(record.status === 5)
-									&& record.structPersonnelEnable
-									&& record.structPersonnel !== '自动标注'
-									&& <Button style={{ fontSize: 14,width:66,height:30,textAlign:'center',padding:0}} >再次检查</Button>}
-								{(!record.structPersonnelEnable
-									|| record.structPersonnel === '自动标注')
-									&& <Button style={{ fontSize: 14,width:66,height:30,textAlign:'center',padding:0}}>修改标注</Button>}
-								{record.status === 2
-									&& record.structPersonnelEnable
-									&& record.structPersonnel !== '自动标注'
-									&& <Button style={{ fontSize: 14,width:66,height:30,textAlign:'center',padding:0}}>检查</Button>}
-							</Link>
+							<ToDetailBtn
+								record={record}
+								goDeteil={this.handGoDetail.bind(this,record)}
+							/>
 						</span>
 					)
 				}
@@ -158,4 +148,26 @@ class TabTable extends React.Component {
 		);
 	}
 }
+const ToDetailBtn=(props)=>{
+	const {record}=props;
+	const {status,structPersonnelEnable,structPersonnel}=record;
+	const text=()=>{
+		if((status === 3 || status === 4) && structPersonnelEnable && structPersonnel !== '自动标注'){
+			return '修改检查'
+		}
+		if((status === 5) && structPersonnelEnable && (structPersonnel !== '自动标注')){
+			return '再次检查'
+		}
+		if(!structPersonnelEnable || (structPersonnel === '自动标注')){
+			return '修改标注'
+		}
+		if((status === 2) && structPersonnelEnable && structPersonnel !== '自动标注'){
+			return '检查'
+		}
+	}
+	return <Fragment>
+		<Button style={{ fontSize: 14,width:66,height:30,textAlign:'center',padding:0}} onMouseDown={(e)=>props.goDeteil(e)}>{text()}</Button>
+	</Fragment>
+}
+
 export default withRouter(TabTable);
