@@ -22,8 +22,6 @@ class Check extends React.Component {
 	addRemark(text,flag) {
 		const val = this.props.form.getFieldValue('remark')?this.props.form.getFieldValue('remark'):'';
 		this.props.form.setFieldsValue({
-				// `${(isShowWrongRemark)?wrongReasons.remark.join('\n'):''}`
-			// remark: `${val}${text}:\n`
 			remark: flag?`${val}${text},`:`${val}${text}:\n`
 		});
 	};
@@ -75,7 +73,7 @@ class Check extends React.Component {
 										<Radio value={0}>
 											<span>不计入错误</span>
 										</Radio>
-										<Radio value={1}>
+										<Radio value={1} className="second-radio">
 											<span>普通错误</span>
 										</Radio>
 										<Radio value={2}>
@@ -105,7 +103,7 @@ class Check extends React.Component {
 								<div className="part-error-detail">
 									{
 										WRONG_TYPE_LIST.map((item,index)=>{
-											return <span key={index} className="part-error-content"  onClick={() => this.addRemark(item)}>{item}<br/></span>
+											return <div key={index} className="part-error-content"  onClick={() => this.addRemark(item)}>{item}</div>
 										})
 									}
 								</div>
