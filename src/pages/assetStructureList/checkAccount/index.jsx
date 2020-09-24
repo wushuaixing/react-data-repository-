@@ -108,10 +108,8 @@ class Check extends React.Component {
 		})
 	};
 	changeTab = (key) => {
-		this.searchFilterForm.resetFields();
 		this.setState({
             tabIndex: parseInt(key),
-            searchParams:{},
             page:1
 		},()=>{
             this.getTableList()
