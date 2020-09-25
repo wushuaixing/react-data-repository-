@@ -29,8 +29,8 @@ const getObligors = ()=> ({
 	name: '',
 	notes: '',
 	number: '',
+    system:null,
     type: '1',
-    system:null
 });
 class StructureDetail extends React.Component {
     constructor(){
@@ -214,14 +214,11 @@ class StructureDetail extends React.Component {
                 return true
             }
             for(let j=0;j<arrItem.length;j++){
-                let arrItemKey=Object.getOwnPropertyNames(arrItem[j]);
-                for(let k=0;k<arrItemKey.length;k++){
-                    let item=arrItemKey[k];
-                    if(arrItem[j][item]!==stateItem[j][item]){    //判断 案号 文书链接 角色信息发生改变
-                        return true;
-                    }
+                if (!stateItem.map(v => JSON.stringify(v)).includes(JSON.stringify(arrItem[j]))){
+                    return true
                 }
             }
+
          }
     }
     handleSubmit(){                          //保存
@@ -433,7 +430,6 @@ class StructureDetail extends React.Component {
               obligors,
               onlyThis,type,visible,isBack
             }=this.state;
-            console.log(this.props)
         const { match:{ params:{status} } } = this.props;
         const wrongData=this.wrongData;
         const preId = sessionStorage.getItem('id');

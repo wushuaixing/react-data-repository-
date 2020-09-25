@@ -2,7 +2,7 @@
 
 全部/未检查/检查无误/检查错误/已修改/待确认 * */
 import React, { Fragment } from 'react';
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Tabs, Table, Button } from 'antd';
 import { Columns } from "@/static/columns";
 import createPaginationProps from "@/utils/pagination";

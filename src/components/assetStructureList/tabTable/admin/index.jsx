@@ -1,6 +1,6 @@
 /* 全部/未检查/检查无误/检查错误/已修改/待确认 */
 import React from 'react';
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Tabs, Table, Button } from 'antd';
 import { Columns } from "@/static/columns";
 import createPaginationProps from "@/utils/pagination";
@@ -70,14 +70,9 @@ class TabTable extends React.Component {
                 align: "center",
                 width: 180,
                 render: (text, record) => {
-                    //console.log(record.status)
                     return (
                         <span>
-                            {/* <Link to={{
-								pathname: `/index/structureDetail/${record.status}/${(record.info||{}).id}`
-							}}> */}
-                                <Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} className='btn-bgcolor-change' onMouseDown={this.goDetail.bind(this,record)}>查看</Button>
-                            {/* </Link> */}
+                            <Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} className='btn-bgcolor-change' onMouseDown={this.goDetail.bind(this,record)}>查看</Button>
                         </span>
                     )
                 }

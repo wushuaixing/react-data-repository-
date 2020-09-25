@@ -9,7 +9,6 @@ import '@/pages/style.scss';
 import { BreadCrumb } from '@commonComponents';
 import {scrollTop } from "@utils/tools";
 import { dateUtils} from "@utils/common";
-let  yu=false;
 
 class Check extends React.Component {
 	constructor(props) {

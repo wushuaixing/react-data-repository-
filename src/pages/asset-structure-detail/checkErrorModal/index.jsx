@@ -35,7 +35,6 @@ class Check extends React.Component {
 		const  status  = this.props.match.params.status||this.props.status;
     	wrongReasons = (wrongReasons&&wrongReasons instanceof Array&&wrongReasons.length>0)?wrongReasons[wrongReasons.length-1]:{};
 		const isShowWrongRemark =wrongReasons.remark && parseInt(status) === 4;
-		const isErrorLocationVisible=false;//等后端处理
 		return (
 			<div>
 				<Modal
@@ -84,7 +83,7 @@ class Check extends React.Component {
 							</Form.Item>
 							<Form.Item className="wrongTypes" label="出错位置">
 								{getFieldDecorator('wrongTypes', {
-									initialValue:wrongReasons.auctionExtractWrongTypes&&isShowWrongRemark&&isErrorLocationVisible?wrongReasons.auctionExtractWrongTypes:[],
+									initialValue:wrongReasons.auctionExtractWrongTypes&&isShowWrongRemark?wrongReasons.auctionExtractWrongTypes:[],
 								})(
 									<CheckboxGroup onChange={this.onChangeReason}>
 										{REASON_LIST && REASON_LIST.map((item) => {
