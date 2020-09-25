@@ -26,13 +26,10 @@ class ErrorReason extends Component {
                                         </li>
                                     }
                                     <Item title='错误等级：' content={WRONG_LEVEL[item.wrongLevel]} color='danger'/>
-                                    {
-                                        item.remark && item.remark.length > 0?
-                                        item.remark.map((items,indexs)=>
-                                            <Item title='错误详情：' content={items} key={`detail${indexs}`} color='danger'/>
-                                        ) :
-                                        <Item title='错误详情：' content='-' color='danger'/>
-                                    }
+                                    <Item title='错误详情：'  color='danger'>
+                                        {item.remark && item.remark.length > 0 ? item.remark.map(v=>v) : "-"}
+                                    </Item>
+
                                 </Fragment>
                                 )
                             })

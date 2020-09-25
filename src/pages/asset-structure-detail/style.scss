@@ -69,6 +69,10 @@
                 }
                 .danger-error{
                     color: red;
+                    line-height: 20px !important;
+                    position: relative;
+                    top: -3px;
+                ;
                 }
                 .record-noErr{
                     color: green;
