@@ -28,7 +28,6 @@ class Check extends React.Component {
 			personnelList: [],
 			loading: false,
 			searchParams: {},//保存搜索框参数
-			isstorageChange:localStorage.getItem("yu")
 		};
 	}
 	componentDidRecover = () => {

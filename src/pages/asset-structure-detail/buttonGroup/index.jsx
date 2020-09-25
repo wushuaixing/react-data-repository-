@@ -119,18 +119,21 @@ class ButtonGroup extends Component {
         }
         //如果收到了type数据且现在计时器可更新则进入判断
         if (this.props.type !== null && (this.state.timer === null)) {
+
             //如果是在未标记中的 普通数据 需要设置15s后才可以点击保存
-            if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === '0') {
+            if (this.props.role === 'structure' && this.props.type === 0 && this.props.status === 0) {
                 this.setState({
                     buttonDisabled: true,
                     countDown: 15,
                     timer: setInterval(() => {
                         this.handleCountDown()
                     }, 1000)
+                },()=>{
+                    console.log(this.state)
                 })
             }
             //在待标记的初标数据类型时或不在待标记时候 不需要计时
-            if ((this.props.type !== 0 && this.props.status === '0') || this.props.status !== '0') {
+            if ((this.props.type !== 0 && this.props.status === 0) || this.props.status !== 0) {
                 this.setState({
                     buttonDisabled: false,
                     countDown: null
@@ -138,9 +141,12 @@ class ButtonGroup extends Component {
             }
         }
     }
+    componentWillUnmount(){
+        this.setState=()=>false   //不能在组件销毁后设置state，防止出现内存泄漏  (防抖设置定时器)
+    }
     render() {
-        const { enable, status,associatedStatus,isSendRequest,isLastData,onlyThis,role} = this.props;
-        const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[isLastData?1:status];
+        const { enable, status,associatedStatus,isSendRequest,onlyThis,role} = this.props;
+        const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[status];
         const { countDown } = this.state;
         const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
         const checkButtons = this.checkButtons;

@@ -56,7 +56,7 @@ function AnnounceMentPart(props) {
 function AttachListItem(props) {
   return (
     <div onClick={props.handleClick} className="accessory-list_item">
-      <span>{props.name}</span>
+      <a download={props.url}>{props.name}</a>
       {/* {!props.transcodingToHtml && <span>未解析</span>} */}
     </div>
   )
@@ -74,7 +74,8 @@ class Index extends React.Component {
       title: '', //标题
       titleUrl: '', //标题链接
       attachList: [],// 存放文件下载列表 包括 附件ID 附件文件名称 是否已转码到HTML 附件URL
-      showAnchors: []
+      showAnchors: [],
+      flag:0
     };
   }
 
@@ -86,7 +87,7 @@ class Index extends React.Component {
         const { title, url, attachList } = data;
         for (let i = 0; i < anchors.length; i++) {
           let part_name = anchors[i].id; //id是每一部分的名称 比如subjectMatterIntroduction 标的物介绍 将后端传来的html动态赋值合并新属性html
-          let html = this.clearStyle(data[part_name]); //清理样式 返回html
+          let html = data[part_name]; //返回html
           let isImgTag = findImgTag(html); //判断是否有图片标签
           html ? Object.assign(anchors[i], { html, isImgTag }) : anchors.splice(i, 1)
         }
@@ -102,24 +103,42 @@ class Index extends React.Component {
     });
   }
 
-  clearStyle = (data) => {
-    data = data
-      .replace(/background: #[a-zA-Z0-9]{6};/g, "")
-      .replace(/([;"\f\n\r\t\v])color: ?#(\d{3}|[a-zA-Z0-9]{6});/g,'$1')
-      .replace(/font-size: \d{0,2}\.?\d?p[t|x];/g, "");
-    return data;
-  };
+  // clearStyle = (data) => {
+  //   data = data
+  //     .replace(/background: #[a-zA-Z0-9]{6};/g, "")
+  //     .replace(/([;"\f\n\r\t\v])color: ?#(\d{3}|[a-zA-Z0-9]{6});/g,'$1')
+  //     .replace(/font-size: \d{0,2}\.?\d?p[t|x];/g, "");
+  //   return data;
+  // };
   openTitleUrl() {
     window.open(this.state.titleUrl)
   }
   downloadAttachFile(data) {
     window.open(data.url)//如果未解析为网页 直接下载
   }
+  changeTab=(index)=>{
+      this.setState({
+            flag: index
+      })
+  }
   render() {
-    const { title, attachList } = this.state;
+    const { title, attachList,flag } = this.state;
     return (
       <div className="externalSource-auction">
         <div className="linkTitle" onClick={this.openTitleUrl.bind(this)}>{title}</div>
+        <div className='externalSource-auction-header'>
+          <ul>
+            {
+              anchors.map((item,index)=>{
+                return (
+                    <li key={item.id} onClick={()=>this.changeTab(index)} className={flag===index?'hover-item':null}>
+                      {item.isImgTag&&<img src={pic} alt=''/> }<a href={`#${item.id}`}>{item.title}</a>
+                    </li>
+                )
+              })
+            }
+          </ul>
+        </div>
         <div className="externalSource-auction-container">
           <div className="container_body">
             {anchors.map((anchor, index) => {
@@ -127,7 +146,6 @@ class Index extends React.Component {
             })}
           </div>
           <div className="container_right">
-            <AuctionAnchor />
             <div className="accessory">
               <div className="accessory_title">附件</div>
               {(attachList.length > 0) ?
@@ -136,6 +154,7 @@ class Index extends React.Component {
                     attachList.map((item, index) =>
                       <AttachListItem
                           handleClick={this.downloadAttachFile.bind(this, item)}
+                          url={item.url}
                           name={item.name} key={index}
                           transcodingToHtml={item.transcodingToHtml}
                       />

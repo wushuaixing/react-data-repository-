@@ -63,7 +63,6 @@ class StructureDetail extends React.Component {
             structPersonnelEnable:'',  //结构化人员是否删除 0:删除账号 1:正常账号 2:该条未被结构化
             type:'',                   //数据类型 0普通数据 1相似数据 2已标记拍卖数据
             id:'',
-            isUpdateRecord: false,     //判断是否修改了记录 没修改不让保存,
             TOTAL: 0,                  //数据总量,
             MARK: 0,                   //当前标记数
             visible:false
@@ -124,7 +123,6 @@ class StructureDetail extends React.Component {
     handleChange=(key,value)=>{             //抵押情况/房产土地类型/建筑面积/文书信息查找情况/仅标记本条改变时
 		this.setState({
 			[key]: value,
-			isUpdateRecord: true,
         });
     }
     handleDocumentChange(combine, value) {      //案号  文书链接地址改变时
@@ -134,7 +132,6 @@ class StructureDetail extends React.Component {
 		arr[arr_index].value = value;
 		this.setState({
 			[key]: arr,
-			isUpdateRecord: true,
 		});
     }
     handleRoleChange(combine, value) {         //角色信息改变时
@@ -143,15 +140,13 @@ class StructureDetail extends React.Component {
         const arr = [...this.state.obligors];
         arr[arr_index][key] = value;
         this.setState({
-            obligors: arr,
-            isUpdateRecord: true
+            obligors: arr
         })
     }
     handleAddClick(key) {                      //角色信息，文书链接，文书案号增加时
 		const arr = (key !== 'obligors') ? [...this.state[key], { value: '' }] : [...this.state[key], { ...getObligors() }];
 		this.setState({
 			[key]: arr,
-			isUpdateRecord: true,
 		});
     }
     handleDeleteClick(key, index = -1) {      //角色信息，文书链接，文书案号删除时
@@ -160,8 +155,7 @@ class StructureDetail extends React.Component {
 			arr.splice(index, 1);
 		}
 		this.setState({
-			[key]: arr,
-			isUpdateRecord: true,
+			[key]: arr
 		});
     }
     //以上为页面的基本显示
@@ -275,10 +269,8 @@ class StructureDetail extends React.Component {
             saveAndGetNext(id,params).then((res)=>{
                 const toIndex = () => this.props.history.push('/index');
                 const toNext = (_status,id)=> {
-                    this.setState({ isUpdateRecord: false },() => {
                        localStorage.setItem('tonewdetail',Math.random())
                        this.props.history.push({ pathname: isdetailNewpage ? `/defaultDetail/${_status}/${id}`: `/index/structureDetail/${_status}/${id}`})
-                    })
                 };
                 if(res.data.code===200){
                     const {data}=res.data;
@@ -368,11 +360,7 @@ class StructureDetail extends React.Component {
             };
             sessionStorage.setItem('id', this.props.match.params.id);
             sessionStorage.getItem("backTime") === "1" ? sessionStorage.removeItem('backTime') : sessionStorage.setItem('backTime', 1); //返回次数 默认只能返回一层
-            this.setState({
-                isUpdateRecord:false
-            },()=>{
-                this.props.history.push(path)
-            })
+            this.props.history.push(path)
         }
         else {
             message.error('无法跳转')
@@ -434,6 +422,7 @@ class StructureDetail extends React.Component {
         const wrongData=this.wrongData;
         const preId = sessionStorage.getItem('id');
         const tag = `${this.state.MARK}/${this.state.TOTAL}`;
+        const isLastData=this.state.MARK/this.state.TOTAL;
         return (
             <SpinLoading loading={loading}>
                 <div className="assetstructure-detail"> 
@@ -521,6 +510,7 @@ class StructureDetail extends React.Component {
                                 handleNoErr={this.handleNoErr.bind(this)}
                                 handleErrorModal={()=>this.setState({visible:true})}
                                 handleClosePage={this.handleClosePage.bind(this)}
+                                isLastData={isLastData}
                             />
                         }
                     	<CheckModal
