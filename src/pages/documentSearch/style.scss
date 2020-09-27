@@ -17,7 +17,7 @@
     flex-wrap: wrap;
     font-size: 12px; 
     padding-left: 42px;
-    line-height: 12px;
+    line-height: 16px;
     span{
         &:first-child{
             border: none;
@@ -26,8 +26,7 @@
             padding: 4px 0;
         }
         margin:8px 8px 0 0;
-        background: #EDEFF3;
-        padding: 4px 8px;
+        padding: 2px 8px;
         background: #F5F5F5;
         border-radius: 2px;
         border: 1px solid #E2E4E9;

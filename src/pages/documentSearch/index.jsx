@@ -108,8 +108,20 @@ class Check extends React.Component {
 		})
 	};
 	handClick=(val)=>{
-		const { form:{setFieldsValue} } = this.props;
-		setFieldsValue({whole:val})             //点击搜索记录时填充到搜索框中
+		const { form:{ getFieldValue,setFieldsValue} } = this.props;
+		const get =field=> (getFieldValue(field)||'');
+		setFieldsValue({whole:val});             //点击搜索记录时填充到搜索框中
+		this.setState({
+			searchParams:{
+				content: get('whole').trim().replace(/\s+/g," "),
+				ah: get('ah'),
+				court: get('court'),
+				url: get('url')
+			},
+			page: 1,
+		}, () => {
+			this.getTableList();
+		});
 	}
 	clearRecords=()=>{
 		localStorage.removeItem('documentSearchRecords');//清楚记录
@@ -234,6 +246,7 @@ class Check extends React.Component {
 												type="text"
 												size='default'
 												placeholder="姓名、公司、地址关键词等"
+												autoComplete='off'
 											/>)}
 									</Form.Item>
 									{
@@ -254,6 +267,7 @@ class Check extends React.Component {
 														type="text"
 														size='default'
 														placeholder="案号"
+														autoComplete='off'
 													/>)}
 											</Form.Item>
 											<Form.Item label="法院">
@@ -262,6 +276,7 @@ class Check extends React.Component {
 														type="text"
 														size='default'
 														placeholder="法院"
+														autoComplete='off'
 													/>)}
 											</Form.Item>
 											<Form.Item label="链接">
@@ -270,6 +285,7 @@ class Check extends React.Component {
 														type="text"
 														size='default'
 														placeholder="文书源链接"
+														autoComplete='off'
 													/>)}
 											</Form.Item>
 										</Col>

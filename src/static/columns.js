@@ -34,12 +34,12 @@ export const Columns = [
 							</div>
 							<div className="info-line">
 								<span>评&nbsp;&nbsp;估&nbsp;&nbsp;价：
-									<b>{`${record.info.consultPrice}元`}</b>
+									<b>{`${parseInt(record.info.consultPrice).toLocaleString()}元`}</b>
 								</span>
 							</div>
 							<div className="info-line">
 								<span>起&nbsp;&nbsp;拍&nbsp;&nbsp;价：
-									<b>{`${record.info.initialPrice}元`}</b>
+									<b>{`${parseInt(record.info.initialPrice).toLocaleString()}元`}</b>
 								</span>
 							</div>
 						</div>

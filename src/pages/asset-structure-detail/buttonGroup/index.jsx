@@ -128,8 +128,6 @@ class ButtonGroup extends Component {
                     timer: setInterval(() => {
                         this.handleCountDown()
                     }, 1000)
-                },()=>{
-                    console.log(this.state)
                 })
             }
             //在待标记的初标数据类型时或不在待标记时候 不需要计时
