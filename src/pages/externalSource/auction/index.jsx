@@ -1,11 +1,11 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { message, Anchor } from 'antd';
+import { message } from 'antd';
 import { htmlDetailInfo } from "@api";
 import pic from "@/assets/img/pic.png";
 import './style.scss';
 
-const { Link } = Anchor;
+// const { Link } = Anchor;
 const anchors = [
   {
     id: 'biddingAnnouncement',
@@ -21,26 +21,26 @@ const anchors = [
   }
 ];
 
-function AuctionAnchor() {
-  const icon = <img src={pic} alt="有图片" style={{width: 16, height: 16, marginLeft: 8}}/>;
-  return (
-    <Anchor showInkInFixed={true}>
-      {
-        anchors.map(anchor =>
-          <Link href={`#${anchor.id}`}
-            title={
-              <span>
-                <span>{anchor.title}</span>
-                {anchor.isImgTag ? icon : null}
-              </span>
-            }
-            key={anchor.id} >
-          </Link>
-        )
-      }
-    </Anchor>
-  );
-}
+// function AuctionAnchor() {
+//   const icon = <img src={pic} alt="有图片" style={{width: 16, height: 16, marginLeft: 8}}/>;
+//   return (
+//     <Anchor showInkInFixed={true}>
+//       {
+//         anchors.map(anchor =>
+//           <Link href={`#${anchor.id}`}
+//             title={
+//               <span>
+//                 <span>{anchor.title}</span>
+//                 {anchor.isImgTag ? icon : null}
+//               </span>
+//             }
+//             key={anchor.id} >
+//           </Link>
+//         )
+//       }
+//     </Anchor>
+//   );
+// }
 
 function AnnounceMentPart(props) {
   const { index,html:__html } = props;

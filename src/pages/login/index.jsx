@@ -226,8 +226,8 @@ class Login extends React.Component {
 											{getFieldDecorator('rememberMe', {
 												valuePropName: 'checked',
 												initialValue: false,
-											})}
-											{/*(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12, visibility: 'hidden' }} disabled>下次自动登录</Checkbox>)*/}
+											})(<Checkbox className="yc-forget" style={{ marginLeft: 6, fontSize: 12, display: 'none' }} disabled>下次自动登录</Checkbox>)}
+
 											<a className="yc-forget" onClick={this.switchForm.bind(this)} style={{ marginLeft: 240 }}>
 												忘记密码?
 											</a>

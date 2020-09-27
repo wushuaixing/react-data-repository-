@@ -117,12 +117,52 @@ class Check extends React.Component {
 		})
 	};
 	changeTab = (key) => {
-		this.setState({
-            tabIndex: parseInt(key),
-            page:1
-		},()=>{
-            this.getTableList()
-        });
+		if(this.state.tabIndex===3||this.state.tabIndex===4){
+			if(key===3||key===4){       //检查无误”与“检查错误”tab页互相切换时，筛选条件，且带出搜索结果
+				this.setState({
+					tabIndex: parseInt(key),
+					page:1,
+				},()=>{
+					this.getTableList()
+				});
+			}else {                  //从检查无误或者检查错误切换到其他任何列时 不保留筛选条件
+				this.searchFilterForm.resetFields();
+				this.setState({
+					tabIndex: parseInt(key),
+					page:1,
+					searchParams:{},
+				},()=>{
+					this.getTableList()
+				});
+			}
+		}else if(this.state.tabIndex===5){  //如果是从已修改列切换到其他列   不保留筛选条件
+			this.searchFilterForm.resetFields();
+			this.setState({
+				tabIndex: parseInt(key),
+				page:1,
+				searchParams:{},
+			},()=>{
+				this.getTableList()
+			});
+		}else {
+			if(key===3||key===4||key===5){  //从 “全部”、“未检查”、“待确认”跳转到其他列时，不保留筛选条件
+				this.searchFilterForm.resetFields();
+				this.setState({
+					tabIndex: parseInt(key),
+					page:1,
+					searchParams:{},
+				},()=>{
+					this.getTableList()
+				});
+			}else {
+				this.setState({        // “全部”、“未检查”、“待确认”tab页互相切换时，保留筛选条件
+					tabIndex: parseInt(key),
+					page:1,
+				},()=>{
+					this.getTableList()
+				});
+			}
+		}
 	};
 	onTablePageChange = (page) => {
 		this.setState({
