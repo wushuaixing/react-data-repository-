@@ -24,15 +24,8 @@
   <component name="ChangeListManager">
     <list default="true" id="6b8cef79-cc86-4518-ada3-4ca61fd07b74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/buttonGroup/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/buttonGroup/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/checkErrorModal/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/checkErrorModal/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/documentSearch/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/documentSearch/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/documentSearch/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/documentSearch/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/externalSource/auction/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/externalSource/auction/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/externalSource/auction/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/externalSource/auction/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/columns.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/columns.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/errorReason/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/errorReason/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/style.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +59,8 @@
       <workItem from="1600831802312" duration="14000" />
       <workItem from="1600831917834" duration="16798000" />
       <workItem from="1600996415930" duration="4290000" />
-      <workItem from="1601167806224" duration="26554000" />
+      <workItem from="1601167806224" duration="26940000" />
+      <workItem from="1601207077380" duration="2477000" />
     </task>
     <servers />
   </component>

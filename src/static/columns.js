@@ -125,6 +125,7 @@ export const Columns = [
 	{
 		title: "拍卖标题",
 		dataIndex: "title",
+		width:760
 	},
 	{
 		title: "结构化状态",

@@ -31,7 +31,7 @@ class Asset extends React.Component {
 	};
 	componentDidMount() {
 		this.getApi(this.getParamsByTabIndex())
-		document.title='资产结构化'
+		// document.title='资产结构化'
 	};
 	getApi = (params) => {
 		this.setState({
@@ -215,6 +215,7 @@ class Asset extends React.Component {
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { tableList, total, waitNum, page, tabIndex, loading } = this.state;
+		document.title='资产结构化';
 		const columns = [
 			Columns[4],
 			{
@@ -234,7 +235,7 @@ class Asset extends React.Component {
 		if (tabIndex !== 0) {
 			columns.unshift({
 				title: "结构化时间",
-				dataIndex: "time",
+				dataIndex: "time"
 			})
 		}
 		const paginationProps = createPaginationProps(page, total);
