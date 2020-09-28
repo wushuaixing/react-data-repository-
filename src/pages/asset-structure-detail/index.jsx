@@ -218,8 +218,9 @@ class StructureDetail extends React.Component {
             if (stateItem.length !== arrItem.length) {    //判断是否增加删除数据
                 return true
             }
+            
             for (let j = 0; j < arrItem.length; j++) {
-                if (!arrItem.map(v => JSON.stringify(v)).includes(JSON.stringify(stateItem[j]))||!arrItem.map(v => JSON.stringify(v)).includes(JSON.stringify(stateItem[j]))) {
+                if (!arrItem.map(v => JSON.stringify(v)).includes(JSON.stringify(stateItem[j]))||!stateItem.map(v => JSON.stringify(v)).includes(JSON.stringify(arrItem[j]))) {
                     return true
                 }
             }
