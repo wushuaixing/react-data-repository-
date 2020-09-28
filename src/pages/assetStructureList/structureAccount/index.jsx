@@ -17,7 +17,17 @@ class Asset extends React.Component {
 		props.cacheLifecycles.didRecover(this.componentDidRecover)
 	}
 	componentDidRecover=()=>{
-		this.getApi(this.getParamsByTabIndex())
+		if(this.props.location.query){
+			this.setState({
+				tabIndex:0,
+				page:1
+			}, () => {
+				this.getApi(this.getParamsByTabIndex())
+			})
+		}else{
+			this.getApi(this.getParamsByTabIndex())
+		}
+		
 	};
 	state = {
 		page: 1,

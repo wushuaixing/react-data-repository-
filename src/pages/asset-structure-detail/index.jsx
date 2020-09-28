@@ -142,8 +142,8 @@ class StructureDetail extends React.Component {
     }
 
     handleRoleChange(combine, value) {         //角色信息改变时
-        const arr_index = combine.substr(combine.length - 1, 1);
-        const key = combine.substr(0, combine.length - 1);
+        const arr_index = combine.replace(/[^0-9]/g,"");//combine形式为 name1
+        const key = combine.replace(/[^a-zA-Z_]/g,"");
         const arr = [...this.state.obligors];
         arr[arr_index][key] = value;
         this.setState({
@@ -219,11 +219,10 @@ class StructureDetail extends React.Component {
                 return true
             }
             for (let j = 0; j < arrItem.length; j++) {
-                if (!stateItem.map(v => JSON.stringify(v)).includes(JSON.stringify(arrItem[j]))) {
+                if (!arrItem.map(v => JSON.stringify(v)).includes(JSON.stringify(stateItem[j]))||!arrItem.map(v => JSON.stringify(v)).includes(JSON.stringify(stateItem[j]))) {
                     return true
                 }
             }
-
         }
     }
 
@@ -272,16 +271,17 @@ class StructureDetail extends React.Component {
                     sessionStorage.setItem('id', id);
                     sessionStorage.removeItem('backTime');
                     localStorage.setItem('tonewdetail', Math.random())
-                    isdetailNewpage ? setTimeout(this.handleClosePage, 1000) : this.props.history.push({pathname: '/index',});
+                    isdetailNewpage ? setTimeout(this.handleClosePage, 1000) : this.props.history.push({pathname: '/index'});
                 } else {
                     message.error('保存失败!');
                 }
             });
         } else {
             saveAndGetNext(id, params).then((res) => {
-                const toIndex = () => this.props.history.push("/index");
+                const toIndex = () =>{
+                    isdetailNewpage ? this.props.history.push('/index') : this.props.history.push({pathname:'/index',query : { flag: true} });
+                } 
                 const toNext = (_status, id) => {
-                    localStorage.setItem('tonewdetail', Math.random())
                     this.props.history.push({pathname: isdetailNewpage ? `/defaultDetail/${_status}/${id}` : `/index/structureDetail/${_status}/${id}`})
                 };
                 if (res.data.code === 200) {
@@ -409,8 +409,8 @@ class StructureDetail extends React.Component {
 
     getErrReasonVisible() {
         const role = this.getRole();
-        const {status} = this.props.match.params;
-        if ((role === 'structure' && parseInt(status) === 2) || ((role === 'check' || role === "newpage-check") && parseInt(status) > 3) || ((role === 'admin' || role === 'newpage-other') && parseInt(status) > 2)) {
+        const {associatedStatus} = this.state;
+        if ((role === 'structure' && parseInt(associatedStatus) === 4) || ((role === 'check' || role === "newpage-check") && parseInt(associatedStatus) > 3) || ((role === 'admin' || role === 'newpage-other') && parseInt(associatedStatus) > 2)) {
             return true;
         }
     }
@@ -434,7 +434,6 @@ class StructureDetail extends React.Component {
     }
 
     render() {
-        console.log(this.state.wrongData)
         const {
             loading, id, title, auctionStatus, reasonForWithdrawal, associatedAnnotationId, associatedStatus, records, url,
             collateral, houseType, buildingArea,
@@ -468,7 +467,7 @@ class StructureDetail extends React.Component {
                     }
                     <div className="assetstructure-detail_container">
                         {
-                            backRemark && backRemark.length > 0 && isBack &&
+                            isBack &&
                             <ReturnMark
                                 backRemark={backRemark}
                             />
@@ -546,6 +545,7 @@ class StructureDetail extends React.Component {
                             handleModalCancel={() => {
                                 this.setState({visible: false})
                             }}
+                            status={associatedStatus}
                             style={{width: 430}}
                         />
                     </div>
