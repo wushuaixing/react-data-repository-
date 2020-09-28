@@ -104,16 +104,12 @@
   width: 1200px;
   margin: 0 auto;
   position: relative;
-
   .container_body {
     width: 904px;
-    padding: 0 0 64px 46px;
+    padding: 245px 0 64px 46px;
     position: relative;
-    top: 245px;
-
     &_eachPart {
       position: relative;
-
       table {
         width: 100%;
       }

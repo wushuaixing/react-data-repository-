@@ -64,13 +64,16 @@
                         &:first-of-type{
                             min-width: 120px;
                             text-align:right;
+                            line-height: 20px;
                         }
+                    }
+                    div{
+                        line-height: 20px;
                     }
                 }
                 .danger-error{
                     color:#fb0037;
-                    line-height: 20px !important;
-                ;
+                    line-height: 20px;
                 }
                 .record-noErr{
                     color: green;
@@ -95,8 +98,8 @@
             }
             .records{
                 p{
-                    line-height: 14px;
-                    margin-bottom: 8px;
+                    line-height: 20px;
+                    margin-bottom: 12px;
                 }
             }  
         }
@@ -115,11 +118,15 @@
     .error-reason_info{
         .wrong-data{
             margin-left: 50px !important;
+            line-height: 20px;
         }
         .wrong-detail{
             p{
-                line-height: 14px;
-                margin-bottom: 8px;
+                line-height: 20px;
+                margin-bottom: 12px;
+                &:last-child{
+                    margin-bottom: 0;
+                }
             }
         }
     }

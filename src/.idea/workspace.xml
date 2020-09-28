@@ -24,8 +24,19 @@
   <component name="ChangeListManager">
     <list default="true" id="6b8cef79-cc86-4518-ada3-4ca61fd07b74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/basicInfo/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/basicInfo/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/buttonGroup/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/buttonGroup/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/checkErrorModal/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/checkErrorModal/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/documentInfo/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/documentInfo/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/errorReason/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/errorReason/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/propertyInfo/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/propertyInfo/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/roleInfo/autoCompleteInput.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/roleInfo/autoCompleteInput.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/roleInfo/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/roleInfo/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/externalSource/auction/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/externalSource/auction/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/externalSource/auction/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/externalSource/auction/style.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +72,7 @@
       <workItem from="1600996415930" duration="4290000" />
       <workItem from="1601167806224" duration="26940000" />
       <workItem from="1601207077380" duration="2477000" />
+      <workItem from="1601253983460" duration="23522000" />
     </task>
     <servers />
   </component>
@@ -92,9 +104,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="600" height="428" key="javadoc.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1600832748103" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1601196804050">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1601281247041">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1601196804050" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1601281247041" />
   </component>
 </project>

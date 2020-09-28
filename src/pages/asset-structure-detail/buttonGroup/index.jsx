@@ -1,7 +1,8 @@
-import React,{Component,Fragment} from 'react'
-import { Checkbox, Button } from 'antd'
-import { STRUCTURE_SAVE_BUTTON_TEXT } from '@/static/status'
-import { withRouter } from 'react-router-dom';
+import React, {Component, Fragment} from 'react'
+import {Checkbox, Button} from 'antd'
+import {STRUCTURE_SAVE_BUTTON_TEXT} from '@/static/status'
+import {withRouter} from 'react-router-dom';
+
 class ButtonGroup extends Component {
     constructor() {
         super();
@@ -10,89 +11,108 @@ class ButtonGroup extends Component {
             timer: null
         };
     }
+
     static defaultProps = {
         type: '',
-        role: '',     
-        id: '',   
+        role: '',
+        id: '',
         isSendRequest: '',
-        status: 0,               
+        status: 0,
         url: '',
-        onlyThis:false,
-        enble:true,
-        handleSubmit:()=>{},
-        handleErrorModal:()=>{},
-        handleStructureUpdate:()=>{},
-        handleNoErr:()=>{},
-        handleChange:()=>{},
-        handleConfirm:()=>{},
-        handleBack:()=>{},
+        onlyThis: false,
+        enble: true,
+        handleSubmit: () => {
+        },
+        handleErrorModal: () => {
+        },
+        handleNoErr: () => {
+        },
+        handleChange: () => {
+        },
+        handleConfirm: () => {
+        },
+        handleBack: () => {
+        },
     };
+
     get checkButtons() {
-        const { onlyThis } = this.props;
+        const {onlyThis} = this.props;
         return {
-            err: <Button onClick={this.handleErrorModal.bind(this,'err')} key="0" style={{ marginLeft: 10 }}>{'检查有误'}</Button>,
-            noErr: <Button onClick={this.handleNoErr.bind(this)} key="1" style={{ marginLeft: 10 }}>{'检查无误'}</Button>,
-            onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" style={{ marginLeft: 10 }} value={onlyThis} />,
-            save: <Button onClick={this.handleSubmit.bind(this)} key="3" style={{ marginLeft: 10 }}>{'保存'}</Button>,
-            confirm: <Button onClick={this.handleConfirm.bind(this)} key="4" style={{ marginLeft: 10 }} >{'确认'}</Button>,
-            modify: <Button onClick={this.handleErrorModal.bind(this,'modify')} key="5" style={{ marginLeft: 10 }}>{'修改错误原因'}</Button>,
-            back: <Button onClick={this.handleBack.bind(this)} key="6" style={{ marginLeft: 10 }}>{'返回'}</Button>,
-            close:<Button onClick={this.handleClosePage.bind(this)} key="7" style={{ marginLeft: 10 }}>{'关闭'}</Button>,
+            err: <Button onClick={this.handleErrorModal.bind(this, 'err')} key="0"
+                         style={{marginLeft: 10}}>{'检查有误'}</Button>,
+            noErr: <Button onClick={this.handleNoErr.bind(this)} key="1" style={{marginLeft: 10}}>{'检查无误'}</Button>,
+            onlyMark: <OnlyMarkButton handleChange={this.handleChange.bind(this)} key="2" style={{marginLeft: 10}}
+                                      value={onlyThis}/>,
+            save: <Button onClick={this.handleSubmit.bind(this)} key="3" style={{marginLeft: 10}}>{'保存'}</Button>,
+            confirm: <Button onClick={this.handleConfirm.bind(this)} key="4" style={{marginLeft: 10}}>{'确认'}</Button>,
+            modify: <Button onClick={this.handleErrorModal.bind(this, 'modify')} key="5"
+                            style={{marginLeft: 10}}>{'修改错误原因'}</Button>,
+            back: <Button onClick={this.handleBack.bind(this)} key="6" style={{marginLeft: 10}}>{'返回'}</Button>,
+            close: <Button onClick={this.handleClosePage.bind(this)} key="7" style={{marginLeft: 10}}>{'关闭'}</Button>,
         }
     }
+
     get checkButtonTextArray() {
         const checkButtons = this.checkButtons;
         const {isBack} = this.props;
-        const toAffirm =isBack?checkButtons['confirm']:null;
+        const toAffirm = isBack ? checkButtons['confirm'] : null;
         return [
             {
-                btns: [checkButtons['onlyMark'],toAffirm, checkButtons['save'], checkButtons['noErr']]
+                btns: [checkButtons['onlyMark'], toAffirm, checkButtons['save'], checkButtons['noErr']]
             },
             {
-                btns: [toAffirm,checkButtons['err'], checkButtons['noErr']]
+                btns: [toAffirm, checkButtons['err'], checkButtons['noErr']]
             },
             {
-                btns: [toAffirm,checkButtons['err'], !toAffirm ? checkButtons['back'] : null]
+                btns: [toAffirm, checkButtons['err'], !toAffirm ? checkButtons['back'] : null]
             },
             {
-                btns: [toAffirm,checkButtons['modify'], checkButtons['noErr']]
+                btns: [toAffirm, checkButtons['modify'], checkButtons['noErr']]
             },
             {
-                btns: [toAffirm,checkButtons['err'], checkButtons['noErr']]
+                btns: [toAffirm, checkButtons['err'], checkButtons['noErr']]
             },
             {
-                btns: [toAffirm,checkButtons['confirm'], checkButtons['err'], checkButtons['noErr']]
+                btns: [toAffirm, checkButtons['confirm'], checkButtons['err'], checkButtons['noErr']]
             }
         ];
     }
+
     //仅标记本条
     handleChange(e) {
         this.props.handleChange(e.target.name, e.target.checked * 1)
     }
+
     //确认按钮
     handleConfirm() {
         this.props.handleConfirm()
     }
+
     //检查有误/修改错误原因弹框
     handleErrorModal(key) {
         this.props.handleErrorModal(key)
     }
+
     //检查无误
     handleNoErr() {
         this.props.handleNoErr()
     }
+
     //返回
     handleBack() {
         this.props.handleBack()
     }
+
     //保存
     handleSubmit() {
         this.props.handleSubmit()
     }
+
     //关闭
     handleClosePage() {
         this.props.handleClosePage()
     }
+
     //待标记页面 结构化人员标注普通数据保存并修改下一条按钮有15秒的等待时间
     handleCountDown() {
         if (this.state.countDown > 0) {
@@ -104,10 +124,11 @@ class ButtonGroup extends Component {
             clearInterval(this.state.timer);
             this.setState({
                 buttonDisabled: false,
-                timer: 0 
+                timer: 0
             })
         }
     }
+
     UNSAFE_componentWillReceiveProps(newProps) {
         //如果切换了id 则设置计时器可重新刷新
         if (newProps.id !== this.props.id) {
@@ -139,13 +160,15 @@ class ButtonGroup extends Component {
             }
         }
     }
-    componentWillUnmount(){
-        this.setState=()=>false   //不能在组件销毁后设置state，防止出现内存泄漏  (防抖设置定时器)
+
+    componentWillUnmount() {
+        this.setState = () => false   //不能在组件销毁后设置state，防止出现内存泄漏  (防抖设置定时器)
     }
+
     render() {
-        const { enable, status,associatedStatus,isSendRequest,onlyThis,role} = this.props;
+        const {enable, status, associatedStatus, isSendRequest, onlyThis, role} = this.props;
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[status];
-        const { countDown } = this.state;
+        const {countDown} = this.state;
         const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
         const checkButtons = this.checkButtons;
         return (
@@ -220,8 +243,8 @@ class ButtonGroup extends Component {
     }
 }
 
-const OnlyMarkButton = ({handleChange,value}) => {
-    const _value  = Boolean(value||false);
+const OnlyMarkButton = ({handleChange, value}) => {
+    const _value = Boolean(value || false);
     return (
         <div className="buttonGroup-onlyMark">
             <Checkbox onChange={handleChange} name="onlyThis" checked={_value}>仅标记本条</Checkbox>

@@ -8,12 +8,12 @@ import './style.scss';
 // const { Link } = Anchor;
 const anchors = [
     {
-        id: 'biddingAnnouncement',
-        title: '竞买公告'
-    },
-    {
         id: 'subjectMatterIntroduction',
         title: '标的物介绍'
+    },
+    {
+        id: 'biddingAnnouncement',
+        title: '竞买公告'
     },
     {
         id: 'auctionSuccessConfirmation',
@@ -56,7 +56,7 @@ function AnnounceMentPart(props) {
 function AttachListItem(props) {
     return (
         <div className="accessory-list_item">
-            <a href={props.url} target="_blank" rel="noopener noreferrer">{props.name}</a>
+            <a href={props.url} target="_blank" rel="noopener noreferrer" download>{props.name}</a>
         </div>
     )
 }
@@ -127,7 +127,6 @@ class Index extends React.Component {
 
     render() {
         const {title, attachList, flag} = this.state;
-        console.log(attachList)
         return (
             <div className='externalSource-auction-box'>
                 <div className="externalSource-auction">
