@@ -28,7 +28,6 @@
     "dva-loading": "^3.0.20",
     "echarts": "4.5",
     "eslint": "^6.1.0",
-    "eslint-config-airbnb": "^18.2.0",
     "eslint-config-react-app": "^5.0.2",
     "eslint-loader": "3.0.2",
     "eslint-plugin-flowtype": "3.13.0",
@@ -85,61 +84,9 @@
     "run": " cd build && anywhere 8858"
   },
   "eslintConfig": {
-    "extends": "airbnb",
-    "globals": {
-      "window": true,
-      "document":true
-    },
+    "extends": "react-app",
     "rules": {
-      "indent": [
-        "error",
-        "tab",
-        { "ignoredNodes": [
-          "JSXElement", "JSXElement > *", "JSXAttribute", "JSXIdentifier", "JSXNamespacedName", "JSXMemberExpression", "JSXSpreadAttribute", "JSXExpressionContainer", "JSXOpeningElement", "JSXClosingElement", "JSXText", "JSXEmptyExpression", "JSXSpreadChild"
-        ]}
-      ],
-      "import/no-named-as-default": 0,
-      "import/no-named-as-default-member": 0,
-      "no-extend-native":0,
-      "no-nested-ternary":0,
-      "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
-      "react/no-danger":0,
-      "jsx-a11y/anchor-is-valid":0,
-      "no-underscore-dangle": 0,
-      "no-return-assign":0,
-      "global-require":0,
-      "import/no-dynamic-require": 2,
-      "jsx-a11y/no-static-element-interactions": 0,
-      "jsx-a11y/no-noninteractive-element-interactions": [
-        "error",
-        {
-          "handlers": [
-            "onMouseDown",
-            "onMouseUp",
-            "onKeyPress",
-            "onKeyDown",
-            "onKeyUp"
-          ]
-        }
-      ],
-      "jsx-a11y/click-events-have-key-events": 0,
-      "react/prop-types": 0,
-      "react/jsx-indent": [2, "tab"],
-      "react/jsx-indent-props": [2, "tab"],
-      "no-tabs": 0,
-      "max-len": ["error", {"code" : 500}],
-      "import/no-duplicates": 0,
-      "import/no-unresolved": 0,
-      "import/no-extraneous-dependencies": ["error", { "devDependencies": true , "peerDependencies": true}],
-      "quotes": [
-        "error",
-        "single"
-      ],
-      "semi": [
-        "error",
-        "always"
-      ],
-      "no-console": "off"
+      "jsx-a11y/anchor-is-valid": "off"
     }
   },
   "browserslist": {
