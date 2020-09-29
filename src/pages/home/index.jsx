@@ -44,7 +44,7 @@ class HomeIndex extends React.Component {
 						functions: data.FUNCTIONS,
 						loading: false })
 				} else {
-					message.error('账号相关信息已失效，请重新登录!');
+					// message.error('账号相关信息已失效，请重新登录!');
 					history.replace('/login')
 				}
 			}).catch(()=>{

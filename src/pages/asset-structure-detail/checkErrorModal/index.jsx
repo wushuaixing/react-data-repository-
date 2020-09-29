@@ -45,14 +45,14 @@ class Check extends React.Component {
                     visible={this.props.visible}
                     closable={true}
                     footer={null}
-                    title={<span><img src={NoticeImg} alt=''/> 确认本条结构化数据标注结果有误吗？</span>}
+                    title={<span><img src={NoticeImg} alt=''/> {isShowWrongRemark?'确认修改本条结构化数据的本次错误原因吗？':'确认本条结构化数据标注结果有误吗'}</span>}
                     maskClosable
                     onCancel={this.modalCancel}
                     closeIcon={<span><img src={ModalCloseImg} alt=""/></span>}
                 >
                     <div className="check-modal">
                         <div className="part">
-                            点击确定，本条结构化数据将被标记为检查错误，并将退回给结构化人员
+                            {isShowWrongRemark?'点击确定，本条结构化数据本次错误原因将被覆盖':'点击确定，本条结构化数据将被标记为检查错误，并将退回给结构化人员'}
                         </div>
                         <Form style={{width: 354}}>
                             <Form.Item className="remark" label="备注">

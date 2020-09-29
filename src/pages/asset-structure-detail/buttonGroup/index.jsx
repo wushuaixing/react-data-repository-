@@ -169,7 +169,7 @@ class ButtonGroup extends Component {
         const {enable, status, associatedStatus, onlyThis, role} = this.props;
         const buttonText = STRUCTURE_SAVE_BUTTON_TEXT[status];
         const {countDown} = this.state;
-        // const disabled = this.state.buttonDisabled || isSendRequest; //当已经发送了请求或特殊处理情况下 按钮不可点击
+        const disabled = this.state.buttonDisabled; //当已经发送了请求或特殊处理情况下 按钮不可点击
         const checkButtons = this.checkButtons;
         return (
             <div className="detail-buttonGroup">
@@ -180,7 +180,7 @@ class ButtonGroup extends Component {
                                 return (
                                     <Fragment>
                                         <OnlyMarkButton handleChange={this.handleChange.bind(this)} value={onlyThis}/>
-                                        <Button onClick={this.handleSubmit.bind(this)} disabled={false}>
+                                        <Button onClick={this.handleSubmit.bind(this)} disabled={disabled}>
                                             {`${buttonText}${(countDown > 0) ? '(' + countDown + 's)' : ''}`}
                                         </Button>
                                     </Fragment>

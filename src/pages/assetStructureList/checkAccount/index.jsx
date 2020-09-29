@@ -48,7 +48,6 @@ class Check extends React.Component {
     }
 	componentDidMount() {
 		this.getTableList();
-		document.title='资产结构化检查';
 		this.isstorageChange();
 	};
 	isstorageChange(){
@@ -174,7 +173,7 @@ class Check extends React.Component {
 	};
 	render() {
 		const { tableList, waitNum, checkErrorNum, editNum, total, page, status, tabIndex, loading } = this.state;
-		document.title='资产结构化';
+		document.title='资产结构化检查';
 		return (
 			<div className="yc-content-container">
 				<BreadCrumb texts={['资产结构化']}/>
