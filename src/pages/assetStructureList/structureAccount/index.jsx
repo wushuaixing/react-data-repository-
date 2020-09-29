@@ -41,8 +41,14 @@ class Asset extends React.Component {
 	};
 	componentDidMount() {
 		this.getApi(this.getParamsByTabIndex())
+		this.isstorageChange();
 		// document.title='资产结构化'
 	};
+	isstorageChange(){
+		window.addEventListener("storage",()=>{
+			this.getApi(this.getParamsByTabIndex())
+		});
+	}
 	getApi = (params) => {
 		this.setState({
 			loading: true,
