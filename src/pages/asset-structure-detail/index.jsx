@@ -195,6 +195,9 @@ class StructureDetail extends React.Component {
         //基本数据类型
         const Changeparams = {buildingArea, houseType, collateral, wsFindStatus, wsInAttach, onlyThis};
         const changeParamskey = Object.getOwnPropertyNames(Changeparams);//取对象的key
+        if(this.getRole()==='structure'&&this.state.associatedStatus===1){
+            return  true;
+        }
         for (let i = 0; i < changeParamskey.length; i++) {
             let item = changeParamskey[i];
             if (this.state[item] !== Changeparams[item]) {    //仅标记本条 抵押情况 房产土地类型 建筑面积 查找情况 详情见拍卖附件  发生改变时

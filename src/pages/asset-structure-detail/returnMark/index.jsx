@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {Item} from '../common';
 class ReturnMark extends Component {
     static defaultProps = {
         backRemark: '',
