@@ -18,6 +18,7 @@ install_deps:
     - tags
     - master
     - develop
+    - reset-branch
   script:
     - node -v
     - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
@@ -33,6 +34,7 @@ build_step:
         - tags
         - master
         - develop
+        - reset-branch
     script:
         - CI=false yarn build
 
@@ -43,6 +45,7 @@ deploy_step:
     - font-group-runner
   only:
     - develop
+    - reset-branch
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
