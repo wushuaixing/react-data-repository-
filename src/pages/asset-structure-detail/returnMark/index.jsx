@@ -13,7 +13,9 @@ class ReturnMark extends Component {
                 </div>
                 <div className="yc-component-assetStructureDetail_body">
                     <ul>
-                        <Item title={backRemark}/>
+                        <li>
+                            <div className='danger-error'>{backRemark}</div>
+                        </li>
                     </ul>
                 </div>
             </div>
