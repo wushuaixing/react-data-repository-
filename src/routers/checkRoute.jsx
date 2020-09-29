@@ -7,10 +7,7 @@ import StructureDetail from '@/pages/asset-structure-detail';
 
 const ContentMain = [
   <CacheRoute path="/index" exact component={AssetList} key='AssetList'  when="always"/>,
-  <Route path={[
-    "/index/structureDetail/:status/:id/:isNotConfirm/:tabIndex",
-    "/index/structureDetail/:status/:id/:isNotConfirm"
-  ]} component={StructureDetail} key='StructureDetail' />
+  <Route path={"/index/structureDetail/:status/:id"} component={StructureDetail} key='StructureDetail' />
 ];
 
 export default ContentMain

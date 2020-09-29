@@ -10,9 +10,11 @@ import createPaginationProps from '@utils/pagination'
 import { filters } from '@utils/common'
 import NoDataIMG from '../../assets/img/no_data.png'
 import {scrollTop } from "@utils/tools";
+import RecordsDel from '../../assets/img/records_del.png';
+import RecordsDelHover from '../../assets/img/records_del_hover.png';
 // import moment from 'moment'
 const searchForm = Form.create;
-
+let storage = window.localStorage;
 class Check extends React.Component {
 	constructor(props) {
 		super(props);
@@ -22,7 +24,8 @@ class Check extends React.Component {
 			tableList: [], //表数据的source
 			searchParams: {},  //搜索参数 包括全文/案号/法院/链接
 			loading: false,//表column
-
+			documentSearchRecords:[],//搜索记录
+			IconColor:false //图片滑过显示
 		};
 	}
 	//get table dataSource
@@ -65,18 +68,23 @@ class Check extends React.Component {
 		e.preventDefault();
 		const { form:{ getFieldValue,setFieldsValue} } = this.props;
 		const get =field=> (getFieldValue(field)||'');
+		const records=JSON.parse(storage.getItem('documentSearchRecords'))||[];//取值
+		get('whole')&&records.unshift(get('whole').trim().replace(/\s+/g,' '));//搜索框中有值的情况下去空格将多个空格合并为一个
+		const recordsData=JSON.stringify(records.slice(0,9)); //取最近10条
+		storage.setItem('documentSearchRecords',recordsData);
 		this.setState({
 			searchParams:{
-				content: get('whole').trim(),
+				content: get('whole').trim().replace(/\s+/g," "),
 				ah: get('ah'),
 				court: get('court'),
 				url: get('url')
 			},
-			page: 1
+			page: 1,
+			documentSearchRecords:records
 		}, () => {
 			this.getTableList();
 		});
-		setFieldsValue({whole:get('whole').trim(),
+		setFieldsValue({whole:get('whole').trim().replace(/\s+/g," "),
 						   ah:get('ah').trim(),
 						court:get('court').trim(),
 						  url:get('url').trim()
@@ -99,6 +107,34 @@ class Check extends React.Component {
 			this.getTableList();
 		})
 	};
+	handClick=(val)=>{
+		const { form:{ getFieldValue,setFieldsValue} } = this.props;
+		const get =field=> (getFieldValue(field)||'');
+		setFieldsValue({whole:val});             //点击搜索记录时填充到搜索框中
+		this.setState({
+			searchParams:{
+				content: get('whole').trim().replace(/\s+/g," "),
+				ah: get('ah'),
+				court: get('court'),
+				url: get('url')
+			},
+			page: 1,
+		}, () => {
+			this.getTableList();
+		});
+	}
+	clearRecords=()=>{
+		localStorage.removeItem('documentSearchRecords');//清楚记录
+		this.setState({
+			documentSearchRecords:[],
+			isHover:false
+		})
+	}
+	handIconHover=(key)=>{ //删除图标滑过
+		this.setState({
+			isHover:key
+		})
+	}
 	//换页
 	onTablePageChange = (pagination) => {
 		this.setState({
@@ -108,9 +144,16 @@ class Check extends React.Component {
 			scrollTop('no-yc-layout-main');
 		});
 	};
+	componentDidMount(){
+		const records=JSON.parse(storage.getItem('documentSearchRecords'))||[];
+		this.setState({
+			documentSearchRecords:records
+		});
+		document.title="文书搜索";
+	}
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { tableList, total, page, loading,searchParams:{content} } = this.state;
+		const { tableList, total, page, loading,searchParams:{content},documentSearchRecords,isHover} = this.state;
 		const paginationProps = createPaginationProps(page, total);
 		const columns = [
 			{
@@ -203,8 +246,19 @@ class Check extends React.Component {
 												type="text"
 												size='default'
 												placeholder="姓名、公司、地址关键词等"
+												autoComplete='off'
 											/>)}
 									</Form.Item>
+									{
+										documentSearchRecords&&documentSearchRecords.length>0&&
+										<SearchRecord 
+											records={documentSearchRecords}
+											handClick={this.handClick}	
+											clearRecords={this.clearRecords}
+											isHover={isHover}
+											handIconHover={this.handIconHover}
+										/>
+									}
 									<Row style={{marginTop:8}}>
 										<Col span={19}>
 											<Form.Item label="案号">
@@ -213,6 +267,7 @@ class Check extends React.Component {
 														type="text"
 														size='default'
 														placeholder="案号"
+														autoComplete='off'
 													/>)}
 											</Form.Item>
 											<Form.Item label="法院">
@@ -221,6 +276,7 @@ class Check extends React.Component {
 														type="text"
 														size='default'
 														placeholder="法院"
+														autoComplete='off'
 													/>)}
 											</Form.Item>
 											<Form.Item label="链接">
@@ -229,6 +285,7 @@ class Check extends React.Component {
 														type="text"
 														size='default'
 														placeholder="文书源链接"
+														autoComplete='off'
 													/>)}
 											</Form.Item>
 										</Col>
@@ -264,4 +321,17 @@ class Check extends React.Component {
 		);
 	}
 }
+const SearchRecord=(props)=>(
+	<div className="record-content">
+		<span className="record-title">最近搜索：</span>
+		{
+			props.records.map((item,index)=>{
+				return <span key={`records${index}`} onClick={()=>props.handClick(item,index)}>{item}</span>
+			})
+		}
+		 <Popover content={'清空最近搜索记录'}>
+		 		<span className="del_icon"><img src={props.isHover?RecordsDelHover:RecordsDel} onClick={props.clearRecords} onMouseOver={()=>props.handIconHover(true)} onMouseLeave={()=>props.handIconHover(false)} alt="" /></span>
+         </Popover>
+	</div>
+)
 export default withRouter(searchForm()(Check));

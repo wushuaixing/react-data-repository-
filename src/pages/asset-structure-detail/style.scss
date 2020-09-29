@@ -1,3 +1,11 @@
+.yc-detail-newpage{
+    background-color: #EDEFF3;
+    .assetstructure-detail{
+        margin: 25px auto;
+        width:1250px;
+        min-height: 95vh;
+    }
+}
 .assetstructure-detail{
     margin: 20px;
     min-height: 90vh;
@@ -56,11 +64,16 @@
                         &:first-of-type{
                             min-width: 120px;
                             text-align:right;
+                            line-height: 20px;
                         }
+                    }
+                    div{
+                        line-height: 20px;
                     }
                 }
                 .danger-error{
-                    color: red;
+                    color:#fb0037;
+                    line-height: 20px;
                 }
                 .record-noErr{
                     color: green;
@@ -85,8 +98,8 @@
             }
             .records{
                 p{
-                    line-height: 14px;
-                    margin-bottom: 8px;
+                    line-height: 20px;
+                    margin-bottom: 12px;
                 }
             }  
         }
@@ -102,16 +115,27 @@
             }
         }
     }
-    .wrong-data{
-        margin-left: 50px !important;
+    .error-reason_info{
+        .wrong-data{
+            margin-left: 50px !important;
+            line-height: 20px;
+        }
+        .wrong-detail{
+            p{
+                line-height: 20px;
+                margin-bottom: 12px;
+                &:last-child{
+                    margin-bottom: 0;
+                }
+            }
+        }
     }
+
     .document_info{
         .icon_hover_pointer{
             cursor: pointer;
         }
         .doucment_info_inputContent{
-            position: relative;
-            top: -6px;
             .doucment_info_inputItem{
                 display: flex;
                 align-items: center;
@@ -119,6 +143,17 @@
                 &:last-child{
                     margin-bottom:0;
                 }
+                input{
+                    width: 225px;
+                }
+            }
+            .atmost-tip{
+                text-align: right;
+                width: 225px;
+                color: #808387;
+                line-height: 12px;
+                font-size: 12px;
+                margin-top: -10px;
             }
         }
     }
@@ -181,7 +216,7 @@
                 width: 130px;
             }
             .tips-box{
-                min-width: 360px !important;
+                width: 360px;
                 resize: none;
             }
             .ant-btn {

@@ -9,6 +9,7 @@ import '@/pages/style.scss';
 import { BreadCrumb } from '@commonComponents';
 import {scrollTop } from "@utils/tools";
 import { dateUtils} from "@utils/common";
+
 class Check extends React.Component {
 	constructor(props) {
 		super(props);
@@ -26,7 +27,7 @@ class Check extends React.Component {
 			tabIndex: 0,
 			personnelList: [],
 			loading: false,
-			searchParams: {} //保存搜索框参数
+			searchParams: {},//保存搜索框参数
 		};
 	}
 	componentDidRecover = () => {
@@ -47,7 +48,14 @@ class Check extends React.Component {
     }
 	componentDidMount() {
 		this.getTableList();
+		document.title='资产结构化检查';
+		this.isstorageChange();
 	};
+	isstorageChange(){
+		window.addEventListener("storage",()=>{
+			this.getTableList();
+		});
+	}
 	getTableList = () => {
 		if(this.params['requestStartTime']&&this.params['requestEndTime']&&this.params['requestStartTime']>this.params['requestEndTime']){
 			message.error('开始时间不能大于结束时间');
@@ -79,6 +87,8 @@ class Check extends React.Component {
 				total: (dataObject.result) ? dataObject.result.total : 0,
 				page: (dataObject.result) ? dataObject.result.page : 1,
 				loading: false
+			},()=>{
+				localStorage.setItem('tonewdetail',Math.random())
 			});
 		}).catch(err=>{
 			this.setState({
@@ -107,14 +117,52 @@ class Check extends React.Component {
 		})
 	};
 	changeTab = (key) => {
-		this.searchFilterForm.resetFields();
-		this.setState({
-            tabIndex: parseInt(key),
-            searchParams:{},
-            page:1
-		},()=>{
-            this.getTableList()
-        });
+		if(this.state.tabIndex===3||this.state.tabIndex===4){
+			if(key===3||key===4){       //检查无误”与“检查错误”tab页互相切换时，筛选条件，且带出搜索结果
+				this.setState({
+					tabIndex: parseInt(key),
+					page:1,
+				},()=>{
+					this.getTableList()
+				});
+			}else {                  //从检查无误或者检查错误切换到其他任何列时 不保留筛选条件
+				this.searchFilterForm.resetFields();
+				this.setState({
+					tabIndex: parseInt(key),
+					page:1,
+					searchParams:{},
+				},()=>{
+					this.getTableList()
+				});
+			}
+		}else if(this.state.tabIndex===5){  //如果是从已修改列切换到其他列   不保留筛选条件
+			this.searchFilterForm.resetFields();
+			this.setState({
+				tabIndex: parseInt(key),
+				page:1,
+				searchParams:{},
+			},()=>{
+				this.getTableList()
+			});
+		}else {
+			if(key===3||key===4||key===5){  //从 “全部”、“未检查”、“待确认”跳转到其他列时，不保留筛选条件
+				this.searchFilterForm.resetFields();
+				this.setState({
+					tabIndex: parseInt(key),
+					page:1,
+					searchParams:{},
+				},()=>{
+					this.getTableList()
+				});
+			}else {
+				this.setState({        // “全部”、“未检查”、“待确认”tab页互相切换时，保留筛选条件
+					tabIndex: parseInt(key),
+					page:1,
+				},()=>{
+					this.getTableList()
+				});
+			}
+		}
 	};
 	onTablePageChange = (page) => {
 		this.setState({
@@ -124,9 +172,9 @@ class Check extends React.Component {
 			scrollTop();
         })
 	};
-
 	render() {
 		const { tableList, waitNum, checkErrorNum, editNum, total, page, status, tabIndex, loading } = this.state;
+		document.title='资产结构化';
 		return (
 			<div className="yc-content-container">
 				<BreadCrumb texts={['资产结构化']}/>
@@ -160,4 +208,5 @@ class Check extends React.Component {
 		);
 	}
 }
+
 export default withRouter(Check);

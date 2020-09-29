@@ -50,6 +50,7 @@ class Index extends React.Component {
 	}
 	componentDidMount() {
 		this.getTableList();
+		document.title="检查账号"
 	}
 	//账号添加／编辑弹窗
 	showModal = (action) => {

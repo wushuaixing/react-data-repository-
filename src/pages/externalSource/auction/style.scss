@@ -1,21 +1,100 @@
 
-.externalSource-auction{
+.externalSource-auction-box {
+  height: 100%;
+  overflow: auto;
+}
+
+.externalSource-auction-box::-webkit-scrollbar {
+  width: 12px;
+}
+
+.externalSource-auction-box::-webkit-scrollbar-track {
+  width: 12px;
+  background-color: #FFF;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
+.externalSource-auction-box::-webkit-scrollbar-thumb {
+  background-color: #B2B8C9;
+  background-clip: padding-box;
+  min-height: 28px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+.externalSource-auction-box::-webkit-scrollbar-thumb:hover{
+  background-color:#BFBFBF;
+}
+.externalSource-auction-box::-webkit-scrollbar-track:hover{
+  background-color:#E8E8E8;
+}
+
+
+.externalSource-auction {
   .linkTitle {
     font-size: 22px;
-    color: #337ab7;
-    //padding-top: 50px;
-    width: 100%;
+    color: #016AA9;
+    width: 99%;
     font-weight: bold;
+    line-height: 22px;
     position: fixed;
     background: #fff;
     z-index: 999;
-    height:112px;
-    padding-top:50px;
-    padding-left:calc((100% - 1200px)/2 + 40px);
-    border-bottom:1px solid #e5e5e5;
+    height: 112px;
+    padding-top: 50px;
+    padding-left: calc((100% - 1200px) / 2 + 40px);
+
     &:hover {
       text-decoration: underline;
       cursor: pointer;
+    }
+  }
+
+  .externalSource-auction-header {
+    position: fixed;
+    top: 112px;
+    width: 1120px;
+    margin-left: calc((100% - 1200px) / 2 + 40px);
+    height: 56px;
+    background: #EDEFF3;
+    z-index: 1;
+
+    ul {
+      display: flex;
+      padding: 0;
+
+      li {
+        list-style: none;
+        line-height: 56px;
+        font-size: 18px;
+        font-weight: bold;
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+
+        img {
+          height: 17px;
+        }
+
+        a {
+          line-height: 56px;
+          display: inline-block;
+          margin-left: 8px;
+          color: #293038;
+        }
+      }
+
+      .hover-item {
+        background: #fff;
+        border-bottom: 1px solid #F03733;
+
+        a {
+          color: #F03733;
+        }
+      }
     }
   }
 }
@@ -27,14 +106,14 @@
   position: relative;
   .container_body {
     width: 904px;
-    padding: 0 0 64px 40px;
+    padding: 245px 0 64px 46px;
     position: relative;
-    top:133px;
     &_eachPart {
       position: relative;
-      table{
-        width:100%;
+      table {
+        width: 100%;
       }
+
       .title {
         font-size: 28px;
         color: #ad0700;
@@ -45,56 +124,67 @@
         transform: translateX(-50%);
         background-color: #fff;
       }
+
       .line {
         position: relative;
         top: 14px;
         border-top: 1px solid #000000;
       }
+
       .content {
         margin-top: 40px;
+
         img {
           width: 100%;
         }
       }
     }
   }
+
   .container_right {
     z-index: 2;
     box-shadow: 0 1px 6px 0 rgba(0, 16, 43, 0.17);
     width: 216px;
-    min-height: 370px;
+    min-height: 160px;
     position: fixed;
-    top: 136px;
+    top: 260px;
     right: 0;
     margin-right: calc((100% - 1120px) / 2);
     padding: 24px 20px 10px 20px;
+
     .accessory {
       margin-bottom: 20px;
       text-align: left;
       padding-left: 5px;
       word-break: break-all;
       margin-top: 18px;
+
       &_title {
         color: #4d5566;
         font-size: 16px;
       }
+
       &-notFound {
         line-height: 20px;
         color: #7d8699;
         font-size: 14px;
       }
+
       &-list {
         padding-left: 5px;
         max-height: 343px;
         width: 170px;
         margin-top: 7px;
         overflow: auto;
-        &_item{
+
+        &_item {
           margin-bottom: 16px;
-          span{
+
+          span {
             line-height: 18px;
           }
         }
+
         &_item span:nth-child(1) {
           max-width: 136px;
           margin-bottom: 12px;
@@ -103,16 +193,18 @@
           color: #337ab7;
           text-align: justify;
           line-height: 12px;
+
           &:hover {
             text-decoration: underline;
             cursor: pointer;
           }
         }
-        &_item span:nth-child(2){
-          width:50px;
+
+        &_item span:nth-child(2) {
+          width: 50px;
           background: rgb(176, 184, 194);
-          color:rgb(255, 255, 255);
-          margin-left:5px;
+          color: rgb(255, 255, 255);
+          margin-left: 5px;
         }
       }
     }

@@ -122,6 +122,7 @@ class AccountManage extends React.Component {
 	componentDidMount() {
 		//默认初始传入正常账号+全部
 		this.getTableList();
+		document.title='结构化账号'
 	}
 	//账号添加／编辑弹窗
 	showModal = (action) => {

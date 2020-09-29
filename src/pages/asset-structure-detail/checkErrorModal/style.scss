@@ -1,93 +1,5 @@
 .ant-modal {
   .ant-modal-content {
-    .check-modal {
-      padding: 4px 25px 25px 15px;
-
-      .ant-checkbox-wrapper {
-        margin-left: 0;
-        margin-top: 10px;
-      }
-
-      .ant-checkbox-group {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
-
-      .ant-checkbox+span {
-        padding-right: 0px;
-      }
-
-      .ant-checkbox-wrapper {
-        width: 33.3%;
-      }
-
-      .ant-form-item {
-        margin-bottom: 0;
-      }
-
-      .ant-form label {
-        font-size: 12px;
-      }
-
-      .part {
-        font-size: 12px;
-
-        .part-title {
-          height: 14px;
-          font-size: 14px;
-          font-weight: 500;
-          color: rgba(41, 48, 56, 1);
-          line-height: 14px;
-          margin: 20px 0 12px;
-        }
-
-        .ant-form-item-label>label {
-          height: 14px;
-          font-size: 14px;
-          font-weight: 500;
-          color: rgba(41, 48, 56, 1);
-          line-height: 14px;
-        }
-
-        .part-error-detail {
-          font-size: 12px;
-          max-height: 260px;
-          overflow-y: auto;
-          border: 1px solid rgba(226, 228, 233, 1);
-          border-radius: 2px;
-          padding: 0 10px;
-
-          .part-error-title {
-            margin: 4px 0 1px 0;
-            font-weight: 700;
-            color: #293038;
-          }
-
-          .part-error-content {
-            font-size: 12px;
-            line-height: 1.5;
-          }
-
-          .part-error-content:hover {
-            cursor: pointer;
-          }
-        }
-      }
-
-      .footer {
-        margin-top: 30px;
-        text-align: center;
-
-        >button {
-          width: 120px;
-          height: 36px;
-          margin-left: 10px;
-          margin-right: 10px;
-        }
-      }
-    }
-
     .ant-modal-body {
       padding: 30px 50px 40px 40px;
     }
@@ -96,10 +8,15 @@
 
 
 .checkError-modal {
-  .ant-modal-content {
-    width: 440px;
+  font-family: PingFangSC-Regular, PingFang SC;
 
+  .ant-modal-content {
+    width: 560px;
+    position: relative;
+    top: -40px;
     .ant-modal-header {
+      height: 58px;
+
       img {
         position: relative;
         top: -1px;
@@ -108,41 +25,179 @@
     }
 
     .ant-modal-body {
-      padding: 12px 40px 30px 46px;
+      padding: 30px;
+    }
+  }
 
-      .check-modal {
-        padding: 0;
+  .check-modal {
+    .part {
+      line-height: 14px;
+      font-size: 14px;
+    }
+
+    .ant-form-item {
+      margin: 0;
+    }
+
+    .remark {
+      textarea {
+        max-width: 560px;
+        resize: none;
+        padding: 8px 12px 10px 9px;
+        line-height: 17px;
+        font-size: 14px;
+        color: #293038;
+        border-radius: 2px;
+        margin-bottom: 0;
+      }
+    }
+
+    .ant-form-item-control-wrapper {
+      width: 500px;
+    }
+
+    .ant-form-item-control {
+      line-height: 12px;
+    }
+
+    .ant-checkbox-wrapper {
+      span {
         font-size: 12px;
+      }
 
-        .ant-form-item-label {
-          label {
-            font-weight: 800 !important;
-          }
+      .ant-checkbox {
+        position: relative;
+        top: -1px;
+      }
+      .ant-checkbox-checked {
+        .ant-checkbox-inner::after {
+          border: 1px solid #fff;
+          border-top: 0;
+          border-left: 0;
         }
+      }
 
-        .part-title {
-          font-weight: 800 !important;
+      .ant-checkbox-inner {
+        position: relative;
+        width: 12px;
+        height: 12px;
+
+        &::after {
+          width: 5px;
+          height: 8px;
+          top: 48%;
+          left: 16%;
         }
+      }
+    }
 
-        .part {
-          font-size: 14px;
-          color: rgba(41, 48, 56, 1);
-          line-height: 20px;
-        }
+    .ant-radio-wrapper {
+      span {
+        font-size: 12px;
+        .ant-radio-inner {
+          position: relative;
+          top: -3px;
+          width: 10px;
+          height: 10px;
 
-        .ant-radio-group {
-          span {
-            font-size: 12px;
-          }
-        }
-
-        .ant-checkbox-wrapper {
-          span {
-            font-size: 12px;
+          &::after {
+            width: 3px;
+            height: 3px;
+            top: 3px;
+            left: 3px;
           }
         }
       }
     }
+    .second-radio {
+      .ant-radio-inner {
+        &::after {
+          width: 3px;
+          height: 3px;
+          top: 3px;
+          left: 2.5px !important; 
+        }
+      }
+    }
+
+
+    .ant-form-item-label {
+      line-height: 14px;
+      margin: 18px 0 10px 0;
+      color: #293038;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .err-type {
+      .part-title {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 14px;
+        color: #293038;
+        margin: 18px 0 12px 0;
+      }
+
+      .part-error-detail {
+        width: 500px;
+        height: 194px;
+        padding: 12px 12px 6px 9px;
+        border-radius: 2px;
+        border: 1px solid #E2E4E9;
+        overflow: auto;
+      }
+      .part-error-content{
+          font-size: 12px;
+          line-height: 12px;
+          color: #4F5358;
+          margin-bottom: 10px;
+      }
+    }
+
+    .footer {
+      margin-top: 30px;
+      width: 560px;
+      display: flex;
+      justify-content: center;
+
+      .ant-btn {
+        width: 120px;
+        height: 36px;
+        margin-right: 20px;
+      }
+    }
+  }
+  //滚动条的宽度
+  ::-webkit-scrollbar {
+    width:6px;
+  }
+
+  //外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果
+
+  ::-webkit-scrollbar-track {
+    width: 6px;
+    background-color:#FFF;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius:3px;
+  }
+
+  //滚动条的设置
+
+  ::-webkit-scrollbar-thumb {
+    background-color:#D9D9D9;
+    background-clip:padding-box;
+    min-height:28px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius:3px;
+  }
+  //滚动条移上去的背景
+
+  ::-webkit-scrollbar-thumb:hover{
+    background-color:#BFBFBF;
+  }
+  ::-webkit-scrollbar-track:hover{
+    background-color:#E8E8E8;
   }
 }
-
