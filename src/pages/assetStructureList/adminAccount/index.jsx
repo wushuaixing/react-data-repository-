@@ -8,6 +8,7 @@ import AdminTable from "@/components/assetStructureList/tabTable/admin";
 import '@/pages/style.scss';
 import { BreadCrumb } from '@commonComponents';
 import {scrollTop } from "@utils/tools";
+import { dateUtils} from "@utils/common";
 class Admin extends React.Component {
     state = {
         page: 1,
@@ -29,27 +30,13 @@ class Admin extends React.Component {
         let { tabIndex, page } = this.state
         let params = Object.assign(this.state.searchParams, { page })
         //根据不同的tabIndex 设置参数
-        switch (tabIndex) {
-            case 0:
-                params.checkType = 3; params.status = 0; break;
-            case 1:
-                params.checkType = 3; params.status = 6; break;
-            case 2:
-                params.checkType = 1; params.status = 1; break;
-            case 3:
-                params.checkType = 2; params.status = 2; break;
-            case 4:
-                params.checkType = 2; params.status = 3; break;
-            case 5:
-                params.checkType = 0; params.status = 4; break;
-            default:
-                break;
-        }
+        params.tabFalg = parseInt(tabIndex);
         return params;
     }
     //改完 跳回详情功能要补充
     componentDidMount() {
         this.getTableList();
+        document.title='资产结构化';
     };
     /* checkType 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
        status 结构化所处阶段 0：全部 1：未检查 2：检查无误 3：检查错误 4：已修改 5：待确认 6:未标记*/
@@ -66,13 +53,20 @@ class Admin extends React.Component {
             if (res.data.code === 200) {
                 return res.data.data;
             } else {
-                Promise.reject('请求出错')
+                return Promise.reject('请求出错')
             }
         }).then((dataObject) => {
+            let tableList=[];   //返回值变为时间戳  
+            dataObject.result&&dataObject.result.list.forEach((item)=>{
+                let obj=item;
+                obj.time=dateUtils.formatStandardNumberDate(item.time)||'';
+                obj.info.start=dateUtils.formatStandardNumberDate(item.info.start,true)||'';
+                tableList.push(obj);
+            })
             this.setState({
+                tableList,
                 checkErrorNum: dataObject.checkErrorNum,
                 editNum: dataObject.alreadyEditedNum,
-                tableList: (dataObject.result) ? dataObject.result.list : [], //为空
                 total: (dataObject.result) ? dataObject.result.total : 0,
                 page: (dataObject.result) ? dataObject.result.page : 1,
                 loading: false
@@ -125,9 +119,9 @@ class Admin extends React.Component {
             scrollTop();
         })
 	};
-
     render() {
         const { tableList, checkErrorNum, editNum, total, page, tabIndex, loading } = this.state;
+        document.title='资产结构化';
         return (
             <div className="yc-content-container">
                 <BreadCrumb texts={['资产结构化']}></BreadCrumb>

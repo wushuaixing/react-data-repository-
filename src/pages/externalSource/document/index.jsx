@@ -32,7 +32,9 @@ class DocumentDetail extends React.Component {
 		wenshuDetail(Id,params,wid).then(res => {
 			if (res.data.code === 200) {
 				let data = res.data.data;
-				this.setState({ data });
+				this.setState({ data },()=>{
+					document.title=data.title
+				});
 				if (data.appellors && data.appellors.length>24) {
 					this.setState({
 						ellipsisButtonVisible: true,

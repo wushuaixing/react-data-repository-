@@ -34,6 +34,9 @@ const dateUtils = {
 	formatStandardDate(timeStamp) {
 		return (timeStamp === '' || timeStamp === '--' || timeStamp === undefined || timeStamp === null) ? timeStamp : moment(timeStamp).format('YYYY-MM-DD');
 	},
+	formatStandardNumberDate(timeStamp,secondsVisible){
+		return (timeStamp === '' || timeStamp === '--' || timeStamp === undefined || timeStamp === null) ? timeStamp : secondsVisible ? moment.unix(timeStamp).format('YYYY-MM-DD HH:mm') : moment.unix(timeStamp).format('YYYY-MM-DD HH:mm:ss');
+	},
 	//获取当日日期
 	getTodayDate(ifmoment = false) {
 		return (ifmoment) ? moment() : moment().format('YYYY-MM-DD');

@@ -13,7 +13,7 @@ import CheckRoute from "../../routers/checkRoute";
 import { BankruptList, BankruptDetail } from "@/pages/bankrupt-structrue";
 
 import Asset from "@/pages/assetStructureList/structureAccount";
-import StructureDetail from "@/pages/assetStructureDetail/structure";
+import StructureDetail from '@/pages/asset-structure-detail';
 import CacheRoute from 'react-router-cache-route';
 import './style.scss'
 

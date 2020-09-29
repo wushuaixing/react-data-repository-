@@ -60,7 +60,7 @@ class BankruptList extends React.Component {
 
 	componentDidMount(){
 		this.toQuery(this.params);
-		this.toSetDefaultQuery()
+		this.toSetDefaultQuery();
 	}
 
 	/**
@@ -121,6 +121,7 @@ class BankruptList extends React.Component {
 
 	render() {
 		const { ruleSource:{rule} } = this.props;
+		document.title='破产重组结构化'
 		const { panes, activeKey, num, page,total,dataSource,loading,approveStatus } = this.state;
 		const tableProps = {
 			dataSource,

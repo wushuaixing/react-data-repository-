@@ -2,7 +2,7 @@ import React from 'react';
 import {Form, Input, Button, DatePicker, Tabs, Table, Spin, message, Badge} from 'antd';
 import { Columns } from "@/static/columns";
 import createPaginationProps from "@/utils/pagination";
-import { structuredList, getNewStructuredData, structuredCheckErrorNum,getAutoBidding } from "@api";
+import { structuredList, getNewStructuredData, structuredCheckErrorNum,getDataStatus  } from "@api";
 import { withRouter } from "react-router-dom";
 import { BreadCrumb, SearchAndClearButtonGroup, AssetTabTextWithNumber } from '@commonComponents'
 import { dateUtils,clearEmpty } from "@utils/common";
@@ -17,7 +17,17 @@ class Asset extends React.Component {
 		props.cacheLifecycles.didRecover(this.componentDidRecover)
 	}
 	componentDidRecover=()=>{
-		this.getApi(this.getParamsByTabIndex())
+		if(this.props.location.query){
+			this.setState({
+				tabIndex:0,
+				page:1
+			}, () => {
+				this.getApi(this.getParamsByTabIndex())
+			})
+		}else{
+			this.getApi(this.getParamsByTabIndex())
+		}
+		
 	};
 	state = {
 		page: 1,
@@ -31,7 +41,14 @@ class Asset extends React.Component {
 	};
 	componentDidMount() {
 		this.getApi(this.getParamsByTabIndex())
+		this.isstorageChange();
+		// document.title='资产结构化'
 	};
+	isstorageChange(){
+		window.addEventListener("storage",()=>{
+			this.getApi(this.getParamsByTabIndex())
+		});
+	}
 	getApi = (params) => {
 		this.setState({
 			loading: true,
@@ -57,8 +74,15 @@ class Asset extends React.Component {
 			}
 		}).then((res) => {
 			if (res.data.code === 200) {
+				let tableList=[];   //返回值变为时间戳    做日期相应处理
+				res.data.data.forEach((item)=>{
+					let obj=item;
+					obj.time=dateUtils.formatStandardNumberDate(item.time);
+					tableList.push(obj);
+				})
+
 				this.setState({
-					tableList: res.data.data,
+					tableList,
 					total: res.data.total,
 					loading: false
 				});
@@ -174,12 +198,13 @@ class Asset extends React.Component {
 		return endValue.valueOf() <= startValue.valueOf();
 	};
 
-	checkIsAutoMarked(record) {
-		getAutoBidding(record.id).then((res)=>{
+	checkIsAutoMarked(record,e) {
+		e.preventDefault()&&e.persist();
+		let isNewPage=(e.button===1)||(e.ctrlKey&&e.button===0);
+		getDataStatus(record.id,record.status).then((res)=>{
 			if(res.data.code===200){
-				if(!res.data.data){
-					//未被自动标注
-					this.props.history.push(`/index/structureDetail/${record.status}/${record.id}`)
+				if(res.data.data){
+					isNewPage?window.open(`/defaultDetail/${record.status}/${record.id}`):this.props.history.push(`/index/structureDetail/${record.status}/${record.id}`)
 				}else{
 					message.warning('数据已被自动标注,2s后为您刷新界面',2,()=>window.location.reload());
 				}
@@ -206,6 +231,7 @@ class Asset extends React.Component {
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { tableList, total, waitNum, page, tabIndex, loading } = this.state;
+		document.title='资产结构化';
 		const columns = [
 			Columns[4],
 			{
@@ -219,13 +245,13 @@ class Asset extends React.Component {
 				dataIndex: "action",
 				align: "center",
 				width: 180,
-				render: (text, record) =><Button onClick={this.checkIsAutoMarked.bind(this,record)}>{tabIndex === 0 ? '标注' : '修改标注'}</Button>,
+				render: (text, record) =><Button onMouseDown={this.checkIsAutoMarked.bind(this,record)}>{tabIndex === 0 ? '标注' : '修改标注'}</Button>,
 			},
 		];
 		if (tabIndex !== 0) {
 			columns.unshift({
 				title: "结构化时间",
-				dataIndex: "firstExtractTime",
+				dataIndex: "time"
 			})
 		}
 		const paginationProps = createPaginationProps(page, total);

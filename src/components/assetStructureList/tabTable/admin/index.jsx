@@ -1,6 +1,6 @@
 /* 全部/未检查/检查无误/检查错误/已修改/待确认 */
 import React from 'react';
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Tabs, Table, Button } from 'antd';
 import { Columns } from "@/static/columns";
 import createPaginationProps from "@/utils/pagination";
@@ -25,17 +25,24 @@ class TabTable extends React.Component {
     onTablePageChange = (pagination) => {
         this.props.onPage(pagination.current)
     };
+    goDetail(record,e){
+        e.preventDefault()&&e.persist();
+        let isNewPage=(e.button===1)||(e.ctrlKey&&e.button===0);
+        isNewPage?window.open(`/defaultDetail/${record.status}/${(record.info||{}).id}`)
+					: this.props.history.push(`/index/structureDetail/${record.status}/${(record.info||{}).id}`)
+    }
     get columnShowObject() {
         const showObject = {};
+        showObject.dataIndex = 'time';//时间返参发生变化
         switch (this.props.tabIndex) {
             case 0: case 1:
-                showObject.title = '抓取时间'; showObject.dataIndex = 'grabTime'; break;
+                showObject.title = '抓取时间';  break;
             case 2:
-                showObject.title = '结构化时间'; showObject.dataIndex = 'firstStructuredTime'; break;
+                showObject.title = '结构化时间';break;
             case 3: case 4:
-                showObject.title = '检查时间'; showObject.dataIndex = 'checkTime'; break;
+                showObject.title = '检查时间';  break;
             case 5:
-                showObject.title = '修改时间'; showObject.dataIndex = 'lastStructuredTime'; break;
+                showObject.title = '修改时间';  break;
             default:
                 break;
         }
@@ -63,14 +70,9 @@ class TabTable extends React.Component {
                 align: "center",
                 width: 180,
                 render: (text, record) => {
-                    //console.log(record.status)
                     return (
                         <span>
-                            <Link to={{
-								pathname: `/index/structureDetail/${record.status}/${(record.info||{}).id}`
-							}}>
-                                <Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} className='btn-bgcolor-change'>查看</Button>
-                            </Link>
+                            <Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} className='btn-bgcolor-change' onMouseDown={this.goDetail.bind(this,record)}>查看</Button>
                         </span>
                     )
                 }

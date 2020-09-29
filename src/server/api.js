@@ -129,7 +129,7 @@ export const userRemoveCheck=(id)=> {
 /////////////////////////////
 //管理员资产结构化列表-
 export const adminStructuredList=(params)=> {
-	return axios.post("/api/asset/admin/structured/structuredList",params);
+	return axios.post("/api/asset/auction/control/auctionListByAdmin",params);
 };
 //检查人员列表(仅管理员)
 export const getCheckPersonnel=(params)=> {
@@ -138,14 +138,14 @@ export const getCheckPersonnel=(params)=> {
 		urlPlus = urlPlus + key + "=" + params[key] + "&";
 	}
 	urlPlus = urlPlus.substring(0, urlPlus.length - 1);
-	return axios.get("/api/asset/inspector/control/getCheckPersonnel?" + urlPlus);
+	return axios.get("/api/asset/auction/control/getCheckPersonnel?" + urlPlus);
 };
 //////////////////////////////
 //结构化人员-资产结构化数据接口//
 /////////////////////////////
 //资产结构化列表
 export const structuredList=(params)=> {
-	return axios.post("/api/asset/structured/control/structuredList",params);
+	return axios.post("/api/asset/auction/control/auctionListByStructured",params);
 };
 
 //源链接提取页
@@ -165,7 +165,7 @@ export const structuredObligorTypeList=()=> {
 
 //已标记数/总数
 export const getNumberOfTags=()=> {
-	return axios.get("/api/asset/structured/control/getNumberOfTags");
+	return axios.get("/api/asset/auction/control/getNumberOfTags");
 };
 //获取新数据 id
 export const getNewStructureData=()=> {
@@ -176,12 +176,12 @@ export const getNewStructureData=()=> {
 /////////////////////////////
 //获取检查人员结构化列表
 export const getCheckList=(params)=> {
-	return axios.post("/api/asset/inspector/control/getCheckList",params);
+	return axios.post("/api/asset/auction/control/auctionListByCheck",params);
 };
 
 //结构化人员列表
 export const getStructuredPersonnel=(name)=> {
-	return axios.get("/api/asset/inspector/control/getStructuredPersonnel", name);
+	return axios.get("/api/asset/auction/control/getStructuredPersonnel", name);
 };
 
 
@@ -191,7 +191,7 @@ export const beConfirmed=(id)=> {
 };
 
 export const updateBackStatus=(params)=> {
-	return axios.get("/api/asset/inspector/control/updateBackStatus",{params});
+	return axios.get("/api/asset/auction/control/updateBackStatus",{params});
 };
 
 //修改错误原因
@@ -200,8 +200,8 @@ export const changeWrongType=(id,params)=> {
 };
 
 //检查确认
-export const inspectorCheck=(params,status)=> {
-	return axios.post("/api/asset/inspector/control/inspectorCheck/"+status, params);
+export const inspectorCheck=(params)=> {
+	return axios.post("/api/asset/auction/control/inspectorCheck/",params);
 };
 
 //已删除&自动标注的检查保存
@@ -220,7 +220,7 @@ export const wenshuSearch=(params)=> {
 
 //文书搜索详情
 export const wenshuDetail=(id,params,wid)=> {
-	return axios.post("/api/asset/structured/control/wenshu/detail/" + id+'/'+wid,params);
+	return axios.post("/api/asset/auction/control/wenshu/detail/" + id+'/'+wid,params);
 };
 ////////////////////
 //数据抓取与同步监控//
@@ -283,10 +283,10 @@ export const pythonAmountIn31=(type)=> {
 
 
 export const  getNewStructuredData = ()=>{
-	return axios.get("/api/asset/structured/control/getNewStructuredData");
+	return axios.get("/api/asset/auction/control/getNewStructuredData");
 };
 export const  structuredCheckErrorNum = ()=>{
-	return axios.get("/api/asset/structured/control/structuredCheckErrorNum");
+	return axios.get("/api/asset/auction/control/structuredCheckErrorNum");
 };
 
 export const  structuredById = (id,approveStatus,flag)=>{
@@ -294,15 +294,22 @@ export const  structuredById = (id,approveStatus,flag)=>{
 };
 
 export const  getLastSaveById = (id)=>{
-	return axios.get("/api/asset/structured/control/getLastSaveById?id="+id);
+	return axios.get("/api/asset/auction/control/getLastSaveById?id="+id);
 };
 
-export const saveDetail =(id,approveStatus,params)=>{
-	return axios.post(`/api/asset/structured/control/${id}/${approveStatus}/saveDetail`,params);
-};
+
+// export const saveDetail =(id,approveStatus,params)=>{
+// 	return axios.post(`/api/asset/structured/control/${id}/${approveStatus}/saveDetail`,params);
+// };
 
 export const saveInspectorStructureDetail =(id,params)=>{
 	return axios.post(`/api/asset/inspector/control/${id}/saveDetail`,params);
+};
+export const saveAndGetNext =(id,params)=>{
+	return axios.post(`/api/asset/auction/control/saveAndGetNext/${id}`,params);
+};
+export const saveDetail =(id,params)=>{
+	return axios.post(`/api/asset/auction/control/saveDetail/${id}`,params);
 };
 
 export const getWrongTypeAndLevel = (id)=>{
@@ -316,7 +323,14 @@ export const getFeedBackRemark = (id)=>{
 export const getAutoBidding = (id)=>{
 	return axios.get(`/api/asset/structured/control/getAutoBidding?id=${id}`);
 };
+export const getDataStatus = (id,status)=>{
+	return axios.get("/api/asset/auction/control/getDataStatus/"+id+'/'+status);
+};
 
 export const getAutoPrompt = (name)=>{
-	return axios.get('/api/asset/structured/control/getAutoPrompt?name='+name);
+	return axios.get('/api/asset/auction/control/getAutoPrompt?name='+name);
+};
+//资产结构化详情
+export const getAuctionDetail = (id)=>{
+	return axios.get("/api/asset/auction/control/auctionDetail/"+id);
 };

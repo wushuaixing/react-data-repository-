@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import CacheRoute from 'react-router-cache-route';
 import StructureAccount from "../pages/accountManagement/structure";
 import CheckAccount from "../pages/accountManagement/check";
-import StructureDetail from "@/pages/assetStructureDetail/admin";
+import StructureDetail from '@/pages/asset-structure-detail';
 import SyncMonitor from "../pages/syncMonitor";
 import StructMonitor from "../pages/structMonitor";
 import AssetList from '../pages/assetStructureList'
