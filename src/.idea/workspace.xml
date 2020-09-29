@@ -24,8 +24,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6b8cef79-cc86-4518-ada3-4ca61fd07b74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/returnMark/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/returnMark/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/columns.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/columns.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +61,7 @@
       <workItem from="1601167806224" duration="26940000" />
       <workItem from="1601207077380" duration="2477000" />
       <workItem from="1601253983460" duration="32101000" />
-      <workItem from="1601341417811" duration="3717000" />
+      <workItem from="1601341417811" duration="14189000" />
     </task>
     <servers />
   </component>
@@ -94,9 +93,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="600" height="428" key="javadoc.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1600832748103" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1601281247041">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1601372088070">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1601281247041" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1601372088070" />
   </component>
 </project>

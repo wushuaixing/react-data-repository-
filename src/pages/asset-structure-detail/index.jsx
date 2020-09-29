@@ -195,6 +195,9 @@ class StructureDetail extends React.Component {
         //基本数据类型
         const Changeparams = {buildingArea, houseType, collateral, wsFindStatus, wsInAttach, onlyThis};
         const changeParamskey = Object.getOwnPropertyNames(Changeparams);//取对象的key
+        if(this.getRole()==='structure' && parseInt(this.state.associatedStatus)===1){
+            return  true;
+        }
         for (let i = 0; i < changeParamskey.length; i++) {
             let item = changeParamskey[i];
             if (this.state[item] !== Changeparams[item]) {    //仅标记本条 抵押情况 房产土地类型 建筑面积 查找情况 详情见拍卖附件  发生改变时
@@ -272,7 +275,7 @@ class StructureDetail extends React.Component {
                     sessionStorage.setItem('id', id);
                     sessionStorage.removeItem('backTime');
                     localStorage.setItem('tonewdetail', Math.random())
-                    isdetailNewpage ? setTimeout(this.handleClosePage, 1000) : this.props.history.push({pathname: '/index'});
+                    isdetailNewpage ? setTimeout(this.handleClosePage, 1000) : this.props.history.push('/index');
                 } else {
                     message.error('保存失败!');
                 }
@@ -451,14 +454,14 @@ class StructureDetail extends React.Component {
             <SpinLoading loading={loading}>
                 <div className="assetstructure-detail">
                     {
-                        this.getRole() === 'structure' && parseInt(status) === 0 ?
+                        this.getRole() === 'structure' ?
                             <BreadCrumb
                                 disabled={!preId}
                                 texts={['资产结构化/详情']} note={tag}
                                 handleClick={this.goPreviousRecord.bind(this)}
                                 icon={preId ? icon : iconGrey}/> :
                             <div className="assetstructure-detail_header">
-                                资产结构化/详情
+                                资产结构化{this.getRole()==='check' ? '检查':null}/详情
                                 {
                                     this.getRole() === 'admin' &&
                                     <Button type="primary" ghost className='buttonGroup-back'

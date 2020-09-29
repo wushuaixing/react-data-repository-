@@ -141,16 +141,24 @@
       .part-error-detail {
         width: 500px;
         height: 194px;
-        padding: 12px 12px 6px 9px;
         border-radius: 2px;
         border: 1px solid #E2E4E9;
         overflow: auto;
       }
       .part-error-content{
           font-size: 12px;
-          line-height: 12px;
+          line-height: 22px;
           color: #4F5358;
-          margin-bottom: 10px;
+          padding: 0 9px;
+          &:first-child{
+            padding-top: 7px;
+          }
+          &:last-child{
+            padding-bottom: 7px;
+          }
+          &:hover{
+            background: #F5F6FA;
+          }
       }
     }
 
