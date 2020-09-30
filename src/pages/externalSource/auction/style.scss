@@ -51,7 +51,10 @@
     }
   }
   #biddingAnnouncement{
-    margin-top: 80px;
+    padding-top: 245px;
+  }
+  #subjectMatterIntroduction{
+    padding-top: 245px;
   }
   .externalSource-auction-header {
     position: fixed;
@@ -108,7 +111,7 @@
   position: relative;
   .container_body {
     width: 904px;
-    padding: 245px 0 64px 46px;
+    padding: 0 0 64px 46px;
     position: relative;
     &_eachPart {
       position: relative;
@@ -121,7 +124,7 @@
         color: #ad0700;
         line-height: 28px;
         position: absolute;
-        top: 0;
+        top: 200px;
         left: 50%;
         transform: translateX(-50%);
         background-color: #fff;
