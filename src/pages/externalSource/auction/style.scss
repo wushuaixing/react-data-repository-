@@ -44,10 +44,11 @@
     height: 112px;
     padding-top: 50px;
     padding-left: calc((100% - 1200px) / 2 + 40px);
-
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
+    span{
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
     }
   }
   #biddingAnnouncement{

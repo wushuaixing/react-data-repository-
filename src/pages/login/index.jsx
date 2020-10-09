@@ -68,9 +68,9 @@ class Login extends React.Component {
 			errorCount: 0 //错误次数
 		};
 	}
-	componentDidMount() {
-		this.toRefreshImg();
-	}
+	// componentDidMount() {
+	// 	this.toRefreshImg();
+	// }
 	//切换登录和找回密码表单
 	switchForm() {
 		const { showForm } = this.state;

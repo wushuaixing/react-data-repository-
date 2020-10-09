@@ -56,7 +56,7 @@ function AnnounceMentPart(props) {
 function AttachListItem(props) {
     return (
         <div className="accessory-list_item">
-            <a href={props.url} target="_blank" rel="noopener noreferrer" download>{props.name}</a>
+            <a href={props.url} rel="noopener noreferrer" download>{props.name}</a>
         </div>
     )
 }
@@ -130,7 +130,9 @@ class Index extends React.Component {
         return (
             <div className='externalSource-auction-box'>
                 <div className="externalSource-auction">
-                    <div className="linkTitle" onClick={this.openTitleUrl.bind(this)}>{title}</div>
+                    <div className="linkTitle">
+                        <span onClick={this.openTitleUrl.bind(this)}>{title}</span>
+                    </div>
                     <div className='externalSource-auction-header'>
                         <ul>
                             {
