@@ -180,7 +180,7 @@ class ButtonGroup extends Component {
                                 return (
                                     <Fragment>
                                         <OnlyMarkButton handleChange={this.handleChange.bind(this)} value={onlyThis}/>
-                                        <Button onClick={this.handleSubmit.bind(this)} disabled={disabled}>
+                                        <Button onClick={this.handleSubmit.bind(this)} disabled={false}>
                                             {`${buttonText}${(countDown > 0) ? '(' + countDown + 's)' : ''}`}
                                         </Button>
                                     </Fragment>

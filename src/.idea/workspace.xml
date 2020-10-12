@@ -24,7 +24,12 @@
   <component name="ChangeListManager">
     <list default="true" id="6b8cef79-cc86-4518-ada3-4ca61fd07b74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/documentSearch/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/documentSearch/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/accountManagement/structureAccountModal/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/accountManagement/structureAccountModal/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/accountManagement/check/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/accountManagement/check/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/accountManagement/structure/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/accountManagement/structure/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/buttonGroup/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/buttonGroup/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/assetStructureList/structureAccount/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/assetStructureList/structureAccount/index.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +70,7 @@
       <workItem from="1601430119162" duration="4938000" />
       <workItem from="1602233138559" duration="3584000" />
       <workItem from="1602291918830" duration="1642000" />
+      <workItem from="1602464413437" duration="8635000" />
     </task>
     <servers />
   </component>
@@ -96,9 +102,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="600" height="428" key="javadoc.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1600832748103" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1602233604976">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1602312800376">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1602233604976" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1602312800376" />
   </component>
 </project>

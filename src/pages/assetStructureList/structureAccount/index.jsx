@@ -200,13 +200,23 @@ class Asset extends React.Component {
 
 	checkIsAutoMarked(record,e) {
 		e.preventDefault()&&e.persist();
+		const { tabIndex } =this.state;
 		let isNewPage=(e.button===1)||(e.ctrlKey&&e.button===0);
 		getDataStatus(record.id,record.status).then((res)=>{
 			if(res.data.code===200){
 				if(res.data.data){
 					isNewPage?window.open(`/defaultDetail/${record.status}/${record.id}`):this.props.history.push(`/index/structureDetail/${record.status}/${record.id}`)
 				}else{
-					message.warning('数据已被自动标注,2s后为您刷新界面',2,()=>window.location.reload());
+					switch (tabIndex){
+						case 0:
+							message.warning('该数据已被自动标注,为您刷新当前列表',2,()=>window.location.reload());break;
+						case 1:
+							message.warning('该数据已被检查错误，请到待修改列表查看',2);break;
+						case 2:
+							message.warning('该数据已被检查无误，为您刷新当前列表',2,()=>window.location.reload());break;
+						default:
+							break;
+					}
 				}
 			}else{
 				message.error('服务繁忙，请稍后再试')

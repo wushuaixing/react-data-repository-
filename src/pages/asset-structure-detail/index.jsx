@@ -18,7 +18,8 @@ import {
     inspectorCheck,
     saveAndGetNext,
     updateBackStatus,
-    saveDetail
+    saveDetail,
+    getDataStatus
 } from '@api';
 import {filters, clone} from '@utils/common';
 import './style.scss';
@@ -276,6 +277,8 @@ class StructureDetail extends React.Component {
                     sessionStorage.removeItem('backTime');
                     localStorage.setItem('tonewdetail', Math.random())
                     isdetailNewpage ? setTimeout(this.handleClosePage, 1000) : this.props.history.push('/index');
+                } else if(res.data.code === 9003) {
+                    message.warning('该数据已被检查错误，请到待修改列表查看',2);
                 } else {
                     message.error('保存失败!');
                 }
@@ -284,7 +287,7 @@ class StructureDetail extends React.Component {
             saveAndGetNext(id, params).then((res) => {
                 const toIndex = () =>{
                     isdetailNewpage ? this.props.history.push('/index') : this.props.history.push({pathname:'/index',query : { flag: true} });
-                } 
+                }
                 const toNext = (_status, id) => {
                     this.props.history.push({pathname: isdetailNewpage ? `/defaultDetail/${_status}/${id}` : `/index/structureDetail/${_status}/${id}`})
                 };
@@ -299,7 +302,16 @@ class StructureDetail extends React.Component {
                     } else {
                         message.success('已修改完全部数据，2s后回到待标记列表', 2, toIndex);
                     }
-                } else {
+                } else if(res.data.code === 9003){
+                    switch (parseInt(status)){
+                        case 0:
+                            message.warning('该数据已被自动标注，2s后回到待标记列表',2,toIndex);break;
+                        case 2:
+                            message.warning('该数据已被检查无误，2s后回到待修改列表',2,()=> this.props.history.push('/index'));break;
+                        default:
+                            break;
+                    }
+                }else {
                     message.error(res.data.message)
                 }
             })
@@ -380,9 +392,19 @@ class StructureDetail extends React.Component {
             const path = {
                 pathname: isdetailNewpage ? `/defaultDetail/${toStatus}/${sessionStorage.getItem('id')}` : `/index/structureDetail/${toStatus}/${sessionStorage.getItem('id')}`
             };
-            sessionStorage.setItem('id', this.props.match.params.id);
-            sessionStorage.getItem("backTime") === "1" ? sessionStorage.removeItem('backTime') : sessionStorage.setItem('backTime', 1); //返回次数 默认只能返回一层
-            this.props.history.push(path)
+            getDataStatus(sessionStorage.getItem('id'),toStatus).then((res)=>{
+                if(res.data.code===200){
+                    if(res.data.data){
+                        sessionStorage.setItem('id', this.props.match.params.id);
+                        sessionStorage.getItem("backTime") === "1" ? sessionStorage.removeItem('backTime') : sessionStorage.setItem('backTime', 1); //返回次数 默认只能返回一层
+                        this.props.history.push(path);
+                    }else {
+                        message.warning('上一条数据已被检查错误，请到待修改列表查看',2);
+                    }
+                }else {
+                    message.warning(res.data.message)
+                }
+            })
         } else {
             message.error('无法跳转')
         }
