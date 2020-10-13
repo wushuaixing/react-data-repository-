@@ -304,7 +304,12 @@ class StructureDetail extends React.Component {
         } else {
             saveAndGetNext(id, params).then((res) => {
                 const toIndex = () =>{
-                    isdetailNewpage ? this.props.history.push('/index') : this.props.history.push({pathname:'/index',query : { flag: true} });
+                    if(isdetailNewpage){
+                        localStorage.setItem('tonewdetail', 'change')
+                        this.handleClosePage() ;
+                    }else{
+                        this.props.history.push({pathname:'/index',query : { flag: true} });
+                    }
                 }
                 const toNext = (_status, id) => {
                     this.props.history.push({pathname: isdetailNewpage ? `/defaultDetail/${_status}/${id}` : `/index/structureDetail/${_status}/${id}`})
