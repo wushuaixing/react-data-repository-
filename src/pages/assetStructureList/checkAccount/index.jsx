@@ -52,7 +52,9 @@ class Check extends React.Component {
 	};
 	isstorageChange(){
 		window.addEventListener("storage",()=>{
-			this.getTableList();
+			if(localStorage.getItem('tonewdetail') < 1){
+				this.getTableList();
+			}
 		});
 	}
 	getTableList = () => {
@@ -86,8 +88,6 @@ class Check extends React.Component {
 				total: (dataObject.result) ? dataObject.result.total : 0,
 				page: (dataObject.result) ? dataObject.result.page : 1,
 				loading: false
-			},()=>{
-				localStorage.setItem('tonewdetail',Math.random())
 			});
 		}).catch(err=>{
 			this.setState({

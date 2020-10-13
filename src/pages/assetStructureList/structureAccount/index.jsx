@@ -46,15 +46,16 @@ class Asset extends React.Component {
 	};
 	isstorageChange(){
 		window.addEventListener("storage",()=>{
-			if(localStorage.getItem('tonewdetail')==='change'){
+			if(localStorage.getItem('tonewdetail') === 'change'){
 				this.setState({
 					tabIndex:0,
 					page:1
 				}, () => {
 					this.getApi(this.getParamsByTabIndex());
-					localStorage.setItem('tonewdetail', Math.random());
+					localStorage.setItem('tonewdetail', new Date().getTime());
 				})
-			}else{
+			}
+			if(localStorage.getItem('tonewdetail') > 1){
 				this.getApi(this.getParamsByTabIndex())
 			}
 		});
