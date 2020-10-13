@@ -97,7 +97,8 @@ class AccountManage extends React.Component {
               {getFieldDecorator('name', {
                 rules: [
                   { required: true, message: "名字不可为空" },
-                  { max: 20, message: '姓名最大长度为20个字符' }
+                  { max: 20, message: '姓名最大长度为20个字符' },
+                  { pattern: /^[\u4e00-\u9fa5a-zA-Z\d]+$/,message: '姓名不可包含空格等特殊字符'}
                 ],
                 getValueFromEvent(event) {
                   return event.target.value.replace(/\s/g, "")

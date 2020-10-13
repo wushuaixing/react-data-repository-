@@ -108,7 +108,7 @@ class Check extends React.Component {
                                         WRONG_TYPE_LIST.map((item, index) => {
                                             return <div key={index}
                                                         className="part-error-content"
-                                                        onClick={() => this.addRemark(item)}>{item}</div>
+                                                        onClick={() => this.addRemark(item)}>{item} : </div>
                                         })
                                     }
                                 </div>

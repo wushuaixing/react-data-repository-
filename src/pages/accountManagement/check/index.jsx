@@ -109,7 +109,9 @@ class Index extends React.Component {
 					if (res.data.code === 200) {
 						message.success("删除成功");
 						this.getTableList();
-					} else {
+					} else if(res.data.code === 9004){
+						message.warning('操作失败，为您刷新当前列表',this.getTableList());
+					}else {
 						message.error(res.data.message);
 					}
 				});

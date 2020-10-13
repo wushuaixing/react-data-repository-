@@ -174,8 +174,9 @@ class Check extends React.Component {
 							display: '-webkit-box',
 							textOverflow: 'ellipsis'
 						}}>{filters.blockNullData(record.title, '—')}</span>;
+
 					return (
-						<Link to={`/documentDetail/${record.wenshuId}/${record.wid}/${content?content:'content'}`} target="_blank" >
+						<Link to={`/documentDetail/${record.wenshuId}/${record.wid}/${content?content.replace('%',''):'content'}`} target="_blank" >
 							{
 								record.title && record.title.length > 30 ? <Popover content={record.title}>{temp}</Popover> : temp
 							}
