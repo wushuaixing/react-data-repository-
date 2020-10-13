@@ -60,7 +60,6 @@ deploy_step_prestest:
   tags:
     - font-group-runner
   only:
-    - tags
     - master
   script:
     - eval $(ssh-agent -s)
