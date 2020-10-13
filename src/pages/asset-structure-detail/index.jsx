@@ -235,6 +235,21 @@ class StructureDetail extends React.Component {
         const role = this.getRole();
         const isdetailNewpage = window.location.href.includes('defaultDetail');
         const {id, status} = this.props.match.params;
+        let structureStatus=0;
+        switch (parseInt(status)){
+            case 0 :
+                structureStatus = 0;break;
+            case 1 :
+                structureStatus = 1;break;
+            case 2 :
+                structureStatus = (role==='structure') ? 2 : 1 ;break;
+            case 3 :
+                structureStatus = 1;break;
+            case 4 :
+                structureStatus = 2;break;
+            case 5 :
+                structureStatus = 1;break;
+        }
         const flag = this.state.isBack ? 1 : 0;
         if (!this.isUpdateRecord()) return message.warning('当前页面未作修改，请修改后再保存');
         for (let i = 0; i < this.state.obligors.length; i++) {
@@ -266,7 +281,7 @@ class StructureDetail extends React.Component {
             wsFindStatus: state.wsFindStatus,
             wsInAttach: state.wsInAttach,
             wsUrl: state.wsUrl,
-            status: parseInt(status),
+            status: structureStatus,
             flag,
         };
         if (role === 'check' || (role === 'structure' && parseInt(status) === 1)) {//检查人员标注和结构化人员修改已标注数据

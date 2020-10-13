@@ -22,14 +22,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6b8cef79-cc86-4518-ada3-4ca61fd07b74" name="Default Changelist" comment="">
+    <list default="true" id="b9a4e360-d784-4ba1-be60-847472c4a14b" name="默认更改列表" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/accountManagement/structureAccountModal/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/accountManagement/structureAccountModal/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/accountManagement/check/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/accountManagement/check/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/accountManagement/structure/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/accountManagement/structure/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/buttonGroup/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/buttonGroup/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/assetStructureList/structureAccount/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/assetStructureList/structureAccount/index.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
