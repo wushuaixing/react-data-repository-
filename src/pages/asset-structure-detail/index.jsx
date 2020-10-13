@@ -249,6 +249,9 @@ class StructureDetail extends React.Component {
                 structureStatus = 2;break;
             case 5 :
                 structureStatus = 1;break;
+            default:
+                break;
+        
         }
         const flag = this.state.isBack ? 1 : 0;
         if (!this.isUpdateRecord()) return message.warning('当前页面未作修改，请修改后再保存');

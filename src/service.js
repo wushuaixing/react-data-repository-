@@ -1,21 +1,21 @@
 import axios from 'axios';
 
-process.env.state === "production"
-	? (axios.defaults.baseURL = "/")
-	: (axios.defaults.baseURL = "/");
+process.env.state === 'production'
+	? (axios.defaults.baseURL = '/')
+	: (axios.defaults.baseURL = '/');
 
 axios.interceptors.request.use(
-	config => {
-		config.headers["Content-Type"] = "application/json;charset=UTF-8";
+	(config) => {
+		config.headers['Content-Type'] = 'application/json;charset=UTF-8';
 		return config;
 	},
-	error => {
-		//请求错误处理
+	(error) => {
+		// 请求错误处理
 		Promise.reject(error);
-	}
+	},
 );
 
-/*axios.interceptors.response.use(
+/* axios.interceptors.response.use(
 	response => {
 		//成功请求到数据
 		// app.$vux.loading.hide();
@@ -51,15 +51,14 @@ axios.interceptors.request.use(
 
 		return Promise.reject(error);
 	}
-);*/
+); */
 // export default service;
-/*/!* 获取当前token *!/
+/* /!* 获取当前token *!/
 const axiosPromiseArr = []; // 储存cancel token
 
 /!* 请求拦截前的处理 *!/
 
 /!* 请求返回后的处理 *!/
-
 
 /!* =========  常规请求   ========= *!/
 const service = axios.create({
@@ -82,8 +81,6 @@ const service = axios.create({
 service.interceptors.request.use(requestMethods.onFulfilled, requestMethods.onRejected);
 service.interceptors.response.use(responseMethods.onFulfilled, responseMethods.onRejected);
 
-
 /!* =========  文件服务请求   ========= *!/
 
-// request拦截  请求之前拦截*/
-
+// request拦截  请求之前拦截 */
