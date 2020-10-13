@@ -293,7 +293,7 @@ class StructureDetail extends React.Component {
                     message.success('保存成功!', 1);
                     sessionStorage.setItem('id', id);
                     sessionStorage.removeItem('backTime');
-                    localStorage.setItem('tonewdetail', Math.random())
+                    localStorage.setItem('tonewdetail', role === 'structure' ?  new Date().getTime() : Math.random() )
                     isdetailNewpage ? setTimeout(this.handleClosePage, 1000) : this.props.history.push('/index');
                 } else if(res.data.code === 9003) {
                     message.warning('该数据已被检查错误，请到待修改列表查看',2);
