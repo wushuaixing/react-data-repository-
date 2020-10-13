@@ -284,7 +284,7 @@ class StructureDetail extends React.Component {
             status: structureStatus,
             flag,
         };
-        if (role === 'check' || (role === 'structure' && parseInt(status) === 1)) {//检查人员标注和结构化人员修改已标注数据
+        if (role === 'check' || (role === 'structure' && parseInt(status) === 1) || role === 'newpage-check') {//检查人员标注和结构化人员修改已标注数据
             saveDetail(id, params).then((res) => {
                 if (res.data.code === 200) {
                     message.success('保存成功!', 1);
