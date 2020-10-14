@@ -114,6 +114,9 @@
     width: 904px;
     padding: 0 0 64px 46px;
     position: relative;
+    *{
+      max-width:858px !important;
+    }
     &_eachPart {
       position: relative;
       table {
