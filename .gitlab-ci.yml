@@ -15,9 +15,8 @@ install_deps:
   tags:
     - font-group-runner
   only:
-    - tags
-    - master
     - develop
+    - release
   script:
     - node -v
     - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
@@ -26,15 +25,14 @@ install_deps:
 
 # 编译
 build_step:
-    stage: build
-    tags:
-        - font-group-runner
-    only:
-        - tags
-        - master
-        - develop
-    script:
-        - CI=false yarn build
+  stage: build
+  tags:
+    - font-group-runner
+  only:
+    - develop
+    - release
+  script:
+    - CI=false yarn build
 
 # 拷贝
 deploy_step:
@@ -51,6 +49,7 @@ deploy_step:
     - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
     - ls
+    - ssh -o StrictHostKeyChecking=no -p 22 work@$DEPLOY_SERVER "cd $SHELL_PATH; chmod +x clear-test.sh; ./clear-test.sh; exit"
     - scp -o StrictHostKeyChecking=no -r -P 22 ./build/* work@172.18.255.251:/disk/web/front/front-data-repository-dev/web/test
 
 
@@ -60,8 +59,7 @@ deploy_step_prestest:
   tags:
     - font-group-runner
   only:
-    - tags
-    - master
+    - release
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
@@ -70,4 +68,5 @@ deploy_step_prestest:
     - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
     - ls
+    - ssh -o StrictHostKeyChecking=no -p 22 work@$DEPLOY_SERVER "cd $SHELL_PATH; chmod +x clear-pretest.sh; ./clear-pretest.sh; exit"
     - scp -o StrictHostKeyChecking=no -r -P 22 ./build/* work@172.18.255.251:/disk/web/front/front-data-repository-dev/web/pretest
