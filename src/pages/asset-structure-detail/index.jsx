@@ -1,5 +1,5 @@
 import React from 'react';
-import {message, Button, Modal, Icon} from 'antd';
+import {message, Button} from 'antd';
 import SpinLoading from "@/components/Spin-loading";
 import BasicInfo from './basicInfo';
 import PropertyInfo from './propertyInfo';
@@ -311,12 +311,20 @@ class StructureDetail extends React.Component {
             });
         } else {
             saveAndGetNext(id, params).then((res) => {
-                const toIndex = (flag) =>{
+                const toIndex = () =>{
                     if(isdetailNewpage){
-                        localStorage.setItem('tonewdetail', flag ? new Date().getTime() : 'change')
+                        localStorage.setItem('tonewdetail','change')
                         setTimeout(this.handleClosePage, 2000);
                     }else{
-                        flag ? this.props.history.push('/index') : this.props.history.push({ pathname:'/index',query : { flag: true } });
+                        this.props.history.push({ pathname:'/index',query : { flag: true } });
+                    }
+                }
+                const toIndexs= () => {
+                    if(isdetailNewpage){
+                        localStorage.setItem('tonewdetail',new Date().getTime())
+                        setTimeout(this.handleClosePage, 2000);
+                    }else{
+                        this.props.history.push('/index');
                     }
                 }
                 const toNext = (_status, id) => {
@@ -336,9 +344,9 @@ class StructureDetail extends React.Component {
                 } else if(res.data.code === 9003){
                     switch (parseInt(status)){
                         case 0:
-                            message.warning('该数据已被自动标注，2s后回到待标记列表',2,toIndex());break;
+                            message.warning('该数据已被自动标注，2s后回到待标记列表', 2 ,toIndex);break;
                         case 2:
-                            message.warning('该数据已被检查无误，2s后回到待修改列表',2,toIndex(true));break;
+                            message.warning('该数据已被检查无误，2s后回到待修改列表', 2 ,toIndexs);break;
                         default:
                             break;
                     }
