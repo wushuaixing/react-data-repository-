@@ -220,11 +220,11 @@ class Asset extends React.Component {
 				}else{
 					switch (tabIndex){
 						case 0:
-							message.warning('该数据已被自动标注,为您刷新当前列表',2,()=>window.location.reload());break;
+							message.warning('该数据已被自动标注,为您刷新当前列表',2,this.getApi(this.getParamsByTabIndex()));break;
 						case 1:
-							message.warning('该数据已被检查错误，请到待修改列表查看',2);break;
+							message.warning('该数据已被检查错误，为您刷新当前列表',2,this.getApi(this.getParamsByTabIndex()));break;
 						case 2:
-							message.warning('该数据已被检查无误，为您刷新当前列表',2,()=>window.location.reload());break;
+							message.warning('该数据已被检查无误，为您刷新当前列表',2,this.getApi(this.getParamsByTabIndex()));break;
 						default:
 							break;
 					}

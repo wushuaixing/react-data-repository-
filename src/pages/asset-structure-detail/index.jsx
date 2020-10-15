@@ -1,5 +1,5 @@
 import React from 'react';
-import {message, Button, Modal, Icon} from 'antd';
+import {message, Button} from 'antd';
 import SpinLoading from "@/components/Spin-loading";
 import BasicInfo from './basicInfo';
 import PropertyInfo from './propertyInfo';
@@ -289,14 +289,21 @@ class StructureDetail extends React.Component {
         };
         if (role === 'check' || (role === 'structure' && parseInt(status) === 1) || role === 'newpage-check') {//检查人员标注和结构化人员修改已标注数据
             saveDetail(id, params).then((res) => {
+                const toIndexs = () => {
+                    if(isdetailNewpage){
+                        localStorage.setItem('tonewdetail', new Date().getTime())
+                        this.handleClosePage() ;
+                    }else{
+                        this.props.history.push('/index')
+                    }
+                }
                 if (res.data.code === 200) {
-                    message.success('保存成功!', 1);
+                    message.success('保存成功!', 1 ,toIndexs);
                     sessionStorage.setItem('id', id);
                     sessionStorage.removeItem('backTime');
-                    localStorage.setItem('tonewdetail', role === 'structure' ?  new Date().getTime() : Math.random() )
-                    isdetailNewpage ? setTimeout(this.handleClosePage, 1000) : this.props.history.push('/index');
+                    localStorage.setItem('tonewdetail', role === 'structure' ?  new Date().getTime() : Math.random() );
                 } else if(res.data.code === 9003) {
-                    message.warning('该数据已被检查错误，请到待修改列表查看',2);
+                    message.warning('该数据已被检查错误，2秒后回到已标记列表',2,toIndexs);
                 } else {
                     message.error('保存失败!');
                 }
@@ -305,10 +312,18 @@ class StructureDetail extends React.Component {
             saveAndGetNext(id, params).then((res) => {
                 const toIndex = () =>{
                     if(isdetailNewpage){
-                        localStorage.setItem('tonewdetail', 'change')
-                        this.handleClosePage() ;
+                        localStorage.setItem('tonewdetail','change');
+                        this.handleClosePage();
                     }else{
-                        this.props.history.push({pathname:'/index',query : { flag: true} });
+                        this.props.history.push({ pathname:'/index',query : { flag: true } });
+                    }
+                }
+                const toIndexs= () => {
+                    if(isdetailNewpage){
+                        localStorage.setItem('tonewdetail',new Date().getTime());
+                        this.handleClosePage();
+                    }else{
+                        this.props.history.push('/index');
                     }
                 }
                 const toNext = (_status, id) => {
@@ -328,9 +343,9 @@ class StructureDetail extends React.Component {
                 } else if(res.data.code === 9003){
                     switch (parseInt(status)){
                         case 0:
-                            message.warning('该数据已被自动标注，2s后回到待标记列表',2,toIndex);break;
+                            message.warning('该数据已被自动标注，2s后回到待标记列表', 2 ,toIndex);break;
                         case 2:
-                            message.warning('该数据已被检查无误，2s后回到待修改列表',2,()=> this.props.history.push('/index'));break;
+                            message.warning('该数据已被检查无误，2s后回到待修改列表', 2 ,toIndexs);break;
                         default:
                             break;
                     }
@@ -342,20 +357,8 @@ class StructureDetail extends React.Component {
 
     }
 
-    handleNoErr() {                             //确认无误
-        const {status} = this.props.match.params;
-        if (status === '4') {
-            Modal.confirm({
-                icon: <Icon type="info-circle" theme="filled" style={{color: '#fa930c'}}/>,
-                title: '确认将本次错误修改为无误吗？',
-                content: '点击确定，本条结构化信息本次错误记录将被删除',
-                okText: '确认',
-                cancelText: '取消',
-                onOk: () => this.submitWrongRecord({}, false),
-            });
-        } else {
-            this.submitWrongRecord({}, false);
-        }
+    handleNoErr() { //确认无误
+        this.submitWrongRecord({}, false);
     };
 
     submitWrongRecord(data, checkError = true) {     //修改错误原因  检查有误  检查无误
@@ -371,9 +374,8 @@ class StructureDetail extends React.Component {
         inspectorCheck(params).then((res) => {
             if (res.data.code === 200) {
                 if (role === 'newpage-check' || role === 'newpage-other') {
-                    message.success('操作成功,2秒后为您关闭页面');
+                    message.success('操作成功,2秒后为您关闭页面',2,this.handleClosePage);
                     localStorage.setItem('tonewdetail', Math.random())
-                    setTimeout(this.handleClosePage, 2000);
                 } else {
                     message.success('操作成功');
                     localStorage.setItem('tonewdetail', Math.random())
@@ -401,10 +403,7 @@ class StructureDetail extends React.Component {
             window.open('', '_self');
             window.close();
         } else {
-            message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面');
-            setTimeout(() => {
-                window.location.href = 'about:blank';
-            }, 1500);
+            message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面',2,() => window.location.href = 'about:blank');
         }
     };
 
