@@ -298,11 +298,10 @@ class StructureDetail extends React.Component {
                     }
                 }
                 if (res.data.code === 200) {
-                    message.success('保存成功!', 1);
+                    message.success('保存成功!', 1 ,toIndexs);
                     sessionStorage.setItem('id', id);
                     sessionStorage.removeItem('backTime');
                     localStorage.setItem('tonewdetail', role === 'structure' ?  new Date().getTime() : Math.random() );
-                    isdetailNewpage ? setTimeout(this.handleClosePage, 1000) : this.props.history.push('/index');
                 } else if(res.data.code === 9003) {
                     message.warning('该数据已被检查错误，2秒后回到已标记列表',2,toIndexs);
                 } else {
@@ -313,16 +312,16 @@ class StructureDetail extends React.Component {
             saveAndGetNext(id, params).then((res) => {
                 const toIndex = () =>{
                     if(isdetailNewpage){
-                        localStorage.setItem('tonewdetail','change')
-                        setTimeout(this.handleClosePage, 2000);
+                        localStorage.setItem('tonewdetail','change');
+                        this.handleClosePage();
                     }else{
                         this.props.history.push({ pathname:'/index',query : { flag: true } });
                     }
                 }
                 const toIndexs= () => {
                     if(isdetailNewpage){
-                        localStorage.setItem('tonewdetail',new Date().getTime())
-                        setTimeout(this.handleClosePage, 2000);
+                        localStorage.setItem('tonewdetail',new Date().getTime());
+                        this.handleClosePage();
                     }else{
                         this.props.history.push('/index');
                     }
@@ -375,9 +374,8 @@ class StructureDetail extends React.Component {
         inspectorCheck(params).then((res) => {
             if (res.data.code === 200) {
                 if (role === 'newpage-check' || role === 'newpage-other') {
-                    message.success('操作成功,2秒后为您关闭页面');
+                    message.success('操作成功,2秒后为您关闭页面',2,this.handleClosePage);
                     localStorage.setItem('tonewdetail', Math.random())
-                    setTimeout(this.handleClosePage, 2000);
                 } else {
                     message.success('操作成功');
                     localStorage.setItem('tonewdetail', Math.random())
@@ -405,10 +403,7 @@ class StructureDetail extends React.Component {
             window.open('', '_self');
             window.close();
         } else {
-            message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面');
-            setTimeout(() => {
-                window.location.href = 'about:blank';
-            }, 1500);
+            message.warning('由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面',2,() => window.location.href = 'about:blank');
         }
     };
 
