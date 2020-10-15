@@ -289,26 +289,34 @@ class StructureDetail extends React.Component {
         };
         if (role === 'check' || (role === 'structure' && parseInt(status) === 1) || role === 'newpage-check') {//检查人员标注和结构化人员修改已标注数据
             saveDetail(id, params).then((res) => {
+                const toIndexs = () => {
+                    if(isdetailNewpage){
+                        localStorage.setItem('tonewdetail', new Date().getTime())
+                        this.handleClosePage() ;
+                    }else{
+                        this.props.history.push('/index')
+                    }
+                }
                 if (res.data.code === 200) {
                     message.success('保存成功!', 1);
                     sessionStorage.setItem('id', id);
                     sessionStorage.removeItem('backTime');
-                    localStorage.setItem('tonewdetail', role === 'structure' ?  new Date().getTime() : Math.random() )
+                    localStorage.setItem('tonewdetail', role === 'structure' ?  new Date().getTime() : Math.random() );
                     isdetailNewpage ? setTimeout(this.handleClosePage, 1000) : this.props.history.push('/index');
                 } else if(res.data.code === 9003) {
-                    message.warning('该数据已被检查错误，请到待修改列表查看',2);
+                    message.warning('该数据已被检查错误，2秒后回到已标记列表',2,toIndexs);
                 } else {
                     message.error('保存失败!');
                 }
             });
         } else {
             saveAndGetNext(id, params).then((res) => {
-                const toIndex = () =>{
+                const toIndex = (flag) =>{
                     if(isdetailNewpage){
-                        localStorage.setItem('tonewdetail', 'change')
-                        this.handleClosePage() ;
+                        localStorage.setItem('tonewdetail', flag ? new Date().getTime() : 'change')
+                        setTimeout(this.handleClosePage, 2000);
                     }else{
-                        this.props.history.push({pathname:'/index',query : { flag: true} });
+                        flag ? this.props.history.push('/index') : this.props.history.push({ pathname:'/index',query : { flag: true } });
                     }
                 }
                 const toNext = (_status, id) => {
@@ -328,9 +336,9 @@ class StructureDetail extends React.Component {
                 } else if(res.data.code === 9003){
                     switch (parseInt(status)){
                         case 0:
-                            message.warning('该数据已被自动标注，2s后回到待标记列表',2,toIndex);break;
+                            message.warning('该数据已被自动标注，2s后回到待标记列表',2,toIndex());break;
                         case 2:
-                            message.warning('该数据已被检查无误，2s后回到待修改列表',2,()=> this.props.history.push('/index'));break;
+                            message.warning('该数据已被检查无误，2s后回到待修改列表',2,toIndex(true));break;
                         default:
                             break;
                     }
