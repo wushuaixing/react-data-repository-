@@ -66,7 +66,7 @@ class Asset extends React.Component {
 		});
 		//console.log(params)
 		//获取三列数量  如果当列数量》0  调获取数据接口  如果两列数据都为0  按钮改成可点
-		structuredCheckErrorNum().then(res => { return res.data.data }).then(res => {
+		structuredCheckErrorNum(params).then(res => { return res.data.data }).then(res => {
 			this.setState({
 				buttonDisabled: (!(res.notBidNum === 0 && res.modNum === 0)),
 				waitNum: res.modNum

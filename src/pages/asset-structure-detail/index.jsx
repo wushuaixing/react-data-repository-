@@ -451,13 +451,24 @@ class StructureDetail extends React.Component {
         }
     }
 
+	/**
+	 * 结构化账号非处标的关联标注页面 不应该可编辑
+	 */
     get enable() {
-        return localStorage.getItem('userState') === '管理员' || (localStorage.getItem('userState') === '检查人员' && this.state.structPersonnelEnable === 1);
+        const path = window.location.href;
+        return localStorage.getItem('userState') === '管理员' || (localStorage.getItem('userState') === '检查人员' && this.state.structPersonnelEnable === 1 )|| (localStorage.getItem('userState') === '结构化人员' && path.includes('notFirstMark'));
     }
-
+    
+    /**
+	 * 结构化账号非处标的关联标注页面 错误原因不展示
+	 */
     getErrReasonVisible() {
         const role = this.getRole();
         const {associatedStatus} = this.state;
+        const path = window.location.href;
+        if(localStorage.getItem('userState') === '结构化人员' && path.includes('notFirstMark')){
+            return false;
+        }
         if ((role === 'structure' && parseInt(associatedStatus) === 4) || ((role === 'check' || role === "newpage-check") && parseInt(associatedStatus) > 3) || ((role === 'admin' || role === 'newpage-other') && parseInt(associatedStatus) > 2)) {
             return true;
         }
