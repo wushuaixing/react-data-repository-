@@ -195,7 +195,7 @@ export const structurePython = (type, date) => axios.get(`/api/statistical/asset
 export const pythonAmountIn31 = (type) => axios.get(`/api/statistical/assetDataCrawlingTimeDistributeAssistDetailsVO?type=${type}`);
 
 export const getNewStructuredData = () => axios.get('/api/asset/auction/control/getNewStructuredData');
-export const structuredCheckErrorNum = () => axios.get('/api/asset/auction/control/structuredCheckErrorNum');
+export const structuredCheckErrorNum = (params) => axios.post('/api/asset/auction/control/structuredCheckErrorNum',params);
 
 export const structuredById = (id, approveStatus, flag) => axios.get(`/api/asset/structured/control/structuredById?id=${id}&approveStatus=${approveStatus}&flag=${flag}`);
 
