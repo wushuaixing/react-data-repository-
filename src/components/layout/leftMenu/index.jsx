@@ -53,17 +53,18 @@ const getSource = (data={})=>{
       backup:menuRoute[item.id],
     })).filter(i=>i.link),
   })).filter(i=>i.children.length)
-  //   .concat({
-  //   title:'破产结构化',
-  //   children: [
-  //     {
-  //       title:'破产重组结构化-详情',
-  //       id:502,
-  //       link:'/index/bankrupt/detail',
-  //       backup:'/index/bankrupt/detail',
-  //     }
-  //   ]
-  // })
+  .concat({
+    title:'金融资产结构化',
+    children: [
+      {
+        title:'债权结构化',
+        id:502,
+        link:'/index/debtList',
+        backup:'/index/debtList',
+      }
+    ]
+  })
+
 };
 
 class Sider extends React.Component {

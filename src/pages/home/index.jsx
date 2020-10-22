@@ -13,6 +13,7 @@ import CheckRoute from "../../routers/checkRoute";
 import { BankruptList, BankruptDetail } from "@/pages/bankrupt-structrue";
 
 import Asset from "@/pages/assetStructureList/structureAccount";
+import DebtList from '../debt-structure/list';
 import StructureDetail from '@/pages/asset-structure-detail';
 import CacheRoute from 'react-router-cache-route';
 import './style.scss'
@@ -68,6 +69,7 @@ class HomeIndex extends React.Component {
 		const StructureRoute = [
 			<CacheRoute path={["/","/index"]} exact component={DefaultCom} key='base' remark="默认页面" />,
 			// BaseCom && <Route path="/index" exact component={Asset} key='Asset' remark="资产结构化 - 列表" />,
+			<CacheRoute path={['/index/debtList']} exact component={ DebtList } key='debt' remark="债权结构化 - 列表" />,
 			BaseCom && <Route path="/index/structureDetail/:status/:id" component={StructureDetail} key='StructureDetail' remark="资产结构化 - 详情页" />,
 			...BankruptRoutes
 		].filter(i=>i);
