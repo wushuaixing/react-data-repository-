@@ -290,8 +290,8 @@ class StructureDetail extends React.Component {
         if (role === 'check' || (role === 'structure' && parseInt(status) === 1) || role === 'newpage-check') {//检查人员标注和结构化人员修改已标注数据
             saveDetail(id, params).then((res) => {
                 const toIndexs = () => {
-                    if(isdetailNewpage){
-                        localStorage.setItem('tonewdetail', new Date().getTime())
+                    if(isdetailNewpage || role === 'newpage-check'){
+                        localStorage.setItem('tonewdetail', role === 'structure' ?  new Date().getTime() : Math.random() );
                         this.handleClosePage() ;
                     }else{
                         this.props.history.push('/index')
@@ -301,7 +301,6 @@ class StructureDetail extends React.Component {
                     message.success('保存成功!', 1 ,toIndexs);
                     sessionStorage.setItem('id', id);
                     sessionStorage.removeItem('backTime');
-                    localStorage.setItem('tonewdetail', role === 'structure' ?  new Date().getTime() : Math.random() );
                 } else if(res.data.code === 9003) {
                     message.warning('该数据已被检查错误，2秒后回到已标记列表',2,toIndexs);
                 } else {
