@@ -235,18 +235,17 @@ class StructureDetail extends React.Component {
         const role = this.getRole();
         const isdetailNewpage = window.location.href.includes('defaultDetail');
         const {id, status} = this.props.match.params;
+        const { associatedStatus } = this.state;
         let structureStatus=0;
-        switch (parseInt(status)){
-            case 0 :
-                structureStatus = 0;break;
+        switch (parseInt(associatedStatus)){
             case 1 :
-                structureStatus = 1;break;
+                structureStatus = 0;break; //未标记
             case 2 :
-                structureStatus = (role==='structure') ? 2 : 1 ;break;
+                structureStatus = 1;break; //检查无误 已修改 未检查中的已标记数据  都属于已标记
             case 3 :
                 structureStatus = 1;break;
             case 4 :
-                structureStatus = 2;break;
+                structureStatus = 2;break; //待修改
             case 5 :
                 structureStatus = 1;break;
             default:
