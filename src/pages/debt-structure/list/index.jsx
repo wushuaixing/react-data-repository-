@@ -1,15 +1,15 @@
 import React from 'react';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 import { Spin,message } from 'antd';
-import { structuredList } from "@api"; //结构化列表测试
+import { structuredList } from '@api'; //结构化列表测试
 // import { adminStructuredList } from "@api"; //管理员列表测试
 // import { getCheckList } from "@api"; //检查人员列表测试
-import DebtTable from "./table";
+import DebtTable from './table';
 import SearchForm from './query';
-import { rule } from "@/components/rule-container";
+import { rule } from '@/components/rule-container';
 import { BreadCrumb } from '@commonComponents';
-import { scrollTop } from "@utils/tools";
-import { dateUtils} from "@utils/common";
+import { scrollTop } from '@utils/tools';
+import { dateUtils} from '@utils/common';
 import './style.scss';
 
 class DebtList extends React.Component {
@@ -53,14 +53,14 @@ class DebtList extends React.Component {
     get params() {
         const { ruleSource:{rule} } = this.props;
         const { tabIndex,page,searchParams } = this.state;
-        let params = Object.assign(searchParams, { page })
+        let params = Object.assign(searchParams, { page });
         // params.tabFalg = rule === 'normal' ? tabIndex+1 :tabIndex;//管理员接口测试
         params.approveStatus =rule === 'normal' ? tabIndex+1 :tabIndex;//结构化接口测试
         return params;
     }
 
     get searchFilterForm(){
-        return this.searchFormRef.props.form
+        return this.searchFormRef.props.form;
     }
 
     getTableList = () => {
@@ -72,7 +72,7 @@ class DebtList extends React.Component {
                 // return res.data.data;
                 return res.data;
             } else {
-                return Promise.reject('请求出错')
+                return Promise.reject('请求出错');
             }
         }).then((dataObject) => {
             let tableList=[];  
@@ -93,26 +93,26 @@ class DebtList extends React.Component {
                 // page: (dataObject.result) ? dataObject.result.page : 1,
                 total: (dataObject) ? dataObject.total : 0,
                 page: (dataObject) ? dataObject.page : 1,
-                loading: false
+                loading: false,
             });
         }).catch(err=>{
 			this.setState({
-				loading:false
+				loading:false,
 			},()=>{
-				message.error(err)
-			})
-		})
+				message.error(err);
+			});
+		});
     };
 
     /*切换tab*/
 	handleTabChange = (key) => {
-        this.searchFilterForm.resetFields()
+        this.searchFilterForm.resetFields();
 		this.setState({
             tabIndex: parseInt(key),
             searchParams:{},
-            page:1
+            page:1,
 		},()=>{
-            this.getTableList()
+            this.getTableList();
         });
     };
     
@@ -123,27 +123,27 @@ class DebtList extends React.Component {
 		},()=>{
             this.getTableList();
             scrollTop();
-        })
+        });
     };
 
     /*搜索*/
 	handleSearch = (data) => {
 		this.setState({
             searchParams: data,
-            page:1
+            page:1,
 		}, () => {
 			this.getTableList();
-		})
+		});
 	};
 
     /*清空搜索条件*/
     handleClearSearch = () => {
         this.setState({
-			searchParams: {}
+			searchParams: {},
 		}, () => {
 			this.getTableList();
-		})
-    }
+		});
+    };
 
     render() {
         const { tableList,total,page,tabIndex,loading,panes } = this.state;

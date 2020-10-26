@@ -59,8 +59,8 @@ const getSource = (data={})=>{
       {
         title:'债权结构化',
         id:502,
-        link:'/index/debtList',
-        backup:'/index/debtList',
+        link:'/houseHoldDetail',
+        backup:'/houseHoldDetail',
       }
     ]
   })

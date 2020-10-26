@@ -5,10 +5,12 @@ import CacheRoute from 'react-router-cache-route';
 import Asset from "@/pages/assetStructureList/structureAccount";
 import DebtList from '../pages/debt-structure/list';
 import StructureDetail from '@/pages/asset-structure-detail';
+import DebtDetail from '../pages/debt-structure/detail';
 
 const ContentMain = [
   <CacheRoute path="/index" exact component={Asset} key='Asset' when="always" />,
   <CacheRoute path="/index/debtList" exact component={ DebtList } key='Asset' when="always" />,
-  <Route path="/index/structureDetail/:status/:id" component={StructureDetail} key='StructureDetail' />
+  <Route path="/index/structureDetail/:status/:id" component={StructureDetail} key='StructureDetail' />,
+  <Route path="/index/DebtDetail" component={DebtDetail} key='DebtDetail' />,
 ];
 export default ContentMain
