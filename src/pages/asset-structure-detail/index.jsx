@@ -174,7 +174,8 @@ class StructureDetail extends React.Component {
 
     handleBack(flag) {
         const isdetailNewpage = window.location.href.includes('defaultDetail');
-        isdetailNewpage ? this.handleClosePage() : this.props.history.push(flag ? '/index/assetList' : '/index');
+        const role = this.getRole();
+        (isdetailNewpage || role === 'newpage-check')  ? this.handleClosePage() : this.props.history.push(flag ? '/index/assetList' : '/index');
     }
 
     handleConfirm() {                        //检查人员确认按钮
