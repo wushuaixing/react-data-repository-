@@ -515,7 +515,7 @@ class StructureDetail extends React.Component {
                                 handleClick={this.goPreviousRecord.bind(this)}
                                 icon={preId ? icon : iconGrey}/> :
                             <div className="assetstructure-detail_header">
-                                资产结构化{this.getRole()==='check' ? '检查':null}/详情
+                                资产结构化{ (this.getRole() === 'check' || this.getRole() === 'newpage-check') ? '检查' : null}/详情
                                 {
                                     this.getRole() === 'admin' &&
                                     <Button type="primary" ghost className='buttonGroup-back'

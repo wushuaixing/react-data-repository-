@@ -4,6 +4,31 @@
         margin: 25px auto;
         width:1250px;
         min-height: 95vh;
+        .roleInfo_body{
+            .roleInfo_body-header{
+                .name{
+                    width:360px;
+                }
+                .certification{
+                    width: 270px;
+                }
+                .birth{
+                    width: 265px;
+                }
+                .sex{
+                    width: 160px;
+                }
+                .note{
+                    width: 260px;
+                }
+                .operation{
+                    width: 145px;
+                }
+            }
+        }
+    }
+    .ant-popover{
+        left: -2% !important;
     }
 }
 .assetstructure-detail{
@@ -26,7 +51,7 @@
         }
     }
     &_container {
-        padding: 20px;
+        padding: 30px 20px 20px;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -50,7 +75,7 @@
         }
         &_body{
             ul{
-                padding: 20px 0 40px 0;
+                padding: 24px 0 30px 0;
                 margin: 0;
                 li{
                     display: flex;
@@ -58,7 +83,7 @@
                         margin-bottom: 0;
                     }
                     list-style: none;
-                    margin-bottom: 16px;
+                    margin-bottom: 14px;
                     line-height: 14px;
                     .list_title{
                         &:first-of-type{
@@ -99,7 +124,7 @@
             .records{
                 p{
                     line-height: 20px;
-                    margin-bottom: 12px;
+                    margin-bottom: 6px;
                 }
             }  
         }

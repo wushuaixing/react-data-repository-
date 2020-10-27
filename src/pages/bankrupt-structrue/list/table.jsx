@@ -120,7 +120,6 @@ class ListTable extends React.Component {
 				title: '操作',
 				key: 'address',
 				width: 110,
-				className: 'list-table-align_center',
 				render: render.operate,
 			},
 		];
