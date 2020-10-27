@@ -67,12 +67,11 @@ class TabTable extends React.Component {
             {
                 title: "操作",
                 dataIndex: "action",
-                align: "center",
                 width: 180,
                 render: (text, record) => {
                     return (
                         <span>
-                            <Button size="small" type="primary" ghost style={{ minWidth: 60, height:28 }} className='btn-bgcolor-change' onMouseDown={this.goDetail.bind(this,record)}>查看</Button>
+                            <Button size="small" type="primary" ghost style={{ minWidth: 88, height:28 }} className='btn-bgcolor-change' onMouseDown={this.goDetail.bind(this,record)}>查看</Button>
                         </span>
                     )
                 }

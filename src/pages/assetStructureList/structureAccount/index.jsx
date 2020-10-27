@@ -264,9 +264,8 @@ class Asset extends React.Component {
 			{
 				title: "操作",
 				dataIndex: "action",
-				align: "center",
 				width: 180,
-				render: (text, record) =><Button onMouseDown={this.checkIsAutoMarked.bind(this,record)}>{tabIndex === 0 ? '标注' : '修改标注'}</Button>,
+				render: (text, record) =><Button style={{ minWidth:88 }} onMouseDown={this.checkIsAutoMarked.bind(this,record)}>{tabIndex === 0 ? '标注' : '修改标注'}</Button>,
 			},
 		];
 		if (tabIndex !== 0) {

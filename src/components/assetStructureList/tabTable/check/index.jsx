@@ -63,7 +63,6 @@ class TabTable extends React.Component {
 			{
 				title: "操作",
 				dataIndex: "action",
-				align: "center",
 				width: 180,
 				render: (text, record) => {
 					return (
@@ -166,7 +165,7 @@ const ToDetailBtn=(props)=>{
 		}
 	}
 	return <Fragment>
-		<Button style={{ fontSize: 14,width:66,height:30,textAlign:'center',padding:0}} onMouseDown={(e)=>props.goDeteil(e)}>{text()}</Button>
+		<Button style={{ fontSize: 14,width:88,height:30,textAlign:'center',padding:0}} onMouseDown={(e)=>props.goDeteil(e)}>{text()}</Button>
 	</Fragment>
 }
 

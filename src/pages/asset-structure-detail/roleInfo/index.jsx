@@ -126,7 +126,7 @@ class RoleInfo extends React.Component {
                         enable ?
                             <div>
                                 <Table
-                                    dataSource={dataSource}
+                                    dataSource={dataSource.concat([]).reverse()}
                                     columns={columns}
                                     pagination={false}
                                     rowKey={record => Math.random() + record.number}
