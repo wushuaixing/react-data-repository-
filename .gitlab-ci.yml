@@ -15,9 +15,8 @@ install_deps:
   tags:
     - font-group-runner
   only:
-    - release
     - develop
-    - reset-branch
+    - release
   script:
     - node -v
     - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
@@ -26,15 +25,14 @@ install_deps:
 
 # 编译
 build_step:
-    stage: build
-    tags:
-        - font-group-runner
-    only:
-        - release
-        - develop
-        - reset-branch
-    script:
-        - CI=false yarn build
+  stage: build
+  tags:
+    - font-group-runner
+  only:
+    - develop
+    - release
+  script:
+    - CI=false yarn build
 
 # 拷贝
 deploy_step:
