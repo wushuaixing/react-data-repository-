@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Button, Table, Popover, Icon } from 'antd';
-import { AdminMsgsColumn, AdminUsersColumn } from '../../common/column';
-import NoDataIMG from '@/assets/img/no_data.png';
+import React, { Component, Fragment } from "react";
+import { withRouter } from "react-router-dom";
+import { Table, Popover, Icon } from "antd";
+import { AdminMsgsColumn, AdminUsersColumn } from "../../common/column";
+import NoDataIMG from "@/assets/img/no_data.png";
 
 class SystemExtractInfo extends Component {
   static defaultProps = {
@@ -24,32 +24,21 @@ class SystemExtractInfo extends Component {
         {
           title: "操作",
           dataIndex: "action",
-          align: "center",
-          width: 180,
+          width: 135,
           key: "action",
           render: (text, record) => {
             return (
-              <span>
-                <Button
-                  size="small"
-                  type="primary"
-                  ghost
-                  style={{ minWidth: 60, height: 28 }}
-                  className="btn-bgcolor-change"
-                  onClick={this.handleOpenMsgsModal}
-                >
-                  查看详情
-                </Button>
+              <span
+                onClick={this.handleOpenMsgsModal}
+                style={{ color: "#016AA9" }}
+              >
+                查看详情
               </span>
             );
           },
         },
       ];
     }
-  };
-
-  handleOpenGuarantorModal = (id) => {
-    console.log(id);
   };
 
   render() {
@@ -100,7 +89,7 @@ const Item = (props) => {
         columns={columns}
         dataSource={data}
         pagination={false}
-        rowKey={(record) => (record.info || {}).id}
+        rowKey={(record) => record.id}
         locale={{
           emptyText: (
             <div className="no-data-box">

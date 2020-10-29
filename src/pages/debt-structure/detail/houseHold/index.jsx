@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Button, Table } from 'antd';
-import createPaginationProps from '@/utils/pagination';
-import { HouseHoldColumn } from '../../common/column';
-import NoDataIMG from '@/assets/img/no_data.png';
+import React, { Component } from "react";
+import { withRouter, Link } from "react-router-dom";
+import { Button, Table } from "antd";
+import createPaginationProps from "@/utils/pagination";
+import { HouseHoldColumn } from "../../common/column";
+import NoDataIMG from "@/assets/img/no_data.png";
 
 class HouseHold extends Component {
   static defaultProps = {
@@ -19,7 +19,7 @@ class HouseHold extends Component {
       {
         title: "保证人个数",
         dataIndex: "guarantorNum",
-        width: 760,
+        width: 224,
         key: "guarantorNum",
         render: (guarantorNum, record) => (
           <span
@@ -35,7 +35,7 @@ class HouseHold extends Component {
       {
         title: "抵质押人个数",
         dataIndex: "pledgerNum",
-        width: 760,
+        width: 209,
         key: "pledgerNum",
         render: (pledgerNum, record) => (
           <span
@@ -51,7 +51,7 @@ class HouseHold extends Component {
       {
         title: "抵质押物个数",
         dataIndex: "collateralNum",
-        width: 760,
+        width: 215,
         key: "collateralNum",
         render: (collateralNum, record) => (
           <span
@@ -67,22 +67,24 @@ class HouseHold extends Component {
       {
         title: "操作",
         dataIndex: "action",
-        align: "center",
-        width: 180,
+        width: 130,
         key: "action",
         render: (text, record) => {
           return (
-            <span>
-              <Button
-                size="small"
-                type="primary"
-                ghost
-                style={{ minWidth: 60, height: 28 }}
-                className="btn-bgcolor-change"
-              >
-                查看
-              </Button>
-            </span>
+            // <span>
+            //   <Link to="/houseHoldDetail" target="_blank">
+            //     查看详情
+            //   </Link>
+            // </span>
+            <div className="action-btn-group">
+              <span>
+                <Link to="/houseHoldDetail" target="_blank">
+                  编辑
+                </Link>
+              </span>
+              <span>|</span>
+              <span>删除</span>
+            </div>
           );
         },
       },
@@ -97,12 +99,25 @@ class HouseHold extends Component {
     const paginationProps = createPaginationProps(page, total);
     return (
       <div className="debt-detail-components debt-house-hold">
-        <div className="header">各户信息</div>
+        <div className="header">
+          各户信息
+          <Button
+            className="header-btn"
+            size="small"
+            type="primary"
+            ghost
+            style={{ minWidth: 88, height: 32 }}
+          >
+            <Link to="/houseHoldDetail" target="_blank">
+              添加户
+            </Link>
+          </Button>
+        </div>
         <Table
           rowClassName="table-list"
           columns={this.getColumns()}
           dataSource={data}
-          rowKey={(record) => (record.info || {}).id}
+          rowKey={(record) => record.id}
           pagination={paginationProps}
           onChange={this.handlePageChange}
           locale={{

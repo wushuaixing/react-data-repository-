@@ -20,7 +20,7 @@ const menuRoute = {
   9: "/documentSearch",//文书搜索（结构化人员）
   25:["/index/bankrupt","/index/bankrupt/detail"],//破产重组结构化（结构化人员）
   11:["/index/bankrupt","/index/bankrupt/detail"],//破产重组结构化（结构化人员）
-
+  
   // 21: "/index/syncMonitor",//抓取与同步监控（管理员）
   // 22: "/index/structureMonitor",//结构化情况监控（管理员）
   // 17: "/index/documentSearch",//文书搜索（检查人员）
@@ -59,7 +59,7 @@ const getSource = (data={})=>{
       {
         title:'债权结构化',
         id:502,
-        link:'/houseHoldDetail',
+        link:'/index/debtList',
         backup:'/houseHoldDetail',
       }
     ]

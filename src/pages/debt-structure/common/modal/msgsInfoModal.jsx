@@ -1,6 +1,6 @@
-import React from 'react';
-import { Modal, Button } from 'antd';
-import { Title_TYPE } from '../type';
+import React from "react";
+import { Modal, Button } from "antd";
+import { Title_TYPE } from "../type";
 
 class MsgsInfoModal extends React.Component {
   static defaultProps = {

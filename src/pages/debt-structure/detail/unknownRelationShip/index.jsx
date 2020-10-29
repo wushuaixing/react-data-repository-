@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Button, Table } from 'antd';
-import NoDataIMG from '@/assets/img/no_data.png';
+import React, { Component } from "react";
+import { withRouter, Link } from "react-router-dom";
+import { Button, Table } from "antd";
+import NoDataIMG from "@/assets/img/no_data.png";
 
 class UnknownRelationShip extends Component {
   static defaultProps = {
@@ -14,7 +14,7 @@ class UnknownRelationShip extends Component {
       {
         title: "保证人个数",
         dataIndex: "guarantorNum",
-        width: 760,
+        width: 526,
         key: "guarantorNum",
         render: (guarantorNum, record) => (
           <span
@@ -30,7 +30,7 @@ class UnknownRelationShip extends Component {
       {
         title: "抵质押人个数",
         dataIndex: "pledgerNum",
-        width: 760,
+        width: 516,
         key: "pledgerNum",
         render: (pledgerNum, record) => (
           <span
@@ -46,7 +46,7 @@ class UnknownRelationShip extends Component {
       {
         title: "抵质押物个数",
         dataIndex: "collateralNum",
-        width: 760,
+        width: 486,
         key: "collateralNum",
         render: (collateralNum, record) => (
           <span
@@ -62,22 +62,24 @@ class UnknownRelationShip extends Component {
       {
         title: "操作",
         dataIndex: "action",
-        align: "center",
-        width: 180,
+        width: 135,
         key: "action",
         render: (text, record) => {
           return (
-            <span>
-              <Button
-                size="small"
-                type="primary"
-                ghost
-                style={{ minWidth: 60, height: 28 }}
-                className="btn-bgcolor-change"
-              >
-                查看
-              </Button>
-            </span>
+            // <span>
+            //   <Link to="/unknownRelationShipDetail" target="_blank">
+            //     查看详情
+            //   </Link>
+            // </span>
+            <div className="action-btn-group">
+              <span>
+                <Link to="/unknownRelationShipDetail" target="_blank">
+                  编辑
+                </Link>
+              </span>
+              <span>|</span>
+              <span>删除</span>
+            </div>
           );
         },
       },
@@ -91,13 +93,27 @@ class UnknownRelationShip extends Component {
     const { data } = this.props;
     return (
       <div className="debt-detail-components debt-house-hold">
-        <div className="header">未知对应关系</div>
+        <div className="header">
+          未知对应关系
+          <Button
+            onMouseDown={this.handleClose}
+            className="header-btn"
+            size="small"
+            type="primary"
+            ghost
+            style={{ minWidth: 88, height: 32 }}
+          >
+            <Link to="/unknownRelationShipDetail" target="_blank">
+              添加未知对应关系
+            </Link>
+          </Button>
+        </div>
         <Table
           rowClassName="table-list"
           columns={this.getColumns()}
           pagination={false}
           dataSource={data}
-          rowKey={(record) => (record.info || {}).id}
+          rowKey={(record) => record.id}
           locale={{
             emptyText: (
               <div className="no-data-box">

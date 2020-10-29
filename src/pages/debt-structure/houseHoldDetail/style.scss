@@ -55,6 +55,23 @@
                 margin-right: 55px;
             }
         }
+        .rights-edit{
+            display: flex;
+            line-height: 14px;
+            margin-bottom: 32px;
+            .header{
+                margin-bottom: 12px;
+            }
+            li{
+                display: flex;
+                align-items: center;
+                margin-right: 50px;
+                .creditorsRightsPrincipal{
+                    width: 95px;
+                    text-align: right;
+                }
+            }
+        }
     }
     .debtors-info{
         margin-bottom: 42px;

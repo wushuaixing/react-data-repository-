@@ -60,7 +60,8 @@ class HomeIndex extends React.Component {
 		const { ruleSource:{ rule } } = this.props;
 		const { functions } = this.state;
 		const BaseCom = /8/.test(functions);
-		const DefaultCom = functions ? (BaseCom?Asset:BankruptList):() => <Spin />;
+		const debtCom = /11/.test(functions);
+		const DefaultCom = functions ? (BaseCom ? Asset : (debtCom ? BankruptList : DebtList)):() => <Spin />;
 
 		const Routes = [];
 		const BankruptRoutes = [

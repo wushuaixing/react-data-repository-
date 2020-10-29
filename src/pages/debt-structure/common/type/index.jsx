@@ -36,3 +36,9 @@ export const SEXS_TYPE = {
   1: "男",
   2: "女",
 };
+
+export const STATUS_TYPE = {
+  0: "标注",
+  1: "继续标注",
+  2: "修改标注",
+};

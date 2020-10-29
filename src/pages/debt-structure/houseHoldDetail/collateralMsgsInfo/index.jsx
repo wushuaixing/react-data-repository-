@@ -1,5 +1,5 @@
-import React from 'react';
-import { Title_TYPE } from '../../common/type';
+import React from "react";
+import { Title_TYPE } from "../../common/type";
 class CollateralMsgsInfo extends React.Component {
   static defaultProps = {
     msgsInfo: {},

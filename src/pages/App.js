@@ -34,6 +34,7 @@ class App extends React.Component {
 					<Route path="/autoMark" component={AutoMark} remark="自动标注-详情页" />
 					<Route path="/defaultDetail" component={DetailNewPage} remark="详情-新开页" />
 					<Route path="/houseHoldDetail" component={ HouseHoldDetail } remark="债权结构化-户详情页" />
+					<Route path="/unknownRelationShipDetail" component={ HouseHoldDetail } remark="债权结构化-户详情页" />
 					<Route path="*" component={NotFound} remark="非注册页面" />
 				</Switch>
 			</Router>

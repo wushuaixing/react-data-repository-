@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { AUCTION_STATUS } from '@/static/status';
-import { dateUtils } from '@utils/common';
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
+import { AUCTION_STATUS } from "@/static/status";
+import { dateUtils } from "@utils/common";
 
 class Basic extends Component {
   static defaultProps = {
@@ -9,10 +9,11 @@ class Basic extends Component {
     status: 0,
     withdraw: "",
     logs: [],
+    role: "",
   };
 
   render() {
-    const { title, status, withdraw, logs } = this.props;
+    const { title, status, withdraw, logs, role } = this.props;
     return (
       <div className="debt-detail-components debt-basic">
         <div className="header">基本信息</div>
@@ -24,7 +25,7 @@ class Basic extends Component {
           </Item>
           <Item title="拍卖状态：" content={AUCTION_STATUS[status]} />
           <Item title="撤回原因：" content={withdraw} />
-          {logs && logs.length > 0 && (
+          {role !== "normal" && logs && logs.length > 0 && (
             <Item title="标注记录：">
               {logs.map((item, index) => (
                 <RecordItem item={item} index={index} key={`records${index}`} />

@@ -1,28 +1,30 @@
-import React from 'react';
-import { ROLE_TYPE, OBLIGOR_TYPE, SEXS_TYPE } from '../type';
+import React from "react";
+import { ROLE_TYPE, OBLIGOR_TYPE, SEXS_TYPE } from "../type";
 
 export const HouseHoldColumn = [
   {
     title: "序号",
     dataIndex: "accountId",
-    width: 260,
+    width: 120,
     key: "accountId",
   },
   {
     title: "债务人信息",
     dataIndex: "users",
-    width: 760,
+    width: 478,
     key: "users",
     render: (text, record) => {
       return (
         <div>
           {record && record.users && record.users.length > 0 && (
-            <div className="info">
+            <div className="users-info">
               {record.users.map((item, index) => {
                 return (
                   <div className="info-line" key={`info${index}`}>
                     <div className="name">名称：{item.name}</div>
-                    <div className="number">证件号：{item.number}</div>
+                    {!item.type && (
+                      <div className="number">证件号：{item.number}</div>
+                    )}
                   </div>
                 );
               })}
@@ -35,7 +37,7 @@ export const HouseHoldColumn = [
   {
     title: "债权信息",
     dataIndex: "Principal",
-    width: 560,
+    width: 220,
     key: "Principal",
     render: (text, record) => {
       return (
@@ -56,20 +58,20 @@ export const AdminUsersColumn = [
   {
     title: "名称",
     dataIndex: "name",
-    width: 760,
+    width: 520,
     key: "name",
   },
   {
     title: "角色",
     dataIndex: "type",
-    width: 760,
+    width: 400,
     key: "type",
     render: (text) => ROLE_TYPE[text],
   },
   {
     title: "备注",
     dataIndex: "notes",
-    width: 760,
+    width: 560,
     key: "notes",
   },
 ];
@@ -78,49 +80,44 @@ export const AdminMsgsColumn = [
   {
     title: "抵押物名称",
     dataIndex: "name",
-    width: 760,
+    width: 745,
     key: "name",
   },
   {
     title: "类别",
     dataIndex: "type",
-    width: 760,
+    width: 746,
     key: "type",
   },
 ];
 
 export const GuarantorsColumn = [
   {
-    title: "保证人名称",
-    dataIndex: "name",
-    width: 760,
-    key: "name",
-  },
-  {
-    title: "人员类别",
-    dataIndex: "obligorType",
-    width: 760,
-    key: "obligorType",
-    render: (text) => OBLIGOR_TYPE[text],
-  },
-  {
     title: "证件号",
     dataIndex: "number",
-    width: 760,
+    width: 1200,
     key: "number",
+    render: (text, record) =>
+      record.msgs &&
+      record.msgs.map((item) => <p key={item.id}>{item.number}</p>),
   },
   {
     title: "生日",
     dataIndex: "birthday",
     width: 760,
     key: "birthday",
+    render: (text, record) =>
+      record.msgs &&
+      record.msgs.map((item) => <p key={item.id}>{item.birthday}</p>),
   },
   {
     title: "性别",
     dataIndex: "gender",
     width: 760,
     key: "gender",
-    render: (text) => SEXS_TYPE[text],
+    render: (text, record) =>
+      record.msgs &&
+      record.msgs.map((item) => <p key={item.id}>{SEXS_TYPE[item.gender]}</p>),
   },
   {
     title: "担保金额",
@@ -133,6 +130,9 @@ export const GuarantorsColumn = [
     dataIndex: "notes",
     width: 760,
     key: "notes",
+    render: (text, record) =>
+      record.msgs &&
+      record.msgs.map((item) => <p key={item.id}>{item.notes}</p>),
   },
 ];
 
@@ -175,7 +175,7 @@ export const PledgersColumn = [
   {
     title: "证件号",
     dataIndex: "number",
-    width: 760,
+    width: 1200,
     key: "number",
   },
   {
@@ -199,7 +199,7 @@ export const PledgersColumn = [
   },
 ];
 
-export const HouseHoldDetailColumn = [
+export const PledgersAndDebtorsColumn = [
   {
     title: "名称",
     dataIndex: "name",
@@ -222,7 +222,7 @@ export const HouseHoldDetailColumn = [
   {
     title: "证件号",
     dataIndex: "number",
-    width: 760,
+    width: 1200,
     key: "number",
   },
   {
@@ -237,12 +237,6 @@ export const HouseHoldDetailColumn = [
     width: 760,
     key: "gender",
     render: (text) => SEXS_TYPE[text],
-  },
-  {
-    title: "担保金额",
-    dataIndex: "amount",
-    width: 760,
-    key: "amount",
   },
   {
     title: "备注",

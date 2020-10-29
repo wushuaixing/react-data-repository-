@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { rule } from '@/components/rule-container';
-import './style.scss';
-import DebtRights from './debtRights';
-import PledgersInfo from './pledgersInfo';
-import GuarantorsInfo from './guarantorsInfo';
-import DebtorsInfo from './debtorsInfo';
-import CollateralMsgsInfo from './collateralMsgsInfo';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { rule } from "@/components/rule-container";
+import "./style.scss";
+import DebtRights from "./debtRights";
+import PledgersInfo from "./pledgersInfo";
+import GuarantorsInfo from "./guarantorsInfo";
+import DebtorsInfo from "./debtorsInfo";
+import CollateralMsgsInfo from "./collateralMsgsInfo";
 
 class HouseHoldDetail extends Component {
   constructor() {
@@ -24,6 +24,7 @@ class HouseHoldDetail extends Component {
       creditorsRightsPrincipal: 30000000000,
       outstandingInterest: 5430000000,
       totalAmountCreditorsRights: 890000000,
+      Summation: 1,
       debtors: [
         {
           birthday: 0,
@@ -101,28 +102,77 @@ class HouseHoldDetail extends Component {
           note: "",
           seizureSequence: "",
           useType: "",
-          id: "2222",
+          id: "3333",
+        },
+      ],
+      guarantors: [
+        {
+          amount: 0,
+          id: 0,
+          msgs: [
+            {
+              birthday: 0,
+              gender: 1,
+              id: 67,
+              name: "李四",
+              notes: "-",
+              number: "3421543253425432543",
+              obligorType: 1,
+              type: 2,
+            },
+            {
+              birthday: 0,
+              gender: 2,
+              id: 92,
+              name: "李四",
+              notes: "-",
+              number: "3421543253425432543",
+              obligorType: 1,
+              type: 1,
+            },
+          ],
         },
         {
-          buildingArea: 4324324,
-          category: "房产",
-          collateralName: "潮州市市宝山区联谊路649弄7号",
-          crawlerModified: "",
-          gmtCreate: "",
-          gmtDeleted: "",
-          gmtModified: "",
-          hasLease: 0,
-          hasSeizure: 0,
-          landArea: 0,
-          mortgageSequence: "",
-          note: "",
-          seizureSequence: "",
-          useType: "",
-          id: "3333",
+          amount: 1,
+          id: 1,
+          msgs: [
+            {
+              birthday: 0,
+              gender: 1,
+              id: 90,
+              name: "李四",
+              notes: "-",
+              number: "3421543253425432543",
+              obligorType: 1,
+              type: 2,
+            },
+          ],
         },
       ],
     };
   }
+
+  handleChange = (key, value) => {
+    this.setState(
+      {
+        [key]: value,
+      },
+      () => {
+        const {
+          Summation,
+          creditorsRightsPrincipal,
+          outstandingInterest,
+        } = this.state;
+        if (key !== "totalAmountCreditorsRights") {
+          Summation &&
+            this.setState({
+              totalAmountCreditorsRights:
+                creditorsRightsPrincipal + outstandingInterest,
+            });
+        }
+      }
+    );
+  };
 
   render() {
     const {
@@ -132,6 +182,8 @@ class HouseHoldDetail extends Component {
       debtors,
       pledgers,
       collateralMsgs,
+      guarantors,
+      Summation,
     } = this.state;
     return (
       <div className="yc-debt-newpage-container">
@@ -144,9 +196,11 @@ class HouseHoldDetail extends Component {
               creditorsRightsPrincipal={creditorsRightsPrincipal}
               outstandingInterest={outstandingInterest}
               totalAmountCreditorsRights={totalAmountCreditorsRights}
+              handleChange={this.handleChange}
+              Summation={Summation}
             />
             <DebtorsInfo data={debtors} params="debtors" />
-            <GuarantorsInfo data={debtors} params="guarantors" />
+            <GuarantorsInfo data={guarantors} params="guarantors" />
             <PledgersInfo data={pledgers} params="pledgers" />
             <CollateralMsgsInfo data={collateralMsgs} />
           </div>
