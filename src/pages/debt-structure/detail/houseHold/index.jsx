@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { Button, Table } from "antd";
 import createPaginationProps from "@/utils/pagination";
@@ -7,13 +7,13 @@ import NoDataIMG from "@/assets/img/no_data.png";
 
 class HouseHold extends Component {
   static defaultProps = {
-    enble: true,
+    enable: true,
     data: [],
     page: 1,
     total: 0,
   };
 
-  getColumns = () => {
+  getColumns = (enable) => {
     return [
       ...HouseHoldColumn,
       {
@@ -71,20 +71,25 @@ class HouseHold extends Component {
         key: "action",
         render: (text, record) => {
           return (
-            // <span>
-            //   <Link to="/houseHoldDetail" target="_blank">
-            //     查看详情
-            //   </Link>
-            // </span>
-            <div className="action-btn-group">
-              <span>
-                <Link to="/houseHoldDetail" target="_blank">
-                  编辑
-                </Link>
-              </span>
-              <span>|</span>
-              <span>删除</span>
-            </div>
+            <Fragment>
+              {enable ? (
+                <span>
+                  <Link to="/houseHoldDetail" target="_blank">
+                    查看详情
+                  </Link>
+                </span>
+              ) : (
+                <div className="action-btn-group">
+                  <span>
+                    <Link to="/houseHoldDetail" target="_blank">
+                      编辑
+                    </Link>
+                  </span>
+                  <span>|</span>
+                  <span>删除</span>
+                </div>
+              )}
+            </Fragment>
           );
         },
       },
@@ -95,27 +100,29 @@ class HouseHold extends Component {
     this.props.handleOpenModal("NumberModalVisible", params);
   };
   render() {
-    const { data, page, total } = this.props;
+    const { data, page, total, enable } = this.props;
     const paginationProps = createPaginationProps(page, total);
     return (
       <div className="debt-detail-components debt-house-hold">
         <div className="header">
           各户信息
-          <Button
-            className="header-btn"
-            size="small"
-            type="primary"
-            ghost
-            style={{ minWidth: 88, height: 32 }}
-          >
-            <Link to="/houseHoldDetail" target="_blank">
-              添加户
-            </Link>
-          </Button>
+          {!enable && (
+            <Button
+              className="header-btn"
+              size="small"
+              type="primary"
+              ghost
+              style={{ minWidth: 88, height: 32 }}
+            >
+              <Link to="/houseHoldDetail" target="_blank">
+                添加户
+              </Link>
+            </Button>
+          )}
         </div>
         <Table
           rowClassName="table-list"
-          columns={this.getColumns()}
+          columns={this.getColumns(enable)}
           dataSource={data}
           rowKey={(record) => record.id}
           pagination={paginationProps}

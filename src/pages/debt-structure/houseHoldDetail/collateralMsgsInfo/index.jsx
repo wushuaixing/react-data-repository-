@@ -2,13 +2,12 @@ import React from "react";
 import { Title_TYPE } from "../../common/type";
 class CollateralMsgsInfo extends React.Component {
   static defaultProps = {
-    msgsInfo: {},
+    data: [],
     enble: true,
   };
 
   render() {
     const { data } = this.props;
-    console.log(data);
     return (
       <div className="debt-detail-components msgs-info">
         <div className="header">抵质押物信息</div>

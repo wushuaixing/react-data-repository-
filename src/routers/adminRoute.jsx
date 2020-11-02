@@ -17,7 +17,7 @@ const ContentMain = [
 	<CacheRoute path="/index/assetList" component={AssetList} key='a7'  when="always" />,
 	<CacheRoute path="/index/debtList" component={ DebtList } key='a8'  when="always" />,
 	<Route path="/index/structureDetail/:status/:id" component={StructureDetail} key='a4'/>,
-	<Route path="/index/debtDetail" component={ DebtDetail } key='a9'/>,
+	<Route path="/index/debtDetail/:approverStatus/:id" component={ DebtDetail } key='a9'/>,
 	<Route path="/index/syncMonitor" component={SyncMonitor} key='a5'/>,
 	<Route path="/index/structureMonitor" component={StructMonitor} key='a6'/>,
 ];

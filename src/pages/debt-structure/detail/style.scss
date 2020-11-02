@@ -133,8 +133,9 @@
         .users-info{
             .info-line{
                 display: flex;
+                margin-bottom: 6px;
                 .name{
-                    margin-right: 32px;
+                   min-width:110px;
                 }
             }
         }

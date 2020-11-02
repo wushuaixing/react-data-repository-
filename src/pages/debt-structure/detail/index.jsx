@@ -29,6 +29,7 @@ class DebtDetail extends Component {
       outstandingInterest: 50000,
       totalAmountCreditorsRights: 53000,
       Summation: 1,
+      enable: false,
       creditorsUnitsList: [
         {
           accountId: 0,
@@ -259,6 +260,22 @@ class DebtDetail extends Component {
     };
   }
 
+  componentDidMount() {
+    this.getDetailInfo(this.props);
+  }
+
+  getDetailInfo = (props) => {
+    const {
+      match: {
+        params: { approverStatus, id },
+      },
+    } = props;
+    this.setState({
+      enable: !Boolean(parseInt(approverStatus)),
+      id,
+    });
+  };
+
   handleCloseModal = (key) => {
     this.setState({
       [key]: false,
@@ -310,6 +327,7 @@ class DebtDetail extends Component {
       numberModalParams,
       guarantors,
       Summation,
+      enable,
     } = this.state;
     const {
       ruleSource: { rule },
@@ -333,6 +351,7 @@ class DebtDetail extends Component {
               totalAmountCreditorsRights={totalAmountCreditorsRights}
               Summation={Summation}
               handleChange={this.handleChange}
+              enable={enable}
             />
             <SystemExtractInfo
               msgsLists={msgsLists}
@@ -344,10 +363,12 @@ class DebtDetail extends Component {
               page={1}
               total={1}
               handleOpenModal={this.handleOpenModal}
+              enable={enable}
             />
             <UnknownRelationShip
               data={creditorsUnitsList}
               handleOpenModal={this.handleOpenModal}
+              enable={enable}
             />
             <MsgsInfoModal
               visible={msgsModalVisible}

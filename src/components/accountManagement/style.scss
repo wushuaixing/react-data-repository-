@@ -2,38 +2,52 @@
   padding: 0 !important;
   right: 50px;
   .yc-form-input{
-    width: 355px !important;
+    width: 246px !important;
+  }
+  .object-content{
+    padding-top: 6px;
+    display: flex;
+    p{
+      min-width: 84px;
+
+    }
   }
   .structureObject {
-    width:400px;
+    width:392px;
     box-sizing: border-box;
     position: relative;
-    margin-top: 14px;
     border: 1px solid #e2e4e9;
     border-radius: 2px;
-    padding: 20px;
+    padding: 9px 12px 74px;
+    left: -3px;
     &-dataType {
       margin-top: 16px;
       position: relative;
     }
     .ant-form-item{
-      margin: 0;
+      margin: 0 !important;
       .ant-form-item-control{
         line-height: 0;
+        .ant-checkbox-group{
+          .ant-checkbox + span{
+            padding: 0 6px;
+          }
+        }
       }
     }
     .ant-form-explain{
       margin-left: 0;
     }
+    .form-col-temp{
+      margin-top: -18px;
+      .ant-form-item-label{
+        width: 100%;
+        text-align: left;
+      }
+    }
   }
   .ant-form-explain{
     margin-left: 61px;
-  }
-  .form-col-temp{
-    margin-top: -18px;
-    .ant-form-item-label{
-      width: auto;
-    }
   }
   .yc-form-item{
     &:last-child{
@@ -66,6 +80,9 @@
 
 }
 .yc-accountManagement-addRoleModal,.ant-explain-change{
+  .ant-modal-body{
+    padding:30px 24px 40px !important;
+  }
   button{
     &:last-child{
       border: none;
@@ -73,6 +90,9 @@
   }
   .ant-modal-body{
     border-bottom: 1px solid rgba(226,228,233,1);
+    .ant-form-item{
+      margin-left: 28px;
+    }
   }
   .ant-modal-footer{
     padding:0 10px 20px 0 !important;
@@ -94,7 +114,4 @@
         }
       }
   }
-}
-.yc-form-item-edit{
-  margin: -3px 0 !important; 
 }

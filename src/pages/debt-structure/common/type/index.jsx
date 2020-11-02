@@ -42,3 +42,10 @@ export const STATUS_TYPE = {
   1: "继续标注",
   2: "修改标注",
 };
+
+export const ROLETYPES_TYPE = {
+  1: "债务人",
+  2: "保证人",
+  3: "抵质押人",
+  4: "未知",
+};

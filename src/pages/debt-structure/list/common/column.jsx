@@ -49,27 +49,13 @@ export const Columns = [
   },
   {
     title: "标注人员",
-    dataIndex: "structPersonnel",
-    key: "structPersonnel",
+    dataIndex: "approverName",
+    key: "approverName",
     render: (text, record) => (
       <span>
-        {record.status === 0 ? (
-          <div>--</div>
-        ) : (
-          <div>
-            {record.structPersonnelEnable ? (
-              <div>{record.structPersonnel}</div>
-            ) : (
-              <div>
-                {record.structPersonnel ? record.structPersonnel : "--"}
-                {record.structPersonnel !== "自动标注" && (
-                  <span style={{ color: "rgb(177, 177, 177)" }}>(已删除)</span>
-                )}
-              </div>
-            )}
-          </div>
-        )}
+          {record.approverStauts === 1 ? `${text}('已删除')`: text}
       </span>
-    ),
+      )
+    ,
   },
 ];

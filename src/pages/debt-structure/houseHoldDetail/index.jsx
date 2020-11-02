@@ -1,12 +1,40 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { rule } from "@/components/rule-container";
-import "./style.scss";
 import DebtRights from "./debtRights";
 import PledgersInfo from "./pledgersInfo";
 import GuarantorsInfo from "./guarantorsInfo";
 import DebtorsInfo from "./debtorsInfo";
 import CollateralMsgsInfo from "./collateralMsgsInfo";
+import "./style.scss";
+
+const getPledgers = () => ({
+  birthday: "",
+  gender: 0,
+  id: new Date().getTime(),
+  name: "",
+  notes: "",
+  number: "",
+  obligorType: 0,
+  type: 3,
+});
+
+const getGuarantors = () => ({
+  amount: 0,
+  id: new Date().getTime(),
+  msgs: [
+    {
+      birthday: 0,
+      gender: 0,
+      id: "",
+      name: "",
+      notes: "",
+      number: "",
+      obligorType: 1,
+      type: 1,
+    },
+  ],
+});
 
 class HouseHoldDetail extends Component {
   constructor() {
@@ -21,10 +49,11 @@ class HouseHoldDetail extends Component {
         { type: 0, msg: "结构化", name: "赵测", time: 1602816382 },
       ],
       unitNumber: 4,
-      creditorsRightsPrincipal: 30000000000,
-      outstandingInterest: 5430000000,
-      totalAmountCreditorsRights: 890000000,
+      creditorsRightsPrincipal: 30000,
+      outstandingInterest: 50000,
+      totalAmountCreditorsRights: 80000,
       Summation: 1,
+      enable: false,
       debtors: [
         {
           birthday: 0,
@@ -34,7 +63,7 @@ class HouseHoldDetail extends Component {
           notes: "-",
           number: "543253254325234543",
           obligorType: 0,
-          type: 0,
+          type: 1,
         },
         {
           birthday: 0,
@@ -44,7 +73,7 @@ class HouseHoldDetail extends Component {
           notes: "-",
           number: "3421543253425432543",
           obligorType: 0,
-          type: 0,
+          type: 1,
         },
       ],
       pledgers: [
@@ -54,9 +83,9 @@ class HouseHoldDetail extends Component {
           id: 2,
           name: "张三",
           notes: "-",
-          number: "543253254325234543",
-          obligorType: 0,
-          type: 0,
+          number: "5432533",
+          obligorType: 1,
+          type: 3,
         },
         {
           birthday: 0,
@@ -64,9 +93,9 @@ class HouseHoldDetail extends Component {
           id: 3,
           name: "李四",
           notes: "-",
-          number: "3421543253425432543",
+          number: "34243",
           obligorType: 0,
-          type: 0,
+          type: 3,
         },
       ],
       collateralMsgs: [
@@ -152,7 +181,7 @@ class HouseHoldDetail extends Component {
     };
   }
 
-  handleChange = (key, value) => {
+  handleDebtRightsChange = (key, value) => {
     this.setState(
       {
         [key]: value,
@@ -174,6 +203,72 @@ class HouseHoldDetail extends Component {
     );
   };
 
+  handleAddClick = (key) => {
+    const arr = [
+      ...this.state[key],
+      key === "guarantors" ? { ...getGuarantors() } : { ...getPledgers() },
+    ];
+    this.setState({
+      [key]: arr,
+    });
+  };
+
+  handleDeleteClick = (key, index) => {
+    const arr = this.state[key];
+    arr.splice(index, 1);
+    this.setState({
+      [key]: arr,
+    });
+  };
+
+  handleDelGuarantors = (index, itemIndex) => {
+    const { guarantors } = this.state;
+    const arr = guarantors;
+    if (arr[index].msgs.length === 1) {
+      arr.splice(index, 1);
+    } else {
+      arr[index].msgs.splice(itemIndex, 1);
+    }
+    this.setState({
+      guarantors: arr,
+    });
+  };
+
+  handleAddGuarantors = (index) => {
+    const {guarantors}=this.state;
+    const newMsgsList = [...guarantors[index].msgs, { ...getPledgers() }];
+    const arr = guarantors;
+    arr[index].msgs = newMsgsList;
+    this.setState({
+      guarantors: arr,
+    });
+  };
+
+  handlPledgersAndDebtorsChange = (combine, value, role) => {
+    const arr_index = combine.replace(/[^0-9]/g, "");
+    const key = combine.replace(/[^a-zA-Z_]/g, "");
+    const arr = [...this.state[role]];
+    arr[arr_index][key] = value;
+    this.setState({
+      [role]: arr,
+    });
+  };
+
+  handlGuarantorsChange = (combine, value, index) => {
+    const {guarantors}=this.state;
+    const arr_index = combine.replace(/[^0-9]/g, "");
+    const key = combine.replace(/[^a-zA-Z_]/g, "");
+    const arr = [...guarantors];
+    if (key === "amount") {
+      arr[arr_index][key] = value;
+    } else {
+      arr[index].msgs[arr_index][key] = value;
+    }
+    this.setState({
+      guarantors: arr,
+    });
+  };
+
   render() {
     const {
       creditorsRightsPrincipal,
@@ -184,6 +279,7 @@ class HouseHoldDetail extends Component {
       collateralMsgs,
       guarantors,
       Summation,
+      enable,
     } = this.state;
     return (
       <div className="yc-debt-newpage-container">
@@ -196,12 +292,34 @@ class HouseHoldDetail extends Component {
               creditorsRightsPrincipal={creditorsRightsPrincipal}
               outstandingInterest={outstandingInterest}
               totalAmountCreditorsRights={totalAmountCreditorsRights}
-              handleChange={this.handleChange}
+              handleChange={this.handleDebtRightsChange}
               Summation={Summation}
+              enable={enable}
             />
-            <DebtorsInfo data={debtors} params="debtors" />
-            <GuarantorsInfo data={guarantors} params="guarantors" />
-            <PledgersInfo data={pledgers} params="pledgers" />
+            <DebtorsInfo
+              data={debtors}
+              params="debtors"
+              enable={enable}
+              handleAddClick={this.handleAddClick}
+              handleDeleteClick={this.handleDeleteClick}
+              handleChange={this.handlPledgersAndDebtorsChange}
+            />
+            <GuarantorsInfo
+              data={guarantors}
+              params="guarantors"
+              enable={enable}
+              handleAddClick={this.handleAddClick}
+              handleDeleteClick={this.handleDelGuarantors}
+              handleAddGuarantors={this.handleAddGuarantors}
+              handleChange={this.handlGuarantorsChange}
+            />
+            <PledgersInfo
+              data={pledgers}
+              params="pledgers"
+              handleAddClick={this.handleAddClick}
+              handleDeleteClick={this.handleDeleteClick}
+              handleChange={this.handlPledgersAndDebtorsChange}
+            />
             <CollateralMsgsInfo data={collateralMsgs} />
           </div>
         </div>

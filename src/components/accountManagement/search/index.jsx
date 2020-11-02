@@ -10,6 +10,7 @@ const strTypeArray = [
 	{ id: 1, value: '', label: '全部' },
 	{ id: 2, value: 8, label: '资产拍卖数据' },
 	{ id: 3, value: 11, label: '破产重组数据' },
+	{ id: 3, value: 26, label: '拍卖债权数据' },
 ];
 
 class Index extends React.Component {

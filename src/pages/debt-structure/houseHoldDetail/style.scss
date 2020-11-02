@@ -75,6 +75,48 @@
     }
     .debtors-info{
         margin-bottom: 42px;
+        .debtors-edit-header{
+            display: flex;
+            height: 46px;
+            align-items: center;
+            background: #EDEFF3;
+            font-size: 14px;
+            font-weight: bold;
+            padding-left:20px;
+            margin-bottom: 20px;
+            .name{
+                width: 212px;
+            }
+            .role{
+                width: 93px;
+            }
+            .obligorType{
+                width: 112px;
+            }
+            .certification{
+                width: 207px;
+            }
+            .birth{
+                width: 135px;
+            }
+            .sex{
+                width: 114px;
+            }
+            .note{
+                width: 149px;
+            }
+            .operation{
+                width: 58px;
+            }
+            .debtors-addRole{
+                width: 100%;
+            }
+        }
+        .debtors-edit-content{
+            .debtors-InputRow{
+                display: flex;
+            }
+        }
     }
     .guarantors-info{
         margin-bottom: 42px;

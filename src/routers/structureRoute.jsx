@@ -11,6 +11,6 @@ const ContentMain = [
   <CacheRoute path="/index" exact component={Asset} key='Asset' when="always" />,
   <CacheRoute path="/index/debtList" exact component={ DebtList } key='Asset' when="always" />,
   <Route path="/index/structureDetail/:status/:id" component={StructureDetail} key='StructureDetail' />,
-  <Route path="/index/DebtDetail" component={DebtDetail} key='DebtDetail' />,
+  <Route path="/index/DebtDetail/:approverStatus/:id" component={DebtDetail} key='DebtDetail' />,
 ];
 export default ContentMain

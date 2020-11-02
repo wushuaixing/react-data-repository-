@@ -26,6 +26,20 @@ class DebtTable extends React.Component {
     this.props.onPageChange(pagination.current);
   };
 
+  handGoDetail = (record) => {
+    const { approverStauts, id, approverName } = record;
+    const { role } = this.props;
+    let approverStatus = approverStauts;
+    if (role === "admin") {
+      approverStatus = 0;
+    }else{
+      if (approverName === "自动标注") {
+        approverStatus = 1;
+      }
+    }
+    this.props.history.push(`/index/debtDetail/${approverStatus}/${id}`);
+  };
+
   render() {
     const { data, total, tabIndex, page, role, panes, timeText } = this.props;
     const paginationProps = createPaginationProps(page, total);
@@ -34,10 +48,10 @@ class DebtTable extends React.Component {
       dynamic_column_index = 2;
     }
     const btnText = (record) => {
-      const { approverStatus, status } = record;
-      if (role === "admin" || (role === "check" && approverStatus === 0)) {
+      const { approverStauts, status } = record;
+      if (role === "admin" || (role === "check" && approverStauts === 0)) {
         return "查看";
-      } else if (role === "check" && approverStatus === 1) {
+      } else if (role === "check" && approverStauts === 1) {
         return "修改标注";
       } else {
         return STATUS_TYPE[status];
@@ -60,6 +74,9 @@ class DebtTable extends React.Component {
                 ghost
                 style={{ minWidth: 60, height: 28 }}
                 className="btn-bgcolor-change"
+                onClick={() => {
+                  this.handGoDetail(record);
+                }}
               >
                 <Link to="/index/debtDetail">{btnText(record)}</Link>
               </Button>

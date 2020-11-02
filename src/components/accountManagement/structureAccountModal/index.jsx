@@ -1,7 +1,7 @@
 /** right content for Account manage* */
 import React from 'react';
 import { Modal, Form, Button, Select, Checkbox, Radio, Input } from "antd";
-import { ADD_CHARACTER_LIST, AUCTION_DATA_TYPE } from '@/static/status'
+import { ADD_CHARACTER_LIST, AUCTION_DATA_TYPE,AUCTION_DEBT_DATA_TYPE } from '@/static/status'
 import '../style.scss'
 const { Option } = Select;
 const accountForm = Form.create;
@@ -14,6 +14,7 @@ const formItemLayout = {
 const structureList = [
   { label: '资产拍卖数据', value: '8' },
   { label: '破产重组数据', value: '11' },
+  { label: '拍卖债权数据', value: '26' },
 ];
 class AccountManage extends React.Component {
   //确定
@@ -64,7 +65,7 @@ class AccountManage extends React.Component {
     return (
       <div>
         <Modal
-          width={500}
+          width={524}
           title={action==="add"?'添加结构化账号':'编辑'}
           visible={visible}
           destroyOnClose={true}
@@ -80,7 +81,7 @@ class AccountManage extends React.Component {
                 ],
                 initialValue: action === 'add' ? 0 : this.findKeyByValue(ADD_CHARACTER_LIST, info.role)
               })(
-                <Select style={{ width: 200 }} transfer>
+                <Select style={{ width: 121 }} transfer>
                   {
                     Object.keys(ADD_CHARACTER_LIST).map((key) => {
                       return (
@@ -135,7 +136,7 @@ class AccountManage extends React.Component {
                 </Form.Item> :
                 <Form.Item className=" yc-form-item-edit yc-form-item " label="账号：" required={true}>
                   <p
-                    style={{ lineHeight: 3, fontSize: 12, marginLeft: 6, marginTop: 2, color: 'rgba(0, 0, 0, 0.85)' }}>
+                    style={{ lineHeight: 3, fontSize: 12, marginTop: 2, color: 'rgba(0, 0, 0, 0.85)' }}>
                     {info.username}</p>
                 </Form.Item>
             }
@@ -159,9 +160,9 @@ class AccountManage extends React.Component {
                   />,
                 )}
               </Form.Item> : ''}
-            <div>
-              <p style={{ marginLeft: 12, color: 'rgba(0, 0, 0, 0.85)' }}>结构化对象:</p>
-              <div className="structureObject" style={{ marginLeft: 12 }}>
+            <div className="object-content">
+              <p style={{ marginLeft: 3, color: 'rgba(0, 0, 0, 0.85)' }}>结构化对象:</p>
+              <div className="structureObject">
                 <Form.Item>
                   {
                     getFieldDecorator('functionId', {
@@ -171,14 +172,17 @@ class AccountManage extends React.Component {
                   }
                 </Form.Item>
                 {
-                  (getFieldValue('functionId')||[]).includes('8') ?(
+                  ((getFieldValue('functionId')||[]).includes('8') ||(getFieldValue('functionId')||[]).includes('26')) ? (
                     <Form.Item label="数据类型:" className="form-col-temp" >
                       {getFieldDecorator('auctionDataType', {
                         rules: [  { required: true, message: '数据类型不能为空' } ],
                         initialValue: action === 'add' ? 0 : this.findKeyByValue(AUCTION_DATA_TYPE, info.dataType)
                       })(
                         <Radio.Group style={{ marginLeft: 5, display: 'inline-block' }}>
-                          { Object.keys(AUCTION_DATA_TYPE).map(key => <Radio value={parseInt(key)} key={key}>{AUCTION_DATA_TYPE[key]}</Radio>) }
+                          {(getFieldValue('functionId')||[]).includes('8') 
+                            ? Object.keys(AUCTION_DATA_TYPE).map(key => <Radio value={parseInt(key)} key={key}>{AUCTION_DATA_TYPE[key]}</Radio>) 
+                            : Object.keys(AUCTION_DEBT_DATA_TYPE).map(key => <Radio value={parseInt(key)} key={key}>{AUCTION_DATA_TYPE[key]}</Radio>) 
+                          }
                         </Radio.Group>,
                       )}
                     </Form.Item>

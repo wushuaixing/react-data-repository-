@@ -73,7 +73,7 @@ class HomeIndex extends React.Component {
 			// BaseCom && <Route path="/index" exact component={Asset} key='Asset' remark="资产结构化 - 列表" />,
 			<CacheRoute path={['/index/debtList']} exact component={ DebtList } key='debt' remark="债权结构化 - 列表" />,
 			BaseCom && <Route path="/index/structureDetail/:status/:id" component={StructureDetail} key='StructureDetail' remark="资产结构化 - 详情页" />,
-			<Route path="/index/debtDetail" component={DebtDetail} key='DebtDetail' remark="债权结构化 - 详情页" />,
+			<Route path="/index/debtDetail/:approverStatus/:id" component={DebtDetail} key='DebtDetail' remark="债权结构化 - 详情页" />,
 			...BankruptRoutes
 		].filter(i=>i);
 		if (rule === 'admin')  Routes.push(...AdminRoute,...BankruptRoutes);

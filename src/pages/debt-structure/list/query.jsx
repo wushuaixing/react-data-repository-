@@ -17,8 +17,8 @@ class QueryForm extends React.Component {
     userList: [],
   };
   componentDidMount() {
-    const role = this.props;
-    role !== "normal" &&
+    const { role } = this.props;
+    (role !== "normal") &&
       getStructuredPersonnels().then((res) => {
         if (res.data.code === 200) {
           let data = res.data.data;
@@ -161,7 +161,7 @@ class QueryForm extends React.Component {
       role,
     } = this.props;
     const { userList } = this.state;
-    return (
+    return ( !(role === "normal" && tabIndex === 0) &&
       <div>
         <Form
           layout="inline"

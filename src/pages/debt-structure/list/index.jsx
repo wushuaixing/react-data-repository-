@@ -1,15 +1,12 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { Spin, message } from "antd";
-import { creditorsList, getNewCreditorsData } from "@/server/debt"; //结构化列表测试
-// import { adminStructuredList } from "@api"; //管理员列表测试
-// import { getCheckList } from "@api"; //检查人员列表测试
+import { creditorsList, getNewCreditorsData } from "@/server/debt";
 import DebtTable from "./table";
 import SearchForm from "./query";
 import { rule } from "@/components/rule-container";
 import { BreadCrumb } from "@commonComponents";
 import { scrollTop } from "@utils/tools";
-import { dateUtils } from "@utils/common";
 import "./style.scss";
 
 class DebtList extends React.Component {
@@ -81,19 +78,17 @@ class DebtList extends React.Component {
         }
       })
       .then((dataObject) => {
-        let tableList = [];
         if (dataObject.data.length === 0) {
           this.setState({
             buttonDisabled: false,
           });
+        }else{
+          this.setState({
+            buttonDisabled: true,
+          });
         }
-        dataObject.data.forEach((item) => {
-          let obj = item;
-          obj.time = dateUtils.formatStandardNumberDate(item.time);
-          tableList.push(obj);
-        });
         this.setState({
-          tableList,
+          tableList: dataObject.data,
           total: dataObject ? dataObject.total : 0,
           page: dataObject ? dataObject.page : 1,
           loading: false,
