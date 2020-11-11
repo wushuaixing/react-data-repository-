@@ -47,10 +47,6 @@ class AccountManage extends React.Component {
 					dataIndex: "structuredObject"
 				},
 				{
-					title: "数据类型",
-					dataIndex: "dataType"
-				},
-				{
 					title: "角色",
 					dataIndex: "role"
 				},
@@ -79,10 +75,6 @@ class AccountManage extends React.Component {
 				{
 					title: "结构化对象",
 					dataIndex: "structuredObject"
-				},
-				{
-					title: "数据类型",
-					dataIndex: "dataType"
 				},
 				{
 					title: "角色",

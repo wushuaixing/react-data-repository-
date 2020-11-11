@@ -28,7 +28,7 @@ class BasicInfo extends Component {
                 <div className="yc-component-assetStructureDetail_body">
                     <ul>
                         <Item title='标题：'>
-                            <div><Link to={`/auctionDetail/${id}`} target="_blank">{title}</Link></div>
+                            <div><Link to={`/auctionDetail/${id}/0`} target="_blank">{title}</Link></div>
                         </Item>
                         <Item title='拍卖状态：'>
                             <div>{AUCTION_STATUS[auctionStatus]}</div>

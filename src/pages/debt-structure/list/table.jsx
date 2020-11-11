@@ -27,17 +27,16 @@ class DebtTable extends React.Component {
   };
 
   handGoDetail = (record) => {
-    const { approverStauts, id, approverName } = record;
+    const { approverStauts, id } = record;
     const { role } = this.props;
     let approverStatus = approverStauts;
     if (role === "admin") {
       approverStatus = 0;
-    }else{
-      if (approverName === "自动标注") {
-        approverStatus = 1;
-      }
     }
-    this.props.history.push(`/index/debtDetail/${approverStatus}/${id}`);
+    if (role === "noraml") {
+      approverStatus = 1;
+    }
+    this.props.history.replace(`/index/debtDetail/${approverStatus}/${id}`);
   };
 
   render() {
@@ -62,7 +61,6 @@ class DebtTable extends React.Component {
       {
         title: "操作",
         dataIndex: "action",
-        align: "center",
         width: 180,
         key: "action",
         render: (text, record) => {

@@ -1,15 +1,20 @@
 import React, { Component, Fragment } from "react";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Button, Table } from "antd";
 import NoDataIMG from "@/assets/img/no_data.png";
 
 class UnknownRelationShip extends Component {
   static defaultProps = {
     title: "",
-    enble: true,
+    idEdit: true,
   };
 
-  getColumns = (enable) => {
+  goDetail(id) {
+    const { packageID, isEdit } = this.props;
+    window.open(`/unknownRelationShipDetail/${packageID}/${id}/0/${isEdit}`);
+  }
+
+  getColumns = (isEdit) => {
     return [
       {
         title: "保证人个数",
@@ -67,22 +72,26 @@ class UnknownRelationShip extends Component {
         render: (text, record) => {
           return (
             <Fragment>
-              {enable ? (
-                <span>
-                  <Link to="/unknownRelationShipDetail" target="_blank">
-                    查看详情
-                  </Link>
-                </span>
-              ) : (
+              {isEdit ? (
                 <div className="action-btn-group">
                   <span>
-                    <Link to="/unknownRelationShipDetail" target="_blank">
-                      编辑
-                    </Link>
+                    <span onClick={() => this.goDetail(record.id)}>编辑</span>
                   </span>
                   <span>|</span>
                   <span>删除</span>
                 </div>
+              ) : (
+                <span>
+                  <Button
+                    size="small"
+                    type="primary"
+                    ghost
+                    style={{ minWidth: 86, height: 30 }}
+                    onMouseDown={() => this.goDetail(record.id)}
+                  >
+                    查看详情
+                  </Button>
+                </span>
               )}
             </Fragment>
           );
@@ -95,29 +104,27 @@ class UnknownRelationShip extends Component {
     this.props.handleOpenModal("NumberModalVisible", params);
   };
   render() {
-    const { data, enable } = this.props;
+    const { data, isEdit } = this.props;
     return (
       <div className="debt-detail-components debt-house-hold">
         <div className="header">
           未知对应关系
-          {!enable && (
+          {isEdit && (
             <Button
-              onMouseDown={this.handleClose}
               className="header-btn"
               size="small"
               type="primary"
               ghost
               style={{ minWidth: 88, height: 32 }}
+              onClick={() => this.goDetail(0)}
             >
-              <Link to="/unknownRelationShipDetail" target="_blank">
-                添加未知对应关系
-              </Link>
+              添加未知对应关系
             </Button>
           )}
         </div>
         <Table
           rowClassName="table-list"
-          columns={this.getColumns(enable)}
+          columns={this.getColumns(isEdit)}
           pagination={false}
           dataSource={data}
           rowKey={(record) => record.id}

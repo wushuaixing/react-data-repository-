@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { Spin, message } from "antd";
-import { creditorsList, getNewCreditorsData } from "@/server/debt";
+import DebtApi from "@/server/debt";
 import DebtTable from "./table";
 import SearchForm from "./query";
 import { rule } from "@/components/rule-container";
@@ -56,8 +56,7 @@ class DebtList extends React.Component {
     } = this.props;
     const { tabIndex, page, searchParams } = this.state;
     let params = Object.assign(searchParams, { page });
-    // params.tabFalg = rule === 'normal' ? tabIndex+1 :tabIndex;//管理员接口测试
-    params.status = rule === "normal" ? tabIndex + 1 : tabIndex; //结构化接口测试
+    params.status = rule === "normal" ? tabIndex + 1 : tabIndex;
     return params;
   }
 
@@ -69,7 +68,7 @@ class DebtList extends React.Component {
     this.setState({
       loading: true,
     });
-    creditorsList(this.params)
+    DebtApi.creditorsList(this.params)
       .then((res) => {
         if (res.data.code === 200) {
           return res.data;
@@ -82,7 +81,7 @@ class DebtList extends React.Component {
           this.setState({
             buttonDisabled: false,
           });
-        }else{
+        } else {
           this.setState({
             buttonDisabled: true,
           });
@@ -161,7 +160,7 @@ class DebtList extends React.Component {
 
   getNewData = () => {
     this.setState({ loading: true });
-    getNewCreditorsData().then(() => {
+    DebtApi.getNewCreditorsData().then(() => {
       this.setState({
         loading: false,
         tabIndex: 0,

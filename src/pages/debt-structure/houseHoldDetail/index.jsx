@@ -1,272 +1,211 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
+import DebtApi from "@/server/debt";
+import { Button, message } from "antd";
 import { rule } from "@/components/rule-container";
 import DebtRights from "./debtRights";
-import PledgersInfo from "./pledgersInfo";
+import PledgersAndDebtorsInfo from "./pledgersInfo";
 import GuarantorsInfo from "./guarantorsInfo";
-import DebtorsInfo from "./debtorsInfo";
 import CollateralMsgsInfo from "./collateralMsgsInfo";
+import { ANCHOR_TYPE } from "../common/type";
+import { filters, clone } from "@utils/common";
 import "./style.scss";
-
-const getPledgers = () => ({
-  birthday: "",
-  gender: 0,
-  id: new Date().getTime(),
-  name: "",
-  notes: "",
-  number: "",
-  obligorType: 0,
-  type: 3,
-});
-
-const getGuarantors = () => ({
-  amount: 0,
-  id: new Date().getTime(),
-  msgs: [
-    {
-      birthday: 0,
-      gender: 0,
-      id: "",
-      name: "",
-      notes: "",
-      number: "",
-      obligorType: 1,
-      type: 1,
-    },
-  ],
-});
-
 class HouseHoldDetail extends Component {
   constructor() {
     super();
     this.state = {
       id: 1002,
-      logs: [
-        { type: 0, msg: "结构化", name: "赵测", time: 1602728165 },
-        { type: 1, msg: "1", name: "检察人员", time: 1602751934 },
-        { type: 0, msg: "检查无误", name: "检察人员", time: 1602752380 },
-        { type: 1, msg: ".l;p", name: "检察人员", time: 1602812955 },
-        { type: 0, msg: "结构化", name: "赵测", time: 1602816382 },
-      ],
-      unitNumber: 4,
-      creditorsRightsPrincipal: 30000,
-      outstandingInterest: 50000,
-      totalAmountCreditorsRights: 80000,
+      owner: ["张三", "李四", "王五", "马努", "成吉思汗", "顾明", "殿语"],
+      unitNumber: 0,
+      creditorsRightsPrincipal: 0,
+      outstandingInterest: 0,
+      totalAmountCreditorsRights: 0,
       Summation: 1,
-      enable: false,
-      debtors: [
-        {
-          birthday: 0,
-          gender: 0,
-          id: 0,
-          name: "张三",
-          notes: "-",
-          number: "543253254325234543",
-          obligorType: 0,
-          type: 1,
-        },
-        {
-          birthday: 0,
-          gender: 0,
-          id: 1,
-          name: "李四",
-          notes: "-",
-          number: "3421543253425432543",
-          obligorType: 0,
-          type: 1,
-        },
-      ],
-      pledgers: [
-        {
-          birthday: 0,
-          gender: 0,
-          id: 2,
-          name: "张三",
-          notes: "-",
-          number: "5432533",
-          obligorType: 1,
-          type: 3,
-        },
-        {
-          birthday: 0,
-          gender: 0,
-          id: 3,
-          name: "李四",
-          notes: "-",
-          number: "34243",
-          obligorType: 0,
-          type: 3,
-        },
-      ],
-      collateralMsgs: [
-        {
-          buildingArea: 4324324,
-          category: "房产",
-          collateralName: "潮州市市宝山区联谊路649弄7号",
-          crawlerModified: "",
-          gmtCreate: "",
-          gmtDeleted: "",
-          gmtModified: "",
-          hasLease: 0,
-          hasSeizure: 0,
-          landArea: 0,
-          mortgageSequence: "",
-          note: "",
-          seizureSequence: "",
-          useType: "",
-          id: "111",
-        },
-        {
-          buildingArea: 4324324,
-          category: "房产",
-          collateralName: "潮州市市宝山区联谊路649弄7号",
-          crawlerModified: "",
-          gmtCreate: "",
-          gmtDeleted: "",
-          gmtModified: "",
-          hasLease: 0,
-          hasSeizure: 0,
-          landArea: 0,
-          mortgageSequence: "",
-          note: "",
-          seizureSequence: "",
-          useType: "",
-          id: "3333",
-        },
-      ],
-      guarantors: [
-        {
-          amount: 0,
-          id: 0,
-          msgs: [
-            {
-              birthday: 0,
-              gender: 1,
-              id: 67,
-              name: "李四",
-              notes: "-",
-              number: "3421543253425432543",
-              obligorType: 1,
-              type: 2,
-            },
-            {
-              birthday: 0,
-              gender: 2,
-              id: 92,
-              name: "李四",
-              notes: "-",
-              number: "3421543253425432543",
-              obligorType: 1,
-              type: 1,
-            },
-          ],
-        },
-        {
-          amount: 1,
-          id: 1,
-          msgs: [
-            {
-              birthday: 0,
-              gender: 1,
-              id: 90,
-              name: "李四",
-              notes: "-",
-              number: "3421543253425432543",
-              obligorType: 1,
-              type: 2,
-            },
-          ],
-        },
-      ],
+      debtors: [],
+      pledgers: [],
+      collateralMsgs: [],
+      guarantors: [],
+      detailInfo: {
+        pledgers: [],
+        debtors: [],
+        guarantors: [],
+        creditorsRightsPrincipal: 0,
+        outstandingInterest: 0,
+        totalAmountCreditorsRights: 0,
+      },
+      activeFlag: 0,
     };
   }
 
-  handleDebtRightsChange = (key, value) => {
-    this.setState(
-      {
-        [key]: value,
+  componentDidMount() {
+    this.getDetailInfo(this.props);
+  }
+
+  getDetailInfo = (props) => {
+    const {
+      match: {
+        params: { id },
       },
-      () => {
-        const {
-          Summation,
-          creditorsRightsPrincipal,
-          outstandingInterest,
-        } = this.state;
-        if (key !== "totalAmountCreditorsRights") {
-          Summation &&
-            this.setState({
-              totalAmountCreditorsRights:
-                creditorsRightsPrincipal + outstandingInterest,
-            });
+    } = props;
+    DebtApi.getcreditorsUnitDetail(id).then((result) => {
+      const res = result.data;
+      if (res.code === 200) {
+        const data = res.data;
+        this.setState({
+          id: data.id,
+          collateralMsgs: data.collateralMsgs, //抵押物信息
+          debtors: data.debtors, //债务人信息
+          guarantors: data.guarantors, //保证人信息
+          pledgers: data.pledgers, //抵质押人信息
+          creditorsRightsPrincipal: data.creditorsRightsPrincipal, //债权本金
+          outstandingInterest: data.outstandingInterest, //利息
+          totalAmountCreditorsRights: data.totalAmountCreditorsRights, //本息合计
+        });
+      }
+    });
+  };
+
+  handleSubmit = () => {
+    const { detailInfo } = this.state;
+    const {
+      match: {
+        params: { packageId, id, type },
+      },
+    } = this.props;
+
+    const params = {
+      type: parseInt(type),
+      packageID: parseInt(packageId),
+      id: parseInt(id),
+      ...detailInfo,
+    };
+
+    DebtApi.unitSaveDetail(params).then((res) => {
+      if (res.data.code === 200 && res.data.data) {
+        message.success("保存成功", 2, this.handleClosePage);
+      } else {
+        message.warning(res.data.message);
+      }
+    });
+  };
+
+  handleClosePage = () => {
+    if (window.opener) {
+      window.opener = null;
+      window.open("", "_self");
+      window.close();
+    } else {
+      message.warning(
+        "由于浏览器限制,无法自动关闭,将为您导航到空白页,请您手动关闭页面",
+        2,
+        () => (window.location.href = "about:blank")
+      );
+    }
+  };
+
+  removeRepeat = (arrList) => {
+    let arr = arrList;
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        if (arr[i]["name"] === arr[j]["name"]) {
+          if (arr[j]["name"].length > 3) {
+            arr.splice(j, 1);
+          } else {
+            if (!arr[i]["number"] && !arr[j]["number"]) {
+              if (!arr[i]["birthday"] && !arr[j]["birthday"]) {
+                arr.splice(j, 1);
+              } else {
+                if (arr[i]["birthday"] === arr[j]["birthday"]) {
+                  arr.splice(j, 1);
+                } else {
+                  arr[i]["name"] = arr[i]["birthday"]
+                    ? `${arr[i]["name"]}(${arr[i]["birthday"]})`
+                    : arr[i]["name"];
+                  arr[j]["name"] = arr[j]["birthday"]
+                    ? `${arr[j]["name"]}(${arr[j]["birthday"]})`
+                    : arr[j]["name"];
+                }
+              }
+            } else {
+              if (arr[i]["number"] === arr[j]["number"]) {
+                arr.splice(j, 1);
+              } else {
+                arr[i]["name"] = arr[i]["number"]
+                  ? `${arr[i]["name"]}(${arr[i]["number"]})`
+                  : arr[i]["name"];
+                arr[j]["name"] = arr[j]["number"]
+                  ? `${arr[j]["name"]}(${arr[j]["number"]})`
+                  : arr[j]["name"];
+              }
+            }
+          }
+          j = j - 1; // splice()删除元素之后，会使得数组长度减少
         }
       }
+    }
+    let dynamicArr = arr.map((i) => i.name);
+    return dynamicArr;
+  };
+
+  handleChange = (key, value) => {
+    const { detailInfo } = this.state;
+    const arr = detailInfo;
+    if (key === "debtRights") {
+      Object.keys(value).forEach((keys) => (arr[keys] = value[keys]));
+    } else if (key === "guarantors") {
+      const guarantorVal = clone(value);
+      arr[key] = guarantorVal.filter((i) => {
+        let params = i;
+        params.msgs = filters.blockEmptyRow(params.msgs, ["name", "number"]);
+        return params.msgs.length > 0;
+      });
+    } else {
+      arr[key] = filters.blockEmptyRow(value, ["name", "number"]);
+    }
+    this.setState(
+      {
+        detailInfo: arr,
+      },
+      () => {
+        let arr = [];
+        const { debtors, guarantors, pledgers } = detailInfo;
+        console.log(detailInfo);
+        debtors.forEach((item) => {
+          let obj = {
+            name: item.name,
+            number: item.number,
+            birthday: item.birthday,
+            id: Math.random(),
+          };
+          arr.push(obj);
+        });
+        pledgers.forEach((item) => {
+          let obj = {
+            name: item.name,
+            number: item.number,
+            birthday: item.birthday,
+            id: Math.random(),
+          };
+          arr.push(obj);
+        });
+        guarantors.forEach((item) => {
+          item.msgs.forEach((item) => {
+            let obj = {
+              name: item.name,
+              number: item.number,
+              birthday: item.birthday,
+              id: Math.random(),
+            };
+            arr.push(obj);
+          });
+        });
+        console.log(this.removeRepeat(arr));
+        this.setState({
+          owner: this.removeRepeat(arr),
+        });
+        // console.log(this.removeRepeat(arr)); //所有人去重规则
+      }
     );
-  };
-
-  handleAddClick = (key) => {
-    const arr = [
-      ...this.state[key],
-      key === "guarantors" ? { ...getGuarantors() } : { ...getPledgers() },
-    ];
-    this.setState({
-      [key]: arr,
-    });
-  };
-
-  handleDeleteClick = (key, index) => {
-    const arr = this.state[key];
-    arr.splice(index, 1);
-    this.setState({
-      [key]: arr,
-    });
-  };
-
-  handleDelGuarantors = (index, itemIndex) => {
-    const { guarantors } = this.state;
-    const arr = guarantors;
-    if (arr[index].msgs.length === 1) {
-      arr.splice(index, 1);
-    } else {
-      arr[index].msgs.splice(itemIndex, 1);
-    }
-    this.setState({
-      guarantors: arr,
-    });
-  };
-
-  handleAddGuarantors = (index) => {
-    const {guarantors}=this.state;
-    const newMsgsList = [...guarantors[index].msgs, { ...getPledgers() }];
-    const arr = guarantors;
-    arr[index].msgs = newMsgsList;
-    this.setState({
-      guarantors: arr,
-    });
-  };
-
-  handlPledgersAndDebtorsChange = (combine, value, role) => {
-    const arr_index = combine.replace(/[^0-9]/g, "");
-    const key = combine.replace(/[^a-zA-Z_]/g, "");
-    const arr = [...this.state[role]];
-    arr[arr_index][key] = value;
-    this.setState({
-      [role]: arr,
-    });
-  };
-
-  handlGuarantorsChange = (combine, value, index) => {
-    const {guarantors}=this.state;
-    const arr_index = combine.replace(/[^0-9]/g, "");
-    const key = combine.replace(/[^a-zA-Z_]/g, "");
-    const arr = [...guarantors];
-    if (key === "amount") {
-      arr[arr_index][key] = value;
-    } else {
-      arr[index].msgs[arr_index][key] = value;
-    }
-    this.setState({
-      guarantors: arr,
-    });
   };
 
   render() {
@@ -279,8 +218,18 @@ class HouseHoldDetail extends Component {
       collateralMsgs,
       guarantors,
       Summation,
-      enable,
+      owner,
+      activeFlag,
     } = this.state;
+    const isHouseHoldDetail = window.location.href.includes("houseHoldDetail");
+    const anchorList = isHouseHoldDetail
+      ? Object.keys(ANCHOR_TYPE)
+      : Object.keys(ANCHOR_TYPE).slice(2);
+    const {
+      match: {
+        params: { isEdit },
+      },
+    } = this.props;
     return (
       <div className="yc-debt-newpage-container">
         <div className="yc-debt-newpage-content">
@@ -288,39 +237,62 @@ class HouseHoldDetail extends Component {
             <div className="detail-header">
               债务人：潮州市枫溪粤东陶瓷制作厂
             </div>
-            <DebtRights
-              creditorsRightsPrincipal={creditorsRightsPrincipal}
-              outstandingInterest={outstandingInterest}
-              totalAmountCreditorsRights={totalAmountCreditorsRights}
-              handleChange={this.handleDebtRightsChange}
-              Summation={Summation}
-              enable={enable}
-            />
-            <DebtorsInfo
-              data={debtors}
-              params="debtors"
-              enable={enable}
-              handleAddClick={this.handleAddClick}
-              handleDeleteClick={this.handleDeleteClick}
-              handleChange={this.handlPledgersAndDebtorsChange}
-            />
+            <div className="yc-anchor">
+              <ul>
+                {anchorList.map((item, index) => (
+                  <li key={`anchor${index}`}>
+                    <a
+                      href={`#${item}`}
+                      className={index === activeFlag ? "active" : null}
+                      onClick={() => this.setState({ activeFlag: index })}
+                    >
+                      {ANCHOR_TYPE[item]}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {isHouseHoldDetail && (
+              <Fragment>
+                <DebtRights
+                  creditorsRightsPrincipal={creditorsRightsPrincipal}
+                  outstandingInterest={outstandingInterest}
+                  totalAmountCreditorsRights={totalAmountCreditorsRights}
+                  Summation={Summation}
+                  isEdit={isEdit}
+                  handleChange={this.handleChange}
+                />
+                <PledgersAndDebtorsInfo
+                  data={debtors}
+                  isEdit={isEdit}
+                  handleChange={this.handleChange}
+                  role="debtors"
+                />
+              </Fragment>
+            )}
             <GuarantorsInfo
               data={guarantors}
-              params="guarantors"
-              enable={enable}
-              handleAddClick={this.handleAddClick}
-              handleDeleteClick={this.handleDelGuarantors}
-              handleAddGuarantors={this.handleAddGuarantors}
-              handleChange={this.handlGuarantorsChange}
+              isEdit={isEdit}
+              handleOpenBatchAddModal={this.handleOpenBatchAddModal}
+              handleChange={this.handleChange}
             />
-            <PledgersInfo
+            <PledgersAndDebtorsInfo
               data={pledgers}
-              params="pledgers"
-              handleAddClick={this.handleAddClick}
-              handleDeleteClick={this.handleDeleteClick}
-              handleChange={this.handlPledgersAndDebtorsChange}
+              isEdit={isEdit}
+              handleChange={this.handleChange}
+              role="pledgers"
             />
-            <CollateralMsgsInfo data={collateralMsgs} />
+            <CollateralMsgsInfo
+              data={collateralMsgs}
+              handleChange={this.handleChange}
+              owner={owner}
+              isEdit={isEdit}
+            />
+            <div className="save-btn">
+              <Button onClick={this.handleSubmit} type="primary">
+                保存并关闭
+              </Button>
+            </div>
           </div>
         </div>
       </div>

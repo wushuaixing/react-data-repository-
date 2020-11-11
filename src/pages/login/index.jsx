@@ -241,7 +241,8 @@ class Login extends React.Component {
 											<div className='temp-module'>
 												<Button onClick={()=>set({username:'18358141463',password:'123456'})}>管理员</Button>
 												<Button onClick={()=>set({username:'55555555555',password:'555555'})}>检查人员</Button>
-												<Button onClick={()=>set({username:'15386196726',password:'111111'})}>结构化人员</Button>
+												<Button onClick={()=>set({username:'34242342342',password:'342342'})}>结构化人员</Button>
+												{/* <Button onClick={()=>set({username:'15386196726',password:'111111'})}>结构化人员</Button> */}
 											</div>
 										)
 									}

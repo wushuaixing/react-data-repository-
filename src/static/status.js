@@ -134,5 +134,5 @@ export const AUCTION_DATA_TYPE = {
 
 export const AUCTION_DEBT_DATA_TYPE = {
 	0:'普通数据',
-	3:'非初标数据'
+	1:'非初标数据'
 };

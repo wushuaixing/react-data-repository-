@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Button, Table } from "antd";
 import createPaginationProps from "@/utils/pagination";
 import { HouseHoldColumn } from "../../common/column";
@@ -7,13 +7,18 @@ import NoDataIMG from "@/assets/img/no_data.png";
 
 class HouseHold extends Component {
   static defaultProps = {
-    enable: true,
+    isEdit: false,
     data: [],
     page: 1,
     total: 0,
   };
 
-  getColumns = (enable) => {
+  goDetail(id) {
+    const { packageId, isEdit } = this.props;
+    window.open(`/houseHoldDetail/${packageId}/${id}/0/${isEdit}`);
+  }
+
+  getColumns = (isEdit) => {
     return [
       ...HouseHoldColumn,
       {
@@ -72,22 +77,26 @@ class HouseHold extends Component {
         render: (text, record) => {
           return (
             <Fragment>
-              {enable ? (
-                <span>
-                  <Link to="/houseHoldDetail" target="_blank">
-                    查看详情
-                  </Link>
-                </span>
-              ) : (
+              {isEdit ? (
                 <div className="action-btn-group">
                   <span>
-                    <Link to="/houseHoldDetail" target="_blank">
-                      编辑
-                    </Link>
+                    <span onClick={() => this.goDetail(record.id)}>编辑</span>
                   </span>
                   <span>|</span>
                   <span>删除</span>
                 </div>
+              ) : (
+                <span>
+                  <Button
+                    size="small"
+                    type="primary"
+                    ghost
+                    style={{ minWidth: 86, height: 30 }}
+                    onMouseDown={() => this.goDetail(record.id)}
+                  >
+                    查看详情
+                  </Button>
+                </span>
               )}
             </Fragment>
           );
@@ -99,30 +108,34 @@ class HouseHold extends Component {
   handleOpenGuarantorModal = (params) => {
     this.props.handleOpenModal("NumberModalVisible", params);
   };
+
+  handlePageChange = (pagination) => {
+    console.log(pagination);
+  };
+
   render() {
-    const { data, page, total, enable } = this.props;
+    const { data, page, total, isEdit } = this.props;
     const paginationProps = createPaginationProps(page, total);
     return (
       <div className="debt-detail-components debt-house-hold">
         <div className="header">
           各户信息
-          {!enable && (
+          {isEdit && (
             <Button
               className="header-btn"
               size="small"
               type="primary"
               ghost
               style={{ minWidth: 88, height: 32 }}
+              onMouseDown={() => this.goDetail(0)}
             >
-              <Link to="/houseHoldDetail" target="_blank">
-                添加户
-              </Link>
+              添加户
             </Button>
           )}
         </div>
         <Table
           rowClassName="table-list"
-          columns={this.getColumns(enable)}
+          columns={this.getColumns(isEdit)}
           dataSource={data}
           rowKey={(record) => record.id}
           pagination={paginationProps}

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Form, Input, DatePicker, Select, message } from "antd";
-import { getStructuredPersonnels } from "@/server/debt";
+import DebtApi from "@/server/debt";
 import { dateUtils, clearEmpty } from "@utils/common";
 import { SearchAndClearButtonGroup } from "@commonComponents";
 
@@ -18,8 +18,8 @@ class QueryForm extends React.Component {
   };
   componentDidMount() {
     const { role } = this.props;
-    (role !== "normal") &&
-      getStructuredPersonnels().then((res) => {
+    role !== "normal" &&
+      DebtApi.getStructuredPersonnels().then((res) => {
         if (res.data.code === 200) {
           let data = res.data.data;
           this.setState({
@@ -161,103 +161,104 @@ class QueryForm extends React.Component {
       role,
     } = this.props;
     const { userList } = this.state;
-    return ( !(role === "normal" && tabIndex === 0) &&
-      <div>
-        <Form
-          layout="inline"
-          onSubmit={this.handleSearch}
-          className="yc-search-form"
-        >
-          <Form.Item label="标题">
-            {getFieldDecorator("title", {
-              initialValue: "",
-            })(
-              <Input
-                type="text"
-                placeholder="拍卖信息标题"
-                size="default"
-                autoComplete="off"
-                style={{ width: 240 }}
-              />
-            )}
-          </Form.Item>
-
-          {!(role === "normal" && tabIndex === 0) && (
-            <Fragment>
-              <Form.Item label={timeText} className="end-time-after">
-                {getFieldDecorator("startTime", {
-                  initialValue: null,
-                })(
-                  <DatePicker
-                    placeholder="开始时间"
-                    disabledDate={this.disabledStartDate}
-                    style={{ width: 120 }}
-                  />
-                )}
-              </Form.Item>
-              <Form.Item label="至">
-                {getFieldDecorator("endTime", {
-                  initialValue: null,
-                })(
-                  <DatePicker
-                    placeholder="结束时间"
-                    disabledDate={this.disabledEndDate}
-                    style={{ width: 120 }}
-                  />
-                )}
-              </Form.Item>
-            </Fragment>
-          )}
-          {!((role === "admin" && tabIndex === 1) || role === "normal") && (
-            <Form.Item label="标注人员">
-              {getFieldDecorator("uid", {
-                initialValue: "all",
+    return (
+      !(role === "normal" && tabIndex === 0) && (
+        <div>
+          <Form
+            layout="inline"
+            onSubmit={this.handleSearch}
+            className="yc-search-form"
+          >
+            <Form.Item label="标题">
+              {getFieldDecorator("title", {
+                initialValue: "",
               })(
-                <Select
-                  showSearch
-                  filterOption={(input, option) => {
-                    if (!isNaN(option.key)) {
-                      return (
-                        option.props.children[0]
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      );
-                    }
-                  }}
-                  style={{ width: 178, marginLeft: 4 }}
-                  transfer
-                  placeholder="请选择"
-                >
-                  {userList.map((item) => {
-                    return (
-                      <OptGroup label={item.id} key={item.id}>
-                        {item.array.map((ele) => {
-                          return (
-                            <Option value={ele.value} key={ele.value}>
-                              {ele.label}
-                              {ele.enable || (
-                                <span style={{ color: "#B1B1B1" }}>
-                                  {" "}
-                                  (已删除){" "}
-                                </span>
-                              )}
-                            </Option>
-                          );
-                        })}
-                      </OptGroup>
-                    );
-                  })}
-                </Select>
+                <Input
+                  type="text"
+                  placeholder="拍卖信息标题"
+                  size="default"
+                  autoComplete="off"
+                  style={{ width: 240 }}
+                />
               )}
             </Form.Item>
-          )}
-          <Form.Item>
-            <SearchAndClearButtonGroup
-              handleClearSearch={this.handClearSearch}
-            />
-          </Form.Item>
-        </Form>
-      </div>
+
+            {!(role === "normal" && tabIndex === 0) && (
+              <Fragment>
+                <Form.Item label={timeText} className="end-time-after">
+                  {getFieldDecorator("startTime", {
+                    initialValue: null,
+                  })(
+                    <DatePicker
+                      placeholder="开始时间"
+                      disabledDate={this.disabledStartDate}
+                      style={{ width: 120 }}
+                    />
+                  )}
+                </Form.Item>
+                <Form.Item label="至">
+                  {getFieldDecorator("endTime", {
+                    initialValue: null,
+                  })(
+                    <DatePicker
+                      placeholder="结束时间"
+                      disabledDate={this.disabledEndDate}
+                      style={{ width: 120 }}
+                    />
+                  )}
+                </Form.Item>
+              </Fragment>
+            )}
+            {!((role === "admin" && tabIndex === 1) || role === "normal") && (
+              <Form.Item label="标注人员">
+                {getFieldDecorator("uid", {
+                  initialValue: "all",
+                })(
+                  <Select
+                    showSearch
+                    filterOption={(input, option) => {
+                      if (!isNaN(option.key)) {
+                        return (
+                          option.props.children[0]
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0
+                        );
+                      }
+                    }}
+                    style={{ width: 178, marginLeft: 4 }}
+                    transfer
+                    placeholder="请选择"
+                  >
+                    {userList.map((item) => {
+                      return (
+                        <OptGroup label={item.id} key={item.id}>
+                          {item.array.map((ele) => {
+                            return (
+                              <Option value={ele.value} key={ele.value}>
+                                {ele.label}
+                                {ele.enable || (
+                                  <span style={{ color: "#B1B1B1" }}>
+                                    (已删除)
+                                  </span>
+                                )}
+                              </Option>
+                            );
+                          })}
+                        </OptGroup>
+                      );
+                    })}
+                  </Select>
+                )}
+              </Form.Item>
+            )}
+            <Form.Item>
+              <SearchAndClearButtonGroup
+                handleClearSearch={this.handClearSearch}
+              />
+            </Form.Item>
+          </Form>
+        </div>
+      )
     );
   }
 }

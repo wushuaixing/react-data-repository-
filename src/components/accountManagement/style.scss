@@ -18,11 +18,14 @@
     position: relative;
     border: 1px solid #e2e4e9;
     border-radius: 2px;
-    padding: 9px 12px 74px;
+    padding: 0px 12px;
     left: -3px;
     &-dataType {
       margin-top: 16px;
       position: relative;
+    }
+    .structure-object-checkbox{
+      padding: 12px 0;
     }
     .ant-form-item{
       margin: 0 !important;
@@ -34,12 +37,15 @@
           }
         }
       }
+      .ant-form-item-label{
+        line-height: 15px;
+        margin-bottom: 9px;
+      }
     }
     .ant-form-explain{
       margin-left: 0;
     }
     .form-col-temp{
-      margin-top: -18px;
       .ant-form-item-label{
         width: 100%;
         text-align: left;

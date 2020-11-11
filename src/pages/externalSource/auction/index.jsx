@@ -1,11 +1,10 @@
 import React from 'react';
 import {withRouter} from "react-router-dom";
 import {message} from 'antd';
-import {htmlDetailInfo} from "@api";
+import DebtApi from "@/server/debt";
 import pic from "@/assets/img/pic.png";
 import './style.scss';
 
-// const { Link } = Anchor;
 const anchors = [
     {
         id: 'subjectMatterIntroduction',
@@ -20,27 +19,6 @@ const anchors = [
         title: '竞价成功确认书'
     }
 ];
-
-// function AuctionAnchor() {
-//   const icon = <img src={pic} alt="有图片" style={{width: 16, height: 16, marginLeft: 8}}/>;
-//   return (
-//     <Anchor showInkInFixed={true}>
-//       {
-//         anchors.map(anchor =>
-//           <Link href={`#${anchor.id}`}
-//             title={
-//               <span>
-//                 <span>{anchor.title}</span>
-//                 {anchor.isImgTag ? icon : null}
-//               </span>
-//             }
-//             key={anchor.id} >
-//           </Link>
-//         )
-//       }
-//     </Anchor>
-//   );
-// }
 
 function AnnounceMentPart(props) {
     const {index, html: __html} = props;
@@ -80,8 +58,8 @@ class Index extends React.Component {
     }
 
     componentDidMount() {
-        const {auctionID} = this.props.match.params;
-        htmlDetailInfo(auctionID).then(res => {
+        const {auctionID,isDebt} = this.props.match.params;
+        DebtApi.htmlDetail(auctionID,isDebt).then(res => {
             if (res.data.code === 200) {
                 const data = res.data.data;
                 const {title, url, attachList} = data;
@@ -116,9 +94,6 @@ class Index extends React.Component {
         window.open(this.state.titleUrl)
     }
 
-    // downloadAttachFile(data) {
-    //   window.open(data.url)//如果未解析为网页 直接下载
-    // }
     changeTab = (index) => {
         this.setState({
             flag: index
@@ -162,7 +137,6 @@ class Index extends React.Component {
                                         {
                                             attachList.map((item, index) =>
                                                 <AttachListItem
-                                                    // handleClick={this.downloadAttachFile.bind(this, item)}
                                                     url={item.url}
                                                     name={item.name} key={index}
                                                     transcodingToHtml={item.transcodingToHtml}

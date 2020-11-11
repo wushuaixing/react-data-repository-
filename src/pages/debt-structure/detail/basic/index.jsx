@@ -13,13 +13,13 @@ class Basic extends Component {
   };
 
   render() {
-    const { title, status, withdraw, logs, role } = this.props;
+    const { title, status, withdraw, logs, role, id } = this.props;
     return (
       <div className="debt-detail-components debt-basic">
         <div className="header">基本信息</div>
         <ul>
           <Item title="标题：">
-            <Link to={`/auctionDetail/${10181734}`} target="_blank">
+            <Link to={`/auctionDetail/${id}/1`} target="_blank">
               {title}
             </Link>
           </Item>

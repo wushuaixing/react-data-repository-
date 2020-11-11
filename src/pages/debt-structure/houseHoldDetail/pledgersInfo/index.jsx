@@ -1,46 +1,150 @@
 import React, { Fragment } from "react";
-import { Table, Input, Select, Button } from "antd";
+import { Table, Input, Select, Button, Popover, Icon } from "antd";
 import NoDataIMG from "@/assets/img/no_data.png";
 import { OBLIGOR_TYPE, ROLETYPES_TYPE, SEXS_TYPE } from "../../common/type";
 import { PledgersAndDebtorsColumn } from "../../common/column";
+import AutoCompleteInput from "../autoComplete";
 const { Option } = Select;
+const getPledgersOrDebtors = (ispledgers) => ({
+  birthday: "",
+  gender: 0,
+  id: Math.random(),
+  name: "",
+  notes: "",
+  number: "",
+  obligorType: 0,
+  type: ispledgers ? 3 : 1,
+});
+class PledgersAndDebtorsInfo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data,
+      namePrompstList: [],
+      nameLength: 0,
+    };
+  }
 
-class PledgersInfo extends React.Component {
-  static defaultProps = {
-    data: [],
-    enble: true,
+  handleFindKey = (obj, value, compare = (a, b) => a === b) => {
+    return Object.keys(obj).find((i) => compare(obj[i], value));
   };
-  
+
+  getRole = () => {
+    const { role } = this.props;
+    return role;
+  };
+
   handleRowAdd = () => {
-    this.props.handleAddClick("pledgers");
+    const { data } = this.state;
+    let flag = this.getRole() === "pledgers";
+    const arr = [...data, { ...getPledgersOrDebtors(flag) }];
+    this.setState(
+      {
+        data: arr,
+      },
+      () => {
+        const { data } = this.state;
+        this.props.handleChange(this.getRole(), data);
+      }
+    );
   };
 
   handleDel = (index) => {
-    this.props.handleDeleteClick("pledgers", index);
+    const { data } = this.state;
+    const arr = data;
+    arr.splice(index, 1);
+    this.setState(
+      {
+        data: arr,
+      },
+      () => {
+        const { data } = this.state;
+        this.props.handleChange(this.getRole(), data);
+      }
+    );
   };
 
-  hanleChange = (e) => {
-    this.props.handleChange(e.target.name, e.target.value, "pledgers");
+  handleChange = (e, key, index, isblur) => {
+    const { value } = e.target;
+    const { data } = this.state;
+    const arr = data;
+    if (isblur) {
+      switch (key) {
+        case "gender":
+          let genderValue = this.handleFindKey(SEXS_TYPE, value);
+          arr[index][key] = genderValue;
+          break;
+        case "obligorType":
+          let obligorTypeValue = this.handleFindKey(OBLIGOR_TYPE, value);
+          arr[index][key] = obligorTypeValue;
+          break;
+        case "name":
+          if (value) {
+            if (value.length > 3) {
+              arr[index]["obligorType"] = 1;
+            }
+            arr[index]["blurAndNotNull"] = true;
+          } else {
+            arr[index]["obligorType"] = 0;
+          }
+          arr[index][key] = value;
+          break;
+        default:
+          arr[index][key] = value;
+          break;
+      }
+      // if (key === "gender") {
+      //   let dynamicValue = this.handleFindKey(SEXS_TYPE, value);
+      //   arr[index][key] = dynamicValue;
+      // } else if (key === "obligorType") {
+      //   let dynamicValue = this.handleFindKey(OBLIGOR_TYPE, value);
+      //   arr[index][key] = dynamicValue;
+      // } else {
+      //   arr[index][key] = value;
+      // }
+    } else {
+      arr[index][key] = value;
+    }
+
+    this.setState(
+      {
+        data: arr,
+      },
+      () => {
+        const { data } = this.state;
+        isblur && this.props.handleChange(this.getRole(), data);
+      }
+    );
   };
 
   render() {
-    const { data, enable } = this.props;
+    const { data } = this.state;
+    const { role, isEdit } = this.props;
     const PledgersAndDebtorsColumnEdit = [
       {
         title: "名称",
         dataIndex: "name",
-        width: 760,
+        width: 1400,
         key: "name",
         render: (text, record, index) => (
-          <Input
-            placeholder="请输入名称"
-            value={text}
-            autoComplete="off"
-            name={`name${index}`}
-            onChange={(e) => {
-              e.persist();
-              this.hanleChange(e);
-            }}
+          // <Input
+          //   placeholder="请输入名称"
+          //   value={text}
+          //   autoComplete="off"
+          //   onChange={(e) => {
+          //     e.persist();
+          //     this.handleChange(e, "name", index);
+          //   }}
+          //   onBlur={(e) => {
+          //     e.persist();
+          //     this.handleChange(e, "name", index, true);
+          //   }}
+          // />
+          <AutoCompleteInput
+            handleChange={this.handleChange}
+            nameVal={text}
+            index={index}
+            key={record.id}
           />
         ),
       },
@@ -60,11 +164,18 @@ class PledgersInfo extends React.Component {
           <Select
             placeholder="角色"
             onChange={(value) => {
-              this.hanleChange({
-                target: { name: `obligorType${index}`, value },
-              });
+              this.handleChange({ target: { value } }, "obligorType", index);
+            }}
+            onBlur={(value) => {
+              this.handleChange(
+                { target: { value } },
+                "obligorType",
+                index,
+                true
+              );
             }}
             value={OBLIGOR_TYPE[text]}
+            disabled={!record.blurAndNotNull}
           >
             {Object.keys(OBLIGOR_TYPE).map((key) => (
               <Option key={key} style={{ fontSize: 12 }}>
@@ -84,10 +195,13 @@ class PledgersInfo extends React.Component {
             placeholder="请输入证件号"
             autoComplete="off"
             value={text}
-            name={`number${index}`}
             onChange={(e) => {
               e.persist();
-              this.hanleChange(e);
+              this.handleChange(e, "number", index);
+            }}
+            onBlur={(e) => {
+              e.persist();
+              this.handleChange(e, "number", index, true);
             }}
           />
         ),
@@ -102,10 +216,13 @@ class PledgersInfo extends React.Component {
             placeholder="请输入生日"
             autoComplete="off"
             value={text}
-            name={`birthday${index}`}
             onChange={(e) => {
               e.persist();
-              this.hanleChange(e);
+              this.handleChange(e, "birthday", index);
+            }}
+            onBlur={(e) => {
+              e.persist();
+              this.handleChange(e, "birthday", index, true);
             }}
           />
         ),
@@ -119,7 +236,10 @@ class PledgersInfo extends React.Component {
           <Select
             placeholder="性别"
             onChange={(value) => {
-              this.hanleChange({ target: { name: `gender${index}`, value } });
+              this.handleChange({ target: { value } }, "gender", index);
+            }}
+            onBlur={(value) => {
+              this.handleChange({ target: { value } }, "gender", index, true);
             }}
             value={SEXS_TYPE[text]}
           >
@@ -141,10 +261,13 @@ class PledgersInfo extends React.Component {
             placeholder="请输入备注"
             autoComplete="off"
             value={text}
-            name={`notes${index}`}
             onChange={(e) => {
               e.persist();
-              this.hanleChange(e);
+              this.handleChange(e, "notes", index);
+            }}
+            onBlur={(e) => {
+              e.persist();
+              this.handleChange(e, "notes", index, true);
             }}
             style={{ height: 32 }}
           />
@@ -167,25 +290,28 @@ class PledgersInfo extends React.Component {
       },
     ];
     return (
-      <div className="debt-detail-components pledgers-info">
-        <div className="header">抵质押人信息</div>
-        {enable ? (
-          <Table
-            rowClassName="table-list"
-            columns={PledgersAndDebtorsColumn}
-            dataSource={data}
-            pagination={false}
-            rowKey={(record) => record.id}
-            locale={{
-              emptyText: (
-                <div className="no-data-box">
-                  <img src={NoDataIMG} alt="暂无数据" />
-                  <p>暂无数据</p>
-                </div>
-              ),
-            }}
-          />
-        ) : (
+      <div
+        className="debt-detail-components pledgers-info"
+        id={role === "pledgers" ? "Pledgers" : "Debtors"}
+      >
+        <div className="header">
+          {role === "pledgers" ? "抵质押" : "债务"}人信息
+          {role === "pledgers" && (
+            <span>
+              <Popover content="既不是债务人也不是保证人的抵质押物所有人为抵质押人。">
+                <Icon
+                  type="exclamation-circle"
+                  style={{
+                    color: "#808387",
+                    position: "relative",
+                    marginLeft: 8,
+                  }}
+                />
+              </Popover>
+            </span>
+          )}
+        </div>
+        {isEdit ? (
           <Fragment>
             <Table
               rowClassName="table-list"
@@ -210,10 +336,26 @@ class PledgersInfo extends React.Component {
               </Button>
             </div>
           </Fragment>
+        ) : (
+          <Table
+            rowClassName="table-list"
+            columns={PledgersAndDebtorsColumn}
+            dataSource={data}
+            pagination={false}
+            rowKey={(record) => record.id}
+            locale={{
+              emptyText: (
+                <div className="no-data-box">
+                  <img src={NoDataIMG} alt="暂无数据" />
+                  <p>暂无数据</p>
+                </div>
+              ),
+            }}
+          />
         )}
       </div>
     );
   }
 }
 
-export default PledgersInfo;
+export default PledgersAndDebtorsInfo;

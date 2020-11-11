@@ -53,9 +53,12 @@ export const Columns = [
     key: "approverName",
     render: (text, record) => (
       <span>
-          {record.approverStauts === 1 ? `${text}('已删除')`: text}
+        {text
+          ? record.approverStauts === 1
+            ? `${text}('已删除')`
+            : text
+          : "-"}
       </span>
-      )
-    ,
+    ),
   },
 ];

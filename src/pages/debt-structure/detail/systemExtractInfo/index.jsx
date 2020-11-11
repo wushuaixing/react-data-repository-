@@ -6,7 +6,6 @@ import NoDataIMG from "@/assets/img/no_data.png";
 
 class SystemExtractInfo extends Component {
   static defaultProps = {
-    enble: true,
     usersLists: [],
     msgsLists: [],
   };
