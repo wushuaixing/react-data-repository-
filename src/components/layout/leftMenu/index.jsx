@@ -4,7 +4,7 @@ import { getAvailableNav } from "@api";
 import { Link, withRouter } from "react-router-dom";
 import SpinLoading from "@/components/Spin-loading";
 import admin from "@/assets/img/admin.png";
-import check from "@/assets/img/check.png";
+import check from "@/assets/img/check.svg";
 // import user from "@/assets/img/user.png";
 import sync from "@/assets/img/sync.png";
 import structure from "@/assets/img/structure.png";

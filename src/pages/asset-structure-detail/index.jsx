@@ -174,7 +174,8 @@ class StructureDetail extends React.Component {
 
     handleBack(flag) {
         const isdetailNewpage = window.location.href.includes('defaultDetail');
-        isdetailNewpage ? this.handleClosePage() : this.props.history.push(flag ? '/index/assetList' : '/index');
+        const role = this.getRole();
+        (isdetailNewpage || role === 'newpage-check')  ? this.handleClosePage() : this.props.history.push(flag ? '/index/assetList' : '/index');
     }
 
     handleConfirm() {                        //检查人员确认按钮
@@ -514,7 +515,7 @@ class StructureDetail extends React.Component {
                                 handleClick={this.goPreviousRecord.bind(this)}
                                 icon={preId ? icon : iconGrey}/> :
                             <div className="assetstructure-detail_header">
-                                资产结构化{this.getRole()==='check' ? '检查':null}/详情
+                                资产结构化{ (this.getRole() === 'check' || this.getRole() === 'newpage-check') ? '检查' : null}/详情
                                 {
                                     this.getRole() === 'admin' &&
                                     <Button type="primary" ghost className='buttonGroup-back'
