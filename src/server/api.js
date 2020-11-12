@@ -3,7 +3,7 @@ import axios from './index';
 // 用户登录有关接口//
 /// ///////////////
 // 登录（账号-密码-下次是否自动登录）
-export const login = async (params) =>	axios.post('/api/login', params);
+export const login = async (params) => axios.post('/api/login', params);
 
 // 判断是否登录过
 export const isLogin = (params) => {
@@ -137,7 +137,9 @@ export const getStructuredPersonnel = (name) => axios.get('/api/asset/auction/co
 // 结构化确认
 export const beConfirmed = (id) => axios.get(`/api/asset/inspector/control/beConfirmed/${id}`);
 
-export const updateBackStatus = (params) => axios.get('/api/asset/auction/control/updateBackStatus', { params });
+export const updateBackStatus = (params) => axios.get('/api/asset/auction/control/updateBackStatus', {
+	params
+});
 
 // 修改错误原因
 export const changeWrongType = (id, params) => axios.post(`/api/asset/inspector/control/updateErrorReason/${id}`, params);
@@ -153,7 +155,9 @@ export const notEnableSave = (id, params) => axios.post(
 // 文书搜索//
 /// ///////
 // 文书搜索
-export const wenshuSearch = (params) => axios.get('/api/asset/wenshu/search', { params });
+export const wenshuSearch = (params) => axios.get('/api/asset/wenshu/search', {
+	params
+});
 
 // 文书搜索详情
 export const wenshuDetail = (id, params, wid) => axios.post(`/api/asset/auction/control/wenshu/detail/${id}/${wid}`, params);
@@ -195,7 +199,7 @@ export const structurePython = (type, date) => axios.get(`/api/statistical/asset
 export const pythonAmountIn31 = (type) => axios.get(`/api/statistical/assetDataCrawlingTimeDistributeAssistDetailsVO?type=${type}`);
 
 export const getNewStructuredData = () => axios.get('/api/asset/auction/control/getNewStructuredData');
-export const structuredCheckErrorNum = (params) => axios.post('/api/asset/auction/control/structuredCheckErrorNum',params);
+export const structuredCheckErrorNum = (params) => axios.post('/api/asset/auction/control/structuredCheckErrorNum', params);
 
 export const structuredById = (id, approveStatus, flag) => axios.get(`/api/asset/structured/control/structuredById?id=${id}&approveStatus=${approveStatus}&flag=${flag}`);
 

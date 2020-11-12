@@ -76,14 +76,14 @@ class AccountManage extends React.Component {
     }
   }
 
-  get IsNull(){
+  get IsNull() {
     const {
       form: { getFieldsValue },
     } = this.props;
     let options = getFieldsValue(["structure", "debt", "backrupt"]);
     const isChecked = Object.keys(options).some((i) => options[i]);
     return isChecked;
-  };
+  }
 
   render() {
     const { visible, info, action } = this.props;
@@ -289,7 +289,9 @@ class AccountManage extends React.Component {
                     initialValue: action === "add" ? false : deFunctionId[2],
                   })(<Checkbox>破产重组数据</Checkbox>)}
                 </Form.Item>
-                {!this.IsNull&& <p style={{color:"#F5222D"}}>*结构化对象不能为空</p>}
+                {!this.IsNull && (
+                  <p style={{ color: "#F5222D" }}>*结构化对象不能为空</p>
+                )}
               </div>
             </div>
           </Form>
