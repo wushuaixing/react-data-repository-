@@ -236,14 +236,14 @@ class AccountManage extends React.Component {
                 <Form.Item className="structure-object-checkbox">
                   {getFieldDecorator("structure", {
                     valuePropName: "checked",
-                    initialValue: action === "add" ? false : deFunctionId[0],
+                    initialValue: action === "add" ? false : deFunctionId[0], //添加时checked为false  编辑时代入值 deFunctionId数组为三个复选框的值
                   })(<Checkbox>资产拍卖数据</Checkbox>)}
                 </Form.Item>
                 {getFieldValue("structure") ? (
                   <Form.Item label="数据类型:" className="form-col-temp">
                     {getFieldDecorator("auctionDataType", {
                       rules: [{ required: true, message: "数据类型不能为空" }],
-                      initialValue: action === "add" ? 0 : info.auctionDataType,
+                      initialValue: action === "add" ? 0 : info.auctionDataType, //添加时radio 为false  编辑时代入值
                     })(
                       <Radio.Group
                         style={{ marginLeft: 5, display: "inline-block" }}
@@ -261,7 +261,7 @@ class AccountManage extends React.Component {
                 <Form.Item className="structure-object-checkbox">
                   {getFieldDecorator("debt", {
                     valuePropName: "checked",
-                    initialValue: action === "add" ? false : deFunctionId[1],
+                    initialValue: action === "add" ? false : deFunctionId[1], 
                   })(<Checkbox>拍卖债权数据</Checkbox>)}
                 </Form.Item>
                 {getFieldValue("debt") ? (
@@ -290,7 +290,7 @@ class AccountManage extends React.Component {
                   })(<Checkbox>破产重组数据</Checkbox>)}
                 </Form.Item>
                 {!this.IsNull && (
-                  <p style={{ color: "#F5222D" }}>*结构化对象不能为空</p>
+                  <p style={{ color: "#F5222D" }}>*结构化对象不能为空</p> //没有选择数据类型时给出提示 不允许保存
                 )}
               </div>
             </div>

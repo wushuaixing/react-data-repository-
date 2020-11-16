@@ -121,7 +121,7 @@ class HomeIndex extends React.Component {
         />
       ),
       <Route
-        path="/index/debtDetail/:approverStatus/:id"
+        path="/index/debtDetail/:approverStatus/:debtStatus/:id"
         component={DebtDetail}
         key="DebtDetail"
         remark="债权结构化 - 详情页"

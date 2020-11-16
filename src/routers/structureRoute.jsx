@@ -28,7 +28,7 @@ const ContentMain = [
     key="StructureDetail"
   />,
   <Route
-    path="/index/DebtDetail/:approverStatus/:id"
+    path="/index/debtDetail/:approverStatus/:debtStatus/:id"
     component={DebtDetail}
     key="DebtDetail"
   />,

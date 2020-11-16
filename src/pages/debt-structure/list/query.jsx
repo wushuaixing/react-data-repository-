@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Form, Input, DatePicker, Select, message } from "antd";
 import DebtApi from "@/server/debt";
 import { dateUtils, clearEmpty } from "@utils/common";
@@ -20,6 +20,7 @@ class QueryForm extends React.Component {
     const { role } = this.props;
     role !== "normal" &&
       DebtApi.getStructuredPersonnels().then((res) => {
+        //结构化人员下无标注人员列表
         if (res.data.code === 200) {
           let data = res.data.data;
           this.setState({
@@ -31,6 +32,7 @@ class QueryForm extends React.Component {
       });
   }
 
+  //搜索
   handleSearch = (e) => {
     e.preventDefault();
     const {
@@ -76,11 +78,13 @@ class QueryForm extends React.Component {
     });
   };
 
+  //清空搜索条件
   handClearSearch = () => {
     this.props.form.resetFields();
     this.props.toClearSearch();
   };
 
+  //标注人员列表处理
   getStructuredPersonnelTypeList(data) {
     let personnelTypeList = [
       {
@@ -130,6 +134,7 @@ class QueryForm extends React.Component {
     return personnelTypeList;
   }
 
+  //起始时间是否规范
   disabledStartDate = (startValue) => {
     const {
       form: { getFieldValue },
@@ -142,6 +147,7 @@ class QueryForm extends React.Component {
     return _startValue > endValue.valueOf();
   };
 
+  //结束时间是否规范
   disabledEndDate = (endValue) => {
     const {
       form: { getFieldValue },
@@ -162,7 +168,7 @@ class QueryForm extends React.Component {
     } = this.props;
     const { userList } = this.state;
     return (
-      !(role === "normal" && tabIndex === 0) && (
+      !(role === "normal" && tabIndex === 0) && ( //结构化账号待标记列表下 不显示搜索框
         <div>
           <Form
             layout="inline"
@@ -182,34 +188,29 @@ class QueryForm extends React.Component {
                 />
               )}
             </Form.Item>
-
-            {!(role === "normal" && tabIndex === 0) && (
-              <Fragment>
-                <Form.Item label={timeText} className="end-time-after">
-                  {getFieldDecorator("startTime", {
-                    initialValue: null,
-                  })(
-                    <DatePicker
-                      placeholder="开始时间"
-                      disabledDate={this.disabledStartDate}
-                      style={{ width: 120 }}
-                    />
-                  )}
-                </Form.Item>
-                <Form.Item label="至">
-                  {getFieldDecorator("endTime", {
-                    initialValue: null,
-                  })(
-                    <DatePicker
-                      placeholder="结束时间"
-                      disabledDate={this.disabledEndDate}
-                      style={{ width: 120 }}
-                    />
-                  )}
-                </Form.Item>
-              </Fragment>
-            )}
-            {!((role === "admin" && tabIndex === 1) || role === "normal") && (
+            <Form.Item label={timeText} className="end-time-after">
+              {getFieldDecorator("startTime", {
+                initialValue: null,
+              })(
+                <DatePicker
+                  placeholder="开始时间"
+                  disabledDate={this.disabledStartDate}
+                  style={{ width: 120 }}
+                />
+              )}
+            </Form.Item>
+            <Form.Item label="至">
+              {getFieldDecorator("endTime", {
+                initialValue: null,
+              })(
+                <DatePicker
+                  placeholder="结束时间"
+                  disabledDate={this.disabledEndDate}
+                  style={{ width: 120 }}
+                />
+              )}
+            </Form.Item>
+            {!((role === "admin" && tabIndex === 1) || role === "normal") && ( //结构化账号 和管理员未标注列表下 不显示标注人员
               <Form.Item label="标注人员">
                 {getFieldDecorator("uid", {
                   initialValue: "all",
@@ -253,7 +254,7 @@ class QueryForm extends React.Component {
             )}
             <Form.Item>
               <SearchAndClearButtonGroup
-                handleClearSearch={this.handClearSearch}
+                handleClearSearch={this.handClearSearch} //清空搜索条件
               />
             </Form.Item>
           </Form>

@@ -1,5 +1,69 @@
 import React from "react";
 import { ROLE_TYPE, OBLIGOR_TYPE, SEXS_TYPE } from "../type";
+import NoSAVEIMG from "@/assets/img/no_save.png";
+import { Badge } from "antd";
+
+export const ListColumns = [
+  {
+    title: "拍卖标题",
+    dataIndex: "title",
+    width: 760,
+    key: "title",
+  },
+  {
+    title: "状态",
+    dataIndex: "status",
+    width: 285,
+    key: "status",
+    render: (status) => (
+      <span>
+        {(() => {
+          let color = "default";
+          let text = "未标注";
+          if (
+            localStorage.getItem("userState") === "检查人员" &&
+            status === 1
+          ) {
+            color = "default";
+            text = "未检查";
+          } else {
+            switch (status) {
+              case 0:
+                color = "default";
+                text = "未标注";
+                break;
+              case 1:
+                color = "success";
+                text = "已标注";
+                break;
+              case 2:
+                color = "success";
+                text = "检查无误";
+                break;
+              default:
+                break;
+            }
+          }
+          return <Badge status={color} text={text} />;
+        })()}
+      </span>
+    ),
+  },
+  {
+    title: "标注人员",
+    dataIndex: "approverName",
+    key: "approverName",
+    render: (text, record) => (
+      <span>
+        {text
+          ? record.approverStauts === 1
+            ? `${text}('已删除')`
+            : text
+          : "-"}
+      </span>
+    ),
+  },
+];
 
 export const HouseHoldColumn = [
   {
@@ -7,6 +71,21 @@ export const HouseHoldColumn = [
     dataIndex: "accountId",
     width: 120,
     key: "accountId",
+    className: "no-save",
+    render: (text, record) => {
+      return (
+        <div>
+          {record.status === 0 && (
+            <img
+              src={NoSAVEIMG}
+              alt=""
+              style={{ position: "absolute", left: 0, top: 0 }}
+            />
+          )}
+          {text}
+        </div>
+      );
+    },
   },
   {
     title: "债务人信息",
@@ -22,7 +101,7 @@ export const HouseHoldColumn = [
                 return (
                   <div className="info-line" key={`info${index}`}>
                     <div className="name">名称：{item.name}</div>
-                    {!item.type && (
+                    {!item.type && item.number && (
                       <div className="number">证件号：{item.number}</div>
                     )}
                   </div>
@@ -93,9 +172,18 @@ export const AdminMsgsColumn = [
 
 export const GuarantorsColumn = [
   {
+    title: "人员类别",
+    dataIndex: "obligorType",
+    width: 78,
+    key: "obligorType",
+    render: (text, record) =>
+    record.msgs &&
+    record.msgs.map((item) => <p key={item.id}>{OBLIGOR_TYPE[item.obligorType]}</p>),
+  },
+  {
     title: "证件号",
     dataIndex: "number",
-    width: 1200,
+    width: 175,
     key: "number",
     render: (text, record) =>
       record.msgs &&
@@ -104,7 +192,7 @@ export const GuarantorsColumn = [
   {
     title: "生日",
     dataIndex: "birthday",
-    width: 760,
+    width: 106,
     key: "birthday",
     render: (text, record) =>
       record.msgs &&
@@ -113,7 +201,7 @@ export const GuarantorsColumn = [
   {
     title: "性别",
     dataIndex: "gender",
-    width: 760,
+    width: 84,
     key: "gender",
     render: (text, record) =>
       record.msgs &&
@@ -122,13 +210,14 @@ export const GuarantorsColumn = [
   {
     title: "担保金额",
     dataIndex: "amount",
-    width: 760,
+    width:118,
     key: "amount",
+    className:'amount',
   },
   {
     title: "备注",
     dataIndex: "notes",
-    width: 760,
+    width: 135,
     key: "notes",
     render: (text, record) =>
       record.msgs &&
@@ -140,19 +229,19 @@ export const CreditorsColumn = [
   {
     title: "抵质押物名称",
     dataIndex: "name",
-    width: 760,
+    width: 420,
     key: "name",
   },
   {
     title: "类别",
     dataIndex: "useType",
-    width: 760,
+    width: 260,
     key: "useType",
   },
   {
     title: "所有人",
     dataIndex: "owner",
-    width: 760,
+    width: 380,
     key: "owner",
     render: (text, record) => record && record.name,
   },
@@ -162,39 +251,39 @@ export const PledgersColumn = [
   {
     title: "抵质押人名称",
     dataIndex: "name",
-    width: 760,
+    width: 231,
     key: "name",
   },
   {
     title: "人员类别",
     dataIndex: "obligorType",
-    width: 760,
+    width: 140,
     key: "obligorType",
     render: (text) => OBLIGOR_TYPE[text],
   },
   {
     title: "证件号",
     dataIndex: "number",
-    width: 1200,
+    width: 228,
     key: "number",
   },
   {
     title: "生日",
     dataIndex: "birthday",
-    width: 760,
+    width: 160,
     key: "birthday",
   },
   {
     title: "性别",
     dataIndex: "gender",
-    width: 760,
+    width: 140,
     key: "gender",
     render: (text) => SEXS_TYPE[text],
   },
   {
     title: "备注",
     dataIndex: "notes",
-    width: 760,
+    width: 330,
     key: "notes",
   },
 ];
@@ -203,45 +292,45 @@ export const PledgersAndDebtorsColumn = [
   {
     title: "名称",
     dataIndex: "name",
-    width: 760,
+    width: 218,
     key: "name",
   },
   {
     title: "角色",
     dataIndex: "type",
-    width: 760,
+    width: 193,
     key: "type",
   },
   {
     title: "人员类别",
     dataIndex: "obligorType",
-    width: 760,
+    width: 180,
     key: "obligorType",
     render: (text) => OBLIGOR_TYPE[text],
   },
   {
     title: "证件号",
     dataIndex: "number",
-    width: 1200,
+    width: 206,
     key: "number",
   },
   {
     title: "生日",
     dataIndex: "birthday",
-    width: 760,
+    width: 124,
     key: "birthday",
   },
   {
     title: "性别",
     dataIndex: "gender",
-    width: 760,
+    width: 92,
     key: "gender",
     render: (text) => SEXS_TYPE[text],
   },
   {
     title: "备注",
     dataIndex: "notes",
-    width: 760,
+    width: 112,
     key: "notes",
   },
 ];

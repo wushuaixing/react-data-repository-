@@ -10,6 +10,7 @@ class SystemExtractInfo extends Component {
     msgsLists: [],
   };
 
+  //系统提取信息  抵押物信息 查看详情弹窗
   handleOpenMsgsModal = () => {
     this.props.handleOpenModal("msgsModalVisible", { id: 0, type: "" });
   };

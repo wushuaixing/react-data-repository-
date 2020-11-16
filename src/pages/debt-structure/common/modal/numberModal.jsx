@@ -2,31 +2,19 @@ import React from "react";
 import { Modal, Button, Table } from "antd";
 import { GuarantorsColumn, PledgersColumn, CreditorsColumn } from "../column";
 import NoDataIMG from "@/assets/img/no_data.png";
-import { OBLIGOR_TYPE } from "../type";
 
-class NumberModal extends React.Component {
+class NumberModal extends React.Component { //数字弹框
   getColumns = (params) => {
     if (params === "guarantorNum") {
       const columns = [
         {
           title: "保证人名称",
           dataIndex: "name",
-          width: 760,
+          width: 185,
           key: "name",
           render: (text, record) =>
             record.msgs &&
             record.msgs.map((item) => <p key={item.id}>{item.name}</p>),
-        },
-        {
-          title: "人员类别",
-          dataIndex: "obligorType",
-          width: 760,
-          key: "obligorType",
-          render: (text, record) =>
-            record.msgs &&
-            record.msgs.map((item) => (
-              <p key={item.id}>{OBLIGOR_TYPE[item.obligorType]}</p>
-            )),
         },
         ...GuarantorsColumn,
       ];
@@ -58,7 +46,7 @@ class NumberModal extends React.Component {
           destroyOnClose={true}
           footer={footer}
           maskClosable
-          width={658}
+          width={numberModalParams === "collateralNum" ? 1100 : 1300}
           className="number-modal"
           onCancel={this.handleClose}
         >
@@ -77,6 +65,7 @@ class NumberModal extends React.Component {
                   </div>
                 ),
               }}
+              scroll={{ y: 240 }} 
             />
           </div>
         </Modal>

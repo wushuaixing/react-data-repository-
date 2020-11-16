@@ -12,10 +12,10 @@ const getMsgs = () => ({
   buildingArea: "",
   hasLease: 0,
   hasSeizure: 0,
-  seizureSequence: 0,
-  mortgageSequence: 0,
+  seizureSequence: "",
+  mortgageSequence: "",
   consultPrice: "",
-  mortgagePrice: 0,
+  mortgagePrice: "",
   id: Math.random(),
   note: "",
 });
@@ -23,13 +23,24 @@ class CollateralMsgsInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: props.data,
+      data: [],
+      isChange: false,
     };
   }
   static defaultProps = {
     data: [],
     enble: true,
   };
+
+  UNSAFE_componentWillReceiveProps(props) {
+    const { data } = this.state;
+    !data.length &&
+      this.setState({
+        data: props.data,
+      });
+  }
+
+  //添加
   handleRowAdd = () => {
     const { data } = this.state;
     const arr = [...data, { ...getMsgs() }];
@@ -44,6 +55,7 @@ class CollateralMsgsInfo extends React.Component {
     );
   };
 
+  //删除
   handleRowDel = (index) => {
     const { data } = this.state;
     const arr = data;
@@ -70,10 +82,10 @@ class CollateralMsgsInfo extends React.Component {
     });
   };
 
+  //重置内容
   handleRowReset = (index) => {
     const { data } = this.state;
     const arr = data;
-    arr[index] = getMsgs();
     confirm({
       icon: (
         <Icon
@@ -83,7 +95,8 @@ class CollateralMsgsInfo extends React.Component {
         />
       ),
       content: "确认清空此抵押物信息？",
-      onOk: () =>
+      onOk: () => {
+        arr[index] = getMsgs();
         this.setState(
           {
             data: arr,
@@ -93,21 +106,32 @@ class CollateralMsgsInfo extends React.Component {
             const { data } = this.state;
             this.props.handleChange("collateralMsgs", data);
           }
-        ),
+        );
+      },
     });
   };
 
+  //通过val找key
   handFindKey = (obj, value, compare = (a, b) => a === b) => {
     return Object.keys(obj).find((i) => compare(obj[i], value));
   };
 
+  //保存
   handleSave = (val, index) => {
     const { data } = this.state;
     const arr = data;
     let obj = val;
-    obj.hasLease = this.handFindKey(HAS_TYPE, obj.hasLease);
-    obj.hasSeizure = this.handFindKey(HAS_TYPE, obj.hasSeizure);
+    obj.id = 0;
+    obj.hasLease = parseInt(this.handFindKey(HAS_TYPE, obj.hasLease));
+    obj.hasSeizure = parseInt(this.handFindKey(HAS_TYPE, obj.hasSeizure));
     obj.useType = this.handFindKey(USE_TYPE, obj.useType);
+    obj.buildingArea = parseInt(obj.buildingArea) || 0;
+    obj.consultPrice = parseInt(obj.consultPrice) || 0;
+    obj.landArea = parseInt(obj.landArea) || 0;
+    obj.mortgagePrice = parseInt(obj.mortgagePrice) || 0;
+    obj.owner = obj.owner.map((i) => {
+      return { name: i, id: 0, birthday: 0, number: 0 };
+    });
     arr[index] = obj;
     this.setState(
       {
@@ -120,14 +144,16 @@ class CollateralMsgsInfo extends React.Component {
     );
   };
 
-  handleSubmit = () => {
-    const { data } = this.state;
-    this.props.handleChange(data);
+  //角色信息更改后 所有人置空
+  handleChange = () => {
+    this.setState({
+      isChange: Math.random(),
+    });
   };
 
   render() {
-    const { data } = this.state;
-    const { owner, isEdit } = this.props;
+    const { data, isChange } = this.state;
+    const { dynamicOwners, isEdit } = this.props;
     return (
       <div className="debt-detail-components msgs-info" id="MsgsInfo">
         <div className="header">抵押物信息</div>
@@ -141,7 +167,8 @@ class CollateralMsgsInfo extends React.Component {
                 handleRowDel={this.handleRowDel}
                 handleSave={this.handleSave}
                 handleRowReset={this.handleRowReset}
-                owner={owner}
+                dynamicOwners={dynamicOwners}
+                isChange={isChange}
               />
             ) : (
               <ItemContent msgsList={item} key={item.id} index={index} />
@@ -168,33 +195,37 @@ class CollateralMsgsInfo extends React.Component {
 const ItemContent = (props) => {
   const {
     msgsList: {
-      collateralName,
-      category,
+      name,
+      type,
+      useType,
       landArea,
       buildingArea,
-      useType,
-      hasSeizure,
       hasLease,
+      hasSeizure,
       seizureSequence,
       mortgageSequence,
+      consultPrice,
+      mortgagePrice,
       note,
+      owner,
     },
     index,
   } = props;
+  const ownerList = (owner && owner.map((i) => i.name)) || [];
   const msgsList = [
-    collateralName,
-    category,
+    name,
+    type,
+    useType,
     landArea,
     buildingArea,
-    useType,
-    hasSeizure,
     hasLease,
+    hasSeizure,
     seizureSequence,
     mortgageSequence,
-    "-",
-    "10000",
-    "2000000",
+    consultPrice,
+    mortgagePrice,
     note,
+    ownerList.join(),
   ];
   return (
     <div className="item-container">

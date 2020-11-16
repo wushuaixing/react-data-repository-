@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { Popover, Icon, InputNumber, Checkbox } from "antd";
 
@@ -9,8 +9,9 @@ class AssetPackage extends Component {
     creditorsRightsPrincipal: 0,
     outstandingInterest: 0,
     totalAmountCreditorsRights: 0,
+    role: "",
   };
-
+  
   handleChange = (e, val) => {
     if (e && e.target) {
       this.props.handleChange(e.target.name, e.target.checked * 1);
@@ -18,36 +19,46 @@ class AssetPackage extends Component {
       this.props.handleChange(e, val);
     }
   };
+  
   render() {
     const {
       unitNumber,
       creditorsRightsPrincipal,
       outstandingInterest,
-      Summation,
+      summation,
       totalAmountCreditorsRights,
       isEdit,
+      role,
     } = this.props;
     return (
-      <div className="debt-detail-components debt-asset-package">
+      <div className="debt-detail-components debt-asset-package" id={role}>
         <div className="header">
-          资产包信息
-          <span>
-            <Popover content="户数会根据各户信息自动计数生成">
-              <Icon
-                type="exclamation-circle"
-                style={{
-                  color: "#808387",
-                  position: "relative",
-                  marginLeft: 8,
-                }}
-              />
-            </Popover>
-          </span>
+          {role === "assetPackage" ? (
+            <Fragment>
+              资产包信息
+              <span>
+                <Popover content="户数会根据各户信息自动计数生成">
+                  <Icon
+                    type="exclamation-circle"
+                    style={{
+                      color: "#808387",
+                      position: "relative",
+                      marginLeft: 8,
+                    }}
+                  />
+                </Popover>
+              </span>
+            </Fragment>
+          ) : (
+            <Fragment>债权信息</Fragment>
+          )}
         </div>
         {isEdit ? (
           <ul className="asset-package-edit">
-            <Item title="户数：" content={unitNumber} unit="户" />
-            <Item title="本金合计：">
+            {role === "assetPackage" && (
+              <Item title="户数：" content={unitNumber} unit="户" />
+            )}
+            <Item title={role==='assetPackage'?"本金合计：":'债权本金：'} classNames="creditorsRightsPrincipal">
               <div>
                 <InputNumber
                   precision={2}
@@ -56,16 +67,15 @@ class AssetPackage extends Component {
                   e
                   min={0}
                   placeholder="请输入金额"
-                  name="creditorsRightsPrincipal"
                   onChange={(e) =>
                     this.handleChange("creditorsRightsPrincipal", e)
                   }
                   value={creditorsRightsPrincipal}
                 />
-                &nbsp;&nbsp;元
+                <span style={{marginLeft:19}}>元</span>
               </div>
             </Item>
-            <Item title="利息合计：">
+            <Item title={role==='assetPackage'?"利息合计：":'利息：'}>
               <div>
                 <InputNumber
                   precision={2}
@@ -73,11 +83,10 @@ class AssetPackage extends Component {
                   max={999999999.99}
                   min={0}
                   placeholder="请输入金额"
-                  name="outstandingInterest"
                   onChange={(e) => this.handleChange("outstandingInterest", e)}
                   value={outstandingInterest}
                 />
-                &nbsp;&nbsp;元
+                <span style={{marginLeft:19}}>元</span>
               </div>
             </Item>
             <Item title="本息合计：">
@@ -88,19 +97,18 @@ class AssetPackage extends Component {
                   max={999999999.99}
                   min={0}
                   placeholder="请输入金额"
-                  name="totalAmountCreditorsRights"
                   onChange={(e) =>
                     this.handleChange("totalAmountCreditorsRights", e)
                   }
                   value={totalAmountCreditorsRights}
-                  disabled={Boolean(Summation)}
+                  disabled={Boolean(summation)}
                 />
-                &nbsp;&nbsp;元
-                <span style={{ marginLeft: 20 }}>
+                <span style={{marginLeft:19}}>元</span>
+                <span style={{ marginLeft: 24 }}>
                   <Checkbox
-                    name="Summation"
+                    name="summation"
                     onChange={(e) => this.handleChange(e)}
-                    checked={Boolean(Summation)}
+                    checked={Boolean(summation)}
                   >
                     本息自动求和
                   </Checkbox>
@@ -110,13 +118,13 @@ class AssetPackage extends Component {
           </ul>
         ) : (
           <ul className="asset-package-disabled">
-            <Item title="户数：" content={unitNumber} index={true} unit="元" />
+            <Item title="户数：" content={unitNumber} index={true} unit="户" />
             <Item
-              title="本金合计："
+              title={role==='assetPackage'?"本金合计：":'债权本金：'}
               content={creditorsRightsPrincipal}
               unit="元"
             />
-            <Item title="利息合计：" content={outstandingInterest} unit="元" />
+            <Item title={role==='assetPackage'?"利息合计：":'利息：'} content={outstandingInterest} unit="元" />
             <Item
               title="本息合计："
               content={totalAmountCreditorsRights}
@@ -130,14 +138,16 @@ class AssetPackage extends Component {
 }
 
 const Item = (props) => {
-  const { title, children, content, unit } = props;
+  const { title, children, content, unit,classNames } = props;
   return (
     <li>
-      <div>{title}</div>
+      <div className={classNames}>{title}</div>
       <div>
         {children
           ? children
-          : `${parseInt(content).toLocaleString()} ${unit}` || `- ${unit}`}
+          : content
+          ? `${parseInt(content).toLocaleString()} ${unit}`
+          : "-"}
       </div>
     </li>
   );

@@ -1,6 +1,7 @@
 .yc-debt-detail{
     padding: 14px 40px 0;
     font-size: 14px;
+    position: relative;
     .debt-detail-components{
         width: 100%;
         .header{
@@ -44,6 +45,10 @@
         .ant-popover-arrow{
             left:20px !important;
         }
+    }
+    .debt-detail-action{
+        position: absolute;
+        right: 40px;
     }
     .debt-basic{
         ul{
@@ -130,6 +135,11 @@
         }
     }
     .debt-house-hold{
+        .no-save{
+            position: relative;
+            padding: 0 !important;
+            text-align: center;
+        }
         .users-info{
             .info-line{
                 display: flex;
@@ -186,6 +196,18 @@
             &:last-child{
                 width: 100%;
             }
+        }
+    }
+}
+.debt-detail-confirm{
+    .ant-modal-confirm-content{
+       font-size: 14px !important;
+       line-height: 18px !important;
+    }
+    .ant-modal-confirm-btns{
+        .ant-btn{
+            width: auto;
+            min-width: 84px;
         }
     }
 }

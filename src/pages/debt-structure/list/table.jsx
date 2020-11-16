@@ -1,7 +1,7 @@
 import React from "react";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Tabs, Table, Button } from "antd";
-import { Columns } from "./common/column";
+import { ListColumns } from "../common/column";
 import createPaginationProps from "@/utils/pagination";
 import NoDataIMG from "@/assets/img/no_data.png";
 import { STATUS_TYPE } from "../common/type";
@@ -18,16 +18,19 @@ class DebtTable extends React.Component {
     timeText: "",
   };
 
+  //切换tab
   handleTabChange = (key) => {
     this.props.onTabChange(key);
   };
 
+  //切换页码
   handlePageChange = (pagination) => {
     this.props.onPageChange(pagination.current);
   };
 
+  //跳转详情页
   handGoDetail = (record) => {
-    const { approverStauts, id } = record;
+    const { approverStauts, id, status } = record; // 最后更新者状态 0-正常账户 1-删除账户  |  id  | 状态 0待标记 1继续标注 2已标记/未检查 3检查无误
     const { role } = this.props;
     let approverStatus = approverStauts;
     if (role === "admin") {
@@ -36,28 +39,33 @@ class DebtTable extends React.Component {
     if (role === "noraml") {
       approverStatus = 1;
     }
-    this.props.history.replace(`/index/debtDetail/${approverStatus}/${id}`);
+    this.props.history.push(
+      `/index/debtDetail/${approverStatus}/${status}/${id}`
+    );
   };
 
   render() {
     const { data, total, tabIndex, page, role, panes, timeText } = this.props;
-    const paginationProps = createPaginationProps(page, total);
+    const paginationProps = createPaginationProps(page, total); //分页器组件
     let dynamic_column_index = 3;
     if (role === "normal" || (role === "admin" && tabIndex === 1)) {
+      //正常账号和管理员未标注列表  不显示标注人员列
       dynamic_column_index = 2;
     }
     const btnText = (record) => {
       const { approverStauts, status } = record;
       if (role === "admin" || (role === "check" && approverStauts === 0)) {
+        //管理员和检察人员检查 正常账号
         return "查看";
       } else if (role === "check" && approverStauts === 1) {
+        //检查人员检查 已删除||自动标注
         return "修改标注";
       } else {
-        return STATUS_TYPE[status];
+        return STATUS_TYPE[status]; //标注人员
       }
     };
     const columns = [
-      ...Columns.slice(0, dynamic_column_index),
+      ...ListColumns.slice(0, dynamic_column_index),
       {
         title: "操作",
         dataIndex: "action",
@@ -76,7 +84,7 @@ class DebtTable extends React.Component {
                   this.handGoDetail(record);
                 }}
               >
-                <Link to="/index/debtDetail">{btnText(record)}</Link>
+                <span>{btnText(record)}</span>
               </Button>
             </span>
           );

@@ -9,9 +9,15 @@ class UnknownRelationShip extends Component {
     idEdit: true,
   };
 
+  //未知关系详情
   goDetail(id) {
-    const { packageID, isEdit } = this.props;
-    window.open(`/unknownRelationShipDetail/${packageID}/${id}/0/${isEdit}`);
+    const { packageId, isEdit } = this.props;
+    window.open(`/unknownRelationShipDetail/${packageId}/${id}/1/${isEdit}`);
+  }
+
+  //删除
+  handleDel=(id)=>{
+    this.props.handleDel(id);
   }
 
   getColumns = (isEdit) => {
@@ -28,7 +34,7 @@ class UnknownRelationShip extends Component {
               type: "guarantorNum",
             })}
           >
-            {guarantorNum}
+            {guarantorNum||0}
           </span>
         ),
       },
@@ -44,7 +50,7 @@ class UnknownRelationShip extends Component {
               type: "pledgerNum",
             })}
           >
-            {pledgerNum}
+            {pledgerNum||0}
           </span>
         ),
       },
@@ -60,7 +66,7 @@ class UnknownRelationShip extends Component {
               type: "collateralNum",
             })}
           >
-            {collateralNum}
+            {collateralNum||0}
           </span>
         ),
       },
@@ -78,7 +84,7 @@ class UnknownRelationShip extends Component {
                     <span onClick={() => this.goDetail(record.id)}>编辑</span>
                   </span>
                   <span>|</span>
-                  <span>删除</span>
+                  <span onClick={()=>this.handleDel(record.id)}>删除</span>
                 </div>
               ) : (
                 <span>
@@ -100,11 +106,15 @@ class UnknownRelationShip extends Component {
     ];
   };
 
+  //数字弹框
   handleOpenGuarantorModal = (params) => {
     this.props.handleOpenModal("NumberModalVisible", params);
   };
   render() {
-    const { data, isEdit } = this.props;
+    const { data, isEdit,unitNumber} = this.props;
+    const isIdNull=data&&data.id;
+    const unKnowList=isIdNull?[{...data}]:[];
+    const disabled=unitNumber<=1;
     return (
       <div className="debt-detail-components debt-house-hold">
         <div className="header">
@@ -117,6 +127,7 @@ class UnknownRelationShip extends Component {
               ghost
               style={{ minWidth: 88, height: 32 }}
               onClick={() => this.goDetail(0)}
+              disabled={disabled}
             >
               添加未知对应关系
             </Button>
@@ -126,8 +137,8 @@ class UnknownRelationShip extends Component {
           rowClassName="table-list"
           columns={this.getColumns(isEdit)}
           pagination={false}
-          dataSource={data}
-          rowKey={(record) => record.id}
+          dataSource={unKnowList}
+          rowKey={() =>unKnowList.length}
           locale={{
             emptyText: (
               <div className="no-data-box">

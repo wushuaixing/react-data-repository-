@@ -23,7 +23,7 @@
     .yc-anchor{
         height: 56px;
         border-bottom: 1px solid #E5E5E5;
-        margin: 11px 0 30px;
+        margin:9px 0 30px;
         position: sticky;
         top: 0;
         z-index: 5;
@@ -85,8 +85,8 @@
             left:20px !important;
         }
     }
-    .debt-rights{
-        .rights-disabled{
+    .debt-asset-package{
+        .asset-package-disabled{
             display: flex;
             line-height: 14px;
             margin-bottom: 46px;
@@ -104,7 +104,7 @@
                 margin-right: 55px;
             }
         }
-        .rights-edit{
+        .asset-package-edit{
             display: flex;
             line-height: 14px;
             margin-bottom: 32px;
@@ -115,8 +115,11 @@
                 display: flex;
                 align-items: center;
                 margin-right: 50px;
+                .ant-input-number{
+                    width: 143px !important;
+                }
                 .creditorsRightsPrincipal{
-                    width: 95px;
+                    width: 95px !important;
                     text-align: right;
                 }
             }
@@ -193,7 +196,25 @@
             display: flex;
             align-items: center;
             margin-bottom: 20px;
-            width: 60px;
+            width: 48px;
+        }
+        .amount{
+            position: relative;
+            input{
+                position: absolute;
+                top: 14px;
+                left: 0;
+            }
+        }
+        .auto_complete_content{
+            margin-bottom: 20px;
+        }
+        .ant-table-row-cell-break-word{
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .guarantors-name{
+            padding-left: 20px !important;
         }
     }
     .pledgers-info{
@@ -295,13 +316,13 @@
         //自动联想输入框
         .atuo_complete,.atuo_complete_nodata{
             position: relative;
-            width: 240px !important;
+            width: 150px !important;
             .ant-select-search__field {
-                width: 240px !important;
+                width: 150px !important;
                 margin: 0 !important;
             }
             .ant-select-selection__rendered {
-                width: 220px !important;
+                width: 140px !important;
             }
         }
         //无数据时样式
@@ -318,22 +339,27 @@
             padding-left: 10px;
             margin-bottom: 0;
             position: relative;
-            top: -8px;
+            top: 8px;
         }
         
         .auto_complete_nodatas{
-            width: 240px;
+            width: 150px;
             height: 46px;
             background: #FFFFFF;
             box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
             border-radius: 2px;
             border: 1px solid #DDE0E7; 
             color: #7D8699;
-            font-size: 14px;
+            font-size: 12px;
             text-align: center;
             line-height: 46px;
             position: relative;
-            top: -12px;
+            top: 8px;
+        }
+        .ant-select-dropdown-menu{
+            li{
+                white-space: pre-wrap;
+            }
         }
     }
     .save-btn{

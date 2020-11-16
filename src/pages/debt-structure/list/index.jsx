@@ -23,16 +23,16 @@ class DebtList extends React.Component {
       { title: "待标注", key: "0", rule: "normal", status: 1 },
       { title: "已标注", key: "1", rule: "normal", status: 2 },
     ];
-    const panes = data.filter((i) => i.rule === rule);
+    const panes = data.filter((i) => i.rule === rule); // 高阶组件包裹 rule为角色
     this.state = {
       page: 1,
       total: 0,
-      tableList: [],
-      tabIndex: 0,
+      tableList: [], //列表数据
+      tabIndex: 0, //tab列
       loading: false,
       panes,
-      searchParams: {},
-      buttonDisabled: true,
+      searchParams: {}, //搜索参数
+      buttonDisabled: true, //获取新数据按钮 是否置灰
     };
   }
 
@@ -40,7 +40,7 @@ class DebtList extends React.Component {
     this.getTableList();
   }
 
-  /*只有管理员下的全部和未标注列显示抓取时间，其它显示初次标注时间*/
+  // 只有管理员下的全部和未标注列显示抓取时间，其它显示初次标注时间
   get timeText() {
     const { tabIndex } = this.state;
     if (localStorage.getItem("userState") === "管理员" && tabIndex !== 2) {
@@ -50,6 +50,7 @@ class DebtList extends React.Component {
     }
   }
 
+  // 获取参数
   get params() {
     const {
       ruleSource: { rule },
@@ -64,6 +65,7 @@ class DebtList extends React.Component {
     return this.searchFormRef.props.form;
   }
 
+  // 获取列表数据
   getTableList = () => {
     this.setState({
       loading: true,
@@ -77,7 +79,7 @@ class DebtList extends React.Component {
         }
       })
       .then((dataObject) => {
-        if (dataObject.data.length === 0) {
+        if (dataObject.data.length === 0) { //待标记列表中有数据时，不允许获取新数据，按钮置灰
           this.setState({
             buttonDisabled: false,
           });
@@ -105,7 +107,7 @@ class DebtList extends React.Component {
       });
   };
 
-  /*切换tab*/
+  // 切换tab
   handleTabChange = (key) => {
     this.searchFilterForm.resetFields();
     this.setState(
@@ -146,7 +148,7 @@ class DebtList extends React.Component {
     );
   };
 
-  /*清空搜索条件*/
+  // 清空搜索条件
   handleClearSearch = () => {
     this.setState(
       {
@@ -158,6 +160,7 @@ class DebtList extends React.Component {
     );
   };
 
+  // 获取新数据
   getNewData = () => {
     this.setState({ loading: true });
     DebtApi.getNewCreditorsData().then(() => {
@@ -181,7 +184,7 @@ class DebtList extends React.Component {
     } = this.state;
     const {
       ruleSource: { rule },
-    } = this.props;
+    } = this.props; 
     document.title = "债权结构化";
     return (
       <div className="yc-debt-container">
@@ -189,14 +192,14 @@ class DebtList extends React.Component {
           <BreadCrumb
             texts={["拍卖债权结构化"]}
             breadButtonText={
-              rule === "normal" && tabIndex === 0 && "获取新数据"
+              rule === "normal" && tabIndex === 0 && "获取新数据" //结构化账号 待标记列表下 显示
             }
             handleClick={this.getNewData}
             disabled={loading || buttonDisabled}
           />
           <div className="debt-search-content">
             <SearchForm
-              wrappedComponentRef={(inst) => (this.searchFormRef = inst)}
+              wrappedComponentRef={(inst) => (this.searchFormRef = inst)} //清空搜索条件时 触发子组件setFiledValues方法
               role={rule}
               tabIndex={tabIndex}
               timeText={this.timeText}

@@ -6,22 +6,43 @@ const debtApi = {
     getNewCreditorsData: () => axios.get('/api/asset/creditors/control/getNewCreditorsData'),
 
     // 标注人员列表
-    getStructuredPersonnels: (name) => axios.get('/api/asset/creditors/control/getStructuredPersonnel', name),
+    getStructuredPersonnels: (name) => axios.get('/api/asset/creditors/control/getStructuredPersonnel',name),
 
     // 债权结构化列表
-    creditorsList: (params) => axios.post('/api/asset/creditors/control/creditorsList', params),
+    creditorsList: (params) => axios.post('/api/asset/creditors/control/creditorsList',params),
 
     //债权结构化(包)详情
-    getcreditorsDetail: (id) => axios.get(`/api/asset/creditors/control/creditorsDetail/${id}`),
+    getCreditorsDetail: (id) => axios.get(`/api/asset/creditors/control/creditorsDetail/${id}`),
 
     //债权结构化(包)详情 各户信息列表
-    getcreditorsUnitsList: (id, page) => axios.get(`/api/asset/creditors/control/creditorsUnitsList/${id}/${page}`),
+    getCreditorsUnitsList: (id, page) => axios.get(`/api/asset/creditors/control/creditorsUnitsList/${id}/${page}`),
+
+    //获取保证人数信息
+    getGuarantorMsg: (params) => axios.post('/api/asset/creditors/control/getGuarantorMsg',params),
+
+    //获取抵质押人数信息
+    getCreditorsMsg: (params) => axios.post('/api/asset/creditors/control/getCreditorsMsg',params),
+
+    //获取抵押物数信息
+    getCollateralMsg: (params) => axios.post('/api/asset/creditors/control/getCollateralMsg',params),
+
+    //户_删除
+    deleteUnitByID: (id) => axios.post(`/api/asset/creditors/control/deleteUnitByID/${id}`),
+
+    //保存并标注下一条
+    saveAndGetNext: (params) => axios.post('/api/asset/creditors/control/saveAndGetNext',params),
+    
+    //保存
+    saveDetail: (params) => axios.post('/api/asset/creditors/control/saveDetail',params),
+
+    //检查无误
+    checkAndSave: (id) => axios.post(`/api/asset/creditors/control/checkAndSave/${id}`),
 
     //债权户(未知)信息详情
-    getcreditorsUnitDetail: (id) => axios.get(`/api/asset/creditors/control/creditorsUnitDetail/${id}`),
+    getCreditorsUnitDetail: (id) => axios.get(`/api/asset/creditors/control/creditorsUnitDetail/${id}`),
 
     //债权户(未知)信息详情
-    unitSaveDetail: (params) => axios.post('/api/asset/creditors/control/unitSaveDetail', params),
+    unitSaveDetail: (params) => axios.post('/api/asset/creditors/control/unitSaveDetail',params),
 
     //债权结构化源网站提取页HTML
     htmlDetail: (id,isDebt) => {

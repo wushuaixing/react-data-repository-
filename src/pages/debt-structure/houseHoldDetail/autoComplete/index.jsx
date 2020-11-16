@@ -129,7 +129,7 @@ class AutoCompleteInput extends Component {
               : "atuo_complete"
           } // 未匹配到对应的工商信息时边框为黄色
           optionLabelProp="text" //回填到选择框的 Option 的属性值，默认是 Option 的子元素
-          style={{ marginBottom: 20, height: 32 }}
+          style={{ height: 32 ,width:150}}
         >
           <Input
             onCompositionStart={this.judgeChinese} //使用拼音输入法开始输入汉字时，这个事件就会被触发

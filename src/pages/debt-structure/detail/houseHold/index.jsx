@@ -5,6 +5,7 @@ import createPaginationProps from "@/utils/pagination";
 import { HouseHoldColumn } from "../../common/column";
 import NoDataIMG from "@/assets/img/no_data.png";
 
+
 class HouseHold extends Component {
   static defaultProps = {
     isEdit: false,
@@ -13,11 +14,16 @@ class HouseHold extends Component {
     total: 0,
   };
 
+  //去户详情页
   goDetail(id) {
     const { packageId, isEdit } = this.props;
     window.open(`/houseHoldDetail/${packageId}/${id}/0/${isEdit}`);
   }
 
+  //删除
+  handleDel=(id)=>{
+    this.props.handleDel(id);
+  }
   getColumns = (isEdit) => {
     return [
       ...HouseHoldColumn,
@@ -28,7 +34,7 @@ class HouseHold extends Component {
         key: "guarantorNum",
         render: (guarantorNum, record) => (
           <span
-            onClick={this.handleOpenGuarantorModal.bind(this, {
+            onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "guarantorNum",
             })}
@@ -44,7 +50,7 @@ class HouseHold extends Component {
         key: "pledgerNum",
         render: (pledgerNum, record) => (
           <span
-            onClick={this.handleOpenGuarantorModal.bind(this, {
+            onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "pledgerNum",
             })}
@@ -60,7 +66,7 @@ class HouseHold extends Component {
         key: "collateralNum",
         render: (collateralNum, record) => (
           <span
-            onClick={this.handleOpenGuarantorModal.bind(this, {
+            onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "collateralNum",
             })}
@@ -83,7 +89,7 @@ class HouseHold extends Component {
                     <span onClick={() => this.goDetail(record.id)}>编辑</span>
                   </span>
                   <span>|</span>
-                  <span>删除</span>
+                  <span onClick={()=>this.handleDel(record.id)}>删除</span>
                 </div>
               ) : (
                 <span>
@@ -105,12 +111,14 @@ class HouseHold extends Component {
     ];
   };
 
-  handleOpenGuarantorModal = (params) => {
+  //数字弹框 
+  handleNumberModal = (params) => {
     this.props.handleOpenModal("NumberModalVisible", params);
   };
 
+  //各户信息列表 翻页
   handlePageChange = (pagination) => {
-    console.log(pagination);
+    this.props.handlePageChange(pagination.current);
   };
 
   render() {

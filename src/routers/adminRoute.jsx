@@ -32,7 +32,7 @@ const ContentMain = [
     key="a4"
   />,
   <Route
-    path="/index/debtDetail/:approverStatus/:id"
+    path="/index/debtDetail/:approverStatus/:debtStatus/:id"
     component={DebtDetail}
     key="a9"
   />,
