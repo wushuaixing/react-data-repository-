@@ -8,12 +8,7 @@ class Item extends Component {
     super();
     this.state = {
       isRoleChange: false,
-      collateralMsg: [],
     };
-  }
-
-  componentDidMount() {
-    this.getCollateralMsgList();
   }
 
   //置空所有人信息
@@ -54,22 +49,8 @@ class Item extends Component {
     this.props.form.resetFields();
   };
 
-  getCollateralMsgList = () => {
-    const { id } = this.props;
-    DebtApi.getCollateralMsgList(id).then((result) => {
-      if (result.data.code === 200) {
-        const data = result.data.data;
-        this.setState({
-          collateralMsg: data,
-        });
-      } else {
-        message.warning(result.data.message);
-      }
-    });
-  };
-
   handleSelect = (val) => {
-    const { collateralMsg } = this.state;
+    const { collateralMsg } = this.props;
     const { index } = this.props;
     let id = "";
     collateralMsg.forEach((i) => {
@@ -99,9 +80,9 @@ class Item extends Component {
       form: { getFieldDecorator },
       index,
       dynamicOwners,
+      collateralMsg,
     } = this.props;
     const ownerList = owner && owner.map((i) => i.name);
-    const { collateralMsg } = this.state;
     const collateralMsgList = (collateralMsg || []).map((i) => i.name);
     return (
       <Form layout="inline" className="yc-form" key={`${name}${index}`}>

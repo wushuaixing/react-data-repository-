@@ -27,12 +27,17 @@ class CollateralMsgsInfo extends React.Component {
     this.state = {
       data: [],
       isChange: false,
+      collateralMsg:[],
     };
   }
   static defaultProps = {
     data: [],
     enble: true,
   };
+
+  componentDidMount(){
+    this.getCollateralMsgList();
+  }
 
   UNSAFE_componentWillReceiveProps(props) {
     const { data } = this.state;
@@ -41,6 +46,21 @@ class CollateralMsgsInfo extends React.Component {
         data: props.data,
       });
   }
+
+  //爬虫爬取抵押物名称信息
+  getCollateralMsgList = () => {
+    const { id } = this.props;
+    DebtApi.getCollateralMsgList(id).then((result) => {
+      if (result.data.code === 200) {
+        const data = result.data.data;
+        this.setState({
+          collateralMsg: data,
+        });
+      } else {
+        message.warning(result.data.message);
+      }
+    });
+  };
 
   //添加
   handleRowAdd = () => {
@@ -148,6 +168,7 @@ class CollateralMsgsInfo extends React.Component {
     );
   };
 
+  //选中抵押物名称，则自动填充爬取的此抵质押物的所有字段信息
   handleSelect = (id, index) => {
     const { data } = this.state;
     let arr = data;
@@ -177,8 +198,8 @@ class CollateralMsgsInfo extends React.Component {
   };
 
   render() {
-    const { data, isChange } = this.state;
-    const { dynamicOwners, isEdit, id } = this.props;
+    const { data, isChange,collateralMsg } = this.state;
+    const { dynamicOwners, isEdit } = this.props;
     return (
       <div className="debt-detail-components msgs-info" id="MsgsInfo">
         <div className="header">抵押物信息</div>
@@ -195,8 +216,8 @@ class CollateralMsgsInfo extends React.Component {
                   handleRowReset={this.handleRowReset}
                   dynamicOwners={dynamicOwners}
                   isChange={isChange}
-                  id={id}
                   handleSelect={this.handleSelect}
+                  collateralMsg={collateralMsg}
                 />
               ) : (
                 <ItemContent msgsList={item} key={item.id} index={index} />

@@ -47,46 +47,47 @@ class HouseHoldDetail extends Component {
         params: { id },
       },
     } = props;
-    DebtApi.getCreditorsUnitDetail(parseInt(id)).then((result) => {
-      const res = result.data;
-      if (res.code === 200) {
-        const data = res.data;
-        this.setState(
-          {
-            id: data.id,
-            collateralMsgs: data.collateralMsgs, //抵押物信息
-            debtors: data.debtors, //债务人信息
-            guarantors: data.guarantors, //保证人信息
-            pledgers: data.pledgers, //抵质押人信息
-            creditorsRightsPrincipal: data.creditorsRightsPrincipal, //债权本金
-            outstandingInterest: data.outstandingInterest, //利息
-            totalAmountCreditorsRights: data.totalAmountCreditorsRights, //本息合计
-          },
-          () => {
-            const {
-              debtors,
-              guarantors,
-              pledgers,
-              detailInfo,
-              collateralMsgs,
-            } = this.state;
-            const arr = detailInfo;
-            arr.debtors = debtors;
-            arr.guarantors[0].msgVOS = guarantors.length
-              ? guarantors[0].msgVOS
-              : [];
-            arr.pledgers = pledgers;
-            arr.collateralMsgs = collateralMsgs;
-            this.setState(
-              {
-                detailInfo: arr,
-              },
-              () => this.getOwners()
-            );
-          }
-        );
-      }
-    });
+    Boolean(parseInt(id)) &&
+      DebtApi.getCreditorsUnitDetail(parseInt(id)).then((result) => {
+        const res = result.data;
+        if (res.code === 200) {
+          const data = res.data;
+          this.setState(
+            {
+              id: data.id,
+              collateralMsgs: data.collateralMsgs, //抵押物信息
+              debtors: data.debtors, //债务人信息
+              guarantors: data.guarantors, //保证人信息
+              pledgers: data.pledgers, //抵质押人信息
+              creditorsRightsPrincipal: data.creditorsRightsPrincipal, //债权本金
+              outstandingInterest: data.outstandingInterest, //利息
+              totalAmountCreditorsRights: data.totalAmountCreditorsRights, //本息合计
+            },
+            () => {
+              const {
+                debtors,
+                guarantors,
+                pledgers,
+                detailInfo,
+                collateralMsgs,
+              } = this.state;
+              const arr = detailInfo;
+              arr.debtors = debtors;
+              arr.guarantors[0].msgVOS = guarantors.length
+                ? guarantors[0].msgVOS
+                : [];
+              arr.pledgers = pledgers;
+              arr.collateralMsgs = collateralMsgs;
+              this.setState(
+                {
+                  detailInfo: arr,
+                },
+                () => this.getOwners()
+              );
+            }
+          );
+        }
+      });
   };
 
   //保存并关闭
@@ -308,9 +309,6 @@ class HouseHoldDetail extends Component {
       },
     } = this.props;
     const noEdit = parseInt(isEdit);
-    // const text = isHouseHoldDetail ? "添加户" : "未知对应关系";
-    // const titleText=isHouseHoldDetail ? debtors.map(i=>i.name).join("、"):"未知对应关系";
-    // document.title=titleText;
     const text = () => {
       if (isHouseHoldDetail) {
         if (Boolean(parseInt(id))) {
