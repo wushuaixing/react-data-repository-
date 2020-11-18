@@ -9,24 +9,28 @@ class BatchAddModal extends React.Component {
       text: "",
     };
   }
+  
   handleCancel = () => {
     this.props.handleCloseModal("batchAddModalVisible");
     this.setState({
       text: "",
     });
   };
+
   handleSubmit = (text) => {
     this.props.handleSubmit(text);
     this.setState({
       text: "",
     });
   };
+
   handleChange = (e) => {
     const { value } = e.target;
     this.setState({
       text: value,
     });
   };
+
   render() {
     const { visible } = this.props;
     const { text } = this.state;

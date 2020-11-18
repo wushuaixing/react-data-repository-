@@ -20,27 +20,23 @@ export const ListColumns = [
     dataIndex: "status",
     width: 285,
     key: "status",
-    render: (status) => (
-      <span>
-        {(() => {
-          let color = "default";
-          let text = "未标注";
-          if (status === 2) {
-            if (localStorage.getItem("userState") === "检查人员") {
-              text = "未检查";
-            } else {
-              color = "success";
-              text = "已标注";
-            }
-          }
-          if (status === 3) {
-            color = "success";
-            text = "检查无误";
-          }
-          return <Badge status={color} text={text} />;
-        })()}
-      </span>
-    ),
+    render: (status) => {
+      let color = "default";
+      let text = "未标注";
+      if (status === 2) {
+        if (localStorage.getItem("userState") === "检查人员") {
+          text = "未检查";
+        } else {
+          color = "success";
+          text = "已标注";
+        }
+      }
+      if (status === 3) {
+        color = "success";
+        text = "检查无误";
+      }
+      return <Badge status={color} text={text} />;
+    },
   },
   {
     title: "标注人员",
@@ -48,7 +44,8 @@ export const ListColumns = [
     key: "approverName",
     render: (text, record) => (
       <span>
-        {record.approverStauts === 0 && text !== "自动标注"
+        {(record.approverStauts === 0 && text !== "自动标注") ||
+        record.approverStauts === -1
           ? `${text}('已删除')`
           : text}
       </span>
@@ -63,70 +60,66 @@ export const HouseHoldColumn = [
     width: 120,
     key: "accountId",
     className: "no-save",
-    render: (text, record) => {
-      return (
-        <div>
-          {record.status === 0 &&
-            localStorage.getItem("userState") !== "管理员" && (
-              <img
-                src={NoSAVEIMG}
-                alt=""
-                style={{ position: "absolute", left: 0, top: 0 }}
-              />
-            )}
-          {text}
-        </div>
-      );
-    },
+    render: (text, record) => (
+      <div>
+        {record.status === 0 &&
+          localStorage.getItem("userState") !== "管理员" && (
+            <img
+              src={NoSAVEIMG}
+              alt=""
+              style={{ position: "absolute", left: 0, top: 0 }}
+            />
+          )}
+        {text}
+      </div>
+    ),
   },
   {
     title: "债务人信息",
     dataIndex: "users",
     width: 478,
     key: "users",
-    render: (text, record) => {
-      return (
-        <div>
-          {record && record.users && record.users.length ? (
-            <div className="users-info">
-              {record.users.map((item, index) => {
-                return (
-                  <div className="info-line" key={`info${index}`}>
-                    <div className="name">名称：{item.name || "-"}</div>
-                    {!item.type && (
-                      <div className="number">证件号：{item.number || "-"}</div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            "-"
-          )}
-        </div>
-      );
-    },
+    render: (text, record) => (
+      <div>
+        {record && record.users && record.users.length ? (
+          <div className="users-info">
+            {record.users.map((item, index) => {
+              return (
+                <div className="info-line" key={`info${index}`}>
+                  <div className="name">名称：{item.name || "-"}</div>
+                  {!item.type && (
+                    <div className="number">证件号：{item.number || "-"}</div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          "-"
+        )}
+      </div>
+    ),
   },
   {
     title: "债权信息",
     dataIndex: "Principal",
     width: 220,
     key: "Principal",
-    render: (text, record) => {
-      return (
-        <div>
-          {record && (
-            <div className="Principal">
-              <p>
-                债权本金：
-                {record.rightsPrincipal ? `${record.rightsPrincipal}元` : "-"}{" "}
-              </p>
-              <p>利息：{record.interest ? `${record.interest}元` : "-"} </p>
-            </div>
-          )}
-        </div>
-      );
-    },
+    render: (text, record) => (
+      <div>
+        {record && (
+          <div className="Principal">
+            <p>
+              债权本金：
+              {record.rightsPrincipal
+                ? `${record.rightsPrincipal}元`
+                : "-"}{" "}
+            </p>
+            <p>利息：{record.interest ? `${record.interest}元` : "-"} </p>
+          </div>
+        )}
+      </div>
+    ),
   },
 ];
 

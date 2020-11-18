@@ -39,6 +39,9 @@ class DebtTable extends React.Component {
     if (role === "normal") {
       approverStatus = 0;
     }
+    if(approverStauts===-1){
+      approverStatus = 0;
+    }
     this.props.history.push(
       `/index/debtDetail/${approverStatus}/${status}/${id}`
     );
