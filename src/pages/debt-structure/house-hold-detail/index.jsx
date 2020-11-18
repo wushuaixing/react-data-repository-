@@ -40,7 +40,7 @@ class HouseHoldDetail extends Component {
     this.getDetailInfo(this.props);
   }
 
-  //债权户(未知)信息详情
+  //债权户(未知)信息详情 添加户和未知关系时不请求
   getDetailInfo = (props) => {
     const {
       match: {
@@ -62,22 +62,16 @@ class HouseHoldDetail extends Component {
               creditorsRightsPrincipal: data.creditorsRightsPrincipal, //债权本金
               outstandingInterest: data.outstandingInterest, //利息
               totalAmountCreditorsRights: data.totalAmountCreditorsRights, //本息合计
+              collateralMsgsData: data.collateralMsgs, //抵押物信息
             },
             () => {
-              const {
-                debtors,
-                guarantors,
-                pledgers,
-                detailInfo,
-                collateralMsgs,
-              } = this.state;
+              const { debtors, guarantors, pledgers, detailInfo } = this.state;
               const arr = detailInfo;
               arr.debtors = debtors;
               arr.guarantors[0].msgVOS = guarantors.length
                 ? guarantors[0].msgVOS
                 : [];
               arr.pledgers = pledgers;
-              arr.collateralMsgs = collateralMsgs;
               this.setState(
                 {
                   detailInfo: arr,
@@ -108,10 +102,10 @@ class HouseHoldDetail extends Component {
       type: parseInt(type), //类型(0户 1未知户)
       packageID: parseInt(packageId), //包id
       id: parseInt(id), //户id
-      collateralMsgs: collateralMsgsData, //抵押物信息
       creditorsRightsPrincipal, //债权本金
       outstandingInterest, //利息
       totalAmountCreditorsRights, //本息合计
+      collateralMsgs: collateralMsgsData, //抵押物信息
       ...detailInfo, //保证人信息  抵质押人信息 债务人信息
     };
     const isHouseHoldDetail = window.location.href.includes("houseHoldDetail");
@@ -192,9 +186,9 @@ class HouseHoldDetail extends Component {
   //债权信息 抵押物信息 变更
   handleDebtRightsChange = (key, value) => {
     if (key === "collateralMsgs") {
-      let arr = filters
-        .blockEmptyRow(value, ["name"])
-        .concat(value.filter((i) => i.owner && i.owner.length > 0));
+      let arr = filters.blockEmptyRow(value, ["name"]).length
+        ? filters.blockEmptyRow(value, ["name"])
+        : value.filter((i) => i.owner && i.owner.length > 0);
       this.setState({
         collateralMsgsData: arr,
       });
@@ -233,7 +227,7 @@ class HouseHoldDetail extends Component {
         return params.msgs.length > 0;
       });
     } else {
-      arr[key] = filters.blockEmptyRow(value, ["name", "number", "owner"]);
+      arr[key] = filters.blockEmptyRow(value, ["name", "number"]);
     }
     this.setState(
       {

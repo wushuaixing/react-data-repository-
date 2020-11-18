@@ -12,7 +12,7 @@ import "./style.scss";
 class DebtList extends React.Component {
   constructor(props) {
     super(props);
-    props.cacheLifecycles.didRecover(this.componentDidRecover); //恢复时
+    props.cacheLifecycles.didRecover(this.componentDidRecover); //页面缓存-恢复时调用此方法
     const {
       ruleSource: { rule },
     } = props;
@@ -24,7 +24,7 @@ class DebtList extends React.Component {
       { title: "待标注", key: "0", rule: "normal", status: 1 },
       { title: "已标注", key: "1", rule: "normal", status: 2 },
     ];
-    const panes = data.filter((i) => i.rule === rule); // 高阶组件包裹 rule为角色
+    const panes = data.filter((i) => i.rule === rule); // 高阶组件包裹 rule为角色 normal check admin
     this.state = {
       page: 1,
       total: 0,
@@ -54,7 +54,7 @@ class DebtList extends React.Component {
     }
   }
 
-  // 获取参数
+  // 获取参数 status 0为全部列 1为待标记列 2为已标记列
   get params() {
     const {
       ruleSource: { rule },
@@ -112,7 +112,7 @@ class DebtList extends React.Component {
       });
   };
 
-  // 切换tab
+  // 切换tab  搜索条件置空
   handleTabChange = (key) => {
     this.searchFilterForm.resetFields();
     this.setState(

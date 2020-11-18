@@ -27,7 +27,7 @@ class CollateralMsgsInfo extends React.Component {
     this.state = {
       data: [],
       isChange: false,
-      collateralMsg:[],
+      collateralMsg: [],
     };
   }
   static defaultProps = {
@@ -35,7 +35,7 @@ class CollateralMsgsInfo extends React.Component {
     enble: true,
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.getCollateralMsgList();
   }
 
@@ -198,7 +198,7 @@ class CollateralMsgsInfo extends React.Component {
   };
 
   render() {
-    const { data, isChange,collateralMsg } = this.state;
+    const { data, isChange, collateralMsg } = this.state;
     const { dynamicOwners, isEdit } = this.props;
     return (
       <div className="debt-detail-components msgs-info" id="MsgsInfo">

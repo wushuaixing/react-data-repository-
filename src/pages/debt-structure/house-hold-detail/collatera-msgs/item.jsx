@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { HAS_TYPE, USE_TYPE } from "../../common/type";
-import { Input, Select, Button, Form, AutoComplete, message, Icon } from "antd";
-import DebtApi from "@/server/debt";
+import { Input, Select, Button, Form, AutoComplete, Icon } from "antd";
 const { Option } = Select;
 class Item extends Component {
   constructor() {
@@ -11,7 +10,7 @@ class Item extends Component {
     };
   }
 
-  //置空所有人信息
+  //角色信息发生改变时 置空所有人信息
   UNSAFE_componentWillReceiveProps(props) {
     const {
       form: { setFieldsValue },
@@ -49,6 +48,7 @@ class Item extends Component {
     this.props.form.resetFields();
   };
 
+  //选中抵押物信息所有人后自动填充信息
   handleSelect = (val) => {
     const { collateralMsg } = this.props;
     const { index } = this.props;
@@ -302,9 +302,10 @@ class Item extends Component {
                   <Select
                     mode="multiple"
                     style={{ height: 32, width: 421 }}
-                    onDeselect={() => this.save()}
                     placeholder="请选择所有人"
-                    onMouseLeave={() => this.save()}
+                    onSelect={this.save}
+                    onDeselect={this.save} //删除选中数值时调用保存
+                    onMouseLeave={this.save}
                   >
                     {dynamicOwners.map((item) => (
                       <Option key={item} style={{ fontSize: 12 }}>

@@ -9,7 +9,7 @@ class UnknownRelationShip extends Component {
     idEdit: true,
   };
 
-  //未知关系详情
+  //未知关系详情 添加时id为1
   goDetail(id) {
     const { packageId, isEdit, debtId } = this.props;
     window.open(

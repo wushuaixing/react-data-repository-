@@ -50,8 +50,7 @@ class GuarantorsInfo extends React.Component {
     const { data } = this.state;
     !data.length &&
       this.setState({
-        data: props.data,
-        isFirstEnterPage: false,
+        data: props.data
       });
   }
 

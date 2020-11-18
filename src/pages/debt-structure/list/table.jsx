@@ -28,7 +28,7 @@ class DebtTable extends React.Component {
     this.props.onPageChange(pagination.current);
   };
 
-  //跳转详情页
+  //跳转详情页  通过approverStatus来判断详情页是否可编辑
   handGoDetail = (record) => {
     const { approverStauts, id, status } = record; // 最后更新者状态 0-正常账户 1-删除账户  |  id  | 状态 0待标记 1继续标注 2已标记/未检查 3检查无误
     const { role } = this.props;
@@ -39,7 +39,7 @@ class DebtTable extends React.Component {
     if (role === "normal") {
       approverStatus = 0;
     }
-    if(approverStauts===-1){
+    if (approverStauts === -1) {
       approverStatus = 0;
     }
     this.props.history.push(

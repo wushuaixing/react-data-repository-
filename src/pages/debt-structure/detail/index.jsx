@@ -47,10 +47,12 @@ class DebtDetail extends Component {
     this.isstorageChange();
   }
 
+  //保存并获取下一条时 直接进入到下一个详情页
   UNSAFE_componentWillReceiveProps(newProps) {
     this.getDetailInfo(newProps);
   }
 
+  //关闭户/未知关系 详情页时 刷新各户信息列表
   isstorageChange() {
     window.addEventListener("storage", () => {
       if (localStorage.getItem("debtNewPageClose") < 1) {
@@ -60,9 +62,9 @@ class DebtDetail extends Component {
     });
   }
 
+  //债权详情各户信息 && 未知关系 列表 (户数靠各户信息的长度判断，不根据后端返回字段判断)
   getCreditorsUnitsList = (id) => {
     const { page } = this.state;
-    ////债权详情各户信息 && 未知关系 列表
     DebtApi.getCreditorsUnitsList(id, page)
       .then((res) => {
         if (res.data.code === 200) {
@@ -98,14 +100,14 @@ class DebtDetail extends Component {
       });
   };
 
-  //获取详情数据
+  //获取详情数据 页面首次进入时调用详情接口 和 各户信息两个接口  户/未知对应关系 编辑只刷新各户信息列表
   getDetailInfo = (props) => {
     const {
       match: {
         params: { approverStatus, id, debtStatus },
       },
     } = props;
-    sessionStorage.setItem("debtId", id);
+    sessionStorage.setItem("debtId", id); //关闭户详情页后 props中 无路由参数 做本地存储
     this.setState({ loading: true });
     //获取债权结构化详情
     DebtApi.getCreditorsDetail(parseInt(id))
@@ -146,7 +148,7 @@ class DebtDetail extends Component {
             },
             () => {
               const { id } = this.state;
-              this.getCreditorsUnitsList(id);
+              this.getCreditorsUnitsList(id); //获取各户信息列表
             }
           );
         }
@@ -346,7 +348,6 @@ class DebtDetail extends Component {
         })
       : DebtApi.saveDetail(params).then((result) => {
           //状态为已标记和未检查时
-          //保存
           const res = result.data;
           if (res.code === 200) {
             const data = res.data;
@@ -423,19 +424,6 @@ class DebtDetail extends Component {
           }
         }),
     });
-  };
-
-  // 换页
-  handlePageChange = (page) => {
-    this.setState(
-      {
-        page,
-      },
-      () => {
-        const id = sessionStorage.getItem("debtId");
-        this.getCreditorsUnitsList(id);
-      }
-    );
   };
 
   // 检查无误
