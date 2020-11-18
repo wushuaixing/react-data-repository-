@@ -3,7 +3,7 @@ import { Table, Input, Select, Button, Popover, Icon, Modal } from "antd";
 import NoDataIMG from "@/assets/img/no_data.png";
 import { OBLIGOR_TYPE, ROLETYPES_TYPE, SEXS_TYPE } from "../../common/type";
 import { PledgersAndDebtorsColumn } from "../../common/column";
-import AutoCompleteInput from "../autoComplete";
+import AutoCompleteInput from "../auto-complete";
 const { Option } = Select;
 const { confirm } = Modal;
 const getPledgersOrDebtors = (ispledgers) => ({
@@ -88,7 +88,7 @@ class PledgersAndDebtorsInfo extends React.Component {
     });
   };
 
-  //编辑时信息在组件内更新(信息保存在state中) 
+  //编辑时信息在组件内更新(信息保存在state中)
   handleChange = (e, key, index, isblur) => {
     const { value } = e.target;
     const { data } = this.state;
@@ -115,6 +115,10 @@ class PledgersAndDebtorsInfo extends React.Component {
           }
           arr[index][key] = value;
           break;
+        case "birthday":
+          let intVal= parseInt(value);
+          arr[index][key] = intVal;
+          break;
         default:
           arr[index][key] = value;
           break;
@@ -129,7 +133,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       },
       () => {
         const { data } = this.state;
-        isblur && this.props.handleChange(this.getRole(), data);  //失焦后将数据抛出 (在onChange下改变props值页面会卡顿)
+        isblur && this.props.handleChange(this.getRole(), data); //失焦后将数据抛出 (在onChange下改变props值页面会卡顿)
       }
     );
   };
@@ -141,7 +145,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "名称",
         dataIndex: "name",
-        width: 212,
+        width: 160,
         key: "name",
         render: (text, record, index) => (
           <AutoCompleteInput
@@ -155,18 +159,37 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "角色",
         dataIndex: "type",
-        width: 103,
+        width: 100,
         key: "type",
         render: (text) => ROLETYPES_TYPE[text],
       },
       {
-        title: "人员类别",
+        title: () => {
+          return (
+            <div className="obligorType">
+              <span>人员类别</span>
+              {role !== "pledgers" && (
+                <span>
+                  <Popover content="人员类别为系统根据名称自动判断，如有误可点击手动更改状态类别。">
+                    <Icon
+                      type="exclamation-circle"
+                      style={{
+                        color: "#808387",
+                        position: "absolute",
+                        marginLeft: 2,
+                      }}
+                    />
+                  </Popover>
+                </span>
+              )}
+            </div>
+          );
+        },
         dataIndex: "obligorType",
-        width: 92,
+        width: 88,
         key: "obligorType",
         render: (text, record, index) => (
           <Select
-            placeholder="角色"
             onChange={(value) => {
               this.handleChange({ target: { value } }, "obligorType", index);
             }}
@@ -178,7 +201,7 @@ class PledgersAndDebtorsInfo extends React.Component {
                 true
               );
             }}
-            value={OBLIGOR_TYPE[text]}
+            value={OBLIGOR_TYPE[text || 0]}
             disabled={!record.blurAndNotNull}
             style={{ width: 68 }}
           >
@@ -221,7 +244,7 @@ class PledgersAndDebtorsInfo extends React.Component {
           <Input
             placeholder="请输入生日"
             autoComplete="off"
-            value={text}
+            value={text||''}
             onChange={(e) => {
               e.persist();
               this.handleChange(e, "birthday", index);
@@ -306,7 +329,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       >
         <div className="header">
           {role === "pledgers" ? "抵质押" : "债务"}人信息
-          {role === "pledgers" && (
+          {role === "pledgers" && isEdit ?(
             <span>
               <Popover content="既不是债务人也不是保证人的抵质押物所有人为抵质押人。">
                 <Icon
@@ -319,7 +342,7 @@ class PledgersAndDebtorsInfo extends React.Component {
                 />
               </Popover>
             </span>
-          )}
+          ):null}
         </div>
         {isEdit ? (
           <Fragment>

@@ -1,7 +1,9 @@
 import React from "react";
-import { Button, Form, Modal, Icon } from "antd";
+import { Button, Form, Modal, Icon, message } from "antd";
+import DebtApi from "@/server/debt";
 import ItemEditContent from "./item";
 import { HAS_TYPE, USE_TYPE, Title_TYPE } from "../../common/type";
+import NoDataIMG from "@/assets/img/no_data.png";
 const collateralForm = Form.create;
 const { confirm } = Modal;
 const getMsgs = () => ({
@@ -68,7 +70,7 @@ class CollateralMsgsInfo extends React.Component {
           style={{ color: "#fa930c" }}
         />
       ),
-      content: "确认删除此抵押物信息？",
+      title: "确认删除此抵押物？",
       onOk: () =>
         this.setState(
           {
@@ -94,7 +96,7 @@ class CollateralMsgsInfo extends React.Component {
           style={{ color: "#fa930c" }}
         />
       ),
-      content: "确认清空此抵押物信息？",
+      title: "确认清空此抵押物信息？",
       onOk: () => {
         arr[index] = getMsgs();
         this.setState(
@@ -129,9 +131,11 @@ class CollateralMsgsInfo extends React.Component {
     obj.consultPrice = parseInt(obj.consultPrice) || 0;
     obj.landArea = parseInt(obj.landArea) || 0;
     obj.mortgagePrice = parseInt(obj.mortgagePrice) || 0;
-    obj.owner = obj.owner.map((i) => {
-      return { name: i, id: 0, birthday: 0, number: 0 };
-    });
+    obj.owner = obj.owner
+      ? obj.owner.map((i) => {
+          return { name: i, id: 0 };
+        })
+      : [];
     arr[index] = obj;
     this.setState(
       {
@@ -144,6 +148,27 @@ class CollateralMsgsInfo extends React.Component {
     );
   };
 
+  handleSelect = (id, index) => {
+    const { data } = this.state;
+    let arr = data;
+    DebtApi.getCollateralDetail(id).then((result) => {
+      if (result.data.code === 200) {
+        arr[index] = result.data.data;
+        this.setState(
+          {
+            data: arr,
+          },
+          () => {
+            const { data } = this.state;
+            this.props.handleChange("collateralMsgs", data);
+          }
+        );
+      } else {
+        message.error(result.data.message);
+      }
+    });
+  };
+
   //角色信息更改后 所有人置空
   handleChange = () => {
     this.setState({
@@ -153,39 +178,50 @@ class CollateralMsgsInfo extends React.Component {
 
   render() {
     const { data, isChange } = this.state;
-    const { dynamicOwners, isEdit } = this.props;
+    const { dynamicOwners, isEdit, id } = this.props;
     return (
       <div className="debt-detail-components msgs-info" id="MsgsInfo">
         <div className="header">抵押物信息</div>
         <div className="content">
-          {data.map((item, index) =>
-            isEdit ? (
-              <ItemEditContent
-                msgsList={item}
-                index={index}
-                key={`itemEditContent${index}`}
-                handleRowDel={this.handleRowDel}
-                handleSave={this.handleSave}
-                handleRowReset={this.handleRowReset}
-                dynamicOwners={dynamicOwners}
-                isChange={isChange}
-              />
-            ) : (
-              <ItemContent msgsList={item} key={item.id} index={index} />
+          {data.length ? (
+            data.map((item, index) =>
+              isEdit ? (
+                <ItemEditContent
+                  msgsList={item}
+                  index={index}
+                  key={`itemEditContent${index}`}
+                  handleRowDel={this.handleRowDel}
+                  handleSave={this.handleSave}
+                  handleRowReset={this.handleRowReset}
+                  dynamicOwners={dynamicOwners}
+                  isChange={isChange}
+                  id={id}
+                  handleSelect={this.handleSelect}
+                />
+              ) : (
+                <ItemContent msgsList={item} key={item.id} index={index} />
+              )
             )
-          )}
-          <div className="debtors-addRole">
-            <Button
-              type="dashed"
-              icon="plus"
-              onClick={() => {
-                this.handleRowAdd();
-              }}
-              block
-            >
-              添加
-            </Button>
-          </div>
+          ) : !isEdit ? (
+            <div className="no-data-box">
+              <img src={NoDataIMG} alt="暂无数据" />
+              <p>暂无数据</p>
+            </div>
+          ) : null}
+          {isEdit ? (
+            <div className="debtors-addRole">
+              <Button
+                type="dashed"
+                icon="plus"
+                onClick={() => {
+                  this.handleRowAdd();
+                }}
+                block
+              >
+                添加
+              </Button>
+            </div>
+          ) : null}
         </div>
       </div>
     );
@@ -215,11 +251,11 @@ const ItemContent = (props) => {
   const msgsList = [
     name,
     type,
-    useType,
+    USE_TYPE[useType],
     landArea,
     buildingArea,
-    hasLease,
-    hasSeizure,
+    HAS_TYPE[hasLease],
+    HAS_TYPE[hasSeizure],
     seizureSequence,
     mortgageSequence,
     consultPrice,

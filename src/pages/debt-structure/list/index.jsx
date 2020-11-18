@@ -12,6 +12,7 @@ import "./style.scss";
 class DebtList extends React.Component {
   constructor(props) {
     super(props);
+    props.cacheLifecycles.didRecover(this.componentDidRecover); //恢复时
     const {
       ruleSource: { rule },
     } = props;
@@ -40,6 +41,9 @@ class DebtList extends React.Component {
     this.getTableList();
   }
 
+  componentDidRecover=()=> {
+    this.getTableList();
+  }
   // 只有管理员下的全部和未标注列显示抓取时间，其它显示初次标注时间
   get timeText() {
     const { tabIndex } = this.state;
@@ -79,7 +83,8 @@ class DebtList extends React.Component {
         }
       })
       .then((dataObject) => {
-        if (dataObject.data.length === 0) { //待标记列表中有数据时，不允许获取新数据，按钮置灰
+        if (dataObject.data.length === 0) {
+          //待标记列表中有数据时，不允许获取新数据，按钮置灰
           this.setState({
             buttonDisabled: false,
           });
@@ -184,13 +189,14 @@ class DebtList extends React.Component {
     } = this.state;
     const {
       ruleSource: { rule },
-    } = this.props; 
-    document.title = "债权结构化";
+    } = this.props;
+    const text=rule==='check'?'检查':'';
+    document.title = `金融资产结构化${text}`;
     return (
       <div className="yc-debt-container">
         <div className="yc-debt-content">
           <BreadCrumb
-            texts={["拍卖债权结构化"]}
+            texts={[`金融资产结构化${text}`]}
             breadButtonText={
               rule === "normal" && tabIndex === 0 && "获取新数据" //结构化账号 待标记列表下 显示
             }

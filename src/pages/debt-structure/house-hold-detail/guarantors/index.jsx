@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
-import { Table, Input, Select, Modal, Button, Icon } from "antd";
+import { Table, Input, Select, Modal, Button, Icon, Popover } from "antd";
 import { GuarantorsColumn } from "../../common/column";
 import NoDataIMG from "@/assets/img/no_data.png";
 import { SEXS_TYPE, OBLIGOR_TYPE, ROLETYPES_TYPE } from "../../common/type";
-import BatchAddModal from "../../common/modal/batchAddModal";
-import AutoCompleteInput from "../autoComplete";
+import BatchAddModal from "../../common/modal/batch-add-modal";
+import AutoCompleteInput from "../auto-complete";
 const { Option } = Select;
 const { confirm } = Modal;
 //添加同组
@@ -21,11 +21,11 @@ const getGuarantorsMsgs = () => ({
 
 //添加一组
 const getGuarantors = (name) => ({
-  amount: '',
+  amount: "",
   id: Math.random(),
   msgs: [
     {
-      birthday: '',
+      birthday: "",
       gender: 0,
       id: new Date().getTime(),
       name: name ? name : "",
@@ -147,7 +147,7 @@ class GuarantorsInfo extends React.Component {
               if (value.length > 3) {
                 arr[index].msgs[indexs]["obligorType"] = 1; //大于三 人员类别为企业
               }
-              arr[index].msgs[indexs]["blurAndNotNull"] = true; 
+              arr[index].msgs[indexs]["blurAndNotNull"] = true;
             } else {
               arr[index].msgs[indexs]["obligorType"] = 0;
               arr[index].msgs[indexs]["blurAndNotNull"] = false; //无数据时 人员类别为 未知且禁用
@@ -183,12 +183,12 @@ class GuarantorsInfo extends React.Component {
     const { visible } = this.state;
     if (visible) this.setState({ visible: false });
   };
-  
+
   //批量添加
   handleBatchAdd = (text) => {
     const { data } = this.state;
     const arr = data;
-    const BatchAddList = text.split("、");
+    const BatchAddList = text?text.split("、"):[];
     BatchAddList.forEach((item) => {
       arr.push(getGuarantors(item));
     });
@@ -213,7 +213,7 @@ class GuarantorsInfo extends React.Component {
         dataIndex: "name",
         width: 185,
         key: "name",
-        className:'guarantors-name',
+        className: "guarantors-name",
         render: (text, record) =>
           record.msgs &&
           record.msgs.map((item) => <p key={item.id}>{item.name}</p>),
@@ -224,8 +224,10 @@ class GuarantorsInfo extends React.Component {
         width: 193,
         key: "type",
         render: (text, record) =>
-        record.msgs &&
-        record.msgs.map((item) => <p key={item.id}>{ROLETYPES_TYPE[item.type]}</p>),
+          record.msgs &&
+          record.msgs.map((item) => (
+            <p key={item.id}>{ROLETYPES_TYPE[item.type]}</p>
+          )),
       },
       ...GuarantorsColumn,
     ];
@@ -235,7 +237,7 @@ class GuarantorsInfo extends React.Component {
         dataIndex: "name",
         width: 185,
         key: "name",
-        className:'guarantors-name',
+        className: "guarantors-name",
         render: (text, record, index) =>
           record.msgs &&
           record.msgs.map((item, indexs) => (
@@ -394,7 +396,7 @@ class GuarantorsInfo extends React.Component {
       {
         title: "担保金额",
         dataIndex: "amount",
-        width:118,
+        width: 118,
         key: "amount",
         className: "amount",
         render: (text, record, index) => (
@@ -409,7 +411,7 @@ class GuarantorsInfo extends React.Component {
             onBlur={(e) => {
               this.handleChange(e, "amount", index, "", true);
             }}
-            style={{ height: 32, width: 108 }}
+            style={{ height: 32, width: 108, marginBottom: 20 }}
           />
         ),
       },
@@ -474,18 +476,32 @@ class GuarantorsInfo extends React.Component {
       >
         <div className="header">
           保证人信息
-          {isEdit && (
-            <Button
-              onClick={this.handleOpenModal}
-              className="header-btn"
-              size="small"
-              type="primary"
-              ghost
-              style={{ minWidth: 88, height: 32 }}
-            >
-              批量添加
-            </Button>
-          )}
+          {isEdit ?(
+            <div className="batch-add">
+              <Button
+                onClick={this.handleOpenModal}
+                className="header-btn"
+                size="small"
+                type="primary"
+                ghost
+                style={{ minWidth: 88, height: 32 }}
+              >
+                批量添加
+              </Button>
+              <span className="popover-icon">
+                <Popover content="批量输入保证人，并以顿号隔开，如XXX、YYY、ZZZ保存后系统将自动生成单条保证人信息">
+                  <Icon
+                    type="exclamation-circle"
+                    style={{
+                      color: "#808387",
+                      position: "relative",
+                      marginLeft: 4,
+                    }}
+                  />
+                </Popover>
+              </span>
+            </div>
+          ):null}
         </div>
         {isEdit ? (
           <Fragment>

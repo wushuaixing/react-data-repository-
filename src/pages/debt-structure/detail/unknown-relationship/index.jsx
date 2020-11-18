@@ -11,13 +11,13 @@ class UnknownRelationShip extends Component {
 
   //未知关系详情
   goDetail(id) {
-    const { packageId, isEdit } = this.props;
-    window.open(`/unknownRelationShipDetail/${packageId}/${id}/1/${isEdit}`);
+    const { packageId, isEdit,debtId } = this.props;
+    window.open(`/unknownRelationShipDetail/${packageId}/${id}/1/${isEdit*1}/${debtId}`);
   }
 
   //删除
   handleDel=(id)=>{
-    this.props.handleDel(id);
+    this.props.handleDel(id,'unknowShip');
   }
 
   getColumns = (isEdit) => {

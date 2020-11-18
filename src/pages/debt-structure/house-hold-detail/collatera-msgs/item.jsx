@@ -1,13 +1,34 @@
 import React, { Component } from "react";
 import { HAS_TYPE, USE_TYPE } from "../../common/type";
-import { Input, Select, Button, Form } from "antd";
+import { Input, Select, Button, Form, AutoComplete, message, Icon } from "antd";
+import DebtApi from "@/server/debt";
 const { Option } = Select;
 class Item extends Component {
   constructor() {
     super();
     this.state = {
       isRoleChange: false,
+      collateralMsg: [],
     };
+  }
+
+  componentDidMount() {
+    this.getCollateralMsgList();
+  }
+
+  //置空所有人信息
+  UNSAFE_componentWillReceiveProps(props) {
+    const {
+      form: { setFieldsValue },
+      isChange,
+    } = props;
+    if (isChange && this.state.isChange !== isChange) {
+      this.setState({
+        isChange,
+      });
+      setFieldsValue({ owner: [] });
+      this.save();
+    }
   }
 
   //删除
@@ -33,20 +54,31 @@ class Item extends Component {
     this.props.form.resetFields();
   };
 
-  //置空所有人信息
-  UNSAFE_componentWillReceiveProps(props) {
-    const {
-      form: { setFieldsValue },
-      isChange,
-    } = props;
-    if (this.state.isChange !== isChange) {
-      this.setState({
-        isChange,
-      });
-      setFieldsValue({ owner: [] });
-    }
-  }
+  getCollateralMsgList = () => {
+    const { id } = this.props;
+    DebtApi.getCollateralMsgList(id).then((result) => {
+      if (result.data.code === 200) {
+        const data = result.data.data;
+        this.setState({
+          collateralMsg: data,
+        });
+      } else {
+        message.warning(result.data.message);
+      }
+    });
+  };
 
+  handleSelect = (val) => {
+    const { collateralMsg } = this.state;
+    const { index } = this.props;
+    let id = "";
+    collateralMsg.forEach((i) => {
+      if (i.name === val) {
+        id = i.id;
+      }
+    });
+    this.props.handleSelect(id, index);
+  };
   render() {
     const {
       msgsList: {
@@ -68,7 +100,9 @@ class Item extends Component {
       index,
       dynamicOwners,
     } = this.props;
-    const ownerList = (owner && owner.map((i) => i.name)) || [];
+    const ownerList = owner && owner.map((i) => i.name);
+    const { collateralMsg } = this.state;
+    const collateralMsgList = (collateralMsg || []).map((i) => i.name);
     return (
       <Form layout="inline" className="yc-form" key={`${name}${index}`}>
         <div className="item-container-edit">
@@ -101,12 +135,18 @@ class Item extends Component {
                 {getFieldDecorator("name", {
                   initialValue: name,
                 })(
-                  <Input
+                  <AutoComplete
                     placeholder="请输入抵押物名称"
                     size="default"
-                    autoComplete="off"
                     style={{ width: 967 }}
                     onBlur={() => this.save()}
+                    dataSource={collateralMsgList}
+                    onSelect={this.handleSelect}
+                    filterOption={(inputValue, option) =>
+                      option.props.children
+                        .toUpperCase()
+                        .indexOf(inputValue.toUpperCase()) !== -1
+                    }
                   />
                 )}
               </Form.Item>
@@ -271,15 +311,19 @@ class Item extends Component {
                 )}
                 元
               </Form.Item>
-              <Form.Item label="所有人：">
+            </div>
+
+            <div className="part">
+              <Form.Item label="所有人：" className="owner">
                 {getFieldDecorator("owner", {
                   initialValue: ownerList,
                 })(
                   <Select
-                    mode="tags"
+                    mode="multiple"
                     style={{ height: 32, width: 421 }}
-                    onBlur={() => this.save()}
+                    onDeselect={()=>this.save()}
                     placeholder="请选择所有人"
+                    onMouseLeave={()=>this.save()}
                   >
                     {dynamicOwners.map((item) => (
                       <Option key={item} style={{ fontSize: 12 }}>
@@ -289,7 +333,23 @@ class Item extends Component {
                   </Select>
                 )}
               </Form.Item>
+              {index === 0 && (
+                <div className="owner-tips">
+                  <Icon
+                    type="exclamation-circle"
+                    theme="filled"
+                    style={{
+                      color: "#FB5A5C",
+                      fontSize: 16,
+                      marginRight: 5,
+                      marginLeft: 5,
+                    }}
+                  />
+                  选择抵押物所有人后，再次编辑角色信息，所有人将被全部清空！
+                </div>
+              )}
             </div>
+
             <div className="part">
               <Form.Item label="备注：">
                 {getFieldDecorator("note", {

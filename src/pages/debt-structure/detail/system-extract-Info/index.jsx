@@ -11,8 +11,8 @@ class SystemExtractInfo extends Component {
   };
 
   //系统提取信息  抵押物信息 查看详情弹窗
-  handleOpenMsgsModal = () => {
-    this.props.handleOpenModal("msgsModalVisible", { id: 0, type: "" });
+  handleOpenMsgsModal = (id) => {
+    this.props.handleOpenModal("msgsModalVisible", { id, type: "msgsInfo" });
   };
 
   getColumns = (flag) => {
@@ -29,7 +29,7 @@ class SystemExtractInfo extends Component {
           render: (text, record) => {
             return (
               <span
-                onClick={this.handleOpenMsgsModal}
+                onClick={()=>this.handleOpenMsgsModal(record.id)}
                 style={{ color: "#016AA9" }}
               >
                 查看详情

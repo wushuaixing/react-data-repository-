@@ -359,12 +359,11 @@ class Login extends React.Component {
                       </Button>
                       <Button
                         onClick={() =>
-                          set({ username: "34242342342", password: "342342" })
+                          set({ username: "15386196726", password: "111111" })
                         }
                       >
                         结构化人员
                       </Button>
-                      {/* <Button onClick={()=>set({username:'15386196726',password:'111111'})}>结构化人员</Button> */}
                     </div>
                   )}
                 </div>

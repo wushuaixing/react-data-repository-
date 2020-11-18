@@ -3,11 +3,14 @@ import { Menu, message } from "antd";
 import { getAvailableNav } from "@api";
 import { Link, withRouter } from "react-router-dom";
 import SpinLoading from "@/components/Spin-loading";
-import admin from "@/assets/img/admin.png";
+import admin from "@/assets/img/admin.svg";
 import check from "@/assets/img/check.svg";
 // import user from "@/assets/img/user.png";
-import sync from "@/assets/img/sync.png";
-import structure from "@/assets/img/structure.png";
+import sync from "@/assets/img/structure.png";
+import structure from "@/assets/img/structures.png";
+import search from "@/assets/img/search.svg";
+import debt from "@/assets/img/debt.svg";
+import backrupt from "@/assets/img/backrupt.svg";
 import "./index.scss";
 
 const menuRoute = {
@@ -33,11 +36,13 @@ const getSource = (data = {}) => {
   if (keysArray.length === 0) return [];
   // 获取 menu icon
   const getMenuIcon = (text) => {
-    if (/资产结构化/.test(text)) return check;
+    if (/金融资产结构化/.test(text)) return debt;
+    if (/资产结构化/.test(text)) return structure;
     if (/数据监控/.test(text)) return structure;
-    if (/同步监控/.test(text)) return sync;
+    if (/结构化情况监控/.test(text)) return sync;
     if (/账号/.test(text)) return admin;
     if (/任务/.test(text)) return admin;
+    if (/检查/.test(text)) return check;
     return false;
   };
   const link = (id) => {
@@ -194,7 +199,7 @@ class Sider extends React.Component {
                   window.open("/documentSearch");
                 }}
               >
-                <img src={structure} alt="" /> 文书搜索
+                <img src={search} alt="" style={{height:16}}/> 文书搜索
               </div>
             </Menu.Item>
           )}
@@ -206,7 +211,7 @@ class Sider extends React.Component {
                 <span className="sider-menu_sub-menu_title">
                   <img
                     style={{ marginRight: 8, marginTop: -4 }}
-                    src={img || structure}
+                    src={img || backrupt}
                     width="15"
                     height="16"
                     alt=""

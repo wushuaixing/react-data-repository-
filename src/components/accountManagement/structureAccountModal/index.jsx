@@ -1,7 +1,7 @@
 /** right content for Account manage* */
 
 import React from "react";
-import { Modal, Form, Button, Select, Checkbox, Radio, Input } from "antd";
+import { Modal, Form, Button, Select, Checkbox, Radio, Input ,message} from "antd";
 import {
   ADD_CHARACTER_LIST,
   AUCTION_DATA_TYPE,
@@ -20,6 +20,9 @@ class AccountManage extends React.Component {
   //确定
   modalOk = (e) => {
     e.preventDefault();
+    if(!this.IsNull){
+      message.warning('结构化对象不能为空')
+    }else{
     this.props.form.validateFields((err) => {
       if (!err) {
         const { info, action } = this.props;
@@ -52,7 +55,7 @@ class AccountManage extends React.Component {
         params.functionId = structuredObject.filter((i) => i);
         this.props.handleSubmit(params, info.id);
       }
-    });
+    })};
   };
   //取消
   modalCancel = () => {
@@ -289,9 +292,6 @@ class AccountManage extends React.Component {
                     initialValue: action === "add" ? false : deFunctionId[2],
                   })(<Checkbox>破产重组数据</Checkbox>)}
                 </Form.Item>
-                {!this.IsNull && (
-                  <p style={{ color: "#F5222D" }}>*结构化对象不能为空</p> //没有选择数据类型时给出提示 不允许保存
-                )}
               </div>
             </div>
           </Form>

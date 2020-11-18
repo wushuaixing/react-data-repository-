@@ -4,12 +4,12 @@ import DebtApi from "@/server/debt";
 import { BreadCrumb } from "@commonComponents";
 import { rule } from "@/components/rule-container";
 import Basic from "./basic";
-import AssetPackage from "./assetPackage";
-import HouseHold from "./houseHold";
-import UnknownRelationShip from "./unknownRelationShip";
-import SystemExtractInfo from "./systemExtractInfo";
-import MsgsInfoModal from "../common/modal/msgsInfoModal";
-import NumberModal from "../common/modal/numberModal";
+import AssetPackage from "./asset-package";
+import HouseHold from "./house-hold";
+import UnknownRelationShip from "./unknown-relationship";
+import SystemExtractInfo from "./system-extract-Info";
+import MsgsInfoModal from "../common/modal/msgs-modal";
+import NumberModal from "../common/modal/number-modal";
 import { Button, Checkbox, Modal, Icon, message } from "antd";
 import "./style.scss";
 const { confirm } = Modal;
@@ -37,89 +37,32 @@ class DebtDetail extends Component {
       page: 1,
       total: 0,
       thisOnly: 1,
+      debtStatus: "",
+      msgsInfo: {},
     };
   }
 
   componentDidMount() {
-    this.getDetailInfo();
-    this.getCreditorsUnitsList();
+    this.getDetailInfo(this.props);
     this.isstorageChange();
+  }
+
+  UNSAFE_componentWillReceiveProps(newProps) {
+    this.getDetailInfo(newProps);
   }
 
   isstorageChange() {
     window.addEventListener("storage", () => {
       if (localStorage.getItem("debtNewPageClose") < 1) {
-        this.getCreditorsUnitsList();
+        const id = sessionStorage.getItem("debtId");
+        this.getCreditorsUnitsList(id);
       }
     });
   }
 
-  //获取债权结构化详情
-  getDetailInfo = () => {
-    const {
-      match: {
-        params: { approverStatus, id },
-      },
-    } = this.props;
-    this.setState({ loading: true });
-    DebtApi.getCreditorsDetail(parseInt(id))
-      .then((res) => {
-        if (res.data.code === 200) {
-          return res.data;
-        } else {
-          return Promise.reject("请求出错");
-        }
-      })
-      .then((dataObject) => {
-        let data = dataObject.data;
-        if (data) {
-          this.setState({
-            id: data.id, //债权id
-            packageId: data.packageId, //包id
-            title: data.title, //标题
-            status: data.status, //拍卖状态
-            withdraw: data.withdraw, //撤回原因
-            logs: data.logs ? data.logs : [], //结构化检查记录
-
-            unitNumber: data.unitNumber, //户数
-            creditorsRightsPrincipal: data.creditorsRightsPrincipal, //本金合计
-            outstandingInterest: data.outstandingInterest, //利息合计
-            totalAmountCreditorsRights: data.totalAmountCreditorsRights, //本息合计
-            summation: 1, //勾选本息自动求和
-
-            collateralCount: data.collateralCount, //未知对应关系_抵质押物数
-            guarantorCount: data.guarantorCount, //未知对应关系_保证人数
-            pledgerCount: data.pledgerCount, //未知对应关系_抵质押人数
-
-            msgsLists: data.msgsLists, //系统提取信息-抵押物信息
-            usersLists: data.usersLists, //系统提取信息-保证人信息
-
-            isEdit: Boolean(parseInt(approverStatus)), //是否可编辑
-            loading: false,
-          });
-        }
-      })
-      .catch((err) => {
-        this.setState(
-          {
-            loading: false,
-          },
-          () => {
-            message.error(err);
-          }
-        );
-      });
-  };
-
-  //债权详情各户信息 && 未知关系 列表
-  getCreditorsUnitsList = () => {
-    const {
-      match: {
-        params: { id },
-      },
-    } = this.props;
-    const { page, loading } = this.state;
-    !loading && this.setState({ loading: true });
+  getCreditorsUnitsList = (id) => {
+    const { page } = this.state;
+    ////债权详情各户信息 && 未知关系 列表
     DebtApi.getCreditorsUnitsList(id, page)
       .then((res) => {
         if (res.data.code === 200) {
@@ -138,7 +81,74 @@ class DebtDetail extends Component {
             page: data.result ? data.result.page : 1,
             unKnow: data.unKnow ? data.unKnow : {}, //未知关系列表
             loading: false,
+            unitNumber:
+              data.result && data.result.list ? data.result.list.length : 0, //户数
           });
+        }
+      })
+      .catch((err) => {
+        this.setState(
+          {
+            loading: false,
+          },
+          () => {
+            message.error(err);
+          }
+        );
+      });
+  };
+
+  //获取详情数据
+  getDetailInfo = (props) => {
+    const {
+      match: {
+        params: { approverStatus, id, debtStatus },
+      },
+    } = props;
+    sessionStorage.setItem("debtId", id);
+    this.setState({ loading: true });
+    //获取债权结构化详情
+    DebtApi.getCreditorsDetail(parseInt(id))
+      .then((res) => {
+        if (res.data.code === 200) {
+          return res.data;
+        } else {
+          return Promise.reject("请求出错");
+        }
+      })
+      .then((dataObject) => {
+        let data = dataObject.data;
+        if (data) {
+          this.setState(
+            {
+              id: data.id, //债权id
+              thisOnly: data.thisOnly, //是否关联
+              packageId: data.packageId, //包id
+              title: data.title, //标题
+              status: data.status, //拍卖状态
+              withdraw: data.withdraw, //撤回原因
+              logs: data.logs ? data.logs : [], //结构化检查记录
+
+              creditorsRightsPrincipal: data.creditorsRightsPrincipal, //本金合计
+              outstandingInterest: data.outstandingInterest, //利息合计
+              totalAmountCreditorsRights: data.totalAmountCreditorsRights, //本息合计
+              summation: 1, //勾选本息自动求和
+
+              collateralCount: data.collateralCount, //未知对应关系_抵质押物数
+              guarantorCount: data.guarantorCount, //未知对应关系_保证人数
+              pledgerCount: data.pledgerCount, //未知对应关系_抵质押人数
+
+              msgsLists: data.msgsLists, //系统提取信息-抵押物信息
+              usersLists: data.usersLists, //系统提取信息-保证人信息
+
+              isEdit: Boolean(parseInt(approverStatus)), //是否可编辑
+              debtStatus: parseInt(debtStatus),
+            },
+            () => {
+              const { id } = this.state;
+              this.getCreditorsUnitsList(id);
+            }
+          );
         }
       })
       .catch((err) => {
@@ -160,7 +170,8 @@ class DebtDetail extends Component {
         page,
       },
       () => {
-        this.getCreditorsUnitsList();
+        const id = sessionStorage.getItem("debtId");
+        this.getCreditorsUnitsList(id);
       }
     );
   };
@@ -225,6 +236,21 @@ class DebtDetail extends Component {
           }
         });
         break;
+      case "msgsInfo":
+        DebtApi.getCollateralMsgList(id).then((result) => {
+          //获取抵押物数信息
+          const data = result.data;
+          if (data.code === 200) {
+            this.setState({
+              msgsInfo: data.data,
+            });
+          } else {
+            this.setState({
+              msgsInfo: [],
+            });
+          }
+        });
+        break;
       default:
         break;
     }
@@ -269,6 +295,7 @@ class DebtDetail extends Component {
       collateralCount,
       guarantorCount,
       pledgerCount,
+      debtStatus,
     } = this.state;
     const params = {
       id,
@@ -281,22 +308,20 @@ class DebtDetail extends Component {
       guarantorNum: guarantorCount,
       pledgerNum: pledgerCount,
     };
-    const {
-      match: {
-        params: { debtStatus },
-      },
-    } = this.props;
-    debtStatus === "0" || debtStatus === "1" //状态为待标记或者继续标注时
+    debtStatus === 0 || debtStatus === 1 //状态为待标记或者继续标注时
       ? DebtApi.saveAndGetNext(params).then((result) => {
           //保存并标注下一条
           const res = result.data;
           if (res.code === 200) {
-            const { data } = res.data;
+            const data = res.data;
             if (data > 0) {
-              message.success("保存成功!");
-              this.props.history.replace(`/index/debtDetail/1/${data}`);
+              message.success("保存成功!", 2, () =>
+                this.props.history.replace(
+                  `/index/debtDetail/0/${debtStatus}/${data}`
+                )
+              );
             } else {
-              message.warning(res.message, 2, () =>
+              message.warning("暂无数据", 2, () =>
                 this.props.history.push("/index/debtList")
               );
             }
@@ -324,8 +349,9 @@ class DebtDetail extends Component {
           //保存
           const res = result.data;
           if (res.code === 200) {
-            const { data } = res.data;
+            const data = res.data;
             if (data) {
+              console.log(4234234);
               message.success("保存成功!", 2, () =>
                 this.props.history.push("/index/debtList")
               );
@@ -358,17 +384,44 @@ class DebtDetail extends Component {
     this.props.history.push("/index/debtList");
   };
 
-  //删除户信息
-  handleDel = (id) => {
-    DebtApi.deleteUnitByID(id).then((result) => {
-      const data = result.data.data;
-      if (result.data.code === 200) {
-        if (data) {
-          message.success("删除成功", 1, () => this.getCreditorsUnitsList());
-        } else {
-          message.error(result.data.message);
-        }
-      }
+  //删除户信息 当仅剩两户债权，删除其中一户，若已添加未知对应关系，弹窗提示 已填写的未知对应关系将被清空
+  handleDel = (id, unknowShip) => {
+    const { creditorsUnitsList, unKnow } = this.state; 
+    const contentText =
+      creditorsUnitsList.length < 3 &&
+      unKnow.collateralNum !== null &&
+      !unknowShip ? (
+        <span style={{ color: "#FB5A5C", fontSize: 14 }}>
+          "已填写的未知对应关系将被清空"
+        </span>
+      ) : null;
+    const titleText = unknowShip
+      ? "确认删除未知对应关系信息？"
+      : "确认删除此户信息？";
+    confirm({
+      icon: (
+        <Icon
+          type="exclamation-circle"
+          theme="filled"
+          style={{ color: "#fa930c" }}
+        />
+      ),
+      title: titleText,
+      content: contentText,
+      onOk: () =>
+        DebtApi.deleteUnitByID(id).then((result) => {
+          const data = result.data.data;
+          if (result.data.code === 200) {
+            if (data) {
+              message.success("删除成功", 1, () => {
+                const id = sessionStorage.getItem("debtId");
+                this.getCreditorsUnitsList(id);
+              });
+            } else {
+              message.error(result.data.message);
+            }
+          }
+        }),
     });
   };
 
@@ -379,7 +432,8 @@ class DebtDetail extends Component {
         page,
       },
       () => {
-        this.getCreditorsUnitsList();
+        const id = sessionStorage.getItem("debtId");
+        this.getCreditorsUnitsList(id);
       }
     );
   };
@@ -425,21 +479,22 @@ class DebtDetail extends Component {
       unKnow,
       page,
       total,
+      debtStatus,
+      msgsInfo,
     } = this.state;
 
     const {
       ruleSource: { rule },
-      match: {
-        params: { debtStatus },
-      },
     } = this.props;
+    const text=rule==='check'?'检查':'';
+    document.title = title;
     return (
       <div className="yc-debt-container">
         <div className="yc-debt-content">
-          <BreadCrumb texts={["拍卖债权结构化/详情"]} />
+          <BreadCrumb texts={[`金融资产结构化${text}/详情`]} />
           <div className="yc-debt-detail">
             <div className="debt-detail-action">
-              {isEdit ? (
+              {!isEdit ? (
                 <div className="aciton-edit">
                   <Checkbox
                     onChange={(e) =>
@@ -454,14 +509,14 @@ class DebtDetail extends Component {
                     style={{ height: 32, zIndex: 10 }}
                     onClick={() => this.handleSave(0)}
                   >
-                    {debtStatus === "0" || debtStatus === "1"
+                    {debtStatus === 0 || debtStatus === 1
                       ? "保存并标注下一条"
                       : "保存"}
                   </Button>
                   {rule === "check" && (
                     <Button
                       style={{ height: 32, zIndex: 10, marginLeft: 20 }}
-                      onClick={this.handleNoErr(id)}
+                      onClick={() => this.handleNoErr(id)}
                     >
                       检查无误
                     </Button>
@@ -492,39 +547,43 @@ class DebtDetail extends Component {
               totalAmountCreditorsRights={totalAmountCreditorsRights}
               summation={summation}
               handleChange={this.handleChange}
-              isEdit={isEdit}
+              isEdit={!isEdit}
               role="assetPackage"
             />
-            {rule === "admin" && (
-              <SystemExtractInfo
-                msgsLists={msgsLists}
-                usersLists={usersLists}
-                handleOpenModal={this.handleOpenModal}
-              />
-            )}
+            {rule === "admin" &&
+              msgsLists.length > 0 &&
+              usersLists.length > 0 && (
+                <SystemExtractInfo
+                  msgsLists={msgsLists}
+                  usersLists={usersLists}
+                  handleOpenModal={this.handleOpenModal}
+                />
+              )}
 
             <HouseHold
               data={creditorsUnitsList}
               page={page}
               total={total}
               handleOpenModal={this.handleOpenModal}
-              isEdit={isEdit}
+              isEdit={!isEdit}
               packageId={packageId}
               handleDel={this.handleDel}
               handlePageChange={this.handlePageChange}
+              debtId={id}
             />
             <UnknownRelationShip
               data={unKnow}
               handleOpenModal={this.handleOpenModal}
-              isEdit={isEdit}
+              isEdit={!isEdit}
               packageId={packageId}
               handleDel={this.handleDel}
               unitNumber={unitNumber}
+              debtId={id}
             />
             <MsgsInfoModal
               visible={msgsModalVisible}
               handleCloseModal={this.handleCloseModal}
-              msgsInfo={msgsLists}
+              msgsInfo={msgsInfo}
             />
             <NumberModal
               visible={NumberModalVisible}

@@ -13,7 +13,7 @@
 .yc-household-detail{
     min-height: 90vh;
     background: #fff;
-    padding: 40px;
+    padding:40px 40px 700px;
     .detail-header{
         line-height: 22px;
         color: #016AA9;
@@ -171,6 +171,25 @@
         }
     }
     .guarantors-info{
+        .ant-popover-arrow{
+            left:470px !important;
+        }
+        .header{
+            .batch-add{
+                .header-btn{
+                    right: 20px;
+                }
+                .popover-icon{
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+            }
+            .ant-popover{
+                left:-460px !important;
+                width: 510px;
+            }
+        }
         margin-bottom: 42px;
         .action{
             display: flex;
@@ -198,14 +217,6 @@
             margin-bottom: 20px;
             width: 48px;
         }
-        .amount{
-            position: relative;
-            input{
-                position: absolute;
-                top: 14px;
-                left: 0;
-            }
-        }
         .auto_complete_content{
             margin-bottom: 20px;
         }
@@ -224,14 +235,25 @@
                 left:100px !important;
             }
         }
+        .ant-table-thead{
+            position: relative;
+            .ant-popover{
+                left:368px !important;
+            }
+        }      
     }
     .msgs-info{
         .content{
+            border-top: 1px solid #E2E4E9;
+            padding-top: 22px;
             .item-container{
                 border-top: 1px solid #E5E5E5;
                 padding: 20px 24px 0 24px;
                 &:last-child{
                     border-bottom: 1px solid #e5e5e5;
+                }
+                &:first-child{
+                    border-top: none;
                 }
                 .item-header{  
                     color: #262626;
@@ -288,6 +310,18 @@
                         align-items: center;
                         height: 72px;
                         padding-left: 24px;
+                        .owner-tips{
+                            font-size: 12px;
+                            display: flex;
+                            align-items: center;
+                            color: #D9D9D9;
+                            border: 1px solid #D9D9D9;
+                            height: 32px;
+                            padding-right: 20px;
+                            position: relative;
+                            left: -70px;
+                            background-color: #f5f5f5;
+                        }
                         &:last-child{
                             border-bottom: none;
                             min-height: 152px;
@@ -308,6 +342,15 @@
                             text-align: right;
                         }
                     }
+                }
+            }
+            .no-data-box{
+                padding-top: 60px;
+                text-align: center;
+                p{
+                    margin-top:20px;
+                    color: #808387;
+                    font-size: 14px;
                 }
             }
         }
@@ -368,7 +411,7 @@
         .ant-btn{
             width: 104px;
             height: 32px;
-            margin: 40px 0 680px;
+            margin-top: 40px;
         }
     }
 }

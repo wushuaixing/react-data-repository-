@@ -16,8 +16,8 @@ class HouseHold extends Component {
 
   //去户详情页
   goDetail(id) {
-    const { packageId, isEdit } = this.props;
-    window.open(`/houseHoldDetail/${packageId}/${id}/0/${isEdit}`);
+    const { packageId, isEdit,debtId } = this.props;
+    window.open(`/houseHoldDetail/${packageId}/${id}/0/${isEdit*1}/${debtId}`);
   }
 
   //删除
@@ -34,6 +34,7 @@ class HouseHold extends Component {
         key: "guarantorNum",
         render: (guarantorNum, record) => (
           <span
+            className={guarantorNum?'hasColor':''}
             onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "guarantorNum",
@@ -86,10 +87,10 @@ class HouseHold extends Component {
               {isEdit ? (
                 <div className="action-btn-group">
                   <span>
-                    <span onClick={() => this.goDetail(record.id)}>编辑</span>
+                    <span onClick={() => this.goDetail(record.id)} style={{cursor:'pointer'}}>编辑</span>
                   </span>
                   <span>|</span>
-                  <span onClick={()=>this.handleDel(record.id)}>删除</span>
+                  <span onClick={()=>this.handleDel(record.id)} style={{cursor:'pointer'}}>删除</span>
                 </div>
               ) : (
                 <span>

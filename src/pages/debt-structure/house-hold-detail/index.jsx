@@ -3,10 +3,10 @@ import { withRouter } from "react-router-dom";
 import DebtApi from "@/server/debt";
 import { Button, message } from "antd";
 import { rule } from "@/components/rule-container";
-import DebtRights from "../detail/assetPackage";
-import PledgersAndDebtorsInfo from "./pledgersInfo";
-import GuarantorsInfo from "./guarantorsInfo";
-import CollateralMsgsInfo from "./collateralMsgsInfo";
+import DebtRights from "../detail/asset-package";
+import PledgersAndDebtorsInfo from "./pledgers";
+import GuarantorsInfo from "./guarantors";
+import CollateralMsgsInfo from "./collatera-msgs";
 import { ANCHOR_TYPE } from "../common/type";
 import { filters, clone } from "@utils/common";
 import "./style.scss";
@@ -51,21 +51,45 @@ class HouseHoldDetail extends Component {
       const res = result.data;
       if (res.code === 200) {
         const data = res.data;
-        this.setState({
-          id: data.id,
-          collateralMsgs: data.collateralMsgs, //抵押物信息
-          debtors: data.debtors, //债务人信息
-          guarantors: data.guarantors, //保证人信息
-          pledgers: data.pledgers, //抵质押人信息
-          creditorsRightsPrincipal: data.creditorsRightsPrincipal, //债权本金
-          outstandingInterest: data.outstandingInterest, //利息
-          totalAmountCreditorsRights: data.totalAmountCreditorsRights, //本息合计
-        });
+        this.setState(
+          {
+            id: data.id,
+            collateralMsgs: data.collateralMsgs, //抵押物信息
+            debtors: data.debtors, //债务人信息
+            guarantors: data.guarantors, //保证人信息
+            pledgers: data.pledgers, //抵质押人信息
+            creditorsRightsPrincipal: data.creditorsRightsPrincipal, //债权本金
+            outstandingInterest: data.outstandingInterest, //利息
+            totalAmountCreditorsRights: data.totalAmountCreditorsRights, //本息合计
+          },
+          () => {
+            const {
+              debtors,
+              guarantors,
+              pledgers,
+              detailInfo,
+              collateralMsgs,
+            } = this.state;
+            const arr = detailInfo;
+            arr.debtors = debtors;
+            arr.guarantors[0].msgVOS = guarantors.length
+              ? guarantors[0].msgVOS
+              : [];
+            arr.pledgers = pledgers;
+            arr.collateralMsgs = collateralMsgs;
+            this.setState(
+              {
+                detailInfo: arr,
+              },
+              () => this.getOwners()
+            );
+          }
+        );
       }
     });
   };
 
-  //保存并关闭  
+  //保存并关闭
   handleSubmit = () => {
     const {
       detailInfo,
@@ -89,11 +113,14 @@ class HouseHoldDetail extends Component {
       totalAmountCreditorsRights, //本息合计
       ...detailInfo, //保证人信息  抵质押人信息 债务人信息
     };
+    const isHouseHoldDetail = window.location.href.includes("houseHoldDetail");
+    if (detailInfo.debtors.length <= 0 && isHouseHoldDetail) {
+      message.warning("债务人信息遗漏");
+      return;
+    }
     DebtApi.unitSaveDetail(params).then((res) => {
       if (res.data.code === 200 && res.data.data) {
-        localStorage.setItem(
-          "debtNewPageClose",Math.random()
-        );
+        localStorage.setItem("debtNewPageClose", Math.random());
         message.success("保存成功", 2, this.handleClosePage);
       } else {
         message.warning(res.data.message);
@@ -164,14 +191,12 @@ class HouseHoldDetail extends Component {
   //债权信息 抵押物信息 变更
   handleDebtRightsChange = (key, value) => {
     if (key === "collateralMsgs") {
-      this.setState(
-        {
-          collateralMsgsData: value,
-        },
-        () => {
-          console.log(this.state.collateralMsgsData);
-        }
-      );
+      let arr = filters
+        .blockEmptyRow(value, ["name"])
+        .concat(value.filter((i) => i.owner && i.owner.length > 0));
+      this.setState({
+        collateralMsgsData: arr,
+      });
     } else {
       this.setState(
         {
@@ -207,52 +232,55 @@ class HouseHoldDetail extends Component {
         return params.msgs.length > 0;
       });
     } else {
-      arr[key] = filters.blockEmptyRow(value, ["name", "number"]);
+      arr[key] = filters.blockEmptyRow(value, ["name", "number", "owner"]);
     }
     this.setState(
       {
         detailInfo: arr,
       },
+      () => this.getOwners("isChange")
+    );
+  };
+
+  getOwners = (flag) => {
+    const { detailInfo } = this.state;
+    let arr = [];
+    const { debtors, guarantors, pledgers } = detailInfo;
+    debtors.forEach((item) => {
+      let obj = {
+        name: item.name,
+        number: item.number,
+        birthday: item.birthday,
+        id: Math.random(),
+      };
+      arr.push(obj);
+    });
+    pledgers.forEach((item) => {
+      let obj = {
+        name: item.name,
+        number: item.number,
+        birthday: item.birthday,
+        id: Math.random(),
+      };
+      arr.push(obj);
+    });
+    guarantors[0].msgVOS.forEach((item) => {
+      item.msgs.forEach((item) => {
+        let obj = {
+          name: item.name,
+          number: item.number,
+          birthday: item.birthday,
+          id: Math.random(),
+        };
+        arr.push(obj);
+      });
+    });
+    this.setState(
+      {
+        dynamicOwners: this.removeRepeat(arr), //所有人
+      },
       () => {
-        let arr = [];
-        const { debtors, guarantors, pledgers } = detailInfo;
-        debtors.forEach((item) => {
-          let obj = {
-            name: item.name,
-            number: item.number,
-            birthday: item.birthday,
-            id: Math.random(),
-          };
-          arr.push(obj);
-        });
-        pledgers.forEach((item) => {
-          let obj = {
-            name: item.name,
-            number: item.number,
-            birthday: item.birthday,
-            id: Math.random(),
-          };
-          arr.push(obj);
-        });
-        guarantors[0].msgVOS.forEach((item) => {
-          item.msgs.forEach((item) => {
-            let obj = {
-              name: item.name,
-              number: item.number,
-              birthday: item.birthday,
-              id: Math.random(),
-            };
-            arr.push(obj);
-          });
-        });
-        this.setState(
-          {
-            dynamicOwners: this.removeRepeat(arr), //所有人
-          },
-          () => {
-            this.collateralMsgsRef.handleChange();
-          }
-        );
+        flag === "isChange" && this.collateralMsgsRef.handleChange();
       }
     );
   };
@@ -276,22 +304,33 @@ class HouseHoldDetail extends Component {
       : Object.keys(ANCHOR_TYPE).slice(2);
     const {
       match: {
-        params: { isEdit, id },
+        params: { isEdit, id, debtId },
       },
     } = this.props;
-    const text = isHouseHoldDetail ? "添加户" : "添加未知对应关系";
+    const noEdit = parseInt(isEdit);
+    // const text = isHouseHoldDetail ? "添加户" : "未知对应关系";
+    // const titleText=isHouseHoldDetail ? debtors.map(i=>i.name).join("、"):"未知对应关系";
+    // document.title=titleText;
+    const text = () => {
+      if (isHouseHoldDetail) {
+        if (Boolean(parseInt(id))) {
+          return debtors.map((i) => i.name).join("、");
+        } else {
+          return "添加户";
+        }
+      } else {
+        return "未知对应关系";
+      }
+    };
+    document.title = text();
     return (
       <div className="yc-debt-newpage-container">
         <div className="yc-debt-newpage-content">
           <div className="yc-household-detail">
             <div className="detail-header">
-              {Boolean(parseInt(id)) ? (
-                "债务人：潮州市枫溪粤东陶瓷制作厂"
-              ) : (
-                <span style={{ color: "#293038", fontWeight: "bold" }}>
-                  {text}
-                </span>
-              )}
+              {isHouseHoldDetail && Boolean(parseInt(id))
+                ? `债务人:${debtors.map((i) => i.name).join("、")}`
+                : text()}
             </div>
             <div className="yc-anchor">
               <ul>
@@ -315,13 +354,13 @@ class HouseHoldDetail extends Component {
                   outstandingInterest={outstandingInterest}
                   totalAmountCreditorsRights={totalAmountCreditorsRights}
                   summation={summation}
-                  isEdit={isEdit}
+                  isEdit={noEdit}
                   handleChange={this.handleDebtRightsChange}
                   role="DebtRights"
                 />
                 <PledgersAndDebtorsInfo
                   data={debtors}
-                  isEdit={isEdit}
+                  isEdit={noEdit}
                   handleChange={this.handleChange}
                   role="debtors"
                 />
@@ -329,13 +368,13 @@ class HouseHoldDetail extends Component {
             )}
             <GuarantorsInfo
               data={guarantors[0] ? guarantors[0].msgVOS : []}
-              isEdit={isEdit}
+              isEdit={noEdit}
               handleOpenBatchAddModal={this.handleOpenBatchAddModal}
               handleChange={this.handleChange}
             />
             <PledgersAndDebtorsInfo
               data={pledgers}
-              isEdit={isEdit}
+              isEdit={noEdit}
               handleChange={this.handleChange}
               role="pledgers"
             />
@@ -343,14 +382,17 @@ class HouseHoldDetail extends Component {
               data={collateralMsgs}
               handleChange={this.handleDebtRightsChange}
               dynamicOwners={dynamicOwners}
-              isEdit={isEdit}
+              isEdit={noEdit}
+              id={debtId}
               wrappedComponentRef={(inst) => (this.collateralMsgsRef = inst)}
             />
-            <div className="save-btn">
-              <Button onClick={this.handleSubmit} type="primary">
-                保存并关闭
-              </Button>
-            </div>
+            {noEdit ? (
+              <div className="save-btn">
+                <Button onClick={this.handleSubmit} type="primary">
+                  保存并关闭
+                </Button>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

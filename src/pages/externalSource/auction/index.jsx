@@ -7,12 +7,12 @@ import "./style.scss";
 
 const anchors = [
   {
-    id: "subjectMatterIntroduction",
-    title: "标的物介绍",
-  },
-  {
     id: "biddingAnnouncement",
     title: "竞买公告",
+  },
+  {
+    id: "subjectMatterIntroduction",
+    title: "标的物介绍",
   },
   {
     id: "auctionSuccessConfirmation",
@@ -112,27 +112,27 @@ class Index extends React.Component {
     return (
       <div className="externalSource-auction-box">
         <div className="externalSource-auction">
-          <div className="linkTitle">
-            <span onClick={this.openTitleUrl.bind(this)}>{title}</span>
-          </div>
-          <div className="externalSource-auction-header">
-            <ul>
-              {anchors.map((item, index) => {
-                return (
-                  <li
-                    key={item.id}
-                    onClick={() => this.changeTab(index)}
-                    className={flag === index ? "hover-item" : null}
-                  >
-                    {item.isImgTag && <img src={pic} alt="" />}
-                    <a href={`#${item.id}`}>{item.title}</a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
           <div className="externalSource-auction-container">
             <div className="container_body">
+              <div className="linkTitle">
+                <span onClick={this.openTitleUrl.bind(this)}>{title}</span>
+              </div>
+              <div className="externalSource-auction-header">
+                <ul>
+                  {anchors.map((item, index) => {
+                    return (
+                      <li
+                        key={item.id}
+                        onClick={() => this.changeTab(index)}
+                        className={flag === index ? "hover-item" : null}
+                      >
+                        {item.isImgTag && <img src={pic} alt="" />}
+                        <a href={`#${item.id}`}>{item.title}</a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
               {anchors.map((anchor, index) => {
                 return (
                   <AnnounceMentPart

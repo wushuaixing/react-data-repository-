@@ -1,5 +1,5 @@
 import React from "react";
-import { ROLE_TYPE, OBLIGOR_TYPE, SEXS_TYPE } from "../type";
+import { ROLE_TYPE, OBLIGOR_TYPE, SEXS_TYPE, USE_TYPE } from "../type";
 import NoSAVEIMG from "@/assets/img/no_save.png";
 import { Badge } from "antd";
 
@@ -9,6 +9,9 @@ export const ListColumns = [
     dataIndex: "title",
     width: 760,
     key: "title",
+    render: (text,record) =>(
+      <a href={record.url} target="_target">{text}</a>
+    ),
   },
   {
     title: "状态",
@@ -20,29 +23,17 @@ export const ListColumns = [
         {(() => {
           let color = "default";
           let text = "未标注";
-          if (
-            localStorage.getItem("userState") === "检查人员" &&
-            status === 1
-          ) {
-            color = "default";
-            text = "未检查";
-          } else {
-            switch (status) {
-              case 0:
-                color = "default";
-                text = "未标注";
-                break;
-              case 1:
-                color = "success";
-                text = "已标注";
-                break;
-              case 2:
-                color = "success";
-                text = "检查无误";
-                break;
-              default:
-                break;
+          if (status === 2) {
+            if (localStorage.getItem("userState") === "检查人员") {
+              text = "未检查";
+            } else {
+              color = "success";
+              text = "已标注";
             }
+          }
+          if (status === 3) {
+            color = "success";
+            text = "检查无误";
           }
           return <Badge status={color} text={text} />;
         })()}
@@ -55,11 +46,9 @@ export const ListColumns = [
     key: "approverName",
     render: (text, record) => (
       <span>
-        {text
-          ? record.approverStauts === 1
-            ? `${text}('已删除')`
-            : text
-          : "-"}
+        {record.approverStauts === 0 && text !== "自动标注"
+          ? `${text}('已删除')`
+          : text}
       </span>
     ),
   },
@@ -75,13 +64,14 @@ export const HouseHoldColumn = [
     render: (text, record) => {
       return (
         <div>
-          {record.status === 0 && (
-            <img
-              src={NoSAVEIMG}
-              alt=""
-              style={{ position: "absolute", left: 0, top: 0 }}
-            />
-          )}
+          {record.status === 0 &&
+            localStorage.getItem("userState") !== "管理员" && (
+              <img
+                src={NoSAVEIMG}
+                alt=""
+                style={{ position: "absolute", left: 0, top: 0 }}
+              />
+            )}
           {text}
         </div>
       );
@@ -95,20 +85,20 @@ export const HouseHoldColumn = [
     render: (text, record) => {
       return (
         <div>
-          {record && record.users && record.users.length > 0 && (
+          {record && record.users && record.users.length?(
             <div className="users-info">
               {record.users.map((item, index) => {
                 return (
                   <div className="info-line" key={`info${index}`}>
-                    <div className="name">名称：{item.name}</div>
-                    {!item.type && item.number && (
-                      <div className="number">证件号：{item.number}</div>
+                    <div className="name">名称：{item.name || "-"}</div>
+                    {!item.type && (
+                      <div className="number">证件号：{item.number || "-"}</div>
                     )}
                   </div>
                 );
               })}
             </div>
-          )}
+          ):'-'}
         </div>
       );
     },
@@ -123,8 +113,8 @@ export const HouseHoldColumn = [
         <div>
           {record && (
             <div className="Principal">
-              <p>债权本金：{record.rightsPrincipal}</p>
-              <p>利息：{record.interest}</p>
+              <p>债权本金：{record.rightsPrincipal?`${record.rightsPrincipal}元`:'-'} </p>
+              <p>利息：{record.interest?`${record.interest}元`:'-'} </p>
             </div>
           )}
         </div>
@@ -139,6 +129,7 @@ export const AdminUsersColumn = [
     dataIndex: "name",
     width: 520,
     key: "name",
+    render: (text) => text || "-",
   },
   {
     title: "角色",
@@ -152,6 +143,7 @@ export const AdminUsersColumn = [
     dataIndex: "notes",
     width: 560,
     key: "notes",
+    render: (text) => text || "-",
   },
 ];
 
@@ -161,12 +153,14 @@ export const AdminMsgsColumn = [
     dataIndex: "name",
     width: 745,
     key: "name",
+    render: (text) => text || "-",
   },
   {
     title: "类别",
     dataIndex: "type",
     width: 746,
     key: "type",
+    render: (text) => text || "-",
   },
 ];
 
@@ -177,8 +171,10 @@ export const GuarantorsColumn = [
     width: 78,
     key: "obligorType",
     render: (text, record) =>
-    record.msgs &&
-    record.msgs.map((item) => <p key={item.id}>{OBLIGOR_TYPE[item.obligorType]}</p>),
+      record.msgs &&
+      record.msgs.map((item) => (
+        <p key={item.id}>{OBLIGOR_TYPE[item.obligorType]}</p>
+      )),
   },
   {
     title: "证件号",
@@ -187,7 +183,7 @@ export const GuarantorsColumn = [
     key: "number",
     render: (text, record) =>
       record.msgs &&
-      record.msgs.map((item) => <p key={item.id}>{item.number}</p>),
+      record.msgs.map((item) => <p key={item.id}>{item.number || "-"}</p>),
   },
   {
     title: "生日",
@@ -196,7 +192,7 @@ export const GuarantorsColumn = [
     key: "birthday",
     render: (text, record) =>
       record.msgs &&
-      record.msgs.map((item) => <p key={item.id}>{item.birthday}</p>),
+      record.msgs.map((item) => <p key={item.id}>{item.birthday || "-"}</p>),
   },
   {
     title: "性别",
@@ -210,9 +206,10 @@ export const GuarantorsColumn = [
   {
     title: "担保金额",
     dataIndex: "amount",
-    width:118,
+    width: 118,
     key: "amount",
-    className:'amount',
+    className: "amount",
+    render: (text) => text || "-",
   },
   {
     title: "备注",
@@ -221,7 +218,7 @@ export const GuarantorsColumn = [
     key: "notes",
     render: (text, record) =>
       record.msgs &&
-      record.msgs.map((item) => <p key={item.id}>{item.notes}</p>),
+      record.msgs.map((item) => <p key={item.id}>{item.notes || "-"}</p>),
   },
 ];
 
@@ -229,19 +226,21 @@ export const CreditorsColumn = [
   {
     title: "抵质押物名称",
     dataIndex: "name",
-    width: 420,
+    width: 400,
     key: "name",
+    render: (text) => text || "-",
   },
   {
     title: "类别",
     dataIndex: "useType",
-    width: 260,
+    width: 230,
     key: "useType",
+    render: (text) => USE_TYPE[text],
   },
   {
     title: "所有人",
     dataIndex: "owner",
-    width: 380,
+    width: 360,
     key: "owner",
     render: (text, record) => record && record.name,
   },
@@ -253,6 +252,7 @@ export const PledgersColumn = [
     dataIndex: "name",
     width: 231,
     key: "name",
+    render: (text) => text || "-",
   },
   {
     title: "人员类别",
@@ -266,12 +266,14 @@ export const PledgersColumn = [
     dataIndex: "number",
     width: 228,
     key: "number",
+    render: (text) => text || "-",
   },
   {
     title: "生日",
     dataIndex: "birthday",
     width: 160,
     key: "birthday",
+    render: (text) => text || "-",
   },
   {
     title: "性别",
@@ -283,8 +285,9 @@ export const PledgersColumn = [
   {
     title: "备注",
     dataIndex: "notes",
-    width: 330,
+    width: 290,
     key: "notes",
+    render: (text) => text || "-",
   },
 ];
 
@@ -294,6 +297,7 @@ export const PledgersAndDebtorsColumn = [
     dataIndex: "name",
     width: 218,
     key: "name",
+    render: (text) => text || "-",
   },
   {
     title: "角色",
@@ -313,12 +317,14 @@ export const PledgersAndDebtorsColumn = [
     dataIndex: "number",
     width: 206,
     key: "number",
+    render: (text) => text || "-",
   },
   {
     title: "生日",
     dataIndex: "birthday",
     width: 124,
     key: "birthday",
+    render: (text) => text || "-",
   },
   {
     title: "性别",
@@ -332,5 +338,6 @@ export const PledgersAndDebtorsColumn = [
     dataIndex: "notes",
     width: 112,
     key: "notes",
+    render: (text) => text || "-",
   },
 ];

@@ -3,7 +3,8 @@ import { Modal, Button, Table } from "antd";
 import { GuarantorsColumn, PledgersColumn, CreditorsColumn } from "../column";
 import NoDataIMG from "@/assets/img/no_data.png";
 
-class NumberModal extends React.Component { //数字弹框
+class NumberModal extends React.Component {
+  //数字弹框
   getColumns = (params) => {
     if (params === "guarantorNum") {
       const columns = [
@@ -65,7 +66,7 @@ class NumberModal extends React.Component { //数字弹框
                   </div>
                 ),
               }}
-              scroll={{ y: 240 }} 
+              scroll={{ y: 240 }}
             />
           </div>
         </Modal>

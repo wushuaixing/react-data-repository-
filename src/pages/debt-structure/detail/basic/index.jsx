@@ -48,14 +48,26 @@ const Item = (props) =>
 
 const RecordItem = (props) => {
   const {
-    item: { name, time, type },
+    item: { name, time, type, flag },
     index,
   } = props;
+  
+  const text = () => {
+    if (type === 0 && index === 0) {
+      return "初次结构化";
+    } else if (type === 0) {
+      return "结构化";
+    } else {
+      if (flag === 0) {
+        return <span style={{ color: "red" }}>修改</span>;
+      } else {
+        return <span style={{ color: "green" }}>检查无误</span>;
+      }
+    }
+  };
   return (
     <p key={`recordItem${index}`}>
-      {`${dateUtils.formatStandardNumberDate(time)} ${name} ${
-        type === 1 ? "检查" : "结构化"
-      }`}{" "}
+      {`${dateUtils.formatStandardNumberDate(time)} ${name}`} {text()}
     </p>
   );
 };

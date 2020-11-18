@@ -32,79 +32,15 @@
 
 
 .externalSource-auction {
-  .linkTitle {
-    font-size: 22px;
-    color: #016AA9;
-    width: 99%;
-    font-weight: bold;
-    line-height: 22px;
-    position: fixed;
-    background: #fff;
-    z-index: 999;
-    height: 112px;
-    padding-top: 50px;
-    padding-left: calc((100% - 1200px) / 2 + 40px);
-    span{
-      &:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }
-    }
-  }
+  background-color: #F0F2F5;
   #biddingAnnouncement{
-    padding-top: 245px;
+    padding-top: 60px;
   }
   #subjectMatterIntroduction{
-    padding-top: 245px;
+    padding-top: 60px;
   }
   #auctionSuccessConfirmation{
-    padding-top: 245px;
-  }
-  .externalSource-auction-header {
-    position: fixed;
-    top: 112px;
-    width: 865px;
-    margin-left: calc((100% - 1200px) / 2 + 40px);
-    height: 56px;
-    background: #EDEFF3;
-    z-index: 1;
-
-    ul {
-      display: flex;
-      padding: 0;
-      border-left: 1px solid #E5E5E5;
-      height: 100%;
-      li {
-        list-style: none;
-        line-height: 56px;
-        font-size: 18px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        height: 100%;
-        padding: 0 12px;
-        border: 1px solid #E5E5E5;
-        border-left: none;
-        img {
-          height: 17px;
-          margin-right: 10px;
-        }
-
-        a {
-          line-height: 56px;
-          display: inline-block;
-          color: #293038;
-        }
-      }
-
-      .hover-item {
-        background: #fff;
-        border-top: 1px solid #F03733;
-        a {
-          color: #F03733;
-        }
-      }
-    }
+    padding-top: 60px;
   }
 }
 
@@ -120,6 +56,61 @@
     *{
       max-width:858px !important;
     }
+    .linkTitle {
+      font-size: 22px;
+      color: #016AA9;
+      font-weight: bold;
+      line-height: 22px;
+      background: #fff;
+      padding: 40px 0;
+      span{
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+    .externalSource-auction-header {
+      height: 40px;
+      background: #EDEFF3;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      ul {
+        display: flex;
+        padding: 0;
+        border-left: 1px solid #E5E5E5;
+        height: 100%;
+        li {
+          list-style: none;
+          line-height: 40px;
+          font-size: 18px;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          height: 100%;
+          padding: 0 12px;
+          border: 1px solid #E5E5E5;
+          border-left: none;
+          img {
+            height: 17px;
+            margin-right: 10px;
+          }
+          a {
+            line-height: 56px;
+            display: inline-block;
+            color: #293038;
+          }
+        }
+        .hover-item {
+          // background: #fff;
+          border-bottom: 1px solid #F03733;
+          a {
+            color: #F03733;
+          }
+        }
+      }
+    }
     &_eachPart {
       position: relative;
       table {
@@ -131,7 +122,6 @@
         color: #ad0700;
         line-height: 28px;
         position: absolute;
-        top: 200px;
         left: 50%;
         transform: translateX(-50%);
         background-color: #fff;

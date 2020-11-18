@@ -26,6 +26,12 @@ const debtApi = {
     //获取抵押物数信息
     getCollateralMsg: (params) => axios.post('/api/asset/creditors/control/getCollateralMsg',params),
 
+    //爬虫爬取抵押物名称信息
+    getCollateralMsgList: (id) => axios.get(`/api/asset/creditors/control/getCollateralMsgList/${id}`),
+
+    //获取抵押物信息
+    getCollateralDetail: (id) => axios.get(`/api/asset/creditors/control/getCollateralDetail/${id}`),
+
     //户_删除
     deleteUnitByID: (id) => axios.post(`/api/asset/creditors/control/deleteUnitByID/${id}`),
 
@@ -36,7 +42,7 @@ const debtApi = {
     saveDetail: (params) => axios.post('/api/asset/creditors/control/saveDetail',params),
 
     //检查无误
-    checkAndSave: (id) => axios.post(`/api/asset/creditors/control/checkAndSave/${id}`),
+    checkAndSave: (id) => axios.get(`/api/asset/creditors/control/checkAndSave/${id}`),
 
     //债权户(未知)信息详情
     getCreditorsUnitDetail: (id) => axios.get(`/api/asset/creditors/control/creditorsUnitDetail/${id}`),

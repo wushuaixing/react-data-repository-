@@ -34,10 +34,10 @@ class DebtTable extends React.Component {
     const { role } = this.props;
     let approverStatus = approverStauts;
     if (role === "admin") {
-      approverStatus = 0;
-    }
-    if (role === "noraml") {
       approverStatus = 1;
+    }
+    if (role === "normal") {
+      approverStatus = 0;
     }
     this.props.history.push(
       `/index/debtDetail/${approverStatus}/${status}/${id}`
@@ -54,10 +54,10 @@ class DebtTable extends React.Component {
     }
     const btnText = (record) => {
       const { approverStauts, status } = record;
-      if (role === "admin" || (role === "check" && approverStauts === 0)) {
+      if (role === "admin" || (role === "check" && approverStauts === 1)) {
         //管理员和检察人员检查 正常账号
         return "查看";
-      } else if (role === "check" && approverStauts === 1) {
+      } else if (role === "check" && approverStauts === 0) {
         //检查人员检查 已删除||自动标注
         return "修改标注";
       } else {

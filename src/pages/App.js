@@ -10,7 +10,7 @@ import DocumentSearch from "../pages/documentSearch";
 import AutoMark from './detail-newpage/autoMark/index';
 import NotFirstMark from './detail-newpage/notFirstMark/index';
 import DetailNewPage from './detail-newpage/common/index';
-import HouseHoldDetail from './debt-structure/houseHoldDetail';
+import HouseHoldDetail from './debt-structure/house-hold-detail';
 
 message.config({
 	maxCount:1,
@@ -33,8 +33,8 @@ class App extends React.Component {
 					<Route path="/notFirstMark" component={NotFirstMark} remark="非初标-详情页" />
 					<Route path="/autoMark" component={AutoMark} remark="自动标注-详情页" />
 					<Route path="/defaultDetail" component={DetailNewPage} remark="详情-新开页" />
-					<Route path="/houseHoldDetail/:packageId/:id/:type/:isEdit" component={ HouseHoldDetail } remark="债权结构化-户详情页" />
-					<Route path="/unknownRelationShipDetail/:packageId/:id/:type/:isEdit" component={ HouseHoldDetail } remark="债权结构化-户详情页" />
+					<Route path="/houseHoldDetail/:packageId/:id/:type/:isEdit/:debtId" component={ HouseHoldDetail } remark="债权结构化-户详情页" />
+					<Route path="/unknownRelationShipDetail/:packageId/:id/:type/:isEdit/:debtId" component={ HouseHoldDetail } remark="债权结构化-户详情页" />
 					<Route path="*" component={NotFound} remark="非注册页面" />
 				</Switch>
 			</Router>
