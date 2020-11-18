@@ -9,8 +9,10 @@ export const ListColumns = [
     dataIndex: "title",
     width: 760,
     key: "title",
-    render: (text,record) =>(
-      <a href={record.url} target="_target">{text}</a>
+    render: (text, record) => (
+      <a href={record.url} target="_target">
+        {text}
+      </a>
     ),
   },
   {
@@ -85,7 +87,7 @@ export const HouseHoldColumn = [
     render: (text, record) => {
       return (
         <div>
-          {record && record.users && record.users.length?(
+          {record && record.users && record.users.length ? (
             <div className="users-info">
               {record.users.map((item, index) => {
                 return (
@@ -98,7 +100,9 @@ export const HouseHoldColumn = [
                 );
               })}
             </div>
-          ):'-'}
+          ) : (
+            "-"
+          )}
         </div>
       );
     },
@@ -113,8 +117,11 @@ export const HouseHoldColumn = [
         <div>
           {record && (
             <div className="Principal">
-              <p>债权本金：{record.rightsPrincipal?`${record.rightsPrincipal}元`:'-'} </p>
-              <p>利息：{record.interest?`${record.interest}元`:'-'} </p>
+              <p>
+                债权本金：
+                {record.rightsPrincipal ? `${record.rightsPrincipal}元` : "-"}{" "}
+              </p>
+              <p>利息：{record.interest ? `${record.interest}元` : "-"} </p>
             </div>
           )}
         </div>

@@ -321,9 +321,9 @@ class Item extends Component {
                   <Select
                     mode="multiple"
                     style={{ height: 32, width: 421 }}
-                    onDeselect={()=>this.save()}
+                    onDeselect={() => this.save()}
                     placeholder="请选择所有人"
-                    onMouseLeave={()=>this.save()}
+                    onMouseLeave={() => this.save()}
                   >
                     {dynamicOwners.map((item) => (
                       <Option key={item} style={{ fontSize: 12 }}>

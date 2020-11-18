@@ -41,9 +41,9 @@ class DebtList extends React.Component {
     this.getTableList();
   }
 
-  componentDidRecover=()=> {
+  componentDidRecover = () => {
     this.getTableList();
-  }
+  };
   // 只有管理员下的全部和未标注列显示抓取时间，其它显示初次标注时间
   get timeText() {
     const { tabIndex } = this.state;
@@ -190,7 +190,7 @@ class DebtList extends React.Component {
     const {
       ruleSource: { rule },
     } = this.props;
-    const text=rule==='check'?'检查':'';
+    const text = rule === "check" ? "检查" : "";
     document.title = `金融资产结构化${text}`;
     return (
       <div className="yc-debt-container">

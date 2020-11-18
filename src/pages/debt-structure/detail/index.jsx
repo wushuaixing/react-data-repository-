@@ -386,7 +386,7 @@ class DebtDetail extends Component {
 
   //删除户信息 当仅剩两户债权，删除其中一户，若已添加未知对应关系，弹窗提示 已填写的未知对应关系将被清空
   handleDel = (id, unknowShip) => {
-    const { creditorsUnitsList, unKnow } = this.state; 
+    const { creditorsUnitsList, unKnow } = this.state;
     const contentText =
       creditorsUnitsList.length < 3 &&
       unKnow.collateralNum !== null &&
@@ -486,7 +486,7 @@ class DebtDetail extends Component {
     const {
       ruleSource: { rule },
     } = this.props;
-    const text=rule==='check'?'检查':'';
+    const text = rule === "check" ? "检查" : "";
     document.title = title;
     return (
       <div className="yc-debt-container">

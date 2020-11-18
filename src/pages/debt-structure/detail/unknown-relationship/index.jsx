@@ -11,14 +11,16 @@ class UnknownRelationShip extends Component {
 
   //未知关系详情
   goDetail(id) {
-    const { packageId, isEdit,debtId } = this.props;
-    window.open(`/unknownRelationShipDetail/${packageId}/${id}/1/${isEdit*1}/${debtId}`);
+    const { packageId, isEdit, debtId } = this.props;
+    window.open(
+      `/unknownRelationShipDetail/${packageId}/${id}/1/${isEdit * 1}/${debtId}`
+    );
   }
 
   //删除
-  handleDel=(id)=>{
-    this.props.handleDel(id,'unknowShip');
-  }
+  handleDel = (id) => {
+    this.props.handleDel(id, "unknowShip");
+  };
 
   getColumns = (isEdit) => {
     return [
@@ -34,7 +36,7 @@ class UnknownRelationShip extends Component {
               type: "guarantorNum",
             })}
           >
-            {guarantorNum||0}
+            {guarantorNum || 0}
           </span>
         ),
       },
@@ -50,7 +52,7 @@ class UnknownRelationShip extends Component {
               type: "pledgerNum",
             })}
           >
-            {pledgerNum||0}
+            {pledgerNum || 0}
           </span>
         ),
       },
@@ -66,7 +68,7 @@ class UnknownRelationShip extends Component {
               type: "collateralNum",
             })}
           >
-            {collateralNum||0}
+            {collateralNum || 0}
           </span>
         ),
       },
@@ -84,7 +86,7 @@ class UnknownRelationShip extends Component {
                     <span onClick={() => this.goDetail(record.id)}>编辑</span>
                   </span>
                   <span>|</span>
-                  <span onClick={()=>this.handleDel(record.id)}>删除</span>
+                  <span onClick={() => this.handleDel(record.id)}>删除</span>
                 </div>
               ) : (
                 <span>
@@ -111,10 +113,10 @@ class UnknownRelationShip extends Component {
     this.props.handleOpenModal("NumberModalVisible", params);
   };
   render() {
-    const { data, isEdit,unitNumber} = this.props;
-    const isIdNull=data&&data.id;
-    const unKnowList=isIdNull?[{...data}]:[];
-    const disabled=unitNumber<=1;
+    const { data, isEdit, unitNumber } = this.props;
+    const isIdNull = data && data.id;
+    const unKnowList = isIdNull ? [{ ...data }] : [];
+    const disabled = unitNumber <= 1;
     return (
       <div className="debt-detail-components debt-house-hold">
         <div className="header">
@@ -138,7 +140,7 @@ class UnknownRelationShip extends Component {
           columns={this.getColumns(isEdit)}
           pagination={false}
           dataSource={unKnowList}
-          rowKey={() =>unKnowList.length}
+          rowKey={() => unKnowList.length}
           locale={{
             emptyText: (
               <div className="no-data-box">

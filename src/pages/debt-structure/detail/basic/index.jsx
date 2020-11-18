@@ -51,7 +51,7 @@ const RecordItem = (props) => {
     item: { name, time, type, flag },
     index,
   } = props;
-  
+
   const text = () => {
     if (type === 0 && index === 0) {
       return "初次结构化";

@@ -116,7 +116,7 @@ class PledgersAndDebtorsInfo extends React.Component {
           arr[index][key] = value;
           break;
         case "birthday":
-          let intVal= parseInt(value);
+          let intVal = parseInt(value);
           arr[index][key] = intVal;
           break;
         default:
@@ -244,7 +244,7 @@ class PledgersAndDebtorsInfo extends React.Component {
           <Input
             placeholder="请输入生日"
             autoComplete="off"
-            value={text||''}
+            value={text || ""}
             onChange={(e) => {
               e.persist();
               this.handleChange(e, "birthday", index);
@@ -329,7 +329,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       >
         <div className="header">
           {role === "pledgers" ? "抵质押" : "债务"}人信息
-          {role === "pledgers" && isEdit ?(
+          {role === "pledgers" && isEdit ? (
             <span>
               <Popover content="既不是债务人也不是保证人的抵质押物所有人为抵质押人。">
                 <Icon
@@ -342,7 +342,7 @@ class PledgersAndDebtorsInfo extends React.Component {
                 />
               </Popover>
             </span>
-          ):null}
+          ) : null}
         </div>
         {isEdit ? (
           <Fragment>

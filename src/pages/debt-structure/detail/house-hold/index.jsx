@@ -5,7 +5,6 @@ import createPaginationProps from "@/utils/pagination";
 import { HouseHoldColumn } from "../../common/column";
 import NoDataIMG from "@/assets/img/no_data.png";
 
-
 class HouseHold extends Component {
   static defaultProps = {
     isEdit: false,
@@ -16,14 +15,16 @@ class HouseHold extends Component {
 
   //去户详情页
   goDetail(id) {
-    const { packageId, isEdit,debtId } = this.props;
-    window.open(`/houseHoldDetail/${packageId}/${id}/0/${isEdit*1}/${debtId}`);
+    const { packageId, isEdit, debtId } = this.props;
+    window.open(
+      `/houseHoldDetail/${packageId}/${id}/0/${isEdit * 1}/${debtId}`
+    );
   }
 
   //删除
-  handleDel=(id)=>{
+  handleDel = (id) => {
     this.props.handleDel(id);
-  }
+  };
   getColumns = (isEdit) => {
     return [
       ...HouseHoldColumn,
@@ -34,7 +35,7 @@ class HouseHold extends Component {
         key: "guarantorNum",
         render: (guarantorNum, record) => (
           <span
-            className={guarantorNum?'hasColor':''}
+            className={guarantorNum ? "hasColor" : ""}
             onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "guarantorNum",
@@ -87,10 +88,20 @@ class HouseHold extends Component {
               {isEdit ? (
                 <div className="action-btn-group">
                   <span>
-                    <span onClick={() => this.goDetail(record.id)} style={{cursor:'pointer'}}>编辑</span>
+                    <span
+                      onClick={() => this.goDetail(record.id)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      编辑
+                    </span>
                   </span>
                   <span>|</span>
-                  <span onClick={()=>this.handleDel(record.id)} style={{cursor:'pointer'}}>删除</span>
+                  <span
+                    onClick={() => this.handleDel(record.id)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    删除
+                  </span>
                 </div>
               ) : (
                 <span>
@@ -112,7 +123,7 @@ class HouseHold extends Component {
     ];
   };
 
-  //数字弹框 
+  //数字弹框
   handleNumberModal = (params) => {
     this.props.handleOpenModal("NumberModalVisible", params);
   };

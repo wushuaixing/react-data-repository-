@@ -188,7 +188,7 @@ class GuarantorsInfo extends React.Component {
   handleBatchAdd = (text) => {
     const { data } = this.state;
     const arr = data;
-    const BatchAddList = text?text.split("、"):[];
+    const BatchAddList = text ? text.split("、") : [];
     BatchAddList.forEach((item) => {
       arr.push(getGuarantors(item));
     });
@@ -476,7 +476,7 @@ class GuarantorsInfo extends React.Component {
       >
         <div className="header">
           保证人信息
-          {isEdit ?(
+          {isEdit ? (
             <div className="batch-add">
               <Button
                 onClick={this.handleOpenModal}
@@ -501,7 +501,7 @@ class GuarantorsInfo extends React.Component {
                 </Popover>
               </span>
             </div>
-          ):null}
+          ) : null}
         </div>
         {isEdit ? (
           <Fragment>

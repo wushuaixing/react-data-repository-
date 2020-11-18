@@ -29,7 +29,7 @@ class SystemExtractInfo extends Component {
           render: (text, record) => {
             return (
               <span
-                onClick={()=>this.handleOpenMsgsModal(record.id)}
+                onClick={() => this.handleOpenMsgsModal(record.id)}
                 style={{ color: "#016AA9" }}
               >
                 查看详情
