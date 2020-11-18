@@ -1,0 +1,447 @@
+.yc-debt-newpage-container{
+    background-color: #F0F2F5;
+    padding-top: 16px;
+    .yc-debt-newpage-content{
+        margin: 0 auto;
+        width:1200px;
+        min-height: 95vh;
+    }
+    textarea{
+        resize: none;
+    }
+}
+.yc-household-detail{
+    min-height: 90vh;
+    background: #fff;
+    padding:40px 40px 700px;
+    .detail-header{
+        line-height: 22px;
+        color: #016AA9;
+        font-size: 22px;
+        padding-bottom: 30px;
+    }
+    .yc-anchor{
+        height: 56px;
+        border-bottom: 1px solid #E5E5E5;
+        margin:9px 0 30px;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: #FFF;
+        ul{
+            padding: 0;
+            margin: 0;
+            display: flex;
+            li{
+                list-style: none;
+                a{
+                    font-size: 18px;
+                    line-height: 18px;
+                    padding:18px 19px;
+                    color: #293038;
+                    margin-right: 30px;
+                    font-weight: bold;
+                    display: inline-block;
+                }
+                .active{
+                   border-bottom: 2px solid #016AA9;
+                   color: #016AA9;
+                }
+            }
+        }
+    }
+    .debt-detail-components{
+        width: 100%;
+        border-top: 76px solid #FFF;
+        margin-top: -76px;
+        .header{
+            font-size: 16px;
+            font-weight: bold;
+            padding-left: 8px;
+            border-left: 3px solid #016AA9;
+            height: 20px;
+            line-height: 20px;
+            margin:0 0 20px 10px;
+            position: relative;
+            .header-btn{
+                position: absolute;
+                right: 0;
+                top: -6px;
+            }
+        }
+        ul{
+            padding: 0;
+            margin: 0;
+            li{
+                list-style: none;
+            }
+        }
+        .ant-popover-inner-content{
+            border-radius: 4px;
+            font-size: 12px;
+            padding:10px;
+        }
+        .ant-popover-arrow{
+            left:20px !important;
+        }
+    }
+    .debt-asset-package{
+        .asset-package-disabled{
+            display: flex;
+            line-height: 14px;
+            margin-bottom: 46px;
+            li{
+                display: flex;
+                &:first-child{
+                    margin-right: 50px;
+                    div{
+                        &:first-child{
+                            width: 114px;
+                            text-align: right;
+                        }
+                    }
+                }
+                margin-right: 55px;
+            }
+        }
+        .asset-package-edit{
+            display: flex;
+            line-height: 14px;
+            margin-bottom: 32px;
+            .header{
+                margin-bottom: 12px;
+            }
+            li{
+                display: flex;
+                align-items: center;
+                margin-right: 50px;
+                .ant-input-number{
+                    width: 143px !important;
+                }
+                .creditorsRightsPrincipal{
+                    width: 95px !important;
+                    text-align: right;
+                }
+            }
+        }
+    }
+    .debtors-info{
+        margin-bottom: 42px;
+        .debtors-edit-header{
+            display: flex;
+            height: 46px;
+            align-items: center;
+            background: #EDEFF3;
+            font-size: 14px;
+            font-weight: bold;
+            padding-left:20px;
+            margin-bottom: 20px;
+            .name{
+                width: 212px;
+            }
+            .role{
+                width: 93px;
+            }
+            .obligorType{
+                width: 112px;
+            }
+            .certification{
+                width: 207px;
+            }
+            .birth{
+                width: 135px;
+            }
+            .sex{
+                width: 114px;
+            }
+            .note{
+                width: 149px;
+            }
+            .operation{
+                width: 58px;
+            }
+            .debtors-addRole{
+                width: 100%;
+            }
+        }
+        .debtors-edit-content{
+            .debtors-InputRow{
+                display: flex;
+            }
+        }
+    }
+    .guarantors-info{
+        .ant-popover-arrow{
+            left:470px !important;
+        }
+        .header{
+            .batch-add{
+                .header-btn{
+                    right: 20px;
+                }
+                .popover-icon{
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+            }
+            .ant-popover{
+                left:-460px !important;
+                width: 510px;
+            }
+        }
+        margin-bottom: 42px;
+        .action{
+            display: flex;
+            margin-bottom: 20px;
+            min-width: 160px;
+            color: #016AA9;
+            height: 32px;
+            align-items: center;
+            line-height: 14px;
+            .add-group{
+                width: 110px;
+                border-right: 1px solid #B2B8C9;
+                margin-right:12px;
+            
+                height: 14px;
+            }
+            .del-btn{
+                margin-left:122px;
+            }
+        }
+        .guarantors-type{
+            height: 32px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 48px;
+        }
+        .auto_complete_content{
+            margin-bottom: 20px;
+        }
+        .ant-table-row-cell-break-word{
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .guarantors-name{
+            padding-left: 20px !important;
+        }
+    }
+    .pledgers-info{
+        margin-bottom: 42px;
+        .header{
+            .ant-popover{
+                left:100px !important;
+            }
+        }
+        .ant-table-thead{
+            position: relative;
+            .ant-popover{
+                left:368px !important;
+            }
+        }      
+    }
+    .msgs-info{
+        .content{
+            border-top: 1px solid #E2E4E9;
+            padding-top: 22px;
+            .item-container{
+                border-top: 1px solid #E5E5E5;
+                padding: 20px 24px 0 24px;
+                &:last-child{
+                    border-bottom: 1px solid #e5e5e5;
+                }
+                &:first-child{
+                    border-top: none;
+                }
+                .item-header{  
+                    color: #262626;
+                    line-height: 16px;
+                    font-size: 16px;
+                    margin-bottom: 28px;
+                    font-weight: bold;
+                }
+                .item-content{
+                    display: flex;
+                    flex-wrap: wrap;
+                    li{
+                        width: 25%;
+                        display: flex;
+                        margin-bottom: 24px;
+                        div{
+                            &:first-child{
+                                min-width: 42px;
+                            }
+                        }
+                        &:first-child{
+                            width: 100%;
+                        }
+                        &:last-child{
+                            width: 100%;
+                        }
+                        &:nth-last-child(2){
+                            width: 50%;
+                        }
+                    }
+                }
+            }
+            .item-container-edit{
+                border-radius: 2px;
+                border: 1px solid #D9D9D9;
+                margin-bottom: 26px;
+                .item-header{
+                    display: flex;
+                    height: 57px;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 52px 0 24px;
+                    border-bottom: 1px solid #C5C7CE;
+                    .title{ 
+                        color: #262626;
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+                }
+                .item-content{
+                    .part{
+                        border-bottom: 1px solid #C5C7CE;
+                        display: flex;
+                        align-items: center;
+                        height: 72px;
+                        padding-left: 24px;
+                        .owner-tips{
+                            font-size: 12px;
+                            display: flex;
+                            align-items: center;
+                            color: #D9D9D9;
+                            border: 1px solid #D9D9D9;
+                            height: 32px;
+                            padding-right: 20px;
+                            position: relative;
+                            left: -70px;
+                            background-color: #f5f5f5;
+                        }
+                        &:last-child{
+                            border-bottom: none;
+                            min-height: 152px;
+                        }
+                        .ant-form-item{                           
+                            margin-right: 80px;
+                            &:last-child{
+                                margin:0;
+                            }
+                        }
+                        .area-right,.money-right{
+                            margin-right: 58px;
+                        }
+                    }
+                    .ant-form-item{                           
+                        .ant-form-item-label{
+                            min-width: 70px;
+                            text-align: right;
+                        }
+                    }
+                }
+            }
+            .no-data-box{
+                padding-top: 60px;
+                text-align: center;
+                p{
+                    margin-top:20px;
+                    color: #808387;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+    .auto_complete_content{
+        //自动联想输入框
+        .atuo_complete,.atuo_complete_nodata{
+            position: relative;
+            width: 150px !important;
+            .ant-select-search__field {
+                width: 150px !important;
+                margin: 0 !important;
+            }
+            .ant-select-selection__rendered {
+                width: 140px !important;
+            }
+        }
+        //无数据时样式
+        .atuo_complete_nodata{
+            .ant-select-search__field{
+                border: 1px solid #FD9C26 !important;
+            }
+        }
+        
+        .auto_complete_nodata{
+            line-height: 12px;
+            font-size: 12px;
+            color: #FD9C26;
+            padding-left: 10px;
+            margin-bottom: 0;
+            position: relative;
+            top: 8px;
+        }
+        
+        .auto_complete_nodatas{
+            width: 150px;
+            height: 46px;
+            background: #FFFFFF;
+            box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+            border: 1px solid #DDE0E7; 
+            color: #7D8699;
+            font-size: 12px;
+            text-align: center;
+            line-height: 46px;
+            position: relative;
+            top: 8px;
+        }
+        .ant-select-dropdown-menu{
+            li{
+                white-space: pre-wrap;
+            }
+        }
+    }
+    .save-btn{
+        display: flex;
+        justify-content: center;
+        .ant-btn{
+            width: 104px;
+            height: 32px;
+            margin-top: 40px;
+        }
+    }
+}
+.batch-modal{
+    .ant-modal-content{
+        .ant-modal-header{
+            padding: 20px 24px !important;
+            .ant-modal-title{       
+                color: #262626 !important;
+            }
+        }
+        .ant-modal-body{
+            padding: 0 24px 24px !important;
+            p{
+                font-size: 16px;
+                line-height: 43px;
+                margin: 0;
+            }
+            textarea{
+                resize: none;
+            }
+        }
+        .ant-modal-footer{
+            border-top: 1px solid #E8E8E8 !important;
+            padding: 12px 24px 12px 0 !important;
+            .ant-btn{
+                width: 65px;
+                height: 32px;
+                margin-left: 16px;
+            }
+        }
+    }
+}

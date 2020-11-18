@@ -8,6 +8,7 @@ module.exports = function (app) {
 		'/api/',
 		proxy({
 			target: 'http://172.18.255.251:18089',
+			// target: 'http://172.18.255.136:8080',
 			changeOrigin: true,
 		}),
 	);

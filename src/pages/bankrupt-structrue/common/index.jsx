@@ -1,3 +1,3 @@
-import Auction from './auction'
+import Auction from "./auction";
 
 export { Auction };
