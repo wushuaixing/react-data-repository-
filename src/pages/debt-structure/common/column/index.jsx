@@ -33,7 +33,11 @@ export const ListColumns = [
       }
       if (status === 3) {
         color = "success";
-        text = "检查无误";
+        if (localStorage.getItem("userState") === "检查人员") {
+          text = "检查无误";
+        } else {
+          text = "已标注";
+        }
       }
       return <Badge status={color} text={text} />;
     },
