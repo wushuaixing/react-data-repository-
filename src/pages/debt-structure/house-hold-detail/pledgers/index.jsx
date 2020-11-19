@@ -107,11 +107,13 @@ class PledgersAndDebtorsInfo extends React.Component {
           if (value) {
             if (value.length > 3) {
               arr[index]["obligorType"] = 1; //名称大于三时人员类别为企业
+            }else{
+              arr[index]["obligorType"] = 2; //名称小于三时人员类别为个人
             }
-            arr[index]["blurAndNotNull"] = true;
+            arr[index]["blurAndNotNull"] = true; //按钮可选
           } else {
             arr[index]["obligorType"] = 0;
-            arr[index]["blurAndNotNull"] = false; //没有数据时 人员类别为禁用
+            arr[index]["blurAndNotNull"] = false; //没有数据时 人员类别 未知且禁用
           }
           arr[index][key] = value;
           break;

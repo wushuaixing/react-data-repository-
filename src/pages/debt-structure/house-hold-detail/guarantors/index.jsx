@@ -145,6 +145,8 @@ class GuarantorsInfo extends React.Component {
             if (value) {
               if (value.length > 3) {
                 arr[index].msgs[indexs]["obligorType"] = 1; //大于三 人员类别为企业
+              }else{
+                arr[index].msgs[indexs]["obligorType"] = 2; //小于三 为个人
               }
               arr[index].msgs[indexs]["blurAndNotNull"] = true;
             } else {

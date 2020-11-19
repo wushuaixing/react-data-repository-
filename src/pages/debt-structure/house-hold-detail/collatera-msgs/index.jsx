@@ -4,6 +4,7 @@ import DebtApi from "@/server/debt";
 import ItemEditContent from "./item";
 import { HAS_TYPE, USE_TYPE, Title_TYPE } from "../../common/type";
 import NoDataIMG from "@/assets/img/no_data.png";
+import {clone } from "@utils/common";
 const collateralForm = Form.create;
 const { confirm } = Modal;
 const getMsgs = () => ({
@@ -20,6 +21,7 @@ const getMsgs = () => ({
   mortgagePrice: "",
   id: Math.random(),
   note: "",
+  owner:[]
 });
 class CollateralMsgsInfo extends React.Component {
   constructor(props) {
@@ -141,8 +143,18 @@ class CollateralMsgsInfo extends React.Component {
   //保存
   handleSave = (val, index) => {
     const { data } = this.state;
+    const {dynamicOwners}=this.props;
+
     const arr = data;
-    let obj = val;
+    let obj = clone(val);
+    let owners=[];
+    obj.owner.forEach((i)=>{
+      dynamicOwners.forEach((j)=>{
+          if(j.name===i){
+            owners.push(j)
+          }
+      })
+    });
     obj.id = 0;
     obj.hasLease = parseInt(this.handFindKey(HAS_TYPE, obj.hasLease));
     obj.hasSeizure = parseInt(this.handFindKey(HAS_TYPE, obj.hasSeizure));
@@ -151,11 +163,7 @@ class CollateralMsgsInfo extends React.Component {
     obj.consultPrice = parseInt(obj.consultPrice) || 0;
     obj.landArea = parseInt(obj.landArea) || 0;
     obj.mortgagePrice = parseInt(obj.mortgagePrice) || 0;
-    obj.owner = obj.owner
-      ? obj.owner.map((i) => {
-          return { name: i, id: 0 };
-        })
-      : [];
+    obj.owner=owners;
     arr[index] = obj;
     this.setState(
       {
@@ -200,6 +208,7 @@ class CollateralMsgsInfo extends React.Component {
   render() {
     const { data, isChange, collateralMsg } = this.state;
     const { dynamicOwners, isEdit } = this.props;
+    let dynamicOwnersList = dynamicOwners.map((i) => i.name);
     return (
       <div className="debt-detail-components msgs-info" id="MsgsInfo">
         <div className="header">抵押物信息</div>
@@ -214,7 +223,7 @@ class CollateralMsgsInfo extends React.Component {
                   handleRowDel={this.handleRowDel}
                   handleSave={this.handleSave}
                   handleRowReset={this.handleRowReset}
-                  dynamicOwners={dynamicOwners}
+                  dynamicOwners={dynamicOwnersList}
                   isChange={isChange}
                   handleSelect={this.handleSelect}
                   collateralMsg={collateralMsg}

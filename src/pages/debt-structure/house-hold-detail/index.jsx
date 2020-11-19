@@ -140,7 +140,7 @@ class HouseHoldDetail extends Component {
 
   //抵押物 所有人去重规则
   removeRepeat = (arrList) => {
-    let arr = arrList;
+    let arr = clone(arrList);
     for (let i = 0; i < arr.length; i++) {
       for (let j = i + 1; j < arr.length; j++) {
         if (arr[i]["name"] === arr[j]["name"]) {
@@ -179,8 +179,8 @@ class HouseHoldDetail extends Component {
         }
       }
     }
-    let dynamicArr = arr.map((i) => i.name);
-    return dynamicArr;
+    // let dynamicArr = arr.map((i) => i.name);
+    return arr;
   };
 
   //债权信息 抵押物信息 变更
@@ -237,6 +237,7 @@ class HouseHoldDetail extends Component {
     );
   };
 
+  //获取所有人下拉框数据
   getOwners = (flag) => {
     const { detailInfo } = this.state;
     let arr = [];
@@ -246,7 +247,7 @@ class HouseHoldDetail extends Component {
         name: item.name,
         number: item.number,
         birthday: item.birthday,
-        id: Math.random(),
+        id: item.id >= 1 ? item.id : 0,
       };
       arr.push(obj);
     });
@@ -255,7 +256,7 @@ class HouseHoldDetail extends Component {
         name: item.name,
         number: item.number,
         birthday: item.birthday,
-        id: Math.random(),
+        id: item.id >= 1 ? item.id : 0,
       };
       arr.push(obj);
     });
@@ -265,7 +266,7 @@ class HouseHoldDetail extends Component {
           name: item.name,
           number: item.number,
           birthday: item.birthday,
-          id: Math.random(),
+          id: item.id >= 1 ? item.id : 0,
         };
         arr.push(obj);
       });
@@ -275,7 +276,7 @@ class HouseHoldDetail extends Component {
         dynamicOwners: this.removeRepeat(arr), //所有人
       },
       () => {
-        flag === "isChange" && this.collateralMsgsRef.handleChange();
+        flag === "isChange" && this.collateralMsgsRef.handleChange(); //保证人信息  抵质押人信息 债务人信息 变更 让抵押物所有人置空
       }
     );
   };
