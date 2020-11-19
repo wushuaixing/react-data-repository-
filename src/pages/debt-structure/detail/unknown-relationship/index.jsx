@@ -114,9 +114,9 @@ class UnknownRelationShip extends Component {
   };
   render() {
     const { data, isEdit, unitNumber } = this.props;
-    const isIdNull = data && data.id;
+    const isIdNull = data && data.id; //后端返回为对象形式，id为null则没有数据
     const unKnowList = isIdNull ? [{ ...data }] : [];
-    const disabled = unitNumber <= 1;
+    const disabled = unitNumber <= 1 || isIdNull; //当列表页有“未知对应关系”的信息或各户信息列表少于两条时，此按钮置灰
     return (
       <div className="debt-detail-components debt-house-hold">
         <div className="header">
