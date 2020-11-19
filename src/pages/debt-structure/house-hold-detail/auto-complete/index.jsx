@@ -85,8 +85,12 @@ class AutoCompleteInput extends Component {
 
   render() {
     const { nameVal, index, indexs } = this.props;
-    const { prompstList, isBlur } = this.state;
-    const isHaveData = prompstList.length === 0 && nameVal.length > 3;
+    const { prompstList, isBlur,isChinese } = this.state;
+    const isHaveData =
+      prompstList.length === 0 &&
+      nameVal.trim().length > 3 && 
+      isChinese!=='Chinese'
+      ;
     const options = (prompstList || []).map((item) => {
       let value = item
         .replace(/<span style='color:red'>/g, "")

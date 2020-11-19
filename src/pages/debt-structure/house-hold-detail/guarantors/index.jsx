@@ -5,6 +5,7 @@ import NoDataIMG from "@/assets/img/no_data.png";
 import { SEXS_TYPE, OBLIGOR_TYPE, ROLETYPES_TYPE } from "../../common/type";
 import BatchAddModal from "../../common/modal/batch-add-modal";
 import AutoCompleteInput from "../auto-complete";
+import { dateUtils } from "@utils/common";
 const { Option } = Select;
 const { confirm } = Modal;
 //添加同组
@@ -50,13 +51,23 @@ class GuarantorsInfo extends React.Component {
     const { data } = this.state;
     !data.length &&
       this.setState({
-        data: props.data
+        data: props.data,
       });
   }
 
   //通过val 找key
   handleFindKey = (obj, value, compare = (a, b) => a === b) => {
     return Object.keys(obj).find((i) => compare(obj[i], value));
+  };
+
+  handleBirthdayFormat = (value) => {
+    let reg = /(^\d{1,4}|\d{1,2})/g;
+    let timeArr = value.match(reg);
+    let result =
+      timeArr && timeArr.length > 0
+        ? dateUtils.formatDateComplete(timeArr)
+        : value;
+    return parseInt(result);
   };
 
   //删除
@@ -142,10 +153,11 @@ class GuarantorsInfo extends React.Component {
             arr[index].msgs[indexs][key] = obligorTypeValues;
             break;
           case "name":
-            if (value) {
-              if (value.length > 3) {
+            let val = value.trim().replace(/[(]/g, "（").replace(/[)]/g, "）");
+            if (val) {
+              if (val.length > 3) {
                 arr[index].msgs[indexs]["obligorType"] = 1; //大于三 人员类别为企业
-              }else{
+              } else {
                 arr[index].msgs[indexs]["obligorType"] = 2; //小于三 为个人
               }
               arr[index].msgs[indexs]["blurAndNotNull"] = true;
@@ -153,7 +165,11 @@ class GuarantorsInfo extends React.Component {
               arr[index].msgs[indexs]["obligorType"] = 0;
               arr[index].msgs[indexs]["blurAndNotNull"] = false; //无数据时 人员类别为 未知且禁用
             }
-            arr[index].msgs[indexs][key] = value;
+            arr[index].msgs[indexs][key] = val;
+            break;
+          case "birthday":
+            let intVal = this.handleBirthdayFormat(value);
+            arr[index].msgs[indexs][key] = intVal;
             break;
           default:
             arr[index].msgs[indexs][key] = value;
@@ -324,8 +340,13 @@ class GuarantorsInfo extends React.Component {
               value={item.number}
               key={`number${indexs}`}
               onChange={(e) => this.handleChange(e, "number", index, indexs)}
-              onBlur={(e) =>
-                this.handleChange(e, "number", index, indexs, true)
+              onBlur={(e) =>{
+                e.persist();
+                e.target.value = e.target.value
+                .trim()
+                .replace(/[(]/g, "（")
+                .replace(/[)]/g, "）");
+                this.handleChange(e, "number", index, indexs, true)}
               }
               style={{ marginBottom: 20, height: 32, width: 160 }}
             />
@@ -342,7 +363,7 @@ class GuarantorsInfo extends React.Component {
             <Input
               placeholder="请输入生日"
               autoComplete="off"
-              value={item.birthday}
+              value={item.birthday || ''}
               key={`birthday${indexs}`}
               onChange={(e) => {
                 this.handleChange(e, "birthday", index, indexs);

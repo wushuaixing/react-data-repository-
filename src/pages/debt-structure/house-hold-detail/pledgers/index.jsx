@@ -4,6 +4,7 @@ import NoDataIMG from "@/assets/img/no_data.png";
 import { OBLIGOR_TYPE, ROLETYPES_TYPE, SEXS_TYPE } from "../../common/type";
 import { PledgersAndDebtorsColumn } from "../../common/column";
 import AutoCompleteInput from "../auto-complete";
+import { dateUtils } from "@utils/common";
 const { Option } = Select;
 const { confirm } = Modal;
 const getPledgersOrDebtors = (ispledgers) => ({
@@ -37,6 +38,16 @@ class PledgersAndDebtorsInfo extends React.Component {
   //通过val找key值
   handleFindKey = (obj, value, compare = (a, b) => a === b) => {
     return Object.keys(obj).find((i) => compare(obj[i], value));
+  };
+
+  handleBirthdayFormat = (value) => {
+    let reg = /(^\d{1,4}|\d{1,2})/g;
+    let timeArr = value.match(reg);
+    let result =
+      timeArr && timeArr.length > 0
+        ? dateUtils.formatDateComplete(timeArr)
+        : value;
+    return parseInt(result);
   };
 
   //获取角色 （抵质押人还是债务人）
@@ -104,10 +115,11 @@ class PledgersAndDebtorsInfo extends React.Component {
           arr[index][key] = obligorTypeValue;
           break;
         case "name":
-          if (value) {
-            if (value.length > 3) {
+          let val=value.trim().replace(/[(]/g, "（").replace(/[)]/g, "）");
+          if (val) {
+            if (val.length > 3) {
               arr[index]["obligorType"] = 1; //名称大于三时人员类别为企业
-            }else{
+            } else {
               arr[index]["obligorType"] = 2; //名称小于三时人员类别为个人
             }
             arr[index]["blurAndNotNull"] = true; //按钮可选
@@ -115,10 +127,10 @@ class PledgersAndDebtorsInfo extends React.Component {
             arr[index]["obligorType"] = 0;
             arr[index]["blurAndNotNull"] = false; //没有数据时 人员类别 未知且禁用
           }
-          arr[index][key] = value;
+          arr[index][key] = val;
           break;
         case "birthday":
-          let intVal = parseInt(value);
+          let intVal = this.handleBirthdayFormat(value);
           arr[index][key] = intVal;
           break;
         default:
@@ -128,7 +140,6 @@ class PledgersAndDebtorsInfo extends React.Component {
     } else {
       arr[index][key] = value;
     }
-
     this.setState(
       {
         data: arr,
@@ -231,6 +242,10 @@ class PledgersAndDebtorsInfo extends React.Component {
             }}
             onBlur={(e) => {
               e.persist();
+              e.target.value = e.target.value
+              .trim()
+              .replace(/[(]/g, "（")
+              .replace(/[)]/g, "）");
               this.handleChange(e, "number", index, true);
             }}
             style={{ width: 160 }}
