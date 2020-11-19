@@ -476,6 +476,7 @@ class DebtDetail extends Component {
     } = this.props;
     const text = rule === "check" ? "检查" : "";
     document.title = title;
+    const saveAndNextDisabled=creditorsUnitsList.some((i)=>(i.status===0)); //当资产包有未保存标签时，不允许“保存并标注下一条”。“保存并标注下一条”按钮置灰。
     return (
       <div className="yc-debt-container">
         <div className="yc-debt-content">
@@ -496,6 +497,7 @@ class DebtDetail extends Component {
                     type="primary"
                     style={{ height: 32, zIndex: 10 }}
                     onClick={() => this.handleSave(0)}
+                    disabled={saveAndNextDisabled}
                   >
                     {debtStatus === 0 || debtStatus === 1
                       ? "保存并标注下一条"
