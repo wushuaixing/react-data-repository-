@@ -172,9 +172,9 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "角色",
         dataIndex: "type",
-        width: 100,
+        width: 110,
         key: "type",
-        render: (text) => ROLETYPES_TYPE[text],
+        render: (text,record,index) => `${ROLETYPES_TYPE[text]}${index+1}`,
       },
       {
         title: () => {
@@ -236,6 +236,7 @@ class PledgersAndDebtorsInfo extends React.Component {
             placeholder="请输入证件号"
             autoComplete="off"
             value={text}
+            maxLength={20}
             onChange={(e) => {
               e.persist();
               this.handleChange(e, "number", index);

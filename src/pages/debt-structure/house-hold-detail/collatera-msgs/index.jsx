@@ -150,7 +150,7 @@ class CollateralMsgsInfo extends React.Component {
     let owners=[];
     obj.owner.forEach((i)=>{
       dynamicOwners.forEach((j)=>{
-          if(j.name===i){
+          if(j.typeName===i){
             owners.push(j)
           }
       })
@@ -208,7 +208,7 @@ class CollateralMsgsInfo extends React.Component {
   render() {
     const { data, isChange, collateralMsg } = this.state;
     const { dynamicOwners, isEdit } = this.props;
-    let dynamicOwnersList = dynamicOwners.map((i) => i.name);
+    let dynamicOwnersList = dynamicOwners.map((i) => i.typeName).filter(i=>i);
     return (
       <div className="debt-detail-components msgs-info" id="MsgsInfo">
         <div className="header">抵押物信息</div>

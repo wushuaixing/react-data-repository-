@@ -82,7 +82,7 @@ class Item extends Component {
       dynamicOwners,
       collateralMsg,
     } = this.props;
-    const ownerList = owner && owner.map((i) => i.name);
+    const ownerList = owner && owner.map((i) => i.name).filter(i=>i);
     const collateralMsgList = (collateralMsg || []).map((i) => i.name);
     return (
       <Form layout="inline" className="yc-form" key={`${name}${index}`}>

@@ -24,7 +24,9 @@ class Basic extends Component {
             </Link>
           </Item>
           <Item title="拍卖状态：" content={AUCTION_STATUS[status]} />
-          {status===11?<Item title="撤回原因：" content={withdraw} />:null}
+          {status === 11 ? (
+            <Item title="撤回原因：" content={withdraw} /> //拍卖状态为撤回时，展示撤回原因。
+          ) : null}
           {role !== "normal" && logs && logs.length > 0 && (
             <Item title="标注记录：">
               {logs.map((item, index) => (

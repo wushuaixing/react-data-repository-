@@ -221,6 +221,22 @@ class GuarantorsInfo extends React.Component {
     );
   };
 
+  /**
+   * 获取保证人索引值
+   * @param arr 保证人所有数据
+   * @param index 第几组
+   * @param indexs 组中第几个保证人
+   * return 第n组中第n个保证人 在整批保证人中的索引
+   */
+  getLength = (arr, index, indexs) => {
+    const data = arr.slice(0, index);
+    let i = 0;
+    data.forEach((item) => {
+      item.msgs.forEach(() => i++);
+    });
+    return i + indexs + 1;
+  };
+
   render() {
     const { data, visible } = this.state;
     const { isEdit } = this.props;
@@ -240,10 +256,12 @@ class GuarantorsInfo extends React.Component {
         dataIndex: "type",
         width: 193,
         key: "type",
-        render: (text, record) =>
+        render: (text, record, index) =>
           record.msgs &&
-          record.msgs.map((item) => (
-            <p key={item.id}>{ROLETYPES_TYPE[item.type]}</p>
+          record.msgs.map((item, indexs) => (
+            <p key={item.id}>{`${ROLETYPES_TYPE[item.type]}${
+              index + indexs
+            }`}</p>
           )),
       },
       ...GuarantorsColumn,
@@ -271,15 +289,18 @@ class GuarantorsInfo extends React.Component {
       {
         title: "角色",
         dataIndex: "type",
-        width: 61,
+        width: 80,
         key: "type",
         render: (text, record, index) =>
           record.msgs &&
-          record.msgs.map((item, indexs) => (
-            <div className="guarantors-type" key={`type${indexs}`}>
-              {ROLETYPES_TYPE[item.type]}
-            </div>
-          )),
+          record.msgs.map((item, indexs) => {
+            console.log(index);
+            return (
+              <div className="guarantors-type" key={`type${indexs}`}>
+                {`保证人${this.getLength(data, index, indexs)}`}
+              </div>
+            );
+          }),
       },
       {
         title: "人员类别",
@@ -339,15 +360,16 @@ class GuarantorsInfo extends React.Component {
               autoComplete="off"
               value={item.number}
               key={`number${indexs}`}
+              maxLength={20}
               onChange={(e) => this.handleChange(e, "number", index, indexs)}
-              onBlur={(e) =>{
+              onBlur={(e) => {
                 e.persist();
                 e.target.value = e.target.value
-                .trim()
-                .replace(/[(]/g, "（")
-                .replace(/[)]/g, "）");
-                this.handleChange(e, "number", index, indexs, true)}
-              }
+                  .trim()
+                  .replace(/[(]/g, "（")
+                  .replace(/[)]/g, "）");
+                this.handleChange(e, "number", index, indexs, true);
+              }}
               style={{ marginBottom: 20, height: 32, width: 160 }}
             />
           )),
@@ -363,7 +385,7 @@ class GuarantorsInfo extends React.Component {
             <Input
               placeholder="请输入生日"
               autoComplete="off"
-              value={item.birthday || ''}
+              value={item.birthday || ""}
               key={`birthday${indexs}`}
               onChange={(e) => {
                 this.handleChange(e, "birthday", index, indexs);

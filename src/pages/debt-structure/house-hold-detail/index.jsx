@@ -138,51 +138,6 @@ class HouseHoldDetail extends Component {
     }
   };
 
-  //抵押物 所有人去重规则
-  removeRepeat = (arrList) => {
-    let arr = clone(arrList);
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = i + 1; j < arr.length; j++) {
-        if (arr[i]["name"] === arr[j]["name"]) {
-          if (arr[j]["name"].length > 3) {
-            arr.splice(j, 1);
-          } else {
-            if (!arr[i]["number"] && !arr[j]["number"]) {
-              if (!arr[i]["birthday"] && !arr[j]["birthday"]) {
-                arr.splice(j, 1);
-              } else {
-                if (arr[i]["birthday"] === arr[j]["birthday"]) {
-                  arr.splice(j, 1);
-                } else {
-                  arr[i]["name"] = arr[i]["birthday"]
-                    ? `${arr[i]["name"]}(${arr[i]["birthday"]})`
-                    : arr[i]["name"];
-                  arr[j]["name"] = arr[j]["birthday"]
-                    ? `${arr[j]["name"]}(${arr[j]["birthday"]})`
-                    : arr[j]["name"];
-                }
-              }
-            } else {
-              if (arr[i]["number"] === arr[j]["number"]) {
-                arr.splice(j, 1);
-              } else {
-                arr[i]["name"] = arr[i]["number"]
-                  ? `${arr[i]["name"]}(${arr[i]["number"]})`
-                  : arr[i]["name"];
-                arr[j]["name"] = arr[j]["number"]
-                  ? `${arr[j]["name"]}(${arr[j]["number"]})`
-                  : arr[j]["name"];
-              }
-            }
-          }
-          j = j - 1; // splice()删除元素之后，会使得数组长度减少
-        }
-      }
-    }
-    // let dynamicArr = arr.map((i) => i.name);
-    return arr;
-  };
-
   //债权信息 抵押物信息 变更
   handleDebtRightsChange = (key, value) => {
     if (key === "collateralMsgs") {
@@ -237,35 +192,51 @@ class HouseHoldDetail extends Component {
     );
   };
 
+  /**
+   * 获取保证人索引值
+   * @param arr 保证人所有数据
+   * @param index 第几组
+   * @param indexs 组中第几个保证人
+   * return 第n组中第n个保证人 在整批保证人中的索引
+   */
+  getLength = (arr, index, indexs) => {
+    const data = arr.slice(0, index);
+    let i = 0;
+    data.forEach((item) => {
+      item.msgs.forEach(() => i++);
+    });
+    return i + indexs + 1;
+  };
+
   //获取所有人下拉框数据
   getOwners = (flag) => {
     const { detailInfo } = this.state;
     let arr = [];
     const { debtors, guarantors, pledgers } = detailInfo;
-    debtors.forEach((item) => {
+    debtors.forEach((item,index) => {
       let obj = {
         name: item.name,
-        number: item.number,
-        birthday: item.birthday,
+        type:  `债务人${index}`,
+        id: item.id >= 1 ? item.id : 0,
+        typeName:`${item.name}(债务人${index})`
+      };
+      arr.push(obj);
+    });
+    pledgers.forEach((item,index) => {
+      let obj = {
+        name: item.name,
+        typeName:`${item.name}(抵质押人${index})`,
         id: item.id >= 1 ? item.id : 0,
       };
       arr.push(obj);
     });
-    pledgers.forEach((item) => {
-      let obj = {
-        name: item.name,
-        number: item.number,
-        birthday: item.birthday,
-        id: item.id >= 1 ? item.id : 0,
-      };
-      arr.push(obj);
-    });
-    guarantors[0].msgVOS.forEach((item) => {
-      item.msgs.forEach((item) => {
+    guarantors[0].msgVOS.forEach((item,index) => {
+      item.msgs.forEach((item,indexs) => {
+        let  dymicIndex=this.getLength(guarantors[0].msgVOS, index, indexs);
         let obj = {
           name: item.name,
-          number: item.number,
-          birthday: item.birthday,
+          type: `保证人${dymicIndex}`,
+          typeName:`${item.name}(保证人${dymicIndex})`,
           id: item.id >= 1 ? item.id : 0,
         };
         arr.push(obj);
@@ -273,7 +244,7 @@ class HouseHoldDetail extends Component {
     });
     this.setState(
       {
-        dynamicOwners: this.removeRepeat(arr), //所有人
+        dynamicOwners: arr, //所有人
       },
       () => {
         flag === "isChange" && this.collateralMsgsRef.handleChange(); //保证人信息  抵质押人信息 债务人信息 变更 让抵押物所有人置空

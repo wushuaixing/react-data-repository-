@@ -91,9 +91,9 @@ export const HouseHoldColumn = [
               return (
                 <div className="info-line" key={`info${index}`}>
                   <div className="name">名称：{item.name || "-"}</div>
-                  {!item.type && (
-                    <div className="number">证件号：{item.number || "-"}</div>
-                  )}
+                  {item.type!==1 ? (
+                    <div className="number">证件号：{item.number || "-"}</div> //债务人为企业时不展示证件号字段
+                  ):null}
                 </div>
               );
             })}
@@ -308,6 +308,7 @@ export const PledgersAndDebtorsColumn = [
     dataIndex: "type",
     width: 193,
     key: "type",
+    render: (text,record,index) => `${text}${index}` || "-",
   },
   {
     title: "人员类别",
