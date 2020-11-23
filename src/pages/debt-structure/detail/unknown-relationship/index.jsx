@@ -31,6 +31,8 @@ class UnknownRelationShip extends Component {
         key: "guarantorNum",
         render: (guarantorNum, record) => (
           <span
+            style={{ cursor: "pointer" }}
+            className={guarantorNum ? "hasColor" : ""}
             onClick={this.handleOpenGuarantorModal.bind(this, {
               id: record.id,
               type: "guarantorNum",
@@ -47,6 +49,8 @@ class UnknownRelationShip extends Component {
         key: "pledgerNum",
         render: (pledgerNum, record) => (
           <span
+            style={{ cursor: "pointer" }}
+            className={pledgerNum ? "hasColor" : ""}
             onClick={this.handleOpenGuarantorModal.bind(this, {
               id: record.id,
               type: "pledgerNum",
@@ -63,6 +67,8 @@ class UnknownRelationShip extends Component {
         key: "collateralNum",
         render: (collateralNum, record) => (
           <span
+            style={{ cursor: "pointer" }}
+            className={collateralNum ? "hasColor" : ""}
             onClick={this.handleOpenGuarantorModal.bind(this, {
               id: record.id,
               type: "collateralNum",
@@ -83,10 +89,20 @@ class UnknownRelationShip extends Component {
               {isEdit ? (
                 <div className="action-btn-group">
                   <span>
-                    <span onClick={() => this.goDetail(record.id)}>编辑</span>
+                    <span
+                      onClick={() => this.goDetail(record.id)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      编辑
+                    </span>
                   </span>
                   <span>|</span>
-                  <span onClick={() => this.handleDel(record.id)}>删除</span>
+                  <span
+                    onClick={() => this.handleDel(record.id)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    删除
+                  </span>
                 </div>
               ) : (
                 <span>

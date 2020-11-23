@@ -301,7 +301,7 @@ class Item extends Component {
                 })(
                   <Select
                     mode="multiple"
-                    style={{ height: 32, width: 421 }}
+                    style={{ minHeight: 32, width: 421 }}
                     placeholder="请选择所有人"
                     onSelect={this.save}
                     onDeselect={this.save} //删除选中数值时调用保存

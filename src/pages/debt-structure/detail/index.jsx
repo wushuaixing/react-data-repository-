@@ -100,7 +100,7 @@ class DebtDetail extends Component {
       });
   };
 
-  //获取详情数据 页面首次进入时调用详情接口 和 各户信息两个接口  户/未知对应关系 编辑只刷新各户信息列表
+  //获取详情数据 页面首次进入时调用详情接口 和 各户信息两个接口  (户/未知对应关系 编辑只刷新各户信息列表)
   getDetailInfo = (props) => {
     const {
       match: {
@@ -140,8 +140,8 @@ class DebtDetail extends Component {
               guarantorCount: data.guarantorCount, //未知对应关系_保证人数
               pledgerCount: data.pledgerCount, //未知对应关系_抵质押人数
 
-              msgsLists: data.msgsLists, //系统提取信息-抵押物信息
-              usersLists: data.usersLists, //系统提取信息-保证人信息
+              msgsLists: data.msgsLists ? data.msgsLists : [], //系统提取信息-抵押物信息
+              usersLists: data.usersLists ? data.usersLists : [], //系统提取信息-保证人信息
 
               isEdit: Boolean(parseInt(approverStatus)), //是否可编辑
               debtStatus: parseInt(debtStatus),
@@ -476,7 +476,7 @@ class DebtDetail extends Component {
     } = this.props;
     const text = rule === "check" ? "检查" : "";
     document.title = title;
-    const saveAndNextDisabled=creditorsUnitsList.some((i)=>(i.status===0)); //当资产包有未保存标签时，不允许“保存并标注下一条”。“保存并标注下一条”按钮置灰。
+    const saveAndNextDisabled = creditorsUnitsList.some((i) => i.status === 0); //当资产包有未保存标签时，不允许“保存并标注下一条”。“保存并标注下一条”按钮置灰。
     return (
       <div className="yc-debt-container">
         <div className="yc-debt-content">

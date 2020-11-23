@@ -184,7 +184,7 @@ class QueryForm extends React.Component {
                   placeholder="拍卖信息标题"
                   size="default"
                   autoComplete="off"
-                  style={{ width: 240 }}
+                  style={{ width: 400 }}
                 />
               )}
             </Form.Item>
@@ -195,7 +195,7 @@ class QueryForm extends React.Component {
                 <DatePicker
                   placeholder="开始时间"
                   disabledDate={this.disabledStartDate}
-                  style={{ width: 120 }}
+                  style={{ width: 130 }}
                 />
               )}
             </Form.Item>
@@ -206,7 +206,7 @@ class QueryForm extends React.Component {
                 <DatePicker
                   placeholder="结束时间"
                   disabledDate={this.disabledEndDate}
-                  style={{ width: 120 }}
+                  style={{ width: 130 }}
                 />
               )}
             </Form.Item>

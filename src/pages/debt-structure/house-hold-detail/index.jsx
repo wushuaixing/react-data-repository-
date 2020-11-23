@@ -10,7 +10,6 @@ import CollateralMsgsInfo from "./collatera-msgs";
 import { ANCHOR_TYPE } from "../common/type";
 import { filters, clone } from "@utils/common";
 import "./style.scss";
-
 class HouseHoldDetail extends Component {
   constructor() {
     super();
@@ -137,7 +136,6 @@ class HouseHoldDetail extends Component {
       );
     }
   };
-
   //债权信息 抵押物信息 变更
   handleDebtRightsChange = (key, value) => {
     if (key === "collateralMsgs") {
@@ -213,30 +211,28 @@ class HouseHoldDetail extends Component {
     const { detailInfo } = this.state;
     let arr = [];
     const { debtors, guarantors, pledgers } = detailInfo;
-    debtors.forEach((item,index) => {
+    debtors.forEach((item, index) => {
       let obj = {
         name: item.name,
-        type:  `债务人${index}`,
         id: item.id >= 1 ? item.id : 0,
-        typeName:`${item.name}(债务人${index})`
+        typeName: `${item.name}(债务人${index + 1})`,
       };
       arr.push(obj);
     });
-    pledgers.forEach((item,index) => {
+    pledgers.forEach((item, index) => {
       let obj = {
         name: item.name,
-        typeName:`${item.name}(抵质押人${index})`,
+        typeName: `${item.name}(抵质押人${index + 1})`,
         id: item.id >= 1 ? item.id : 0,
       };
       arr.push(obj);
     });
-    guarantors[0].msgVOS.forEach((item,index) => {
-      item.msgs.forEach((item,indexs) => {
-        let  dymicIndex=this.getLength(guarantors[0].msgVOS, index, indexs);
+    guarantors[0].msgVOS.forEach((item, index) => {
+      item.msgs.forEach((item, indexs) => {
+        let dymicIndex = this.getLength(guarantors[0].msgVOS, index, indexs);
         let obj = {
           name: item.name,
-          type: `保证人${dymicIndex}`,
-          typeName:`${item.name}(保证人${dymicIndex})`,
+          typeName: `${item.name}(保证人${dymicIndex})`,
           id: item.id >= 1 ? item.id : 0,
         };
         arr.push(obj);
@@ -247,7 +243,7 @@ class HouseHoldDetail extends Component {
         dynamicOwners: arr, //所有人
       },
       () => {
-        flag === "isChange" && this.collateralMsgsRef.handleChange(); //保证人信息  抵质押人信息 债务人信息 变更 让抵押物所有人置空
+        flag === "isChange" && this.collateralMsgsRef.handleChange(); //保证人信息  抵质押人信息 债务人信息 变更 让抵押物所有人置空(页面首次加载时不触发)
       }
     );
   };

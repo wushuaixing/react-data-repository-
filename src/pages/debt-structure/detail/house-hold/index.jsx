@@ -36,12 +36,13 @@ class HouseHold extends Component {
         render: (guarantorNum, record) => (
           <span
             className={guarantorNum ? "hasColor" : ""}
+            style={{cursor:'pointer'}}
             onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "guarantorNum",
             })}
           >
-            {guarantorNum}
+            {guarantorNum||0}
           </span>
         ),
       },
@@ -52,12 +53,14 @@ class HouseHold extends Component {
         key: "pledgerNum",
         render: (pledgerNum, record) => (
           <span
+            className={pledgerNum ? "hasColor" : ""}
+            style={{cursor:'pointer'}}
             onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "pledgerNum",
             })}
           >
-            {pledgerNum}
+            {pledgerNum||0}
           </span>
         ),
       },
@@ -68,12 +71,14 @@ class HouseHold extends Component {
         key: "collateralNum",
         render: (collateralNum, record) => (
           <span
-            onClick={this.handleNumberModal.bind(this, {
+              style={{cursor:'pointer'}}
+              className={collateralNum ? "hasColor" : ""}
+              onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "collateralNum",
             })}
           >
-            {collateralNum}
+            {collateralNum||0}
           </span>
         ),
       },

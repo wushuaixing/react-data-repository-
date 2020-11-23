@@ -81,7 +81,7 @@ class DebtTable extends React.Component {
                 size="small"
                 type="primary"
                 ghost
-                style={{ minWidth: 60, height: 28 }}
+                style={{ minWidth: 88, height: 28 }}
                 className="btn-bgcolor-change"
                 onClick={() => {
                   this.handGoDetail(record);

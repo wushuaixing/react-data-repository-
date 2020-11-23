@@ -115,9 +115,9 @@ class PledgersAndDebtorsInfo extends React.Component {
           arr[index][key] = obligorTypeValue;
           break;
         case "name":
-          let val=value.trim().replace(/[(]/g, "（").replace(/[)]/g, "）");
+          let val = value.trim().replace(/[(]/g, "（").replace(/[)]/g, "）");
           if (val) {
-            if (val.length > 3) {
+            if (val.length > 4) {
               arr[index]["obligorType"] = 1; //名称大于三时人员类别为企业
             } else {
               arr[index]["obligorType"] = 2; //名称小于三时人员类别为个人
@@ -156,9 +156,16 @@ class PledgersAndDebtorsInfo extends React.Component {
     const { role, isEdit } = this.props;
     const PledgersAndDebtorsColumnEdit = [
       {
+        title: "序号",
+        dataIndex: "type",
+        width: this.getRole() === "pledgers" ? 112 : 98,
+        key: "type",
+        render: (text, record, index) => `${ROLETYPES_TYPE[text]}${index + 1}`,
+      },
+      {
         title: "名称",
         dataIndex: "name",
-        width: 160,
+        width: this.getRole() === "pledgers" ? 253 : 268,
         key: "name",
         render: (text, record, index) => (
           <AutoCompleteInput
@@ -166,15 +173,9 @@ class PledgersAndDebtorsInfo extends React.Component {
             nameVal={text}
             index={index}
             key={record.id}
+            width={228}
           />
         ),
-      },
-      {
-        title: "角色",
-        dataIndex: "type",
-        width: 110,
-        key: "type",
-        render: (text,record,index) => `${ROLETYPES_TYPE[text]}${index+1}`,
       },
       {
         title: () => {
@@ -199,7 +200,7 @@ class PledgersAndDebtorsInfo extends React.Component {
           );
         },
         dataIndex: "obligorType",
-        width: 88,
+        width: 108,
         key: "obligorType",
         render: (text, record, index) => (
           <Select
@@ -229,7 +230,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "证件号",
         dataIndex: "number",
-        width: 187,
+        width: 230,
         key: "number",
         render: (text, record, index) => (
           <Input
@@ -244,9 +245,9 @@ class PledgersAndDebtorsInfo extends React.Component {
             onBlur={(e) => {
               e.persist();
               e.target.value = e.target.value
-              .trim()
-              .replace(/[(]/g, "（")
-              .replace(/[)]/g, "）");
+                .trim()
+                .replace(/[(]/g, "（")
+                .replace(/[)]/g, "）");
               this.handleChange(e, "number", index, true);
             }}
             style={{ width: 160 }}
@@ -256,7 +257,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "生日",
         dataIndex: "birthday",
-        width: 115,
+        width: 130,
         key: "birthday",
         render: (text, record, index) => (
           <Input
@@ -278,7 +279,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "性别",
         dataIndex: "gender",
-        width: 92,
+        width: 114,
         key: "gender",
         render: (text, record, index) => (
           <Select
@@ -303,7 +304,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "备注",
         dataIndex: "notes",
-        width: 130,
+        width: 158,
         key: "notes",
         render: (text, record, index) => (
           <Input.TextArea
@@ -326,7 +327,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "操作",
         dataIndex: "action",
-        width: 79,
+        width: 70,
         key: "action",
         render: (text, record, index) => (
           <span
@@ -365,7 +366,7 @@ class PledgersAndDebtorsInfo extends React.Component {
         {isEdit ? (
           <Fragment>
             <Table
-              rowClassName="table-list"
+              rowClassName="edit-list"
               columns={PledgersAndDebtorsColumnEdit}
               dataSource={data}
               pagination={false}
