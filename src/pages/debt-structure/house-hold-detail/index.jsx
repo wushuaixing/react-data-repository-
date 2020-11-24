@@ -218,14 +218,14 @@ class HouseHoldDetail extends Component {
       let obj = {
         name: item.name,
         id: item.id >= 1 ? item.id : 0,
-        typeName: `${item.name}(债务人${index + 1})`,
+        typeName: `债务人${index + 1}`,
       };
       arr.push(obj);
     });
     pledgers.forEach((item, index) => {
       let obj = {
         name: item.name,
-        typeName: `${item.name}(抵质押人${index + 1})`,
+        typeName: `抵质押人${index + 1}`,
         id: item.id >= 1 ? item.id : 0,
       };
       arr.push(obj);
@@ -235,7 +235,7 @@ class HouseHoldDetail extends Component {
         let dymicIndex = this.getLength(guarantors[0].msgVOS, index, indexs);
         let obj = {
           name: item.name,
-          typeName: `${item.name}(保证人${dymicIndex})`,
+          typeName: `保证人${dymicIndex}`,
           id: item.id >= 1 ? item.id : 0,
         };
         arr.push(obj);

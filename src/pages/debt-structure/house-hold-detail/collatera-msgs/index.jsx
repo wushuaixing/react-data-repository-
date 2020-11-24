@@ -152,13 +152,12 @@ class CollateralMsgsInfo extends React.Component {
   handleSave = (val, index) => {
     const { data } = this.state;
     const { dynamicOwners } = this.props;
-
     const arr = data;
     let obj = clone(val);
     let owners = [];
     obj.owner.forEach((i) => {
       dynamicOwners.forEach((j) => {
-        if (j.typeName === i) {
+        if (i.includes(`${j.name}(${j.typeName})`)) {
           owners.push(j);
         }
       });
@@ -217,7 +216,7 @@ class CollateralMsgsInfo extends React.Component {
     const { data, isChange, collateralMsg } = this.state;
     const { dynamicOwners, isEdit } = this.props;
     let dynamicOwnersList = dynamicOwners
-      .map((i) => i.typeName)
+      .map((i) => `${i.name}(${i.typeName})`)
       .filter((i) => i);
     return (
       <div className="debt-detail-components msgs-info" id="MsgsInfo">
