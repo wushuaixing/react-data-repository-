@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { message, AutoComplete, Input } from "antd";
 import { getAutoPrompt } from "@/server/api";
-
+/**
+ * 债权结构化-自动联想组件
+ */
 class AutoCompleteInput extends Component {
   constructor() {
     super();
@@ -12,6 +14,15 @@ class AutoCompleteInput extends Component {
       //输入法是否为中文
     };
   }
+
+  static defaultProps = {
+    role: "",
+    nameVal: "",
+    width: 0,
+    index: 0,
+    indexs: 0,
+    handleChange: () => {},
+  };
 
   handChange = (e, key, index, isBlur, indexs) => {
     const { value } = e.target;
@@ -84,13 +95,12 @@ class AutoCompleteInput extends Component {
   };
 
   render() {
-    const { nameVal, index, indexs,width } = this.props;
-    const { prompstList, isBlur,isChinese } = this.state;
+    const { nameVal, index, indexs, width } = this.props;
+    const { prompstList, isBlur, isChinese } = this.state;
     const isHaveData =
       prompstList.length === 0 &&
-      nameVal.trim().length > 3 && 
-      isChinese!=='Chinese'
-      ;
+      nameVal.trim().length > 3 &&
+      isChinese !== "Chinese";
     const options = (prompstList || []).map((item) => {
       let value = item
         .replace(/<span style='color:red'>/g, "")

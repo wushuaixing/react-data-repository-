@@ -4,13 +4,19 @@ import { Button, Table } from "antd";
 import createPaginationProps from "@/utils/pagination";
 import { HouseHoldColumn } from "../../common/column";
 import NoDataIMG from "@/assets/img/no_data.png";
-
+/**
+ * 包详情-各户信息列表
+ */
 class HouseHold extends Component {
   static defaultProps = {
     isEdit: false,
     data: [],
     page: 1,
     total: 0,
+    packageId: "",
+    debtId: "",
+    handleDel: () => {},
+    handlePageChange: () => {},
   };
 
   //去户详情页
@@ -36,13 +42,13 @@ class HouseHold extends Component {
         render: (guarantorNum, record) => (
           <span
             className={guarantorNum ? "hasColor" : ""}
-            style={{cursor:'pointer'}}
+            style={{ cursor: "pointer" }}
             onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "guarantorNum",
             })}
           >
-            {guarantorNum||0}
+            {guarantorNum || 0}
           </span>
         ),
       },
@@ -54,13 +60,13 @@ class HouseHold extends Component {
         render: (pledgerNum, record) => (
           <span
             className={pledgerNum ? "hasColor" : ""}
-            style={{cursor:'pointer'}}
+            style={{ cursor: "pointer" }}
             onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "pledgerNum",
             })}
           >
-            {pledgerNum||0}
+            {pledgerNum || 0}
           </span>
         ),
       },
@@ -71,14 +77,14 @@ class HouseHold extends Component {
         key: "collateralNum",
         render: (collateralNum, record) => (
           <span
-              style={{cursor:'pointer'}}
-              className={collateralNum ? "hasColor" : ""}
-              onClick={this.handleNumberModal.bind(this, {
+            style={{ cursor: "pointer" }}
+            className={collateralNum ? "hasColor" : ""}
+            onClick={this.handleNumberModal.bind(this, {
               id: record.id,
               type: "collateralNum",
             })}
           >
-            {collateralNum||0}
+            {collateralNum || 0}
           </span>
         ),
       },

@@ -18,7 +18,9 @@ const getPledgersOrDebtors = (ispledgers) => ({
   type: ispledgers ? 3 : 1,
 });
 
-//抵质押人 和债务人组件
+/**
+ * 户详情-抵质押人信息
+ */
 class PledgersAndDebtorsInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +28,13 @@ class PledgersAndDebtorsInfo extends React.Component {
       data: [],
     };
   }
+
+  static defaultProps = {
+    role: "",
+    isEdit: false,
+    data: [],
+    handleChange: () => {},
+  };
 
   UNSAFE_componentWillReceiveProps(props) {
     const { data } = this.state;

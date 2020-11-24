@@ -1,7 +1,9 @@
 import React from "react";
 import { Modal, Button } from "antd";
 import { Title_TYPE } from "../type";
-
+/**
+ * 系统提取信息 抵押物信息-查看详情弹窗
+ */
 class MsgsInfoModal extends React.Component {
   static defaultProps = {
     msgsInfo: {},

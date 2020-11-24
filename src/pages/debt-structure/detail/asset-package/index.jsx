@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { Popover, Icon, InputNumber, Checkbox } from "antd";
-
+/**
+ * 包详情-资产包信息 户详情-债权信息
+ */
 class AssetPackage extends Component {
   static defaultProps = {
     isEdit: false,
@@ -9,7 +11,9 @@ class AssetPackage extends Component {
     creditorsRightsPrincipal: 0,
     outstandingInterest: 0,
     totalAmountCreditorsRights: 0,
+    summation: 1,
     role: "",
+    handleChange: () => {},
   };
 
   handleChange = (e, val) => {

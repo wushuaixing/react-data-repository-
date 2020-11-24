@@ -13,6 +13,9 @@ import NumberModal from "../common/modal/number-modal";
 import { Button, Checkbox, Modal, Icon, message } from "antd";
 import "./style.scss";
 const { confirm } = Modal;
+/**
+ * 债权包详情
+ */
 class DebtDetail extends Component {
   constructor() {
     super();

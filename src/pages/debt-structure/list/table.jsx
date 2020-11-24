@@ -6,7 +6,9 @@ import createPaginationProps from "@/utils/pagination";
 import NoDataIMG from "@/assets/img/no_data.png";
 import { STATUS_TYPE } from "../common/type";
 const { TabPane } = Tabs;
-
+/**
+ * 债权 列表
+ */
 class DebtTable extends React.Component {
   static defaultProps = {
     page: 1,
@@ -16,6 +18,8 @@ class DebtTable extends React.Component {
     role: "",
     panes: [],
     timeText: "",
+    onPageChange: () => {},
+    onTabChange: () => {},
   };
 
   //切换tab

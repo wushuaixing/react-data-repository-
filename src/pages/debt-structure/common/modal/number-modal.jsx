@@ -2,7 +2,9 @@ import React from "react";
 import { Modal, Button, Table } from "antd";
 import { GuarantorsColumn, PledgersColumn, CreditorsColumn } from "../column";
 import NoDataIMG from "@/assets/img/no_data.png";
-
+/**
+ * 各户信息/未知对应关系-保证人/抵质押人/抵质押物-数字弹窗
+ */
 class NumberModal extends React.Component {
   //数字弹框
   getColumns = (params) => {
@@ -49,7 +51,7 @@ class NumberModal extends React.Component {
     }
     const footer = (
       <div className="number-modal-footer">
-        <Button type="primary" onMouseDown={this.handleClose}>
+        <Button  onMouseDown={this.handleClose}>
           关闭
         </Button>
       </div>

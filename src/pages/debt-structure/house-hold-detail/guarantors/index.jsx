@@ -37,7 +37,9 @@ const getGuarantors = (name) => ({
     },
   ],
 });
-
+/**
+ * 户详情-保证人信息
+ */
 class GuarantorsInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -46,6 +48,12 @@ class GuarantorsInfo extends React.Component {
       visible: false,
     };
   }
+
+  static defaultProps = {
+    isEdit: false,
+    data: [],
+    handleChange: () => {},
+  };
 
   UNSAFE_componentWillReceiveProps(props) {
     const { data } = this.state;

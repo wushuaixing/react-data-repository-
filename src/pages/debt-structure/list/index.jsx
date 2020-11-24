@@ -8,7 +8,9 @@ import { rule } from "@/components/rule-container";
 import { BreadCrumb } from "@commonComponents";
 import { scrollTop } from "@utils/tools";
 import "./style.scss";
-
+/**
+ * 债权结构化列表页
+ */
 class DebtList extends React.Component {
   constructor(props) {
     super(props);
@@ -94,7 +96,7 @@ class DebtList extends React.Component {
           });
         }
         this.setState({
-          tableList: dataObject.data,
+          tableList: dataObject.data ? dataObject.data : [],
           total: dataObject ? dataObject.total : 0,
           page: dataObject ? dataObject.page : 1,
           loading: false,

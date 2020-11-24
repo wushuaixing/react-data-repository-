@@ -10,6 +10,9 @@ import CollateralMsgsInfo from "./collatera-msgs";
 import { ANCHOR_TYPE } from "../common/type";
 import { filters, clone } from "@utils/common";
 import "./style.scss";
+/**
+ * 债权-添加编辑 户/未知对应关系
+ */
 class HouseHoldDetail extends Component {
   constructor() {
     super();
@@ -329,7 +332,6 @@ class HouseHoldDetail extends Component {
             <GuarantorsInfo
               data={guarantors[0] ? guarantors[0].msgVOS : []}
               isEdit={noEdit}
-              handleOpenBatchAddModal={this.handleOpenBatchAddModal}
               handleChange={this.handleChange}
             />
             <PledgersAndDebtorsInfo

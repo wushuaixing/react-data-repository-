@@ -1,7 +1,9 @@
 import React from "react";
 import { Modal, Button, Input } from "antd";
 const { TextArea } = Input;
-
+/**
+ * 添加户-批量添加户弹窗
+ */
 class BatchAddModal extends React.Component {
   constructor() {
     super();
@@ -9,7 +11,7 @@ class BatchAddModal extends React.Component {
       text: "",
     };
   }
-  
+
   handleCancel = () => {
     this.props.handleCloseModal("batchAddModalVisible");
     this.setState({

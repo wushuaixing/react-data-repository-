@@ -2,11 +2,19 @@ import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { Button, Table } from "antd";
 import NoDataIMG from "@/assets/img/no_data.png";
-
+/**
+ * 包详情-未知对应关系
+ */
 class UnknownRelationShip extends Component {
   static defaultProps = {
+    data: {},
+    packageId: "",
     title: "",
-    idEdit: true,
+    idEdit: false,
+    unitNumber: 0,
+    debtId: "",
+    handleDel: () => {},
+    handleOpenModal: () => {},
   };
 
   //未知关系详情 添加时id为1

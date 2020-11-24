@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { HAS_TYPE, USE_TYPE } from "../../common/type";
 import { Input, Select, Button, Form, AutoComplete, Icon } from "antd";
 const { Option } = Select;
+/**
+ * 户详情-单个抵押物信息（可编辑页面）
+ */
 class Item extends Component {
   constructor() {
     super();
@@ -9,6 +12,20 @@ class Item extends Component {
       isRoleChange: false,
     };
   }
+
+  static defaultProps = {
+    index: 0,
+    key: "",
+    isChange: "",
+    id: "",
+    msgsList: {},
+    dynamicOwners: [],
+    collateralMsg: [],
+    handleRowDel: () => {},
+    handleSave: () => {},
+    handleRowReset: () => {},
+    handleSelect: () => {},
+  };
 
   //角色信息发生改变时 置空所有人信息
   UNSAFE_componentWillReceiveProps(props) {
@@ -82,7 +99,7 @@ class Item extends Component {
       dynamicOwners,
       collateralMsg,
     } = this.props;
-    const ownerList = owner && owner.map((i) => i.name).filter(i=>i);
+    const ownerList = owner && owner.map((i) => i.name).filter((i) => i);
     const collateralMsgList = (collateralMsg || []).map((i) => i.name);
     return (
       <Form layout="inline" className="yc-form" key={`${name}${index}`}>

@@ -4,7 +4,7 @@ import DebtApi from "@/server/debt";
 import ItemEditContent from "./item";
 import { HAS_TYPE, USE_TYPE, Title_TYPE } from "../../common/type";
 import NoDataIMG from "@/assets/img/no_data.png";
-import {clone } from "@utils/common";
+import { clone } from "@utils/common";
 const collateralForm = Form.create;
 const { confirm } = Modal;
 const getMsgs = () => ({
@@ -21,20 +21,28 @@ const getMsgs = () => ({
   mortgagePrice: "",
   id: Math.random(),
   note: "",
-  owner:[]
+  owner: [],
 });
+/**
+ * 户详情-抵押物信息
+ */
 class CollateralMsgsInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      isChange: false,
+      isChange: "",
       collateralMsg: [],
     };
   }
+
   static defaultProps = {
-    data: [],
+    id: "",
+    isEdit: false,
     enble: true,
+    data: [],
+    dynamicOwners: [],
+    handleChange: () => {},
   };
 
   componentDidMount() {
@@ -143,17 +151,17 @@ class CollateralMsgsInfo extends React.Component {
   //保存
   handleSave = (val, index) => {
     const { data } = this.state;
-    const {dynamicOwners}=this.props;
+    const { dynamicOwners } = this.props;
 
     const arr = data;
     let obj = clone(val);
-    let owners=[];
-    obj.owner.forEach((i)=>{
-      dynamicOwners.forEach((j)=>{
-          if(j.typeName===i){
-            owners.push(j)
-          }
-      })
+    let owners = [];
+    obj.owner.forEach((i) => {
+      dynamicOwners.forEach((j) => {
+        if (j.typeName === i) {
+          owners.push(j);
+        }
+      });
     });
     obj.id = 0;
     obj.hasLease = parseInt(this.handFindKey(HAS_TYPE, obj.hasLease));
@@ -163,7 +171,7 @@ class CollateralMsgsInfo extends React.Component {
     obj.consultPrice = parseInt(obj.consultPrice) || 0;
     obj.landArea = parseInt(obj.landArea) || 0;
     obj.mortgagePrice = parseInt(obj.mortgagePrice) || 0;
-    obj.owner=owners;
+    obj.owner = owners;
     arr[index] = obj;
     this.setState(
       {
@@ -208,7 +216,9 @@ class CollateralMsgsInfo extends React.Component {
   render() {
     const { data, isChange, collateralMsg } = this.state;
     const { dynamicOwners, isEdit } = this.props;
-    let dynamicOwnersList = dynamicOwners.map((i) => i.typeName).filter(i=>i);
+    let dynamicOwnersList = dynamicOwners
+      .map((i) => i.typeName)
+      .filter((i) => i);
     return (
       <div className="debt-detail-components msgs-info" id="MsgsInfo">
         <div className="header">抵押物信息</div>

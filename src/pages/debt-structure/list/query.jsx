@@ -6,12 +6,16 @@ import { SearchAndClearButtonGroup } from "@commonComponents";
 
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;
-
+/**
+ * 债权列表-搜索框
+ */
 class QueryForm extends React.Component {
   static defaultProps = {
     tabIndex: 0,
     role: "",
     timeText: "",
+    toSearch: () => {},
+    toClearSearch: () => {},
   };
   state = {
     userList: [],
