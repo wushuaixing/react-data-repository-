@@ -10,6 +10,7 @@ import CollateralMsgsInfo from "./collatera-msgs";
 import { ANCHOR_TYPE } from "../common/type";
 import { filters, clone } from "@utils/common";
 import "./style.scss";
+
 /**
  * 债权-添加编辑 户/未知对应关系
  */
@@ -35,12 +36,35 @@ class HouseHoldDetail extends Component {
       },
       collateralMsgsData: [],
       activeFlag: 0,
+      isNormalLeave: false,
     };
   }
 
   componentDidMount() {
     this.getDetailInfo(this.props);
+    this.beforeunload();
   }
+
+  //点击浏览器窗口关闭 提示(系統可能不會儲存您所做的變更) 点击保存并关闭||查看界面时 不做提醒
+  beforeunload = () => {
+    const {
+      match: {
+        params: { isEdit },
+      },
+    } = this.props;
+    window.onbeforeunload = (e) => {
+      e = e || window.event;
+      if (!parseInt(isEdit) || this.state.isNormalLeave) {
+        return;
+      }
+      // 兼容IE8和Firefox 4之前的版本
+      if (e) {
+        e.returnValue = "关闭提示";
+      }
+      // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
+      return "关闭提示";
+    };
+  };
 
   //债权户(未知)信息详情 添加户和未知关系时不请求
   getDetailInfo = (props) => {
@@ -117,8 +141,15 @@ class HouseHoldDetail extends Component {
     }
     DebtApi.unitSaveDetail(params).then((res) => {
       if (res.data.code === 200 && res.data.data) {
-        localStorage.setItem("debtNewPageClose", Math.random());
-        message.success("保存成功", 2, this.handleClosePage);
+        this.setState(
+          {
+            isNormalLeave: true,
+          },
+          () => {
+            localStorage.setItem("debtNewPageClose", Math.random());
+            message.success("保存成功", 2, this.handleClosePage);
+          }
+        );
       } else {
         message.warning(res.data.message);
       }

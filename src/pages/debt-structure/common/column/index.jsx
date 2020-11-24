@@ -252,7 +252,12 @@ export const CreditorsColumn = [
     dataIndex: "owner",
     width: 360,
     key: "owner",
-    render: (text, record) => record && record.name,
+    render: (text, record) =>
+      record.owner && record.owner.length
+        ? record.owner.map((item, index) => (
+            <p key={`owner${index}`} style={{margin:0,}}>{item.name}</p>
+          ))
+        : "-",
   },
 ];
 

@@ -9,7 +9,7 @@ class Item extends Component {
   constructor() {
     super();
     this.state = {
-      isRoleChange: false,
+      isChange: false,
     };
   }
 
@@ -34,6 +34,7 @@ class Item extends Component {
       isChange,
     } = props;
     if (isChange && this.state.isChange !== isChange) {
+      console.log(23424234);
       this.setState({
         isChange,
       });
