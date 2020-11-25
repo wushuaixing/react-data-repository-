@@ -242,7 +242,7 @@ class DebtDetail extends Component {
         });
         break;
       case "msgsInfo":
-        DebtApi.getCollateralMsgList(id).then((result) => {
+        DebtApi.getCollateralDetail(id).then((result) => {
           //获取抵押物数信息
           const data = result.data;
           if (data.code === 200) {

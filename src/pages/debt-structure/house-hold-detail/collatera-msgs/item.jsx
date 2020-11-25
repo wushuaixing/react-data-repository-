@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { HAS_TYPE, USE_TYPE } from "../../common/type";
-import { Input, Select, Button, Form, AutoComplete, Icon } from "antd";
+import {
+  Input,
+  Select,
+  Button,
+  Form,
+  AutoComplete,
+  Icon,
+  InputNumber,
+} from "antd";
 const { Option } = Select;
 /**
  * 户详情-单个抵押物信息（可编辑页面）
@@ -93,7 +101,7 @@ class Item extends Component {
         mortgagePrice,
         note,
         owner,
-        id
+        id,
       },
       form: { getFieldDecorator },
       index,
@@ -186,9 +194,11 @@ class Item extends Component {
                 {getFieldDecorator("landArea", {
                   initialValue: landArea || "",
                 })(
-                  <Input
-                    type="text"
+                  <InputNumber
                     placeholder="请输入土地面积"
+                    precision={2}
+                    max={999999999999.99}
+                    min={0}
                     size="default"
                     autoComplete="off"
                     onBlur={() => this.save()}
@@ -203,9 +213,11 @@ class Item extends Component {
                 {getFieldDecorator("buildingArea", {
                   initialValue: buildingArea || "",
                 })(
-                  <Input
-                    type="text"
+                  <InputNumber
                     placeholder="请输入建筑面积"
+                    precision={2}
+                    max={999999999999.99}
+                    min={0}
                     size="default"
                     autoComplete="off"
                     onBlur={() => this.save()}
@@ -285,8 +297,10 @@ class Item extends Component {
                 {getFieldDecorator("consultPrice", {
                   initialValue: consultPrice || "",
                 })(
-                  <Input
-                    type="text"
+                  <InputNumber
+                    precision={2}
+                    max={999999999999.99}
+                    min={0}
                     placeholder="请输入评估价"
                     size="default"
                     autoComplete="off"
@@ -300,8 +314,10 @@ class Item extends Component {
                 {getFieldDecorator("mortgagePrice", {
                   initialValue: mortgagePrice || "",
                 })(
-                  <Input
-                    type="text"
+                  <InputNumber
+                    precision={2}
+                    max={999999999999.99}
+                    min={0}
                     placeholder="请输入抵押金额"
                     size="default"
                     autoComplete="off"
@@ -316,7 +332,7 @@ class Item extends Component {
             <div className="part">
               <Form.Item label="所有人：" className="owner">
                 {getFieldDecorator("owner", {
-                  initialValue: ownerList||[],
+                  initialValue: ownerList || [],
                 })(
                   <Select
                     mode="multiple"

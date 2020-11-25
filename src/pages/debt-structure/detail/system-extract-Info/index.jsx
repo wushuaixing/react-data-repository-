@@ -68,6 +68,7 @@ class SystemExtractInfo extends Component {
             title="保证人信息"
             data={usersLists}
             columns={this.getColumns(true)}
+            key="systemExtractUsersInfo"
           />
         </div>
         <div className="system-extract msgsInfo">
@@ -75,6 +76,7 @@ class SystemExtractInfo extends Component {
             title="抵押物信息"
             data={msgsLists}
             columns={this.getColumns()}
+            key="systemExtractmsgsInfo"
           />
         </div>
       </div>
@@ -92,7 +94,7 @@ const Item = (props) => {
         columns={columns}
         dataSource={data}
         pagination={false}
-        rowKey={(record) => record.id}
+        rowKey={(record) => (record.id ? record.id : record.name)}
         locale={{
           emptyText: (
             <div className="no-data-box">

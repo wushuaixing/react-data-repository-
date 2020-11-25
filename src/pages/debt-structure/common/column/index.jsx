@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  ROLE_TYPE,
-  OBLIGOR_TYPE,
-  SEXS_TYPE,
-  USE_TYPE,
-  ROLETYPES_TYPE,
-} from "../type";
+import { OBLIGOR_TYPE, SEXS_TYPE, USE_TYPE, ROLETYPES_TYPE } from "../type";
 import NoSAVEIMG from "@/assets/img/no_save.png";
 import { Badge } from "antd";
 
@@ -135,6 +129,13 @@ export const HouseHoldColumn = [
 
 export const AdminUsersColumn = [
   {
+    title: "序号",
+    dataIndex: "typeName",
+    width: 420,
+    key: "typeName",
+    render: (text, record, index) => (text ? `${text}${index + 1}` : "-"),
+  },
+  {
     title: "名称",
     dataIndex: "name",
     width: 520,
@@ -142,16 +143,9 @@ export const AdminUsersColumn = [
     render: (text) => text || "-",
   },
   {
-    title: "角色",
-    dataIndex: "type",
-    width: 400,
-    key: "type",
-    render: (text) => ROLE_TYPE[text],
-  },
-  {
     title: "备注",
     dataIndex: "notes",
-    width: 560,
+    width: 680,
     key: "notes",
     render: (text) => text || "-",
   },

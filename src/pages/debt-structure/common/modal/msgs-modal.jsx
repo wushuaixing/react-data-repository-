@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "antd";
-import { Title_TYPE } from "../type";
+import { HAS_TYPE, TITLES_TYPE } from "../type";
 /**
  * 系统提取信息 抵押物信息-查看详情弹窗
  */
@@ -24,8 +24,8 @@ class MsgsInfoModal extends React.Component {
         landArea,
         buildingArea,
         useType,
-        hasSeizure,
         hasLease,
+        hasSeizure,
         seizureSequence,
         mortgageSequence,
         note,
@@ -37,13 +37,10 @@ class MsgsInfoModal extends React.Component {
       landArea,
       buildingArea,
       useType,
-      hasSeizure,
-      hasLease,
+      HAS_TYPE[hasLease],
+      HAS_TYPE[hasSeizure],
       seizureSequence,
       mortgageSequence,
-      "-",
-      "10000",
-      "2000000",
       note,
     ];
     const footer = (
@@ -64,7 +61,12 @@ class MsgsInfoModal extends React.Component {
       >
         <div className="msgs-info-modal">
           {msgsList.map((item, index) => (
-            <Item title={Title_TYPE[index]} content={item} key={index} />
+            <Item
+              title={TITLES_TYPE[index]}
+              content={item}
+              key={`msgsInfo${index}`}
+              indexs={index}
+            />
           ))}
         </div>
       </Modal>
@@ -72,11 +74,28 @@ class MsgsInfoModal extends React.Component {
   }
 }
 
-const Item = (props) => (
-  <li key={props.key}>
-    <div>{props.title}：</div>
-    <div>{props.content ? props.content : "-"}</div>
-  </li>
-);
+const Item = (props) => {
+  const { indexs, title, content } = props;
+  const unit = () => {
+    if (indexs === 2 || indexs === 3) {
+      return (
+        <span>
+          m<sup>2</sup>
+        </span>
+      );
+    } else {
+      return "";
+    }
+  };
+  return (
+    <li>
+      <div>{title}：</div>
+      <div>
+        {content ? content : "-"}
+        {content ? unit() : ""}
+      </div>
+    </li>
+  );
+};
 
 export default MsgsInfoModal;

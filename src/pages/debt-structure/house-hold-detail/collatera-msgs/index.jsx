@@ -60,16 +60,18 @@ class CollateralMsgsInfo extends React.Component {
   //爬虫爬取抵押物名称信息
   getCollateralMsgList = () => {
     const { id } = this.props;
-    DebtApi.getCollateralMsgList(id).then((result) => {
-      if (result.data.code === 200) {
-        const data = result.data.data;
-        this.setState({
-          collateralMsg: data,
-        });
-      } else {
-        message.warning(result.data.message);
-      }
-    });
+    const isAdmin = localStorage.getItem("userState") === "管理员";
+    !isAdmin &&
+      DebtApi.getCollateralMsgList(id).then((result) => {
+        if (result.data.code === 200) {
+          const data = result.data.data;
+          this.setState({
+            collateralMsg: data,
+          });
+        } else {
+          message.warning(result.data.message);
+        }
+      });
   };
 
   //添加
@@ -293,8 +295,8 @@ const ItemContent = (props) => {
     mortgageSequence,
     consultPrice,
     mortgagePrice,
-    note,
     ownerList.join(),
+    note,
   ];
   return (
     <div className="item-container">
@@ -305,6 +307,7 @@ const ItemContent = (props) => {
             title={Title_TYPE[indexs]}
             content={item}
             key={`item${indexs}`}
+            indexs={indexs}
           />
         ))}
       </ul>
@@ -312,11 +315,30 @@ const ItemContent = (props) => {
   );
 };
 
-const Item = (props) => (
-  <li>
-    <div>{props.title}：</div>
-    <div>{props.content ? props.content : "-"}</div>
-  </li>
-);
+const Item = (props) => {
+  const { title, content, indexs } = props;
+  const unit = () => {
+    if (indexs === 3 || indexs === 4) {
+      return (
+        <span>
+          m<sup>2</sup>
+        </span>
+      );
+    } else if (indexs === 9 || indexs === 10) {
+      return " 元";
+    } else {
+      return "";
+    }
+  };
+  return (
+    <li>
+      <div>{title}：</div>
+      <div>
+        {content ? content : "-"}
+        {content ? unit() : ""}
+      </div>
+    </li>
+  );
+};
 
 export default collateralForm()(CollateralMsgsInfo);
