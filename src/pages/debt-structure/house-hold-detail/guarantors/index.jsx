@@ -5,7 +5,7 @@ import NoDataIMG from "@/assets/img/no_data.png";
 import { SEXS_TYPE, OBLIGOR_TYPE } from "../../common/type";
 import BatchAddModal from "../../common/modal/batch-add-modal";
 import AutoCompleteInput from "../auto-complete";
-import { dateUtils } from "@utils/common";
+import { dateUtils, clone } from "@utils/common";
 const { Option } = Select;
 const { confirm } = Modal;
 //添加同组
@@ -28,7 +28,7 @@ const getGuarantors = (name) => ({
     {
       birthday: "",
       gender: 0,
-      id: new Date().getTime(),
+      id: Math.random(),
       name: name ? name : "",
       notes: "",
       number: "",
@@ -62,6 +62,22 @@ class GuarantorsInfo extends React.Component {
         data: props.data,
       });
   }
+
+  /**
+   * 获取保证人索引值
+   * @param arr 保证人所有数据
+   * @param index 第几组
+   * @param indexs 组中第几个保证人
+   * return 第n组中第n个保证人 在整批保证人中的索引
+   */
+  getLength = (arr, index, indexs) => {
+    const data = arr.slice(0, index);
+    let i = 0;
+    data.forEach((item) => {
+      item.msgs.forEach(() => i++);
+    });
+    return i + indexs + 1;
+  };
 
   //通过val 找key
   handleFindKey = (obj, value, compare = (a, b) => a === b) => {
@@ -102,10 +118,7 @@ class GuarantorsInfo extends React.Component {
           {
             data: arr,
           },
-          () => {
-            const { data } = this.state;
-            this.props.handleChange("guarantors", data);
-          }
+          () => this.getdetailInfo()
         ),
     });
   };
@@ -120,10 +133,7 @@ class GuarantorsInfo extends React.Component {
       {
         data: arr,
       },
-      () => {
-        const { data } = this.state;
-        this.props.handleChange("guarantors", data);
-      }
+      () => this.getdetailInfo()
     );
   };
 
@@ -135,10 +145,7 @@ class GuarantorsInfo extends React.Component {
       {
         data: arr,
       },
-      () => {
-        const { data } = this.state;
-        this.props.handleChange("guarantors", data);
-      }
+      () => this.getdetailInfo()
     );
   };
 
@@ -191,10 +198,24 @@ class GuarantorsInfo extends React.Component {
         data: arr,
       },
       () => {
-        const { data } = this.state;
-        isblur && this.props.handleChange("guarantors", data);
+        isblur && this.getdetailInfo();
       }
     );
+  };
+
+  //id增加时为随机数，作为key值，给后端时为0
+  getdetailInfo = () => {
+    const { data } = this.state;
+    const list = clone(data);
+    list.forEach((item, index) => {
+      item.id = item.id > 1 ? item.id : 0;
+      item.msgs.forEach((val, key) => {
+        val.typeName = `保证人${this.getLength(list, index, key)}`;
+        val.id = val.id > 1 ? val.id : 0;
+      });
+    });
+    console.log(list);
+    this.props.handleChange("guarantors", list);
   };
 
   //打开数字弹窗
@@ -227,22 +248,6 @@ class GuarantorsInfo extends React.Component {
         this.props.handleChange("guarantors", data);
       }
     );
-  };
-
-  /**
-   * 获取保证人索引值
-   * @param arr 保证人所有数据
-   * @param index 第几组
-   * @param indexs 组中第几个保证人
-   * return 第n组中第n个保证人 在整批保证人中的索引
-   */
-  getLength = (arr, index, indexs) => {
-    const data = arr.slice(0, index);
-    let i = 0;
-    data.forEach((item) => {
-      item.msgs.forEach(() => i++);
-    });
-    return i + indexs + 1;
   };
 
   render() {

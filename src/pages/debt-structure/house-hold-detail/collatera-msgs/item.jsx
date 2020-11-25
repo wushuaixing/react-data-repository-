@@ -34,7 +34,6 @@ class Item extends Component {
       isChange,
     } = props;
     if (isChange && this.state.isChange !== isChange) {
-      console.log(23424234);
       this.setState({
         isChange,
       });
@@ -100,7 +99,8 @@ class Item extends Component {
       dynamicOwners,
       collateralMsg,
     } = this.props;
-    const ownerList = owner && owner.map((i) => i.name).filter((i) => i);
+    const ownerList =
+      owner && owner.map((i) => `${i.name}(${i.typeName})`).filter((i) => i);
     const collateralMsgList = (collateralMsg || []).map((i) => i.name);
     return (
       <Form layout="inline" className="yc-form" key={`${name}${index}`}>

@@ -12,7 +12,7 @@ class Basic extends Component {
     withdraw: "",
     logs: [],
     role: "",
-    id:''
+    id: "",
   };
 
   render() {

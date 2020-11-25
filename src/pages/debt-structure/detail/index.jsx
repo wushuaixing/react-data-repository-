@@ -355,7 +355,6 @@ class DebtDetail extends Component {
           if (res.code === 200) {
             const data = res.data;
             if (data) {
-              console.log(4234234);
               message.success("保存成功!", 2, () =>
                 this.props.history.push("/index/debtList")
               );

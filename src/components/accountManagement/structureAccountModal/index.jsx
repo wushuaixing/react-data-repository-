@@ -93,7 +93,7 @@ class AccountManage extends React.Component {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const deFunctionId = [
       /资产拍卖数据/.test(info.structuredObject),
-      /债权结构化数据/.test(info.structuredObject),
+      /拍卖债权数据/.test(info.structuredObject),
       /破产重组数据/.test(info.structuredObject),
     ];
     const footer = (

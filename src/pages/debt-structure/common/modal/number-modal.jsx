@@ -51,9 +51,7 @@ class NumberModal extends React.Component {
     }
     const footer = (
       <div className="number-modal-footer">
-        <Button  onMouseDown={this.handleClose}>
-          关闭
-        </Button>
+        <Button onMouseDown={this.handleClose}>关闭</Button>
       </div>
     );
     return (

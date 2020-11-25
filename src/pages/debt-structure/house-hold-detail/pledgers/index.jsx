@@ -4,7 +4,7 @@ import NoDataIMG from "@/assets/img/no_data.png";
 import { OBLIGOR_TYPE, ROLETYPES_TYPE, SEXS_TYPE } from "../../common/type";
 import { PledgersAndDebtorsColumn } from "../../common/column";
 import AutoCompleteInput from "../auto-complete";
-import { dateUtils } from "@utils/common";
+import { dateUtils, clone } from "@utils/common";
 const { Option } = Select;
 const { confirm } = Modal;
 const getPledgersOrDebtors = (ispledgers) => ({
@@ -44,6 +44,12 @@ class PledgersAndDebtorsInfo extends React.Component {
       });
   }
 
+  //获取角色 （抵质押人还是债务人）
+  getRole = () => {
+    const { role } = this.props;
+    return role;
+  };
+
   //通过val找key值
   handleFindKey = (obj, value, compare = (a, b) => a === b) => {
     return Object.keys(obj).find((i) => compare(obj[i], value));
@@ -59,12 +65,6 @@ class PledgersAndDebtorsInfo extends React.Component {
     return parseInt(result);
   };
 
-  //获取角色 （抵质押人还是债务人）
-  getRole = () => {
-    const { role } = this.props;
-    return role;
-  };
-
   //添加
   handleRowAdd = () => {
     const { data } = this.state;
@@ -74,10 +74,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         data: arr,
       },
-      () => {
-        const { data } = this.state;
-        this.props.handleChange(this.getRole(), data);
-      }
+      () => this.getdetailInfo()
     );
   };
 
@@ -100,10 +97,7 @@ class PledgersAndDebtorsInfo extends React.Component {
           {
             data: arr,
           },
-          () => {
-            const { data } = this.state;
-            this.props.handleChange(this.getRole(), data);
-          }
+          () => this.getdetailInfo()
         ),
     });
   };
@@ -154,10 +148,23 @@ class PledgersAndDebtorsInfo extends React.Component {
         data: arr,
       },
       () => {
-        const { data } = this.state;
-        isblur && this.props.handleChange(this.getRole(), data); //失焦后将数据抛出 (在onChange下改变props值页面会卡顿)
+        isblur && this.getdetailInfo(); //失焦后将数据抛出 (在onChange下改变props值页面会卡顿)
       }
     );
+  };
+
+  //id增加时为随机数，作为key值，给后端时为0
+  getdetailInfo = () => {
+    const { data } = this.state;
+    let list = clone(data);
+    list.forEach((i, index) => {
+      list[index].typeName =
+        this.getRole() === "pledgers"
+          ? `抵质押人${index + 1}`
+          : `债务人${index + 1}`;
+      list[index].id = list[index].id > 1 ? list[index].id : 0;
+    });
+    this.props.handleChange(this.getRole(), list); //失焦后将数据抛出 (在onChange下改变props值页面会卡顿)
   };
 
   render() {

@@ -255,7 +255,9 @@ export const CreditorsColumn = [
     render: (text, record) =>
       record.owner && record.owner.length
         ? record.owner.map((item, index) => (
-            <p key={`owner${index}`} style={{margin:0,}}>{item.name}</p>
+            <p key={`owner${index}`} style={{ margin: 0 }}>
+              {item.name}
+            </p>
           ))
         : "-",
   },

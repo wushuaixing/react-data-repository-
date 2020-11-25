@@ -37,6 +37,7 @@ class HouseHoldDetail extends Component {
       collateralMsgsData: [],
       activeFlag: 0,
       isNormalLeave: false,
+      debtorsNameGroup: "",
     };
   }
 
@@ -44,6 +45,83 @@ class HouseHoldDetail extends Component {
     this.getDetailInfo(this.props);
     this.beforeunload();
   }
+
+  get documentTitle() {
+    const isHouseHoldDetail = window.location.href.includes("houseHoldDetail");
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props;
+    const { debtorsNameGroup } = this.state;
+    if (isHouseHoldDetail) {
+      if (Boolean(parseInt(id))) {
+        return debtorsNameGroup;
+      } else {
+        return "添加户";
+      }
+    } else {
+      return "未知对应关系";
+    }
+  }
+
+  /**
+   * 获取保证人索引值
+   * @param arr 保证人所有数据
+   * @param index 第几组
+   * @param indexs 组中第几个保证人
+   * return 第n组中第n个保证人 在整批保证人中的索引
+   */
+  getLength = (arr, index, indexs) => {
+    const data = arr.slice(0, index);
+    let i = 0;
+    data.forEach((item) => {
+      item.msgs.forEach(() => i++);
+    });
+    return i + indexs + 1;
+  };
+
+  //获取所有人下拉框数据
+  getOwners = (flag) => {
+    const { detailInfo } = this.state;
+    let arr = [];
+    const { debtors, guarantors, pledgers } = detailInfo;
+    debtors.forEach((item, index) => {
+      let obj = {
+        name: item.name,
+        id: item.id >= 1 ? item.id : 0,
+        typeName: item.typeName ? item.typeName : `债务人${index + 1}`,
+      };
+      arr.push(obj);
+    });
+    pledgers.forEach((item, index) => {
+      let obj = {
+        name: item.name,
+        typeName: item.typeName ? item.typeName : `抵质押人${index + 1}`,
+        id: item.id >= 1 ? item.id : 0,
+      };
+      arr.push(obj);
+    });
+    guarantors[0].msgVOS.forEach((item, index) => {
+      item.msgs.forEach((item, indexs) => {
+        let dymicIndex = this.getLength(guarantors[0].msgVOS, index, indexs);
+        let obj = {
+          name: item.name,
+          typeName: `保证人${dymicIndex}`,
+          id: item.id >= 1 ? item.id : 0,
+        };
+        arr.push(obj);
+      });
+    });
+    this.setState(
+      {
+        dynamicOwners: arr, //所有人
+      },
+      () => {
+        flag === "isChange" && this.collateralMsgsRef.handleChange(); //保证人信息  抵质押人信息 债务人信息 变更 让抵押物所有人置空(页面首次加载时不触发)
+      }
+    );
+  };
 
   //点击浏览器窗口关闭 提示(系統可能不會儲存您所做的變更) 点击保存并关闭||查看界面时 不做提醒
   beforeunload = () => {
@@ -93,13 +171,14 @@ class HouseHoldDetail extends Component {
             () => {
               const { debtors, guarantors, pledgers, detailInfo } = this.state;
               const arr = detailInfo;
+              const debtorsNameGroup = debtors.map((i) => i.name).join("、");
               arr.debtors = debtors;
-              arr.guarantors[0].msgVOS = guarantors.length
-                ? guarantors[0].msgVOS
-                : [];
+              arr.guarantors[0].msgVOS =
+                guarantors && guarantors.length ? guarantors[0].msgVOS : [];
               arr.pledgers = pledgers;
               this.setState(
                 {
+                  debtorsNameGroup,
                   detailInfo: arr,
                 },
                 () => this.getOwners()
@@ -224,64 +303,6 @@ class HouseHoldDetail extends Component {
     );
   };
 
-  /**
-   * 获取保证人索引值
-   * @param arr 保证人所有数据
-   * @param index 第几组
-   * @param indexs 组中第几个保证人
-   * return 第n组中第n个保证人 在整批保证人中的索引
-   */
-  getLength = (arr, index, indexs) => {
-    const data = arr.slice(0, index);
-    let i = 0;
-    data.forEach((item) => {
-      item.msgs.forEach(() => i++);
-    });
-    return i + indexs + 1;
-  };
-
-  //获取所有人下拉框数据
-  getOwners = (flag) => {
-    const { detailInfo } = this.state;
-    let arr = [];
-    const { debtors, guarantors, pledgers } = detailInfo;
-    debtors.forEach((item, index) => {
-      let obj = {
-        name: item.name,
-        id: item.id >= 1 ? item.id : 0,
-        typeName: `债务人${index + 1}`,
-      };
-      arr.push(obj);
-    });
-    pledgers.forEach((item, index) => {
-      let obj = {
-        name: item.name,
-        typeName: `抵质押人${index + 1}`,
-        id: item.id >= 1 ? item.id : 0,
-      };
-      arr.push(obj);
-    });
-    guarantors[0].msgVOS.forEach((item, index) => {
-      item.msgs.forEach((item, indexs) => {
-        let dymicIndex = this.getLength(guarantors[0].msgVOS, index, indexs);
-        let obj = {
-          name: item.name,
-          typeName: `保证人${dymicIndex}`,
-          id: item.id >= 1 ? item.id : 0,
-        };
-        arr.push(obj);
-      });
-    });
-    this.setState(
-      {
-        dynamicOwners: arr, //所有人
-      },
-      () => {
-        flag === "isChange" && this.collateralMsgsRef.handleChange(); //保证人信息  抵质押人信息 债务人信息 变更 让抵押物所有人置空(页面首次加载时不触发)
-      }
-    );
-  };
-
   render() {
     const {
       creditorsRightsPrincipal,
@@ -294,6 +315,7 @@ class HouseHoldDetail extends Component {
       summation,
       dynamicOwners,
       activeFlag,
+      debtorsNameGroup,
     } = this.state;
     const isHouseHoldDetail = window.location.href.includes("houseHoldDetail");
     const anchorList = isHouseHoldDetail
@@ -305,26 +327,15 @@ class HouseHoldDetail extends Component {
       },
     } = this.props;
     const noEdit = parseInt(isEdit);
-    const text = () => {
-      if (isHouseHoldDetail) {
-        if (Boolean(parseInt(id))) {
-          return debtors.map((i) => i.name).join("、");
-        } else {
-          return "添加户";
-        }
-      } else {
-        return "未知对应关系";
-      }
-    };
-    document.title = text();
+    document.title = this.documentTitle;
     return (
       <div className="yc-debt-newpage-container">
         <div className="yc-debt-newpage-content">
           <div className="yc-household-detail">
             <div className="detail-header">
               {isHouseHoldDetail && Boolean(parseInt(id))
-                ? `债务人:${debtors.map((i) => i.name).join("、")}`
-                : text()}
+                ? `债务人：${debtorsNameGroup}`
+                : this.documentTitle}
             </div>
             <div className="yc-anchor">
               <ul>

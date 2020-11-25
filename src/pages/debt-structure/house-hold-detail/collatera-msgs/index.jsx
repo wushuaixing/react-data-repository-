@@ -80,10 +80,7 @@ class CollateralMsgsInfo extends React.Component {
       {
         data: arr,
       },
-      () => {
-        const { data } = this.state;
-        this.props.handleChange("collateralMsgs", data);
-      }
+      () => this.getDetailInfo()
     );
   };
 
@@ -106,10 +103,7 @@ class CollateralMsgsInfo extends React.Component {
           {
             data: arr,
           },
-          () => {
-            const { data } = this.state;
-            this.props.handleChange("collateralMsgs", data);
-          }
+          () => this.getDetailInfo()
         ),
     });
   };
@@ -133,11 +127,7 @@ class CollateralMsgsInfo extends React.Component {
           {
             data: arr,
           },
-          () => {
-            this.props.form.resetFields();
-            const { data } = this.state;
-            this.props.handleChange("collateralMsgs", data);
-          }
+          () => this.getDetailInfo()
         );
       },
     });
@@ -153,9 +143,9 @@ class CollateralMsgsInfo extends React.Component {
     const { data } = this.state;
     const { dynamicOwners } = this.props;
     const arr = data;
+    console.log(arr);
     let obj = clone(val);
     let owners = [];
-    console.log(obj.owner,dynamicOwners);
     obj.owner.forEach((i) => {
       dynamicOwners.forEach((j) => {
         if (i.includes(`${j.name}(${j.typeName})`)) {
@@ -163,7 +153,6 @@ class CollateralMsgsInfo extends React.Component {
         }
       });
     });
-    obj.id = 0;
     obj.hasLease = parseInt(this.handFindKey(HAS_TYPE, obj.hasLease));
     obj.hasSeizure = parseInt(this.handFindKey(HAS_TYPE, obj.hasSeizure));
     obj.useType = this.handFindKey(USE_TYPE, obj.useType);
@@ -172,15 +161,13 @@ class CollateralMsgsInfo extends React.Component {
     obj.landArea = parseInt(obj.landArea) || 0;
     obj.mortgagePrice = parseInt(obj.mortgagePrice) || 0;
     obj.owner = owners;
+    obj.id = arr[index].id;
     arr[index] = obj;
     this.setState(
       {
         data: arr,
       },
-      () => {
-        const { data } = this.state;
-        this.props.handleChange("collateralMsgs", data);
-      }
+      () => this.getDetailInfo()
     );
   };
 
@@ -195,15 +182,22 @@ class CollateralMsgsInfo extends React.Component {
           {
             data: arr,
           },
-          () => {
-            const { data } = this.state;
-            this.props.handleChange("collateralMsgs", data);
-          }
+          () => this.getDetailInfo()
         );
       } else {
         message.error(result.data.message);
       }
     });
+  };
+
+  //id增加时为随机数，作为key值，给后端时为0
+  getDetailInfo = () => {
+    const { data } = this.state;
+    const list = clone(data);
+    list.forEach((i, index) => {
+      list[index].id = list[index].id > 1 ? list[index].id : 0;
+    });
+    this.props.handleChange("collateralMsgs", list);
   };
 
   //角色信息更改后 所有人置空
