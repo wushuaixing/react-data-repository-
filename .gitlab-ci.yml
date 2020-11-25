@@ -17,6 +17,7 @@ install_deps:
   only:
     - develop
     - release
+    - reset-branch
   script:
     - node -v
     - yarn config set registry https://registry.npm.taobao.org
@@ -31,6 +32,7 @@ build_step:
   only:
     - develop
     - release
+    - reset-branch
   script:
     - CI=false yarn build
 
