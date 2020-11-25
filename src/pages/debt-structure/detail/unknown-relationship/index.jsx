@@ -30,6 +30,13 @@ class UnknownRelationShip extends Component {
     this.props.handleDel(id, "unknowShip");
   };
 
+  //数字弹框
+  handleNumberModal = (number, params) => {
+    if (number) {
+      this.props.handleOpenModal("NumberModalVisible", params);
+    }
+  };
+
   getColumns = (isEdit) => {
     return [
       {
@@ -39,12 +46,14 @@ class UnknownRelationShip extends Component {
         key: "guarantorNum",
         render: (guarantorNum, record) => (
           <span
-            style={{ cursor: "pointer" }}
+            style={{ cursor: guarantorNum ? "pointer" : "" }}
             className={guarantorNum ? "hasColor" : ""}
-            onClick={this.handleOpenGuarantorModal.bind(this, {
-              id: record.id,
-              type: "guarantorNum",
-            })}
+            onClick={() =>
+              this.handleNumberModal(guarantorNum, {
+                id: record.id,
+                type: "guarantorNum",
+              })
+            }
           >
             {guarantorNum || 0}
           </span>
@@ -57,12 +66,14 @@ class UnknownRelationShip extends Component {
         key: "pledgerNum",
         render: (pledgerNum, record) => (
           <span
-            style={{ cursor: "pointer" }}
+            style={{ cursor: pledgerNum ? "pointer" : "" }}
             className={pledgerNum ? "hasColor" : ""}
-            onClick={this.handleOpenGuarantorModal.bind(this, {
-              id: record.id,
-              type: "pledgerNum",
-            })}
+            onClick={() =>
+              this.handleNumberModal(pledgerNum, {
+                id: record.id,
+                type: "pledgerNum",
+              })
+            }
           >
             {pledgerNum || 0}
           </span>
@@ -75,12 +86,14 @@ class UnknownRelationShip extends Component {
         key: "collateralNum",
         render: (collateralNum, record) => (
           <span
-            style={{ cursor: "pointer" }}
+            style={{ cursor: collateralNum ? "pointer" : "" }}
             className={collateralNum ? "hasColor" : ""}
-            onClick={this.handleOpenGuarantorModal.bind(this, {
-              id: record.id,
-              type: "collateralNum",
-            })}
+            onClick={() =>
+              this.handleNumberModal(collateralNum, {
+                id: record.id,
+                type: "collateralNum",
+              })
+            }
           >
             {collateralNum || 0}
           </span>
@@ -132,10 +145,6 @@ class UnknownRelationShip extends Component {
     ];
   };
 
-  //数字弹框
-  handleOpenGuarantorModal = (params) => {
-    this.props.handleOpenModal("NumberModalVisible", params);
-  };
   render() {
     const { data, isEdit, unitNumber } = this.props;
     const isIdNull = data && data.id; //后端返回为对象形式，id为null则没有数据

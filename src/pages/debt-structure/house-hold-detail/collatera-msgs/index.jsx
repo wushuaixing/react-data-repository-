@@ -143,7 +143,6 @@ class CollateralMsgsInfo extends React.Component {
     const { data } = this.state;
     const { dynamicOwners } = this.props;
     const arr = data;
-    console.log(arr);
     let obj = clone(val);
     let owners = [];
     obj.owner.forEach((i) => {

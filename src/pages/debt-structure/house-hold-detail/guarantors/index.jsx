@@ -214,7 +214,6 @@ class GuarantorsInfo extends React.Component {
         val.id = val.id > 1 ? val.id : 0;
       });
     });
-    console.log(list);
     this.props.handleChange("guarantors", list);
   };
 

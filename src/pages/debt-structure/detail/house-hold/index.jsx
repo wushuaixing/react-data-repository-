@@ -31,6 +31,18 @@ class HouseHold extends Component {
   handleDel = (id) => {
     this.props.handleDel(id);
   };
+
+  //数字弹框
+  handleNumberModal = (number, params) => {
+    if (number) {
+      this.props.handleOpenModal("NumberModalVisible", params);
+    }
+  };
+
+  //各户信息列表 翻页
+  handlePageChange = (pagination) => {
+    this.props.handlePageChange(pagination.current);
+  };
   getColumns = (isEdit) => {
     return [
       ...HouseHoldColumn,
@@ -42,11 +54,13 @@ class HouseHold extends Component {
         render: (guarantorNum, record) => (
           <span
             className={guarantorNum ? "hasColor" : ""}
-            style={{ cursor: "pointer" }}
-            onClick={this.handleNumberModal.bind(this, {
-              id: record.id,
-              type: "guarantorNum",
-            })}
+            style={{ cursor: guarantorNum ? "pointer" : "" }}
+            onClick={() =>
+              this.handleNumberModal(guarantorNum, {
+                id: record.id,
+                type: "guarantorNum",
+              })
+            }
           >
             {guarantorNum || 0}
           </span>
@@ -60,11 +74,13 @@ class HouseHold extends Component {
         render: (pledgerNum, record) => (
           <span
             className={pledgerNum ? "hasColor" : ""}
-            style={{ cursor: "pointer" }}
-            onClick={this.handleNumberModal.bind(this, {
-              id: record.id,
-              type: "pledgerNum",
-            })}
+            style={{ cursor: pledgerNum ? "pointer" : "" }}
+            onClick={() =>
+              this.handleNumberModal(pledgerNum, {
+                id: record.id,
+                type: "pledgerNum",
+              })
+            }
           >
             {pledgerNum || 0}
           </span>
@@ -77,12 +93,14 @@ class HouseHold extends Component {
         key: "collateralNum",
         render: (collateralNum, record) => (
           <span
-            style={{ cursor: "pointer" }}
+            style={{ cursor: collateralNum ? "pointer" : "" }}
             className={collateralNum ? "hasColor" : ""}
-            onClick={this.handleNumberModal.bind(this, {
-              id: record.id,
-              type: "collateralNum",
-            })}
+            onClick={() =>
+              this.handleNumberModal(collateralNum, {
+                id: record.id,
+                type: "collateralNum",
+              })
+            }
           >
             {collateralNum || 0}
           </span>
@@ -132,16 +150,6 @@ class HouseHold extends Component {
         },
       },
     ];
-  };
-
-  //数字弹框
-  handleNumberModal = (params) => {
-    this.props.handleOpenModal("NumberModalVisible", params);
-  };
-
-  //各户信息列表 翻页
-  handlePageChange = (pagination) => {
-    this.props.handlePageChange(pagination.current);
   };
 
   render() {

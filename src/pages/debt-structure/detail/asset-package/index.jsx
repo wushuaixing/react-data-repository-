@@ -72,7 +72,7 @@ class AssetPackage extends Component {
                 <InputNumber
                   precision={2}
                   style={{ width: 200 }}
-                  max={999999999.99}
+                  max={999999999999.99}
                   e
                   min={0}
                   placeholder="请输入金额"
@@ -89,7 +89,7 @@ class AssetPackage extends Component {
                 <InputNumber
                   precision={2}
                   style={{ width: 200 }}
-                  max={999999999.99}
+                  max={999999999999.99}
                   min={0}
                   placeholder="请输入金额"
                   onChange={(e) => this.handleChange("outstandingInterest", e)}
@@ -103,7 +103,7 @@ class AssetPackage extends Component {
                 <InputNumber
                   precision={2}
                   style={{ width: 200 }}
-                  max={999999999.99}
+                  max={999999999999.99}
                   min={0}
                   placeholder="请输入金额"
                   onChange={(e) =>
