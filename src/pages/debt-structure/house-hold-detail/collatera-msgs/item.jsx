@@ -93,6 +93,7 @@ class Item extends Component {
         mortgagePrice,
         note,
         owner,
+        id
       },
       form: { getFieldDecorator },
       index,
@@ -103,7 +104,7 @@ class Item extends Component {
       owner && owner.map((i) => `${i.name}(${i.typeName})`).filter((i) => i);
     const collateralMsgList = (collateralMsg || []).map((i) => i.name);
     return (
-      <Form layout="inline" className="yc-form" key={`${name}${index}`}>
+      <Form layout="inline" className="yc-form" key={`${id}${index}`}>
         <div className="item-container-edit">
           <div className="item-header">
             <div className="title">抵押物 {index + 1}</div>
@@ -315,7 +316,7 @@ class Item extends Component {
             <div className="part">
               <Form.Item label="所有人：" className="owner">
                 {getFieldDecorator("owner", {
-                  initialValue: ownerList,
+                  initialValue: ownerList||[],
                 })(
                   <Select
                     mode="multiple"

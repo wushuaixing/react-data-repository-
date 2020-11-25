@@ -452,7 +452,7 @@ class GuarantorsInfo extends React.Component {
           )),
       },
       {
-        title: "担保金额",
+        title: "担保金额(元)",
         dataIndex: "amount",
         width: 140,
         key: "amount",
