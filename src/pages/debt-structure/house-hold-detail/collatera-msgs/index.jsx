@@ -10,7 +10,7 @@ const { confirm } = Modal;
 const getMsgs = () => ({
   name: "",
   type: "",
-  useType: 0,
+  useType: 1,
   landArea: "",
   buildingArea: "",
   hasLease: 0,
