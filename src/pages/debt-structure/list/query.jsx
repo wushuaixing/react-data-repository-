@@ -6,12 +6,16 @@ import { SearchAndClearButtonGroup } from "@commonComponents";
 
 const { Option, OptGroup } = Select;
 const searchForm = Form.create;
-
+/**
+ * 债权列表-搜索框
+ */
 class QueryForm extends React.Component {
   static defaultProps = {
     tabIndex: 0,
     role: "",
     timeText: "",
+    toSearch: () => {},
+    toClearSearch: () => {},
   };
   state = {
     userList: [],
@@ -184,7 +188,7 @@ class QueryForm extends React.Component {
                   placeholder="拍卖信息标题"
                   size="default"
                   autoComplete="off"
-                  style={{ width: 240 }}
+                  style={{ width: 400 }}
                 />
               )}
             </Form.Item>
@@ -195,7 +199,7 @@ class QueryForm extends React.Component {
                 <DatePicker
                   placeholder="开始时间"
                   disabledDate={this.disabledStartDate}
-                  style={{ width: 120 }}
+                  style={{ width: 130 }}
                 />
               )}
             </Form.Item>
@@ -206,7 +210,7 @@ class QueryForm extends React.Component {
                 <DatePicker
                   placeholder="结束时间"
                   disabledDate={this.disabledEndDate}
-                  style={{ width: 120 }}
+                  style={{ width: 130 }}
                 />
               )}
             </Form.Item>

@@ -59,6 +59,7 @@ function SearchAndClearButtonGroup(props) {
         htmlType="submit"
         className="yc-components-searchAndClearButtonGroup_search"
         loading={props.loading}
+        style={{minWidth:88}}
       >
         搜索
       </Button>
@@ -67,6 +68,7 @@ function SearchAndClearButtonGroup(props) {
         onClick={props.handleClearSearch}
         className="yc-components-searchAndClearButtonGroup_clear"
         loading={props.loading}
+        style={{minWidth:116}}
       >
         清空搜索条件
       </Button>

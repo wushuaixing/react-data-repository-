@@ -53,7 +53,6 @@ class Index extends React.Component {
       "area",
     ];
     const formParams = this.props.form.getFieldsValue(paramKeys);
-    console.log(this.props.form);
     const params = {
       page: 1,
     };

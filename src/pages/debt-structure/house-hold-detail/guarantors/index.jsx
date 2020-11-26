@@ -2,9 +2,10 @@ import React, { Fragment } from "react";
 import { Table, Input, Select, Modal, Button, Icon, Popover } from "antd";
 import { GuarantorsColumn } from "../../common/column";
 import NoDataIMG from "@/assets/img/no_data.png";
-import { SEXS_TYPE, OBLIGOR_TYPE, ROLETYPES_TYPE } from "../../common/type";
+import { SEXS_TYPE, OBLIGOR_TYPE } from "../../common/type";
 import BatchAddModal from "../../common/modal/batch-add-modal";
 import AutoCompleteInput from "../auto-complete";
+import { dateUtils, clone } from "@utils/common";
 const { Option } = Select;
 const { confirm } = Modal;
 //添加同组
@@ -27,7 +28,7 @@ const getGuarantors = (name) => ({
     {
       birthday: "",
       gender: 0,
-      id: new Date().getTime(),
+      id: Math.random(),
       name: name ? name : "",
       notes: "",
       number: "",
@@ -36,7 +37,9 @@ const getGuarantors = (name) => ({
     },
   ],
 });
-
+/**
+ * 户详情-保证人信息
+ */
 class GuarantorsInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -46,18 +49,49 @@ class GuarantorsInfo extends React.Component {
     };
   }
 
+  static defaultProps = {
+    isEdit: false,
+    data: [],
+    handleChange: () => {},
+  };
+
   UNSAFE_componentWillReceiveProps(props) {
     const { data } = this.state;
     !data.length &&
       this.setState({
         data: props.data,
-        isFirstEnterPage: false,
       });
   }
+
+  /**
+   * 获取保证人索引值
+   * @param arr 保证人所有数据
+   * @param index 第几组
+   * @param indexs 组中第几个保证人
+   * return 第n组中第n个保证人 在整批保证人中的索引
+   */
+  getLength = (arr, index, indexs) => {
+    const data = arr.slice(0, index);
+    let i = 0;
+    data.forEach((item) => {
+      item.msgs.forEach(() => i++);
+    });
+    return i + indexs + 1;
+  };
 
   //通过val 找key
   handleFindKey = (obj, value, compare = (a, b) => a === b) => {
     return Object.keys(obj).find((i) => compare(obj[i], value));
+  };
+
+  handleBirthdayFormat = (value) => {
+    let reg = /(^\d{1,4}|\d{1,2})/g;
+    let timeArr = value.match(reg);
+    let result =
+      timeArr && timeArr.length > 0
+        ? dateUtils.formatDateComplete(timeArr)
+        : value;
+    return parseInt(result);
   };
 
   //删除
@@ -84,10 +118,7 @@ class GuarantorsInfo extends React.Component {
           {
             data: arr,
           },
-          () => {
-            const { data } = this.state;
-            this.props.handleChange("guarantors", data);
-          }
+          () => this.getdetailInfo()
         ),
     });
   };
@@ -102,10 +133,7 @@ class GuarantorsInfo extends React.Component {
       {
         data: arr,
       },
-      () => {
-        const { data } = this.state;
-        this.props.handleChange("guarantors", data);
-      }
+      () => this.getdetailInfo()
     );
   };
 
@@ -117,10 +145,7 @@ class GuarantorsInfo extends React.Component {
       {
         data: arr,
       },
-      () => {
-        const { data } = this.state;
-        this.props.handleChange("guarantors", data);
-      }
+      () => this.getdetailInfo()
     );
   };
 
@@ -143,16 +168,23 @@ class GuarantorsInfo extends React.Component {
             arr[index].msgs[indexs][key] = obligorTypeValues;
             break;
           case "name":
-            if (value) {
-              if (value.length > 3) {
+            let val = value.trim().replace(/[(]/g, "（").replace(/[)]/g, "）");
+            if (val) {
+              if (val.length > 4) {
                 arr[index].msgs[indexs]["obligorType"] = 1; //大于三 人员类别为企业
+              } else {
+                arr[index].msgs[indexs]["obligorType"] = 2; //小于三 为个人
               }
               arr[index].msgs[indexs]["blurAndNotNull"] = true;
             } else {
               arr[index].msgs[indexs]["obligorType"] = 0;
               arr[index].msgs[indexs]["blurAndNotNull"] = false; //无数据时 人员类别为 未知且禁用
             }
-            arr[index].msgs[indexs][key] = value;
+            arr[index].msgs[indexs][key] = val;
+            break;
+          case "birthday":
+            let intVal = this.handleBirthdayFormat(value);
+            arr[index].msgs[indexs][key] = intVal;
             break;
           default:
             arr[index].msgs[indexs][key] = value;
@@ -166,10 +198,23 @@ class GuarantorsInfo extends React.Component {
         data: arr,
       },
       () => {
-        const { data } = this.state;
-        isblur && this.props.handleChange("guarantors", data);
+        isblur && this.getdetailInfo();
       }
     );
+  };
+
+  //id增加时为随机数，作为key值，给后端时为0
+  getdetailInfo = () => {
+    const { data } = this.state;
+    const list = clone(data);
+    list.forEach((item, index) => {
+      item.id = item.id > 1 ? item.id : 0;
+      item.msgs.forEach((val, key) => {
+        val.typeName = `保证人${this.getLength(list, index, key)}`;
+        val.id = val.id > 1 ? val.id : 0;
+      });
+    });
+    this.props.handleChange("guarantors", list);
   };
 
   //打开数字弹窗
@@ -209,35 +254,54 @@ class GuarantorsInfo extends React.Component {
     const { isEdit } = this.props;
     const columns = [
       {
+        title: "序号",
+        dataIndex: "type",
+        width: 103,
+        key: "type",
+        className: "guarantors-types",
+        render: (text, record, index) =>
+          record.msgs &&
+          record.msgs.map((item, indexs) => {
+            return (
+              <p key={`type${indexs}`}>
+                {`保证人${this.getLength(data, index, indexs)}`}
+              </p>
+            );
+          }),
+      },
+      {
         title: "保证人名称",
         dataIndex: "name",
-        width: 185,
+        width: 220,
         key: "name",
-        className: "guarantors-name",
         render: (text, record) =>
           record.msgs &&
           record.msgs.map((item) => <p key={item.id}>{item.name}</p>),
-      },
-      {
-        title: "角色",
-        dataIndex: "type",
-        width: 193,
-        key: "type",
-        render: (text, record) =>
-          record.msgs &&
-          record.msgs.map((item) => (
-            <p key={item.id}>{ROLETYPES_TYPE[item.type]}</p>
-          )),
       },
       ...GuarantorsColumn,
     ];
     const columnsEdit = [
       {
+        title: "序号",
+        dataIndex: "type",
+        width: 83,
+        key: "type",
+        className: "guarantors-types",
+        render: (text, record, index) =>
+          record.msgs &&
+          record.msgs.map((item, indexs) => {
+            return (
+              <div className="guarantors-type" key={`type${indexs}`}>
+                {`保证人${this.getLength(data, index, indexs)}`}
+              </div>
+            );
+          }),
+      },
+      {
         title: "名称",
         dataIndex: "name",
-        width: 185,
+        width: 200,
         key: "name",
-        className: "guarantors-name",
         render: (text, record, index) =>
           record.msgs &&
           record.msgs.map((item, indexs) => (
@@ -248,26 +312,14 @@ class GuarantorsInfo extends React.Component {
               indexs={indexs}
               key={`${record.id}${indexs}`}
               role="guarantors"
+              width={180}
             />
-          )),
-      },
-      {
-        title: "角色",
-        dataIndex: "type",
-        width: 61,
-        key: "type",
-        render: (text, record, index) =>
-          record.msgs &&
-          record.msgs.map((item, indexs) => (
-            <div className="guarantors-type" key={`type${indexs}`}>
-              {ROLETYPES_TYPE[item.type]}
-            </div>
           )),
       },
       {
         title: "人员类别",
         dataIndex: "obligorType",
-        width: 78,
+        width: 88,
         key: "obligorType",
         render: (text, record, index) =>
           record.msgs &&
@@ -298,7 +350,7 @@ class GuarantorsInfo extends React.Component {
                 }}
                 value={OBLIGOR_TYPE[item.obligorType]}
                 disabled={!item.blurAndNotNull}
-                style={{ marginBottom: 20, height: 32, width: 68 }}
+                style={{ marginBottom: 16, height: 32, width: 68 }}
               >
                 {Object.keys(OBLIGOR_TYPE).map((key) => (
                   <Option key={key} style={{ fontSize: 12 }}>
@@ -312,7 +364,7 @@ class GuarantorsInfo extends React.Component {
       {
         title: "证件号",
         dataIndex: "number",
-        width: 175,
+        width: 192,
         key: "number",
         render: (text, record, index) =>
           record.msgs &&
@@ -322,18 +374,24 @@ class GuarantorsInfo extends React.Component {
               autoComplete="off"
               value={item.number}
               key={`number${indexs}`}
+              maxLength={20}
               onChange={(e) => this.handleChange(e, "number", index, indexs)}
-              onBlur={(e) =>
-                this.handleChange(e, "number", index, indexs, true)
-              }
-              style={{ marginBottom: 20, height: 32, width: 160 }}
+              onBlur={(e) => {
+                e.persist();
+                e.target.value = e.target.value
+                  .trim()
+                  .replace(/[(]/g, "（")
+                  .replace(/[)]/g, "）");
+                this.handleChange(e, "number", index, indexs, true);
+              }}
+              style={{ marginBottom: 16, height: 32, width: 172 }}
             />
           )),
       },
       {
         title: "生日",
         dataIndex: "birthday",
-        width: 106,
+        width: 110,
         key: "birthday",
         render: (text, record, index) =>
           record.msgs &&
@@ -341,7 +399,7 @@ class GuarantorsInfo extends React.Component {
             <Input
               placeholder="请输入生日"
               autoComplete="off"
-              value={item.birthday}
+              value={item.birthday || ""}
               key={`birthday${indexs}`}
               onChange={(e) => {
                 this.handleChange(e, "birthday", index, indexs);
@@ -349,14 +407,14 @@ class GuarantorsInfo extends React.Component {
               onBlur={(e) => {
                 this.handleChange(e, "birthday", index, indexs, true);
               }}
-              style={{ marginBottom: 20, height: 32, width: 100 }}
+              style={{ marginBottom: 16, height: 32, width: 90 }}
             />
           )),
       },
       {
         title: "性别",
         dataIndex: "gender",
-        width: 84,
+        width: 88,
         key: "gender",
         render: (text, record, index) =>
           record.msgs &&
@@ -382,7 +440,7 @@ class GuarantorsInfo extends React.Component {
                   );
                 }}
                 value={SEXS_TYPE[item.gender]}
-                style={{ marginBottom: 20, height: 32, width: 68 }}
+                style={{ marginBottom: 16, height: 32, width: 68 }}
               >
                 {Object.keys(SEXS_TYPE).map((key) => (
                   <Option key={key} style={{ fontSize: 12 }}>
@@ -394,9 +452,9 @@ class GuarantorsInfo extends React.Component {
           )),
       },
       {
-        title: "担保金额",
+        title: "担保金额(元)",
         dataIndex: "amount",
-        width: 118,
+        width: 140,
         key: "amount",
         className: "amount",
         render: (text, record, index) => (
@@ -411,14 +469,14 @@ class GuarantorsInfo extends React.Component {
             onBlur={(e) => {
               this.handleChange(e, "amount", index, "", true);
             }}
-            style={{ height: 32, width: 108, marginBottom: 20 }}
+            style={{ height: 32, width: 120, marginBottom: 20 }}
           />
         ),
       },
       {
         title: "备注",
         dataIndex: "notes",
-        width: 135,
+        width: 138,
         key: "notes",
         render: (text, record, index) =>
           record.msgs &&
@@ -435,14 +493,14 @@ class GuarantorsInfo extends React.Component {
               onBlur={(e) => {
                 this.handleChange(e, "notes", index, indexs, true);
               }}
-              style={{ marginBottom: 20, height: 32, width: 118 }}
+              style={{ marginBottom: 16, height: 32, width: 118 }}
             />
           )),
       },
       {
         title: "操作",
         dataIndex: "action",
-        width: 170,
+        width: 165,
         key: "action",
         render: (text, record, index) =>
           record.msgs.map((item, indexs) => (
@@ -506,7 +564,7 @@ class GuarantorsInfo extends React.Component {
         {isEdit ? (
           <Fragment>
             <Table
-              rowClassName="table-list"
+              rowClassName="edit-list"
               columns={columnsEdit}
               dataSource={data}
               pagination={false}
@@ -530,7 +588,7 @@ class GuarantorsInfo extends React.Component {
           </Fragment>
         ) : (
           <Table
-            rowClassName="table-list"
+            rowClassName="enable-list"
             columns={columns}
             dataSource={data}
             pagination={false}

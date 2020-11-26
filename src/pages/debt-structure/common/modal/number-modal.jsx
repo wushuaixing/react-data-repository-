@@ -2,7 +2,9 @@ import React from "react";
 import { Modal, Button, Table } from "antd";
 import { GuarantorsColumn, PledgersColumn, CreditorsColumn } from "../column";
 import NoDataIMG from "@/assets/img/no_data.png";
-
+/**
+ * 各户信息/未知对应关系-保证人/抵质押人/抵质押物-数字弹窗
+ */
 class NumberModal extends React.Component {
   //数字弹框
   getColumns = (params) => {
@@ -11,7 +13,7 @@ class NumberModal extends React.Component {
         {
           title: "保证人名称",
           dataIndex: "name",
-          width: 185,
+          width: 180,
           key: "name",
           render: (text, record) =>
             record.msgs &&
@@ -33,11 +35,23 @@ class NumberModal extends React.Component {
 
   render() {
     const { visible, data, numberModalParams } = this.props;
+    let titleText = "";
+    switch (numberModalParams) {
+      case "pledgerNum":
+        titleText = "抵质押人";
+        break;
+      case "guarantorNum":
+        titleText = "保证人";
+        break;
+      case "collateralNum":
+        titleText = "抵质押物";
+        break;
+      default:
+        break;
+    }
     const footer = (
-      <div className="footer">
-        <Button type="primary" onMouseDown={this.handleClose}>
-          关闭
-        </Button>
+      <div className="number-modal-footer">
+        <Button onMouseDown={this.handleClose}>关闭</Button>
       </div>
     );
     return (
@@ -46,6 +60,7 @@ class NumberModal extends React.Component {
           visible={visible}
           destroyOnClose={true}
           footer={footer}
+          title={titleText}
           maskClosable
           width={numberModalParams === "collateralNum" ? 1100 : 1300}
           className="number-modal"

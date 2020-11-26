@@ -13,6 +13,9 @@ import NumberModal from "../common/modal/number-modal";
 import { Button, Checkbox, Modal, Icon, message } from "antd";
 import "./style.scss";
 const { confirm } = Modal;
+/**
+ * 债权包详情
+ */
 class DebtDetail extends Component {
   constructor() {
     super();
@@ -47,10 +50,12 @@ class DebtDetail extends Component {
     this.isstorageChange();
   }
 
+  //保存并获取下一条时 直接进入到下一个详情页
   UNSAFE_componentWillReceiveProps(newProps) {
     this.getDetailInfo(newProps);
   }
 
+  //关闭户/未知关系 详情页时 刷新各户信息列表
   isstorageChange() {
     window.addEventListener("storage", () => {
       if (localStorage.getItem("debtNewPageClose") < 1) {
@@ -60,9 +65,9 @@ class DebtDetail extends Component {
     });
   }
 
+  //债权详情各户信息 && 未知关系 列表 (户数靠各户信息的长度判断，不根据后端返回字段判断)
   getCreditorsUnitsList = (id) => {
     const { page } = this.state;
-    ////债权详情各户信息 && 未知关系 列表
     DebtApi.getCreditorsUnitsList(id, page)
       .then((res) => {
         if (res.data.code === 200) {
@@ -98,14 +103,14 @@ class DebtDetail extends Component {
       });
   };
 
-  //获取详情数据
+  //获取详情数据 页面首次进入时调用详情接口 和 各户信息两个接口  (户/未知对应关系 编辑只刷新各户信息列表)
   getDetailInfo = (props) => {
     const {
       match: {
         params: { approverStatus, id, debtStatus },
       },
     } = props;
-    sessionStorage.setItem("debtId", id);
+    sessionStorage.setItem("debtId", id); //关闭户详情页后 props中 无路由参数 做本地存储
     this.setState({ loading: true });
     //获取债权结构化详情
     DebtApi.getCreditorsDetail(parseInt(id))
@@ -138,15 +143,15 @@ class DebtDetail extends Component {
               guarantorCount: data.guarantorCount, //未知对应关系_保证人数
               pledgerCount: data.pledgerCount, //未知对应关系_抵质押人数
 
-              msgsLists: data.msgsLists, //系统提取信息-抵押物信息
-              usersLists: data.usersLists, //系统提取信息-保证人信息
+              msgsLists: data.msgsLists ? data.msgsLists : [], //系统提取信息-抵押物信息
+              usersLists: data.usersLists ? data.usersLists : [], //系统提取信息-保证人信息
 
               isEdit: Boolean(parseInt(approverStatus)), //是否可编辑
               debtStatus: parseInt(debtStatus),
             },
             () => {
               const { id } = this.state;
-              this.getCreditorsUnitsList(id);
+              this.getCreditorsUnitsList(id); //获取各户信息列表
             }
           );
         }
@@ -237,7 +242,7 @@ class DebtDetail extends Component {
         });
         break;
       case "msgsInfo":
-        DebtApi.getCollateralMsgList(id).then((result) => {
+        DebtApi.getCollateralDetail(id).then((result) => {
           //获取抵押物数信息
           const data = result.data;
           if (data.code === 200) {
@@ -346,12 +351,10 @@ class DebtDetail extends Component {
         })
       : DebtApi.saveDetail(params).then((result) => {
           //状态为已标记和未检查时
-          //保存
           const res = result.data;
           if (res.code === 200) {
             const data = res.data;
             if (data) {
-              console.log(4234234);
               message.success("保存成功!", 2, () =>
                 this.props.history.push("/index/debtList")
               );
@@ -425,19 +428,6 @@ class DebtDetail extends Component {
     });
   };
 
-  // 换页
-  handlePageChange = (page) => {
-    this.setState(
-      {
-        page,
-      },
-      () => {
-        const id = sessionStorage.getItem("debtId");
-        this.getCreditorsUnitsList(id);
-      }
-    );
-  };
-
   // 检查无误
   handleNoErr = (id) => {
     DebtApi.checkAndSave(id).then((result) => {
@@ -488,6 +478,7 @@ class DebtDetail extends Component {
     } = this.props;
     const text = rule === "check" ? "检查" : "";
     document.title = title;
+    const saveAndNextDisabled = creditorsUnitsList.some((i) => i.status === 0); //当资产包有未保存标签时，不允许“保存并标注下一条”。“保存并标注下一条”按钮置灰。
     return (
       <div className="yc-debt-container">
         <div className="yc-debt-content">
@@ -508,6 +499,7 @@ class DebtDetail extends Component {
                     type="primary"
                     style={{ height: 32, zIndex: 10 }}
                     onClick={() => this.handleSave(0)}
+                    disabled={saveAndNextDisabled}
                   >
                     {debtStatus === 0 || debtStatus === 1
                       ? "保存并标注下一条"

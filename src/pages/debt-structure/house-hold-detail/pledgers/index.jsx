@@ -4,6 +4,7 @@ import NoDataIMG from "@/assets/img/no_data.png";
 import { OBLIGOR_TYPE, ROLETYPES_TYPE, SEXS_TYPE } from "../../common/type";
 import { PledgersAndDebtorsColumn } from "../../common/column";
 import AutoCompleteInput from "../auto-complete";
+import { dateUtils, clone } from "@utils/common";
 const { Option } = Select;
 const { confirm } = Modal;
 const getPledgersOrDebtors = (ispledgers) => ({
@@ -17,7 +18,9 @@ const getPledgersOrDebtors = (ispledgers) => ({
   type: ispledgers ? 3 : 1,
 });
 
-//抵质押人 和债务人组件
+/**
+ * 户详情-抵质押人信息
+ */
 class PledgersAndDebtorsInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +28,13 @@ class PledgersAndDebtorsInfo extends React.Component {
       data: [],
     };
   }
+
+  static defaultProps = {
+    role: "",
+    isEdit: false,
+    data: [],
+    handleChange: () => {},
+  };
 
   UNSAFE_componentWillReceiveProps(props) {
     const { data } = this.state;
@@ -34,15 +44,25 @@ class PledgersAndDebtorsInfo extends React.Component {
       });
   }
 
+  //获取角色 （抵质押人还是债务人）
+  getRole = () => {
+    const { role } = this.props;
+    return role;
+  };
+
   //通过val找key值
   handleFindKey = (obj, value, compare = (a, b) => a === b) => {
     return Object.keys(obj).find((i) => compare(obj[i], value));
   };
 
-  //获取角色 （抵质押人还是债务人）
-  getRole = () => {
-    const { role } = this.props;
-    return role;
+  handleBirthdayFormat = (value) => {
+    let reg = /(^\d{1,4}|\d{1,2})/g;
+    let timeArr = value.match(reg);
+    let result =
+      timeArr && timeArr.length > 0
+        ? dateUtils.formatDateComplete(timeArr)
+        : value;
+    return parseInt(result);
   };
 
   //添加
@@ -54,10 +74,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         data: arr,
       },
-      () => {
-        const { data } = this.state;
-        this.props.handleChange(this.getRole(), data);
-      }
+      () => this.getdetailInfo()
     );
   };
 
@@ -80,10 +97,7 @@ class PledgersAndDebtorsInfo extends React.Component {
           {
             data: arr,
           },
-          () => {
-            const { data } = this.state;
-            this.props.handleChange(this.getRole(), data);
-          }
+          () => this.getdetailInfo()
         ),
     });
   };
@@ -104,19 +118,22 @@ class PledgersAndDebtorsInfo extends React.Component {
           arr[index][key] = obligorTypeValue;
           break;
         case "name":
-          if (value) {
-            if (value.length > 3) {
+          let val = value.trim().replace(/[(]/g, "（").replace(/[)]/g, "）");
+          if (val) {
+            if (val.length > 4) {
               arr[index]["obligorType"] = 1; //名称大于三时人员类别为企业
+            } else {
+              arr[index]["obligorType"] = 2; //名称小于三时人员类别为个人
             }
-            arr[index]["blurAndNotNull"] = true;
+            arr[index]["blurAndNotNull"] = true; //按钮可选
           } else {
             arr[index]["obligorType"] = 0;
-            arr[index]["blurAndNotNull"] = false; //没有数据时 人员类别为禁用
+            arr[index]["blurAndNotNull"] = false; //没有数据时 人员类别 未知且禁用
           }
-          arr[index][key] = value;
+          arr[index][key] = val;
           break;
         case "birthday":
-          let intVal = parseInt(value);
+          let intVal = this.handleBirthdayFormat(value);
           arr[index][key] = intVal;
           break;
         default:
@@ -126,16 +143,28 @@ class PledgersAndDebtorsInfo extends React.Component {
     } else {
       arr[index][key] = value;
     }
-
     this.setState(
       {
         data: arr,
       },
       () => {
-        const { data } = this.state;
-        isblur && this.props.handleChange(this.getRole(), data); //失焦后将数据抛出 (在onChange下改变props值页面会卡顿)
+        isblur && this.getdetailInfo(); //失焦后将数据抛出 (在onChange下改变props值页面会卡顿)
       }
     );
+  };
+
+  //id增加时为随机数，作为key值，给后端时为0
+  getdetailInfo = () => {
+    const { data } = this.state;
+    let list = clone(data);
+    list.forEach((i, index) => {
+      list[index].typeName =
+        this.getRole() === "pledgers"
+          ? `抵质押人${index + 1}`
+          : `债务人${index + 1}`;
+      list[index].id = list[index].id > 1 ? list[index].id : 0;
+    });
+    this.props.handleChange(this.getRole(), list); //失焦后将数据抛出 (在onChange下改变props值页面会卡顿)
   };
 
   render() {
@@ -143,9 +172,16 @@ class PledgersAndDebtorsInfo extends React.Component {
     const { role, isEdit } = this.props;
     const PledgersAndDebtorsColumnEdit = [
       {
+        title: "序号",
+        dataIndex: "type",
+        width: this.getRole() === "pledgers" ? 112 : 98,
+        key: "type",
+        render: (text, record, index) => `${ROLETYPES_TYPE[text]}${index + 1}`,
+      },
+      {
         title: "名称",
         dataIndex: "name",
-        width: 160,
+        width: this.getRole() === "pledgers" ? 253 : 268,
         key: "name",
         render: (text, record, index) => (
           <AutoCompleteInput
@@ -153,15 +189,9 @@ class PledgersAndDebtorsInfo extends React.Component {
             nameVal={text}
             index={index}
             key={record.id}
+            width={228}
           />
         ),
-      },
-      {
-        title: "角色",
-        dataIndex: "type",
-        width: 100,
-        key: "type",
-        render: (text) => ROLETYPES_TYPE[text],
       },
       {
         title: () => {
@@ -186,7 +216,7 @@ class PledgersAndDebtorsInfo extends React.Component {
           );
         },
         dataIndex: "obligorType",
-        width: 88,
+        width: 108,
         key: "obligorType",
         render: (text, record, index) => (
           <Select
@@ -216,19 +246,24 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "证件号",
         dataIndex: "number",
-        width: 187,
+        width: 230,
         key: "number",
         render: (text, record, index) => (
           <Input
             placeholder="请输入证件号"
             autoComplete="off"
             value={text}
+            maxLength={20}
             onChange={(e) => {
               e.persist();
               this.handleChange(e, "number", index);
             }}
             onBlur={(e) => {
               e.persist();
+              e.target.value = e.target.value
+                .trim()
+                .replace(/[(]/g, "（")
+                .replace(/[)]/g, "）");
               this.handleChange(e, "number", index, true);
             }}
             style={{ width: 160 }}
@@ -238,7 +273,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "生日",
         dataIndex: "birthday",
-        width: 115,
+        width: 130,
         key: "birthday",
         render: (text, record, index) => (
           <Input
@@ -260,7 +295,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "性别",
         dataIndex: "gender",
-        width: 92,
+        width: 114,
         key: "gender",
         render: (text, record, index) => (
           <Select
@@ -285,7 +320,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "备注",
         dataIndex: "notes",
-        width: 130,
+        width: 158,
         key: "notes",
         render: (text, record, index) => (
           <Input.TextArea
@@ -308,7 +343,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "操作",
         dataIndex: "action",
-        width: 79,
+        width: 70,
         key: "action",
         render: (text, record, index) => (
           <span
@@ -347,7 +382,7 @@ class PledgersAndDebtorsInfo extends React.Component {
         {isEdit ? (
           <Fragment>
             <Table
-              rowClassName="table-list"
+              rowClassName="edit-list"
               columns={PledgersAndDebtorsColumnEdit}
               dataSource={data}
               pagination={false}

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { message, AutoComplete, Input } from "antd";
 import { getAutoPrompt } from "@/server/api";
-
+/**
+ * 债权结构化-自动联想组件
+ */
 class AutoCompleteInput extends Component {
   constructor() {
     super();
@@ -12,6 +14,15 @@ class AutoCompleteInput extends Component {
       //输入法是否为中文
     };
   }
+
+  static defaultProps = {
+    role: "",
+    nameVal: "",
+    width: 0,
+    index: 0,
+    indexs: 0,
+    handleChange: () => {},
+  };
 
   handChange = (e, key, index, isBlur, indexs) => {
     const { value } = e.target;
@@ -84,9 +95,12 @@ class AutoCompleteInput extends Component {
   };
 
   render() {
-    const { nameVal, index, indexs } = this.props;
-    const { prompstList, isBlur } = this.state;
-    const isHaveData = prompstList.length === 0 && nameVal.length > 3;
+    const { nameVal, index, indexs, width } = this.props;
+    const { prompstList, isBlur, isChinese } = this.state;
+    const isHaveData =
+      prompstList.length === 0 &&
+      nameVal.trim().length > 3 &&
+      isChinese !== "Chinese";
     const options = (prompstList || []).map((item) => {
       let value = item
         .replace(/<span style='color:red'>/g, "")
@@ -129,7 +143,7 @@ class AutoCompleteInput extends Component {
               : "atuo_complete"
           } // 未匹配到对应的工商信息时边框为黄色
           optionLabelProp="text" //回填到选择框的 Option 的属性值，默认是 Option 的子元素
-          style={{ height: 32, width: 150 }}
+          style={{ height: 32, width: width }}
         >
           <Input
             onCompositionStart={this.judgeChinese} //使用拼音输入法开始输入汉字时，这个事件就会被触发

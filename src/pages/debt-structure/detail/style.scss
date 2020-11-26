@@ -215,3 +215,17 @@
         }
     }
 }
+.number-modal{
+    .ant-modal-body{
+        padding:24px !important;
+    }
+    .ant-table-content{
+        border: 1px solid #E8E8E8;
+        border-bottom: none;
+    }
+    .ant-modal-footer{
+        padding: 12px 24px 0!important;
+        height: 56px;
+        border-top:1px solid #E8E8E8 !important;
+    }
+}

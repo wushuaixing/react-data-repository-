@@ -1,17 +1,41 @@
 import React, { Component } from "react";
 import { HAS_TYPE, USE_TYPE } from "../../common/type";
-import { Input, Select, Button, Form, AutoComplete, message, Icon } from "antd";
-import DebtApi from "@/server/debt";
+import {
+  Input,
+  Select,
+  Button,
+  Form,
+  AutoComplete,
+  Icon,
+  InputNumber,
+} from "antd";
 const { Option } = Select;
+/**
+ * 户详情-单个抵押物信息（可编辑页面）
+ */
 class Item extends Component {
   constructor() {
     super();
     this.state = {
-      isRoleChange: false,
+      isChange: false,
     };
   }
 
-  //置空所有人信息
+  static defaultProps = {
+    index: 0,
+    key: "",
+    isChange: "",
+    id: "",
+    msgsList: {},
+    dynamicOwners: [],
+    collateralMsg: [],
+    handleRowDel: () => {},
+    handleSave: () => {},
+    handleRowReset: () => {},
+    handleSelect: () => {},
+  };
+
+  //角色信息发生改变时 置空所有人信息
   UNSAFE_componentWillReceiveProps(props) {
     const {
       form: { setFieldsValue },
@@ -49,6 +73,7 @@ class Item extends Component {
     this.props.form.resetFields();
   };
 
+  //选中抵押物信息所有人后自动填充信息
   handleSelect = (val) => {
     const { collateralMsg } = this.props;
     const { index } = this.props;
@@ -76,16 +101,18 @@ class Item extends Component {
         mortgagePrice,
         note,
         owner,
+        id,
       },
       form: { getFieldDecorator },
       index,
       dynamicOwners,
       collateralMsg,
     } = this.props;
-    const ownerList = owner && owner.map((i) => i.name);
+    const ownerList =
+      owner && owner.map((i) => `${i.name}(${i.typeName})`).filter((i) => i);
     const collateralMsgList = (collateralMsg || []).map((i) => i.name);
     return (
-      <Form layout="inline" className="yc-form" key={`${name}${index}`}>
+      <Form layout="inline" className="yc-form" key={`${id}${index}`}>
         <div className="item-container-edit">
           <div className="item-header">
             <div className="title">抵押物 {index + 1}</div>
@@ -167,9 +194,11 @@ class Item extends Component {
                 {getFieldDecorator("landArea", {
                   initialValue: landArea || "",
                 })(
-                  <Input
-                    type="text"
+                  <InputNumber
                     placeholder="请输入土地面积"
+                    precision={2}
+                    max={999999999999.99}
+                    min={0}
                     size="default"
                     autoComplete="off"
                     onBlur={() => this.save()}
@@ -184,9 +213,11 @@ class Item extends Component {
                 {getFieldDecorator("buildingArea", {
                   initialValue: buildingArea || "",
                 })(
-                  <Input
-                    type="text"
+                  <InputNumber
                     placeholder="请输入建筑面积"
+                    precision={2}
+                    max={999999999999.99}
+                    min={0}
                     size="default"
                     autoComplete="off"
                     onBlur={() => this.save()}
@@ -266,8 +297,10 @@ class Item extends Component {
                 {getFieldDecorator("consultPrice", {
                   initialValue: consultPrice || "",
                 })(
-                  <Input
-                    type="text"
+                  <InputNumber
+                    precision={2}
+                    max={999999999999.99}
+                    min={0}
                     placeholder="请输入评估价"
                     size="default"
                     autoComplete="off"
@@ -281,8 +314,10 @@ class Item extends Component {
                 {getFieldDecorator("mortgagePrice", {
                   initialValue: mortgagePrice || "",
                 })(
-                  <Input
-                    type="text"
+                  <InputNumber
+                    precision={2}
+                    max={999999999999.99}
+                    min={0}
                     placeholder="请输入抵押金额"
                     size="default"
                     autoComplete="off"
@@ -297,14 +332,15 @@ class Item extends Component {
             <div className="part">
               <Form.Item label="所有人：" className="owner">
                 {getFieldDecorator("owner", {
-                  initialValue: ownerList,
+                  initialValue: ownerList || [],
                 })(
                   <Select
                     mode="multiple"
-                    style={{ height: 32, width: 421 }}
-                    onDeselect={() => this.save()}
+                    style={{ minHeight: 32, width: 421 }}
                     placeholder="请选择所有人"
-                    onMouseLeave={() => this.save()}
+                    onSelect={this.save}
+                    onDeselect={this.save} //删除选中数值时调用保存
+                    onMouseLeave={this.save}
                   >
                     {dynamicOwners.map((item) => (
                       <Option key={item} style={{ fontSize: 12 }}>

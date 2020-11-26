@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { Popover, Icon, InputNumber, Checkbox } from "antd";
-
+/**
+ * 包详情-资产包信息 户详情-债权信息
+ */
 class AssetPackage extends Component {
   static defaultProps = {
     isEdit: false,
@@ -9,7 +11,9 @@ class AssetPackage extends Component {
     creditorsRightsPrincipal: 0,
     outstandingInterest: 0,
     totalAmountCreditorsRights: 0,
+    summation: 1,
     role: "",
+    handleChange: () => {},
   };
 
   handleChange = (e, val) => {
@@ -68,7 +72,7 @@ class AssetPackage extends Component {
                 <InputNumber
                   precision={2}
                   style={{ width: 200 }}
-                  max={999999999.99}
+                  max={999999999999.99}
                   e
                   min={0}
                   placeholder="请输入金额"
@@ -85,7 +89,7 @@ class AssetPackage extends Component {
                 <InputNumber
                   precision={2}
                   style={{ width: 200 }}
-                  max={999999999.99}
+                  max={999999999999.99}
                   min={0}
                   placeholder="请输入金额"
                   onChange={(e) => this.handleChange("outstandingInterest", e)}
@@ -99,7 +103,7 @@ class AssetPackage extends Component {
                 <InputNumber
                   precision={2}
                   style={{ width: 200 }}
-                  max={999999999.99}
+                  max={999999999999.99}
                   min={0}
                   placeholder="请输入金额"
                   onChange={(e) =>

@@ -1,7 +1,16 @@
 /** right content for Account manage* */
 
 import React from "react";
-import { Modal, Form, Button, Select, Checkbox, Radio, Input ,message} from "antd";
+import {
+  Modal,
+  Form,
+  Button,
+  Select,
+  Checkbox,
+  Radio,
+  Input,
+  message,
+} from "antd";
 import {
   ADD_CHARACTER_LIST,
   AUCTION_DATA_TYPE,
@@ -20,42 +29,43 @@ class AccountManage extends React.Component {
   //确定
   modalOk = (e) => {
     e.preventDefault();
-    if(!this.IsNull){
-      message.warning('结构化对象不能为空')
-    }else{
-    this.props.form.validateFields((err) => {
-      if (!err) {
-        const { info, action } = this.props;
-        let options = this.props.form.getFieldsValue();
-        const {
-          username,
-          password,
-          name,
-          roleId,
-          auctionDataType,
-          creditorDataType,
-        } = options;
-        const params = {
-          username,
-          password,
-          name,
-          roleId,
-          auctionDataType,
-          creditorDataType,
-        };
-        if (action !== "add") {
-          params.username = info.username;
+    if (!this.IsNull) {
+      message.warning("结构化对象不能为空");
+    } else {
+      this.props.form.validateFields((err) => {
+        if (!err) {
+          const { info, action } = this.props;
+          let options = this.props.form.getFieldsValue();
+          const {
+            username,
+            password,
+            name,
+            roleId,
+            auctionDataType,
+            creditorDataType,
+          } = options;
+          const params = {
+            username,
+            password,
+            name,
+            roleId,
+            auctionDataType,
+            creditorDataType,
+          };
+          if (action !== "add") {
+            params.username = info.username;
+          }
+          const structuredObject = [
+            options.structure ? "8" : "",
+            options.debt ? "26" : "",
+            options.backrupt ? "11" : "",
+          ];
+          params.structuredObject = structuredObject.filter((i) => i);
+          params.functionId = structuredObject.filter((i) => i);
+          this.props.handleSubmit(params, info.id);
         }
-        const structuredObject = [
-          options.structure ? "8" : "",
-          options.debt ? "26" : "",
-          options.backrupt ? "11" : "",
-        ];
-        params.structuredObject = structuredObject.filter((i) => i);
-        params.functionId = structuredObject.filter((i) => i);
-        this.props.handleSubmit(params, info.id);
-      }
-    })};
+      });
+    }
   };
   //取消
   modalCancel = () => {
@@ -93,7 +103,7 @@ class AccountManage extends React.Component {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const deFunctionId = [
       /资产拍卖数据/.test(info.structuredObject),
-      /债权结构化数据/.test(info.structuredObject),
+      /拍卖债权数据/.test(info.structuredObject),
       /破产重组数据/.test(info.structuredObject),
     ];
     const footer = (
@@ -246,7 +256,10 @@ class AccountManage extends React.Component {
                   <Form.Item label="数据类型:" className="form-col-temp">
                     {getFieldDecorator("auctionDataType", {
                       rules: [{ required: true, message: "数据类型不能为空" }],
-                      initialValue: action === "add" ? 0 : info.auctionDataType, //添加时radio 为false  编辑时代入值
+                      initialValue:
+                        action === "add" || info.auctionDataType === -1
+                          ? 0
+                          : info.auctionDataType, //添加时radio 为false  编辑时代入值
                     })(
                       <Radio.Group
                         style={{ marginLeft: 5, display: "inline-block" }}
@@ -264,7 +277,7 @@ class AccountManage extends React.Component {
                 <Form.Item className="structure-object-checkbox">
                   {getFieldDecorator("debt", {
                     valuePropName: "checked",
-                    initialValue: action === "add" ? false : deFunctionId[1], 
+                    initialValue: action === "add" ? false : deFunctionId[1],
                   })(<Checkbox>拍卖债权数据</Checkbox>)}
                 </Form.Item>
                 {getFieldValue("debt") ? (
@@ -272,7 +285,9 @@ class AccountManage extends React.Component {
                     {getFieldDecorator("creditorDataType", {
                       rules: [{ required: true, message: "数据类型不能为空" }],
                       initialValue:
-                        action === "add" ? 0 : info.creditorDataType,
+                        action === "add" || info.creditorDataType === -1
+                          ? 0
+                          : info.creditorDataType,
                     })(
                       <Radio.Group
                         style={{ marginLeft: 5, display: "inline-block" }}

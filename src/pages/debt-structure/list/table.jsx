@@ -6,7 +6,9 @@ import createPaginationProps from "@/utils/pagination";
 import NoDataIMG from "@/assets/img/no_data.png";
 import { STATUS_TYPE } from "../common/type";
 const { TabPane } = Tabs;
-
+/**
+ * 债权 列表
+ */
 class DebtTable extends React.Component {
   static defaultProps = {
     page: 1,
@@ -16,6 +18,8 @@ class DebtTable extends React.Component {
     role: "",
     panes: [],
     timeText: "",
+    onPageChange: () => {},
+    onTabChange: () => {},
   };
 
   //切换tab
@@ -28,7 +32,7 @@ class DebtTable extends React.Component {
     this.props.onPageChange(pagination.current);
   };
 
-  //跳转详情页
+  //跳转详情页  通过approverStatus来判断详情页是否可编辑
   handGoDetail = (record) => {
     const { approverStauts, id, status } = record; // 最后更新者状态 0-正常账户 1-删除账户  |  id  | 状态 0待标记 1继续标注 2已标记/未检查 3检查无误
     const { role } = this.props;
@@ -39,7 +43,7 @@ class DebtTable extends React.Component {
     if (role === "normal") {
       approverStatus = 0;
     }
-    if(approverStauts===-1){
+    if (approverStauts === -1) {
       approverStatus = 0;
     }
     this.props.history.push(
@@ -81,7 +85,7 @@ class DebtTable extends React.Component {
                 size="small"
                 type="primary"
                 ghost
-                style={{ minWidth: 60, height: 28 }}
+                style={{ minWidth: 88, height: 28 }}
                 className="btn-bgcolor-change"
                 onClick={() => {
                   this.handGoDetail(record);

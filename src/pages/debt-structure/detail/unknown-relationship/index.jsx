@@ -2,14 +2,22 @@ import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { Button, Table } from "antd";
 import NoDataIMG from "@/assets/img/no_data.png";
-
+/**
+ * 包详情-未知对应关系
+ */
 class UnknownRelationShip extends Component {
   static defaultProps = {
+    data: {},
+    packageId: "",
     title: "",
-    idEdit: true,
+    idEdit: false,
+    unitNumber: 0,
+    debtId: "",
+    handleDel: () => {},
+    handleOpenModal: () => {},
   };
 
-  //未知关系详情
+  //未知关系详情 添加时id为1
   goDetail(id) {
     const { packageId, isEdit, debtId } = this.props;
     window.open(
@@ -22,6 +30,13 @@ class UnknownRelationShip extends Component {
     this.props.handleDel(id, "unknowShip");
   };
 
+  //数字弹框
+  handleNumberModal = (number, params) => {
+    if (number) {
+      this.props.handleOpenModal("NumberModalVisible", params);
+    }
+  };
+
   getColumns = (isEdit) => {
     return [
       {
@@ -31,10 +46,14 @@ class UnknownRelationShip extends Component {
         key: "guarantorNum",
         render: (guarantorNum, record) => (
           <span
-            onClick={this.handleOpenGuarantorModal.bind(this, {
-              id: record.id,
-              type: "guarantorNum",
-            })}
+            style={{ cursor: guarantorNum ? "pointer" : "" }}
+            className={guarantorNum ? "hasColor" : ""}
+            onClick={() =>
+              this.handleNumberModal(guarantorNum, {
+                id: record.id,
+                type: "guarantorNum",
+              })
+            }
           >
             {guarantorNum || 0}
           </span>
@@ -47,10 +66,14 @@ class UnknownRelationShip extends Component {
         key: "pledgerNum",
         render: (pledgerNum, record) => (
           <span
-            onClick={this.handleOpenGuarantorModal.bind(this, {
-              id: record.id,
-              type: "pledgerNum",
-            })}
+            style={{ cursor: pledgerNum ? "pointer" : "" }}
+            className={pledgerNum ? "hasColor" : ""}
+            onClick={() =>
+              this.handleNumberModal(pledgerNum, {
+                id: record.id,
+                type: "pledgerNum",
+              })
+            }
           >
             {pledgerNum || 0}
           </span>
@@ -63,10 +86,14 @@ class UnknownRelationShip extends Component {
         key: "collateralNum",
         render: (collateralNum, record) => (
           <span
-            onClick={this.handleOpenGuarantorModal.bind(this, {
-              id: record.id,
-              type: "collateralNum",
-            })}
+            style={{ cursor: collateralNum ? "pointer" : "" }}
+            className={collateralNum ? "hasColor" : ""}
+            onClick={() =>
+              this.handleNumberModal(collateralNum, {
+                id: record.id,
+                type: "collateralNum",
+              })
+            }
           >
             {collateralNum || 0}
           </span>
@@ -83,10 +110,20 @@ class UnknownRelationShip extends Component {
               {isEdit ? (
                 <div className="action-btn-group">
                   <span>
-                    <span onClick={() => this.goDetail(record.id)}>编辑</span>
+                    <span
+                      onClick={() => this.goDetail(record.id)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      编辑
+                    </span>
                   </span>
                   <span>|</span>
-                  <span onClick={() => this.handleDel(record.id)}>删除</span>
+                  <span
+                    onClick={() => this.handleDel(record.id)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    删除
+                  </span>
                 </div>
               ) : (
                 <span>
@@ -108,15 +145,11 @@ class UnknownRelationShip extends Component {
     ];
   };
 
-  //数字弹框
-  handleOpenGuarantorModal = (params) => {
-    this.props.handleOpenModal("NumberModalVisible", params);
-  };
   render() {
     const { data, isEdit, unitNumber } = this.props;
-    const isIdNull = data && data.id;
+    const isIdNull = data && data.id; //后端返回为对象形式，id为null则没有数据
     const unKnowList = isIdNull ? [{ ...data }] : [];
-    const disabled = unitNumber <= 1;
+    const disabled = unitNumber <= 1 || isIdNull; //当列表页有“未知对应关系”的信息或各户信息列表少于两条时，此按钮置灰
     return (
       <div className="debt-detail-components debt-house-hold">
         <div className="header">

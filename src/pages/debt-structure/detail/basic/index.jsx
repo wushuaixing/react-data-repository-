@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { AUCTION_STATUS } from "@/static/status";
 import { dateUtils } from "@utils/common";
-
+/**
+ * 包详情-基本信息
+ */
 class Basic extends Component {
   static defaultProps = {
     title: "",
@@ -10,6 +12,7 @@ class Basic extends Component {
     withdraw: "",
     logs: [],
     role: "",
+    id: "",
   };
 
   render() {
@@ -24,7 +27,9 @@ class Basic extends Component {
             </Link>
           </Item>
           <Item title="拍卖状态：" content={AUCTION_STATUS[status]} />
-          <Item title="撤回原因：" content={withdraw} />
+          {status === 11 ? (
+            <Item title="撤回原因：" content={withdraw} /> //拍卖状态为撤回时，展示撤回原因。
+          ) : null}
           {role !== "normal" && logs && logs.length > 0 && (
             <Item title="标注记录：">
               {logs.map((item, index) => (

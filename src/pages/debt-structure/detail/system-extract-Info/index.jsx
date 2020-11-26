@@ -3,11 +3,14 @@ import { withRouter } from "react-router-dom";
 import { Table, Popover, Icon } from "antd";
 import { AdminMsgsColumn, AdminUsersColumn } from "../../common/column";
 import NoDataIMG from "@/assets/img/no_data.png";
-
+/**
+ * 包详情-系统提取信息
+ */
 class SystemExtractInfo extends Component {
   static defaultProps = {
     usersLists: [],
     msgsLists: [],
+    handleOpenModal: () => {},
   };
 
   //系统提取信息  抵押物信息 查看详情弹窗
@@ -30,7 +33,7 @@ class SystemExtractInfo extends Component {
             return (
               <span
                 onClick={() => this.handleOpenMsgsModal(record.id)}
-                style={{ color: "#016AA9" }}
+                style={{ color: "#016AA9", cursor: "pointer" }}
               >
                 查看详情
               </span>
@@ -65,6 +68,7 @@ class SystemExtractInfo extends Component {
             title="保证人信息"
             data={usersLists}
             columns={this.getColumns(true)}
+            key="systemExtractUsersInfo"
           />
         </div>
         <div className="system-extract msgsInfo">
@@ -72,6 +76,7 @@ class SystemExtractInfo extends Component {
             title="抵押物信息"
             data={msgsLists}
             columns={this.getColumns()}
+            key="systemExtractmsgsInfo"
           />
         </div>
       </div>
@@ -89,7 +94,7 @@ const Item = (props) => {
         columns={columns}
         dataSource={data}
         pagination={false}
-        rowKey={(record) => record.id}
+        rowKey={(record) => (record.id ? record.id : record.name)}
         locale={{
           emptyText: (
             <div className="no-data-box">

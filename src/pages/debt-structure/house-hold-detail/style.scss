@@ -3,7 +3,7 @@
     padding-top: 16px;
     .yc-debt-newpage-content{
         margin: 0 auto;
-        width:1200px;
+        width:1280px;
         min-height: 95vh;
     }
     textarea{
@@ -18,7 +18,7 @@
         line-height: 22px;
         color: #016AA9;
         font-size: 22px;
-        padding-bottom: 30px;
+        padding-bottom: 10px;
     }
     .yc-anchor{
         height: 56px;
@@ -61,7 +61,7 @@
             border-left: 3px solid #016AA9;
             height: 20px;
             line-height: 20px;
-            margin:0 0 20px 10px;
+            margin-bottom:20px;
             position: relative;
             .header-btn{
                 position: absolute;
@@ -89,19 +89,18 @@
         .asset-package-disabled{
             display: flex;
             line-height: 14px;
-            margin-bottom: 46px;
+            margin-bottom: 42px;
             li{
                 display: flex;
                 &:first-child{
-                    margin-right: 50px;
                     div{
                         &:first-child{
-                            width: 114px;
+                            width: 82px;
                             text-align: right;
                         }
                     }
                 }
-                margin-right: 55px;
+                margin-right: 80px;
             }
         }
         .asset-package-edit{
@@ -119,7 +118,7 @@
                     width: 143px !important;
                 }
                 .creditorsRightsPrincipal{
-                    width: 95px !important;
+                    width: 82px !important;
                     text-align: right;
                 }
             }
@@ -171,6 +170,7 @@
         }
     }
     .guarantors-info{
+        margin-bottom: 42px;
         .ant-popover-arrow{
             left:470px !important;
         }
@@ -190,10 +190,9 @@
                 width: 510px;
             }
         }
-        margin-bottom: 42px;
         .action{
             display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             min-width: 160px;
             color: #016AA9;
             height: 32px;
@@ -203,7 +202,6 @@
                 width: 110px;
                 border-right: 1px solid #B2B8C9;
                 margin-right:12px;
-            
                 height: 14px;
             }
             .del-btn{
@@ -214,17 +212,33 @@
             height: 32px;
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
-            width: 48px;
+            margin-bottom: 16px;
+            min-width: 48px;
+        }
+        .enable-list{
+            p{
+                margin: 0;
+                min-height: 50px;
+                display: flex;
+                align-items: center;
+            }
+            .ant-table-row-cell-break-word{
+                padding: 0;
+            }
+        }
+        .edit-list{
+            .ant-table-row-cell-break-word{
+                padding: 20px 0 2px;
+            }
         }
         .auto_complete_content{
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         .ant-table-row-cell-break-word{
             padding-left: 0;
             padding-right: 0;
         }
-        .guarantors-name{
+        .guarantors-types{
             padding-left: 20px !important;
         }
     }
@@ -238,9 +252,14 @@
         .ant-table-thead{
             position: relative;
             .ant-popover{
-                left:368px !important;
+                left:438px !important;
             }
-        }      
+        }    
+        .edit-list{
+            .ant-table-row-cell-break-word{
+                padding: 20px 20px;
+            }
+        }  
     }
     .msgs-info{
         .content{
@@ -308,19 +327,19 @@
                         border-bottom: 1px solid #C5C7CE;
                         display: flex;
                         align-items: center;
-                        height: 72px;
+                        min-height: 72px;
                         padding-left: 24px;
                         .owner-tips{
                             font-size: 12px;
                             display: flex;
                             align-items: center;
-                            color: #D9D9D9;
-                            border: 1px solid #D9D9D9;
+                            color: #7D8699;
+                            border: 1px solid #DADDE6;
                             height: 32px;
                             padding-right: 20px;
                             position: relative;
                             left: -70px;
-                            background-color: #f5f5f5;
+                            background-color: #F0F1F5;
                         }
                         &:last-child{
                             border-bottom: none;
@@ -359,13 +378,8 @@
         //自动联想输入框
         .atuo_complete,.atuo_complete_nodata{
             position: relative;
-            width: 150px !important;
             .ant-select-search__field {
-                width: 150px !important;
                 margin: 0 !important;
-            }
-            .ant-select-selection__rendered {
-                width: 140px !important;
             }
         }
         //无数据时样式
@@ -386,7 +400,6 @@
         }
         
         .auto_complete_nodatas{
-            width: 150px;
             height: 46px;
             background: #FFFFFF;
             box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
