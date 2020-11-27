@@ -391,7 +391,7 @@ class GuarantorsInfo extends React.Component {
       {
         title: "生日",
         dataIndex: "birthday",
-        width: 110,
+        width: 140,
         key: "birthday",
         render: (text, record, index) =>
           record.msgs &&
@@ -407,7 +407,7 @@ class GuarantorsInfo extends React.Component {
               onBlur={(e) => {
                 this.handleChange(e, "birthday", index, indexs, true);
               }}
-              style={{ marginBottom: 16, height: 32, width: 90 }}
+              style={{ marginBottom: 16, height: 32, width: 120 }}
             />
           )),
       },
@@ -454,7 +454,7 @@ class GuarantorsInfo extends React.Component {
       {
         title: "担保金额(元)",
         dataIndex: "amount",
-        width: 140,
+        width: 150,
         key: "amount",
         className: "amount",
         render: (text, record, index) => (
@@ -472,7 +472,7 @@ class GuarantorsInfo extends React.Component {
             onBlur={(e) => {
               this.handleChange(e, "amount", index, "", true);
             }}
-            style={{ height: 32, width: 120, marginBottom: 20 }}
+            style={{ height: 32, width: 130, marginBottom: 20 }}
           />
         ),
       },
