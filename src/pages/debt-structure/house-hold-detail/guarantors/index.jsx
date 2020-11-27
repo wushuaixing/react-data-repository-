@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Table, Input, Select, Modal, Button, Icon, Popover } from "antd";
+import { Table, Input, Select, Modal, Button, Icon, Popover, InputNumber } from "antd";
 import { GuarantorsColumn } from "../../common/column";
 import NoDataIMG from "@/assets/img/no_data.png";
 import { SEXS_TYPE, OBLIGOR_TYPE } from "../../common/type";
@@ -458,13 +458,16 @@ class GuarantorsInfo extends React.Component {
         key: "amount",
         className: "amount",
         render: (text, record, index) => (
-          <Input
+          <InputNumber
             placeholder="请输入担保金额"
             autoComplete="off"
             value={text}
             key={`amount${index}`}
-            onChange={(e) => {
-              this.handleChange(e, "amount", index);
+            precision={2}
+            max={999999999999.99}
+            min={0}
+            onChange={(value) => {
+              this.handleChange({ target: { value } }, "amount", index);
             }}
             onBlur={(e) => {
               this.handleChange(e, "amount", index, "", true);
