@@ -339,7 +339,7 @@ class Asset extends React.Component {
     const columns = [
       Columns[4],
       {
-        title: "结构化状态",
+        title: "状态",
         dataIndex: "status",
         width: 285,
         render: (status) => <Badge {...this.getStatusBadge(status)} />,
@@ -360,7 +360,7 @@ class Asset extends React.Component {
     ];
     if (tabIndex !== 0) {
       columns.unshift({
-        title: "结构化时间",
+        title: "初次标注时间",
         dataIndex: "time",
       });
     }
@@ -392,7 +392,7 @@ class Asset extends React.Component {
                 )}
               </Form.Item>
               {tabIndex !== 0 && [
-                <Form.Item label="结构化时间" key="startTime">
+                <Form.Item label="初次标注时间" key="startTime">
                   {getFieldDecorator("structuredStartTime", {
                     initialValue: null,
                   })(

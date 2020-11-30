@@ -92,7 +92,7 @@ export const Columns = [
 		),
 	},
 	{
-		title: "结构化人员",
+		title: "标注人员",
 		dataIndex: "structPersonnel",
 		render: (text, record) => (
 			<span>
@@ -128,7 +128,7 @@ export const Columns = [
 		width:760
 	},
 	{
-		title: "结构化状态",
+		title: "状态",
 		dataIndex: "status",
 		width: 285,
 		render: (status) => (
