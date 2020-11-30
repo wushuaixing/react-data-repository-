@@ -372,7 +372,8 @@ class StructureDetail extends React.Component {
     };
     if (
       role === "check" ||
-      (role === "structure" && parseInt(status) === 1) ||
+      (role === "structure" &&
+        (parseInt(status) === 1 || parseInt(status) === 3)) ||
       role === "newpage-check"
     ) {
       //检查人员标注和结构化人员修改已标注数据
@@ -394,7 +395,9 @@ class StructureDetail extends React.Component {
           sessionStorage.removeItem("backTime");
         } else if (res.data.code === 9003) {
           message.warning(
-            "该数据已被检查错误，2秒后回到已标记列表",
+            `该数据已被检查错误，2秒后回到已${
+              status === "3" ? "修改" : "标记" //staus为3 时 是已修改列表，为2时，是已标记列表
+            }列表`,
             2,
             toIndexs
           );
@@ -605,7 +608,9 @@ class StructureDetail extends React.Component {
       return false;
     }
     if (
-      (role === "structure" && parseInt(associatedStatus) === 4) ||
+      (role === "structure" &&
+        (parseInt(associatedStatus) === 4 ||
+          parseInt(associatedStatus) === 5)) ||
       ((role === "check" || role === "newpage-check") &&
         parseInt(associatedStatus) > 3) ||
       ((role === "admin" || role === "newpage-other") &&
@@ -702,7 +707,11 @@ class StructureDetail extends React.Component {
             {wrongData &&
               wrongData.length > 0 &&
               this.getErrReasonVisible() && (
-                <ErrorReason wrongData={wrongData} role={this.getRole()} />
+                <ErrorReason
+                  wrongData={wrongData}
+                  role={this.getRole()}
+                  associatedStatus={associatedStatus}
+                />
               )}
             <BasicInfo
               title={title}

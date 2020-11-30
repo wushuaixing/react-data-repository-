@@ -170,6 +170,8 @@ class Asset extends React.Component {
         return "bidNum";
       case 2:
         return "modNum";
+      case 3:
+        return "bidNum";
       default:
         return "";
     }
@@ -267,9 +269,9 @@ class Asset extends React.Component {
         if (res.data.code === 200) {
           if (res.data.data) {
             isNewPage
-              ? window.open(`/defaultDetail/${record.status}/${record.id}`)
+              ? window.open(`/defaultDetail/${tabIndex}/${record.id}`) //状态一致性校验时 通过tab值 做状态区分
               : this.props.history.push(
-                  `/index/structureDetail/${record.status}/${record.id}`
+                  `/index/structureDetail/${tabIndex}/${record.id}`
                 );
           } else {
             switch (tabIndex) {
@@ -290,6 +292,13 @@ class Asset extends React.Component {
               case 2:
                 message.warning(
                   "该数据已被检查无误，为您刷新当前列表",
+                  2,
+                  this.getApi(this.getParamsByTabIndex())
+                );
+                break;
+              case 3:
+                message.warning(
+                  "该数据已被检查错误，为您刷新当前列表",
                   2,
                   this.getApi(this.getParamsByTabIndex())
                 );
@@ -319,6 +328,7 @@ class Asset extends React.Component {
     let option = { status: "default", text: "待标记" };
     if (status === 1) option = { status: "success", text: "已标记" };
     if (status === 2) option = { status: "error", text: "检查有误" };
+    if (status === 3) option = { status: "blue", text: "已修改" };
     return option;
   };
 
@@ -438,6 +448,24 @@ class Asset extends React.Component {
                   />
                 </TabPane>
                 <TabPane tab="已标记" key="1">
+                  <Table
+                    rowClassName="table-list"
+                    columns={columns}
+                    dataSource={tableList}
+                    rowKey={(record) => record.id}
+                    onChange={this.onChangePage}
+                    pagination={paginationProps}
+                    locale={{
+                      emptyText: (
+                        <div className="no-data-box">
+                          <img src={NoDataIMG} alt="暂无数据" />
+                          <p>暂无数据</p>
+                        </div>
+                      ),
+                    }}
+                  />
+                </TabPane>
+                <TabPane tab="已修改" key="3">
                   <Table
                     rowClassName="table-list"
                     columns={columns}
