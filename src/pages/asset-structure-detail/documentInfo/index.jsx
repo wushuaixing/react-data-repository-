@@ -86,10 +86,7 @@ class DocumentInfo extends Component {
                           this,
                           "ah"
                         )}
-                      ></DocumentLinkInputs>
-                      {this.documentInputNumber >= 3 && !enable ? (
-                        <p className="atmost-tip">最多添加3个</p>
-                      ) : null}
+                      />
                     </Fragment>
                   </div>
                 </Item>
@@ -108,10 +105,7 @@ class DocumentInfo extends Component {
                           this,
                           "wsUrl"
                         )}
-                      ></DocumentLinkInputs>
-                      {this.linkInputNumber >= 3 && !enable ? (
-                        <p className="atmost-tip">最多添加3个</p>
-                      ) : null}
+                      />
                     </Fragment>
                   </div>
                 </Item>
@@ -203,7 +197,7 @@ const DocumentLinkInput = (props) => {
           }}
         />
       )}
-      {num === index + 1 && num < 3 && !enable ? (
+      {num === index + 1 && !enable ? (
         <img
           src={ICONADD}
           style={{ width: 18, height: 18, marginLeft: 12 }}

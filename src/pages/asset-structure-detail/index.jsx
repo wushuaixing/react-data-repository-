@@ -156,8 +156,8 @@ class StructureDetail extends React.Component {
 
   handleDocumentChange(combine, value) {
     //案号  文书链接地址改变时
-    const arr_index = combine.substr(combine.length - 1, 1);
-    const key = combine.substr(0, combine.length - 1);
+    const arr_index = combine.replace(/[^0-9]/g, ""); //combine形式为 ah1
+    const key = combine.replace(/[^a-zA-Z_]/g, "");
     const arr = [...this.state[key]];
     arr[arr_index].value = value;
     this.setState({
