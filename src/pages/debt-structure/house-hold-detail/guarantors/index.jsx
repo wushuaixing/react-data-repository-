@@ -1,5 +1,14 @@
 import React, { Fragment } from "react";
-import { Table, Input, Select, Modal, Button, Icon, Popover, InputNumber } from "antd";
+import {
+  Table,
+  Input,
+  Select,
+  Modal,
+  Button,
+  Icon,
+  Popover,
+  InputNumber,
+} from "antd";
 import { GuarantorsColumn } from "../../common/column";
 import NoDataIMG from "@/assets/img/no_data.png";
 import { SEXS_TYPE, OBLIGOR_TYPE } from "../../common/type";
@@ -539,16 +548,6 @@ class GuarantorsInfo extends React.Component {
           保证人信息
           {isEdit ? (
             <div className="batch-add">
-              <Button
-                onClick={this.handleOpenModal}
-                className="header-btn"
-                size="small"
-                type="primary"
-                ghost
-                style={{ minWidth: 88, height: 32 }}
-              >
-                批量添加
-              </Button>
               <span className="popover-icon">
                 <Popover content="批量输入保证人，并以顿号隔开，如XXX、YYY、ZZZ保存后系统将自动生成单条保证人信息">
                   <Icon
@@ -561,6 +560,16 @@ class GuarantorsInfo extends React.Component {
                   />
                 </Popover>
               </span>
+              <Button
+                onClick={this.handleOpenModal}
+                className="header-btn"
+                size="small"
+                type="primary"
+                ghost
+                style={{ minWidth: 88, height: 32 }}
+              >
+                批量添加
+              </Button>
             </div>
           ) : null}
         </div>
