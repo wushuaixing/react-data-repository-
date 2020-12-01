@@ -340,6 +340,20 @@
                 text-align: center;
                 line-height: 46px;
             }
+            .number{
+                position: relative;
+                .number-input{
+                    border: 1px solid #FD9C26;
+                    box-shadow: none;
+                }
+                p{
+                    font-size: 12px;
+                    color: #FD9C26;
+                    position: absolute;
+                    left: 32px;
+                    top: 32px;
+                }
+            }
         }
     }
     .detail-buttonGroup{
