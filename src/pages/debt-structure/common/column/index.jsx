@@ -1,5 +1,5 @@
 import React from "react";
-import { OBLIGOR_TYPE, SEXS_TYPE, USE_TYPE, ROLETYPES_TYPE } from "../type";
+import { OBLIGOR_TYPE, SEXS_TYPE, ROLETYPES_TYPE } from "../type";
 import NoSAVEIMG from "@/assets/img/no_save.png";
 import { Badge } from "antd";
 
@@ -239,7 +239,7 @@ export const CreditorsColumn = [
     dataIndex: "useType",
     width: 230,
     key: "useType",
-    render: (text) => USE_TYPE[text],
+    render: (text) => text || "-",
   },
   {
     title: "所有人",

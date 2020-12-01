@@ -168,7 +168,7 @@ class Item extends Component {
                     placeholder="请输入抵押物类别"
                     size="default"
                     autoComplete="off"
-                    style={{ width: 126 }}
+                    style={{ width: 150 }}
                     onBlur={() => this.save()}
                   />
                 )}
@@ -179,7 +179,7 @@ class Item extends Component {
                 })(
                   <Select
                     placeholder="房地用途"
-                    style={{ height: 32, width: 126 }}
+                    style={{ height: 32, width: 150 }}
                     onBlur={() => this.save()}
                   >
                     {Object.keys(USE_TYPE).map((key) => (
@@ -202,7 +202,7 @@ class Item extends Component {
                     size="default"
                     autoComplete="off"
                     onBlur={() => this.save()}
-                    style={{ height: 32, width: 126, marginRight: 5 }}
+                    style={{ height: 32, width: 150, marginRight: 5 }}
                   />
                 )}
                 <span>
@@ -221,7 +221,7 @@ class Item extends Component {
                     size="default"
                     autoComplete="off"
                     onBlur={() => this.save()}
-                    style={{ height: 32, width: 126, marginRight: 5 }}
+                    style={{ height: 32, width: 150, marginRight: 5 }}
                   />
                 )}
                 <span>
@@ -235,7 +235,7 @@ class Item extends Component {
                   initialValue: HAS_TYPE[hasLease],
                 })(
                   <Select
-                    style={{ height: 32, width: 126 }}
+                    style={{ height: 32, width: 150 }}
                     onBlur={() => this.save()}
                   >
                     {Object.keys(HAS_TYPE).map((key) => (
@@ -252,7 +252,7 @@ class Item extends Component {
                   initialValue: HAS_TYPE[hasSeizure],
                 })(
                   <Select
-                    style={{ height: 32, width: 126 }}
+                    style={{ height: 32, width: 150 }}
                     onBlur={() => this.save()}
                   >
                     {Object.keys(HAS_TYPE).map((key) => (
@@ -273,7 +273,7 @@ class Item extends Component {
                     size="default"
                     autoComplete="off"
                     onBlur={() => this.save()}
-                    style={{ height: 32, width: 126, marginRight: 3 }}
+                    style={{ height: 32, width: 150, marginRight: 3 }}
                   />
                 )}
               </Form.Item>
@@ -287,7 +287,7 @@ class Item extends Component {
                     size="default"
                     autoComplete="off"
                     onBlur={() => this.save()}
-                    style={{ height: 32, width: 126 }}
+                    style={{ height: 32, width: 150 }}
                   />
                 )}
               </Form.Item>
@@ -305,7 +305,7 @@ class Item extends Component {
                     size="default"
                     autoComplete="off"
                     onBlur={() => this.save()}
-                    style={{ height: 32, width: 126, marginRight: 8 }}
+                    style={{ height: 32, width: 150, marginRight: 8 }}
                   />
                 )}
                 元
@@ -322,7 +322,7 @@ class Item extends Component {
                     size="default"
                     autoComplete="off"
                     onBlur={() => this.save()}
-                    style={{ height: 32, width: 126, marginRight: 8 }}
+                    style={{ height: 32, width: 150, marginRight: 8 }}
                   />
                 )}
                 元
@@ -336,7 +336,7 @@ class Item extends Component {
                 })(
                   <Select
                     mode="multiple"
-                    style={{ minHeight: 32, width: 421 }}
+                    style={{ minHeight: 32, width: 484 }}
                     placeholder="请选择所有人"
                     onSelect={this.save}
                     onDeselect={this.save} //删除选中数值时调用保存

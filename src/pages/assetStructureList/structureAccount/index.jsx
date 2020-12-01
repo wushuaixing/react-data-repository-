@@ -225,15 +225,26 @@ class Asset extends React.Component {
     this.props.form.resetFields();
     this.getApi(this.getParamsByTabIndex());
   };
-  // 获取新数据
+
+  // 获取新数据 没有数据时进行提醒
   getNewData() {
     this.setState({ loading: true });
-    getNewStructuredData().then(() => {
-      this.setState({
-        loading: false,
-        tabIndex: 0,
-      });
-      this.getApi(this.getParamsByTabIndex());
+    getNewStructuredData().then((res) => {
+      if (res.data.code === 200) {
+        this.setState({
+          loading: false,
+          tabIndex: 0,
+        });
+        this.getApi(this.getParamsByTabIndex());
+      } else if (res.data.code === 9005) {
+        this.setState({ loading: false }, () => {
+          message.warning("暂无数据");
+        });
+      } else {
+        this.setState({ loading: false }, () => {
+          message.warning(res.data.message);
+        });
+      }
     });
   }
   //获取待修改列表数量

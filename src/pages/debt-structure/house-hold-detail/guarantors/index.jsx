@@ -1,5 +1,14 @@
 import React, { Fragment } from "react";
-import { Table, Input, Select, Modal, Button, Icon, Popover } from "antd";
+import {
+  Table,
+  Input,
+  Select,
+  Modal,
+  Button,
+  Icon,
+  Popover,
+  InputNumber,
+} from "antd";
 import { GuarantorsColumn } from "../../common/column";
 import NoDataIMG from "@/assets/img/no_data.png";
 import { SEXS_TYPE, OBLIGOR_TYPE } from "../../common/type";
@@ -391,7 +400,7 @@ class GuarantorsInfo extends React.Component {
       {
         title: "生日",
         dataIndex: "birthday",
-        width: 110,
+        width: 140,
         key: "birthday",
         render: (text, record, index) =>
           record.msgs &&
@@ -407,7 +416,7 @@ class GuarantorsInfo extends React.Component {
               onBlur={(e) => {
                 this.handleChange(e, "birthday", index, indexs, true);
               }}
-              style={{ marginBottom: 16, height: 32, width: 90 }}
+              style={{ marginBottom: 16, height: 32, width: 120 }}
             />
           )),
       },
@@ -454,22 +463,25 @@ class GuarantorsInfo extends React.Component {
       {
         title: "担保金额(元)",
         dataIndex: "amount",
-        width: 140,
+        width: 150,
         key: "amount",
         className: "amount",
         render: (text, record, index) => (
-          <Input
+          <InputNumber
             placeholder="请输入担保金额"
             autoComplete="off"
             value={text}
             key={`amount${index}`}
-            onChange={(e) => {
-              this.handleChange(e, "amount", index);
+            precision={2}
+            max={999999999999.99}
+            min={0}
+            onChange={(value) => {
+              this.handleChange({ target: { value } }, "amount", index);
             }}
             onBlur={(e) => {
               this.handleChange(e, "amount", index, "", true);
             }}
-            style={{ height: 32, width: 120, marginBottom: 20 }}
+            style={{ height: 32, width: 130, marginBottom: 20 }}
           />
         ),
       },
@@ -536,16 +548,6 @@ class GuarantorsInfo extends React.Component {
           保证人信息
           {isEdit ? (
             <div className="batch-add">
-              <Button
-                onClick={this.handleOpenModal}
-                className="header-btn"
-                size="small"
-                type="primary"
-                ghost
-                style={{ minWidth: 88, height: 32 }}
-              >
-                批量添加
-              </Button>
               <span className="popover-icon">
                 <Popover content="批量输入保证人，并以顿号隔开，如XXX、YYY、ZZZ保存后系统将自动生成单条保证人信息">
                   <Icon
@@ -558,6 +560,16 @@ class GuarantorsInfo extends React.Component {
                   />
                 </Popover>
               </span>
+              <Button
+                onClick={this.handleOpenModal}
+                className="header-btn"
+                size="small"
+                type="primary"
+                ghost
+                style={{ minWidth: 88, height: 32 }}
+              >
+                批量添加
+              </Button>
             </div>
           ) : null}
         </div>

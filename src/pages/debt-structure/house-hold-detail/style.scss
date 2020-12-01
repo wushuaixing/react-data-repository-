@@ -13,7 +13,7 @@
 .yc-household-detail{
     min-height: 90vh;
     background: #fff;
-    padding:40px 40px 700px;
+    padding:40px 20px 700px;
     .detail-header{
         line-height: 22px;
         color: #016AA9;
@@ -177,11 +177,11 @@
         .header{
             .batch-add{
                 .header-btn{
-                    right: 20px;
+                    right: 0;
                 }
                 .popover-icon{
                     position: absolute;
-                    right: 0;
+                    right: 97px;
                     top: 0;
                 }
             }
@@ -233,6 +233,10 @@
         }
         .auto_complete_content{
             margin-bottom: 16px;
+            width: 180px;
+            .auto_complete_nodata{
+                top: 34px;
+            }
         }
         .ant-table-row-cell-break-word{
             padding-left: 0;
@@ -257,7 +261,8 @@
         }    
         .edit-list{
             .ant-table-row-cell-break-word{
-                padding: 20px 20px;
+                padding-top:20px;
+                padding-bottom: 24px;
             }
         }  
     }
@@ -338,7 +343,7 @@
                             height: 32px;
                             padding-right: 20px;
                             position: relative;
-                            left: -70px;
+                            left: -60px;
                             background-color: #F0F1F5;
                         }
                         &:last-child{
@@ -374,10 +379,19 @@
             }
         }
     }
+    .save-btn{
+        display: flex;
+        justify-content: center;
+        .ant-btn{
+            width: 104px;
+            height: 32px;
+            margin-top: 40px;
+        }
+    }
     .auto_complete_content{
+        position: relative;
         //自动联想输入框
         .atuo_complete,.atuo_complete_nodata{
-            position: relative;
             .ant-select-search__field {
                 margin: 0 !important;
             }
@@ -395,8 +409,8 @@
             color: #FD9C26;
             padding-left: 10px;
             margin-bottom: 0;
-            position: relative;
-            top: 8px;
+            position: absolute;
+            top: 37px;
         }
         
         .auto_complete_nodatas{
@@ -409,22 +423,15 @@
             font-size: 12px;
             text-align: center;
             line-height: 46px;
-            position: relative;
-            top: 8px;
+            z-index: 23;
+            position: absolute;
+            top: 40px;
+            width: 100%;
         }
         .ant-select-dropdown-menu{
             li{
                 white-space: pre-wrap;
             }
-        }
-    }
-    .save-btn{
-        display: flex;
-        justify-content: center;
-        .ant-btn{
-            width: 104px;
-            height: 32px;
-            margin-top: 40px;
         }
     }
 }
