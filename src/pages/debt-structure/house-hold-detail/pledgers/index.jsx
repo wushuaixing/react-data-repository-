@@ -174,14 +174,14 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "序号",
         dataIndex: "type",
-        width: this.getRole() === "pledgers" ? 112 : 98,
+        width: this.getRole() === "pledgers" ? 122 : 108,
         key: "type",
         render: (text, record, index) => `${ROLETYPES_TYPE[text]}${index + 1}`,
       },
       {
         title: "名称",
         dataIndex: "name",
-        width: this.getRole() === "pledgers" ? 253 : 268,
+        width: this.getRole() === "pledgers" ? 261 : 278,
         key: "name",
         render: (text, record, index) => (
           <AutoCompleteInput
@@ -189,7 +189,7 @@ class PledgersAndDebtorsInfo extends React.Component {
             nameVal={text}
             index={index}
             key={record.id}
-            width={228}
+            width={this.getRole() === "pledgers" ? 221 : 238}
           />
         ),
       },
@@ -266,14 +266,14 @@ class PledgersAndDebtorsInfo extends React.Component {
                 .replace(/[)]/g, "）");
               this.handleChange(e, "number", index, true);
             }}
-            style={{ width: 160 }}
+            style={{ width: 190 }}
           />
         ),
       },
       {
         title: "生日",
         dataIndex: "birthday",
-        width: 130,
+        width: 155,
         key: "birthday",
         render: (text, record, index) => (
           <Input
@@ -288,14 +288,14 @@ class PledgersAndDebtorsInfo extends React.Component {
               e.persist();
               this.handleChange(e, "birthday", index, true);
             }}
-            style={{ width: 90 }}
+            style={{ width: 120 }}
           />
         ),
       },
       {
         title: "性别",
         dataIndex: "gender",
-        width: 114,
+        width: 109,
         key: "gender",
         render: (text, record, index) => (
           <Select
@@ -343,7 +343,7 @@ class PledgersAndDebtorsInfo extends React.Component {
       {
         title: "操作",
         dataIndex: "action",
-        width: 70,
+        width: 92,
         key: "action",
         render: (text, record, index) => (
           <span

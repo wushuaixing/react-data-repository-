@@ -167,15 +167,25 @@ class DebtList extends React.Component {
     );
   };
 
-  // 获取新数据
+  // 获取新数据 没有数据时进行提醒
   getNewData = () => {
     this.setState({ loading: true });
-    DebtApi.getNewCreditorsData().then(() => {
-      this.setState({
-        loading: false,
-        tabIndex: 0,
-      });
-      this.getTableList();
+    DebtApi.getNewCreditorsData().then((res) => {
+      if (res.data.code === 200) {
+        this.setState({
+          loading: false,
+          tabIndex: 0,
+        });
+        this.getTableList();
+      } else if (res.data.code === 9005) {
+        this.setState({ loading: false }, () => {
+          message.warning("暂无数据");
+        });
+      } else {
+        this.setState({ loading: false }, () => {
+          message.warning(res.data.message);
+        });
+      }
     });
   };
 
