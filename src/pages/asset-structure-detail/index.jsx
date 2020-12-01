@@ -346,7 +346,7 @@ class StructureDetail extends React.Component {
       if (item.birthday && !/^\d{8}$/.test(item.birthday))
         return message.warning("生日格式不正确");
     }
-    const keys = ["name", "birthday", "notes", "number"];
+    const keys = ["name", "number"];
     const state = clone(this.state);
     state.obligors = filters.blockEmptyRow(state.obligors, keys);
     if (state.wsFindStatus === 0) {
