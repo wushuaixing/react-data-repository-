@@ -723,6 +723,7 @@ class StructureDetail extends React.Component {
               url={url}
               status={status}
               id={id}
+              type={type}
             />
             <PropertyInfo
               collateral={collateral}

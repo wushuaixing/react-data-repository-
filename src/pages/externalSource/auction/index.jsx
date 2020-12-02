@@ -1,11 +1,13 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { Button, message } from "antd";
+import { message } from "antd";
 import DebtApi from "@/server/debt";
 import { getSimilarFile } from "@api";
 import pic from "@/assets/img/pic.png";
+import OpenSvg from "@/assets/img/icon_open.svg";
+import CloseSvg from "@/assets/img/icon_close.svg";
+
 import "./style.scss";
-import { Fragment } from "react";
 
 const anchors = [
   {
@@ -56,50 +58,7 @@ class Index extends React.Component {
       title: "", //标题
       titleUrl: "", //标题链接
       attachList: [], // 存放文件下载列表 包括 附件ID 附件文件名称 是否已转码到HTML 附件URL
-      similarList: [
-        {
-          fileId: 4732041,
-          name: "2附件付款了多少蓝水.pdf",
-          url:
-            "https://storage.jd.com/auction.gateway/63c8f574d0f32b5d1b5ebba357a7258520200603094707868.pdf",
-        },
-        {
-          fileId: 4732042,
-          name: "f范德萨离水假期网点.pdf",
-          url:
-            "https://storage.jd.com/auction.gateway/63c8f574d0f32b5d1b5ebba357a7258520200603094707868.pdf",
-        },
-        {
-          fileId: 4732043,
-          name: "20范德萨离开3网点.pdf",
-          url:
-            "https://storage.jd.com/auction.gateway/63c8f574d0f32b5d1b5ebba357a7258520200603094707868.pdf",
-        },
-        {
-          fileId: 4732044,
-          name: "2422将很快范德萨点.pdf",
-          url:
-            "https://storage.jd.com/auction.gateway/63c8f574d0f32b5d1b5ebba357a7258520200603094707868.pdf",
-        },
-        {
-          fileId: 4732045,
-          name: "2期网房价多少点.pdf",
-          url:
-            "https://storage.jd.com/auction.gateway/63c8f574d0f32b5d1b5ebba357a7258520200603094707868.pdf",
-        },
-        {
-          fileId: 4732046,
-          name: "200184蓝水假期网点.pdf",
-          url:
-            "https://storage.jd.com/auction.gateway/63c8f574d0f32b5d1b5ebba357a7258520200603094707868.pdf",
-        },
-        {
-          fileId: 4732047,
-          name: "200184蓝水假期网点.pdf",
-          url:
-            "https://storage.jd.com/auction.gateway/63c8f574d0f32b5d1b5ebba357a7258520200603094707868.pdf",
-        },
-      ],
+      similarList: [],
       similArattachList: [],
       isCollapse: false,
       showAnchors: [],
@@ -108,7 +67,11 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
-    const { auctionID, isDebt } = this.props.match.params;
+    const {
+      match: {
+        params: { auctionID, isDebt, type },
+      },
+    } = this.props;
     DebtApi.htmlDetail(auctionID, isDebt).then((res) => {
       if (res.data.code === 200) {
         const data = res.data.data;
@@ -130,7 +93,9 @@ class Index extends React.Component {
           },
           () => {
             document.title = data.title;
-            // this.getSimilarFile(auctionID);
+            !attachList.length &&
+              type === "1" &&
+              this.getSimilarFile(auctionID);
           }
         );
       } else {
@@ -144,15 +109,10 @@ class Index extends React.Component {
       if (res.data.code === 200) {
         const similarList = res.data.data;
         const similArattachList = similarList.slice(0, 5);
-        this.setState(
-          {
-            similarList,
-            similArattachList,
-          },
-          () => {
-            console.log(this.state.similarList);
-          }
-        );
+        this.setState({
+          similarList,
+          similArattachList,
+        });
       }
     });
   };
@@ -192,6 +152,11 @@ class Index extends React.Component {
       isCollapse,
       similArattachList,
     } = this.state;
+    const {
+      match: {
+        params: { type },
+      },
+    } = this.props;
     return (
       <div className="externalSource-auction-box">
         <div className="externalSource-auction">
@@ -243,31 +208,34 @@ class Index extends React.Component {
                 ) : (
                   <span className="no-data">未找到相关附件</span>
                 )}
-                {attachList.length ? null : similarList.length ? (
-                  <Fragment>
+                {!attachList.length && type === "1" ? (
+                  <div className="accessory">
                     <div className="accessory_title">同组其他相似数据附件</div>
                     <div className="accessory-list">
-                      {similArattachList.map((item, index) => (
-                        <AttachListItem
-                          url={item.url}
-                          name={item.name}
-                          key={index}
-                          transcodingToHtml={item.transcodingToHtml}
-                        />
-                      ))}
+                      {similarList.length ? (
+                        similArattachList.map((item, index) => (
+                          <AttachListItem
+                            url={item.url}
+                            name={item.name}
+                            key={index}
+                            transcodingToHtml={item.transcodingToHtml}
+                          />
+                        ))
+                      ) : (
+                        <span className="no-data">未找到相关附件</span>
+                      )}
                     </div>
                     {similarList.length > 5 ? (
-                      <Button
-                        type="primary"
-                        onClick={() => this.handleCollapse()}
-                      >
-                        {isCollapse ? "收缩" : "展开"}
-                      </Button>
+                      <div style={{ textAlign: "center" }}>
+                        <img
+                          onClick={() => this.handleCollapse()}
+                          src={isCollapse ? CloseSvg : OpenSvg}
+                          alt=""
+                        />
+                      </div>
                     ) : null}
-                  </Fragment>
-                ) : (
-                  <span className="no-data">未找到相关附件</span>
-                )}
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
