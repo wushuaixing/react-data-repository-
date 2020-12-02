@@ -158,7 +158,7 @@ class ListTable extends React.Component {
         width: 110,
         render: (val, row) => [
           val || "-",
-          row.approverStauts === 0 ? (
+          row.approverStauts === 1 ? (
             <span style={{ color: "#b1b1b1" }}>(已删除)</span>
           ) : (
             ""
