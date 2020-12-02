@@ -383,7 +383,6 @@ class GuarantorsInfo extends React.Component {
               autoComplete="off"
               value={item.number}
               key={`number${indexs}`}
-              maxLength={20}
               onChange={(e) => this.handleChange(e, "number", index, indexs)}
               onBlur={(e) => {
                 e.persist();
