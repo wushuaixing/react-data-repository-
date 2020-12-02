@@ -253,7 +253,6 @@ class PledgersAndDebtorsInfo extends React.Component {
             placeholder="请输入证件号"
             autoComplete="off"
             value={text}
-            maxLength={20}
             onChange={(e) => {
               e.persist();
               this.handleChange(e, "number", index);
