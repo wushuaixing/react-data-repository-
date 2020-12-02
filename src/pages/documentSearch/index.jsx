@@ -170,6 +170,29 @@ class Check extends React.Component {
       }
     );
   };
+
+  textSize = (text) => {
+    let span = document.createElement("span");
+    let result = {};
+    result.width = span.offsetWidth;
+    result.height = span.offsetHeight;
+    span.style.visibility = "hidden";
+    span.style.fontSize = 14;
+    span.style.fontFamily =
+      'Microsoft YaHei, "PingFangSC-Regular",PingFang SC,\n';
+    span.style.display = "inline-block";
+    document.body.appendChild(span);
+    if (typeof span.textContent !== "undefined") {
+      span.textContent = text;
+    } else {
+      span.innerText = text;
+    }
+    let textWidth =
+      parseFloat(window.getComputedStyle(span).width) - result.width;
+    span.parentNode.removeChild(span); //删除节点
+    return textWidth;
+  };
+
   componentDidMount() {
     const records = JSON.parse(storage.getItem("documentSearchRecords")) || [];
     this.setState({
@@ -189,6 +212,7 @@ class Check extends React.Component {
       isHover,
     } = this.state;
     const paginationProps = createPaginationProps(page, total);
+    console.log(this.textSize("北京风雷电子科技有限公司、北京百粥乡餐饮连"));
     const columns = [
       {
         title: "发布日期",
@@ -198,7 +222,7 @@ class Check extends React.Component {
       },
       {
         title: "标题",
-        render(record) {
+        render: (record) => {
           const temp = (
             <span
               className="ws-link"
@@ -222,7 +246,7 @@ class Check extends React.Component {
               }`}
               target="_blank"
             >
-              {record.title && record.title.length > 30 ? (
+              {record.title && this.textSize(record.title) > 290 ? (
                 <Popover content={record.title}>{temp}</Popover>
               ) : (
                 temp
@@ -238,7 +262,7 @@ class Check extends React.Component {
       {
         title: "相关人员",
         dataIndex: "appellors",
-        render(record) {
+        render: (record) => {
           const temp = (
             <span
               className="ws-link"
@@ -256,7 +280,7 @@ class Check extends React.Component {
           );
           return (
             <span>
-              {record && record.length > 25 ? (
+              {record && this.textSize(record) > 290 ? (
                 <Popover content={record}>{temp}</Popover>
               ) : (
                 temp
