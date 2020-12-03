@@ -175,10 +175,24 @@ class CollateralMsgsInfo extends React.Component {
   //选中抵押物名称，则自动填充爬取的此抵质押物的所有字段信息
   handleSelect = (id, index) => {
     const { data } = this.state;
-    let arr = data;
+    let arr = clone(data);
     DebtApi.getCollateralDetail(id).then((result) => {
       if (result.data.code === 200) {
-        arr[index] = result.data.data;
+        const data = result.data.data;
+        const obj = {};
+        obj.type = data.category;
+        obj.hasLease = data.hasLease;
+        obj.hasSeizure = data.hasSeizure;
+        obj.id = data.id;
+        obj.landArea = data.landArea;
+        obj.mortgageSequence = data.mortgageSequence;
+        obj.name = data.collateralName;
+        obj.seizureSequence = data.seizureSequence;
+        obj.useType = data.useType;
+        obj.owner = []; //所有人
+        obj.consultPrice = ""; //评估价
+        obj.mortgagePrice = ""; //抵押金额
+        arr[index] = obj;
         this.setState(
           {
             data: arr,
@@ -224,7 +238,7 @@ class CollateralMsgsInfo extends React.Component {
                 <ItemEditContent
                   msgsList={item}
                   index={index}
-                  key={`itemEditContent${index}`}
+                  key={`itemEditContent${item.id}`}
                   handleRowDel={this.handleRowDel}
                   handleSave={this.handleSave}
                   handleRowReset={this.handleRowReset}
