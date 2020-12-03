@@ -185,7 +185,7 @@ class CollateralMsgsInfo extends React.Component {
         obj.hasSeizure = data.hasSeizure;
         obj.id = data.id;
         obj.landArea = data.landArea;
-        obj.mortgageSequence = data.buildingArea;
+        obj.mortgageSequence = data.mortgageSequence;
         obj.name = data.collateralName;
         obj.seizureSequence = data.seizureSequence;
         obj.useType = data.useType;
