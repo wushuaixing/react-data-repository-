@@ -226,8 +226,7 @@ class HouseHoldDetail extends Component {
           },
           () => {
             localStorage.setItem("debtNewPageClose", Math.random());
-            // message.success("保存成功", 2, this.handleClosePage);
-            console.log(params);
+            message.success("保存成功", 2, this.handleClosePage);
           }
         );
       } else {
