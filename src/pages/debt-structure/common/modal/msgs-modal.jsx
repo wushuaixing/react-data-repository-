@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "antd";
-import { HAS_TYPE, TITLES_TYPE } from "../type";
+import { HAS_TYPE, TITLES_TYPE, USE_TYPE } from "../type";
 /**
  * 系统提取信息 抵押物信息-查看详情弹窗
  */
@@ -36,7 +36,7 @@ class MsgsInfoModal extends React.Component {
       category,
       landArea,
       buildingArea,
-      useType,
+      USE_TYPE[useType],
       HAS_TYPE[hasLease],
       HAS_TYPE[hasSeizure],
       seizureSequence,
