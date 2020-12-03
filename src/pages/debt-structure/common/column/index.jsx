@@ -9,11 +9,17 @@ export const ListColumns = [
     dataIndex: "title",
     width: 710,
     key: "title",
-    render: (text, record) => (
-      <a href={record.url} target="_target">
-        {text}
-      </a>
-    ),
+    render: (text, record) => {
+      const isNormal = localStorage.getItem("userState") === "结构化人员";
+      //结构化角色下 债权列表不显示链接
+      return isNormal ? (
+        text
+      ) : (
+        <a href={record.url} target="_target">
+          {text}
+        </a>
+      );
+    },
   },
   {
     title: "状态",

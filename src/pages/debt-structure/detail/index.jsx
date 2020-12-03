@@ -267,6 +267,7 @@ class DebtDetail extends Component {
 
   //资产包信息 本金合计/利息合计/本息合计 发生变化
   handleChange = (key, value) => {
+    console.log(key, value);
     this.setState(
       {
         [key]: value,
@@ -278,12 +279,16 @@ class DebtDetail extends Component {
           outstandingInterest,
         } = this.state;
         if (key !== "totalAmountCreditorsRights") {
-          //默认勾选本息自动求和
-          summation &&
+          if (summation) {
             this.setState({
               totalAmountCreditorsRights:
                 creditorsRightsPrincipal + outstandingInterest,
             });
+          } else {
+            this.setState({
+              totalAmountCreditorsRights: "",
+            });
+          }
         }
       }
     );
