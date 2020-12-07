@@ -129,7 +129,7 @@ class RoleInfo extends React.Component {
       <div className="yc-component-assetStructureDetail roleInfo">
         <div className="yc-component-assetStructureDetail_header">
           <span>角色信息</span>
-          <span style={{ marginLeft: 4 }}>
+          <span style={{ marginLeft: 10 }}>
             <Popover content={text}>
               <Icon
                 type="exclamation-circle"
@@ -241,6 +241,7 @@ const RoleInput = (props) => {
           });
         }}
         value={label_type}
+        className='role-edit'
       >
         {Object.keys(ROLE_TYPE).map((key) => (
           <Option key={key} style={{ fontSize: 12 }}>
@@ -265,7 +266,7 @@ const RoleInput = (props) => {
             props.handleChange(e, "onBlur");
           }}
           name={`number${index}`}
-          className={isNumberCurrect ? "number-input" : ""}
+          className={isNumberCurrect ? "number-input" : "number-edit"}
           value={number}
         />
         {isNumberCurrect ? <p>证件号位数异常，请核实信息是否正确</p> : null}
@@ -285,6 +286,7 @@ const RoleInput = (props) => {
           e.target.value = e.target.value.trim();
           props.handleBlur(e);
         }}
+        className='birthdy-edit'
       />
 
       <Select

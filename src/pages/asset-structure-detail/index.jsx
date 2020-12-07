@@ -331,7 +331,7 @@ class StructureDetail extends React.Component {
     }
     const flag = this.state.isBack ? 1 : 0;
     if (!this.isUpdateRecord())
-      return message.warning("当前页面未作修改，请修改后再保存");
+      return message.warning("当前页面未作修改，请修改后再保存",1);
     for (let i = 0; i < this.state.obligors.length; i++) {
       let item = this.state.obligors[i];
       if (item.notes === "") {
