@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { Popover, Icon, InputNumber, Checkbox } from "antd";
+import { floatFormat } from "@utils/common";
 /**
  * 包详情-资产包信息 户详情-债权信息
  */
@@ -159,16 +160,11 @@ class AssetPackage extends Component {
 
 const Item = (props) => {
   const { title, children, content, unit, classNames } = props;
+  const text = unit === "户" ? content : floatFormat(content);
   return (
     <li>
       <div className={classNames}>{title}</div>
-      <div>
-        {children
-          ? children
-          : content
-          ? `${parseInt(content).toLocaleString()} ${unit}`
-          : "-"}
-      </div>
+      <div>{children ? children : content ? `${text} ${unit}` : "-"}</div>
     </li>
   );
 };

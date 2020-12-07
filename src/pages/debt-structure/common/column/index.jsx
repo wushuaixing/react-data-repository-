@@ -2,6 +2,7 @@ import React from "react";
 import { OBLIGOR_TYPE, SEXS_TYPE, ROLETYPES_TYPE } from "../type";
 import NoSAVEIMG from "@/assets/img/no_save.png";
 import { Badge } from "antd";
+import { floatFormat } from "@utils/common";
 
 export const ListColumns = [
   {
@@ -122,10 +123,13 @@ export const HouseHoldColumn = [
             <p>
               债权本金：
               {record.rightsPrincipal
-                ? `${record.rightsPrincipal}元`
-                : "-"}{" "}
+                ? `${floatFormat(record.rightsPrincipal)}元`
+                : "-"}
             </p>
-            <p>利息：{record.interest ? `${record.interest}元` : "-"} </p>
+            <p>
+              利息：
+              {record.interest ? `${floatFormat(record.interest)}元` : "-"}{" "}
+            </p>
           </div>
         )}
       </div>
@@ -219,7 +223,7 @@ export const GuarantorsColumn = [
     width: 160,
     key: "amount",
     className: "amount",
-    render: (text) => <p>{text ? text.toLocaleString() : 0}</p>,
+    render: (text) => <p>{text ? floatFormat(text) : 0}</p>,
   },
   {
     title: "备注",

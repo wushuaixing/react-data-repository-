@@ -4,7 +4,7 @@ import DebtApi from "@/server/debt";
 import ItemEditContent from "./item";
 import { HAS_TYPE, USE_TYPE, Title_TYPE } from "../../common/type";
 import NoDataIMG from "@/assets/img/no_data.png";
-import { clone } from "@utils/common";
+import { clone, floatFormat } from "@utils/common";
 const collateralForm = Form.create;
 const { confirm } = Modal;
 const getMsgs = () => ({
@@ -344,12 +344,20 @@ const Item = (props) => {
       return "";
     }
   };
+  const text = (text) => {
+    if (indexs === 3 || indexs === 4) {
+      return text.toFixed(2);
+    } else if (indexs === 9 || indexs === 10) {
+      return floatFormat(text);
+    } else {
+      return text;
+    }
+  };
   return (
     <li>
       <div>{title}：</div>
       <div>
-        {content ? content : "-"}
-        {content ? unit() : ""}
+        {content ? text(content) : "-"} {content ? unit() : ""}
       </div>
     </li>
   );
