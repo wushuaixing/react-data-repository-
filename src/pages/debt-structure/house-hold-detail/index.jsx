@@ -268,11 +268,16 @@ class HouseHoldDetail extends Component {
             outstandingInterest,
           } = this.state;
           if (key !== "totalAmountCreditorsRights") {
-            summation &&
+            if (summation) {
               this.setState({
                 totalAmountCreditorsRights:
                   creditorsRightsPrincipal + outstandingInterest,
               });
+            } else {
+              this.setState({
+                totalAmountCreditorsRights: "",
+              });
+            }
           }
         }
       );

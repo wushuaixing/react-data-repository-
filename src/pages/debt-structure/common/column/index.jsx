@@ -2,6 +2,7 @@ import React from "react";
 import { OBLIGOR_TYPE, SEXS_TYPE, ROLETYPES_TYPE } from "../type";
 import NoSAVEIMG from "@/assets/img/no_save.png";
 import { Badge } from "antd";
+import { floatFormat } from "@utils/common";
 
 export const ListColumns = [
   {
@@ -9,11 +10,17 @@ export const ListColumns = [
     dataIndex: "title",
     width: 710,
     key: "title",
-    render: (text, record) => (
-      <a href={record.url} target="_target">
-        {text}
-      </a>
-    ),
+    render: (text, record) => {
+      const isNormal = localStorage.getItem("userState") === "结构化人员";
+      //结构化角色下 债权列表不显示链接
+      return isNormal ? (
+        text
+      ) : (
+        <a href={record.url} target="_target">
+          {text}
+        </a>
+      );
+    },
   },
   {
     title: "状态",
@@ -116,10 +123,13 @@ export const HouseHoldColumn = [
             <p>
               债权本金：
               {record.rightsPrincipal
-                ? `${record.rightsPrincipal}元`
-                : "-"}{" "}
+                ? `${floatFormat(record.rightsPrincipal)}元`
+                : "-"}
             </p>
-            <p>利息：{record.interest ? `${record.interest}元` : "-"} </p>
+            <p>
+              利息：
+              {record.interest ? `${floatFormat(record.interest)}元` : "-"}{" "}
+            </p>
           </div>
         )}
       </div>
@@ -213,7 +223,7 @@ export const GuarantorsColumn = [
     width: 160,
     key: "amount",
     className: "amount",
-    render: (text) => <p>{text ? text.toLocaleString() : 0}</p>,
+    render: (text) => <p>{text ? floatFormat(text) : 0}</p>,
   },
   {
     title: "备注",

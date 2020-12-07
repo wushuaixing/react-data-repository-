@@ -149,6 +149,7 @@ class AutoCompleteInput extends Component {
             onCompositionStart={this.judgeChinese} //使用拼音输入法开始输入汉字时，这个事件就会被触发
             onCompositionEnd={this.judgeChinese} //拼音输入法输入汉字 按下空格键时 触发
             autoComplete="off"
+            maxLength={120}
           />
         </AutoComplete>
 

@@ -87,11 +87,18 @@ const Item = (props) => {
       return "";
     }
   };
+  const text = (text) => {
+    if (indexs === 2 || indexs === 3) {
+      return parseInt(text).toFixed(2);
+    } else {
+      return text;
+    }
+  };
   return (
     <li>
       <div>{title}：</div>
       <div>
-        {content ? content : "-"}
+        {content ? text(content) : "-"}
         {content ? unit() : ""}
       </div>
     </li>

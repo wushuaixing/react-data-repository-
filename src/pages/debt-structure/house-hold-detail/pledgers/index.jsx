@@ -336,6 +336,7 @@ class PledgersAndDebtorsInfo extends React.Component {
             }}
             style={{ width: 118 }}
             autoSize
+            maxLength={200}
           />
         ),
       },
