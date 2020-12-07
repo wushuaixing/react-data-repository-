@@ -505,6 +505,7 @@ class GuarantorsInfo extends React.Component {
                 this.handleChange(e, "notes", index, indexs, true);
               }}
               style={{ marginBottom: 16, height: 32, width: 118 }}
+              maxLength={200}
             />
           )),
       },
