@@ -59,9 +59,8 @@ class CollateralMsgsInfo extends React.Component {
 
   //爬虫爬取抵押物名称信息
   getCollateralMsgList = () => {
-    const { id } = this.props;
-    const isAdmin = localStorage.getItem("userState") === "管理员";
-    !isAdmin &&
+    const { id,isEdit} = this.props;
+    isEdit &&
       DebtApi.getCollateralMsgList(id).then((result) => {
         if (result.data.code === 200) {
           const data = result.data.data;
