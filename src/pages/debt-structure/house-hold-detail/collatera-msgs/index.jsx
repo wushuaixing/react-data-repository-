@@ -2,13 +2,13 @@ import React from "react";
 import { Button, Form, Modal, Icon, message } from "antd";
 import DebtApi from "@/server/debt";
 import ItemEditContent from "./item";
-import { HAS_TYPE, USE_TYPE, Title_TYPE } from "../../common/type";
+import { HAS_TYPE, USE_TYPE } from "../../common/type";
 import NoDataIMG from "@/assets/img/no_data.png";
-import { clone } from "@utils/common";
+import { clone, floatFormat } from "@utils/common";
 const collateralForm = Form.create;
 const { confirm } = Modal;
 const getMsgs = () => ({
-  name: "",
+  collateralName: "",
   type: "",
   useType: 1,
   landArea: "",
@@ -59,9 +59,8 @@ class CollateralMsgsInfo extends React.Component {
 
   //爬虫爬取抵押物名称信息
   getCollateralMsgList = () => {
-    const { id } = this.props;
-    const isAdmin = localStorage.getItem("userState") === "管理员";
-    !isAdmin &&
+    const { id, isEdit } = this.props;
+    isEdit &&
       DebtApi.getCollateralMsgList(id).then((result) => {
         if (result.data.code === 200) {
           const data = result.data.data;
@@ -175,7 +174,7 @@ class CollateralMsgsInfo extends React.Component {
   //选中抵押物名称，则自动填充爬取的此抵质押物的所有字段信息
   handleSelect = (id, index) => {
     const { data } = this.state;
-    let arr = data;
+    let arr = clone(data);
     DebtApi.getCollateralDetail(id).then((result) => {
       if (result.data.code === 200) {
         arr[index] = result.data.data;
@@ -224,7 +223,7 @@ class CollateralMsgsInfo extends React.Component {
                 <ItemEditContent
                   msgsList={item}
                   index={index}
-                  key={`itemEditContent${index}`}
+                  key={`itemEditContent${item.id}`}
                   handleRowDel={this.handleRowDel}
                   handleSave={this.handleSave}
                   handleRowReset={this.handleRowReset}
@@ -266,7 +265,7 @@ class CollateralMsgsInfo extends React.Component {
 const ItemContent = (props) => {
   const {
     msgsList: {
-      name,
+      collateralName,
       type,
       useType,
       landArea,
@@ -284,30 +283,82 @@ const ItemContent = (props) => {
   } = props;
   const ownerList = (owner && owner.map((i) => i.name)) || [];
   const msgsList = [
-    name,
-    type,
-    USE_TYPE[useType],
-    landArea,
-    buildingArea,
-    HAS_TYPE[hasLease],
-    HAS_TYPE[hasSeizure],
-    seizureSequence,
-    mortgageSequence,
-    consultPrice,
-    mortgagePrice,
-    ownerList.join(),
-    note,
+    {
+      lable: "名称",
+      value: collateralName,
+      unit: "normal",
+    },
+    {
+      lable: "类别",
+      value: type,
+      unit: "normal",
+    },
+    {
+      lable: "房地用途",
+      value: USE_TYPE[useType],
+      unit: "normal",
+    },
+    {
+      lable: "土地面积",
+      value: landArea,
+      unit: "area",
+    },
+    {
+      lable: "建筑面积",
+      value: buildingArea,
+      unit: "area",
+    },
+    {
+      lable: "有无租赁",
+      value: HAS_TYPE[hasLease],
+      unit: "normal",
+    },
+    {
+      lable: "有无查封",
+      value: HAS_TYPE[hasSeizure],
+      unit: "normal",
+    },
+    {
+      lable: "查封顺位",
+      value: seizureSequence,
+      unit: "normal",
+    },
+    {
+      lable: "抵押顺位",
+      value: mortgageSequence,
+      unit: "normal",
+    },
+    {
+      lable: "评估价",
+      value: consultPrice,
+      unit: "price",
+    },
+    {
+      lable: "抵押金额",
+      value: mortgagePrice,
+      unit: "price",
+    },
+    {
+      lable: "所有人",
+      value: ownerList.join(),
+      unit: "normal",
+    },
+    {
+      lable: "备注",
+      value: note,
+      unit: "normal",
+    },
   ];
   return (
     <div className="item-container">
       <div className="item-header">抵押物{index + 1}</div>
       <ul className="item-content">
-        {msgsList.map((item, indexs) => (
+        {msgsList.map((item) => (
           <Item
-            title={Title_TYPE[indexs]}
-            content={item}
-            key={`item${indexs}`}
-            indexs={indexs}
+            title={item.lable}
+            content={item.value}
+            key={item.lable}
+            units={item.unit}
           />
         ))}
       </ul>
@@ -316,26 +367,34 @@ const ItemContent = (props) => {
 };
 
 const Item = (props) => {
-  const { title, content, indexs } = props;
+  const { title, content, units } = props;
   const unit = () => {
-    if (indexs === 3 || indexs === 4) {
+    if (units === "area") {
       return (
         <span>
           m<sup>2</sup>
         </span>
       );
-    } else if (indexs === 9 || indexs === 10) {
+    } else if (units === "price") {
       return " 元";
     } else {
       return "";
+    }
+  };
+  const text = (text) => {
+    if (units === "area") {
+      return text.toFixed(2);
+    } else if (units === "price") {
+      return floatFormat(text);
+    } else {
+      return text;
     }
   };
   return (
     <li>
       <div>{title}：</div>
       <div>
-        {content ? content : "-"}
-        {content ? unit() : ""}
+        {content ? text(content) : "-"} {content ? unit() : ""}
       </div>
     </li>
   );

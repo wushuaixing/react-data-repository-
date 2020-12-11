@@ -21,7 +21,8 @@ const filters = {
 			for (let j = 0; j < keys.length; j += 1) {
 				const value = rowObj[keys[j]];
 				if (value !== '' && value !== undefined && value !== null) {
-					records.push(rowObj); break;
+					records.push(rowObj);
+					break;
 				}
 			}
 		}
@@ -89,7 +90,8 @@ const formUtils = {
 			for (let j = 0; j < keys.length; j += 1) {
 				const value = rowObj[keys[j]];
 				if (value !== '' && value !== undefined && value !== null) {
-					records.push(rowObj); break;
+					records.push(rowObj);
+					break;
 				}
 			}
 		}
@@ -138,7 +140,10 @@ const clone = (obj) => {
 };
 
 export {
-	clone, filters, dateUtils, formUtils,
+	clone,
+	filters,
+	dateUtils,
+	formUtils,
 };
 /* 获取随机字符串 */
 export const ranStr = (l = 4) => {
@@ -160,12 +165,53 @@ export const ranStr = (l = 4) => {
 export const clearEmpty = (obj) => {
 	if (typeof obj === 'object') {
 		const l = Object.keys(obj);
-		const _obj = { ...obj };
+		const _obj = {
+			...obj
+		};
 		l.forEach((item) => {
 			if (_obj[item] === '' || _obj[item] === undefined || _obj[item] === null) delete _obj[item];
-			else if (typeof _obj[item] === 'string')_obj[item] = _obj[item].replace(/^\s+|\s+$/g, '');
+			else if (typeof _obj[item] === 'string') _obj[item] = _obj[item].replace(/^\s+|\s+$/g, '');
 		});
 		return _obj;
 	}
 	return obj;
+};
+/**
+ * 对金额进行格式转换
+ * @param item 8903405043 
+ * return  @returns {890,340,504.00}
+ */
+export const floatFormat = (item) => {
+	let result = null;
+	if (!item && item !== 0) {
+		return '-';
+	}
+	const type = Number.parseFloat(item);
+	const bol = Number.isNaN(type);
+	if (bol) {
+		result = item;
+		return result;
+	}
+	const num1 = type.toFixed(2);
+	const str = `${num1}`;
+	if (str.length <= 3) {
+		return str;
+	}
+	const pointer = str.split('.')[1];
+	const str1 = str.split('.')[0];
+	const arr = str1.split('');
+	const arr1 = arr.slice(0);
+	let i = 1;
+	for (let j = 0; j <= i; j += 1) {
+		if ((i * 3) < arr.length) {
+			arr1.splice(arr.length - (3 * i), 0, ',');
+			i += 1;
+		}
+	}
+	if (pointer) {
+		arr1.push('.');
+		arr1.push(pointer);
+	}
+	result = arr1.join('');
+	return result;
 };

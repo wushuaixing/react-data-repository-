@@ -19,6 +19,7 @@
         color: #016AA9;
         font-size: 22px;
         padding-bottom: 10px;
+        word-break:break-all;
     }
     .yc-anchor{
         height: 56px;
@@ -294,6 +295,7 @@
                         display: flex;
                         margin-bottom: 24px;
                         div{
+                            word-break: break-all;
                             &:first-child{
                                 min-width: 42px;
                             }
@@ -306,6 +308,11 @@
                         }
                         &:nth-last-child(2){
                             width: 50%;
+                            div{
+                                &:first-child{
+                                    min-width: 56px;
+                                }
+                            }
                         }
                     }
                 }
@@ -329,10 +336,10 @@
                 }
                 .item-content{
                     .part{
-                        border-bottom: 1px solid #C5C7CE;
+                        // border-bottom: 1px solid #C5C7CE;
                         display: flex;
                         align-items: center;
-                        min-height: 72px;
+                        min-height: 62px;
                         padding-left: 24px;
                         .owner-tips{
                             font-size: 12px;

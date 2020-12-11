@@ -10,7 +10,7 @@ import UnknownRelationShip from "./unknown-relationship";
 import SystemExtractInfo from "./system-extract-Info";
 import MsgsInfoModal from "../common/modal/msgs-modal";
 import NumberModal from "../common/modal/number-modal";
-import { Button, Checkbox, Modal, Icon, message } from "antd";
+import { Button, Checkbox, Modal, Icon, message, Spin } from "antd";
 import "./style.scss";
 const { confirm } = Modal;
 /**
@@ -85,11 +85,13 @@ class DebtDetail extends Component {
             total: data.result ? data.result.total : 0,
             page: data.result ? data.result.page : 1,
             unKnow: data.unKnow ? data.unKnow : {}, //未知关系列表
-            loading: false,
             unitNumber:
               data.result && data.result.list ? data.result.list.length : 0, //户数
           });
         }
+        this.setState({
+          loading: false,
+        });
       })
       .catch((err) => {
         this.setState(
@@ -278,12 +280,16 @@ class DebtDetail extends Component {
           outstandingInterest,
         } = this.state;
         if (key !== "totalAmountCreditorsRights") {
-          //默认勾选本息自动求和
-          summation &&
+          if (summation) {
             this.setState({
               totalAmountCreditorsRights:
                 creditorsRightsPrincipal + outstandingInterest,
             });
+          } else {
+            this.setState({
+              totalAmountCreditorsRights: "",
+            });
+          }
         }
       }
     );
@@ -471,6 +477,7 @@ class DebtDetail extends Component {
       total,
       debtStatus,
       msgsInfo,
+      loading,
     } = this.state;
 
     const {
@@ -482,108 +489,109 @@ class DebtDetail extends Component {
     return (
       <div className="yc-debt-container">
         <div className="yc-debt-content">
-          <BreadCrumb texts={[`金融资产结构化${text}/详情`]} />
-          <div className="yc-debt-detail">
-            <div className="debt-detail-action">
-              {!isEdit ? (
-                <div className="aciton-edit">
-                  <Checkbox
-                    onChange={(e) =>
-                      this.handleChange("thisOnly", e.target.checked * 1)
-                    }
-                    checked={thisOnly}
-                  >
-                    不关联其他数据
-                  </Checkbox>
+          <Spin tip="Loading..." spinning={loading}>
+            <BreadCrumb texts={[`金融资产结构化${text}/详情`]} />
+            <div className="yc-debt-detail">
+              <div className="debt-detail-action">
+                {!isEdit ? (
+                  <div className="aciton-edit">
+                    <Checkbox
+                      onChange={(e) =>
+                        this.handleChange("thisOnly", e.target.checked * 1)
+                      }
+                      checked={thisOnly}
+                    >
+                      不关联其他数据
+                    </Checkbox>
+                    <Button
+                      type="primary"
+                      style={{ height: 32, zIndex: 10 }}
+                      onClick={() => this.handleSave(0)}
+                      disabled={saveAndNextDisabled}
+                    >
+                      {debtStatus === 0 || debtStatus === 1
+                        ? "保存并标注下一条"
+                        : "保存"}
+                    </Button>
+                    {rule === "check" && (
+                      <Button
+                        style={{ height: 32, zIndex: 10, marginLeft: 20 }}
+                        onClick={() => this.handleNoErr(id)}
+                      >
+                        检查无误
+                      </Button>
+                    )}
+                  </div>
+                ) : (
                   <Button
                     type="primary"
-                    style={{ height: 32, zIndex: 10 }}
-                    onClick={() => this.handleSave(0)}
-                    disabled={saveAndNextDisabled}
+                    style={{ width: 88, height: 32, zIndex: 10 }}
+                    onClick={this.handleBack}
                   >
-                    {debtStatus === 0 || debtStatus === 1
-                      ? "保存并标注下一条"
-                      : "保存"}
+                    返回
                   </Button>
-                  {rule === "check" && (
-                    <Button
-                      style={{ height: 32, zIndex: 10, marginLeft: 20 }}
-                      onClick={() => this.handleNoErr(id)}
-                    >
-                      检查无误
-                    </Button>
-                  )}
-                </div>
-              ) : (
-                <Button
-                  type="primary"
-                  style={{ width: 88, height: 32, zIndex: 10 }}
-                  onClick={this.handleBack}
-                >
-                  返回
-                </Button>
-              )}
-            </div>
-            <Basic
-              title={title}
-              status={status}
-              withdraw={withdraw}
-              logs={logs}
-              role={rule}
-              id={id}
-            />
-            <AssetPackage
-              unitNumber={unitNumber}
-              creditorsRightsPrincipal={creditorsRightsPrincipal}
-              outstandingInterest={outstandingInterest}
-              totalAmountCreditorsRights={totalAmountCreditorsRights}
-              summation={summation}
-              handleChange={this.handleChange}
-              isEdit={!isEdit}
-              role="assetPackage"
-            />
-            {rule === "admin" &&
-              msgsLists.length > 0 &&
-              usersLists.length > 0 && (
-                <SystemExtractInfo
-                  msgsLists={msgsLists}
-                  usersLists={usersLists}
-                  handleOpenModal={this.handleOpenModal}
-                />
-              )}
+                )}
+              </div>
+              <Basic
+                title={title}
+                status={status}
+                withdraw={withdraw}
+                logs={logs}
+                role={rule}
+                id={id}
+              />
+              <AssetPackage
+                unitNumber={unitNumber}
+                creditorsRightsPrincipal={creditorsRightsPrincipal}
+                outstandingInterest={outstandingInterest}
+                totalAmountCreditorsRights={totalAmountCreditorsRights}
+                summation={summation}
+                handleChange={this.handleChange}
+                isEdit={!isEdit}
+                role="assetPackage"
+              />
+              {rule === "admin" &&
+                (msgsLists.length > 0 || usersLists.length > 0) && (
+                  <SystemExtractInfo
+                    msgsLists={msgsLists}
+                    usersLists={usersLists}
+                    handleOpenModal={this.handleOpenModal}
+                  />
+                )}
 
-            <HouseHold
-              data={creditorsUnitsList}
-              page={page}
-              total={total}
-              handleOpenModal={this.handleOpenModal}
-              isEdit={!isEdit}
-              packageId={packageId}
-              handleDel={this.handleDel}
-              handlePageChange={this.handlePageChange}
-              debtId={id}
-            />
-            <UnknownRelationShip
-              data={unKnow}
-              handleOpenModal={this.handleOpenModal}
-              isEdit={!isEdit}
-              packageId={packageId}
-              handleDel={this.handleDel}
-              unitNumber={unitNumber}
-              debtId={id}
-            />
-            <MsgsInfoModal
-              visible={msgsModalVisible}
-              handleCloseModal={this.handleCloseModal}
-              msgsInfo={msgsInfo}
-            />
-            <NumberModal
-              visible={NumberModalVisible}
-              handleCloseModal={this.handleCloseModal}
-              data={numberModalList}
-              numberModalParams={numberModalParams}
-            />
-          </div>
+              <HouseHold
+                data={creditorsUnitsList}
+                page={page}
+                total={total}
+                handleOpenModal={this.handleOpenModal}
+                isEdit={!isEdit}
+                packageId={packageId}
+                handleDel={this.handleDel}
+                handlePageChange={this.handlePageChange}
+                debtId={id}
+              />
+              <UnknownRelationShip
+                data={unKnow}
+                handleOpenModal={this.handleOpenModal}
+                isEdit={!isEdit}
+                packageId={packageId}
+                handleDel={this.handleDel}
+                unitNumber={unitNumber}
+                debtId={id}
+              />
+              <MsgsInfoModal
+                visible={msgsModalVisible}
+                handleCloseModal={this.handleCloseModal}
+                msgsInfo={msgsInfo}
+              />
+              <NumberModal
+                visible={NumberModalVisible}
+                handleCloseModal={this.handleCloseModal}
+                data={numberModalList}
+                numberModalParams={numberModalParams}
+              />
+            </div>
+          </Spin>
         </div>
       </div>
     );

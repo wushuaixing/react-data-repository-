@@ -266,6 +266,7 @@ class PledgersAndDebtorsInfo extends React.Component {
               this.handleChange(e, "number", index, true);
             }}
             style={{ width: 190 }}
+            maxLength={18}
           />
         ),
       },
@@ -336,6 +337,7 @@ class PledgersAndDebtorsInfo extends React.Component {
             }}
             style={{ width: 118 }}
             autoSize
+            maxLength={200}
           />
         ),
       },
