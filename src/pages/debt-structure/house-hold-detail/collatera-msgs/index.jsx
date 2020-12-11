@@ -8,7 +8,7 @@ import { clone, floatFormat } from "@utils/common";
 const collateralForm = Form.create;
 const { confirm } = Modal;
 const getMsgs = () => ({
-  name: "",
+  collateralName: "",
   type: "",
   useType: 1,
   landArea: "",
@@ -59,7 +59,7 @@ class CollateralMsgsInfo extends React.Component {
 
   //爬虫爬取抵押物名称信息
   getCollateralMsgList = () => {
-    const { id,isEdit} = this.props;
+    const { id, isEdit } = this.props;
     isEdit &&
       DebtApi.getCollateralMsgList(id).then((result) => {
         if (result.data.code === 200) {
@@ -177,21 +177,7 @@ class CollateralMsgsInfo extends React.Component {
     let arr = clone(data);
     DebtApi.getCollateralDetail(id).then((result) => {
       if (result.data.code === 200) {
-        const data = result.data.data;
-        const obj = {};
-        obj.type = data.category;
-        obj.hasLease = data.hasLease;
-        obj.hasSeizure = data.hasSeizure;
-        obj.id = data.id;
-        obj.landArea = data.landArea;
-        obj.mortgageSequence = data.mortgageSequence;
-        obj.name = data.collateralName;
-        obj.seizureSequence = data.seizureSequence;
-        obj.useType = data.useType;
-        obj.owner = []; //所有人
-        obj.consultPrice = ""; //评估价
-        obj.mortgagePrice = ""; //抵押金额
-        arr[index] = obj;
+        arr[index] = result.data.data;
         this.setState(
           {
             data: arr,
@@ -279,7 +265,7 @@ class CollateralMsgsInfo extends React.Component {
 const ItemContent = (props) => {
   const {
     msgsList: {
-      name,
+      collateralName,
       type,
       useType,
       landArea,
@@ -299,7 +285,7 @@ const ItemContent = (props) => {
   const msgsList = [
     {
       lable: "名称",
-      value: name,
+      value: collateralName,
       unit: "normal",
     },
     {
@@ -367,7 +353,7 @@ const ItemContent = (props) => {
     <div className="item-container">
       <div className="item-header">抵押物{index + 1}</div>
       <ul className="item-content">
-        {msgsList.map((item, indexs) => (
+        {msgsList.map((item) => (
           <Item
             title={item.lable}
             content={item.value}

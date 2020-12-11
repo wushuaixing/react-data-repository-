@@ -20,7 +20,7 @@ class MsgsInfoModal extends React.Component {
       visible,
       msgsInfo: {
         collateralName,
-        category,
+        type,
         landArea,
         buildingArea,
         useType,
@@ -39,7 +39,7 @@ class MsgsInfoModal extends React.Component {
       },
       {
         lable: "类别",
-        value: category,
+        value: type,
         unit: "normal",
       },
       {
@@ -67,7 +67,6 @@ class MsgsInfoModal extends React.Component {
         value: HAS_TYPE[hasSeizure],
         unit: "normal",
       },
-
       {
         lable: "查封顺位",
         value: seizureSequence,

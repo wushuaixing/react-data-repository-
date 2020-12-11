@@ -252,7 +252,9 @@ class HouseHoldDetail extends Component {
   //债权信息 抵押物信息 变更
   handleDebtRightsChange = (key, value) => {
     if (key === "collateralMsgs") {
-      let arr = value.filter((i) => (i.owner && i.owner.length > 0) || i.name); //抵押物信息 填写名称或所有人有效
+      let arr = value.filter(
+        (i) => (i.owner && i.owner.length > 0) || i.collateralName
+      ); //抵押物信息 填写名称或所有人有效
       this.setState({
         collateralMsgsData: arr,
       });
