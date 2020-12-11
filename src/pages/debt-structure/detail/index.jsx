@@ -551,8 +551,7 @@ class DebtDetail extends Component {
                 role="assetPackage"
               />
               {rule === "admin" &&
-                msgsLists.length > 0 &&
-                usersLists.length > 0 && (
+                (msgsLists.length > 0 || usersLists.length > 0) && (
                   <SystemExtractInfo
                     msgsLists={msgsLists}
                     usersLists={usersLists}

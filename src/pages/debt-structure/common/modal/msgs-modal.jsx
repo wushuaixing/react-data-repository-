@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "antd";
-import { HAS_TYPE, TITLES_TYPE, USE_TYPE } from "../type";
+import { HAS_TYPE, USE_TYPE } from "../type";
 /**
  * 系统提取信息 抵押物信息-查看详情弹窗
  */
@@ -20,7 +20,7 @@ class MsgsInfoModal extends React.Component {
       visible,
       msgsInfo: {
         collateralName,
-        category,
+        type,
         landArea,
         buildingArea,
         useType,
@@ -32,16 +32,56 @@ class MsgsInfoModal extends React.Component {
       },
     } = this.props;
     const msgsList = [
-      collateralName,
-      category,
-      landArea,
-      buildingArea,
-      USE_TYPE[useType],
-      HAS_TYPE[hasLease],
-      HAS_TYPE[hasSeizure],
-      seizureSequence,
-      mortgageSequence,
-      note,
+      {
+        lable: "名称",
+        value: collateralName,
+        unit: "normal",
+      },
+      {
+        lable: "类别",
+        value: type,
+        unit: "normal",
+      },
+      {
+        lable: "土地面积",
+        value: landArea,
+        unit: "area",
+      },
+      {
+        lable: "建筑面积",
+        value: buildingArea,
+        unit: "area",
+      },
+      {
+        lable: "房地用途",
+        value: USE_TYPE[useType],
+        unit: "normal",
+      },
+      {
+        lable: "有无租赁",
+        value: HAS_TYPE[hasLease],
+        unit: "normal",
+      },
+      {
+        lable: "有无查封",
+        value: HAS_TYPE[hasSeizure],
+        unit: "normal",
+      },
+      {
+        lable: "查封顺位",
+        value: seizureSequence,
+        unit: "normal",
+      },
+      {
+        lable: "抵押顺位",
+        value: mortgageSequence,
+        unit: "normal",
+      },
+      {
+        lable: "备注",
+        value: note,
+        unit: "normal",
+      },
     ];
     const footer = (
       <div className="footer">
@@ -60,12 +100,12 @@ class MsgsInfoModal extends React.Component {
         onCancel={this.handleClose}
       >
         <div className="msgs-info-modal">
-          {msgsList.map((item, index) => (
+          {msgsList.map((item) => (
             <Item
-              title={TITLES_TYPE[index]}
-              content={item}
-              key={`msgsInfo${index}`}
-              indexs={index}
+              title={item.lable}
+              content={item.value}
+              key={item.lable}
+              units={item.unit}
             />
           ))}
         </div>
@@ -75,9 +115,9 @@ class MsgsInfoModal extends React.Component {
 }
 
 const Item = (props) => {
-  const { indexs, title, content } = props;
+  const { title, content, units } = props;
   const unit = () => {
-    if (indexs === 2 || indexs === 3) {
+    if (units === "area") {
       return (
         <span>
           m<sup>2</sup>
@@ -88,7 +128,7 @@ const Item = (props) => {
     }
   };
   const text = (text) => {
-    if (indexs === 2 || indexs === 3) {
+    if (units === "area") {
       return parseInt(text).toFixed(2);
     } else {
       return text;

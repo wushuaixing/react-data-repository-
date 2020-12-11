@@ -164,9 +164,9 @@ export const AdminUsersColumn = [
 export const AdminMsgsColumn = [
   {
     title: "抵押物名称",
-    dataIndex: "name",
+    dataIndex: "collateralName",
     width: 745,
-    key: "name",
+    key: "collateralName",
     render: (text) => text || "-",
   },
   {
@@ -239,9 +239,9 @@ export const GuarantorsColumn = [
 export const CreditorsColumn = [
   {
     title: "抵质押物名称",
-    dataIndex: "name",
+    dataIndex: "collateralName",
     width: 400,
-    key: "name",
+    key: "collateralName",
     render: (text) => text || "-",
   },
   {

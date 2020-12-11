@@ -79,7 +79,7 @@ class Item extends Component {
     const { index } = this.props;
     let id = "";
     collateralMsg.forEach((i) => {
-      if (i.name === val) {
+      if (i.collateralName === val) {
         id = i.id;
       }
     });
@@ -88,7 +88,7 @@ class Item extends Component {
   render() {
     const {
       msgsList: {
-        name,
+        collateralName,
         type,
         useType,
         landArea,
@@ -110,7 +110,7 @@ class Item extends Component {
     } = this.props;
     const ownerList =
       owner && owner.map((i) => `${i.name}(${i.typeName})`).filter((i) => i);
-    const collateralMsgList = (collateralMsg || []).map((i) => i.name);
+    const collateralMsgList = (collateralMsg || []).map((i) => i.collateralName);
     return (
       <Form layout="inline" className="yc-form" key={`${id}${index}`}>
         <div className="item-container-edit">
@@ -140,8 +140,8 @@ class Item extends Component {
           <div className="item-content">
             <div className="part">
               <Form.Item label="名称">
-                {getFieldDecorator("name", {
-                  initialValue: name,
+                {getFieldDecorator("collateralName", {
+                  initialValue: collateralName,
                 })(
                   <AutoComplete
                     placeholder="请输入抵押物名称"
