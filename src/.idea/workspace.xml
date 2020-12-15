@@ -23,30 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b9a4e360-d784-4ba1-be60-847472c4a14b" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/server/debt.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layout/leftMenu/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout/leftMenu/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/common/column/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/common/column/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/common/modal/numberModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/common/modal/numberModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/common/type/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/common/type/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/detail/assetPackage/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/detail/assetPackage/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/detail/basic/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/detail/basic/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/detail/houseHold/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/detail/houseHold/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/detail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/detail/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/detail/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/detail/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/detail/systemExtractInfo/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/detail/systemExtractInfo/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/detail/unknownRelationShip/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/detail/unknownRelationShip/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/houseHoldDetail/debtRights/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/houseHoldDetail/debtRights/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/houseHoldDetail/debtorsInfo/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/houseHoldDetail/debtorsInfo/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/houseHoldDetail/guarantorsInfo/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/houseHoldDetail/guarantorsInfo/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/houseHoldDetail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/houseHoldDetail/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/houseHoldDetail/pledgersInfo/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/houseHoldDetail/pledgersInfo/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/list/common/column.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/list/common/column.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/list/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/list/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/list/query.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/list/query.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/debt-structure/list/table.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/list/table.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
