@@ -55,7 +55,7 @@ class HouseHoldDetail extends Component {
     } = this.props;
     const { debtorsNameGroup } = this.state;
     if (isHouseHoldDetail) {
-      if (Boolean(parseInt(id))) {
+      if (id !== "0") {
         return debtorsNameGroup;
       } else {
         return "添加户";
@@ -148,11 +148,16 @@ class HouseHoldDetail extends Component {
   getDetailInfo = (props) => {
     const {
       match: {
-        params: { id },
+        params: { id, debtorsId, debtId },
       },
     } = props;
-    Boolean(parseInt(id)) &&
-      DebtApi.getCreditorsUnitDetail(parseInt(id)).then((result) => {
+    const params = {
+      flag: id === "null" ? 0 : 1,
+      id: id === "null" ? parseInt(debtId) : parseInt(id),
+      usrId: id === "null" ? parseInt(debtorsId) : "",
+    };
+    id !== "0" &&
+      DebtApi.getCreditorsUnitDetail(params).then((result) => {
         const res = result.data;
         if (res.code === 200) {
           const data = res.data;

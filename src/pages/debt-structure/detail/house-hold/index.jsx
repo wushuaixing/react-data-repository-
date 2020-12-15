@@ -20,10 +20,10 @@ class HouseHold extends Component {
   };
 
   //去户详情页
-  goDetail(id) {
+  goDetail(id,debtorsId) {
     const { packageId, isEdit, debtId } = this.props;
     window.open(
-      `/houseHoldDetail/${packageId}/${id}/0/${isEdit * 1}/${debtId}`
+      `/houseHoldDetail/${packageId}/${id}/0/${isEdit * 1}/${debtId}/${debtorsId}/`
     );
   }
 
@@ -112,13 +112,14 @@ class HouseHold extends Component {
         width: 130,
         key: "action",
         render: (text, record) => {
+          const debtorsId=record.users?record.users[0].id:'';
           return (
             <Fragment>
               {isEdit ? (
                 <div className="action-btn-group">
                   <span>
                     <span
-                      onClick={() => this.goDetail(record.id)}
+                      onClick={() => this.goDetail(record.id,debtorsId)}
                       style={{ cursor: "pointer" }}
                     >
                       编辑
@@ -139,7 +140,7 @@ class HouseHold extends Component {
                     type="primary"
                     ghost
                     style={{ minWidth: 86, height: 30 }}
-                    onMouseDown={() => this.goDetail(record.id)}
+                    onMouseDown={() => this.goDetail(record.id,debtorsId)}
                   >
                     查看详情
                   </Button>
@@ -153,7 +154,8 @@ class HouseHold extends Component {
   };
 
   render() {
-    const { data, page, total, isEdit } = this.props;
+    const { data, page, total, isEdit,packageId } = this.props;
+    console.log(packageId);
     const paginationProps = createPaginationProps(page, total);
     return (
       <div className="debt-detail-components debt-house-hold">
