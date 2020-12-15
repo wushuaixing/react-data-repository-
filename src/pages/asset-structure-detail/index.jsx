@@ -401,8 +401,13 @@ class StructureDetail extends React.Component {
             2,
             toIndexs
           );
-        } else {
-          message.error("保存失败!");
+        } else if(res.data.code===9007){
+          message.warning('该数据已被超时回收，2s后回到待标记列表',
+            2,
+            toIndexs
+          );
+        }else {
+          message.warning(res.data.message);
         }
       });
     } else {
@@ -463,8 +468,13 @@ class StructureDetail extends React.Component {
             default:
               break;
           }
-        } else {
-          message.error(res.data.message);
+        } else if(res.data.code===9007){
+          message.warning('该数据已被超时回收，2s后回到待标记列表',
+            2,
+            toIndex
+          );
+        }else {
+          message.warning(res.data.message);
         }
       });
     }
@@ -552,6 +562,8 @@ class StructureDetail extends React.Component {
           } else {
             message.warning("上一条数据已被检查错误，请到待修改列表查看", 2);
           }
+        }else if(res.data.code === 9007){
+          message.warning("上一条数据已被超时回收，请返回待标记列表并刷新", 2);
         } else {
           message.warning(res.data.message);
         }

@@ -318,8 +318,14 @@ class Asset extends React.Component {
                 break;
             }
           }
-        } else {
-          message.error("服务繁忙，请稍后再试");
+        } else if(res.data.code === 9007) {
+          message.warning(
+            "该数据已被超时回收，为您刷新当前列表",
+            2,
+            this.getApi(this.getParamsByTabIndex())
+          );
+        }else {
+          message.warning(res.data.message);
         }
       })
       .catch((err) => {
