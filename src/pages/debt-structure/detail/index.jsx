@@ -139,7 +139,7 @@ class DebtDetail extends Component {
               creditorsRightsPrincipal: data.creditorsRightsPrincipal, //本金合计
               outstandingInterest: data.outstandingInterest, //利息合计
               totalAmountCreditorsRights: data.totalAmountCreditorsRights, //本息合计
-              summation: 1, //勾选本息自动求和
+              summation: !data.tag * 1, //勾选本息自动求和
 
               collateralCount: data.collateralCount, //未知对应关系_抵质押物数
               guarantorCount: data.guarantorCount, //未知对应关系_保证人数
@@ -307,6 +307,7 @@ class DebtDetail extends Component {
       guarantorCount,
       pledgerCount,
       debtStatus,
+      summation,
     } = this.state;
     const params = {
       id,
@@ -318,6 +319,7 @@ class DebtDetail extends Component {
       collateralNum: collateralCount,
       guarantorNum: guarantorCount,
       pledgerNum: pledgerCount,
+      tag: !summation * 1,
     };
     debtStatus === 0 || debtStatus === 1 //状态为待标记或者继续标注时
       ? DebtApi.saveAndGetNext(params).then((result) => {
