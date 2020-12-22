@@ -154,8 +154,7 @@ class HouseHold extends Component {
   };
 
   render() {
-    const { data, page, total, isEdit,packageId } = this.props;
-    console.log(packageId);
+    const { data, page, total, isEdit } = this.props;
     const paginationProps = createPaginationProps(page, total);
     return (
       <div className="debt-detail-components debt-house-hold">
