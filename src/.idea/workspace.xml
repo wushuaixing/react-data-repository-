@@ -24,6 +24,14 @@
   <component name="ChangeListManager">
     <list default="true" id="b9a4e360-d784-4ba1-be60-847472c4a14b" name="默认更改列表" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/roleInfo/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/roleInfo/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/asset-structure-detail/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/asset-structure-detail/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/assetStructureList/structureAccount/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/assetStructureList/structureAccount/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/debt-structure/detail/house-hold/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/detail/house-hold/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/debt-structure/house-hold-detail/guarantors/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/house-hold-detail/guarantors/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/debt-structure/house-hold-detail/pledgers/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/house-hold-detail/pledgers/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/debt-structure/house-hold-detail/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/debt-structure/house-hold-detail/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/style.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,23 +92,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="498" height="446" key="SwitcherDM" timestamp="1600832849497">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1600832849497" />
-    <state x="406" y="118" width="1024" height="804" key="find.popup" timestamp="1601015755417">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="406" y="118" width="1024" height="804" key="find.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1601015755417" />
-    <state width="600" height="428" key="javadoc.popup" timestamp="1600832748103">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="600" height="428" key="javadoc.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1600832748103" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1602312800376">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.217.1920.1040@0.0.1920.1040" timestamp="1602312800376" />
   </component>
 </project>

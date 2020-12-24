@@ -170,7 +170,7 @@
                     line-height: 20px;
                     margin-bottom: 6px;
                 }
-            }  
+            }
         }
 
     }
@@ -193,10 +193,6 @@
         .wrong-detail{
             p{
                 line-height: 20px;
-                margin-bottom: 6px;
-                &:last-child{
-                    margin-bottom: 0;
-                }
             }
         }
     }
@@ -309,6 +305,7 @@
                 margin-right: 30px;
                 min-height: 36px;
                 resize: none;
+                line-height: 26px;
             }
             .del_role_item{
                 box-shadow: none;
@@ -385,19 +382,19 @@
             //无数据时样式
             .atuo_complete_nodata{
                 .ant-select-search__field{
-                    border: 1px solid #FD9C26 !important;
+                    border: 1px solid #F03733 !important;
                 }
             }
-            
+
             .auto_complete_nodata{
                 line-height: 12px;
                 font-size: 12px;
-                color: #FD9C26;
+                color:#F03733;
                 padding-top: 6px ;
                 margin-bottom: 0;
                 position: absolute;
             }
-            
+
             .auto_complete_nodatas{
                 position: absolute;
                 width: 100%;
@@ -406,7 +403,7 @@
                 background: #FFFFFF;
                 box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
                 border-radius: 2px;
-                border: 1px solid #DDE0E7; 
+                border: 1px solid #DDE0E7;
                 color: #7D8699;
                 font-size: 14px;
                 text-align: center;

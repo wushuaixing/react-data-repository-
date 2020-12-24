@@ -34,11 +34,6 @@ class RoleInfo extends React.Component {
       this.setState({
         numberStatusList: arr,
       });
-    } else {
-      arr[arr_index] = "";
-      this.setState({
-        numberStatusList: arr,
-      });
     }
   }
 
@@ -81,12 +76,14 @@ class RoleInfo extends React.Component {
         title: "名称",
         dataIndex: "name",
         key: "name",
+        width: 265,
         render: (text) => <span>{filters.blockNullData(text, "-")}</span>,
       },
       {
         title: "角色",
         dataIndex: "label_type",
         key: "label_type",
+        width: 265,
         render(text) {
           return <span>{ROLE_TYPE[text]}</span>;
         },
@@ -95,18 +92,21 @@ class RoleInfo extends React.Component {
         title: "证件号",
         dataIndex: "number",
         key: "number",
+        width: 260,
         render: (text) => <span>{filters.blockNullData(text, "-")}</span>,
       },
       {
         title: "生日",
         dataIndex: "birthday",
         key: "birthday",
+        width: 344,
         render: (text) => <span>{filters.blockNullData(text, "-")}</span>,
       },
       {
         title: "性别",
         dataIndex: "gender",
         key: "gender",
+        width: 263,
         render(text) {
           return <span>{SEX_TYPE[text]}</span>;
         },
@@ -115,6 +115,7 @@ class RoleInfo extends React.Component {
         title: "备注",
         dataIndex: "notes",
         key: "notes",
+        width: 260,
         render: (text) => <span>{filters.blockNullData(text, "-")}</span>,
       },
     ];
@@ -258,11 +259,11 @@ const RoleInput = (props) => {
             e.persist();
             props.handleChange(e);
           }}
+          maxLength={18}
           onBlur={(e) => {
             e.target.value = e.target.value
               .trim()
-              .replace(/[(]/g, "（")
-              .replace(/[)]/g, "）");
+              .replace(/[^a-zA-Z\d（）()]+/g, "")
             props.handleChange(e, "onBlur");
           }}
           name={`number${index}`}

@@ -391,54 +391,56 @@ class Asset extends React.Component {
           disabled={this.state.loading || this.state.buttonDisabled}
         />
         <div className="yc-detail-content">
-          <div className="yc-search-line">
-            <Form
-              layout="inline"
-              onSubmit={this.handleSearch}
-              className="yc-search-form"
-            >
-              <Form.Item label="标题">
-                {getFieldDecorator("title", { initialValue: "" })(
-                  <Input
-                    type="text"
-                    size="default"
-                    style={{ width: 400 }}
-                    placeholder="拍卖信息标题"
-                    autoComplete="off"
+          { tabIndex !== 0 &&
+            <div className="yc-search-line">
+              <Form
+                layout="inline"
+                onSubmit={this.handleSearch}
+                className="yc-search-form"
+              >
+                <Form.Item label="标题">
+                  {getFieldDecorator("title", { initialValue: "" })(
+                    <Input
+                      type="text"
+                      size="default"
+                      style={{ width: 400 }}
+                      placeholder="拍卖信息标题"
+                      autoComplete="off"
+                    />
+                  )}
+                </Form.Item>
+                {tabIndex !== 0 && [
+                  <Form.Item label="初次标注时间" key="startTime">
+                    {getFieldDecorator("structuredStartTime", {
+                      initialValue: null,
+                    })(
+                      <DatePicker
+                        placeholder="开始时间"
+                        disabledDate={this.disabledStartDate}
+                        style={{ width: 120 }}
+                      />
+                    )}
+                  </Form.Item>,
+                  <Form.Item label="至" key="endTime">
+                    {getFieldDecorator("structuredEndTime", {
+                      initialValue: null,
+                    })(
+                      <DatePicker
+                        placeholder="结束时间"
+                        disabledDate={this.disabledEndDate}
+                        style={{ width: 120 }}
+                      />
+                    )}
+                  </Form.Item>,
+                ]}
+                <Form.Item>
+                  <SearchAndClearButtonGroup
+                    handleClearSearch={this.clearSearch}
                   />
-                )}
-              </Form.Item>
-              {tabIndex !== 0 && [
-                <Form.Item label="初次标注时间" key="startTime">
-                  {getFieldDecorator("structuredStartTime", {
-                    initialValue: null,
-                  })(
-                    <DatePicker
-                      placeholder="开始时间"
-                      disabledDate={this.disabledStartDate}
-                      style={{ width: 120 }}
-                    />
-                  )}
-                </Form.Item>,
-                <Form.Item label="至" key="endTime">
-                  {getFieldDecorator("structuredEndTime", {
-                    initialValue: null,
-                  })(
-                    <DatePicker
-                      placeholder="结束时间"
-                      disabledDate={this.disabledEndDate}
-                      style={{ width: 120 }}
-                    />
-                  )}
-                </Form.Item>,
-              ]}
-              <Form.Item>
-                <SearchAndClearButtonGroup
-                  handleClearSearch={this.clearSearch}
-                />
-              </Form.Item>
-            </Form>
-          </div>
+                </Form.Item>
+              </Form>
+            </div>
+          }
           <div className="yc-tab">
             <Spin tip="Loading..." spinning={loading}>
               <Tabs
