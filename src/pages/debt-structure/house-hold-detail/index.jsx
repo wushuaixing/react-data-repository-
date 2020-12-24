@@ -172,6 +172,7 @@ class HouseHoldDetail extends Component {
               outstandingInterest: data.outstandingInterest, //利息
               totalAmountCreditorsRights: data.totalAmountCreditorsRights, //本息合计
               collateralMsgsData: data.collateralMsgs, //抵押物信息
+              summation: !data.tag * 1, //勾选本息自动求和
             },
             () => {
               const { debtors, guarantors, pledgers, detailInfo } = this.state;
@@ -202,6 +203,7 @@ class HouseHoldDetail extends Component {
       outstandingInterest,
       totalAmountCreditorsRights,
       collateralMsgsData,
+      summation
     } = this.state;
     const {
       match: {
@@ -216,6 +218,7 @@ class HouseHoldDetail extends Component {
       outstandingInterest, //利息
       totalAmountCreditorsRights, //本息合计
       collateralMsgs: collateralMsgsData, //抵押物信息
+      tag: !summation * 1,
       ...detailInfo, //保证人信息  抵质押人信息 债务人信息
     };
     const isHouseHoldDetail = window.location.href.includes("houseHoldDetail");
