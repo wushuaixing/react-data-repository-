@@ -89,7 +89,6 @@ class CollateralMsgsInfo extends React.Component {
   handleRowDel = (index) => {
     const { data } = this.state;
     const arr = data;
-    arr.splice(index, 1);
     confirm({
       icon: (
         <Icon
@@ -99,13 +98,14 @@ class CollateralMsgsInfo extends React.Component {
         />
       ),
       title: "确认删除此抵押物？",
-      onOk: () =>
+      onOk: () =>{
+        arr.splice(index, 1);
         this.setState(
           {
             data: arr,
           },
           () => this.getDetailInfo()
-        ),
+        )}
     });
   };
 
