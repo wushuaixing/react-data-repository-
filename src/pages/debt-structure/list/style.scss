@@ -1,0 +1,26 @@
+.yc-debt-container{
+    padding: 20px;
+    .yc-debt-content{
+      background-color: #fff;
+      min-height: 90vh;
+      [for=endTime]{
+        display: block;
+        &::after{
+          content: '' !important;// 至 后面没有 ：
+        }
+      }
+      .debt-list-content{
+        padding: 16px 20px 0 ;
+      }
+      &_tabs .ant-tabs-tab{
+        padding: 6px 10px 10px 10px;
+        margin-right: 20px;
+      }
+      .yc-debt-content_tabs{
+        .ant-tabs-tab-active{
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  
