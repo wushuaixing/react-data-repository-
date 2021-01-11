@@ -82,7 +82,6 @@ class PledgersAndDebtorsInfo extends React.Component {
   handleDel = (index) => {
     const { data } = this.state;
     const arr = data;
-    arr.splice(index, 1);
     confirm({
       icon: (
         <Icon
@@ -92,13 +91,15 @@ class PledgersAndDebtorsInfo extends React.Component {
         />
       ),
       title: "确认删除？",
-      onOk: () =>
+      onOk: () => {
+        arr.splice(index, 1);
         this.setState(
           {
             data: arr,
           },
           () => this.getdetailInfo()
-        ),
+        )
+      }
     });
   };
 

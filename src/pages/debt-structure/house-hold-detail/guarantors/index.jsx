@@ -107,12 +107,6 @@ class GuarantorsInfo extends React.Component {
   handleDel = (index, itemIndex) => {
     const { data } = this.state;
     const arr = data;
-
-    if (arr[index].msgs.length === 1) {
-      arr.splice(index, 1);
-    } else {
-      arr[index].msgs.splice(itemIndex, 1);
-    }
     confirm({
       icon: (
         <Icon
@@ -122,13 +116,18 @@ class GuarantorsInfo extends React.Component {
         />
       ),
       title: "确认删除？",
-      onOk: () =>
+      onOk: () => {
+        if (arr[index].msgs.length === 1) {
+          arr.splice(index, 1);
+        } else {
+          arr[index].msgs.splice(itemIndex, 1);
+        };
         this.setState(
           {
             data: arr,
           },
           () => this.getdetailInfo()
-        ),
+        )}
     });
   };
 

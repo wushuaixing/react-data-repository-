@@ -86,7 +86,7 @@ class DebtDetail extends Component {
             page: data.result ? data.result.page : 1,
             unKnow: data.unKnow ? data.unKnow : {}, //未知关系列表
             unitNumber:
-              data.result && data.result.list ? data.result.list.length : 0, //户数
+              data.result && data.result.total ? data.result.total : 0, //户数
           });
         }
         this.setState({
@@ -321,6 +321,7 @@ class DebtDetail extends Component {
       pledgerNum: pledgerCount,
       tag: !summation * 1,
     };
+    this.setState({ loading: true });
     debtStatus === 0 || debtStatus === 1 //状态为待标记或者继续标注时
       ? DebtApi.saveAndGetNext(params).then((result) => {
           //保存并标注下一条
@@ -328,13 +329,13 @@ class DebtDetail extends Component {
           if (res.code === 200) {
             const data = res.data;
             if (data > 0) {
-              message.success("保存成功!", 2, () =>
+              message.success("保存成功!", 1, () =>
                 this.props.history.replace(
                   `/index/debtDetail/0/${debtStatus}/${data}`
                 )
               );
             } else {
-              message.warning("暂无数据", 2, () =>
+              message.warning("暂无数据", 1, () =>
                 this.props.history.push("/index/debtList")
               );
             }
@@ -356,14 +357,17 @@ class DebtDetail extends Component {
               className: "debt-detail-confirm",
             });
           }
-        })
+        }).catch(() => message.error("服务繁忙，请稍后再试"))
+        .finally(() =>
+          setTimeout(() => this.setState({ loading: false }), 2000)
+        )
       : DebtApi.saveDetail(params).then((result) => {
           //状态为已标记和未检查时
           const res = result.data;
           if (res.code === 200) {
             const data = res.data;
             if (data) {
-              message.success("保存成功!", 2, () =>
+              message.success("保存成功!", 1, () =>
                 this.props.history.push("/index/debtList")
               );
             }
@@ -384,10 +388,11 @@ class DebtDetail extends Component {
               onOk: () => this.handleSave(1),
               className: "debt-detail-confirm",
             });
-          } else {
-            message.warning(res.message);
           }
-        });
+        }).catch(() => message.error("服务繁忙，请稍后再试"))
+        .finally(() =>
+          setTimeout(() => this.setState({ loading: false }), 500)
+        )
   };
 
   //返回到列表页
@@ -397,9 +402,9 @@ class DebtDetail extends Component {
 
   //删除户信息 当仅剩两户债权，删除其中一户，若已添加未知对应关系，弹窗提示 已填写的未知对应关系将被清空
   handleDel = (id, unknowShip) => {
-    const { creditorsUnitsList, unKnow } = this.state;
+    const { unitNumber, unKnow } = this.state;
     const contentText =
-      creditorsUnitsList.length < 3 &&
+      unitNumber < 3 &&
       unKnow.collateralNum !== null &&
       !unknowShip ? (
         <span style={{ color: "#FB5A5C", fontSize: 14 }}>
