@@ -25,6 +25,7 @@ class BasicInfo extends Component {
       records,
       id,
       status,
+      type,
     } = this.props;
     const hasAuto = (records || []).some((i) => i.msg === "自动标注");
     return (
@@ -34,7 +35,7 @@ class BasicInfo extends Component {
           <ul>
             <Item title="标题：">
               <div>
-                <Link to={`/auctionDetail/${id}/0`} target="_blank">
+                <Link to={`/auctionDetail/${id}/0/${type}`} target="_blank">
                   {title}
                 </Link>
               </div>

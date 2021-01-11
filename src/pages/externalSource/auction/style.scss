@@ -152,23 +152,26 @@
     top: 115px;
     right: 0;
     margin-right: calc((100% - 1120px) / 2);
-    padding: 20px 20px 10px;
+    padding: 20px;
 
     .accessory {
       text-align: left;
       word-break: break-all;
 
       &_title {
-        color: #4d5566;
+        color: #293038;
         font-size: 16px;
         line-height: 16px;
-        margin-bottom: 17px;
+        margin-bottom: 20px;
+        font-weight: bold;
       }
 
-      &-notFound {
-        line-height: 20px;
-        color: #7d8699;
+      .no-data{
+        line-height: 14px;
+        color: #B2B8C9;
         font-size: 14px;
+        margin-bottom: 20px;
+        display: inline-block;
       }
 
       &-list {
@@ -178,6 +181,9 @@
 
         &_item {
           margin-bottom: 6px;
+          &:last-child{
+            margin-bottom: 20px;
+          }
           a {
             font-size: 12px;
             line-height: 18px;

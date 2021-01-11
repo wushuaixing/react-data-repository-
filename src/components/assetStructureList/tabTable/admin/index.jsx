@@ -43,7 +43,7 @@ class TabTable extends React.Component {
         showObject.title = "抓取时间";
         break;
       case 2:
-        showObject.title = "结构化时间";
+        showObject.title = "初次标注时间";
         break;
       case 3:
       case 4:

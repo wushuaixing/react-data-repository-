@@ -22,7 +22,7 @@ class Basic extends Component {
         <div className="header">基本信息</div>
         <ul>
           <Item title="标题：">
-            <Link to={`/auctionDetail/${id}/1`} target="_blank">
+            <Link to={`/auctionDetail/${id}/1/0`} target="_blank">
               {title}
             </Link>
           </Item>

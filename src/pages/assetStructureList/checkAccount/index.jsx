@@ -37,7 +37,7 @@ class Check extends React.Component {
     return this.searchFormRef.props.form;
   }
   get params() {
-    /* checkType 查询类型 0：最新结构化时间  1：初次结构化时间 2：检查时间 3：抓取时间
+    /* checkType 查询类型 0：最新结构化时间  1：初次标注时间 2：检查时间 3：抓取时间
         status 结构化所处阶段 0：全部 1：未检查 2：检查无误 3：检查错误 4：已修改 5：待确认 6:未标记
         根据tabIndex获取参数  需要传递新tab进来  当换页或搜索传外部param合并 包括page title等 */
     let { tabIndex, page } = this.state;

@@ -149,7 +149,7 @@ class HomeIndex extends React.Component {
           <TopMenu user={userName} />
         </Header>
         <Layout>
-          <Sider width={200}>
+          <Sider width={190}>
             <LeftMenu />
           </Sider>
           <Content id="yc-layout-main">

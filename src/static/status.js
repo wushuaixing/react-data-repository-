@@ -43,7 +43,8 @@ export const SEX_TYPE = {
 export const STRUCTURE_SAVE_BUTTON_TEXT = {
 	0:'保存并标记下一条',  //待标记
 	1:'保存',
-	2:'保存并修改下一条'
+	2:'保存并修改下一条',
+	3:'保存',
 };
 export const WRONG_TYPE_LIST = [
 	'所有人遗漏',

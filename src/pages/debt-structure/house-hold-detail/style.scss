@@ -20,6 +20,7 @@
         font-size: 22px;
         padding-bottom: 10px;
         word-break:break-all;
+        font-weight: bold;
     }
     .yc-anchor{
         height: 56px;
@@ -259,13 +260,13 @@
             .ant-popover{
                 left:448px !important;
             }
-        }    
+        }
         .edit-list{
             .ant-table-row-cell-break-word{
                 padding-top:20px;
                 padding-bottom: 24px;
             }
-        }  
+        }
     }
     .msgs-info{
         .content{
@@ -281,7 +282,7 @@
                     border-top: none;
                     padding-top: 0;
                 }
-                .item-header{  
+                .item-header{
                     color: #262626;
                     line-height: 16px;
                     font-size: 16px;
@@ -329,7 +330,7 @@
                     justify-content: space-between;
                     padding: 0 52px 0 24px;
                     border-bottom: 1px solid #C5C7CE;
-                    .title{ 
+                    .title{
                         color: #262626;
                         font-size: 16px;
                         font-weight: bold;
@@ -358,7 +359,7 @@
                             border-bottom: none;
                             min-height: 152px;
                         }
-                        .ant-form-item{                           
+                        .ant-form-item{
                             margin-right: 80px;
                             &:last-child{
                                 margin:0;
@@ -368,7 +369,7 @@
                             margin-right: 58px;
                         }
                     }
-                    .ant-form-item{                           
+                    .ant-form-item{
                         .ant-form-item-label{
                             min-width: 70px;
                             text-align: right;
@@ -407,26 +408,26 @@
         //无数据时样式
         .atuo_complete_nodata{
             .ant-select-search__field{
-                border: 1px solid #FD9C26 !important;
+                border: 1px solid #F03733 !important;
             }
         }
-        
+
         .auto_complete_nodata{
             line-height: 12px;
             font-size: 12px;
-            color: #FD9C26;
-            padding-left: 10px;
+            color: #F03733;
+            padding-left: 0px;
             margin-bottom: 0;
             position: absolute;
             top: 37px;
         }
-        
+
         .auto_complete_nodatas{
             height: 46px;
             background: #FFFFFF;
             box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
             border-radius: 2px;
-            border: 1px solid #DDE0E7; 
+            border: 1px solid #DDE0E7;
             color: #7D8699;
             font-size: 12px;
             text-align: center;
@@ -447,7 +448,7 @@
     .ant-modal-content{
         .ant-modal-header{
             padding: 20px 24px !important;
-            .ant-modal-title{       
+            .ant-modal-title{
                 color: #262626 !important;
             }
         }

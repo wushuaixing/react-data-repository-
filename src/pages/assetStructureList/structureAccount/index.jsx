@@ -170,6 +170,8 @@ class Asset extends React.Component {
         return "bidNum";
       case 2:
         return "modNum";
+      case 3:
+        return "bidNum";
       default:
         return "";
     }
@@ -278,9 +280,9 @@ class Asset extends React.Component {
         if (res.data.code === 200) {
           if (res.data.data) {
             isNewPage
-              ? window.open(`/defaultDetail/${record.status}/${record.id}`)
+              ? window.open(`/defaultDetail/${tabIndex}/${record.id}`) //状态一致性校验时 通过tab值 做状态区分
               : this.props.history.push(
-                  `/index/structureDetail/${record.status}/${record.id}`
+                  `/index/structureDetail/${tabIndex}/${record.id}`
                 );
           } else {
             switch (tabIndex) {
@@ -305,12 +307,25 @@ class Asset extends React.Component {
                   this.getApi(this.getParamsByTabIndex())
                 );
                 break;
+              case 3:
+                message.warning(
+                  "该数据已被检查错误，为您刷新当前列表",
+                  2,
+                  this.getApi(this.getParamsByTabIndex())
+                );
+                break;
               default:
                 break;
             }
           }
-        } else {
-          message.error("服务繁忙，请稍后再试");
+        } else if(res.data.code === 9007) {
+          message.warning(
+            "该数据已被超时回收，为您刷新当前列表",
+            2,
+            this.getApi(this.getParamsByTabIndex())
+          );
+        }else {
+          message.warning(res.data.message);
         }
       })
       .catch((err) => {
@@ -330,6 +345,7 @@ class Asset extends React.Component {
     let option = { status: "default", text: "待标记" };
     if (status === 1) option = { status: "success", text: "已标记" };
     if (status === 2) option = { status: "error", text: "检查有误" };
+    if (status === 3) option = { status: "blue", text: "已修改" };
     return option;
   };
 
@@ -340,7 +356,7 @@ class Asset extends React.Component {
     const columns = [
       Columns[4],
       {
-        title: "结构化状态",
+        title: "状态",
         dataIndex: "status",
         width: 285,
         render: (status) => <Badge {...this.getStatusBadge(status)} />,
@@ -361,7 +377,7 @@ class Asset extends React.Component {
     ];
     if (tabIndex !== 0) {
       columns.unshift({
-        title: "结构化时间",
+        title: "初次标注时间",
         dataIndex: "time",
       });
     }
@@ -375,54 +391,56 @@ class Asset extends React.Component {
           disabled={this.state.loading || this.state.buttonDisabled}
         />
         <div className="yc-detail-content">
-          <div className="yc-search-line">
-            <Form
-              layout="inline"
-              onSubmit={this.handleSearch}
-              className="yc-search-form"
-            >
-              <Form.Item label="标题">
-                {getFieldDecorator("title", { initialValue: "" })(
-                  <Input
-                    type="text"
-                    size="default"
-                    style={{ width: 400 }}
-                    placeholder="拍卖信息标题"
-                    autoComplete="off"
+          { tabIndex !== 0 &&
+            <div className="yc-search-line">
+              <Form
+                layout="inline"
+                onSubmit={this.handleSearch}
+                className="yc-search-form"
+              >
+                <Form.Item label="标题">
+                  {getFieldDecorator("title", { initialValue: "" })(
+                    <Input
+                      type="text"
+                      size="default"
+                      style={{ width: 400 }}
+                      placeholder="拍卖信息标题"
+                      autoComplete="off"
+                    />
+                  )}
+                </Form.Item>
+                {tabIndex !== 0 && [
+                  <Form.Item label="初次标注时间" key="startTime">
+                    {getFieldDecorator("structuredStartTime", {
+                      initialValue: null,
+                    })(
+                      <DatePicker
+                        placeholder="开始时间"
+                        disabledDate={this.disabledStartDate}
+                        style={{ width: 120 }}
+                      />
+                    )}
+                  </Form.Item>,
+                  <Form.Item label="至" key="endTime">
+                    {getFieldDecorator("structuredEndTime", {
+                      initialValue: null,
+                    })(
+                      <DatePicker
+                        placeholder="结束时间"
+                        disabledDate={this.disabledEndDate}
+                        style={{ width: 120 }}
+                      />
+                    )}
+                  </Form.Item>,
+                ]}
+                <Form.Item>
+                  <SearchAndClearButtonGroup
+                    handleClearSearch={this.clearSearch}
                   />
-                )}
-              </Form.Item>
-              {tabIndex !== 0 && [
-                <Form.Item label="结构化时间" key="startTime">
-                  {getFieldDecorator("structuredStartTime", {
-                    initialValue: null,
-                  })(
-                    <DatePicker
-                      placeholder="开始时间"
-                      disabledDate={this.disabledStartDate}
-                      style={{ width: 120 }}
-                    />
-                  )}
-                </Form.Item>,
-                <Form.Item label="至" key="endTime">
-                  {getFieldDecorator("structuredEndTime", {
-                    initialValue: null,
-                  })(
-                    <DatePicker
-                      placeholder="结束时间"
-                      disabledDate={this.disabledEndDate}
-                      style={{ width: 120 }}
-                    />
-                  )}
-                </Form.Item>,
-              ]}
-              <Form.Item>
-                <SearchAndClearButtonGroup
-                  handleClearSearch={this.clearSearch}
-                />
-              </Form.Item>
-            </Form>
-          </div>
+                </Form.Item>
+              </Form>
+            </div>
+          }
           <div className="yc-tab">
             <Spin tip="Loading..." spinning={loading}>
               <Tabs
@@ -449,6 +467,24 @@ class Asset extends React.Component {
                   />
                 </TabPane>
                 <TabPane tab="已标记" key="1">
+                  <Table
+                    rowClassName="table-list"
+                    columns={columns}
+                    dataSource={tableList}
+                    rowKey={(record) => record.id}
+                    onChange={this.onChangePage}
+                    pagination={paginationProps}
+                    locale={{
+                      emptyText: (
+                        <div className="no-data-box">
+                          <img src={NoDataIMG} alt="暂无数据" />
+                          <p>暂无数据</p>
+                        </div>
+                      ),
+                    }}
+                  />
+                </TabPane>
+                <TabPane tab="已修改" key="3">
                   <Table
                     rowClassName="table-list"
                     columns={columns}
