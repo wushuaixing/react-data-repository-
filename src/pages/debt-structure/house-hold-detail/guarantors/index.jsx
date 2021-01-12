@@ -35,13 +35,14 @@ const getGuarantors = (name) => ({
   id: Math.random(),
   msgs: [
     {
+      blurAndNotNull: name ? true : false,
       birthday: "",
       gender: 0,
       id: Math.random(),
       name: name ? name : "",
       notes: "",
       number: "",
-      obligorType: 0,
+      obligorType: name ? (name.length > 4 ? 1 : 2) : 0,
       type: 2,
     },
   ],
@@ -243,7 +244,9 @@ class GuarantorsInfo extends React.Component {
     const arr = data;
     const BatchAddList = text ? text.split("、") : [];
     BatchAddList.forEach((item) => {
-      arr.push(getGuarantors(item));
+      if(item && item.trim()){
+        arr.push(getGuarantors(item.trim()));
+      }
     });
     this.setState(
       {
@@ -357,7 +360,7 @@ class GuarantorsInfo extends React.Component {
                   );
                 }}
                 value={OBLIGOR_TYPE[item.obligorType]}
-                disabled={!item.blurAndNotNull}
+                disabled={ item.obligorType === 0 && !item.blurAndNotNull}
                 style={{ marginBottom: 16, height: 32, width: 68 }}
               >
                 {Object.keys(OBLIGOR_TYPE).map((key) => (
