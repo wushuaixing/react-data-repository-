@@ -223,3 +223,6 @@ export const getDataStatus = (id, status) => axios.get(`/api/asset/auction/contr
 export const getAutoPrompt = (name) => axios.get(`/api/asset/auction/control/getAutoPrompt?name=${name}`);
 // 资产结构化详情
 export const getAuctionDetail = (id) => axios.get(`/api/asset/auction/control/auctionDetail/${id}`);
+
+// 获取相似数据附件
+export const getSimilarFile = (id) => axios.get(`/api/asset/auction/getSimilarFile/${id}`);

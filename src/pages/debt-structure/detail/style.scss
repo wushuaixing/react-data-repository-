@@ -1,5 +1,5 @@
 .yc-debt-detail{
-    padding: 14px 40px 0;
+    padding: 20px 20px 0;
     font-size: 14px;
     position: relative;
     .debt-detail-components{
@@ -11,7 +11,7 @@
             border-left: 3px solid #016AA9;
             height: 20px;
             line-height: 20px;
-            margin-bottom: 26px;
+            margin-bottom: 14px;
             position: relative;
             .header-btn{
                 position: absolute;
@@ -53,10 +53,13 @@
     .debt-basic{
         ul{
             line-height: 14px;
-            margin-bottom:32px;
+            margin-bottom:22px;
             li{
                 display: flex;
-                margin-bottom: 20px;
+                margin-bottom: 12px;
+                &:first-child{
+                    font-size: 16px;
+                }
                 div{
                     &:first-child{
                         width: 114px;
@@ -82,7 +85,7 @@
         .asset-package-disabled{
             display: flex;
             line-height: 14px;
-            margin:26px 0 46px;
+            margin:22px 0;
             li{
                 display: flex;
                 &:first-child{
@@ -100,7 +103,7 @@
         .asset-package-edit{
             display: flex;
             line-height: 14px;
-            margin:17px 0 36px;
+            margin:22px 0;
             li{
                 display: flex;
                 align-items: center !important;
@@ -135,7 +138,9 @@
         }
     }
     .debt-house-hold{
-        margin-top: 8px;
+       .header{
+           margin-bottom: 24px;
+       }
         .no-save{
             position: relative;
             padding: 0 !important;
@@ -144,10 +149,16 @@
         .users-info{
             .info-line{
                 display: flex;
-                margin-bottom: 6px;
+                line-height: 22px;
                 .name{
                    min-width:110px;
                 }
+            }
+        }
+        .principal{
+            p{
+                margin: 0;
+                line-height: 22px;
             }
         }
         .ant-pagination{

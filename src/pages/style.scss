@@ -105,7 +105,7 @@
     height: 32px;
     margin-left: 10px;
     margin-right: 10px;
-  
+
   }
 }
 //是input的父元素
@@ -126,8 +126,10 @@
 
 .yc-search-form{
   margin:21px 0 0 20px !important;
+  .ant-form-item{
+    margin-right: 13px !important;
+  }
 }
-
 .ant-pagination{
   padding:14px 0 !important;
 }
@@ -156,6 +158,16 @@
       position: relative;
       top: -3px;
     }
+  }
+}
+.ant-message-notice-content{
+  padding: 26px 48px !important;
+  font-size: 16px;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  i{
+    font-size: 24px !important;
+    margin-right: 16px !important;
   }
 }
 //覆盖去除表格排序特殊样式
@@ -189,7 +201,7 @@
   padding:15px !important;
 }
 .ant-modal-confirm-btns{
-  margin-top: 40px !important;
+  margin-top: 52px !important;
   button[type=button]{
     width: 100px;
     height: 32px;

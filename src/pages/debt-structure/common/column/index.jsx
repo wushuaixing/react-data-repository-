@@ -119,7 +119,7 @@ export const HouseHoldColumn = [
     render: (text, record) => (
       <div>
         {record && (
-          <div className="Principal">
+          <div className="principal">
             <p>
               债权本金：
               {record.rightsPrincipal

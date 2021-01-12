@@ -116,7 +116,7 @@ class Index extends React.Component {
     })
   };
 
-  //资产数据抓取时间段分布 结构化时间选择 默认选择当日
+  //资产数据抓取时间段分布 标注时间选择 默认选择当日
   changeDate=(data)=>{
     const {sourceId}=this.state;
     this.getSourceList(sourceId,data);

@@ -8,6 +8,12 @@ import AutoCompleteInput from "./autoCompleteInput";
 const { Option } = Select;
 
 class RoleInfo extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      numberStatusList: [], //证件号状态列表
+    };
+  }
   static defaultProps = {
     obligors: {},
     enable: true,
@@ -16,8 +22,19 @@ class RoleInfo extends React.Component {
     handleAddClick: () => {},
   };
 
-  handleChange(e) {
-    this.props.handleChange(e.target.name, e.target.value);
+  //角色信息改变时，证件号值改变时传isblur值，将状态注入numberStatusList中。
+  handleChange(e, isBlur) {
+    const { name, value } = e.target;
+    this.props.handleChange(name, value);
+    const { numberStatusList } = this.state;
+    const arr_index = name.replace(/[^0-9]/g, "");
+    const arr = numberStatusList;
+    if (isBlur) {
+      arr[arr_index] = isBlur;
+      this.setState({
+        numberStatusList: arr,
+      });
+    }
   }
 
   handleDel(index) {
@@ -52,18 +69,21 @@ class RoleInfo extends React.Component {
 
   render() {
     const { obligors, enable } = this.props;
+    const { numberStatusList } = this.state;
     const dataSource = obligors;
     const columns = [
       {
         title: "名称",
         dataIndex: "name",
         key: "name",
+        width: 265,
         render: (text) => <span>{filters.blockNullData(text, "-")}</span>,
       },
       {
         title: "角色",
         dataIndex: "label_type",
         key: "label_type",
+        width: 265,
         render(text) {
           return <span>{ROLE_TYPE[text]}</span>;
         },
@@ -72,18 +92,21 @@ class RoleInfo extends React.Component {
         title: "证件号",
         dataIndex: "number",
         key: "number",
+        width: 260,
         render: (text) => <span>{filters.blockNullData(text, "-")}</span>,
       },
       {
         title: "生日",
         dataIndex: "birthday",
         key: "birthday",
+        width: 344,
         render: (text) => <span>{filters.blockNullData(text, "-")}</span>,
       },
       {
         title: "性别",
         dataIndex: "gender",
         key: "gender",
+        width: 263,
         render(text) {
           return <span>{SEX_TYPE[text]}</span>;
         },
@@ -92,6 +115,7 @@ class RoleInfo extends React.Component {
         title: "备注",
         dataIndex: "notes",
         key: "notes",
+        width: 260,
         render: (text) => <span>{filters.blockNullData(text, "-")}</span>,
       },
     ];
@@ -106,7 +130,7 @@ class RoleInfo extends React.Component {
       <div className="yc-component-assetStructureDetail roleInfo">
         <div className="yc-component-assetStructureDetail_header">
           <span>角色信息</span>
-          <span style={{ marginLeft: 4 }}>
+          <span style={{ marginLeft: 10 }}>
             <Popover content={text}>
               <Icon
                 type="exclamation-circle"
@@ -162,6 +186,7 @@ class RoleInfo extends React.Component {
                 handleNameChange={this.props.handleChange}
                 onRef={this.onRef}
                 key={this.props.id}
+                numberStatusList={numberStatusList}
               ></RoleInputs>
             </div>
           )}
@@ -178,118 +203,136 @@ const RoleInputs = (props) => {
       <RoleInput
         key={i}
         index={i}
-        obligor={props.obligors[i]}
+        obligor={props.obligors[i] || {}}
         handleBlur={props.handleBlur}
         handleDel={props.handleDel.bind(this, i)}
         handleChange={props.handleChange}
         handleNameChange={props.handleNameChange}
         onRef={props.onRef}
+        numberStatus={props.numberStatusList[i] || ""}
       />
     );
   }
   return arr;
 };
 
-const RoleInput = (props) => (
-  <div className="roleInfo_body-InputRow">
-    <AutoCompleteInput
-      disabled={(props.obligor || {}).system === 1}
-      index={props.index}
-      handleNameChange={props.handleNameChange}
-      obligor={props.obligor}
-      onRef={props.onRef}
-    />
-    <Select
-      placeholder="角色"
-      getPopupContainer={(node) => node.offsetParent}
-      disabled={(props.obligor || {}).system === 1}
-      onChange={(value) => {
-        props.handleChange({
-          target: { name: `label_type${props.index}`, value },
-        });
-      }}
-      value={props.obligor.label_type}
-    >
-      {Object.keys(ROLE_TYPE).map((key) => (
-        <Option key={key} style={{ fontSize: 12 }}>
-          {ROLE_TYPE[key]}
-        </Option>
-      ))}
-    </Select>
-    <Input
-      placeholder="请输入证件号"
-      autoComplete="off"
-      disabled={(props.obligor || {}).system === 1}
-      onChange={(e) => {
-        e.persist();
-        props.handleChange(e);
-      }}
-      onBlur={(e) => {
-        e.target.value = e.target.value
-          .trim()
-          .replace(/[(]/g, "（")
-          .replace(/[)]/g, "）");
-        props.handleChange(e);
-      }}
-      name={`number${props.index}`}
-      value={props.obligor.number}
-    />
-    <Input
-      placeholder="请输入年月日"
-      autoComplete="off"
-      disabled={(props.obligor || {}).system === 1}
-      onChange={(e) => {
-        e.persist();
-        props.handleChange(e);
-      }}
-      name={`birthday${props.index}`}
-      value={props.obligor.birthday}
-      onBlur={(e) => {
-        e.persist();
-        e.target.value = e.target.value.trim();
-        props.handleBlur(e);
-      }}
-    />
-    <Select
-      disabled={(props.obligor || {}).system === 1}
-      placeholder="性别"
-      getPopupContainer={(node) => node.offsetParent}
-      onChange={(value) => {
-        props.handleChange({ target: { name: `gender${props.index}`, value } });
-      }}
-      value={props.obligor.gender}
-      className="sex-select"
-    >
-      {Object.keys(SEX_TYPE).map((key) => (
-        <Option key={key}>{SEX_TYPE[key]}</Option>
-      ))}
-    </Select>
-    <Input.TextArea
-      placeholder="请输入备注"
-      autoComplete="off"
-      disabled={(props.obligor || {}).system === 1}
-      onChange={(e) => {
-        e.persist();
-        props.handleChange(e);
-      }}
-      onBlur={(e) => {
-        e.target.value = e.target.value.trim();
-        props.handleChange(e);
-      }}
-      name={`notes${props.index}`}
-      value={props.obligor.notes}
-      autoSize
-      className="tips-box"
-    />
-    <Button
-      type="primary"
-      className="del_role_item"
-      ghost
-      onClick={props.handleDel}
-      disabled={(props.obligor || {}).system === 1}
-    >
-      删除
-    </Button>
-  </div>
-);
+const RoleInput = (props) => {
+  const { obligor, index, numberStatus } = props;
+  const { system, label_type, number, birthday, gender, notes } = obligor;
+  const disabled = system === 1;
+  const isNumberCurrect =
+    numberStatus === "onBlur" &&
+    !(number.length === 0 || number.length === 15 || number.length === 18); //输入框失焦后判断证件号位数，证件号非0位、15位或18位时，有文字提示，但是仍然允许保存
+  return (
+    <div className="roleInfo_body-InputRow">
+      <AutoCompleteInput
+        disabled={disabled}
+        index={index}
+        handleNameChange={props.handleNameChange}
+        obligor={obligor}
+        onRef={props.onRef}
+      />
+      <Select
+        placeholder="角色"
+        getPopupContainer={(node) => node.offsetParent}
+        disabled={disabled}
+        onChange={(value) => {
+          props.handleChange({
+            target: { name: `label_type${index}`, value },
+          });
+        }}
+        value={label_type}
+        className='role-edit'
+      >
+        {Object.keys(ROLE_TYPE).map((key) => (
+          <Option key={key} style={{ fontSize: 12 }}>
+            {ROLE_TYPE[key]}
+          </Option>
+        ))}
+      </Select>
+      <div className="number">
+        <Input
+          placeholder="请输入证件号"
+          autoComplete="off"
+          disabled={disabled}
+          onChange={(e) => {
+            e.persist();
+            props.handleChange(e);
+          }}
+          maxLength={18}
+          onBlur={(e) => {
+            e.target.value = e.target.value
+              .trim()
+              .replace(/[^a-zA-Z\d（）()]+/g, "")
+            props.handleChange(e, "onBlur");
+          }}
+          name={`number${index}`}
+          className={isNumberCurrect ? "number-input" : "number-edit"}
+          value={number}
+        />
+        {isNumberCurrect ? <p>证件号位数异常，请核实信息是否正确</p> : null}
+      </div>
+      <Input
+        placeholder="请输入年月日"
+        autoComplete="off"
+        disabled={disabled}
+        onChange={(e) => {
+          e.persist();
+          props.handleChange(e);
+        }}
+        name={`birthday${index}`}
+        value={birthday}
+        onBlur={(e) => {
+          e.persist();
+          e.target.value = e.target.value.trim();
+          props.handleBlur(e);
+        }}
+        className='birthdy-edit'
+      />
+
+      <Select
+        disabled={disabled}
+        placeholder="性别"
+        getPopupContainer={(node) => node.offsetParent}
+        onChange={(value) => {
+          props.handleChange({
+            target: { name: `gender${index}`, value },
+          });
+        }}
+        value={gender}
+        className="sex-select"
+      >
+        {Object.keys(SEX_TYPE).map((key) => (
+          <Option key={key}>{SEX_TYPE[key]}</Option>
+        ))}
+      </Select>
+      <Input.TextArea
+        placeholder="请输入备注"
+        autoComplete="off"
+        disabled={disabled}
+        onChange={(e) => {
+          e.persist();
+          props.handleChange(e);
+        }}
+        onBlur={(e) => {
+          e.target.value = e.target.value.trim();
+          props.handleChange(e);
+        }}
+        name={`notes${index}`}
+        value={notes}
+        autoSize
+        className="tips-box"
+      />
+      <Button
+        type="primary"
+        className="del_role_item"
+        ghost
+        onClick={props.handleDel}
+        disabled={disabled}
+      >
+        删除
+      </Button>
+    </div>
+  );
+};
 export default RoleInfo;

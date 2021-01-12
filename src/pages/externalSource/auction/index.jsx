@@ -2,7 +2,11 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { message } from "antd";
 import DebtApi from "@/server/debt";
+import { getSimilarFile } from "@api";
 import pic from "@/assets/img/pic.png";
+import OpenSvg from "@/assets/img/icon_open.svg";
+import CloseSvg from "@/assets/img/icon_close.svg";
+
 import "./style.scss";
 
 const anchors = [
@@ -54,13 +58,20 @@ class Index extends React.Component {
       title: "", //标题
       titleUrl: "", //标题链接
       attachList: [], // 存放文件下载列表 包括 附件ID 附件文件名称 是否已转码到HTML 附件URL
+      similarList: [],
+      similArattachList: [],
+      isCollapse: false,
       showAnchors: [],
       flag: 0,
     };
   }
 
   componentDidMount() {
-    const { auctionID, isDebt } = this.props.match.params;
+    const {
+      match: {
+        params: { auctionID, isDebt, type },
+      },
+    } = this.props;
     DebtApi.htmlDetail(auctionID, isDebt).then((res) => {
       if (res.data.code === 200) {
         const data = res.data.data;
@@ -82,6 +93,9 @@ class Index extends React.Component {
           },
           () => {
             document.title = data.title;
+            !attachList.length &&
+              type === "1" &&
+              this.getSimilarFile(auctionID);
           }
         );
       } else {
@@ -90,13 +104,19 @@ class Index extends React.Component {
     });
   }
 
-  // clearStyle = (data) => {
-  //   data = data
-  //     .replace(/background: #[a-zA-Z0-9]{6};/g, "")
-  //     .replace(/([;"\f\n\r\t\v])color: ?#(\d{3}|[a-zA-Z0-9]{6});/g,'$1')
-  //     .replace(/font-size: \d{0,2}\.?\d?p[t|x];/g, "");
-  //   return data;
-  // };
+  getSimilarFile = (id) => {
+    getSimilarFile(id).then((res) => {
+      if (res.data.code === 200) {
+        const similarList = res.data.data;
+        const similArattachList = similarList.slice(0, 5);
+        this.setState({
+          similarList,
+          similArattachList,
+        });
+      }
+    });
+  };
+
   openTitleUrl() {
     window.open(this.state.titleUrl);
   }
@@ -107,8 +127,36 @@ class Index extends React.Component {
     });
   };
 
+  handleCollapse = () => {
+    const { similarList, isCollapse } = this.state;
+    const arr = similarList.slice(0, 5);
+    if (isCollapse) {
+      this.setState({
+        similArattachList: arr,
+        isCollapse: !isCollapse,
+      });
+    } else {
+      this.setState({
+        similArattachList: similarList,
+        isCollapse: !isCollapse,
+      });
+    }
+  };
+
   render() {
-    const { title, attachList, flag } = this.state;
+    const {
+      title,
+      attachList,
+      flag,
+      similarList,
+      isCollapse,
+      similArattachList,
+    } = this.state;
+    const {
+      match: {
+        params: { type },
+      },
+    } = this.props;
     return (
       <div className="externalSource-auction-box">
         <div className="externalSource-auction">
@@ -145,8 +193,8 @@ class Index extends React.Component {
             </div>
             <div className="container_right">
               <div className="accessory">
-                <div className="accessory_title">附件</div>
-                {attachList.length > 0 ? (
+                <div className="accessory_title">本条数据附件</div>
+                {attachList.length ? (
                   <div className="accessory-list">
                     {attachList.map((item, index) => (
                       <AttachListItem
@@ -158,8 +206,36 @@ class Index extends React.Component {
                     ))}
                   </div>
                 ) : (
-                  <span className="accessory-notFound">未找到相关附件</span>
+                  <span className="no-data">未找到相关附件</span>
                 )}
+                {!attachList.length && type === "1" ? (
+                  <div className="accessory">
+                    <div className="accessory_title">同组其他相似数据附件</div>
+                    <div className="accessory-list">
+                      {similarList.length ? (
+                        similArattachList.map((item, index) => (
+                          <AttachListItem
+                            url={item.url}
+                            name={item.name}
+                            key={index}
+                            transcodingToHtml={item.transcodingToHtml}
+                          />
+                        ))
+                      ) : (
+                        <span className="no-data">未找到相关附件</span>
+                      )}
+                    </div>
+                    {similarList.length > 5 ? (
+                      <div style={{ textAlign: "center" }}>
+                        <img
+                          onClick={() => this.handleCollapse()}
+                          src={isCollapse ? CloseSvg : OpenSvg}
+                          alt=""
+                        />
+                      </div>
+                    ) : null}
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

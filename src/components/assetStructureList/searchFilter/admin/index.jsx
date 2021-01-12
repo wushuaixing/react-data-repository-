@@ -192,7 +192,7 @@ class Index extends React.Component {
       case 1:
         return "抓取时间";
       case 2:
-        return "结构化时间";
+        return "初次标注时间";
       case 3:
       case 4:
         return "检查时间";
@@ -273,7 +273,7 @@ class Index extends React.Component {
             )}
           </Form.Item>
           {tabIndex !== 1 && (
-            <Form.Item label="结构化人员">
+            <Form.Item label="标注人员">
               {getFieldDecorator("userId", {
                 initialValue: "all",
               })(

@@ -158,7 +158,7 @@ class Index extends React.Component {
       case 0:
       case 2:
       case 6:
-        return "结构化时间";
+        return "初次标注时间";
       case 3:
       case 4:
         return "检查时间";
@@ -213,7 +213,7 @@ class Index extends React.Component {
               />
             )}
           </Form.Item>
-          <Form.Item label="结构化人员">
+          <Form.Item label="标注人员">
             {getFieldDecorator("userId", {
               initialValue: "all",
             })(

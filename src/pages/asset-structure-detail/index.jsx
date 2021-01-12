@@ -156,8 +156,8 @@ class StructureDetail extends React.Component {
 
   handleDocumentChange(combine, value) {
     //案号  文书链接地址改变时
-    const arr_index = combine.substr(combine.length - 1, 1);
-    const key = combine.substr(0, combine.length - 1);
+    const arr_index = combine.replace(/[^0-9]/g, ""); //combine形式为 ah1
+    const key = combine.replace(/[^a-zA-Z_]/g, "");
     const arr = [...this.state[key]];
     arr[arr_index].value = value;
     this.setState({
@@ -331,7 +331,7 @@ class StructureDetail extends React.Component {
     }
     const flag = this.state.isBack ? 1 : 0;
     if (!this.isUpdateRecord())
-      return message.warning("当前页面未作修改，请修改后再保存");
+      return message.warning("当前页面未作修改，请修改后再保存",1);
     for (let i = 0; i < this.state.obligors.length; i++) {
       let item = this.state.obligors[i];
       if (item.notes === "") {
@@ -346,7 +346,7 @@ class StructureDetail extends React.Component {
       if (item.birthday && !/^\d{8}$/.test(item.birthday))
         return message.warning("生日格式不正确");
     }
-    const keys = ["name", "birthday", "notes", "number"];
+    const keys = ["name", "number"];
     const state = clone(this.state);
     state.obligors = filters.blockEmptyRow(state.obligors, keys);
     if (state.wsFindStatus === 0) {
@@ -372,7 +372,8 @@ class StructureDetail extends React.Component {
     };
     if (
       role === "check" ||
-      (role === "structure" && parseInt(status) === 1) ||
+      (role === "structure" &&
+        (parseInt(status) === 1 || parseInt(status) === 3)) ||
       role === "newpage-check"
     ) {
       //检查人员标注和结构化人员修改已标注数据
@@ -394,12 +395,19 @@ class StructureDetail extends React.Component {
           sessionStorage.removeItem("backTime");
         } else if (res.data.code === 9003) {
           message.warning(
-            "该数据已被检查错误，2秒后回到已标记列表",
+            `该数据已被检查错误，2秒后回到已${
+              status === "3" ? "修改" : "标记" //staus为3 时 是已修改列表，为2时，是已标记列表
+            }列表`,
             2,
             toIndexs
           );
-        } else {
-          message.error("保存失败!");
+        } else if(res.data.code===9007){
+          message.warning('该数据已被超时回收，2s后回到待标记列表',
+            2,
+            toIndexs
+          );
+        }else {
+          message.warning(res.data.message);
         }
       });
     } else {
@@ -460,8 +468,13 @@ class StructureDetail extends React.Component {
             default:
               break;
           }
-        } else {
-          message.error(res.data.message);
+        } else if(res.data.code===9007){
+          message.warning('该数据已被超时回收，2s后回到待标记列表',
+            2,
+            toIndex
+          );
+        }else {
+          message.warning(res.data.message);
         }
       });
     }
@@ -549,6 +562,8 @@ class StructureDetail extends React.Component {
           } else {
             message.warning("上一条数据已被检查错误，请到待修改列表查看", 2);
           }
+        }else if(res.data.code === 9007){
+          message.warning("上一条数据已被超时回收，请返回待标记列表并刷新", 2);
         } else {
           message.warning(res.data.message);
         }
@@ -605,7 +620,9 @@ class StructureDetail extends React.Component {
       return false;
     }
     if (
-      (role === "structure" && parseInt(associatedStatus) === 4) ||
+      (role === "structure" &&
+        (parseInt(associatedStatus) === 4 ||
+          parseInt(associatedStatus) === 5)) ||
       ((role === "check" || role === "newpage-check") &&
         parseInt(associatedStatus) > 3) ||
       ((role === "admin" || role === "newpage-other") &&
@@ -702,7 +719,11 @@ class StructureDetail extends React.Component {
             {wrongData &&
               wrongData.length > 0 &&
               this.getErrReasonVisible() && (
-                <ErrorReason wrongData={wrongData} role={this.getRole()} />
+                <ErrorReason
+                  wrongData={wrongData}
+                  role={this.getRole()}
+                  associatedStatus={associatedStatus}
+                />
               )}
             <BasicInfo
               title={title}
@@ -714,6 +735,7 @@ class StructureDetail extends React.Component {
               url={url}
               status={status}
               id={id}
+              type={type}
             />
             <PropertyInfo
               collateral={collateral}

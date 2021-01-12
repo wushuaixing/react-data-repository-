@@ -6,13 +6,17 @@ import { dateUtils } from "@utils/common";
 class ErrorReason extends Component {
   static defaultProps = {
     wrongData: [],
+    associatedStatus: "",
+    role: "",
   };
 
   render() {
-    const { wrongData, role } = this.props;
+    const { wrongData, role, associatedStatus } = this.props; //只有结构化人员下数据状态为已修改的数据，显示 .历史. 错误原因
     return (
       <div className="yc-component-assetStructureDetail error-reason_info">
-        <div className="yc-component-assetStructureDetail_header">错误原因</div>
+        <div className="yc-component-assetStructureDetail_header">
+          {associatedStatus === 5 ? "历史" : ""}错误原因
+        </div>
         <div className="yc-component-assetStructureDetail_body">
           <ul>
             {wrongData.map((item, index) => {
