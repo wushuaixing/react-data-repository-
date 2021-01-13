@@ -263,6 +263,8 @@ class PledgersAndDebtorsInfo extends React.Component {
               e.target.value = e.target.value
                 .trim()
                 .replace(/[^a-zA-Z\d（）()]+/g, "")
+                .replace(/[(]/g, "（")
+                .replace(/[)]/g, "）");
               this.handleChange(e, "number", index, true);
             }}
             style={{ width: 190 }}

@@ -118,6 +118,7 @@ class Asset extends React.Component {
           res.data.data.forEach((item) => {
             let obj = item;
             obj.time = dateUtils.formatStandardNumberDate(item.time);
+            obj.lastExtractTime = dateUtils.formatStandardNumberDate(item.lastExtractTime);
             tableList.push(obj);
           });
 
@@ -377,8 +378,8 @@ class Asset extends React.Component {
     ];
     if (tabIndex !== 0) {
       columns.unshift({
-        title: "初次标注时间",
-        dataIndex: "time",
+        title: `${tabIndex === 3 ? '修改' : '初次'}标注时间`,
+        dataIndex: `${tabIndex === 3 ? 'lastExtractTime' : 'time'}`,
       });
     }
     const paginationProps = createPaginationProps(page, total);
@@ -410,7 +411,7 @@ class Asset extends React.Component {
                   )}
                 </Form.Item>
                 {tabIndex !== 0 && [
-                  <Form.Item label="初次标注时间" key="startTime">
+                  <Form.Item label={`${tabIndex === 3 ? '修改' : '初次'}标注时间`} key="startTime">
                     {getFieldDecorator("structuredStartTime", {
                       initialValue: null,
                     })(
