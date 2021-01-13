@@ -391,6 +391,8 @@ class GuarantorsInfo extends React.Component {
                 e.target.value = e.target.value
                   .trim()
                   .replace(/[^a-zA-Z\d（）()]+/g, "")
+                  .replace(/[(]/g, "（")
+                  .replace(/[)]/g, "）");
                 this.handleChange(e, "number", index, indexs, true);
               }}
               style={{ marginBottom: 16, height: 32, width: 172 }}

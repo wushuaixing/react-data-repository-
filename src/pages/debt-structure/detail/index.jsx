@@ -46,6 +46,8 @@ class DebtDetail extends Component {
   }
 
   componentDidMount() {
+    let dom = document.getElementById('yc-layout-main');
+    dom.scrollTo(0, 0);
     this.getDetailInfo(this.props);
     this.isstorageChange();
   }
