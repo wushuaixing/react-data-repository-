@@ -75,6 +75,7 @@ class DocumentInfo extends Component {
                   <div className="doucment_info_inputContent">
                     <Fragment>
                       <DocumentLinkInputs
+                        isReplace
                         values={ah}
                         enable={enable}
                         attr={"ah"}
@@ -137,11 +138,12 @@ class DocumentInfo extends Component {
 }
 
 const DocumentLinkInputs = (props) => {
-  const { values, enable, attr, num, text } = props;
+  const { values, enable, attr, num, text, isReplace } = props;
   const arr = [];
   for (let i = 0; i < num; i++) {
     arr.push(
       <DocumentLinkInput
+        isReplace={isReplace}
         value={values[i] || "-"}
         enable={enable}
         attr={attr}
@@ -171,7 +173,7 @@ const linkSpan = (val) =>
     "-"
   );
 const DocumentLinkInput = (props) => {
-  const { attr, value, enable, index, num, text } = props;
+  const { attr, value, enable, index, num, text, isReplace } = props;
   return (
     <div className="doucment_info_inputItem">
       {enable ? (
@@ -191,7 +193,8 @@ const DocumentLinkInput = (props) => {
           onBlur={(e) => {
             e.persist();
             if (e.target.name.includes("ah")) {
-              e.target.value = e.target.value.trim();
+              e.target.value =isReplace ? e.target.value.trim().replace(/[(]/g, "（")
+                .replace(/[)]/g, "）") : e.target.value.trim();
             }
             props.handleChange(e);
           }}

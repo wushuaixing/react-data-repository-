@@ -264,6 +264,8 @@ const RoleInput = (props) => {
             e.target.value = e.target.value
               .trim()
               .replace(/[^a-zA-Z\d（）()]+/g, "")
+              .replace(/[(]/g, "（")
+              .replace(/[)]/g, "）");
             props.handleChange(e, "onBlur");
           }}
           name={`number${index}`}
