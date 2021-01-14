@@ -30,7 +30,7 @@
             display: flex;
             width: 78px;
             justify-content: space-around;
-            span{ 
+            span{
                 color: #016AA9;
                 &:nth-child(2){
                     color: rgba(226, 228, 233, 1);
@@ -140,6 +140,7 @@
     .debt-house-hold{
        .header{
            margin-bottom: 24px;
+           margin-top: 10px;
        }
         .no-save{
             position: relative;
@@ -174,7 +175,7 @@
 .debt-modal-container{
     .ant-modal-header{
         padding: 19px 20px !important;
-        .ant-modal-title{       
+        .ant-modal-title{
             color: #262626 !important;
         }
     }
