@@ -177,7 +177,12 @@ class CollateralMsgsInfo extends React.Component {
     let arr = clone(data);
     DebtApi.getCollateralDetail(id).then((result) => {
       if (result.data.code === 200) {
-        arr[index] = result.data.data;
+        const msgData = result.data.data;
+        const oldId = arr[index].id;
+        arr[index] = { //新增为0,编辑时传原id
+          ...msgData,
+          id:oldId > 0 ? oldId : 0,
+        }
         this.setState(
           {
             data: arr,
