@@ -288,11 +288,12 @@ class HouseHoldDetail extends Component {
 								totalAmountCreditorsRights:
 									creditorsRightsPrincipal + outstandingInterest,
 							});
-						} else {
+						};
+						if(key === 'summation' && !summation){
 							this.setState({
 								totalAmountCreditorsRights: "",
 							});
-						}
+						};
 					}
 				}
 			);
