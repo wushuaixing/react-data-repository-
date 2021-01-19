@@ -50,7 +50,7 @@ class TabTable extends React.Component {
         showObject.title = "检查时间";
         break;
       case 5:
-        showObject.title = "修改时间";
+        showObject.title = "修改标注时间";
         break;
       default:
         break;

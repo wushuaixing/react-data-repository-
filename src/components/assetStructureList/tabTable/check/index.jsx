@@ -52,7 +52,7 @@ class TabTable extends React.Component {
         showObject.dataIndex = "time";
         break;
       case 5:
-        showObject.title = "修改时间";
+        showObject.title = "修改标注时间";
         showObject.dataIndex = "time";
         break;
       default:
