@@ -71,7 +71,7 @@ export const HouseHoldColumn = [
     width: 120,
     key: "accountId",
     className: "no-save",
-    render: (text, record) => (
+    render: (text, record,index) => (
       <div>
         {record.status === 0 &&
           localStorage.getItem("userState") !== "管理员" && (
@@ -81,7 +81,7 @@ export const HouseHoldColumn = [
               style={{ position: "absolute", left: 0, top: 0 }}
             />
           )}
-        {text}
+        { index+1 }
       </div>
     ),
   },

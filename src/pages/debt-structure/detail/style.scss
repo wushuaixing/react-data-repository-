@@ -59,6 +59,12 @@
                 margin-bottom: 12px;
                 &:first-child{
                     font-size: 16px;
+                    line-height: 20px;
+                    div{
+                        &:last-child{
+                            max-width: 1200px;
+                        }
+                    }
                 }
                 div{
                     &:first-child{

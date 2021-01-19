@@ -16,7 +16,6 @@ import { Link, withRouter } from "react-router-dom";
 import "../style.scss";
 import "./style.scss";
 import { BreadCrumb } from "@commonComponents";
-import createPaginationProps from "@utils/pagination";
 import { filters } from "@utils/common";
 import NoDataIMG from "../../assets/img/no_data.png";
 import { scrollTop } from "@utils/tools";
@@ -211,8 +210,14 @@ class Check extends React.Component {
       documentSearchRecords,
       isHover,
     } = this.state;
-    const paginationProps = createPaginationProps(page, total);
-    console.log(this.textSize("北京风雷电子科技有限公司、北京百粥乡餐饮连"));
+    //文书搜索分页做限制，最高1000页
+    const paginationProps = {
+      current: page,
+      showQuickJumper: true,
+      total: total > 10000 ? 10000 : total,
+      pageSize: 10,
+      showTotal: (() => `共 ${total > 10000 ? `10000/${total}` : total} 条`),
+    };
     const columns = [
       {
         title: "发布日期",

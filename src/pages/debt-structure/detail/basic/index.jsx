@@ -63,7 +63,7 @@ const RecordItem = (props) => {
     if (type === 0 && index === 0) {
       return "初次结构化";
     } else if (type === 0 && index !== 0) {
-      return "修改结构化";
+      return "修改";
     } else {
       if (flag === 0) {
         return <span style={{ color: "red" }}>修改</span>;

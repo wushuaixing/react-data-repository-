@@ -197,7 +197,7 @@ class Index extends React.Component {
       case 4:
         return "检查时间";
       case 5:
-        return "修改时间";
+        return "修改标注时间";
       default:
         return "";
     }
