@@ -95,14 +95,12 @@ const RecordsItem = (props) => {
     temp = "自动标注";
   } else {
     userType = 1;
-    temp = record.error ? "有误" : "无误";
+    temp = record.error ? "检查有误" : "检查无误";
     classType = record.error ? "danger-error" : "record-noErr";
   }
   return (
     <Fragment>
-      {`${dateUtils.formatStandardNumberDate(record.time)} ${record.name}${
-        userType === 1 ? "检查" : ""
-      }`}{" "}
+      {`${dateUtils.formatStandardNumberDate(record.time)} ${record.name}`}{' '}
       <span className={classType}>{temp}</span>
       {record.msg === "自动标注" ? (
         <span style={{ marginLeft: 20 }}>
