@@ -60,7 +60,9 @@ const RecordItem = (props) => {
   // 角色 type:  0 结构化 type : 1检查
   // 检察人员操作 0结构化 1检查
   const text = () => {
-    if (type === 0 && index === 0) {
+    if(name === '自动标注'){
+      return '';
+    } else if (type === 0 && index === 0) {
       return "初次结构化";
     } else if (type === 0 && index !== 0) {
       return "修改";

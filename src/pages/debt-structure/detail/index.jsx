@@ -59,9 +59,10 @@ class DebtDetail extends Component {
 
   //关闭户/未知关系 详情页时 刷新各户信息列表
   isstorageChange() {
-    window.addEventListener("storage", () => {
-      if (localStorage.getItem("debtNewPageClose") < 1) {
+    window.addEventListener("storage", (e) => {
+      if(e.key === 'debtAction' && e.newValue === 'SUCCESS'){
         const id = sessionStorage.getItem("debtId");
+        localStorage.setItem('debtAction','');
         this.getCreditorsUnitsList(id);
       }
     });

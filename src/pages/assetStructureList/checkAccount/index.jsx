@@ -51,8 +51,9 @@ class Check extends React.Component {
     this.isstorageChange();
   }
   isstorageChange() {
-    window.addEventListener("storage", () => {
-      if (localStorage.getItem("tonewdetail") < 1) {
+    window.addEventListener("storage", (e) => {
+      if(e.key === 'checkAction' && e.newValue === 'SUCCESS'){
+        localStorage.setItem('checkAction','')
         this.getTableList();
       }
     });
