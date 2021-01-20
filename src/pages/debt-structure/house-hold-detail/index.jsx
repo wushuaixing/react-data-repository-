@@ -238,7 +238,7 @@ class HouseHoldDetail extends Component {
 						isNormalLeave: true,
 					},
 					() => {
-						localStorage.setItem("debtNewPageClose", Math.random());
+						localStorage.setItem("debtAction", 'SUCCESS');
 						message.success("保存成功", 2, this.handleClosePage);
 					}
 				);

@@ -66,21 +66,23 @@ class Asset extends React.Component {
     // document.title='资产结构化'
   }
   isstorageChange() {
-    window.addEventListener("storage", () => {
-      if (localStorage.getItem("tonewdetail") === "change") {
-        this.setState(
-          {
-            tabIndex: 0,
-            page: 1,
-          },
-          () => {
-            this.getApi(this.getParamsByTabIndex());
-            localStorage.setItem("tonewdetail", new Date().getTime());
-          }
-        );
-      }
-      if (localStorage.getItem("tonewdetail") > 1) {
-        this.getApi(this.getParamsByTabIndex());
+    window.addEventListener("storage", (e) => {
+      if(e.key === 'normalAction'){
+        if(e.newValue === 'change'){
+          this.setState(
+            {
+              tabIndex: 0,
+              page: 1,
+            },
+            () => {
+              this.getApi(this.getParamsByTabIndex());
+              localStorage.setItem("normalAction",'');
+            }
+          );
+        }else {
+          this.getApi(this.getParamsByTabIndex());
+          localStorage.setItem("normalAction",'');
+        }
       }
     });
   }

@@ -204,9 +204,13 @@ class StructureDetail extends React.Component {
   handleBack(flag) {
     const isdetailNewpage = window.location.href.includes("defaultDetail");
     const role = this.getRole();
-    isdetailNewpage || role === "newpage-check"
-      ? this.handleClosePage()
-      : this.props.history.push(flag ? "/index/assetList" : "/index");
+    if(isdetailNewpage || role === "newpage-check"){
+      const sign = role === "structure" ?  'normalAction' : 'checkAction';
+      localStorage.setItem(sign,'SUCCESS');
+      this.handleClosePage()
+    }else{
+      this.props.history.push(flag ? "/index/assetList" : "/index");
+    }
   }
 
   handleConfirm() {
@@ -215,7 +219,6 @@ class StructureDetail extends React.Component {
     updateBackStatus({ id }).then((res) => {
       if (res.data.code === 200) {
         message.success("操作成功");
-        localStorage.setItem("tonewdetail", Math.random());
         this.handleBack();
       } else {
         message.error("操作失败");
@@ -378,17 +381,7 @@ class StructureDetail extends React.Component {
     ) {
       //检查人员标注和结构化人员修改已标注数据
       saveDetail(id, params).then((res) => {
-        const toIndexs = () => {
-          if (isdetailNewpage || role === "newpage-check") {
-            localStorage.setItem(
-              "tonewdetail",
-              role === "structure" ? new Date().getTime() : Math.random()
-            );
-            this.handleClosePage();
-          } else {
-            this.props.history.push("/index");
-          }
-        };
+        const toIndexs = () => this.handleBack();
         if (res.data.code === 200) {
           message.success("保存成功!", 1, toIndexs);
           sessionStorage.setItem("id", id);
@@ -401,7 +394,7 @@ class StructureDetail extends React.Component {
             2,
             toIndexs
           );
-        } else if(res.data.code===9007){
+        } else if(res.data.code === 9007){
           message.warning('该数据已被超时回收，2s后回到待标记列表',
             2,
             toIndexs
@@ -414,7 +407,7 @@ class StructureDetail extends React.Component {
       saveAndGetNext(id, params).then((res) => {
         const toIndex = () => {
           if (isdetailNewpage) {
-            localStorage.setItem("tonewdetail", "change");
+            localStorage.setItem("normalAction", "change");
             this.handleClosePage();
           } else {
             this.props.history.push({
@@ -423,14 +416,7 @@ class StructureDetail extends React.Component {
             });
           }
         };
-        const toIndexs = () => {
-          if (isdetailNewpage) {
-            localStorage.setItem("tonewdetail", new Date().getTime());
-            this.handleClosePage();
-          } else {
-            this.props.history.push("/index");
-          }
-        };
+        const toIndexs = () => this.handleBack();
         const toNext = (_status, id) => {
           this.props.history.push({
             pathname: isdetailNewpage
@@ -499,15 +485,14 @@ class StructureDetail extends React.Component {
     inspectorCheck(params).then((res) => {
       if (res.data.code === 200) {
         if (role === "newpage-check" || role === "newpage-other") {
+          localStorage.setItem("checkAction", 'SUCCESS');
           message.success(
             "操作成功,2秒后为您关闭页面",
             2,
             this.handleClosePage
           );
-          localStorage.setItem("tonewdetail", Math.random());
         } else {
           message.success("操作成功");
-          localStorage.setItem("tonewdetail", Math.random());
           this.handleBack();
         }
       } else {
