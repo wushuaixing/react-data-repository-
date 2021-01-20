@@ -10,7 +10,7 @@ const { confirm } = Modal;
 const getMsgs = () => ({
   collateralName: "",
   type: "",
-  useType: 1,
+  useType: 0,
   landArea: "",
   buildingArea: "",
   hasLease: 0,
