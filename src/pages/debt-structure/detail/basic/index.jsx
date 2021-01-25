@@ -68,7 +68,7 @@ const RecordItem = (props) => {
       return "修改";
     } else {
       if (flag === 0) {
-        return <span style={{ color: "red" }}>修改</span>;
+        return <span>修改</span>;
       } else {
         return <span style={{ color: "green" }}>检查无误</span>;
       }
