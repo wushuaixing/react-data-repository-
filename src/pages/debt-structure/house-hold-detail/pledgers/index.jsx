@@ -50,11 +50,6 @@ class PledgersAndDebtorsInfo extends React.Component {
     return role;
   };
 
-  //通过val找key值
-  handleFindKey = (obj, value, compare = (a, b) => a === b) => {
-    return Object.keys(obj).find((i) => compare(obj[i], value));
-  };
-
   handleBirthdayFormat = (value) => {
     let reg = /(^\d{1,4}|\d{1,2})/g;
     let timeArr = value.match(reg);
@@ -110,14 +105,6 @@ class PledgersAndDebtorsInfo extends React.Component {
     const arr = data;
     if (isblur) {
       switch (key) {
-        case "gender":
-          let genderValue = this.handleFindKey(SEXS_TYPE, value);
-          arr[index][key] = genderValue;
-          break;
-        case "obligorType":
-          let obligorTypeValue = this.handleFindKey(OBLIGOR_TYPE, value);
-          arr[index][key] = obligorTypeValue;
-          break;
         case "name":
           let val = value.trim().replace(/[(]/g, "（").replace(/[)]/g, "）");
           if (val) {
@@ -232,7 +219,7 @@ class PledgersAndDebtorsInfo extends React.Component {
                 true
               );
             }}
-            value={OBLIGOR_TYPE[text || 0]}
+            value={(text || 0).toString()}
             disabled={!record.blurAndNotNull}
             style={{ width: 68 }}
           >
@@ -308,7 +295,7 @@ class PledgersAndDebtorsInfo extends React.Component {
             onBlur={(value) => {
               this.handleChange({ target: { value } }, "gender", index, true);
             }}
-            value={SEXS_TYPE[text]}
+            value={(text || 0).toString()}
             style={{ width: 74 }}
           >
             {Object.keys(SEXS_TYPE).map((key) => (

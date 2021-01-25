@@ -89,11 +89,6 @@ class GuarantorsInfo extends React.Component {
     return i + indexs + 1;
   };
 
-  //通过val 找key
-  handleFindKey = (obj, value, compare = (a, b) => a === b) => {
-    return Object.keys(obj).find((i) => compare(obj[i], value));
-  };
-
   handleBirthdayFormat = (value) => {
     let reg = /(^\d{1,4}|\d{1,2})/g;
     let timeArr = value.match(reg);
@@ -168,14 +163,6 @@ class GuarantorsInfo extends React.Component {
     } else {
       if (isblur) {
         switch (key) {
-          case "gender":
-            let genderValue = this.handleFindKey(SEXS_TYPE, value);
-            arr[index].msgs[indexs][key] = genderValue;
-            break;
-          case "obligorType":
-            let obligorTypeValues = this.handleFindKey(OBLIGOR_TYPE, value);
-            arr[index].msgs[indexs][key] = obligorTypeValues;
-            break;
           case "name":
             let val = value.trim().replace(/[(]/g, "（").replace(/[)]/g, "）");
             if (val) {
@@ -359,8 +346,8 @@ class GuarantorsInfo extends React.Component {
                     true
                   );
                 }}
-                value={OBLIGOR_TYPE[item.obligorType]}
-                disabled={ item.obligorType === 0 && !item.blurAndNotNull}
+                value={item.obligorType.toString()}
+                disabled={!item.blurAndNotNull}
                 style={{ marginBottom: 16, height: 32, width: 68 }}
               >
                 {Object.keys(OBLIGOR_TYPE).map((key) => (
@@ -451,7 +438,7 @@ class GuarantorsInfo extends React.Component {
                     true
                   );
                 }}
-                value={SEXS_TYPE[item.gender]}
+                value={(item.gender || 0).toString()}
                 style={{ marginBottom: 16, height: 32, width: 68 }}
               >
                 {Object.keys(SEXS_TYPE).map((key) => (
