@@ -115,7 +115,7 @@ class Item extends Component {
       <Form layout="inline" className="yc-form" key={`${id}${index}`}>
         <div className="item-container-edit">
           <div className="item-header">
-            <div className="title">抵押物 {index + 1}</div>
+            <div className="title">抵质押物 {index + 1}</div>
             <div className="btn-group">
               <Button
                 onClick={() => this.handleReset(index)}

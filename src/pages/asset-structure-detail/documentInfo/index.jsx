@@ -88,6 +88,9 @@ class DocumentInfo extends Component {
                           "ah"
                         )}
                       />
+                      {this.documentInputNumber >= 20 && !enable ? (
+                        <p className="atmost-tip">最多添加20个</p>
+                      ) : null}
                     </Fragment>
                   </div>
                 </Item>
@@ -107,6 +110,10 @@ class DocumentInfo extends Component {
                           "wsUrl"
                         )}
                       />
+                      {this.linkInputNumber >= 40 && !enable ? (
+                        <p className="atmost-tip">最多添加40个</p>
+                      ) : null}
+
                     </Fragment>
                   </div>
                 </Item>
@@ -174,6 +181,7 @@ const linkSpan = (val) =>
   );
 const DocumentLinkInput = (props) => {
   const { attr, value, enable, index, num, text, isReplace } = props;
+  const limitNumber = attr === "wsUrl" ? 40 : 20;
   return (
     <div className="doucment_info_inputItem">
       {enable ? (
@@ -200,7 +208,7 @@ const DocumentLinkInput = (props) => {
           }}
         />
       )}
-      {num === index + 1 && !enable ? (
+      {num === index + 1 && num < limitNumber && !enable ? (
         <img
           src={ICONADD}
           style={{ width: 18, height: 18, marginLeft: 12 }}

@@ -87,14 +87,12 @@ class BasicInfo extends Component {
 const RecordsItem = (props) => {
   const { record, index, id, status } = props;
   let temp = null;
-  let userType = 0;
   let classType = "record-noEr";
   if (record.msg === "结构化") {
     temp = index === 0 ? "初次结构化" : "修改";
   } else if (record.msg === "自动标注") {
     temp = "自动标注";
   } else {
-    userType = 1;
     temp = record.error ? "检查有误" : "检查无误";
     classType = record.error ? "danger-error" : "record-noErr";
   }

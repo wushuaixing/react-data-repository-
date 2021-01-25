@@ -123,7 +123,7 @@ class DebtTable extends React.Component {
           rowClassName="table-list"
           columns={columns}
           dataSource={data}
-          rowKey={(record) => record.id}
+          rowKey={(record) => record.id+Math.random()}
           pagination={paginationProps}
           onChange={this.handlePageChange}
           locale={{

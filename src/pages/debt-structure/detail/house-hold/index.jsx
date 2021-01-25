@@ -44,8 +44,9 @@ class HouseHold extends Component {
     this.props.handlePageChange(pagination.current);
   };
   getColumns = (isEdit) => {
+    const { page } = this.props;
     return [
-      ...HouseHoldColumn,
+      ...HouseHoldColumn(page),
       {
         title: "保证人个数",
         dataIndex: "guarantorNum",

@@ -220,7 +220,7 @@ class CollateralMsgsInfo extends React.Component {
       .filter((i) => i);
     return (
       <div className="debt-detail-components msgs-info" id="MsgsInfo">
-        <div className="header">抵押物信息</div>
+        <div className="header">抵质押物信息</div>
         <div className="content">
           {data.length ? (
             data.map((item, index) =>

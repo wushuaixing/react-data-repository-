@@ -17,7 +17,7 @@ class NumberModal extends React.Component {
           key: "name",
           render: (text, record) =>
             record.msgs &&
-            record.msgs.map((item) => <p key={item.id}>{item.name}</p>),
+            record.msgs.map((item) => <p key={item.id}>{item.name || '-'}</p>),
         },
         ...GuarantorsColumn,
       ];

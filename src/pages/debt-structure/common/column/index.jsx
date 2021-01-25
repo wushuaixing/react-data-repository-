@@ -64,7 +64,7 @@ export const ListColumns = [
   },
 ];
 
-export const HouseHoldColumn = [
+export const HouseHoldColumn = (page)=> [
   {
     title: "序号",
     dataIndex: "accountId",
@@ -81,7 +81,7 @@ export const HouseHoldColumn = [
               style={{ position: "absolute", left: 0, top: 0 }}
             />
           )}
-        { index+1 }
+        { page*10-9+index }
       </div>
     ),
   },

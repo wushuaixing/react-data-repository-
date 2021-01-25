@@ -52,5 +52,5 @@ export const ANCHOR_TYPE = {
   Debtors: "债务人信息",
   GuarantorsInfo: "保证人信息",
   Pledgers: "抵质押人信息",
-  MsgsInfo: "抵押物",
+  MsgsInfo: "抵质押物信息",
 };
