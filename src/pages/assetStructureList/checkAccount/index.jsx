@@ -228,7 +228,7 @@ class Check extends React.Component {
     document.title = "资产结构化检查";
     return (
       <div className="yc-content-container">
-        <BreadCrumb texts={["资产结构化"]} />
+        <BreadCrumb texts={["资产结构化检查"]} />
         <div className="yc-detail-content">
           <div className="yc-search-line">
             <SearchForm

@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 import { Table, Popover, Icon } from "antd";
 import { AdminMsgsColumn, AdminUsersColumn } from "../../common/column";
 import NoDataIMG from "@/assets/img/no_data.png";
+import MsgInfoImg from "@/assets/img/msg_info.png";
+import GuarantorImg from "@/assets/img/guarantor.png";
 /**
  * 包详情-系统提取信息
  */
@@ -86,9 +88,10 @@ class SystemExtractInfo extends Component {
 
 const Item = (props) => {
   const { title, data, columns } = props;
+  const imgs = title === '保证人信息' ? GuarantorImg : MsgInfoImg;
   return (
     <Fragment>
-      <div className="title">{title}</div>
+      <div className="title"><span><img src={imgs} alt=""/></span>{title}</div>
       <Table
         rowClassName="table-list"
         columns={columns}
