@@ -178,7 +178,7 @@ class HouseHold extends Component {
           rowClassName="table-list"
           columns={this.getColumns(isEdit)}
           dataSource={data}
-          rowKey={(record) => record.id}
+          rowKey={(record) => record.id + Math.random()}
           pagination={paginationProps}
           onChange={this.handlePageChange}
           locale={{
