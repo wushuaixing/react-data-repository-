@@ -84,7 +84,18 @@ class HouseHoldDetail extends Component {
 
 	//获取所有人下拉框数据
 	getOwners = (flag) => {
-		const {detailInfo} = this.state;
+		const {detailInfo,dynamicOwners} = this.state;
+		const compare = (arr1,arr2)=> {
+				const oldArr = arr1.map(i=>i.name);
+				const NewArr = arr2.map(i=>i.name);
+				if(oldArr.length !== NewArr.length){
+					return true;
+				};
+				if(!oldArr.every((v,i)=>(v === NewArr[i]))){
+					return true;
+				}
+				return  false;
+		};
 		let arr = [];
 		const {debtors, guarantors, pledgers} = detailInfo;
 		debtors.forEach((item, index) => {
@@ -114,7 +125,7 @@ class HouseHoldDetail extends Component {
 				arr.push(obj);
 			});
 		});
-		this.setState(
+		compare(dynamicOwners,arr) && this.setState(
 			{
 				dynamicOwners: arr, //所有人
 			},

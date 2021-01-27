@@ -146,7 +146,7 @@ class Item extends Component {
                   <AutoComplete
                     placeholder="请输入抵押物名称"
                     size="default"
-                    style={{ width: 967 }}
+                    style={{ width: 1052 }}
                     onBlur={() => this.save()}
                     dataSource={collateralMsgList}
                     onSelect={this.handleSelect}
@@ -336,7 +336,7 @@ class Item extends Component {
                 })(
                   <Select
                     mode="multiple"
-                    style={{ minHeight: 32, width: 484 }}
+                    style={{ minHeight: 32, width: 452 }}
                     placeholder="请选择所有人"
                     onSelect={this.save}
                     onDeselect={this.save} //删除选中数值时调用保存
@@ -362,7 +362,7 @@ class Item extends Component {
                       marginLeft: 5,
                     }}
                   />
-                  选择抵押物所有人后，再次编辑角色信息，所有人将被全部清空！
+                  选择抵押物所有人后，再次编辑角色名称，所有人将被全部清空！
                 </div>
               )}
             </div>
@@ -377,8 +377,9 @@ class Item extends Component {
                     placeholder="请输入抵押物补充描述内容或抵押物备注"
                     size="default"
                     autoComplete="off"
-                    style={{ width: 967, minHeight: 112 }}
+                    style={{ width: 1052, minHeight: 60 }}
                     onBlur={() => this.save()}
+                    autoSize
                   />
                 )}
               </Form.Item>
