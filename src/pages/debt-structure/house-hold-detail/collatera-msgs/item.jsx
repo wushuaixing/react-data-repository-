@@ -362,7 +362,7 @@ class Item extends Component {
                       marginLeft: 5,
                     }}
                   />
-                  选择抵押物所有人后，再次编辑角色信息，所有人将被全部清空！
+                  选择抵押物所有人后，再次编辑角色名称，所有人将被全部清空！
                 </div>
               )}
             </div>
@@ -377,8 +377,9 @@ class Item extends Component {
                     placeholder="请输入抵押物补充描述内容或抵押物备注"
                     size="default"
                     autoComplete="off"
-                    style={{ width: 967, minHeight: 112 }}
+                    style={{ width: 1052, minHeight: 60 }}
                     onBlur={() => this.save()}
+                    autoSize
                   />
                 )}
               </Form.Item>
