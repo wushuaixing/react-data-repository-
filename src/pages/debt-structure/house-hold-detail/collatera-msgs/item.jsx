@@ -146,7 +146,7 @@ class Item extends Component {
                   <AutoComplete
                     placeholder="请输入抵押物名称"
                     size="default"
-                    style={{ width: 967 }}
+                    style={{ width: 1052 }}
                     onBlur={() => this.save()}
                     dataSource={collateralMsgList}
                     onSelect={this.handleSelect}
@@ -336,7 +336,7 @@ class Item extends Component {
                 })(
                   <Select
                     mode="multiple"
-                    style={{ minHeight: 32, width: 484 }}
+                    style={{ minHeight: 32, width: 452 }}
                     placeholder="请选择所有人"
                     onSelect={this.save}
                     onDeselect={this.save} //删除选中数值时调用保存
