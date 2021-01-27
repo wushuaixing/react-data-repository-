@@ -26,9 +26,9 @@ class ErrorReason extends Component {
                     <li>
                       <p className="wrong-data">{`${dateUtils.formatStandardNumberDate(
                         item.time
-                      )} ${item.name} 检查`}</p>
-                      <span className="danger-error" style={{ marginLeft: 16 }}>
-                        有误
+                      )} ${item.name}`}</p>
+                      <span className="danger-error" style={{ marginLeft: 4 }}>
+                        检查有误
                       </span>
                     </li>
                   )}
