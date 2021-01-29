@@ -153,13 +153,13 @@ class CollateralMsgsInfo extends React.Component {
         }
       });
     });
-    obj.hasLease = parseInt(this.handFindKey(HAS_TYPE, obj.hasLease));
-    obj.hasSeizure = parseInt(this.handFindKey(HAS_TYPE, obj.hasSeizure));
+    obj.hasLease = Number(this.handFindKey(HAS_TYPE, obj.hasLease));
+    obj.hasSeizure = Number(this.handFindKey(HAS_TYPE, obj.hasSeizure));
     obj.useType = this.handFindKey(USE_TYPE, obj.useType);
-    obj.buildingArea = parseInt(obj.buildingArea) || 0;
-    obj.consultPrice = parseInt(obj.consultPrice) || 0;
-    obj.landArea = parseInt(obj.landArea) || 0;
-    obj.mortgagePrice = parseInt(obj.mortgagePrice) || 0;
+    obj.buildingArea = Number(obj.buildingArea) || 0;
+    obj.consultPrice = Number(obj.consultPrice) || 0;
+    obj.landArea = Number(obj.landArea) || 0;
+    obj.mortgagePrice = Number(obj.mortgagePrice) || 0;
     obj.owner = owners;
     obj.id = arr[index].id;
     arr[index] = obj;
