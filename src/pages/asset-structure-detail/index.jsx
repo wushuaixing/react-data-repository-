@@ -132,6 +132,8 @@ class StructureDetail extends React.Component {
                 sessionStorage.setItem("oldData", oldData);
               }
             );
+          }else {
+            message.error("请求出错")
           }
         })
         .finally(() => this.setState({ loading: false }));
