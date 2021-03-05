@@ -14,8 +14,8 @@ import './index.css';
 
 moment.locale('zh-cn');
 
-const Version = 'v1.2.1';
-const BetaNumber = '.2';
+const Version = 'v1.4.1';
+const BetaNumber = '.10';
 const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
 window.CurrentVersions = info;
 if (window.location.protocol === 'http:') {

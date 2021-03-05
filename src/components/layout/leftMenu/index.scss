@@ -51,4 +51,18 @@
             }
         }
     }
+    .document-search{
+        div{
+            width: 100%;
+            text-align: left;
+        }
+        img{
+            height: 15px;
+            margin-right: 5px;
+        }
+        display: flex;
+        align-items: center;
+        text-align: center;
+        font-size: 14px;
+    }
 }

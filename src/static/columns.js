@@ -34,12 +34,12 @@ export const Columns = [
 							</div>
 							<div className="info-line">
 								<span>评&nbsp;&nbsp;估&nbsp;&nbsp;价：
-									<b>{`${record.info.consultPrice}元`}</b>
+									<b>{`${parseInt(record.info.consultPrice).toLocaleString()}元`}</b>
 								</span>
 							</div>
 							<div className="info-line">
 								<span>起&nbsp;&nbsp;拍&nbsp;&nbsp;价：
-									<b>{`${record.info.initialPrice}元`}</b>
+									<b>{`${parseInt(record.info.initialPrice).toLocaleString()}元`}</b>
 								</span>
 							</div>
 						</div>
@@ -71,7 +71,7 @@ export const Columns = [
 								text = '检查错误';
 								break;
 							case 5:
-								color = 'success';
+								color = 'blue';
 								text = '已修改';
 								break;
 							case 6:
@@ -92,7 +92,7 @@ export const Columns = [
 		),
 	},
 	{
-		title: "结构化人员",
+		title: "标注人员",
 		dataIndex: "structPersonnel",
 		render: (text, record) => (
 			<span>
@@ -125,9 +125,10 @@ export const Columns = [
 	{
 		title: "拍卖标题",
 		dataIndex: "title",
+		width:760
 	},
 	{
-		title: "结构化状态",
+		title: "状态",
 		dataIndex: "status",
 		width: 285,
 		render: (status) => (

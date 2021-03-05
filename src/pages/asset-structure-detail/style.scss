@@ -1,3 +1,72 @@
+.yc-detail-newpage{
+    background-color: #EDEFF3;
+    .assetstructure-detail{
+        margin: 25px auto;
+        width:1280px;
+        min-height: 95vh;
+        .roleInfo_body{
+            .roleInfo_body-header{
+                padding-left: 23px;
+                .name{
+                    width:261px;
+                }
+                .role{
+                    width: 120px;
+                }
+                .certification{
+                    width: 252px;
+                }
+                .birth{
+                    width: 126px;
+                }
+                .sex{
+                    width: 84px;
+                }
+                .note{
+                    width: 296px;
+                }
+            }
+            .roleInfo_body-InputRow{
+                .auto_complete_content{
+                    position: relative;
+                    margin:0 20px 0 0;
+                }
+                .atuo_complete,.atuo_complete_nodata{
+                    width: 256px;
+                    .ant-input{
+                        width: 256px;
+                    }
+                }
+                .role-edit{
+                    width: 100px;
+                    margin-right:20px;
+                    .ant-select-selection{
+                        width: 100px;
+                    }
+                }
+                .number-input,.number-edit{
+                    margin-right:20px;
+                    width: 240px;
+                }
+                .birthdy-edit{
+                    margin-right:20px;
+                    width: 108px;
+                }
+                .sex-select{
+                    margin-right:20px;
+                    width: 64px;
+                }
+                .tips-box{
+                    margin-right:20px;
+                    width: 276px;
+                }
+            }
+        }
+    }
+    .ant-popover{
+        left: -2% !important;
+    }
+}
 .assetstructure-detail{
     margin: 20px;
     min-height: 90vh;
@@ -18,7 +87,7 @@
         }
     }
     &_container {
-        padding: 20px;
+        padding:20px;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -31,7 +100,7 @@
         }
         font-size: 14px;
         color: #293038;
-        width: 50%;
+        width: 35%;
         &_header {
             font-size: 16px;
             font-weight: bold;
@@ -42,7 +111,7 @@
         }
         &_body{
             ul{
-                padding: 20px 0 40px 0;
+                padding: 13px 0 19px 0;
                 margin: 0;
                 li{
                     display: flex;
@@ -50,17 +119,26 @@
                         margin-bottom: 0;
                     }
                     list-style: none;
-                    margin-bottom: 16px;
+                    margin-bottom: 6px;
                     line-height: 14px;
                     .list_title{
                         &:first-of-type{
                             min-width: 120px;
                             text-align:right;
+                            line-height: 20px;
                         }
+                    }
+                    div{
+                        line-height: 20px;
                     }
                 }
                 .danger-error{
-                    color: red;
+                    color:#fb0037;
+                    line-height: 20px;
+                }
+                .danger-color{
+                    color:#F03733;
+                    line-height: 20px;
                 }
                 .record-noErr{
                     color: green;
@@ -74,7 +152,11 @@
     .basic_info{
         width: 100%;
         ul{
+            padding-top: 11px;
             li{
+                &:first-child{
+                    font-size: 16px;
+                };
                 span{
                     &:nth-child(n+3){
                         display: inline-block;
@@ -85,10 +167,10 @@
             }
             .records{
                 p{
-                    line-height: 14px;
-                    margin-bottom: 8px;
+                    line-height: 20px;
+                    margin-bottom: 6px;
                 }
-            }  
+            }
         }
 
     }
@@ -102,16 +184,35 @@
             }
         }
     }
-    .wrong-data{
-        margin-left: 50px !important;
+    .error-reason_info{
+        width: 100%;
+        .wrong-data{
+            margin-left: 50px !important;
+            line-height: 20px;
+        }
+        .wrong-detail{
+            p{
+                line-height: 20px;
+            }
+        }
+    }
+    .property_info{
+        ul{
+            li{
+                margin-bottom: 10px;
+            }
+        }
     }
     .document_info{
+        ul{
+            li{
+                margin-bottom: 10px;
+            }
+        }
         .icon_hover_pointer{
             cursor: pointer;
         }
         .doucment_info_inputContent{
-            position: relative;
-            top: -6px;
             .doucment_info_inputItem{
                 display: flex;
                 align-items: center;
@@ -119,6 +220,17 @@
                 &:last-child{
                     margin-bottom:0;
                 }
+                input{
+                    width: 225px;
+                }
+            }
+            .atmost-tip{
+                text-align: right;
+                width: 225px;
+                color: #808387;
+                line-height: 12px;
+                font-size: 12px;
+                margin-top: -10px;
             }
         }
     }
@@ -130,63 +242,70 @@
         .roleInfo_body-header{
             width: 100%;
             display: flex;
-            padding-left: 22px;
-            height: 42px;
+            padding-left: 32px;
+            height: 46px;
             background: #EDEFF3;
-            line-height: 42px;
-            .name {
-                width: 259px;
+            line-height: 46px;
+            .name{
+                width:291px;
             }
-            .role {
-                width: 161px;
+            .role{
+                width: 170px;
             }
-            .certification {
-                width: 260px;
+            .certification{
+                width: 306px;
             }
-            .birth {
-                width: 258px;
+            .birth{
+                width: 200px;
             }
-            .sex {
-                width: 150px;
+            .sex{
+                width: 108px;
             }
-            .note {
-                width: 386px;
-            }
-            .operation {
-                width: 66px;
+            .note{
+                width: 383px;
             }
         }
         .roleInfo_body-addRole{
-            margin-top: 20px;
+            margin-top: 15px;
             .ant-btn {
                 width: 100%;
             }
         }
         .roleInfo_body-InputRow {
             width: 100%;
-            padding: 11px 44px 20px 0;
+            min-height: 84px;
             border-bottom: 1px #e2e4e9 solid;
             display: flex;
-            .ant-input {
-                width: 240px;
-                margin-left: 20px;
-                height: 30px;
+            align-items: center;
+            padding: 24px 0;
+            .ant-input,.ant-select{
+                height: 36px;
             }
-            .ant-select {
+            .role-edit{
                 width: 140px;
-                margin-left: 20px;
-                height: 30px;
+                margin-right: 30px;
+                .ant-select-selection{
+                    width: 140px;
+                }
+            }
+            .number-input,.number-edit{
+                width: 276px;
+                margin-right: 30px;
+            }
+            .birthdy-edit{
+                width: 170px;
+                margin-right: 30px;
             }
             .sex-select{
-                width: 130px;
+                width: 78px;
+                margin-right: 30px;
             }
             .tips-box{
-                min-width: 360px !important;
+                width: 360px;
+                margin-right: 30px;
+                min-height: 36px;
                 resize: none;
-            }
-            .ant-btn {
-                margin-left: 20px;
-                width: 80px;
+                line-height: 26px;
             }
             .del_role_item{
                 box-shadow: none;
@@ -194,9 +313,12 @@
                     background: #016AA9 !important;
                     color: #fff !important;
                 }
+                width: 80px;
+                height: 32px;
             }
             .ant-select-selection__rendered {
                 width: 60px;
+                line-height: 36px;
                 .ant-select-selection__placeholder{
                     color: #B2B8C9 !important;
                 }
@@ -208,7 +330,7 @@
                 right: 5px;
             }
             .ant-select-selection--single{
-                height: 30px;
+                height: 36px;
             }
             .ant-select-dropdown--single{
                 width: 240px;
@@ -241,44 +363,64 @@
                 }
             }
             //自动联想输入框
+            .auto_complete_content{
+                position: relative;
+                margin:0 30px 0 20px;
+            }
             .atuo_complete,.atuo_complete_nodata{
                 position: relative;
-                width: 240px !important;
+                width: 273px ;
                 .ant-select-search__field {
-                    width: 240px !important;
+                    width: 273px ;
                     margin: 0 !important;
                 }
                 .ant-select-selection__rendered {
-                    width: 220px !important;
+                    width: 273px ;
+                    line-height: 36px;
                 }
             }
             //无数据时样式
             .atuo_complete_nodata{
                 .ant-select-search__field{
-                    border: 1px solid #FD9C26 !important;
+                    border: 1px solid #F03733 !important;
                 }
             }
-            
+
             .auto_complete_nodata{
                 line-height: 12px;
                 font-size: 12px;
-                color: #FD9C26;
-                padding: 4px 0 0 30px;
+                color:#F03733;
+                padding-top: 6px ;
                 margin-bottom: 0;
+                position: absolute;
             }
-            
+
             .auto_complete_nodatas{
-                margin:4px 0 0 20px;
-                width: 240px;
+                position: absolute;
+                width: 100%;
+                margin-top: 6px;
                 height: 46px;
                 background: #FFFFFF;
                 box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
                 border-radius: 2px;
-                border: 1px solid #DDE0E7; 
+                border: 1px solid #DDE0E7;
                 color: #7D8699;
                 font-size: 14px;
                 text-align: center;
                 line-height: 46px;
+            }
+            .number{
+                position: relative;
+                .number-input{
+                    border: 1px solid #F03733;
+                    box-shadow: none;
+                }
+                p{
+                    font-size: 12px;
+                    color: #F03733;
+                    position: absolute;
+                    top: 38px;
+                }
             }
         }
     }
